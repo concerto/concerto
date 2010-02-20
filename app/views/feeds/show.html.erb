@@ -1,0 +1,23 @@
+<p>
+  <b>Name:</b>
+  <%= @feed.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @feed.description %>
+</p>
+
+<p>
+  <b>Parent:</b>
+  <%= @feed.parent_id %>
+</p>
+
+<p>
+  <b>Group:</b>
+  <%= @feed.group %>
+</p>
+
+
+<%= link_to 'Edit', edit_feed_path(@feed) %> |
+<%= link_to 'Back', feeds_path %>

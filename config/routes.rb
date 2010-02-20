@@ -1,4 +1,6 @@
 Concerto::Application.routes.draw do |map|
+  resources :feeds
+
   resources :contents
 
   # The priority is based upon order of creation:
