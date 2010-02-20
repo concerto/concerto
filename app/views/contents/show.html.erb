@@ -1,0 +1,43 @@
+<p>
+  <b>Name:</b>
+  <%= @content.name %>
+</p>
+
+<p>
+  <b>Mime type:</b>
+  <%= @content.mime_type %>
+</p>
+
+<p>
+  <b>Duration:</b>
+  <%= @content.duration %>
+</p>
+
+<p>
+  <b>Start time:</b>
+  <%= @content.start_time %>
+</p>
+
+<p>
+  <b>End time:</b>
+  <%= @content.end_time %>
+</p>
+
+<p>
+  <b>Data:</b>
+  <%= @content.data %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @content.user unless @content.user.nil? %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%= @content.type unless @content.user.nil? %>
+</p>
+
+
+<%= link_to 'Edit', edit_content_path(@content) %> |
+<%= link_to 'Back', contents_path %>

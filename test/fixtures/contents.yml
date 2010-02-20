@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  mime_type: MyString
+  duration: 1
+  start_time: 2010-02-19 21:13:35
+  end_time: 2010-02-19 21:13:35
+  data: MyText
+  user: 
+  type: 
+
+two:
+  name: MyString
+  mime_type: MyString
+  duration: 1
+  start_time: 2010-02-19 21:13:35
+  end_time: 2010-02-19 21:13:35
+  data: MyText
+  user: 
+  type: 
