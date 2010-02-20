@@ -1,6 +1,8 @@
 class Content < ActiveRecord::Base
   belongs_to :user
   belongs_to :type
+  has_many :submissions
+  has_many :feeds, :through => :submissions
 
   #Validations
   validates :name, :presence => true
