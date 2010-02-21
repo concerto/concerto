@@ -1,0 +1,4 @@
+<h1>The following content is pending moderation:</h1>
+<% @submissions.each do |submission| %>
+  <%= link_to submission.content.name, [submission.feed, submission] %><br />
+<% end %>

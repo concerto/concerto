@@ -1,0 +1,19 @@
+<p>
+  <b>Cotent:</b>
+  <%= @submission.content.name %>
+</p>
+
+<p>
+  <b>Feed:</b>
+  <%= @submission.feed.name unless @submission.feed.nil? %>
+</p>
+
+<p>
+  <b>Duration:</b>
+  <%= @submission.duration %>
+</p>
+
+<p>
+  <b>Approved?:</b>
+  <%= @submission.moderation_flag %>
+</p>

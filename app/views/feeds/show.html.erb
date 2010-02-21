@@ -22,7 +22,11 @@
   <b>Approved Content:</b>
   <ul>
   <% @feed.approved_contents.each do |content| %>
-    <li><%= link_to content.name, content %>
+    <% submission = Submission.where(:feed_id => @feed.id, :content_id => content.id).first %>
+    <li>
+      <%= link_to content.name, content %>
+      <%= render :partial => 'submissions/form', :locals => {:submission => submission } %>
+    </li>
   <% end %>
   </ul>
 </p>
@@ -30,7 +34,11 @@
   <b>Denied Content:</b>
   <ul>
   <% @feed.denied_contents.each do |content| %>
-    <li><%= link_to content.name, content %>
+    <% submission = Submission.where(:feed_id => @feed.id, :content_id => content.id).first %>
+    <li>
+      <%= link_to content.name, content %>
+      <%= render :partial => 'submissions/form', :locals => {:submission => submission } %>
+    </li>
   <% end %>
   </ul>
 </p>
@@ -38,7 +46,11 @@
   <b>Pending Content:</b>
   <ul>
   <% @feed.pending_contents.each do |content| %>
-    <li><%= link_to content.name, content %>
+    <% submission = Submission.where(:feed_id => @feed.id, :content_id => content.id).first %>
+    <li>
+      <%= link_to content.name, content %>
+      <%= render :partial => 'submissions/form', :locals => {:submission => submission } %>
+    </li>
   <% end %>
   </ul>
 </p>

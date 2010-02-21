@@ -1,0 +1,5 @@
+<% form_for ([submission.feed, submission]) do |f| %>
+  <%= f.label :moderation_flag, "Approve:" %> <%= f.check_box :moderation_flag %>
+  <%= f.label :duration %> <%= f.text_field :duration %>
+  <%= f.submit %>
+<% end %>
