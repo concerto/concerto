@@ -18,6 +18,30 @@
   <%= @feed.group %>
 </p>
 
+<p>
+  <b>Approved Content:</b>
+  <ul>
+  <% @feed.approved_contents.each do |content| %>
+    <li><%= link_to content.name, content %>
+  <% end %>
+  </ul>
+</p>
+<p>
+  <b>Denied Content:</b>
+  <ul>
+  <% @feed.denied_contents.each do |content| %>
+    <li><%= link_to content.name, content %>
+  <% end %>
+  </ul>
+</p>
+<p>
+  <b>Pending Content:</b>
+  <ul>
+  <% @feed.pending_contents.each do |content| %>
+    <li><%= link_to content.name, content %>
+  <% end %>
+  </ul>
+</p>
 
 <%= link_to 'Edit', edit_feed_path(@feed) %> |
 <%= link_to 'Back', feeds_path %>

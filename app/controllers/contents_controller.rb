@@ -25,6 +25,8 @@ class ContentsController < ApplicationController
   # GET /contents/new.xml
   def new
     @content = Content.new
+    @feeds = Feed.all
+    @content.submissions.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,6 +43,13 @@ class ContentsController < ApplicationController
   # POST /contents.xml
   def create
     @content = Content.new(params[:content])
+    
+    # Copy over the duration to each submission instance
+    # This would be a good place to add code to auto-moderate content
+    # for feed owners or something like that 
+    @content.submissions.each do |submission|
+      submission.duration = @content.duration
+    end
 
     respond_to do |format|
       if @content.save

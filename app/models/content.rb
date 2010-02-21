@@ -1,8 +1,10 @@
 class Content < ActiveRecord::Base
   belongs_to :user
   belongs_to :type
-  has_many :submissions
+  has_many :submissions, :dependent => :destroy
   has_many :feeds, :through => :submissions
+  
+  accepts_nested_attributes_for :submissions
 
   #Validations
   validates :name, :presence => true
@@ -16,6 +18,11 @@ class Content < ActiveRecord::Base
   scope :expired, where("end_time < :now", {:now => Time.now})
   scope :future, where("start_time > :now", {:now => Time.now})
   scope :active, where("(start_time IS NULL OR start_time < :now) AND (end_time IS NULL OR end_time > :now)", {:now => Time.now})
+  
+  #Scoped relations for feed approval states
+  has_many :approved_feeds, :through => :submissions, :source => :feed, :conditions => {"submissions.moderation_flag" => true}
+  has_many :pending_feeds, :through => :submissions, :source => :feed, :conditions => "submissions.moderation_flag IS NULL"
+  has_many :denied_feeds, :through => :submissions, :source => :feed, :conditions => {"submissions.moderation_flag" => false}
 
   #Determine if content is active based on its start and end times.
   def is_active?
