@@ -9,10 +9,10 @@ class Content < ActiveRecord::Base
   #Validations
   validates :name, :presence => true
   validates :mime_type, :presence => true
+  validates :type, :presence => true, :associated => true
 
   #Enable more validations when the models are flushed out.
   #validates :user, :associated => true
-  #validates :type, :associated => true
 
   #Easily query for active, expired, or future content
   scope :expired, where("end_time < :now", {:now => Time.now})

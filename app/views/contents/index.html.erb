@@ -24,7 +24,7 @@
     <td><%= content.end_time %></td>
     <td><%= content.data %></td>
     <td><%= content.user %></td>
-    <td><%= content.type %></td>
+    <td><%= content.type.name unless content.type.nil? %></td>
     <td><%= link_to 'Show', content %></td>
     <td><%= link_to 'Edit', edit_content_path(content) %></td>
     <td><%= link_to 'Destroy', content, :confirm => 'Are you sure?', :method => :delete %></td>
