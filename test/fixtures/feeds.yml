@@ -3,11 +3,11 @@
 one:
   name: MyString
   description: MyText
-  parent_id: 1
+  parent_id:
   group: 
 
 two:
   name: MyString
   description: MyText
-  parent_id: 1
+  parent_id:
   group: 
