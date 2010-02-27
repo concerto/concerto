@@ -9,14 +9,14 @@ one_one:
 
 old_one:
   content: old
-  feed: two
+  feed: one
   moderation_flag: 
   user: 
   duration: 1
 
 one_two:
   content: one
-  feed: one
+  feed: two
   moderation_flag: false
   user: 
   duration: 1

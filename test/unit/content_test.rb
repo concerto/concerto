@@ -67,6 +67,16 @@ class ContentTest < ActiveSupport::TestCase
     assert c.is_active?, "Old date / future date active"
   end
   
+  #Test the feed relationship
+  # This test serves more to verify the setup of the 
+  # testing enviroment than the actual application
+  test "has feed" do
+    c = contents(:one)
+    assert_equal c.feeds.length, 2, "Content only has 2 feeds"
+    assert c.feeds.include?(feeds(:one)), "Feed one is included"
+    assert c.feeds.include?(feeds(:two)), "Feed two is included"
+  end
+  
   #Test the scoping for past/present/future content
   test "active content" do 
     active = Content.active.all
@@ -80,12 +90,39 @@ class ContentTest < ActiveSupport::TestCase
     assert_equal expired.length, 1, "Only 1 expired content"
     assert_equal expired.first, contents(:old), "Expired content found"
   end
-    test "future content" do 
+  test "future content" do 
     future = Content.future.all
     assert_operator contents(:new).start_time, :>, Time.now, "Content is future"
     assert_equal future.length, 1, "Only 1 future content"
     assert_equal future.first, contents(:new), "Future content found"
   end
-
   
+  #Test the approved/pending/expired feeds relationships
+  test "approved feeds" do 
+    c = contents(:one)
+    assert_equal c.approved_feeds, [feeds(:one)], "Content is approved on 1 feed"
+    
+    no_subs = contents(:new)
+    assert no_subs.approved_feeds.empty?, "Content submitted to 0 feeds is approved on 0 feeds"
+    
+    pending = contents(:old)
+    assert pending.approved_feeds.empty?, "Content pending in 1 feed is approved on 0 feeds"
+  end
+  test "pending feeds" do 
+    c = contents(:old)
+    assert_equal c.pending_feeds, [feeds(:one)], "Content is pending on 1 feed"
+    
+    not_pending = contents(:one)
+    assert not_pending.pending_feeds.empty?, "Content pending on 0 feeds has 0 pending feeds"
+  end
+  test "denied feeds" do 
+    c = contents(:one)
+    assert_equal c.denied_feeds, [feeds(:two)], "Content is denied on 1 feed"
+    
+    no_subs = contents(:new)
+    assert no_subs.denied_feeds.empty?, "Content submitted to 0 feeds is denied on 0 feeds"
+    
+    pending = contents(:old)
+    assert pending.denied_feeds.empty?, "Content pending in 1 feed is denied on 0 feeds"
+  end  
 end
