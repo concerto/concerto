@@ -9,5 +9,5 @@ class Feed < ActiveRecord::Base
   has_many :denied_contents, :through => :submissions, :source => :content, :conditions => {"submissions.moderation_flag" => false}
 
   #Validations
-  validates :name, :presence => true
+  validates :name, :presence => true, :uniqueness => true
 end
