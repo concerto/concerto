@@ -1,15 +1,22 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  content: 
-  feed: 
-  moderation_flag: false
+one_one:
+  content: one
+  feed: one
+  moderation_flag: true
   user: 
   duration: 1
 
-two:
-  content: 
-  feed: 
+old_one:
+  content: old
+  feed: two
+  moderation_flag: 
+  user: 
+  duration: 1
+
+one_two:
+  content: one
+  feed: one
   moderation_flag: false
   user: 
   duration: 1

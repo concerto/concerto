@@ -7,7 +7,7 @@ one:
   group: 
 
 two:
-  name: MyString
+  name: MyString1
   description: MyText
   parent_id:
   group: 
