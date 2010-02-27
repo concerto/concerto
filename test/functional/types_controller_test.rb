@@ -14,30 +14,30 @@ class TypesControllerTest < ActionController::TestCase
 
   #test "should create type" do
   #  assert_difference('Type.count') do
-  #    post :create, :type => types(:one).attributes
+  #    post :create, :type => types(:text).attributes
   #  end
 
   #  assert_redirected_to type_path(assigns(:type))
   #end
 
   test "should show type" do
-    get :show, :id => types(:one).to_param
+    get :show, :id => types(:text).to_param
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, :id => types(:one).to_param
+    get :edit, :id => types(:text).to_param
     assert_response :success
   end
 
   #test "should update type" do
-  #  put :update, :id => types(:one).to_param, :type => types(:one).attributes
+  #  put :update, :id => types(:text).to_param, :type => types(:text).attributes
   #  assert_redirected_to type_path(assigns(:type))
   #end
 
   test "should destroy type" do
     assert_difference('Type.count', -1) do
-      delete :destroy, :id => types(:one).to_param
+      delete :destroy, :id => types(:text).to_param
     end
 
     assert_redirected_to types_path
