@@ -1,0 +1,79 @@
+/* Concerto 2 - CSS MAIN FILE */
+/* Designed by the RPI Web Technologies Group (http://webtech.union.rpi.edu) in 2010. */
+
+
+/*##########################################################################*/
+/*##########################################################################*/
+/*								  GLOBAL CSS								*/
+/*##########################################################################*/
+/*##########################################################################*/
+
+
+/*##########################################################################*/
+/*								General Styles								*/
+/*##########################################################################*/
+
+/*##########  GLOBAL RESET AND MAIN HEADERS ##########*/
+html{color:#000;background:#FFF;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}
+table{border-collapse:collapse;border-spacing:0;}
+fieldset,img{border:0;}
+address,caption,cite,code,dfn,em,strong,b,th,var,optgroup{font-style:inherit;font-weight:inherit;}
+del,ins{text-decoration:none;}
+li{list-style:none;}
+caption,th{text-align:left;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+q:before,q:after{content:'';}
+abbr,acronym{border:0;font-variant:normal;}
+sup{vertical-align:baseline;}
+sub{vertical-align:baseline;}
+b, strong { font-weight:bold; }
+legend{color:#000;}
+a { text-decoration:none; font-weight:bold; }
+a:hover { text-decoration:underline; }
+input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}
+input,button,textarea,select{*font-size:100%;}
+
+/*##########  MAIN HEADERS  ##########*/
+h1, h2, h3, h4, h5, h6, h7 { }
+h1 { font-size:3em; font-weight:300; }
+h1.header { text-transform: uppercase; font-size:1.3em; letter-spacing:0.15em; padding:6px 0; margin-bottom:16px; }
+h1.indented { padding-left:8px !important; }
+h1.subpage_header { font-size:3em;margin-bottom:8px !important; }
+h1 small { padding-left:12px; }
+h2 { font-size:2.5em; }
+h3 { font-size:2em; }
+h4 { font-size:1.7em; }
+h5 { font-size:1.3em; }
+small { font-size:0.6em; }
+
+
+/*##########################################################################*/
+/*								Master Layout								*/
+/*##########################################################################*/
+
+/*##########  PAGE SHIFT FOR GLOBAL LOGIN  ##########*/
+.std-offset { padding:70px 14px 10px 14px; }
+
+
+/*##########################################################################*/
+/*								Login Panel									*/
+/*##########################################################################*/
+
+/*##########  STRUCTURE  ##########*/
+#LG { position:absolute; z-index:50; width:100%; top:0px; left:0px; background:url(../images/layout/LG_baseline.png) top left repeat-x; }
+#LG-inner { position:relative; margin:0 auto; width:438px; height:50px; background:url(../images/layout/LG_bluebg.png) top center no-repeat; }
+#LG-inner_padding { padding:8px 15px; }
+#LG-inner p { color:#FFF; font-size:0.8em; text-shadow:0 -0.2em #000; }
+#LG-inner p.left { float:left; width:40%; }
+#LG-inner p.right { float:right; text-align:right; width:40%; }
+#LG-inner p a { color:#FFF; }
+a#LG-button { width:58px; height:44px; background:url(../images/layout/LG_button.png) center center no-repeat; background-position:0px 0px; border:0px; display:block; position:absolute; top:0px; left:190px; }
+a#LG-button:hover { background-position:-58px 0px; }
+
+
+/*##########################################################################*/
+/*##########################################################################*/
+/*								AREA-SPECIFIC CSS							*/
+/*##########################################################################*/
+/*##########################################################################*/

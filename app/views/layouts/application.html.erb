@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= controller.controller_name.titleize %>: <%= controller.action_name %></title>
-  <%= stylesheet_link_tag 'scaffold' %>
-  <%= javascript_include_tag :defaults %>
-  <%= csrf_meta_tag %>
+  	<title><%= controller.action_name.titleize %> - <%= controller.controller_name.titleize %> - Concerto Signage Panel</title>
+	<%= stylesheet_link_tag 'base' %>
+  	<%= javascript_include_tag :defaults %>
+  	<%= csrf_meta_tag %>
 </head>
 <body>
-
-<p class="notice"><%= notice %></p>
-
-<%= yield %>
-
+<div id="LG">
+	<div id="LG-inner">
+		<div id="LG-inner_padding">
+			<a href="#" id="LG-button"></a>
+			<p class="left">Welcome, <b>Brian</b>!</p>
+			<p class="right"><a href="#">Log Out</a></p>
+		</div>
+	</div>
+</div>
+<div id="main" class="std-offset">
+	<p class="notice"><%= notice %></p>
+	<%= yield %>
+</div>
 </body>
 </html>
