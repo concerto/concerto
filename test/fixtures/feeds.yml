@@ -4,10 +4,10 @@ one:
   name: MyString
   description: MyText
   parent_id:
-  group: 
+  group: wtg
 
 two:
   name: MyString1
   description: MyText
   parent_id:
-  group: 
+  group: wtg

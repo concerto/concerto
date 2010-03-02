@@ -10,4 +10,5 @@ class Feed < ActiveRecord::Base
 
   #Validations
   validates :name, :presence => true, :uniqueness => true
+  validates :group, :presence => true, :associated => true
 end

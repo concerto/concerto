@@ -10,11 +10,21 @@ class FeedTest < ActiveSupport::TestCase
     feed.name = "Blah"
     assert feed.valid?, "Feed name has entry"
   end
-  
+  test "group cannot be blank or unassociated" do
+    f = feeds(:one)
+    feed = Feed.new(f.attributes)
+    feed.name = "ASDF" + feed.name  #Make the name unique
+    feed.group_id = ""
+    assert !feed.valid?, "Feed group is blank"
+    feed.group_id = 0
+    assert !feed.valid?, "Feed group is unassociated"
+    feed.group_id = groups(:wtg).id
+    assert feed.valid?, "Feed group is associated with wtg group"
+  end
   #Test for duplicate names
   test "name cannot be duplicated" do
     f = feeds(:one)
-    feed = Feed.new({:name => f.name})
+    feed = Feed.new({:name => f.name, :group_id => groups(:rpitv).id})
     assert_equal f.name, feed.name, "Names are set equal"
     assert !feed.valid?, "Names can't be equal"
     feed.name = "Fooasdasdasda"

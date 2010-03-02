@@ -15,7 +15,7 @@
   </div>
   <div class="field">
     <%= f.label :group %><br />
-    <%#= f.text_field :group %>
+    <%= f.collection_select :group_id, Group.all, :id, :name %>
   </div>
   <div class="actions">
     <%= f.submit %>

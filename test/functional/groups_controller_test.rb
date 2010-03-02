@@ -14,30 +14,30 @@ class GroupsControllerTest < ActionController::TestCase
 
   test "should not create group" do
     assert_no_difference('Group.count') do
-      post :create, :group => groups(:one).attributes
+      post :create, :group => groups(:wtg).attributes
     end
 
     #assert_redirected_to group_path(assigns(:group))
   end
 
   test "should show group" do
-    get :show, :id => groups(:one).to_param
+    get :show, :id => groups(:wtg).to_param
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, :id => groups(:one).to_param
+    get :edit, :id => groups(:wtg).to_param
     assert_response :success
   end
 
   test "should update group" do
-    put :update, :id => groups(:one).to_param, :group => groups(:one).attributes
+    put :update, :id => groups(:wtg).to_param, :group => groups(:wtg).attributes
     assert_redirected_to group_path(assigns(:group))
   end
 
   test "should destroy group" do
     assert_difference('Group.count', -1) do
-      delete :destroy, :id => groups(:one).to_param
+      delete :destroy, :id => groups(:wtg).to_param
     end
 
     assert_redirected_to groups_path
