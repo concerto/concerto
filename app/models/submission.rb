@@ -1,7 +1,7 @@
 class Submission < ActiveRecord::Base
   belongs_to :content
   belongs_to :feed
-  belongs_to :user
+  belongs_to :moderator, :class_name => "User"
   
   #Validations
   validates :feed, :presence => true, :associated => true
