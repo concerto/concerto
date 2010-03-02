@@ -1,4 +1,6 @@
 Concerto::Application.routes.draw do |map|
+  resources :users
+
   resources :types
 
   resources :feeds do
