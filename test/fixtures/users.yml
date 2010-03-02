@@ -1,15 +1,15 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  username: MyString
-  first_name: MyString
-  last_name: MyString
-  email: MyString
-  is_admin: false
+katie:
+  username: ktb
+  first_name: Katie
+  last_name: Boudreau
+  email: ktb@test.com
+  is_admin: true
 
-two:
-  username: MyString
-  first_name: MyString
-  last_name: MyString
-  email: MyString
+kristen:
+  username: kzaik
+  first_name: Kristen
+  last_name: Zaik
+  email: krzaiks@internet.com
   is_admin: false

@@ -7,7 +7,7 @@ one:
   start_time: 200-02-19 21:13:35
   end_time: 2100-02-19 21:13:35
   data: MyText
-  user: 
+  user: katie
   type: text
 
 old:
@@ -17,7 +17,7 @@ old:
   start_time: 2000-02-19 21:13:35
   end_time: 2001-02-19 21:13:35
   data: MyText
-  user: 
+  user: kristen
   type: text
   
 new:
@@ -27,5 +27,5 @@ new:
   start_time: 2100-02-19 21:13:35
   end_time: 2101-02-19 21:13:35
   data: MyText
-  user: 
+  user: katie
   type: text

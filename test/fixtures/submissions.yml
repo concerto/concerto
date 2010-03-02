@@ -4,19 +4,19 @@ one_one:
   content: one
   feed: one
   moderation_flag: true
-  user: 
+  moderator: katie
   duration: 1
 
 old_one:
   content: old
   feed: one
   moderation_flag: 
-  user: 
+  moderator: 
   duration: 1
 
 one_two:
   content: one
   feed: two
   moderation_flag: false
-  user: 
+  moderator: kristen
   duration: 1

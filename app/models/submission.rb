@@ -6,6 +6,7 @@ class Submission < ActiveRecord::Base
   #Validations
   validates :feed, :presence => true, :associated => true
   validates :content, :presence => true, :associated => true
+  validates :moderator, :associated => true
 
   #Scoping shortcuts for active/denied/pending
   scope :approved, where(:moderation_flag => true)

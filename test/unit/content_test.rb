@@ -28,6 +28,16 @@ class ContentTest < ActiveSupport::TestCase
     content.type_id = types(:text).id
     assert content.valid?, "Content type is associated with text"
   end
+  test "user cannot be blank or unassociated" do
+    c = contents(:one)
+    content = Content.new(c.attributes)
+    content.user_id = ""
+    assert !content.valid?, "Content user is blank"
+    content.user_id = 0
+    assert !content.valid?, "Content user is unassociated"
+    content.user_id = users(:katie).id
+    assert content.valid?, "Content user is associated with katie"
+  end
 
   #Testing the is_active? method, mixing dates and nils
   test "is active for nulls" do 
