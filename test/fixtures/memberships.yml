@@ -1,11 +1,11 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  user: 
-  group: 
-  is_leader: false
+katie_wtg:
+  user: katie
+  group: wtg
+  is_leader: true
 
-two:
-  user: 
-  group: 
+katie_rpitv:
+  user: katie
+  group: rpitv
   is_leader: false

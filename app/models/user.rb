@@ -13,7 +13,13 @@ class User < ActiveRecord::Base
     username
   end
 
+  #A simple name
   def name
     first_name + " " + last_name
+  end
+
+  #If a user is in a group
+  def in_group?(group)
+    groups.include?(group)
   end
 end

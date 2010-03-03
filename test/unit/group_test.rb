@@ -10,4 +10,11 @@ class GroupTest < ActiveSupport::TestCase
     group.name = "Fooasdasdasda"
     assert group.valid?, "Unique name is OK"
   end
+
+  #Test has_member?
+  test "group has member?" do
+    g = groups(:wtg)
+    assert g.has_member?(users(:katie)), "Katie is in WTG"
+    assert !g.has_member?(users(:kristen)), "Kristen is not in the WTG"
+  end
 end
