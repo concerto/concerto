@@ -2,7 +2,22 @@
   <b>Name:</b>
   <%= @group.name %>
 </p>
-
+<p>
+  <b>Leaders:</b>
+  <ul>
+  <% @group.leaders.each do |user| %>
+    <li><%= user.name %></li>
+  <% end %>
+  </ul>
+</p>
+<p>
+  <b>Members:</b>
+  <ul>
+  <% @group.users.each do |user| %>
+    <li><%= user.name %></li>
+  <% end %>
+  </ul>
+</p>
 
 <%= link_to 'Edit', edit_group_path(@group) %> |
 <%= link_to 'Back', groups_path %>
