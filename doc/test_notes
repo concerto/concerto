@@ -1,0 +1,30 @@
+These are some notes about the fixtures and for use writing tests.  I (Brian) have this drawn on scrap paper in portfolio #2, but they might be helpful to others.
+
+Submissions: Content --- Feed
+
+one ---------- approved ------- one
+
+one ---------- denied --------- two
+
+old ---------- pending -------- one
+
+new - (none)
+
+
+one_one: approved
+one_two: denied
+old_one: null
+
+
+
+Memberships: User --- Group
+
+katie ----- leader ----- wtg
+
+katie ------------------ rpitv
+
+kristen - (none)
+
+
+
+Sorry for the poor renditions, I have no ASCII art skills.
