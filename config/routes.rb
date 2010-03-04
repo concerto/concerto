@@ -1,5 +1,12 @@
 Concerto::Application.routes.draw do |map|
-  resources :groups
+  resources :groups do
+    resources :memberships, :only => [:create, :update, :destroy] do
+      member do
+        put :promote
+        put :demote
+      end
+    end
+  end
 
   resources :users
 

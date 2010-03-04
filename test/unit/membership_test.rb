@@ -6,7 +6,7 @@ class MembershipTest < ActiveSupport::TestCase
     blank = Membership.new()
     assert !blank.valid?
 
-    m = Membership.new({:user => users(:katie)})
+    m = Membership.new({:user => users(:kristen)})
     assert !m.valid?, "Membership doesn't have group"
     m.group = groups(:wtg)
     assert m.valid?, "Membership has group"
@@ -16,6 +16,14 @@ class MembershipTest < ActiveSupport::TestCase
     assert !m.valid?, "Membership doesn't have user"
     m.user = users(:kristen)
     assert m.valid?, "Membership has user"
+  end
+  
+  #Test for uniqueness
+  test "membership cannot duplicate" do
+    m = Membership.new({:user => users(:katie), :group => groups(:wtg)})
+    assert !m.valid?, "Membership already exists"
+    m.user = users(:kristen)
+    assert m.valid?, "Membership is unique"
   end
 
   #Test scoping for leader/regular

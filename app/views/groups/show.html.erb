@@ -5,19 +5,31 @@
 <p>
   <b>Leaders:</b>
   <ul>
-  <% @group.leaders.each do |user| %>
-    <li><%= user.name %></li>
+  <% @group.memberships.leader.each do |membership| %>
+    <li>
+      <%= membership.user.name %> - 
+      <%= link_to "Demote", demote_group_membership_path(@group, membership), :method => :put %>
+    </li>
   <% end %>
   </ul>
 </p>
 <p>
   <b>Members:</b>
   <ul>
-  <% @group.users.each do |user| %>
-    <li><%= user.name %></li>
+  <% @group.memberships.each do |membership| %>
+    <li>
+      <%= membership.user.name %> - <%= link_to "Destroy", [@group, membership], :confirm => 'Are you sure?', :method => :delete %>
+      <% if !membership.is_leader? %> - <%= link_to "Promote", promote_group_membership_path(@group, membership), :method => :put %><% end %>
+    </li>
   <% end %>
   </ul>
 </p>
-
+<p>
+  <b>Add Member:</b>
+  <% form_for [@group, @group.memberships.new] do |f| %>
+    <%= f.collection_select :user_id, User.all - @group.users, :id, :name %>
+    <%= f.submit %>
+  <% end %>
+</p>
 <%= link_to 'Edit', edit_group_path(@group) %> |
 <%= link_to 'Back', groups_path %>
