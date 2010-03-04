@@ -62,16 +62,19 @@ small { font-size:0.6em; }
 
 /*##########  STRUCTURE  ##########*/
 #TM { position:absolute; z-index:50; width:100%; height:69px; top:0px; left:0px; background:url(../images/layout/TM_bg.png) top left repeat-x; }
-a#TM-logobutton { z-index:100; width:97px; height:88px; background:url(../images/layout/TM_logobutton.png) top left no-repeat; background-position:0px 0px; border:0px; display:block; position:absolute; top:0px; left:0px; }
-a#TM-logobutton:hover { background-position:0px 0px; }
+a#TM-logobutton { z-index:100; width:98px; height:91px; background:url(../images/layout/TM_logobutton.png) top left no-repeat; background-position:0px 0px; border:0px; display:block; position:absolute; top:0px; left:0px; }
+a#TM-logobutton:hover { background-position:-98px 0px; }
+div.TM-sec { height:69px; float:left; margin:0px; padding:0 4px; border-right:solid 1px #999; }
+div.TM-sectop { height:41px; }
+div.TM-secbot { height:23px; }
+div.TM-secbot h1 { color:#666; font-size:0.7em; text-shadow:0 0.05em #FFF; padding-top:5px; text-transform:uppercase; letter-spacing:0.35em; text-align:center; }
 
 /*##########  LOGIN  ##########*/
-#LG-inner { position:relative; width:272px; height:69px; background:url(../images/layout/LG_bluebg.png) top left no-repeat; }
-#LG-inner_padding { padding:10px 15px 10px 104px; }
-#LG-inner p { color:#FFF; font-size:0.8em; text-shadow:0 -0.2em #000; }
-#LG-inner p.left { float:left; width:40%; }
-#LG-inner p.right { float:right; text-align:right; width:40%; }
-#LG-inner p a { color:#FFF; }
+#LG-inner { float:left; width:153px; height:69px; border-right:solid 1px #999; padding:0px 28px 0px 104px; background:url(../images/layout/LG_bluebg.png) top left no-repeat; }
+#LG-inner div.TM-sectop p { color:#FFF; font-size:0.8em; text-shadow:0 -0.2em #000; padding-top:10px; }
+#LG-inner div.TM-sectop p a { color:#FFF; }
+#LG-inner div.TM-secbot p { color:#666; font-size:0.7em; text-shadow:0 0.05em #FFF; padding-top:5px; }
+#LG-inner div.TM-secbot p a { font-weight:bold; color:#666; }
 
 
 /*##########################################################################*/
