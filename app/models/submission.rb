@@ -7,6 +7,7 @@ class Submission < ActiveRecord::Base
   validates :feed, :presence => true, :associated => true
   validates :content, :presence => true, :associated => true
   validates :moderator, :associated => true
+  validates_uniqueness_of :content_id, :scope => :feed_id  #Enforce content can only be submitted to a feed once
 
   #Scoping shortcuts for active/denied/pending
   scope :approved, where(:moderation_flag => true)

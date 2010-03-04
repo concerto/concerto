@@ -6,7 +6,7 @@ class SubmissionTest < ActiveSupport::TestCase
     blank = Submission.new()
     assert !blank.valid?
     
-    s = Submission.new({:content => contents(:one)})
+    s = Submission.new({:content => contents(:new)})
     assert !s.valid?, "Submission doesn't have feed"
     s.feed = feeds(:one)
     assert s.valid?, "Submission has feed"
@@ -14,8 +14,16 @@ class SubmissionTest < ActiveSupport::TestCase
   test "submission requires content" do
     s = Submission.new({:feed => feeds(:one)})
     assert !s.valid?, "Submission doesn't have content"
-    s.content_id = contents(:one).id
+    s.content_id = contents(:new).id
     assert s.valid?, "Submission has content"
+  end
+  
+  #Test uniqueness of submissions
+  test "submissions must be unique" do
+    s = Submission.new({:content => contents(:one), :feed => feeds(:one)})
+    assert !s.valid?, "Submission already exists"
+    s.content = contents(:new)
+    assert s.valid?, "Submission doesn't exist"
   end
   
   #Test scoping
