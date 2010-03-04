@@ -53,23 +53,50 @@ small { font-size:0.6em; }
 /*##########################################################################*/
 
 /*##########  PAGE SHIFT FOR GLOBAL LOGIN  ##########*/
-.std-offset { padding:70px 14px 10px 14px; }
+.std-offset { padding:105px 14px 10px 14px; }
 
 
 /*##########################################################################*/
-/*								Login Panel									*/
+/*								Top Menu									*/
 /*##########################################################################*/
 
 /*##########  STRUCTURE  ##########*/
-#LG { position:absolute; z-index:50; width:100%; top:0px; left:0px; background:url(../images/layout/LG_baseline.png) top left repeat-x; }
-#LG-inner { position:relative; margin:0 auto; width:438px; height:50px; background:url(../images/layout/LG_bluebg.png) top center no-repeat; }
-#LG-inner_padding { padding:8px 15px; }
+#TM { position:absolute; z-index:50; width:100%; height:69px; top:0px; left:0px; background:url(../images/layout/TM_bg.png) top left repeat-x; }
+a#TM-logobutton { z-index:100; width:97px; height:88px; background:url(../images/layout/TM_logobutton.png) top left no-repeat; background-position:0px 0px; border:0px; display:block; position:absolute; top:0px; left:0px; }
+a#TM-logobutton:hover { background-position:0px 0px; }
+
+/*##########  LOGIN  ##########*/
+#LG-inner { position:relative; width:272px; height:69px; background:url(../images/layout/LG_bluebg.png) top left no-repeat; }
+#LG-inner_padding { padding:10px 15px 10px 104px; }
 #LG-inner p { color:#FFF; font-size:0.8em; text-shadow:0 -0.2em #000; }
 #LG-inner p.left { float:left; width:40%; }
 #LG-inner p.right { float:right; text-align:right; width:40%; }
 #LG-inner p a { color:#FFF; }
-a#LG-button { width:58px; height:44px; background:url(../images/layout/LG_button.png) center center no-repeat; background-position:0px 0px; border:0px; display:block; position:absolute; top:0px; left:190px; }
-a#LG-button:hover { background-position:-58px 0px; }
+
+
+/*##########################################################################*/
+/*								Grid Views									*/
+/*##########################################################################*/
+
+/*##########  GRAPHICAL ICON LISTS  ##########*/
+ul.iconlist { margin:0px -8px; }
+ul.iconlist li { list-style:none; float:left; margin:15px 6px; }
+ul.iconlist li a { background:#eee; width:180px; height:210px; border:solid 1px #ccc; -moz-border-radius:12px; -webkit-border-radius:12px; font-size:small; display:block; text-align:center; }
+ul.iconlist li a:hover { background:#99ccff; border:solid 1px #3399cc; }
+ul.iconlist li a h2 { color:#333 !important; background:none !important; padding:0px !important; margin:0px; font-weight:bold !important; text-align:center; }
+ul.iconlist li a:hover h2 { }
+ul.iconlist li a h3 { font-size:1em; font-weight:normal; margin:0px; padding:0px; text-align:center; }
+div.iconlist_padding { padding:8px; }
+
+/*##########  ICONS  ##########*/
+div.ins { z-index:1; width:164px; height:130px; }
+div.type-file, div.type-folder { margin-left:auto; margin-right:auto; text-align:center; }
+div.type-folder img { border:0px !important; }
+div.type-img img { border:solid 1px #666; }
+div.type-file img { border:0px !important; }
+div.f_icon { background:url(../images/icons/foldericon.png) center center no-repeat; width:50px; height:39px; margin:75px 0px 0px 110px; position:absolute; z-index:5; }
+div.pdf_icon { background:url(../images/icons/pdficon.png) center center no-repeat; width:44px; height:45px; margin:75px 0px 0px 110px; position:absolute; z-index:5; }
+div.img_icon { background:url(../images/icons/imageicon.png) center center no-repeat; width:46px; height:44px; margin:75px 0px 0px 110px; position:absolute; z-index:5; }
 
 
 /*##########################################################################*/
