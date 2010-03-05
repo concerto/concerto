@@ -17,18 +17,17 @@
 			<p><a href="#">Settings</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">Log Out</a></p>
 		</div>
 	</div>
-	<div class="TM-sec">
-		<div class="TM-sectop">Stuff</div>
-		<div class="TM-secbot"><h1>Content</h1></div>
-	</div>
-	<div class="TM-sec">
-		<div class="TM-sectop">Stuff</div>
-		<div class="TM-secbot"><h1>Content</h1></div>
-	</div>
-	<div class="TM-sec">
-		<div class="TM-sectop">Stuff</div>
-		<div class="TM-secbot"><h1>Content</h1></div>
-	</div>
+	<table class="TM-sec" cellpadding="0" cellspacing="0">
+		<tr class="TM-sectop">
+			<td rowspan="2" class="TM-secline-left"></td>
+			<td><p>Stuff</p></td>
+			<td rowspan="2" class="TM-secline-right"></td>
+		</tr>
+		<tr class="TM-secbot">
+			<td><h1>Content</h1></td>
+		</tr>
+	</table>
+
 </div>
 <div id="main" class="std-offset">
 	<p class="notice"><%= notice %></p>
