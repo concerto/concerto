@@ -14,7 +14,7 @@
 /*##########################################################################*/
 
 /*##########  GLOBAL RESET AND MAIN HEADERS ##########*/
-html{color:#000;background:#FFF;}
+html{color:#000;background:#FFF;font-family:"Lucida Grande",Arial,sans-serif;}
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}
 table{border-collapse:collapse;border-spacing:0;}
 fieldset,img{border:0;}
@@ -67,7 +67,7 @@ a#TM-logobutton:hover { background-position:-98px 0px; }
 div.TM-sec { height:69px; float:left; margin:0px; padding:0 4px; border-right:solid 1px #999; }
 div.TM-sectop { height:41px; }
 div.TM-secbot { height:23px; }
-div.TM-secbot h1 { color:#666; font-size:0.7em; text-shadow:0 0.05em #FFF; padding-top:5px; text-transform:uppercase; letter-spacing:0.35em; text-align:center; }
+div.TM-secbot h1 { color:#666; font-size:0.7em; font-weight:400; text-shadow:0 0.05em #FFF; padding-top:5px; text-transform:uppercase; letter-spacing:0.35em; text-align:center; }
 
 /*##########  LOGIN  ##########*/
 #LG-inner { float:left; width:153px; height:69px; border-right:solid 1px #999; padding:0px 28px 0px 104px; background:url(../images/layout/LG_bluebg.png) top left no-repeat; }
