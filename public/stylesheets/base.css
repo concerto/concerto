@@ -86,7 +86,7 @@ ul.TM-buttons li a{color:#666;text-shadow:0 0.05em #FFF;font-size:0.8em;backgrou
 ul.TM-buttons li a span{background:transparent url(../images/layout/TM_button.png) no-repeat right top;cursor:pointer;display:inline;float:left;height:17px;margin-left:15px;padding:8px 15px 8px 0px;}
 ul.TM-buttons li a:hover{ color:#004b98; background-position:left -33px; }
 ul.TM-buttons li a:hover span{ background-position:right -33px; }
-ul.TM-buttons li a:active{ color:#004b98; background-position:left -66px; }
+ul.TM-buttons li a:active{ color:#0099cc; background-position:left -66px; }
 ul.TM-buttons li a:active span{ background-position:right -66px; }
 ul.TM-buttons li.selected a { text-decoration:none;text-shadow:0 -0.15em #333; color:#FFF; background-position:0 bottom; }
 ul.TM-buttons li.selected a span { background-position:right bottom; }
