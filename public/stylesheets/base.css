@@ -62,8 +62,8 @@ small { font-size:0.6em; }
 
 /*##########  STRUCTURE  ##########*/
 #TM { position:absolute; z-index:50; width:100%; height:69px; top:0px; left:0px; background:url(../images/layout/TM_bg.png) top left repeat-x; }
-a#TM-logobutton { z-index:100; width:98px; height:91px; background:url(../images/layout/TM_logobutton.png) top left no-repeat; background-position:0px 0px; border:0px; display:block; position:absolute; top:0px; left:0px; }
-a#TM-logobutton:hover { background-position:-98px 0px; }
+a#TM-logobutton { z-index:100; width:96px; height:88px; background:url(../images/layout/TM_logobutton.png) top left no-repeat; background-position:0px 0px; border:0px; display:block; position:absolute; top:0px; left:0px; }
+a#TM-logobutton:hover { background-position:-96px 0px; }
 table.TM-sec { height:69px; float:left; margin:0px; padding:0 4px; }
 .TM-sectop { height:41px; }
 .TM-secbot { /* height is 23px, but we don't need to specify that */ }
