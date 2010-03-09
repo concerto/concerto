@@ -1,15 +1,15 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  name: MyString
-  location: MyString
+  name: The first screen
+  location: Katie's Room
   is_public: false
-  owner: 
+  owner: katie
   template: 
 
 two:
-  name: MyString
-  location: MyString
-  is_public: false
-  owner: 
+  name: SGS Screen
+  location: SGS
+  is_public: true
+  owner: wtg
   template: 
