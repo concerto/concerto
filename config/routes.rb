@@ -1,4 +1,6 @@
 Concerto::Application.routes.draw do |map|
+  resources :screens
+
   resources :groups do
     resources :memberships, :only => [:create, :update, :destroy] do
       member do

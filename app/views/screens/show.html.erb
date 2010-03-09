@@ -1,0 +1,28 @@
+<p>
+  <b>Name:</b>
+  <%= @screen.name %>
+</p>
+
+<p>
+  <b>Location:</b>
+  <%= @screen.location %>
+</p>
+
+<p>
+  <b>Is public:</b>
+  <%= @screen.is_public %>
+</p>
+
+<p>
+  <b>Owner:</b>
+  <%= @screen.owner.name %>
+</p>
+
+<p>
+  <b>Template:</b>
+  <%= @screen.template %>
+</p>
+
+
+<%= link_to 'Edit', edit_screen_path(@screen) %> |
+<%= link_to 'Back', screens_path %>
