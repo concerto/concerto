@@ -5,11 +5,11 @@ one:
   location: Katie's Room
   is_public: false
   owner: katie
-  template: 
+  template: one
 
 two:
   name: SGS Screen
   location: SGS
   is_public: true
   owner: wtg
-  template: 
+  template: one

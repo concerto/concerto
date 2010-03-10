@@ -1,0 +1,19 @@
+<% form_for(@template) do |f| %>
+  <%= f.error_messages %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :author %><br />
+    <%= f.text_field :author %>
+  </div>
+  <div class="field">
+    <%= f.label :is_hidden %><br />
+    <%= f.check_box :is_hidden %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

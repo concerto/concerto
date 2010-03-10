@@ -22,8 +22,8 @@
     <%= f.text_field :owner_type %>
   </div>
   <div class="field">
-    <%#= f.label :template %><br />
-    <%#= f.text_field :template %>
+    <%= f.label :template %><br />
+    <%= f.collection_select :template_id, @templates, :id, :name %>
   </div>
   <div class="actions">
     <%= f.submit %>

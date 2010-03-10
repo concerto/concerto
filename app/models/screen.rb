@@ -4,6 +4,7 @@ class Screen < ActiveRecord::Base
 
   #Validations
   validates :name, :presence => true
+  validates :template, :presence => true, :associated => true
   #These two validations are used to solve problems with the polymorphic 
   #presence and associated tests.
   validates :owner_id, :presence => true

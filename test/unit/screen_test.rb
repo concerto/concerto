@@ -11,6 +11,16 @@ class ScreenTest < ActiveSupport::TestCase
     screen.name = "Blah"
     assert screen.valid?, "Screen name has entry"
   end
+  test "template cannot be blank or unassociated" do
+    s = screens(:one)
+    screen = Screen.new(s.attributes)
+    screen.template_id = ""
+    assert !screen.valid?, "Screen template is blank"
+    screen.template_id = 0
+    assert !screen.valid?, "Screen template is unassociated"
+    screen.template_id = templates(:one).id
+    assert screen.valid?, "Screen template is associated with one"
+  end  
   test "owner must be group or user" do
     s = screens(:one)
     s.owner = users(:katie)

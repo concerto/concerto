@@ -25,7 +25,7 @@ class ScreensController < ApplicationController
   # GET /screens/new.xml
   def new
     @screen = Screen.new
-
+    @templates = Template.all
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @screen }
@@ -35,6 +35,7 @@ class ScreensController < ApplicationController
   # GET /screens/1/edit
   def edit
     @screen = Screen.find(params[:id])
+    @templates = Template.all
   end
 
   # POST /screens

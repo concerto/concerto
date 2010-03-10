@@ -1,4 +1,6 @@
 Concerto::Application.routes.draw do |map|
+  resources :templates
+
   resources :screens
 
   resources :groups do
