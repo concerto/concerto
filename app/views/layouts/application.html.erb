@@ -7,51 +7,7 @@
   	<%= csrf_meta_tag %>
 </head>
 <body>
-<div id="TM">
-	<a href="#" id="TM-logobutton"></a>
-	<div id="LG-inner">
-		<div class="TM-sectop">
-			<p><b>Brian Zaik</b></p>
-		</div>
-		<div class="TM-secbot">
-			<p><a href="#">Settings</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">Log Out</a></p>
-		</div>
-	</div>
-	<!-- Begin Menu for CONTENT -->
-	<table class="TM-sec" cellpadding="0" cellspacing="0">
-		<tr class="TM-sectop">
-			<!-- only show the next table cell if this is the first item: -->
-			<td rowspan="2" class="TM-secline-right"></td>
-			<td>
-				<ul class="TM-buttons">
-					<li><a href="#"><span>Add New</span></a></li>
-					<li><a href="#"><span>Feeds</span></a></li>
-					<li><a href="#"><span>Screens</span></a></li>
-				</ul>
-			</td>
-			<td rowspan="2" class="TM-secline-right"></td>
-		</tr>
-		<tr class="TM-secbot">
-			<td><h1>Content</h1></td>
-		</tr>
-	</table>
-	<!-- End Menu for CONTENT -->
-	<!-- Begin Menu for USERS -->
-	<table class="TM-sec" cellpadding="0" cellspacing="0">
-		<tr class="TM-sectop">
-			<td>
-				<ul class="TM-buttons">
-					<li><a href="#"><span>Groups</span></a></li>
-				</ul>
-			</td>
-			<td rowspan="2" class="TM-secline-right"></td>
-		</tr>
-		<tr class="TM-secbot">
-			<td><h1>Users</h1></td>
-		</tr>
-	</table>
-	<!-- End Menu for USERS -->
-</div>
+<%= render :partial => "elements/topmenu" %>
 <div id="main" class="std-offset">
 	<p class="notice"><%= notice %></p>
 	<%= yield %>

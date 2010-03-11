@@ -1,0 +1,47 @@
+<!--googleoff: all-->
+<div id="TM">
+	<a href="#" id="TM-logobutton"></a>
+	<div id="LG-inner">
+		<div class="TM-sectop">
+			<p><b>Brian Zaik</b></p>
+		</div>
+		<div class="TM-secbot">
+			<p><a href="#">Settings</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">Log Out</a></p>
+		</div>
+	</div>
+	<!-- Begin Menu for CONTENT -->
+	<table class="TM-sec" cellpadding="0" cellspacing="0">
+		<tr class="TM-sectop">
+			<!-- only show the next table cell if this is the first item: -->
+			<td rowspan="2" class="TM-secline-right"></td>
+			<td>
+				<ul class="TM-buttons">
+					<li<% if controller.controller_name == 'contents' && controller.action_name == 'new' %> class="selected"<% end %>><% link_to new_content_path do %><span>Add New</span><% end %></li>
+					<li<% if controller.controller_name == 'feeds' %> class="selected"<% end %>><% link_to feeds_path do %><span>Feeds</span><% end %></li>
+					<li<% if controller.controller_name == 'screens' %> class="selected"<% end %>><% link_to screens_path do %><span>Screens</span><% end %></li>
+				</ul>
+			</td>
+			<td rowspan="2" class="TM-secline-right"></td>
+		</tr>
+		<tr class="TM-secbot">
+			<td><h1>Content</h1></td>
+		</tr>
+	</table>
+	<!-- End Menu for CONTENT -->
+	<!-- Begin Menu for USERS -->
+	<table class="TM-sec" cellpadding="0" cellspacing="0">
+		<tr class="TM-sectop">
+			<td>
+				<ul class="TM-buttons">
+					<li<% if controller.controller_name == 'groups' %> class="selected"<% end %>><% link_to groups_path do %><span>Groups</span><% end %></li>
+				</ul>
+			</td>
+			<td rowspan="2" class="TM-secline-right"></td>
+		</tr>
+		<tr class="TM-secbot">
+			<td><h1>Users</h1></td>
+		</tr>
+	</table>
+	<!-- End Menu for USERS -->
+</div>
+<!--googleon: all-->
