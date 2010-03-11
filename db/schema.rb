@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100309201437) do
+ActiveRecord::Schema.define(:version => 20100310184837) do
 
   create_table "contents", :force => true do |t|
     t.string   "name"
@@ -35,6 +35,18 @@ ActiveRecord::Schema.define(:version => 20100309201437) do
 
   create_table "groups", :force => true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "medias", :force => true do |t|
+    t.integer  "attachable_id"
+    t.string   "attachable_type"
+    t.string   "key"
+    t.string   "file_name"
+    t.string   "file_type"
+    t.integer  "file_size"
+    t.binary   "file_data",       :limit => 16777215
     t.datetime "created_at"
     t.datetime "updated_at"
   end
