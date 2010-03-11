@@ -16,7 +16,9 @@ Concerto::Application.routes.draw do |map|
 
   resources :users
 
-  resources :types
+  resources :types do
+    resources :fields
+  end
 
   resources :feeds do
     resources :submissions, :only => [:index, :show, :update]

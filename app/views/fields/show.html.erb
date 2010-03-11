@@ -1,0 +1,13 @@
+<p>
+  <b>Name:</b>
+  <%= @field.name %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%= link_to @field.type.name, @field.type %>
+</p>
+
+
+<%= link_to 'Edit', edit_type_field_path(@type, @field) %> |
+<%= link_to 'Back', type_fields_path(@type) %>
