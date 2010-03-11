@@ -1,4 +1,4 @@
-<% form_for(@template) do |f| %>
+<% form_for(@template, :html => { :multipart => true }) do |f| %>
   <%= f.error_messages %>
 
   <div class="field">
@@ -12,6 +12,11 @@
   <div class="field">
     <%= f.label :is_hidden %><br />
     <%= f.check_box :is_hidden %>
+  </div>
+  <div class="field">
+  <% f.fields_for :medias do |media| %>
+    <%= media.file_field :file %>
+  <% end %>
   </div>
   <div class="actions">
     <%= f.submit %>

@@ -3,7 +3,9 @@ class Content < ActiveRecord::Base
   belongs_to :type
   has_many :submissions, :dependent => :destroy
   has_many :feeds, :through => :submissions
+  has_many :medias, :as => :attachable
   
+  accepts_nested_attributes_for :medias
   accepts_nested_attributes_for :submissions
 
   #Validations

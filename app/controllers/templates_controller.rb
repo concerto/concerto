@@ -25,6 +25,7 @@ class TemplatesController < ApplicationController
   # GET /templates/new.xml
   def new
     @template = Template.new
+    @template.medias.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,6 +42,10 @@ class TemplatesController < ApplicationController
   # POST /templates.xml
   def create
     @template = Template.new(params[:template])
+    @template.medias.each do |media|
+      media.key = "original"
+    end
+    
 
     respond_to do |format|
       if @template.save
