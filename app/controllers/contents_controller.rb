@@ -25,6 +25,7 @@ class ContentsController < ApplicationController
   # GET /contents/new.xml
   def new
     @content = Content.new
+    @content.medias.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -45,6 +46,9 @@ class ContentsController < ApplicationController
       params[:feed_id].values.each do |feed_id|
         @content.feeds << Feed.find(feed_id)
       end
+    end
+    @content.medias.each do |media|
+      media.key = "original"
     end
     
 
