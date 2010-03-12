@@ -42,6 +42,7 @@ class ScreensController < ApplicationController
   # POST /screens.xml
   def create
     @screen = Screen.new(params[:screen])
+    @templates = Template.all
 
     respond_to do |format|
       if @screen.save
