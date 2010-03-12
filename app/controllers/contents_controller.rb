@@ -25,8 +25,6 @@ class ContentsController < ApplicationController
   # GET /contents/new.xml
   def new
     @content = Content.new
-    @feeds = Feed.all
-    @content.submissions.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -43,16 +41,22 @@ class ContentsController < ApplicationController
   # POST /contents.xml
   def create
     @content = Content.new(params[:content])
-    
-    # Copy over the duration to each submission instance
-    # This would be a good place to add code to auto-moderate content
-    # for feed owners or something like that 
-    @content.submissions.each do |submission|
-      submission.duration = @content.duration
+    if params.has_key?("feed_id")
+      params[:feed_id].values.each do |feed_id|
+        @content.feeds << Feed.find(feed_id)
+      end
     end
+    
 
     respond_to do |format|
       if @content.save
+        # Copy over the duration to each submission instance
+        @content.feeds.each do |feed|
+          submission = Submission.new({:feed_id => feed.id, :content_id => @content.id, :duration => @content.duration})
+          #If you are the moderator,
+          #then we might auto approve the submission here
+          submission.save
+        end
         format.html { redirect_to(@content, :notice => 'Content was successfully created.') }
         format.xml  { render :xml => @content, :status => :created, :location => @content }
       else

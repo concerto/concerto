@@ -39,11 +39,9 @@
   </div>
   <% if @content.new_record? %>
   <div class="field">
-    <% @feeds.each do |feed| %>
-      <% f.fields_for :submissions do |submissions| %>
-          <%= submissions.check_box :feed_id, {}, feed.id %>
-        <%= feed.name %><br />
-      <% end %>
+    <% Feed.all.each_with_index do |feed, i| %>
+      <%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed) %>
+      <%= feed.name %><br />
     <% end %>
   </div>
   <% end %>
