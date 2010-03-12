@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  style: MyText
+  top: 9.99
+  left: 9.99
+  bottom: 9.99
+  right: 9.99
+  field: 
+  template: 
+
+two:
+  style: MyText
+  top: 9.99
+  left: 9.99
+  bottom: 9.99
+  right: 9.99
+  field: 
+  template: 

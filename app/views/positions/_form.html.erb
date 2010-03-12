@@ -1,0 +1,31 @@
+<% form_for([@template, @position]) do |f| %>
+  <%= f.error_messages %>
+
+  <div class="field">
+    <%= f.label :style %><br />
+    <%= f.text_area :style %>
+  </div>
+  <div class="field">
+    <%= f.label :top %><br />
+    <%= f.text_field :top %>
+  </div>
+  <div class="field">
+    <%= f.label :left %><br />
+    <%= f.text_field :left %>
+  </div>
+  <div class="field">
+    <%= f.label :bottom %><br />
+    <%= f.text_field :bottom %>
+  </div>
+  <div class="field">
+    <%= f.label :right %><br />
+    <%= f.text_field :right %>
+  </div>
+  <div class="field">
+    <%= f.label :field %><br />
+    <%= f.collection_select :field_id, Field.all, :id, :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

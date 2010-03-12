@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100312005134) do
+ActiveRecord::Schema.define(:version => 20100312040437) do
 
   create_table "contents", :force => true do |t|
     t.string   "name"
@@ -62,6 +62,18 @@ ActiveRecord::Schema.define(:version => 20100312005134) do
     t.integer  "user_id"
     t.integer  "group_id"
     t.boolean  "is_leader"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "positions", :force => true do |t|
+    t.text     "style"
+    t.decimal  "top",         :precision => 6, :scale => 5
+    t.decimal  "left",        :precision => 6, :scale => 5
+    t.decimal  "bottom",      :precision => 6, :scale => 5
+    t.decimal  "right",       :precision => 6, :scale => 5
+    t.integer  "field_id"
+    t.integer  "template_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
