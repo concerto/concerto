@@ -1,6 +1,7 @@
 class Screen < ActiveRecord::Base
   belongs_to :owner, :polymorphic => true
   belongs_to :template
+  has_many :subscriptions, :dependent => :destroy
 
   #Validations
   validates :name, :presence => true

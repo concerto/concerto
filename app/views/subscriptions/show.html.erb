@@ -1,0 +1,23 @@
+<p>
+  <b>Feed:</b>
+  <%= @subscription.feed.name %>
+</p>
+
+<p>
+  <b>Field:</b>
+  <%= @subscription.field.name %>
+</p>
+
+<p>
+  <b>Screen:</b>
+  <%= @subscription.screen.name %>
+</p>
+
+<p>
+  <b>Weight:</b>
+  <%= @subscription.weight %>
+</p>
+
+
+<%= link_to 'Edit', edit_screen_subscription_path(@screen, @subscription) %> |
+<%= link_to 'Back', screen_subscriptions_path(@screen) %>

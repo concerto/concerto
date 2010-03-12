@@ -3,7 +3,9 @@ Concerto::Application.routes.draw do |map|
 
   resources :templates
 
-  resources :screens
+  resources :screens do
+    resources :subscriptions
+  end
 
   resources :groups do
     resources :memberships, :only => [:create, :update, :destroy] do

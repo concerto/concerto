@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  feed: 
+  field: 
+  screen: 
+  weight: 1
+
+two:
+  feed: 
+  field: 
+  screen: 
+  weight: 1

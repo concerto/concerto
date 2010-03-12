@@ -2,6 +2,7 @@ class Feed < ActiveRecord::Base
   belongs_to :group
   has_many :submissions
   has_many :contents, :through => :submissions
+  has_many :subscriptions, :dependent => :destroy
 
   #Scoped relations for content approval states
   has_many :approved_contents, :through => :submissions, :source => :content, :conditions => {"submissions.moderation_flag" => true}

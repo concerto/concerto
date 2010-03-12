@@ -1,0 +1,19 @@
+<% form_for([@screen, @subscription]) do |f| %>
+  <%= f.error_messages %>
+
+  <div class="field">
+    <%= f.label :feed %><br />
+    <%= f.collection_select :feed_id, Feed.all, :id, :name %>
+  </div>
+  <div class="field">
+    <%= f.label :field %><br />
+    <%= f.collection_select :field_id, Field.all, :id, :name %>
+  </div>
+  <div class="field">
+    <%= f.label :weight %><br />
+    <%= f.text_field :weight %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

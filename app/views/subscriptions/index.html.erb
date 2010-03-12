@@ -1,0 +1,27 @@
+<h1>Listing <%= @screen.name %> subscriptions</h1>
+
+<table>
+  <tr>
+    <th>Feed</th>
+    <th>Field</th>
+    <th>Weight</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @subscriptions.each do |subscription| %>
+  <tr>
+    <td><%= subscription.feed.name %></td>
+    <td><%= subscription.field.name %></td>
+    <td><%= subscription.weight %></td>
+    <td><%= link_to 'Show', screen_subscription_path(@screen, subscription) %></td>
+    <td><%= link_to 'Edit', edit_screen_subscription_path(@screen, subscription) %></td>
+    <td><%= link_to 'Destroy', [@screen, subscription], :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New subscription', new_screen_subscription_path(@screen) %>

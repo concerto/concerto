@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100311213738) do
+ActiveRecord::Schema.define(:version => 20100312005134) do
 
   create_table "contents", :force => true do |t|
     t.string   "name"
@@ -83,6 +83,15 @@ ActiveRecord::Schema.define(:version => 20100311213738) do
     t.boolean  "moderation_flag"
     t.integer  "moderator_id"
     t.integer  "duration"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "subscriptions", :force => true do |t|
+    t.integer  "feed_id"
+    t.integer  "field_id"
+    t.integer  "screen_id"
+    t.integer  "weight"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
