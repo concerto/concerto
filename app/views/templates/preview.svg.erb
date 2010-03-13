@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink" height="100%" width="100%">
+     <g>
+        <image xlink:href="<%= url_for @media %>" height="100%" width="100%"/>
+        <% @template.positions.each do |position| %>
+        <g>
+          <rect x="<%= 100*position.left %>%" y="<%= 100*position.top %>%"
+                width="<%= 100*position.width %>%" height="<%= 100*position.height %>%" 
+                style="fill:grey; stroke:none; fill-opacity:0.6;"/>
+          <text y="<%= 50*(position.top + position.bottom)+4%>%" x="<%= 50*(position.left + position.right)%>%" 
+                style="fill:black; stroke:black;" font-size="300%" text-anchor="middle">
+                  <%= position.field.name %>
+          </text>
+        </g>
+        <% end %>
+        </g>
+</svg>

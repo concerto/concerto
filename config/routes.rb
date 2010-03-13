@@ -3,6 +3,9 @@ Concerto::Application.routes.draw do |map|
 
   resources :templates do
     resources :positions
+    member do
+      get :preview
+    end
   end
 
   resources :screens do

@@ -36,6 +36,9 @@ class TemplatesController < ApplicationController
   # GET /templates/1/edit
   def edit
     @template = Template.find(params[:id])
+    if(@template.medias.empty?)
+      @template.medias.build
+    end
   end
 
   # POST /templates
@@ -62,6 +65,9 @@ class TemplatesController < ApplicationController
   # PUT /templates/1.xml
   def update
     @template = Template.find(params[:id])
+    @template.medias.each do |media|
+      media.key = "original"
+    end
 
     respond_to do |format|
       if @template.update_attributes(params[:template])
@@ -83,6 +89,50 @@ class TemplatesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(templates_url) }
       format.xml  { head :ok }
+    end
+  end
+  
+  # GET /template/1/preview
+  def preview
+    require 'RMagick'
+    
+    @template = Template.find(params[:id])
+    @media = @template.medias.original.first
+    @image = Magick::Image.from_blob(@media.file_contents).first
+    @height = @image.rows
+    @width = @image.columns
+    
+    if([Mime::JPG, Mime::PNG, Mime::HTML].include?(request.format))
+      dw = Magick::Draw.new
+      @template.positions.each do |position|
+        #Draw the rectangle
+        dw.fill("grey")
+        dw.stroke_opacity(0)
+        dw.fill_opacity(0.6)
+        dw.rectangle(@width*position.left, @height*position.top, @width*position.right, @height*position.bottom)
+        
+        #Layer the field name
+        dw.stroke("black")
+        dw.fill("black")
+        dw.text_anchor(Magick::MiddleAnchor)
+        dw.opacity(1)
+        dw.pointsize = 100
+        dw.text((@width*(position.left + position.right)/2),(@height*(position.top + position.bottom)/2+40),position.field.name)      
+      end
+      dw.draw(@image)
+      
+      case request.format
+      when Mime::JPG
+        @image.format = "JPG"
+      when Mime::PNG
+        @image.format = "PNG"
+      end
+    
+      send_data @image.to_blob, :filename => "#{@template.name.underscore}.#{@image.format.downcase}", :type => @image.mime_type, :disposition => 'inline'
+    else
+      respond_to do |format|
+        format.svg
+      end
     end
   end
 end

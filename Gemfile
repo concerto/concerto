@@ -11,6 +11,9 @@ gem "rails", "3.0.0.beta"
 # Rails has selected mysql.
 gem "mysql", :require => "mysql"
 
+#RMagick is used for image resizing and processing
+gem "rmagick", ">= 2.12.2"
+
 ## Bundle the gems you use:
 # gem "bj"
 # gem "hpricot", "0.6"
