@@ -5,7 +5,7 @@ class FeedsController < ApplicationController
     @feeds = Feed.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html { render :layout => 'splitview' } # index.html.erb
       format.xml  { render :xml => @feeds }
     end
   end

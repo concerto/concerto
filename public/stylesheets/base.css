@@ -52,8 +52,9 @@ small { font-size:0.6em; }
 /*								Master Layout								*/
 /*##########################################################################*/
 
-/*##########  PAGE SHIFT FOR GLOBAL LOGIN  ##########*/
+/*##########  PAGE OFFSET CLASSES  ##########*/
 .std-offset { padding:105px 14px 10px 14px; }
+.SV-offset { padding-top:65px; }
 
 
 /*##########################################################################*/
@@ -61,7 +62,7 @@ small { font-size:0.6em; }
 /*##########################################################################*/
 
 /*##########  STRUCTURE  ##########*/
-#TM { position:absolute; z-index:50; width:100%; height:69px; top:0px; left:0px; background:url(../images/layout/TM_bg.png) top left repeat-x; }
+#TM { position:absolute; z-index:50; width:100%; top:0px; left:0px; background:url(../images/layout/TM_bg.png) top left repeat; }
 a#TM-logobutton { z-index:100; width:96px; height:88px; background:url(../images/layout/TM_logobutton.png) top left no-repeat; background-position:0px 0px; border:0px; display:block; position:absolute; top:0px; left:0px; }
 a#TM-logobutton:hover { background-position:-96px 0px; }
 table.TM-sec { height:69px; float:left; margin:0px; padding:0 4px; }
@@ -90,6 +91,15 @@ ul.TM-buttons li a:active{ color:#0099cc; background-position:left -66px; }
 ul.TM-buttons li a:active span{ background-position:right -66px; }
 ul.TM-buttons li.selected a { text-decoration:none;text-shadow:0 -0.15em #333; color:#FFF; background-position:0 bottom; }
 ul.TM-buttons li.selected a span { background-position:right bottom; }
+
+
+/*##########################################################################*/
+/*							Split-View Interface							*/
+/*##########################################################################*/
+
+/*##########  BASIC LAYOUT  ##########*/
+#SV-left { position:absolute; top:0px; left:0px; width:287px; background:#eee; overflow-y:auto; overflow-x:hidden; bottom:0px; }
+#SV-right { overflow:auto; position:absolute; top:0px; left:287px; min-width:600px; bottom:0px; right:0px; }
 
 
 /*##########################################################################*/
