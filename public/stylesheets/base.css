@@ -54,7 +54,7 @@ small { font-size:0.6em; }
 
 /*##########  PAGE OFFSET CLASSES  ##########*/
 .std-offset { padding:105px 14px 10px 14px; }
-.SV-offset { padding-top:90px; }
+.SV-offset { padding-top:30px; }
 
 
 /*##########################################################################*/
@@ -98,8 +98,13 @@ ul.TM-buttons li.selected a span { background-position:right bottom; }
 /*##########################################################################*/
 
 /*##########  BASIC LAYOUT  ##########*/
-#SV-left { position:absolute; top:0px; left:0px; width:287px; background:#eee; overflow-y:auto; overflow-x:hidden; bottom:0px; }
-#SV-right { overflow:auto; position:absolute; top:0px; left:287px; min-width:600px; bottom:0px; right:0px; }
+#SV-left { position:absolute; top:65px; left:0px; width:287px; background:url(../images/layout/sv_left_bg.png) top right repeat-y; /*#e4ebf7;*/ overflow-y:auto; overflow-x:hidden; bottom:0px; }
+#SV-left ul { padding-left:20px; }
+#SV-left ul li { width:267px; margin-bottom:6px; }
+#SV-left ul li a { color:#006699; padding:8px 16px; display:block; border:solid 1px transparent; border-top-left-radius:50px; border-bottom-left-radius:50px; -moz-border-radius-topleft:50px; -webkit-border-top-left-radius:50px; -moz-border-radius-bottomleft:50px; -webkit-border-bottom-left-radius:50px; }
+#SV-left ul li a:hover { background:#006699; color:#FFF; border:solid 1px #006699; }
+#SV-left ul li.selected a { color:#003366; background:#FFF; border:solid 1px #FFF; -webkit-box-shadow: 10px 4px 8px #669999; -moz-box-shadow: 10px 4px 8px #669999; }
+#SV-right { overflow:auto; position:absolute; top:65px; left:287px; min-width:600px; bottom:0px; right:0px; }
 
 
 /*##########################################################################*/
