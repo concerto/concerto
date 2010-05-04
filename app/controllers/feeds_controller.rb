@@ -16,7 +16,7 @@ class FeedsController < ApplicationController
     @feed = Feed.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { render :layout => 'splitview' } # show.html.erb
       format.xml  { render :xml => @feed }
     end
   end

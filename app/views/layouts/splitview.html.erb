@@ -10,7 +10,15 @@
 <%= render :partial => "elements/topmenu" %>
 <div id="main" class="sv-offset">
 	<p class="notice"><%= notice %></p>
-	<%= yield %>
+        <div id="SV-left" class="SV-offset">
+        	<br />
+		<% if content_for?(:left_sidebar) %>
+			<%= yield(:left_sidebar) %>
+		<% end %>
+	</div>
+	<div id="SV-right" class="SV-offset">
+		<%= yield %>
+	</div>
 </div>
 </body>
 </html>

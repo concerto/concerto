@@ -1,3 +1,6 @@
+<% content_for :left_sidebar do %>
+  <%= render :partial => 'left_menu', :locals => { :feeds => Feed.all, :current => @feed } %>
+<% end %>
 <p>
   <b>Name:</b>
   <%= @feed.name %>
