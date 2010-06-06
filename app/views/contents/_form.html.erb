@@ -1,4 +1,4 @@
-<% form_for(@content, :html => { :multipart => true }) do |f| %>
+<%= form_for(@content, :html => { :multipart => true }) do |f| %>
   <%= f.error_messages %>
 
   <div class="field">
@@ -46,7 +46,7 @@
   </div>
   <% end %>
   <div class="field">
-   <% f.fields_for :medias do |media| %>
+   <%= f.fields_for :medias do |media| %>
     <%= media.file_field :file %>
    <% end %>
   </div>

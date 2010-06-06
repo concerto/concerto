@@ -16,9 +16,9 @@
 			<td rowspan="2" class="TM-secline-right"></td>
 			<td>
 				<ul class="TM-buttons">
-					<li<% if controller.controller_name == 'contents' && controller.action_name == 'new' %> class="selected"<% end %>><% link_to new_content_path do %><span>Add New</span><% end %></li>
-					<li<% if controller.controller_name == 'feeds' %> class="selected"<% end %>><% link_to feeds_path do %><span>Feeds</span><% end %></li>
-					<li<% if controller.controller_name == 'screens' %> class="selected"<% end %>><% link_to screens_path do %><span>Screens</span><% end %></li>
+					<li<% if controller.controller_name == 'contents' && controller.action_name == 'new' %> class="selected"<% end %>><%= link_to new_content_path do %><span>Add New</span><% end %></li>
+					<li<% if controller.controller_name == 'feeds' %> class="selected"<% end %>><%= link_to feeds_path do %><span>Feeds</span><% end %></li>
+					<li<% if controller.controller_name == 'screens' %> class="selected"<% end %>><%= link_to screens_path do %><span>Screens</span><% end %></li>
 				</ul>
 			</td>
 			<td rowspan="2" class="TM-secline-right"></td>
@@ -33,7 +33,7 @@
 		<tr class="TM-sectop">
 			<td>
 				<ul class="TM-buttons">
-					<li<% if controller.controller_name == 'groups' %> class="selected"<% end %>><% link_to groups_path do %><span>Groups</span><% end %></li>
+					<li<% if controller.controller_name == 'groups' %> class="selected"<% end %>><%= link_to groups_path do %><span>Groups</span><% end %></li>
 				</ul>
 			</td>
 			<td rowspan="2" class="TM-secline-right"></td>

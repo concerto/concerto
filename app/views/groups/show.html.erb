@@ -26,7 +26,7 @@
 </p>
 <p>
   <b>Add Member:</b>
-  <% form_for [@group, @group.memberships.new] do |f| %>
+  <%= form_for([@group, @group.memberships.new]) do |f| %>
     <%= f.collection_select :user_id, User.all - @group.users, :id, :name %>
     <%= f.submit %>
   <% end %>
