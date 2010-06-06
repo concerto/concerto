@@ -1,0 +1,10 @@
+<%
+#Default values
+current ||= nil?
+feeds ||= Feed.all
+%>
+<ul>
+  <% feeds.each do |feed| %>
+    <li <% if current == feed %> class="selected"<% end %>><%= link_to feed.name, feed %></li>
+  <% end %>
+</ul>
