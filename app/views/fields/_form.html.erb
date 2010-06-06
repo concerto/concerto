@@ -1,5 +1,14 @@
 <%= form_for([@type, @field]) do |f| %>
-  <%= f.error_messages %>
+  <% if @field.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@field.errors.count, "error") %> prohibited this field from being saved:</h2>
+    <ul>
+      <% @field.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
 
   <div class="field">
     <%= f.label :name %><br />

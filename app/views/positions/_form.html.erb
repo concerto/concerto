@@ -1,5 +1,14 @@
 <%= form_for([@template, @position]) do |f| %>
-  <%= f.error_messages %>
+  <% if @position.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@position.errors.count, "error") %> prohibited this position from being saved:</h2>
+    <ul>
+      <% @position.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
 
   <div class="field">
     <%= f.label :style %><br />

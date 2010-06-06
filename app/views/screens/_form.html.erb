@@ -1,5 +1,14 @@
 <%= form_for(@screen) do |f| %>
-  <%= f.error_messages %>
+  <% if @screen.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@screen.errors.count, "error") %> prohibited this screen from being saved:</h2>
+    <ul>
+      <% @screen.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
 
   <div class="field">
     <%= f.label :name %><br />

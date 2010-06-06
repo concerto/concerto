@@ -1,5 +1,14 @@
 <%= form_for(@feed) do |f| %>
-  <%= f.error_messages %>
+  <% if @feed.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@feed.errors.count, "error") %> prohibited this feed from being saved:</h2>
+    <ul>
+      <% @feed.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
 
   <div class="field">
     <%= f.label :name %><br />

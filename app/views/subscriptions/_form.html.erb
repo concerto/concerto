@@ -1,5 +1,14 @@
 <%= form_for([@screen, @subscription]) do |f| %>
-  <%= f.error_messages %>
+  <% if @subscription.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
+    <ul>
+      <% @subscription.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
 
   <div class="field">
     <%= f.label :feed %><br />
