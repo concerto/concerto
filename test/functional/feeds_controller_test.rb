@@ -12,32 +12,32 @@ class FeedsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  #test "should create feed" do
-  #  assert_difference('Feed.count') do
-  #    post :create, :feed => feeds(:one).attributes
-  #  end
+  test "should create feed" do
+    assert_difference('Feed.count') do
+      post :create, :feed => {:name => "Test feed", :group => groups(:wtg)}
+    end
 
-  #  assert_redirected_to feed_path(assigns(:feed))
-  #end
+    assert_redirected_to feed_path(assigns(:feed))
+  end
 
   test "should show feed" do
-    get :show, :id => feeds(:one).to_param
+    get :show, :id => feeds(:service).to_param
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, :id => feeds(:one).to_param
+    get :edit, :id => feeds(:service).to_param
     assert_response :success
   end
 
-  #test "should update feed" do
-  #  put :update, :id => feeds(:one).to_param, :feed => feeds(:one).attributes
-  #  assert_redirected_to feed_path(assigns(:feed))
-  #end
+  test "should update feed" do
+    put :update, :id => feeds(:service).to_param, :feed => feeds(:service).attributes
+    assert_redirected_to feed_path(assigns(:feed))
+  end
 
   test "should destroy feed" do
     assert_difference('Feed.count', -1) do
-      delete :destroy, :id => feeds(:one).to_param
+      delete :destroy, :id => feeds(:service).to_param
     end
 
     assert_redirected_to feeds_path

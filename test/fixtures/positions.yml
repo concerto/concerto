@@ -6,8 +6,8 @@ one:
   left: 9.99
   bottom: 9.99
   right: 9.99
-  field: 
-  template: 
+  field: one
+  template: one
 
 two:
   style: MyText
@@ -15,5 +15,5 @@ two:
   left: 9.99
   bottom: 9.99
   right: 9.99
-  field: 
-  template: 
+  field: two
+  template: one
