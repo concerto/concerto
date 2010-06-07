@@ -1,22 +1,22 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one_one:
-  content: one
-  feed: one
+approved_ticker:
+  content: old_ticker
+  feed: service
   moderation_flag: true
   moderator: katie
   duration: 1
 
-old_one:
-  content: old
-  feed: one
+pending_ticker:
+  content: old_ticker
+  feed: service
   moderation_flag: 
   moderator: 
   duration: 1
 
-one_two:
-  content: one
-  feed: two
+denied_ticker:
+  content: sample_ticker
+  feed: announcements
   moderation_flag: false
   moderator: kristen
   duration: 1

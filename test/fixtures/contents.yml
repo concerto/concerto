@@ -1,31 +1,31 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  name: MyString
+sample_ticker:
+  name: Welcome
   mime_type: text/plain
   duration: 5
   start_time: 200-02-19 21:13:35
   end_time: 2100-02-19 21:13:35
-  data: MyText
+  data: Welcome to Concerto Digital Signage!
   user: katie
-  type: text
+  type: ticker
 
-old:
-  name: Expired Content
-  mime_type: MyString
-  duration: 1
+old_ticker:
+  name: Concerto 1 is released!
+  mime_type: text/plain
+  duration: 7
   start_time: 2000-02-19 21:13:35
   end_time: 2001-02-19 21:13:35
-  data: MyText
+  data: Enjoy the new connected digital eco-system
   user: kristen
-  type: text
+  type: ticker
   
-new:
-  name: Future Content
-  mime_type: MyString
+futuristic_ticker:
+  name: The Future
+  mime_type: text/plain
   duration: 1
   start_time: 2100-02-19 21:13:35
   end_time: 2101-02-19 21:13:35
-  data: MyText
+  data: Enjoy Concerto 5!
   user: katie
-  type: text
+  type: ticker

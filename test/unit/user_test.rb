@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  #Test for duplicate names
+  # Test for duplicate names
   test "username cannot be duplicated" do
     u = users(:katie)
     user = User.new({:username => u.username, :email => "test@a.com"})
@@ -10,7 +10,8 @@ class UserTest < ActiveSupport::TestCase
     user.username = "Fooasdasdasda"
     assert user.valid?, "Unique username is OK"
   end
-  #Test for duplicate email
+  
+  # Test for duplicate email
   test "email cannot be duplicated" do
     u = users(:katie)
     user = User.new({:username => "Test123", :email => u.email})
@@ -20,10 +21,8 @@ class UserTest < ActiveSupport::TestCase
     assert user.valid?, "Unique emails is OK"
   end
 
-  test "user has content" do  #Kind of testing the setup, not necessarily the app
-    assert users(:katie).contents.include?(contents(:one))
-  end
-
+  # Test the in_group? functionality which should determine
+  # if a user is in a group or not.
   test "users in groups?" do
     g = groups(:rpitv)
     assert users(:katie).in_group?(g), "Katie is in RPITV"
