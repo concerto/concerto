@@ -1,13 +1,13 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  name: MyString
-  description: MyText
+service:
+  name: Service Events
+  description: This feed is for community service related announcments
   parent_id:
   group: wtg
 
-two:
-  name: MyString1
-  description: MyText
+announcements:
+  name: Announcements
+  description: Important Organizational Announcements
   parent_id:
   group: wtg
