@@ -35,7 +35,7 @@ Concerto::Application.routes.draw do |map|
   #  feeds.resources :submissions
   #end
 
-  resources :contents, :as => "content"
+  resources :contents, :path => "content"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
