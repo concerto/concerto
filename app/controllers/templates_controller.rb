@@ -93,6 +93,7 @@ class TemplatesController < ApplicationController
   end
   
   # GET /template/1/preview
+  # Generate a preview of the template based on the request format.
   def preview
     require 'RMagick'
     

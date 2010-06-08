@@ -10,16 +10,19 @@ class User < ActiveRecord::Base
   validates :username, :presence => true, :uniqueness => true
   validates :email, :presence => true, :uniqueness => true
   
+  # Use the username instead of the id in URL's and stuff
   def to_param
     username
   end
 
-  #A simple name
+  # A simple name, combining the first and last name
+  # We should probably expand this so it doesn't look stupid
+  # if people only have a first name or only have a last name
   def name
     first_name + " " + last_name
   end
 
-  #If a user is in a group
+  # Quickly test if a user belongs to a group
   def in_group?(group)
     groups.include?(group)
   end
