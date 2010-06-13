@@ -1,0 +1,12 @@
+<% if content_for?(:js) %>
+  <script type="text/javascript">
+    <%= yield(:js) %>
+  </script>
+<% end %>
+<% if content_for?(:js_ready) %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      <%= yield(:js_ready) %>
+    });
+  </script>
+<% end %>
