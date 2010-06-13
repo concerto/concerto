@@ -8,7 +8,7 @@ approved_ticker:
   duration: 1
 
 pending_ticker:
-  content: old_ticker
+  content: sample_ticker
   feed: service
   moderation_flag: 
   moderator: 
