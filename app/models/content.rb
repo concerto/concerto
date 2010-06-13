@@ -13,6 +13,7 @@ class Content < ActiveRecord::Base
   validates :mime_type, :presence => true
   validates :type, :presence => true, :associated => true
   validates :user, :presence => true, :associated => true
+  validates :duration, :numericality => { :greater_than => 0 }
 
 
   #Easily query for active, expired, or future content
