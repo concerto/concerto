@@ -12,13 +12,13 @@ class FieldsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  #test "should create field" do
-  #  assert_difference('Field.count') do
-  #    post :create, :type_id => types(:ticker).id, :field => fields(:one).attributes
-  #  end
-  #
-  #  assert_redirected_to field_path(assigns(:field))
-  #end
+  test "should create field" do
+    assert_difference('Field.count') do
+      post :create, :type_id => types(:ticker).id, :field => fields(:one).attributes
+    end
+  
+    assert_redirected_to type_field_path(types(:ticker), assigns(:field))
+  end
 
   test "should show field" do
     get :show, :type_id => types(:ticker).id, :id => fields(:one).to_param
@@ -30,16 +30,16 @@ class FieldsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  #test "should update field" do
-  #  put :update, :id => fields(:one).to_param, :field => fields(:one).attributes, :type_id => types(:ticker).id
-  #  assert_redirected_to field_path(assigns(:field))
-  #end
+  test "should update field" do
+    put :update, :id => fields(:one).to_param, :field => fields(:one).attributes, :type_id => types(:ticker).id
+    assert_redirected_to type_field_path(types(:ticker), assigns(:field))
+  end
 
-  #test "should destroy field" do
-  #  assert_difference('Field.count', -1) do
-  #    delete :destroy, :type_id => types(:ticker).id, :id => fields(:one).to_param
-  #  end
-  #
-  #  assert_redirected_to fields_path
-  #end
+  test "should destroy field" do
+    assert_difference('Field.count', -1) do
+      delete :destroy, :type_id => types(:ticker).id, :id => fields(:one).to_param
+    end
+  
+    assert_redirected_to type_fields_path(types(:ticker))
+  end
 end

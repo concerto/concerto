@@ -12,13 +12,13 @@ class SubscriptionsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  #test "should create subscription" do
-  #  assert_difference('Subscription.count') do
-  #    post :create, :subscription => subscriptions(:one).attributes
-  #  end
-  #
-  #  assert_redirected_to subscription_path(assigns(:subscription))
-  #end
+  test "should not create subscription" do
+    assert_no_difference('Subscription.count') do
+      post :create, :screen_id => screens(:one).to_param, :subscription => subscriptions(:one).attributes
+    end
+  
+    #assert_redirected_to screen_subscription_path(screens(:one), assigns(:subscription))
+  end
 
   test "should show subscription" do
     get :show, :id => subscriptions(:one).to_param, :screen_id => screens(:one).to_param
@@ -30,16 +30,16 @@ class SubscriptionsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  #test "should update subscription" do
-  #  put :update, :id => subscriptions(:one).to_param, :subscription => subscriptions(:one).attributes
-  #  assert_redirected_to subscription_path(assigns(:subscription))
-  #end
+  test "should update subscription" do
+    put :update, :screen_id => screens(:one).to_param, :id => subscriptions(:one).to_param, :subscription => subscriptions(:one).attributes
+    assert_redirected_to screen_subscription_path(screens(:one), assigns(:subscription))
+  end
 
-  #test "should destroy subscription" do
-  #  assert_difference('Subscription.count', -1) do
-  #    delete :destroy, :id => subscriptions(:one).to_param
-  #  end
-  #
-  #  assert_redirected_to subscriptions_path
-  #end
+  test "should destroy subscription" do
+    assert_difference('Subscription.count', -1) do
+      delete :destroy, :screen_id => screens(:one).to_param, :id => subscriptions(:one).to_param
+    end
+  
+    assert_redirected_to screen_subscriptions_path(screens(:one))
+  end
 end
