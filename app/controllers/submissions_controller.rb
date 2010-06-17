@@ -8,21 +8,29 @@ class SubmissionsController < ApplicationController
     @submission = Submission.find(params[:id])
   end
 
-  # PUT /feeds/1/submissions/1
-  # PUT /feeds/1/submissions/1.xml
-  def update
-    @submission = Submission.find(params[:id])
-
+  # PUT /feeds/1/submission/1/approve
+  def approve
+    submission = Submission.find(params[:id])
     respond_to do |format|
-      if @submission.update_attributes(params[:submission])
-        format.html { redirect_to(:back, :notice => 'Content was successfully updated.') }
-        format.xml  { head :ok }
+      if submission.approve(User.find(params[:user_id]), params[:submission][:duration])
+        format.html { redirect_to(feed_submissions_path, :notice => 'Content was approved.') }
       else
-        format.html { redirect_to :back }
-        format.xml  { render :xml => @feed.errors, :status => :unprocessable_entity }
+        format.html { redirect_to(feed_submission_path, :notice => 'Content failed to approved.') }
       end
     end
   end
-
+  
+  # PUT /feeds/1/submission/1/deny
+  def deny
+    submission = Submission.find(params[:id])
+    respond_to do |format|
+      if submission.deny(User.find(params[:user_id]))
+        format.html { redirect_to(feed_submissions_path, :notice => 'Content was denied.') }
+      else
+        logger.debug submission.errors
+        format.html { redirect_to(feed_submission_path, :notice => 'Content failed to deny.') }
+      end
+    end
+  end
 
 end

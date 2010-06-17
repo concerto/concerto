@@ -28,7 +28,12 @@ Concerto::Application.routes.draw do |map|
   end
 
   resources :feeds do
-    resources :submissions, :only => [:index, :show, :update]
+    resources :submissions, :only => [:index, :show] do
+      member do
+        put :approve
+        put :deny
+      end
+    end
   end
 
   #map.resources :feeds do |feeds|

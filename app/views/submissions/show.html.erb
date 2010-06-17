@@ -17,3 +17,10 @@
   <b>Approved?:</b>
   <%= @submission.moderation_flag %>
 </p>
+
+<hr />
+<%= render :partial => 'approve_form', :locals => { :submission => @submission } %>
+<hr />
+<%= render :partial => 'deny_form', :locals => { :submission => @submission } %>
+
+

@@ -1,0 +1,5 @@
+<%= form_for([submission.feed, submission], :url => deny_feed_submission_path(submission.feed, @submission)) do |f| %>
+  <%= select_tag "user_id", options_from_collection_for_select(User.all, "id", "name") %>
+  <br />
+  <%= f.submit "Deny" %>
+<% end %>

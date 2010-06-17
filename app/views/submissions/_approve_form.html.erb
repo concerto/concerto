@@ -1,0 +1,7 @@
+<%= form_for([submission.feed, submission], :url => approve_feed_submission_path(submission.feed, submission)) do |f| %>
+  <%= select_tag "user_id", options_from_collection_for_select(User.all, "id", "name") %>
+  <br />
+  <%= f.label :duration %>
+  <%= f.number_field :duration %>
+  <%= f.submit "Approve" %>
+<% end %>
