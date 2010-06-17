@@ -103,5 +103,30 @@ class SubmissionTest < ActiveSupport::TestCase
     assert_equal s.moderator, users(:katie)
     assert_equal s.duration, s.content.duration
   end
+  
+  # Approved or denied content requires
+  # a moderator to be present.
+  test "moderated submission needs moderator" do
+    s = submissions(:pending_ticker)
+    assert s.is_pending?
+    
+    assert !s.approve(nil)
+    assert !s.is_approved?
+    
+    assert s.approve(users(:katie))
+    assert s.is_approved?
+    
+    s.moderator = nil
+    assert s.invalid?
+    
+    assert !s.deny(nil)
+    assert !s.is_denied?
+    
+    assert s.deny(users(:katie))
+    assert s.is_denied?
+    
+    s.moderator = nil
+    assert s.invalid?
+  end
 
 end

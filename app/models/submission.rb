@@ -6,7 +6,7 @@ class Submission < ActiveRecord::Base
   #Validations
   validates :feed, :presence => true, :associated => true
   validates :content, :presence => true, :associated => true
-  validates :moderator, :associated => true
+  validates :moderator, :presence => { :unless => :is_pending? }, :associated => true
   validates :duration, :numericality => { :greater_than => 0 }
   validates_uniqueness_of :content_id, :scope => :feed_id  #Enforce content can only be submitted to a feed once
 
@@ -37,14 +37,24 @@ class Submission < ActiveRecord::Base
   # affilailated with a moderator.  Duration can be
   # overridden as needed.
   def approve(moderator, duration = self.duration)
-    update_attributes({:moderation_flag => true, :duration => duration, :moderator => moderator})
+     if update_attributes({:moderation_flag => true, :duration => duration, :moderator => moderator})
+       true
+     else
+       reload
+       false
+     end
   end
   
   # Deny a piece of content on a feed.  Must be affiliated
   # with a moderator.  Duration is not changed, because the
   # the content is being denied.
   def deny(moderator)
-    update_attributes({:moderation_flag => false, :moderator => moderator})
+    if update_attributes({:moderation_flag => false, :moderator => moderator})
+      true
+    else
+      reload
+      false
+    end
   end
   
   # Resets the moderation state of a content submission to a feed.
