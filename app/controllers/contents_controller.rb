@@ -42,9 +42,9 @@ class ContentsController < ApplicationController
   # POST /contents.xml
   def create
     @content = Content.new(params[:content])
-    @feeds = []
+    @feed_ids = []
     if params.has_key?("feed_id")
-      @feeds = params[:feed_id].values.collect{ |feed_id| Feed.find(feed_id) }
+      @feed_ids = params[:feed_id].values
     end
     @content.medias.each do |media|
       media.key = "original"
@@ -54,12 +54,12 @@ class ContentsController < ApplicationController
     respond_to do |format|
       if @content.save
         # Copy over the duration to each submission instance
-        @feeds.each do |feed|
-          submission = Submission.new({:feed_id => feed.id, :content_id => @content.id, :duration => @content.duration})
+        @feed_ids.each do |feed_id|
+          @content.submissions << Submission.new({:feed_id => feed_id, :duration => @content.duration})
           #If you are the moderator,
           #then we might auto approve the submission here
-          submission.save
         end
+        @content.save #This second save adds the submissions
         format.html { redirect_to(@content, :notice => 'Content was successfully created.') }
         format.xml  { render :xml => @content, :status => :created, :location => @content }
       else
