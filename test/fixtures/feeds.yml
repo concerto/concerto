@@ -11,3 +11,21 @@ announcements:
   description: Important Organizational Announcements
   parent_id:
   group: wtg
+
+boring_announcements:
+  name: Boring Announcements
+  description: Not so exciting organizational announcements
+  parent: announcements
+  group: wtg
+  
+important_announcements:
+  name: Important Announcements
+  description: Really important stuff
+  parent: announcements
+  group: wtg
+  
+sleepy_announcements:
+  name: zZzZzZ
+  description: Announcements that will put you to sleep
+  parent: boring_announcements
+  group: wtg

@@ -12,4 +12,40 @@ class Feed < ActiveRecord::Base
   #Validations
   validates :name, :presence => true, :uniqueness => true
   validates :group, :presence => true, :associated => true
+  
+  #Feed Hierachy
+  belongs_to :parent, :class_name => "Feed"
+  has_many :children, :class_name => "Feed", :foreign_key => "parent_id"
+  scope :roots, where(:parent_id => nil)
+  
+  # Test if this node is a root node or not
+  def is_root?
+    parent_id.nil?
+  end
+  
+  # Collect a list of parent feeds.
+  # Each feed the monkey stops as he climbs
+  # up the tree.
+  # Compliments of DHH http://github.com/rails/acts_as_tree
+  def ancestors
+    node, nodes = self, []
+    nodes << node = node.parent while node.parent
+    nodes
+  end  
+  
+  # Collect recursive list of child feeds.
+  # Every feed the monkey could stop by as he
+  # climbs down a tree.
+  # Compliments of http://github.com/funkensturm/acts_as_category
+  def descendants
+    node, nodes = self, []
+    node.children.each { |child|
+      if !nodes.include?(child) #Try and stop any circular dependencies
+        nodes += [child]
+        nodes += child.descendants
+      end
+    } unless node.children.empty?
+    nodes
+  end
+  
 end
