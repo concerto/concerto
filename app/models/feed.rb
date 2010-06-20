@@ -18,7 +18,7 @@ class Feed < ActiveRecord::Base
   has_many :children, :class_name => "Feed", :foreign_key => "parent_id"
   scope :roots, where(:parent_id => nil)
   
-  # Test if this node is a root node or not
+  # Test if this feed is a root feed or not
   def is_root?
     parent_id.nil?
   end
