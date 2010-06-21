@@ -48,4 +48,15 @@ class Feed < ActiveRecord::Base
     nodes
   end
   
+  # Figure out how deep in the tree
+  # the current feed is.  0 = root
+  def depth
+    ancestors.count
+  end
+  
+  # The group of feeds who share a common parent.
+  def self_and_siblings
+    parent ? parent.children : Feed.roots
+  end
+  
 end

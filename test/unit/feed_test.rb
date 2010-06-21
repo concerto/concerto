@@ -52,7 +52,7 @@ class FeedTest < ActiveSupport::TestCase
     assert !feeds(:boring_announcements).is_root?
   end
   
-  # The ancestor tree is build and in order
+  # The ancestor tree is built and in order
   test "feed ancestors" do
     assert feeds(:service).ancestors.empty?
     
@@ -62,7 +62,7 @@ class FeedTest < ActiveSupport::TestCase
     assert_equal feeds(:sleepy_announcements).ancestors, [feeds(:boring_announcements), feeds(:announcements)]
   end
   
-  # Descendants are build, no order preference
+  # Descendants are built and in order
   test "feed descendants" do
     assert feeds(:service).descendants.empty?
     
@@ -71,6 +71,34 @@ class FeedTest < ActiveSupport::TestCase
     assert feeds(:announcements).descendants.include?(feeds(:sleepy_announcements))
     assert feeds(:announcements).descendants.include?(feeds(:important_announcements))
     
+    feed_list = [feeds(:boring_announcements), feeds(:sleepy_announcements), feeds(:important_announcements)]
+    assert_equal feeds(:announcements).descendants, feed_list
+    
     assert_equal feeds(:boring_announcements).descendants, [feeds(:sleepy_announcements)]
+  end
+  
+  # Test feed depth
+  test "feed depth" do
+    assert_equal feeds(:service).depth, 0
+    assert_equal feeds(:announcements).depth, 0
+    
+    assert_equal feeds(:sleepy_announcements).depth, 2
+  end
+  
+  # Self and siblings works for children and roots
+  test "self and siblings" do
+    roots = Feed.roots
+    roots.each do |root|
+      roots.each do |sibling|
+        assert root.self_and_siblings.include?(sibling)
+      end
+    end
+    
+    assert_equal feeds(:boring_announcements).self_and_siblings.size, 2
+    assert feeds(:boring_announcements).self_and_siblings.include?(feeds(:boring_announcements))
+    assert feeds(:boring_announcements).self_and_siblings.include?(feeds(:important_announcements))
+    
+    assert_equal feeds(:sleepy_announcements).self_and_siblings.size, 1
+    assert feeds(:sleepy_announcements).self_and_siblings.include?(feeds(:sleepy_announcements))
   end
 end
