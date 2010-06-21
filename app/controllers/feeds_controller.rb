@@ -2,7 +2,7 @@ class FeedsController < ApplicationController
   # GET /feeds
   # GET /feeds.xml
   def index
-    @feeds = Feed.all
+    @feeds = Feed.roots
 
     respond_to do |format|
       format.html { render :layout => 'splitview' } # index.html.erb

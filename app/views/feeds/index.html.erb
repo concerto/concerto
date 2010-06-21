@@ -15,7 +15,6 @@
   <tr>
     <td><%= feed.name %></td>
     <td><%= feed.description %></td>
-    <td><%= feed.parent_id %></td>
     <td><%= feed.group.name unless feed.group.nil? %></td>
     <td><%= link_to 'Show', feed %></td>
     <td><%= link_to 'Edit', edit_feed_path(feed) %></td>
