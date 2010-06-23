@@ -1,5 +1,9 @@
-<h1>New content</h1>
+<% content_for :left_sidebar do %>
+<ul>
+  <li><a href="#">Graphics</a></li>
+  <li><a href="#">Text</a></li>
+  <li><a href="#">Ticker</a></li>
+</ul>
+<% end %>
 
 <%= render 'form' %>
-
-<%= link_to 'Back', contents_path %>

@@ -28,7 +28,7 @@ class ContentsController < ApplicationController
     @content.medias.build
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html { render :layout => 'splitview' } # new.html.erb
       format.xml  { render :xml => @content }
     end
   end

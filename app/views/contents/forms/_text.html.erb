@@ -1,0 +1,52 @@
+<%= form_for(@content, :html => { :multipart => true }) do |f| %>
+  <% if @content.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@content.errors.count, "error") %> prohibited this content from being saved:</h2>
+    <ul>
+      <% @content.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :duration %><br />
+    <%= f.text_field :duration, :min => "0" %>
+  </div>
+  <div class="field">
+    <%= f.label :start_time %><br />
+    <%= f.text_field :start_time, :type => "datetime-local" %>
+  </div>
+  <div class="field">
+    <%= f.label :end_time %><br />
+    <%= f.text_field :end_time, :type => "datetime-local" %>
+  </div>
+  <div class="field">
+    <%= f.label :data %><br />
+    <%= f.text_area :data %>
+  </div>
+  <div class="field">
+    <%= f.label :type %><br />
+    <%= f.collection_select :type_id, Type.all, :id, :name %>
+  </div>
+  <div class="field">
+    <%= f.label :user %><br />
+    <%= f.collection_select :user_id, User.all, :id, :name %>
+  </div>
+  <% if @content.new_record? %>
+  <div class="field">
+    <% dfs_tree(Feed.roots).each_with_index do |feed, i| %>
+      <%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed) %>
+      <%= "-" * feed.depth %> <%= feed.name %><br />
+    <% end %>
+  </div>
+  <% end %>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
