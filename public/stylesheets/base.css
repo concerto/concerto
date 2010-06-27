@@ -14,7 +14,7 @@
 /*##########################################################################*/
 
 /*##########  GLOBAL RESET AND MAIN HEADERS ##########*/
-html{color:#000;background:#FFF;font-family:"Lucida Grande",Arial,sans-serif;}
+html{color:#000;background:#eee url(../images/layout/pagebg.gif) center center repeat; font-family:"Lucida Grande",Arial,sans-serif;}
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}
 table{border-collapse:collapse;border-spacing:0;}
 fieldset,img{border:0;}
@@ -55,6 +55,9 @@ small { font-size:0.6em; }
 /*##########  PAGE OFFSET CLASSES  ##########*/
 .std-offset { padding:105px 14px 10px 14px; }
 .SV-offset { padding-top:30px; }
+
+/*##########  CONTENT CELLS  ##########*/
+div.block { background:#FFF; border:solid 1px #cacaca; width:97%; margin:0 auto; -webkit-box-shadow: 0px 3px 1px #cacaca; -webkit-border-radius:6px; }
 
 
 /*##########################################################################*/
