@@ -73,7 +73,7 @@ table.TM-sec { height:69px; float:left; margin:0px; padding:0 4px; }
 .TM-secbot { /* height is 23px, but we don't need to specify that */ }
 tr.TM-sectop td, tr.TM-secbot td { vertical-align:top; padding:0px 6px; }
 tr.TM-sectop td { padding:3px 2px 5px 2px; }
-.TM-secbot h1 { color:#666; font-size:0.6em; font-weight:400; text-shadow:0 0.05em #FFF; padding-top:5px; padding-lefttext-transform:uppercase; letter-spacing:0.3em; text-align:center; }
+.TM-secbot h1 { color:#666; font-size:0.6em; font-weight:400; text-shadow:0 0.05em #FFF; padding-top:5px; padding-left:3px; text-transform:uppercase; letter-spacing:0.3em; text-align:center; }
 .TM-secline-left, .TM-secline-right { background:url(../images/layout/TM_secline.png) top left no-repeat; width:2px; height:69px; padding:0px !important; }
 .TM-secline-right { background-position:-2px 0px; }
 
