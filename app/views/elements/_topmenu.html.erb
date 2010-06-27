@@ -16,8 +16,8 @@
 			<td rowspan="2" class="TM-secline-right"></td>
 			<td>
 				<ul class="TM-buttons">
-					<li<% if controller.controller_name == 'contents' && controller.action_name == 'new' %> class="selected"<% end %>><%= link_to new_content_path do %><span>Add</span><% end %></li>
-					<li<% if controller.controller_name == 'feeds' %> class="selected"<% end %>><%= link_to contents_path do %><span>Moderate</span><% end %></li>
+					<li<% if current_page?(new_content_path) %> class="selected"<% end %>><%= link_to new_content_path do %><span>Add</span><% end %></li>
+					<li<% if controller.controller_name == 'contents' %> class="selected"<% end %>><%= link_to contents_path do %><span>Moderate</span><% end %></li>
 					<li<% if controller.controller_name == 'contents' %> class="selected"<% end %>><%= link_to contents_path do %><span>Browse</span><% end %></li>
 				</ul>
 			</td>
