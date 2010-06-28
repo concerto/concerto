@@ -35,10 +35,6 @@
     <%= f.text_area :data %>
   </div>
   <div class="field">
-    <%= f.label :user %><br />
-    <%#= f.text_field :user %>
-  </div>
-  <div class="field">
     <%= f.label :type %><br />
     <%= f.collection_select :type_id, Type.all, :id, :name %>
   </div>
@@ -48,9 +44,9 @@
   </div>
   <% if @content.new_record? %>
   <div class="field">
-    <% Feed.all.each_with_index do |feed, i| %>
+    <% dfs_tree(Feed.roots).each_with_index do |feed, i| %>
       <%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed) %>
-      <%= feed.name %><br />
+      <%= "-" * feed.depth %> <%= feed.name %><br />
     <% end %>
   </div>
   <% end %>
