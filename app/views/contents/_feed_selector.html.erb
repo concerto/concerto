@@ -1,0 +1,6 @@
+<div class="field">
+  <% dfs_tree(Feed.roots).each_with_index do |feed, i| %>
+    <%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed) %>
+    <%= "-" * feed.depth %> <%= feed.name %><br />
+  <% end %>
+</div>

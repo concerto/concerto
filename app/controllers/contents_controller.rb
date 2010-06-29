@@ -1,4 +1,17 @@
 class ContentsController < ApplicationController
+  before_filter :get_content_const, :only => [:new, :create]
+  
+  # Grab the constent object for the type of
+  # content we're working with.  Probably needs
+  # additional error checking.
+  def get_content_const
+    begin
+      @content_const = params[:type].camelize.constantize
+    rescue
+      @content_const = nil
+    end
+  end
+
   # GET /contents
   # GET /contents.xml
   def index
@@ -24,12 +37,17 @@ class ContentsController < ApplicationController
   # GET /contents/new
   # GET /contents/new.xml
   def new
-    @content = Content.new
-    @content.medias.build
-
-    respond_to do |format|
-      format.html { render :layout => 'splitview' } # new.html.erb
-      format.xml  { render :xml => @content }
+    if !content_types.map{|c| c.model_name.singular}.include?(params[:type])
+      redirect_to new_content_path(:type=>'graphic')
+    else
+      type = params[:type].camelize
+      
+      @content = @content_const.new({:type => type})
+      
+      respond_to do |format|
+        format.html { render :layout => 'splitview' } # new.html.erb
+        format.xml  { render :xml => @content }
+      end
     end
   end
 
@@ -41,15 +59,11 @@ class ContentsController < ApplicationController
   # POST /contents
   # POST /contents.xml
   def create
-    @content = Content.new(params[:content])
+    @content =  @content_const.new(params[@content_const.model_name.singular])
     @feed_ids = []
     if params.has_key?("feed_id")
       @feed_ids = params[:feed_id].values
-    end
-    @content.medias.each do |media|
-      media.key = "original"
-    end
-    
+    end    
 
     respond_to do |format|
       if @content.save

@@ -1,9 +1,16 @@
 <% content_for :left_sidebar do %>
 <ul>
-  <li><a href="#">Graphics</a></li>
-  <li><a href="#">Text</a></li>
-  <li><a href="#">Ticker</a></li>
+  <% content_types.each do |subclass| %>
+    <li <% if @content.type == subclass %> class="selected"<% end %>><%= link_to subclass.model_name.human, new_content_path(:type=>subclass.model_name.singular) %></li>
+  <% end %>
 </ul>
 <% end %>
-
-<%= render 'form' %>
+<%= form_for(@content, :html => { :multipart => true }) do |f| %>
+  <%= render :partial => "contents/forms/#{@content.type.underscore}", :locals => {:f => f} %>
+  <div class="field">
+    <%= hidden_field_tag :type, @content.type %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

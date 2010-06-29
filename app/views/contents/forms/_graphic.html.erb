@@ -1,4 +1,4 @@
-<%= form_for(@content, :html => { :multipart => true }) do |f| %>
+  <% @content.medias.build({:key=>"original"}) %>
   <% if @content.errors.any? %>
   <div id="errorExplanation">
     <h2><%= pluralize(@content.errors.count, "error") %> prohibited this content from being saved:</h2>
@@ -16,19 +16,15 @@
   </div>
   <div class="field">
     <%= f.label :duration %><br />
-    <%= f.text_field :duration, :min => "0" %>
+    <%= f.text_field :duration %>
   </div>
   <div class="field">
     <%= f.label :start_time %><br />
-    <%= f.text_field :start_time, :type => "datetime-local" %>
+    <%= f.text_field :start_time %>
   </div>
   <div class="field">
     <%= f.label :end_time %><br />
-    <%= f.text_field :end_time, :type => "datetime-local" %>
-  </div>
-  <div class="field">
-    <%= f.label :data %><br />
-    <%= f.text_area :data %>
+    <%= f.text_field :end_time %>
   </div>
   <div class="field">
     <%= f.label :kind %><br />
@@ -39,19 +35,12 @@
     <%= f.collection_select :user_id, User.all, :id, :name %>
   </div>
   <% if @content.new_record? %>
-  <div class="field">
-    <% dfs_tree(Feed.roots).each_with_index do |feed, i| %>
-      <%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed) %>
-      <%= "-" * feed.depth %> <%= feed.name %><br />
-    <% end %>
-  </div>
+    <%= render :partial => 'feed_selector' %>
   <% end %>
   <div class="field">
-   <%= f.fields_for :medias do |media| %>
-    <%= media.file_field :file %>
-   <% end %>
+    <%= f.fields_for :medias do |media| %>
+      <%= media.file_field :file %>
+      <%= media.hidden_field :key %>
+    <% end %>
   </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+
