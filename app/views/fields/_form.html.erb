@@ -1,4 +1,4 @@
-<%= form_for([@type, @field]) do |f| %>
+<%= form_for([@kind, @field]) do |f| %>
   <% if @field.errors.any? %>
   <div id="errorExplanation">
     <h2><%= pluralize(@field.errors.count, "error") %> prohibited this field from being saved:</h2>

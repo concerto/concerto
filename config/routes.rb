@@ -23,7 +23,7 @@ Concerto::Application.routes.draw do |map|
 
   resources :users
 
-  resources :types do
+  resources :kinds do
     resources :fields
   end
 

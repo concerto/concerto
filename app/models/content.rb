@@ -1,6 +1,6 @@
 class Content < ActiveRecord::Base
   belongs_to :user
-  belongs_to :type
+  belongs_to :kind
   has_many :submissions, :dependent => :destroy
   has_many :feeds, :through => :submissions
   has_many :medias, :as => :attachable
@@ -11,7 +11,7 @@ class Content < ActiveRecord::Base
   #Validations
   validates :name, :presence => true
   validates :mime_type, :presence => true
-  validates :type, :presence => true, :associated => true
+  validates :kind, :presence => true, :associated => true
   validates :user, :presence => true, :associated => true
   validates :duration, :numericality => { :greater_than => 0 }
 

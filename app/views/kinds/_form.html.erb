@@ -1,9 +1,9 @@
-<%= form_for(@type) do |f| %>
-  <% if @type.errors.any? %>
+<%= form_for(@kind) do |f| %>
+  <% if @kind.errors.any? %>
   <div id="errorExplanation">
-    <h2><%= pluralize(@type.errors.count, "error") %> prohibited this type from being saved:</h2>
+    <h2><%= pluralize(@kind.errors.count, "error") %> prohibited this kind from being saved:</h2>
     <ul>
-      <% @type.errors.full_messages.each do |msg| %>
+      <% @kind.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
     </ul>

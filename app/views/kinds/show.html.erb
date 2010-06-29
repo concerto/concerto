@@ -1,0 +1,17 @@
+<p>
+  <b>Name:</b>
+  <%= @kind.name %>
+</p>
+<p>
+  <b>Fields:</b>
+  <ul>
+  <% @kind.fields.each do |field| %>
+    <li><%= link_to field.name, [@kind, field] %></li>
+  <% end %>
+    <li><%= link_to "New Field", new_kind_field_path(@kind) %></li>
+  </ul>
+</p>
+
+
+<%= link_to 'Edit', edit_kind_path(@kind) %> |
+<%= link_to 'Back', kinds_path %>

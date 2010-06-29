@@ -1,10 +1,10 @@
 require 'test_helper'
 
-class TypesControllerTest < ActionController::TestCase
+class KindsControllerTest < ActionController::TestCase
   test "should get index" do
     get :index
     assert_response :success
-    assert_not_nil assigns(:types)
+    assert_not_nil assigns(:kinds)
   end
 
   test "should get new" do
@@ -12,34 +12,34 @@ class TypesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  #test "should create type" do
-  #  assert_difference('Type.count') do
-  #    post :create, :type => types(:text).attributes
+  #test "should create kind" do
+  #  assert_difference('Kind.count') do
+  #    post :create, :kind => kinds(:text).attributes
   #  end
 
-  #  assert_redirected_to type_path(assigns(:type))
+  #  assert_redirected_to kind_path(assigns(:kind))
   #end
 
-  test "should show type" do
-    get :show, :id => types(:text).to_param
+  test "should show kind" do
+    get :show, :id => kinds(:text).to_param
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, :id => types(:text).to_param
+    get :edit, :id => kinds(:text).to_param
     assert_response :success
   end
 
-  #test "should update type" do
-  #  put :update, :id => types(:text).to_param, :type => types(:text).attributes
-  #  assert_redirected_to type_path(assigns(:type))
+  #test "should update kind" do
+  #  put :update, :id => kinds(:text).to_param, :kind => kinds(:text).attributes
+  #  assert_redirected_to kind_path(assigns(:kind))
   #end
 
-  test "should destroy type" do
-    assert_difference('Type.count', -1) do
-      delete :destroy, :id => types(:text).to_param
+  test "should destroy kind" do
+    assert_difference('Kind.count', -1) do
+      delete :destroy, :id => kinds(:text).to_param
     end
 
-    assert_redirected_to types_path
+    assert_redirected_to kinds_path
   end
 end

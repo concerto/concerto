@@ -2,8 +2,8 @@
 
 one:
   name: MyString
-  type: ticker
+  kind: ticker
 
 two:
   name: MyString
-  type: text
+  kind: text

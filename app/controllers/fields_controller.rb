@@ -1,14 +1,14 @@
 class FieldsController < ApplicationController
-  before_filter :get_type
+  before_filter :get_kind
   
-  def get_type
-    @type = Type.find(params[:type_id])
+  def get_kind
+    @kind = Kind.find(params[:kind_id])
   end
 
-  # GET /type/:type_id/fields
-  # GET /type/:type_id/fields.xml
+  # GET /kind/:kind_id/fields
+  # GET /kind/:kind_id/fields.xml
   def index
-    @fields = @type.fields
+    @fields = @kind.fields
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,8 +16,8 @@ class FieldsController < ApplicationController
     end
   end
 
-  # GET /type/:type_id/fields/1
-  # GET /type/:type_id/fields/1.xml
+  # GET /kind/:kind_id/fields/1
+  # GET /kind/:kind_id/fields/1.xml
   def show
     @field = Field.find(params[:id])
 
@@ -27,11 +27,11 @@ class FieldsController < ApplicationController
     end
   end
 
-  # GET /type/:type_id/fields/new
-  # GET /type/:type_id/fields/new.xml
+  # GET /kind/:kind_id/fields/new
+  # GET /kind/:kind_id/fields/new.xml
   def new
     @field = Field.new
-    @field.type = @type
+    @field.kind = @kind
 
     respond_to do |format|
       format.html # new.html.erb
@@ -39,20 +39,20 @@ class FieldsController < ApplicationController
     end
   end
 
-  # GET /type/:type_id/fields/1/edit
+  # GET /kind/:kind_id/fields/1/edit
   def edit
     @field = Field.find(params[:id])
   end
 
-  # POST /type/:type_id/fields
-  # POST /type/:type_id/fields.xml
+  # POST /kind/:kind_id/fields
+  # POST /kind/:kind_id/fields.xml
   def create
     @field = Field.new(params[:field])
-    @field.type = @type
+    @field.kind = @kind
 
     respond_to do |format|
       if @field.save
-        format.html { redirect_to([@type, @field], :notice => 'Field was successfully created.') }
+        format.html { redirect_to([@kind, @field], :notice => 'Field was successfully created.') }
         format.xml  { render :xml => @field, :status => :created, :location => @field }
       else
         format.html { render :action => "new" }
@@ -61,14 +61,14 @@ class FieldsController < ApplicationController
     end
   end
 
-  # PUT /type/:type_id/fields/1
-  # PUT /type/:type_id/fields/1.xml
+  # PUT /kind/:kind_id/fields/1
+  # PUT /kind/:kind_id/fields/1.xml
   def update
     @field = Field.find(params[:id])
 
     respond_to do |format|
       if @field.update_attributes(params[:field])
-        format.html { redirect_to([@type, @field], :notice => 'Field was successfully updated.') }
+        format.html { redirect_to([@kind, @field], :notice => 'Field was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -77,14 +77,14 @@ class FieldsController < ApplicationController
     end
   end
 
-  # DELETE /type/:type_id/fields/1
-  # DELETE /type/:type_id/fields/1.xml
+  # DELETE /kind/:kind_id/fields/1
+  # DELETE /kind/:kind_id/fields/1.xml
   def destroy
     @field = Field.find(params[:id])
     @field.destroy
 
     respond_to do |format|
-      format.html { redirect_to(type_fields_url(@type)) }
+      format.html { redirect_to(kind_fields_url(@kind)) }
       format.xml  { head :ok }
     end
   end

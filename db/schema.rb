@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100312040437) do
+ActiveRecord::Schema.define(:version => 20100629152134) do
 
   create_table "contents", :force => true do |t|
     t.string   "name"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(:version => 20100312040437) do
     t.datetime "end_time"
     t.text     "data"
     t.integer  "user_id"
-    t.integer  "type_id"
+    t.integer  "kind_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -35,12 +35,18 @@ ActiveRecord::Schema.define(:version => 20100312040437) do
 
   create_table "fields", :force => true do |t|
     t.string   "name"
-    t.integer  "type_id"
+    t.integer  "kind_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "groups", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "kinds", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -112,12 +118,6 @@ ActiveRecord::Schema.define(:version => 20100312040437) do
     t.string   "name"
     t.string   "author"
     t.boolean  "is_hidden"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "types", :force => true do |t|
-    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

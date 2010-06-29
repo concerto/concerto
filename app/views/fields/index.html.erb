@@ -1,4 +1,4 @@
-<h1>Listing <%= @type.name %> fields</h1>
+<h1>Listing <%= @kind.name %> fields</h1>
 
 <table>
   <tr>
@@ -11,13 +11,13 @@
 <% @fields.each do |field| %>
   <tr>
     <td><%= field.name %></td>
-    <td><%= link_to 'Show', type_field_path(@type, field) %></td>
-    <td><%= link_to 'Edit', edit_type_field_path(@type, field) %></td>
-    <td><%= link_to 'Destroy', [@type, field], :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Show', kind_field_path(@kind, field) %></td>
+    <td><%= link_to 'Edit', edit_kind_field_path(@kind, field) %></td>
+    <td><%= link_to 'Destroy', [@kind, field], :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New field', new_type_field_path(@type) %>
+<%= link_to 'New field', new_kind_field_path(@kind) %>

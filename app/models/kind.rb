@@ -1,4 +1,4 @@
-class Type < ActiveRecord::Base
+class Kind < ActiveRecord::Base
   has_many :contents
   has_many :fields
 
