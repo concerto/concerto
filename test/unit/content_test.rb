@@ -6,7 +6,6 @@ class ContentTest < ActiveSupport::TestCase
     content = Content.new
     assert content.invalid?
     assert content.errors[:name].any?
-    assert content.errors[:mime_type].any?
     assert content.errors[:kind].any?
     assert content.errors[:duration].any?
     assert content.errors[:user].any?
@@ -15,7 +14,6 @@ class ContentTest < ActiveSupport::TestCase
   # Content must be associated with a system kind
   test "kind cannot unassociated" do
     content = Content.new(:name => "Sample Ticker",
-                          :mime_type => "text/plain",
                           :user => users(:katie),
                           :duration => 10)
     assert content.invalid?, "Content kind is blank"
@@ -28,7 +26,6 @@ class ContentTest < ActiveSupport::TestCase
   # Content must be associated with a user
   test "user cannot unassociated" do
     content = Content.new(:name => "Sample Ticker",
-                          :mime_type => "text/plain",
                           :kind_id => kinds(:ticker).id,
                           :duration => 10)
     assert content.invalid?, "Content user is blank"

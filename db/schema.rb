@@ -9,11 +9,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100629152134) do
+ActiveRecord::Schema.define(:version => 20100629160714) do
 
   create_table "contents", :force => true do |t|
     t.string   "name"
-    t.string   "mime_type"
     t.integer  "duration"
     t.datetime "start_time"
     t.datetime "end_time"
@@ -22,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20100629152134) do
     t.integer  "kind_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "type"
   end
 
   create_table "feeds", :force => true do |t|
