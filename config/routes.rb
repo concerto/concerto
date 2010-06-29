@@ -41,6 +41,8 @@ Concerto::Application.routes.draw do |map|
   #end
 
   resources :contents, :path => "content"
+  resources :graphics, :controller => :contents, :path => "content"
+  resources :tickers, :controller => :contents, :path => "content"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
