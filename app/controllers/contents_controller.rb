@@ -52,7 +52,7 @@ class ContentsController < ApplicationController
       render :nothing => true, :status => 400
     else
     
-      @content = @content_const.new({:type => type})
+      @content = @content_const.new()
       
       respond_to do |format|
         format.html { render :layout => 'splitview' } # new.html.erb
