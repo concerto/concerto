@@ -7,7 +7,6 @@ class ContentTest < ActiveSupport::TestCase
     assert content.invalid?
     assert content.errors[:name].any?
     assert content.errors[:kind].any?
-    assert content.errors[:duration].any?
     assert content.errors[:user].any?
   end
 

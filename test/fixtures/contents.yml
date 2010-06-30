@@ -8,6 +8,7 @@ sample_ticker:
   data: Welcome to Concerto Digital Signage!
   user: katie
   kind: ticker
+  type: Ticker
 
 old_ticker:
   name: Concerto 1 is released!
@@ -17,6 +18,7 @@ old_ticker:
   data: Enjoy the new connected digital eco-system
   user: kristen
   kind: ticker
+  type: Ticker
   
 futuristic_ticker:
   name: The Future
@@ -26,3 +28,4 @@ futuristic_ticker:
   data: Enjoy Concerto 5!
   user: katie
   kind: ticker
+  type: Ticker

@@ -14,7 +14,7 @@ class ContentsControllerTest < ActionController::TestCase
 
   test "should create content" do
     assert_difference('Content.count') do
-      post :create, :content => contents(:sample_ticker).attributes
+      post :create, :ticker => contents(:sample_ticker).attributes, :type => "Ticker" 
     end
 
     assert_redirected_to content_path(assigns(:content))
@@ -31,7 +31,7 @@ class ContentsControllerTest < ActionController::TestCase
   end
 
   test "should update content" do
-    put :update, :id => contents(:sample_ticker).to_param, :content => contents(:sample_ticker).attributes
+    put :update, :id => contents(:sample_ticker).to_param, :ticker => contents(:sample_ticker).attributes
     assert_redirected_to content_path(assigns(:content))
   end
 
