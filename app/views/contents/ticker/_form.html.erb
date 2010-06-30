@@ -1,0 +1,35 @@
+<% if @content.errors.any? %>
+<div id="errorExplanation">
+  <h2><%= pluralize(@content.errors.count, "error") %> prohibited this content from being saved:</h2>
+  <ul>
+    <% @content.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<div class="field">
+  <%= form.label :name %><br />
+  <%= form.text_field :name %>
+</div>
+<div class="field">
+  <%= form.label :duration %><br />
+  <%= form.text_field :duration %>
+</div>
+<%= render :partial => 'contents/form_elements/dates', :locals => {:form => form} %>
+<div class="field">
+  <%= form.label :kind %><br />
+  <%= form.collection_select :kind_id, Kind.all, :id, :name %>
+</div>
+<div class="field">
+  <%= form.label :user %><br />
+  <%= form.collection_select :user_id, User.all, :id, :name %>
+</div>
+<% if @content.new_record? %>
+  <%= render :partial => 'contents/form_elements/feeds' %>
+<% end %>
+<div class="field">
+  <%= form.label :data %><br />
+  <%= form.text_area :data %>
+</div>

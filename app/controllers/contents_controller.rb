@@ -36,12 +36,22 @@ class ContentsController < ApplicationController
 
   # GET /contents/new
   # GET /contents/new.xml
+  # Instantiate a new object of params[:type].
+  # If params[:type] is nil, use graphics as the default.
+  # If the object isn't valid (FooBar) or isn't a 
+  # child of Content (Feed) a 400 error is thrown.
   def new
-    if !content_types.map{|c| c.model_name.singular}.include?(params[:type])
-      redirect_to new_content_path(:type=>'graphic')
+    #The default content type is "graphic"
+    if params[:type].nil?
+      @content_const = "graphic".camelize.constantize
+    end
+    
+    #We don't recognize the content type, or
+    #its not a child of Content.
+    if @content_const.nil? || @content_const.superclass != Content
+      render :nothing => true, :status => 400
     else
-      type = params[:type].camelize
-      
+    
       @content = @content_const.new({:type => type})
       
       respond_to do |format|
