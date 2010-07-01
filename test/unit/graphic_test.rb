@@ -1,8 +1,16 @@
 require 'test_helper'
 
 class GraphicTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  # Attributes cannot be left empty/blank
+  test "graphic attributes must not be empty" do
+    graphic = Graphic.new
+    assert graphic.invalid?
+    assert graphic.errors[:duration].any?
+  end
+  
+  #Verify the kind is getting auto-assigned
+  test "kind should be auto set" do
+    graphic = Graphic.new
+    assert_equal graphic.kind, Kind.where(:name => "Graphics").first
   end
 end

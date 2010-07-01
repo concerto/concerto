@@ -19,10 +19,6 @@
 </div>
 <%= render :partial => 'contents/form_elements/dates', :locals => {:form => form} %>
 <div class="field">
-  <%= form.label :kind %><br />
-  <%= form.collection_select :kind_id, Kind.all, :id, :name %>
-</div>
-<div class="field">
   <%= form.label :user %><br />
   <%= form.collection_select :user_id, User.all, :id, :name %>
 </div>
