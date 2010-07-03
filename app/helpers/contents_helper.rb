@@ -9,4 +9,20 @@ module ContentsHelper
     CONTENT_TYPES
   end
 
+  # Render a piece of content.
+  #
+  # options[:type] controls what partial is used
+  # when rendering the file.  Defaults to 
+  # _render_default.html.erb (:type = 'default').
+  #
+  # All options set are passed to the partial in options.
+  # The content object is passed in content.
+  def render_content(content, options={})
+    options.symbolize_keys! #All the cool kids do this
+  
+    options[:type] ||= 'default'
+    
+    render  :partial => "contents/#{content.type.underscore}/render_#{options[:type]}", 
+            :locals => {:content => content, :options => options}
+  end
 end

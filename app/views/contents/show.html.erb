@@ -19,11 +19,6 @@
 </p>
 
 <p>
-  <b>Data:</b>
-  <%= @content.data %>
-</p>
-
-<p>
   <b>User:</b>
   <%= @content.user.name unless @content.user.nil? %>
 </p>
@@ -37,6 +32,10 @@
   <b>Type:</b>
   <%= @content.type unless @content.type.nil? %>
 </p>
+
+<div class="rendered">
+  <%= render_content(@content) %>
+</div>
 
 <p>
   <b>Approved Feeds:</b>
