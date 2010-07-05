@@ -6,6 +6,7 @@ class TickerTest < ActiveSupport::TestCase
     ticker = Ticker.new
     assert ticker.invalid?
     assert ticker.errors[:duration].any?
+    assert ticker.errors[:data].any?
   end
   
   #Verify the kind is getting auto-assigned
