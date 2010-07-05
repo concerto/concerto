@@ -1,4 +1,8 @@
-<% @content.medias.build({:key=>"original"}) %>
+<%
+if @content.medias.empty?
+  @content.medias.build({:key=>"original"})
+end 
+%>
 <% if @content.errors.any? %>
 <div id="errorExplanation">
   <h2><%= pluralize(@content.errors.count, "error") %> prohibited this content from being saved:</h2>
