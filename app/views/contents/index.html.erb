@@ -1,0 +1,47 @@
+<div class="C-full small">
+	<div class="C-header">
+		<h1>Browse Content</h1>
+	</div> 
+	<div class="C-cont">
+		<div class="C-center column">
+			<table>
+			  <tr>
+			    <th>Name</th>
+			    <th>Mime type</th>
+			    <th>Duration</th>
+			    <th>Start time</th>
+			    <th>End time</th>
+			    <th>Data</th>
+			    <th>User</th>
+			    <th>Type</th>
+			    <th></th>
+			    <th></th>
+			    <th></th>
+			  </tr>
+
+			<% @contents.each do |content| %>
+			  <tr>
+			    <td><%= content.name %></td>
+			    <td><%= content.mime_type %></td>
+			    <td><%= content.duration %></td>
+			    <td><%= content.start_time %></td>
+			    <td><%= content.end_time %></td>
+			    <td><%= content.data %></td>
+			    <td><%= content.user.name unless content.user.nil? %></td>
+			    <td><%= content.type.name unless content.type.nil? %></td>
+			    <td><%= link_to 'Show', content %></td>
+			    <td><%= link_to 'Edit', edit_content_path(content) %></td>
+			    <td><%= link_to 'Destroy', content, :confirm => 'Are you sure?', :method => :delete %></td>
+			  </tr>
+			<% end %>
+			</table>
+
+			<br /> 
+		</div> 
+		<div class="C-sidebar column"> 
+			Sidebar
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="C-footer">&nbsp;</div>
+</div>
