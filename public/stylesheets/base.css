@@ -53,7 +53,7 @@ small { font-size:0.6em; }
 /*##########################################################################*/
 
 /*##########  PAGE OFFSET CLASSES  ##########*/
-.std-offset { padding:105px 25px 10px 25px; }
+.std-offset { padding:100px 25px 10px 25px; }
 .SV-offset { padding-top:30px; }
 .clear { clear:both; }
 
@@ -99,7 +99,7 @@ ul.TM-buttons li.selected a span { background-position:right bottom; }
 /*##########################################################################*/
 
 /*##########  BASIC LAYOUT  ##########*/
-.C-full { margin-bottom:18px; border-radius:8px; box-shadow: rgba(0,0,0,0.3) 0 3px 2px; -webkit-box-shadow: rgba(0,0,0,0.3) 0 3px 2px; }
+.C-full { margin-bottom:18px; border-radius:8px; box-shadow: #ababab 0 3px 2px; -webkit-box-shadow: #ababab 0 3px 2px; }
 .C-header { background:#FFF url(../images/layout/C/header_bg.png) bottom left repeat-x; padding:8px 14px; border:solid 1px #ababab; border-bottom:0px; border-top-left-radius:8px; border-top-right-radius:8px; }
 .C-header h1 { color:#666; font-size:1.6em; font-weight:bolder; letter-spacing:-0.05em; text-shadow:0 0.05em #eee; padding-top:10px; }
 .C-cont { padding-left:184px; border-left:solid 1px #ababab; border-right:solid 1px #ababab; }
