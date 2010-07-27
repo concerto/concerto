@@ -1,4 +1,4 @@
-Concerto::Application.routes.draw do |map|
+Concerto::Application.routes.draw do
   resources :medias, :only => [:show]
 
   resources :templates do
