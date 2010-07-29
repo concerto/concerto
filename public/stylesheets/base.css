@@ -16,6 +16,7 @@
 /*##########  GLOBAL RESET AND MAIN HEADERS ##########*/
 html{color:#000;background:#eee url(../images/layout/pagebg.gif) center center repeat; font-family:"Lucida Grande",Arial,sans-serif;}
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}
+body { min-width:800px; }
 table{border-collapse:collapse;border-spacing:0;}
 fieldset,img{border:0;}
 address,caption,cite,code,dfn,em,strong,b,th,var,optgroup{font-style:inherit;font-weight:inherit;}
@@ -53,7 +54,7 @@ small { font-size:0.6em; }
 /*##########################################################################*/
 
 /*##########  PAGE OFFSET CLASSES  ##########*/
-.std-offset { padding:100px 25px 10px 25px; }
+.std-offset { padding:100px 5% 10px 5%; }
 .SV-offset { padding-top:30px; }
 .clear { clear:both; }
 
@@ -86,12 +87,37 @@ tr.TM-sectop td { padding:3px 2px 5px 2px; }
 ul.TM-buttons li{display:inline;list-style:none;}
 ul.TM-buttons li a{color:#666;text-shadow:0 0.1em #eee;font-size:0.8em;background:transparent url(../images/layout/TM_button.png) no-repeat top left;display:block;float:left;height:33px;margin:0px 2px;}
 ul.TM-buttons li a span{background:transparent url(../images/layout/TM_button.png) no-repeat right top;cursor:pointer;display:inline;float:left;height:17px;margin-left:15px;padding:8px 15px 8px 0px;}
-ul.TM-buttons li a:hover{color:#004b98; background-position:left -33px; text-shadow:0 0 #FF; }
+ul.TM-buttons li a:hover{color:#004b98; background-position:left -33px; text-shadow:0 0 #FFF; }
 ul.TM-buttons li a:hover span{ background-position:right -33px; }
 ul.TM-buttons li a:active{ color:#0099cc; background-position:left -66px; }
 ul.TM-buttons li a:active span{ background-position:right -66px; }
 ul.TM-buttons li.selected a { text-decoration:none;text-shadow:0 -0.15em #333; color:#FFF; background-position:0 bottom; }
 ul.TM-buttons li.selected a span { background-position:right bottom; }
+
+
+/*##########################################################################*/
+/*								Grid Views									*/
+/*##########################################################################*/
+
+/*##########  GRAPHICAL ICON LISTS  ##########*/
+ul.iconlist { margin:0px -8px; }
+ul.iconlist li { list-style:none; float:left; margin:15px 6px; }
+ul.iconlist li a { background:#eee; width:180px; height:210px; border:solid 1px #ccc; border-radius:12px; font-size:small; display:block; text-align:center; }
+ul.iconlist li a:hover { background:#99ccff; border:solid 1px #3399cc; }
+ul.iconlist li a h2 { color:#333 !important; background:none !important; padding:0px !important; margin:0px; font-weight:bold !important; text-align:center; }
+ul.iconlist li a:hover h2 { }
+ul.iconlist li a h3 { font-size:1em; font-weight:normal; margin:0px; padding:0px; text-align:center; }
+div.iconlist_padding { padding:8px; }
+
+/*##########  ICONS  ##########*/
+div.ins { z-index:1; width:164px; height:130px; }
+div.type-file, div.type-folder { margin-left:auto; margin-right:auto; text-align:center; }
+div.type-folder img { border:0px !important; }
+div.type-img img { border:solid 1px #666; }
+div.type-file img { border:0px !important; }
+div.f_icon { background:url(../images/icons/foldericon.png) center center no-repeat; width:50px; height:39px; margin:75px 0px 0px 110px; position:absolute; z-index:5; }
+div.pdf_icon { background:url(../images/icons/pdficon.png) center center no-repeat; width:44px; height:45px; margin:75px 0px 0px 110px; position:absolute; z-index:5; }
+div.img_icon { background:url(../images/icons/imageicon.png) center center no-repeat; width:46px; height:44px; margin:75px 0px 0px 110px; position:absolute; z-index:5; }
 
 
 /*##########################################################################*/
@@ -117,28 +143,18 @@ ul.TM-buttons li.selected a span { background-position:right bottom; }
 
 
 /*##########################################################################*/
-/*								Grid Views									*/
+/*								Modal Selector								*/
 /*##########################################################################*/
 
-/*##########  GRAPHICAL ICON LISTS  ##########*/
-ul.iconlist { margin:0px -8px; }
-ul.iconlist li { list-style:none; float:left; margin:15px 6px; }
-ul.iconlist li a { background:#eee; width:180px; height:210px; border:solid 1px #ccc; -moz-border-radius:12px; -webkit-border-radius:12px; font-size:small; display:block; text-align:center; }
-ul.iconlist li a:hover { background:#99ccff; border:solid 1px #3399cc; }
-ul.iconlist li a h2 { color:#333 !important; background:none !important; padding:0px !important; margin:0px; font-weight:bold !important; text-align:center; }
-ul.iconlist li a:hover h2 { }
-ul.iconlist li a h3 { font-size:1em; font-weight:normal; margin:0px; padding:0px; text-align:center; }
-div.iconlist_padding { padding:8px; }
-
-/*##########  ICONS  ##########*/
-div.ins { z-index:1; width:164px; height:130px; }
-div.type-file, div.type-folder { margin-left:auto; margin-right:auto; text-align:center; }
-div.type-folder img { border:0px !important; }
-div.type-img img { border:solid 1px #666; }
-div.type-file img { border:0px !important; }
-div.f_icon { background:url(../images/icons/foldericon.png) center center no-repeat; width:50px; height:39px; margin:75px 0px 0px 110px; position:absolute; z-index:5; }
-div.pdf_icon { background:url(../images/icons/pdficon.png) center center no-repeat; width:44px; height:45px; margin:75px 0px 0px 110px; position:absolute; z-index:5; }
-div.img_icon { background:url(../images/icons/imageicon.png) center center no-repeat; width:46px; height:44px; margin:75px 0px 0px 110px; position:absolute; z-index:5; }
+.MS-frame {  }
+.MS-frame h1 { color:#666; margin-left:30px; font-size:1.8em; text-shadow:0 0.05em #FFF; letter-spacing:-0.1em; margin-bottom:4px; }
+.MS-outer { background:url(../images/layout/MS/outer.png) repeat; padding:6px; border-radius:20px; margin-bottom:22px; }
+.MS-inner { background:url(../images/layout/MS/inner.png) repeat; border-radius:14px; padding:17px; }
+.MS-inner ul.iconlist { margin:0px -6px; } 
+.MS-inner ul.iconlist li { margin:0px 6px; }
+.MS-inner ul.iconlist li a { border-radius:8px; background:url(../images/layout/MS/iconlist_inactive.png) repeat; border:solid 1px #999; opacity:0.4; }
+.MS-inner ul.iconlist li a:hover { opacity:1; }
+.MS-inner ul.iconlist li a h2 { font-size:1.4em; color:#FFF !important; }
 
 
 /*##########################################################################*/

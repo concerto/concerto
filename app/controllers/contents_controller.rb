@@ -55,7 +55,7 @@ class ContentsController < ApplicationController
       @content = @content_const.new()
       
       respond_to do |format|
-        format.html { render :layout => 'splitview' } # new.html.erb
+        format.html { } # render :layout => 'splitview' } # new.html.erb
         format.xml  { render :xml => @content }
       end
     end
