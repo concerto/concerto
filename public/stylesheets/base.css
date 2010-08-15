@@ -63,7 +63,7 @@ h5 { font-size:1.3em; }
 /*##########  BASIC LAYOUT  ##########*/
 .C-full { margin-bottom:18px; border-radius:8px; box-shadow: #ababab 0 3px 2px; -webkit-box-shadow: #ababab 0 3px 2px; }
 .C-header { background:#FFF url(../images/layout/C/header_bg.png) bottom left repeat-x; padding:8px 14px; border:solid 1px #ababab; border-bottom:0px; border-top-left-radius:8px; border-top-right-radius:8px; }
-.C-header h1 { color:#666; font-size:1.6em; font-weight:bolder; letter-spacing:-0.05em; text-shadow:0 0.05em #eee; padding-top:10px; }
+.C-header h1 { color:#666; font-size:1.6em; font-weight:bolder; letter-spacing:-0.05em; text-shadow:0 0.05em #eee; padding-top:9px; }
 .C-cont { padding-left:184px; border-left:solid 1px #ababab; border-right:solid 1px #ababab; }
 .C-cont .column { position:relative; float:left; }
 .C-center { padding:10px 0px; width:100%; }
