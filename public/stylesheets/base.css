@@ -62,13 +62,12 @@ h5 { font-size:1.3em; }
 
 /*##########  BASIC LAYOUT  ##########*/
 .C-full { margin-bottom:18px; border-radius:8px; -moz-border-radius:8px; box-shadow: #ababab 0 3px 2px; -webkit-box-shadow: #ababab 0 3px 2px; }
-.C-header { background:#FFF url(../images/layout/C/header_bg.png) bottom left repeat-x; padding:8px 14px; padding-bottom:5px; border:solid 1px #ababab; border-bottom:0px; border-top-left-radius:8px; -moz-border-radius-topleft:8px; border-top-right-radius:8px; -moz-border-radius-topright:8px; }
+.C-header { background:#FFF url(../images/layout/C/header_bg.png) bottom left repeat-x; padding:12px 14px; padding-bottom:5px; border:solid 1px #ababab; border-bottom:0px; border-top-left-radius:8px; -moz-border-radius-topleft:8px; border-top-right-radius:8px; -moz-border-radius-topright:8px; }
 .C-header h1 { color:#666; font-size:1.8em; letter-spacing:-0.05em; text-shadow:0 1px #eee; padding-top:9px; }
 .C-cont { padding-left:184px; border-left:solid 1px #ababab; border-right:solid 1px #ababab; }
 .C-cont .column { position:relative; float:left; }
 .C-center { padding:0px; width:100%; }  /* padding inside of this div should be determined by the contained content, not by a wrapper div defined here! */
 .C-sidebar { min-height:300px; width:164px; padding: 0 10px; right:184px; margin-left:-100%; }
-.C-footer { clear:both; border:solid 1px #ababab; border-top:0px; border-bottom-left-radius:8px; -moz-border-radius-bottomleft:8px; border-bottom-right-radius:8px; -moz-border-radius-bottomright:8px; }
 .C-header_back { float:left; margin-left:-37px; padding-top:12px; margin-right:8px; }  /* This is an optional floated area for the back button that appears to the left of the header. */
 .C-header_right { float:right; padding-top:8px; margin-left:20px; }  /* this is an optional floated area that appears to the right of the header */
 
@@ -77,12 +76,10 @@ h5 { font-size:1.3em; }
 .C-full.sm .C-header { }
 .C-full.sm .C-cont { background:#FFF url(../images/layout/C/bg_sm.png) top left repeat-y; }
 .C-full.sm .C-sidebar { background:url(../images/layout/C/sidebar_sm.png) top left no-repeat; }
-.C-full.sm .C-footer { background:#FFF url(../images/layout/C/bg_sm.png) top left repeat-y; }
 /* LARGE VARIANT (Add Content with live preview screen) */
 .C-full.lg .C-header { }
 .C-full.lg .C-cont { background:#FFF url(../images/layout/C/bg_lg.png) top left repeat-y; padding-left:318px; }
 .C-full.lg .C-sidebar { background:url(../images/layout/C/sidebar_lg.png) top left no-repeat; width:298px; right:318px; }
-.C-full.lg .C-footer { background:#FFF url(../images/layout/C/bg_lg.png) top left repeat-y; }
 
 
 /*##########################################################################*/
@@ -142,7 +139,8 @@ div.img_icon { background:url(../images/icons/imageicon.png) center center no-re
 form h1 { color:#333; font-size:1.35em; font-weight:normal; border-bottom:solid 1px #999; padding-top:22px; margin-bottom:14px; }
 
 /* Special Rules: */
-.C-center form { padding-left:20px; }
+form .fields { padding-left:20px; }
+form .submit_bar { background:#FFF url(../images/layout/C/submit_bar_bg.png) top left repeat-x; margin-top:30px; padding:16px 20px; }
 
 
 /*##########################################################################*/

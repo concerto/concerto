@@ -36,7 +36,9 @@ end
   <%= form.label :user %><br />
   <%= form.collection_select :user_id, User.all, :id, :name %>
 </div>
+
+<h1>3. Select Feed</h1>
 <% if @content.new_record? %>
   <%= render :partial => 'contents/form_elements/feeds' %>
 <% end %>
-
+	
