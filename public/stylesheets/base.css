@@ -93,11 +93,11 @@ h5 { font-size:1.3em; }
 
 /*##########  DEFAULT BUTTON: BLUE NORMAL  ##########*/
 /* Method adapted from http://www.oscaralexander.com/tutorials/how-to-make-sexy-buttons-with-css.html */
-a.button{background:transparent url(../images/layout/button_a.png) no-repeat scroll top right;color:#FFF;display:block;float:left;height:29px;letter-spacing:-0.08em;text-shadow:0 -0.1em #333;font-size:0.8em;margin-right:6px;padding-right:20px;text-decoration:none;}
+a.button{background:transparent url(../images/layout/button_a.png) no-repeat scroll top right;color:#FFF;display:block;float:left;height:29px;letter-spacing:-0.08em;text-shadow:0 -1px #333;font-size:0.8em;margin-right:6px;padding-right:20px;text-decoration:none;}
 a.button span{background:transparent url(../images/layout/button_span.png) no-repeat;display:block;padding:5px 0 8px 20px;}
-a.button:hover{background-position:-29px right;color:#003366; text-shadow:0 -0.1em #FFF; }
+a.button:hover{background-position:-29px right;color:#003366; text-shadow:0 -1px #FFF; }
 a.button:hover span{background-position:-29px left;}
-a.button:active{background-position:bottom right;color:#333;text-shadow:0 0.1em #FFF;outline:none;}
+a.button:active{background-position:bottom right;color:#333;text-shadow:0 1px #FFF;outline:none;}
 a.button:active span{background-position:bottom left;padding:7px 0 6px 20px;}
 
 /* Special Rules: */
@@ -184,13 +184,13 @@ tr.TM-sectop td { padding:3px 2px 5px 2px; }
 
 /*##########  SPECIAL MENU BUTTONS  ##########*/
 #TM ul.buttons li {display:inline;list-style:none;}
-#TM ul.buttons li a.button {background:transparent url(../images/layout/TM/button_TM_a.png) no-repeat scroll top right;height:33px;padding-right:20px;color:#666;text-shadow:0 0.1em #eee;letter-spacing:-0.06em;font-size:0.8em;margin:0px 2px;}
+#TM ul.buttons li a.button {background:transparent url(../images/layout/TM/button_TM_a.png) no-repeat scroll top right;height:33px;padding-right:20px;color:#666;text-shadow:0 1px #eee;letter-spacing:0em;font-size:0.8em;margin:0px 2px;}
 #TM ul.buttons li a.button span {background:transparent url(../images/layout/TM/button_TM_span.png) no-repeat;padding:8px 0 9px 20px;cursor:pointer;}
-#TM ul.buttons li a.button:hover {color:#003366; text-shadow:0 0.1em #FFF; background-position:-33px right;}
+#TM ul.buttons li a.button:hover {color:#003366; text-shadow:0 1px #FFF; background-position:-33px right;}
 #TM ul.buttons li a.button:hover span{ background-position:-33px left; }
-#TM ul.buttons li a.button:active { color:#333;text-shadow:0 0.15em #FFF; background-position:-66px right; }
+#TM ul.buttons li a.button:active { color:#333;text-shadow:0 1px #FFF; background-position:-66px right; }
 #TM ul.buttons li a.button:active span { background-position:-66px left; padding:10px 0 7px 20px; }
-#TM ul.buttons li.selected a.button { text-decoration:none;text-shadow:0 -0.15em #333; color:#FFF; background-position:bottom right; }
+#TM ul.buttons li.selected a.button { text-decoration:none;text-shadow:0 -1px #333; color:#FFF; background-position:bottom right; }
 #TM ul.buttons li.selected a.button span { background-position:bottom left; }
 
 /*##########  LOGIN (LG)  ##########*/
