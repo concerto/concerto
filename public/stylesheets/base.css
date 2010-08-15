@@ -93,7 +93,7 @@ h5 { font-size:1.3em; }
 /* Method adapted from http://www.oscaralexander.com/tutorials/how-to-make-sexy-buttons-with-css.html */
 a.button{background:transparent url(../images/layout/button_a.png) no-repeat scroll top right;color:#FFF;display:block;float:left;height:29px;letter-spacing:-0.08em;text-shadow:0 -1px #333;font-size:0.8em;margin-right:6px;padding-right:20px;text-decoration:none;}
 a.button span{background:transparent url(../images/layout/button_span.png) no-repeat;display:block;padding:5px 0 8px 20px;}
-a.button:hover{background-position:100% -29px;color:#000033; text-shadow:0 -1px #FFF; }
+a.button:hover{background-position:100% -29px;color:#000033; text-shadow:0 -1px #eee; }
 a.button:hover span{background-position:0% -29px;}
 a.button:active{background-position:100% 100%;color:#333;text-shadow:0 1px #FFF;outline:none;}
 a.button:active span{background-position:0% 100%;padding:7px 0 6px 20px;}
