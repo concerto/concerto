@@ -14,7 +14,7 @@
 /*##########################################################################*/
 
 html{color:#000;background:#eee url(../images/layout/pagebg.gif) center center repeat; font-family:"Lucida Grande",Arial,sans-serif;}
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;font-size:100%;}
 body { min-width:800px; }
 table{border-collapse:collapse;border-spacing:0;}
 fieldset,img{border:0;}
@@ -36,7 +36,7 @@ small { font-size:0.6em; }
 a { text-decoration:none; font-weight:bold; }
 a:hover { text-decoration:underline; }
 
-#main { padding:100px 5% 10px 5%; }
+#main { padding:100px 3% 10px 3%; }
 .clear { clear:both; }
 
 
@@ -44,8 +44,8 @@ a:hover { text-decoration:underline; }
 /*  Headers  */
 /*##########################################################################*/
 
-h1, h2, h3, h4, h5, h6, h7 { }
-h1 { font-size:3em; font-weight:300; }
+h1, h2, h3, h4, h5, h6, h7 { font-family:"Myriad Pro", Helvetica, Arial, sans-serif; line-height:normal; }
+h1 { font-size:3em; font-weight:400; }
 h1.header { text-transform: uppercase; font-size:1.3em; letter-spacing:0.15em; padding:6px 0; margin-bottom:16px; }
 h1.indented { padding-left:8px !important; }
 h1.subpage_header { font-size:3em;margin-bottom:8px !important; }
@@ -62,11 +62,11 @@ h5 { font-size:1.3em; }
 
 /*##########  BASIC LAYOUT  ##########*/
 .C-full { margin-bottom:18px; border-radius:8px; -moz-border-radius:8px; box-shadow: #ababab 0 3px 2px; -webkit-box-shadow: #ababab 0 3px 2px; }
-.C-header { background:#FFF url(../images/layout/C/header_bg.png) bottom left repeat-x; padding:8px 14px; border:solid 1px #ababab; border-bottom:0px; border-top-left-radius:8px; -moz-border-radius-topleft:8px; border-top-right-radius:8px; -moz-border-radius-topright:8px; }
-.C-header h1 { color:#666; font-size:1.6em; letter-spacing:-0.05em; text-shadow:0 1px #eee; padding-top:9px; }
+.C-header { background:#FFF url(../images/layout/C/header_bg.png) bottom left repeat-x; padding:8px 14px; padding-bottom:5px; border:solid 1px #ababab; border-bottom:0px; border-top-left-radius:8px; -moz-border-radius-topleft:8px; border-top-right-radius:8px; -moz-border-radius-topright:8px; }
+.C-header h1 { color:#666; font-size:1.8em; letter-spacing:-0.05em; text-shadow:0 1px #eee; padding-top:9px; }
 .C-cont { padding-left:184px; border-left:solid 1px #ababab; border-right:solid 1px #ababab; }
 .C-cont .column { position:relative; float:left; }
-.C-center { padding:10px 0px; width:100%; }  /* left/right padding inside of this div should be determined by the contained content, not by a wrapper div defined here! */
+.C-center { padding:0px; width:100%; }  /* padding inside of this div should be determined by the contained content, not by a wrapper div defined here! */
 .C-sidebar { min-height:300px; width:164px; padding: 0 10px; right:184px; margin-left:-100%; }
 .C-footer { clear:both; border:solid 1px #ababab; border-top:0px; border-bottom-left-radius:8px; -moz-border-radius-bottomleft:8px; border-bottom-right-radius:8px; -moz-border-radius-bottomright:8px; }
 .C-header_back { float:left; margin-left:-37px; padding-top:12px; margin-right:8px; }  /* This is an optional floated area for the back button that appears to the left of the header. */
@@ -93,7 +93,7 @@ h5 { font-size:1.3em; }
 /* Method adapted from http://www.oscaralexander.com/tutorials/how-to-make-sexy-buttons-with-css.html */
 a.button{background:transparent url(../images/layout/button_a.png) no-repeat scroll top right;color:#FFF;display:block;float:left;height:29px;letter-spacing:-0.08em;text-shadow:0 -1px #333;font-size:0.8em;margin-right:6px;padding-right:20px;text-decoration:none;}
 a.button span{background:transparent url(../images/layout/button_span.png) no-repeat;display:block;padding:5px 0 8px 20px;}
-a.button:hover{background-position:100% -29px;color:#003366; text-shadow:0 -1px #FFF; }
+a.button:hover{background-position:100% -29px;color:#000033; text-shadow:0 -1px #FFF; }
 a.button:hover span{background-position:0% -29px;}
 a.button:active{background-position:100% 100%;color:#333;text-shadow:0 1px #FFF;outline:none;}
 a.button:active span{background-position:0% 100%;padding:7px 0 6px 20px;}
@@ -139,6 +139,8 @@ div.img_icon { background:url(../images/icons/imageicon.png) center center no-re
 /*  Form Minimals  */
 /*##########################################################################*/
 
+form h1 { color:#333; font-size:1.35em; font-weight:normal; border-bottom:solid 1px #999; padding-top:22px; margin-bottom:14px; }
+
 /* Special Rules: */
 .C-center form { padding-left:20px; }
 
@@ -148,7 +150,7 @@ div.img_icon { background:url(../images/icons/imageicon.png) center center no-re
 /*##########################################################################*/
 
 .MS-frame {  }
-.MS-frame h1 { color:#666; margin-left:30px; font-size:1.8em; text-shadow:0 1px #FFF; letter-spacing:-0.1em; margin-bottom:4px; }
+.MS-frame h1 { color:#666; margin-left:30px; font-size:1.8em; text-shadow:0 1px #FFF; letter-spacing:-0.05em; margin-bottom:4px; }
 .MS-outer { background:url(../images/layout/MS/outer.png) repeat; padding:6px; border-radius:20px; -moz-border-radius:20px; margin-bottom:22px; }
 .MS-inner { background:url(../images/layout/MS/inner.png) repeat; border-radius:14px; -moz-border-radius:14px; padding:17px; }
 .MS-inner ul.iconlist { margin:0px -6px; } 

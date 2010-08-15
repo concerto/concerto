@@ -14,6 +14,15 @@ end
 </div>
 <% end %>
 
+<h1>1. Upload Graphic From Your Computer</h1>
+<div class="field">
+  <%= form.fields_for :medias do |media| %>
+    <%= media.file_field :file %>
+    <%= media.hidden_field :key %>
+  <% end %>
+</div>
+
+<h1>2. Provide Basic Details</h1>
 <div class="field">
   <%= form.label :name %><br />
   <%= form.text_field :name %>
@@ -30,9 +39,4 @@ end
 <% if @content.new_record? %>
   <%= render :partial => 'contents/form_elements/feeds' %>
 <% end %>
-<div class="field">
-  <%= form.fields_for :medias do |media| %>
-    <%= media.file_field :file %>
-    <%= media.hidden_field :key %>
-  <% end %>
-</div>
+
