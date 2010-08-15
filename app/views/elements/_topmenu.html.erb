@@ -15,7 +15,7 @@
 			<!-- only show the next table cell if this is the first item: -->
 			<td rowspan="2" class="TM-secline-right"></td>
 			<td>
-				<ul class="TM-buttons">
+				<ul class="buttons">
 					<li<% if current_page?(new_content_path) %> class="selected"<% end %>><%= link_to new_content_path do %><span>Add</span><% end %></li>
 					<li><%= link_to contents_path do %><span>Moderate</span><% end %></li>
 					<li<% if current_page?(contents_path) %> class="selected"<% end %>><%= link_to contents_path do %><span>Browse</span><% end %></li>
@@ -32,7 +32,7 @@
 	<table class="TM-sec" cellpadding="0" cellspacing="0">
 		<tr class="TM-sectop">
 			<td>
-				<ul class="TM-buttons">
+				<ul class="buttons">
 					<li<% if controller.controller_name == 'groups' %> class="selected"<% end %>><%= link_to groups_path do %><span>Groups</span><% end %></li>
 				</ul>
 			</td>
@@ -47,7 +47,7 @@
 	<table class="TM-sec" cellpadding="0" cellspacing="0">
 		<tr class="TM-sectop">
 			<td>
-				<ul class="TM-buttons">
+				<ul class="buttons">
 					<li<% if controller.controller_name == 'screens' %> class="selected"<% end %>><%= link_to screens_path do %><span>Manage</span><% end %></li>
 				</ul>
 			</td>

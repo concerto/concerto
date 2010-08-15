@@ -1,19 +1,18 @@
-/* Concerto 2 - CSS MAIN FILE */
-/* Designed by the RPI Web Technologies Group (http://webtech.union.rpi.edu) in 2010. */
+/* Concerto 2 - CSS: BASE */
+/* Designed by the Web Technologies Group (http://webtech.union.rpi.edu) in 2010. */
 
 
 /*##########################################################################*/
 /*##########################################################################*/
-/*								  GLOBAL CSS								*/
+/*  BASE CSS  */
 /*##########################################################################*/
 /*##########################################################################*/
 
 
 /*##########################################################################*/
-/*								General Styles								*/
+/*  Frame and Resets  */
 /*##########################################################################*/
 
-/*##########  GLOBAL RESET AND MAIN HEADERS ##########*/
 html{color:#000;background:#eee url(../images/layout/pagebg.gif) center center repeat; font-family:"Lucida Grande",Arial,sans-serif;}
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}
 body { min-width:800px; }
@@ -30,12 +29,21 @@ sup{vertical-align:baseline;}
 sub{vertical-align:baseline;}
 b, strong { font-weight:bold; }
 legend{color:#000;}
-a { text-decoration:none; font-weight:bold; }
-a:hover { text-decoration:underline; }
 input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}
 input,button,textarea,select{*font-size:100%;}
+small { font-size:0.6em; }
 
-/*##########  MAIN HEADERS  ##########*/
+a { text-decoration:none; font-weight:bold; }
+a:hover { text-decoration:underline; }
+
+#main { padding:100px 5% 10px 5%; }
+.clear { clear:both; }
+
+
+/*##########################################################################*/
+/*  Headers  */
+/*##########################################################################*/
+
 h1, h2, h3, h4, h5, h6, h7 { }
 h1 { font-size:3em; font-weight:300; }
 h1.header { text-transform: uppercase; font-size:1.3em; letter-spacing:0.15em; padding:6px 0; margin-bottom:16px; }
@@ -46,57 +54,51 @@ h2 { font-size:2.5em; }
 h3 { font-size:2em; }
 h4 { font-size:1.7em; }
 h5 { font-size:1.3em; }
-small { font-size:0.6em; }
 
 
 /*##########################################################################*/
-/*								Master Layout								*/
+/*  Content Cells  */
 /*##########################################################################*/
 
-/*##########  PAGE OFFSET CLASSES  ##########*/
-.std-offset { padding:100px 5% 10px 5%; }
-.SV-offset { padding-top:30px; }
-.clear { clear:both; }
+/*##########  BASIC LAYOUT  ##########*/
+.C-full { margin-bottom:18px; border-radius:8px; box-shadow: #ababab 0 3px 2px; -webkit-box-shadow: #ababab 0 3px 2px; }
+.C-header { background:#FFF url(../images/layout/C/header_bg.png) bottom left repeat-x; padding:8px 14px; border:solid 1px #ababab; border-bottom:0px; border-top-left-radius:8px; border-top-right-radius:8px; }
+.C-header h1 { color:#666; font-size:1.6em; font-weight:bolder; letter-spacing:-0.05em; text-shadow:0 0.05em #eee; padding-top:10px; }
+.C-cont { padding-left:184px; border-left:solid 1px #ababab; border-right:solid 1px #ababab; }
+.C-cont .column { position:relative; float:left; }
+.C-center { padding:10px 0px; width:100%; }
+.C-sidebar { min-height:300px; width:164px; padding: 0 10px; right:184px; margin-left:-100%; }
+.C-footer { clear:both; border:solid 1px #ababab; border-top:0px; border-bottom-left-radius:8px; border-bottom-right-radius:8px; }
 
-
-/*##########################################################################*/
-/*								Top Menu (TM)								*/
-/*##########################################################################*/
-
-/*##########  STRUCTURE  ##########*/
-#TM { position:absolute; z-index:50; width:100%; top:0px; left:0px; background:url(../images/layout/TM_bg.png) top left repeat; }
-a#TM-logobutton { z-index:100; width:96px; height:88px; background:url(../images/layout/TM_logobutton.png) top left no-repeat; background-position:0px 0px; border:0px; display:block; position:absolute; top:0px; left:0px; }
-a#TM-logobutton:hover { background-position:-96px 0px; }
-table.TM-sec { height:69px; float:left; margin:0px; padding:0 4px; }
-.TM-sectop { height:41px; }
-.TM-secbot { /* height is 23px, but we don't need to specify that */ }
-tr.TM-sectop td, tr.TM-secbot td { vertical-align:top; padding:0px 6px; }
-tr.TM-sectop td { padding:3px 2px 5px 2px; }
-.TM-secbot h1 { color:#666; font-size:0.6em; font-weight:400; text-shadow:0 0.05em #FFF; padding-top:5px; padding-left:3px; text-transform:uppercase; letter-spacing:0.3em; text-align:center; }
-.TM-secline-left, .TM-secline-right { background:url(../images/layout/TM_secline.png) top left no-repeat; width:2px; height:69px; padding:0px !important; }
-.TM-secline-right { background-position:-2px 0px; }
-
-/*##########  LOGIN (LG)  ##########*/
-#LG-inner { float:left; width:153px; height:69px; padding:0px 28px 0px 104px; background:url(../images/layout/LG_bluebg.png) top left no-repeat; }
-#LG-inner div.TM-sectop p { color:#FFF; font-size:0.8em; text-shadow:0 -0.2em #000; padding-top:10px; }
-#LG-inner div.TM-sectop p a { color:#FFF; }
-#LG-inner div.TM-secbot p { color:#666; font-size:0.7em; text-shadow:0 0.05em #FFF; padding-top:5px; }
-#LG-inner div.TM-secbot p a { font-weight:bold; color:#666; }
-
-/*##########  TOP MENU BUTTONS  ##########*/
-ul.TM-buttons li{display:inline;list-style:none;}
-ul.TM-buttons li a{color:#666;text-shadow:0 0.1em #eee;font-size:0.8em;background:transparent url(../images/layout/TM_button.png) no-repeat top left;display:block;float:left;height:33px;margin:0px 2px;}
-ul.TM-buttons li a span{background:transparent url(../images/layout/TM_button.png) no-repeat right top;cursor:pointer;display:inline;float:left;height:17px;margin-left:15px;padding:8px 15px 8px 0px;}
-ul.TM-buttons li a:hover{color:#004b98; background-position:left -33px; text-shadow:0 0 #FFF; }
-ul.TM-buttons li a:hover span{ background-position:right -33px; }
-ul.TM-buttons li a:active{ color:#0099cc; background-position:left -66px; }
-ul.TM-buttons li a:active span{ background-position:right -66px; }
-ul.TM-buttons li.selected a { text-decoration:none;text-shadow:0 -0.15em #333; color:#FFF; background-position:0 bottom; }
-ul.TM-buttons li.selected a span { background-position:right bottom; }
+/* for each variant, overwrite the padding-left for C-cont and change the background image to fit the right faux columns */
+/* SMALL VARIANT */
+.C-full.sm .C-header { }
+.C-full.sm .C-cont { background:#FFF url(../images/layout/C/bg_sm.png) top left repeat-y; }
+.C-full.sm .C-sidebar { background:url(../images/layout/C/sidebar_sm.png) top left no-repeat; }
+.C-full.sm .C-footer { background:#FFF url(../images/layout/C/bg_sm.png) top left repeat-y; }
+/* MED VARIANT */
+.C-full.lg .C-header { }
+.C-full.lg .C-cont { background:#FFF url(../images/layout/C/bg_lg.png) top left repeat-y; padding-left:318px; }
+.C-full.lg .C-sidebar { background:url(../images/layout/C/sidebar_lg.png) top left no-repeat; width:298px; right:318px; }
+.C-full.lg .C-footer { background:#FFF url(../images/layout/C/bg_lg.png) top left repeat-y; }
 
 
 /*##########################################################################*/
-/*								Grid Views									*/
+/*  Buttons  */
+/*##########################################################################*/
+
+/* Need to handle: Top Menu, Blue Normal, Blue Back */
+/*##########  DEFAULT BUTTON: BLUE NORMAL  ##########*/
+a.button{background:transparent url(../images/layout/button_a.png) no-repeat scroll top right;color:#FFF;display:block;float:left;height:29px;letter-spacing:-0.08em;text-shadow:0 -0.1em #333;font-size:0.8em;margin-right:6px;padding-right:20px;text-decoration:none;}
+a.button span{background:transparent url(../images/layout/button_span.png) no-repeat;display:block;padding:6px 0 6px 20px;}
+a.button:hover{background-position:-29px right;}
+a.button:hover span{background-position:-29px left;}
+a.button:active{background-position:bottom right;color:#333;text-shadow:0 0.1em #FFF;outline:none;}
+a.button:active span{background-position:bottom left;padding:6px 0 7px 20px;}
+
+
+/*##########################################################################*/
+/*  Grid Views  */
 /*##########################################################################*/
 
 /*##########  GRAPHICAL ICON LISTS  ##########*/
@@ -121,29 +123,7 @@ div.img_icon { background:url(../images/icons/imageicon.png) center center no-re
 
 
 /*##########################################################################*/
-/*  Content Cells (Split-View)  */
-/*##########################################################################*/
-
-/*##########  BASIC LAYOUT  ##########*/
-.C-full { margin-bottom:18px; border-radius:8px; box-shadow: #ababab 0 3px 2px; -webkit-box-shadow: #ababab 0 3px 2px; }
-.C-header { background:#FFF url(../images/layout/C/header_bg.png) bottom left repeat-x; padding:8px 14px; border:solid 1px #ababab; border-bottom:0px; border-top-left-radius:8px; border-top-right-radius:8px; }
-.C-header h1 { color:#666; font-size:1.6em; font-weight:bolder; letter-spacing:-0.05em; text-shadow:0 0.05em #eee; padding-top:10px; }
-.C-cont { padding-left:184px; border-left:solid 1px #ababab; border-right:solid 1px #ababab; }
-.C-cont .column { position:relative; float:left; }
-.C-center { padding:10px 0px; width:100%; }
-.C-sidebar { min-height:300px; width:164px; padding: 0 10px; right:184px; margin-left:-100%; }
-.C-footer { clear:both; border:solid 1px #ababab; border-top:0px; border-bottom-left-radius:8px; border-bottom-right-radius:8px; }
-
-/* for each variant, overwrite the padding-left for C-cont and change the background image to fit the right faux columns */
-/* SMALL VARIANT */
-.C-full.small .C-header { }
-.C-full.small .C-cont { background:#FFF url(../images/layout/C/bg_sm.png) top left repeat-y; }
-.C-full.small .C-sidebar { background:url(../images/layout/C/sidebar_sm.png) top left no-repeat; }
-.C-full.small .C-footer { background:#FFF url(../images/layout/C/bg_sm.png) top left repeat-y; }
-
-
-/*##########################################################################*/
-/*								Modal Selector								*/
+/*  Modal Selectors  */
 /*##########################################################################*/
 
 .MS-frame {  }
@@ -157,8 +137,45 @@ div.img_icon { background:url(../images/icons/imageicon.png) center center no-re
 .MS-inner ul.iconlist li a h2 { font-size:1.4em; color:#FFF !important; }
 
 
+
 /*##########################################################################*/
 /*##########################################################################*/
-/*								AREA-SPECIFIC CSS							*/
+/*  SPECIFIC CSS  (minimize as much as possible)  */
 /*##########################################################################*/
 /*##########################################################################*/
+
+
+/*##########################################################################*/
+/*  Top Menu  */
+/*##########################################################################*/
+
+/*##########  STRUCTURE  ##########*/
+#TM { position:absolute; z-index:50; width:100%; top:0px; left:0px; background:url(../images/layout/TM_bg.png) top left repeat; }
+a#TM-logobutton { z-index:100; width:96px; height:88px; background:url(../images/layout/TM_logobutton.png) top left no-repeat; background-position:0px 0px; border:0px; display:block; position:absolute; top:0px; left:0px; }
+a#TM-logobutton:hover { background-position:-96px 0px; }
+table.TM-sec { height:69px; float:left; margin:0px; padding:0 4px; }
+.TM-sectop { height:41px; }
+.TM-secbot { /* height is 23px, but we don't need to specify that */ }
+tr.TM-sectop td, tr.TM-secbot td { vertical-align:top; padding:0px 6px; }
+tr.TM-sectop td { padding:3px 2px 5px 2px; }
+.TM-secbot h1 { color:#666; font-size:0.6em; font-weight:400; text-shadow:0 0.05em #FFF; padding-top:5px; padding-left:3px; text-transform:uppercase; letter-spacing:0.3em; text-align:center; }
+.TM-secline-left, .TM-secline-right { background:url(../images/layout/TM_secline.png) top left no-repeat; width:2px; height:69px; padding:0px !important; }
+.TM-secline-right { background-position:-2px 0px; }
+
+/*##########  SPECIAL BUTTONS  ##########*/
+#TM ul.buttons li{display:inline;list-style:none;}
+#TM ul.buttons li a{color:#666;text-shadow:0 0.1em #eee;letter-spacing:0em;font-size:0.8em;background:transparent url(../images/layout/TM_button.png) no-repeat top left;display:block;float:left;height:33px;margin:0px 2px;}
+#TM ul.buttons li a span{background:transparent url(../images/layout/TM_button.png) no-repeat right top;cursor:pointer;display:inline;float:left;height:17px;margin-left:15px;padding:8px 15px 8px 0px;}
+#TM ul.buttons li a:hover{color:#004b98; background-position:left -33px; text-shadow:0 0 #FFF; }
+#TM ul.buttons li a:hover span{ background-position:right -33px; }
+#TM ul.buttons li a:active{ color:#0099cc; background-position:left -66px; }
+#TM ul.buttons li a:active span{ background-position:right -66px; }
+#TM ul.buttons li.selected a { text-decoration:none;text-shadow:0 -0.15em #333; color:#FFF; background-position:0 bottom; }
+#TM ul.buttons li.selected a span { background-position:right bottom; }
+
+/*##########  LOGIN (LG)  ##########*/
+#LG-inner { float:left; width:153px; height:69px; padding:0px 28px 0px 104px; background:url(../images/layout/LG_bluebg.png) top left no-repeat; }
+#LG-inner div.TM-sectop p { color:#FFF; font-size:0.8em; text-shadow:0 -0.2em #000; padding-top:10px; }
+#LG-inner div.TM-sectop p a { color:#FFF; }
+#LG-inner div.TM-secbot p { color:#666; font-size:0.7em; text-shadow:0 0.05em #FFF; padding-top:5px; }
+#LG-inner div.TM-secbot p a { font-weight:bold; color:#666; }
