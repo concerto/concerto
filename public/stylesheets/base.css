@@ -69,6 +69,7 @@ h5 { font-size:1.3em; }
 .C-center { padding:10px 0px; width:100%; }
 .C-sidebar { min-height:300px; width:164px; padding: 0 10px; right:184px; margin-left:-100%; }
 .C-footer { clear:both; border:solid 1px #ababab; border-top:0px; border-bottom-left-radius:8px; border-bottom-right-radius:8px; }
+.C-headerfloat { float:right; padding-top:8px; margin-left:20px; }  /* this is an optional floated area that appears to the right of the header */
 
 /* for each variant, overwrite the padding-left for C-cont and change the background image to fit the right faux columns */
 /* SMALL VARIANT */
@@ -90,11 +91,14 @@ h5 { font-size:1.3em; }
 /* Need to handle: Top Menu, Blue Normal, Blue Back */
 /*##########  DEFAULT BUTTON: BLUE NORMAL  ##########*/
 a.button{background:transparent url(../images/layout/button_a.png) no-repeat scroll top right;color:#FFF;display:block;float:left;height:29px;letter-spacing:-0.08em;text-shadow:0 -0.1em #333;font-size:0.8em;margin-right:6px;padding-right:20px;text-decoration:none;}
-a.button span{background:transparent url(../images/layout/button_span.png) no-repeat;display:block;padding:6px 0 6px 20px;}
+a.button span{background:transparent url(../images/layout/button_span.png) no-repeat;display:block;padding:6px 0 7px 20px;}
 a.button:hover{background-position:-29px right;}
 a.button:hover span{background-position:-29px left;}
 a.button:active{background-position:bottom right;color:#333;text-shadow:0 0.1em #FFF;outline:none;}
 a.button:active span{background-position:bottom left;padding:6px 0 7px 20px;}
+
+/* Special Rules: */
+.C-headerfloat a.button { margin-right:0px; margin-left:6px; }
 
 
 /*##########################################################################*/
@@ -162,9 +166,9 @@ tr.TM-sectop td { padding:3px 2px 5px 2px; }
 .TM-secline-left, .TM-secline-right { background:url(../images/layout/TM_secline.png) top left no-repeat; width:2px; height:69px; padding:0px !important; }
 .TM-secline-right { background-position:-2px 0px; }
 
-/*##########  SPECIAL BUTTONS  ##########*/
+/*##########  SPECIAL BUTTONS (REFORMAT OR REMOVE)  ##########*/
 #TM ul.buttons li{display:inline;list-style:none;}
-#TM ul.buttons li a{color:#666;text-shadow:0 0.1em #eee;letter-spacing:0em;font-size:0.8em;background:transparent url(../images/layout/TM_button.png) no-repeat top left;display:block;float:left;height:33px;margin:0px 2px;}
+#TM ul.buttons li a{color:#666;text-shadow:0 0.1em #eee;letter-spacing:-0.06em;font-size:0.8em;background:transparent url(../images/layout/TM_button.png) no-repeat top left;display:block;float:left;height:33px;margin:0px 2px;}
 #TM ul.buttons li a span{background:transparent url(../images/layout/TM_button.png) no-repeat right top;cursor:pointer;display:inline;float:left;height:17px;margin-left:15px;padding:8px 15px 8px 0px;}
 #TM ul.buttons li a:hover{color:#004b98; background-position:left -33px; text-shadow:0 0 #FFF; }
 #TM ul.buttons li a:hover span{ background-position:right -33px; }
