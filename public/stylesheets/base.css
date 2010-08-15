@@ -189,7 +189,7 @@ tr.TM-sectop td { padding:3px 2px 5px 2px; }
 #TM ul.buttons li {display:inline;list-style:none;}
 #TM ul.buttons li a.button {background:transparent url(../images/layout/TM/button_TM_a.png) no-repeat scroll top right;height:33px;padding-right:20px;color:#666;text-shadow:0 1px #eee;letter-spacing:0em;font-size:0.8em;margin:0px 2px;}
 #TM ul.buttons li a.button span {background:transparent url(../images/layout/TM/button_TM_span.png) no-repeat;padding:8px 0 9px 20px;cursor:pointer;}
-#TM ul.buttons li a.button:hover {color:#000033; text-shadow:0 1px #FFF; background-position:100% -33px;}
+#TM ul.buttons li a.button:hover {color:#000033; text-shadow:0 1px #eee; background-position:100% -33px;}
 #TM ul.buttons li a.button:hover span{ background-position:0% -33px; }
 #TM ul.buttons li a.button:active { color:#333;text-shadow:0 1px #FFF; background-position:100% -66px; }
 #TM ul.buttons li a.button:active span { background-position:0% -66px; padding:10px 0 7px 20px; }
