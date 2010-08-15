@@ -69,7 +69,7 @@ h5 { font-size:1.3em; }
 .C-center { padding:10px 0px; width:100%; }
 .C-sidebar { min-height:300px; width:164px; padding: 0 10px; right:184px; margin-left:-100%; }
 .C-footer { clear:both; border:solid 1px #ababab; border-top:0px; border-bottom-left-radius:8px; border-bottom-right-radius:8px; }
-.C-header_back { float:left; margin-left:-37px; padding-top:8px; margin-right:8px; }  /* This is an optional floated area for the back button that appears to the left of the header. */
+.C-header_back { float:left; margin-left:-37px; padding-top:12px; margin-right:8px; }  /* This is an optional floated area for the back button that appears to the left of the header. */
 .C-header_right { float:right; padding-top:8px; margin-left:20px; }  /* this is an optional floated area that appears to the right of the header */
 
 /* for each variant, overwrite the padding-left for C-cont and change the background image to fit the right faux columns */
@@ -90,7 +90,9 @@ h5 { font-size:1.3em; }
 /*##########################################################################*/
 
 /* Need to handle: Top Menu, Blue Normal, Blue Back */
+
 /*##########  DEFAULT BUTTON: BLUE NORMAL  ##########*/
+/* Method adapted from http://www.oscaralexander.com/tutorials/how-to-make-sexy-buttons-with-css.html */
 a.button{background:transparent url(../images/layout/button_a.png) no-repeat scroll top right;color:#FFF;display:block;float:left;height:29px;letter-spacing:-0.08em;text-shadow:0 -0.1em #333;font-size:0.8em;margin-right:6px;padding-right:20px;text-decoration:none;}
 a.button span{background:transparent url(../images/layout/button_span.png) no-repeat;display:block;padding:6px 0 7px 20px;}
 a.button:hover{background-position:-29px right;}
@@ -100,6 +102,14 @@ a.button:active span{background-position:bottom left;padding:6px 0 7px 20px;}
 
 /* Special Rules: */
 .C-header_right a.button { margin-right:0px; margin-left:6px; }
+
+/*##########  BLUE BACK BUTTON  ##########*/
+a.back {background:transparent url(../images/layout/button_back_a.png) no-repeat scroll top right;height:24px;padding-right:12px;font-size:0.7em;}
+a.back span {background:transparent url(../images/layout/button_back_span.png) no-repeat;padding:5px 0 6px 20px;}
+a.back:hover {background-position:-24px right;}
+a.back:hover span {background-position:-24px left;}
+a.back:active {background-position:bottom right;}
+a.back:active span{background-position:bottom left;padding:5px 0 6px 20px;}
 
 
 /*##########################################################################*/
@@ -125,6 +135,11 @@ div.type-file img { border:0px !important; }
 div.f_icon { background:url(../images/icons/foldericon.png) center center no-repeat; width:50px; height:39px; margin:75px 0px 0px 110px; position:absolute; z-index:5; }
 div.pdf_icon { background:url(../images/icons/pdficon.png) center center no-repeat; width:44px; height:45px; margin:75px 0px 0px 110px; position:absolute; z-index:5; }
 div.img_icon { background:url(../images/icons/imageicon.png) center center no-repeat; width:46px; height:44px; margin:75px 0px 0px 110px; position:absolute; z-index:5; }
+
+
+/*##########################################################################*/
+/*  Form Minimals  */
+/*##########################################################################*/
 
 
 /*##########################################################################*/
