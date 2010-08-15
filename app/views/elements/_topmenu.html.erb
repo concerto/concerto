@@ -16,9 +16,9 @@
 			<td rowspan="2" class="TM-secline-right"></td>
 			<td>
 				<ul class="buttons">
-					<li<% if current_page?(new_content_path) %> class="selected"<% end %>><%= link_to new_content_path do %><span>Add</span><% end %></li>
-					<li><%= link_to contents_path do %><span>Moderate</span><% end %></li>
-					<li<% if current_page?(contents_path) %> class="selected"<% end %>><%= link_to contents_path do %><span>Browse</span><% end %></li>
+					<li<% if current_page?(new_content_path) %> class="selected"<% end %>><%= link_to new_content_path, :class => 'button' do %><span>Add</span><% end %></li>
+					<li><%= link_to contents_path, :class => 'button' do %><span>Moderate</span><% end %></li>
+					<li<% if current_page?(contents_path) %> class="selected"<% end %>><%= link_to contents_path, :class => 'button' do %><span>Browse</span><% end %></li>
 				</ul>
 			</td>
 			<td rowspan="2" class="TM-secline-right"></td>
@@ -33,7 +33,7 @@
 		<tr class="TM-sectop">
 			<td>
 				<ul class="buttons">
-					<li<% if controller.controller_name == 'groups' %> class="selected"<% end %>><%= link_to groups_path do %><span>Groups</span><% end %></li>
+					<li<% if controller.controller_name == 'groups' %> class="selected"<% end %>><%= link_to groups_path, :class => 'button' do %><span>Groups</span><% end %></li>
 				</ul>
 			</td>
 			<td rowspan="2" class="TM-secline-right"></td>
@@ -48,7 +48,7 @@
 		<tr class="TM-sectop">
 			<td>
 				<ul class="buttons">
-					<li<% if controller.controller_name == 'screens' %> class="selected"<% end %>><%= link_to screens_path do %><span>Manage</span><% end %></li>
+					<li<% if controller.controller_name == 'screens' %> class="selected"<% end %>><%= link_to screens_path, :class => 'button' do %><span>Manage</span><% end %></li>
 				</ul>
 			</td>
 			<td rowspan="2" class="TM-secline-right"></td>

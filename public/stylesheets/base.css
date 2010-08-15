@@ -94,11 +94,11 @@ h5 { font-size:1.3em; }
 /*##########  DEFAULT BUTTON: BLUE NORMAL  ##########*/
 /* Method adapted from http://www.oscaralexander.com/tutorials/how-to-make-sexy-buttons-with-css.html */
 a.button{background:transparent url(../images/layout/button_a.png) no-repeat scroll top right;color:#FFF;display:block;float:left;height:29px;letter-spacing:-0.08em;text-shadow:0 -0.1em #333;font-size:0.8em;margin-right:6px;padding-right:20px;text-decoration:none;}
-a.button span{background:transparent url(../images/layout/button_span.png) no-repeat;display:block;padding:6px 0 7px 20px;}
-a.button:hover{background-position:-29px right;}
+a.button span{background:transparent url(../images/layout/button_span.png) no-repeat;display:block;padding:5px 0 8px 20px;}
+a.button:hover{background-position:-29px right;color:#003366; text-shadow:0 -0.1em #FFF; }
 a.button:hover span{background-position:-29px left;}
 a.button:active{background-position:bottom right;color:#333;text-shadow:0 0.1em #FFF;outline:none;}
-a.button:active span{background-position:bottom left;padding:6px 0 7px 20px;}
+a.button:active span{background-position:bottom left;padding:7px 0 6px 20px;}
 
 /* Special Rules: */
 .C-header_right a.button { margin-right:0px; margin-left:6px; }
@@ -109,7 +109,7 @@ a.back span {background:transparent url(../images/layout/button_back_span.png) n
 a.back:hover {background-position:-24px right;}
 a.back:hover span {background-position:-24px left;}
 a.back:active {background-position:bottom right;}
-a.back:active span{background-position:bottom left;padding:5px 0 6px 20px;}
+a.back:active span{background-position:bottom left;padding:6px 0 5px 20px;}
 
 
 /*##########################################################################*/
@@ -170,8 +170,8 @@ div.img_icon { background:url(../images/icons/imageicon.png) center center no-re
 /*##########################################################################*/
 
 /*##########  STRUCTURE  ##########*/
-#TM { position:absolute; z-index:50; width:100%; top:0px; left:0px; background:url(../images/layout/TM_bg.png) top left repeat; }
-a#TM-logobutton { z-index:100; width:96px; height:88px; background:url(../images/layout/TM_logobutton.png) top left no-repeat; background-position:0px 0px; border:0px; display:block; position:absolute; top:0px; left:0px; }
+#TM { position:absolute; z-index:50; width:100%; top:0px; left:0px; background:url(../images/layout/TM/TM_bg.png) top left repeat; }
+a#TM-logobutton { z-index:100; width:96px; height:88px; background:url(../images/layout/TM/TM_logobutton.png) top left no-repeat; background-position:0px 0px; border:0px; display:block; position:absolute; top:0px; left:0px; }
 a#TM-logobutton:hover { background-position:-96px 0px; }
 table.TM-sec { height:69px; float:left; margin:0px; padding:0 4px; }
 .TM-sectop { height:41px; }
@@ -179,19 +179,19 @@ table.TM-sec { height:69px; float:left; margin:0px; padding:0 4px; }
 tr.TM-sectop td, tr.TM-secbot td { vertical-align:top; padding:0px 6px; }
 tr.TM-sectop td { padding:3px 2px 5px 2px; }
 .TM-secbot h1 { color:#666; font-size:0.6em; font-weight:400; text-shadow:0 0.05em #FFF; padding-top:5px; padding-left:3px; text-transform:uppercase; letter-spacing:0.3em; text-align:center; }
-.TM-secline-left, .TM-secline-right { background:url(../images/layout/TM_secline.png) top left no-repeat; width:2px; height:69px; padding:0px !important; }
+.TM-secline-left, .TM-secline-right { background:url(../images/layout/TM/TM_secline.png) top left no-repeat; width:2px; height:69px; padding:0px !important; }
 .TM-secline-right { background-position:-2px 0px; }
 
-/*##########  SPECIAL BUTTONS (REFORMAT OR REMOVE)  ##########*/
-#TM ul.buttons li{display:inline;list-style:none;}
-#TM ul.buttons li a{color:#666;text-shadow:0 0.1em #eee;letter-spacing:-0.06em;font-size:0.8em;background:transparent url(../images/layout/TM_button.png) no-repeat top left;display:block;float:left;height:33px;margin:0px 2px;}
-#TM ul.buttons li a span{background:transparent url(../images/layout/TM_button.png) no-repeat right top;cursor:pointer;display:inline;float:left;height:17px;margin-left:15px;padding:8px 15px 8px 0px;}
-#TM ul.buttons li a:hover{color:#004b98; background-position:left -33px; text-shadow:0 0 #FFF; }
-#TM ul.buttons li a:hover span{ background-position:right -33px; }
-#TM ul.buttons li a:active{ color:#0099cc; background-position:left -66px; }
-#TM ul.buttons li a:active span{ background-position:right -66px; }
-#TM ul.buttons li.selected a { text-decoration:none;text-shadow:0 -0.15em #333; color:#FFF; background-position:0 bottom; }
-#TM ul.buttons li.selected a span { background-position:right bottom; }
+/*##########  SPECIAL MENU BUTTONS  ##########*/
+#TM ul.buttons li {display:inline;list-style:none;}
+#TM ul.buttons li a.button {background:transparent url(../images/layout/TM/button_TM_a.png) no-repeat scroll top right;height:33px;padding-right:20px;color:#666;text-shadow:0 0.1em #eee;letter-spacing:-0.06em;font-size:0.8em;margin:0px 2px;}
+#TM ul.buttons li a.button span {background:transparent url(../images/layout/TM/button_TM_span.png) no-repeat;padding:8px 0 9px 20px;cursor:pointer;}
+#TM ul.buttons li a.button:hover {color:#003366; text-shadow:0 0.1em #FFF; background-position:-33px right;}
+#TM ul.buttons li a.button:hover span{ background-position:-33px left; }
+#TM ul.buttons li a.button:active { color:#333;text-shadow:0 0.15em #FFF; background-position:-66px right; }
+#TM ul.buttons li a.button:active span { background-position:-66px left; padding:10px 0 7px 20px; }
+#TM ul.buttons li.selected a.button { text-decoration:none;text-shadow:0 -0.15em #333; color:#FFF; background-position:bottom right; }
+#TM ul.buttons li.selected a.button span { background-position:bottom left; }
 
 /*##########  LOGIN (LG)  ##########*/
 #LG-inner { float:left; width:153px; height:69px; padding:0px 28px 0px 104px; background:url(../images/layout/LG_bluebg.png) top left no-repeat; }
