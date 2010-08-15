@@ -69,15 +69,16 @@ h5 { font-size:1.3em; }
 .C-center { padding:10px 0px; width:100%; }
 .C-sidebar { min-height:300px; width:164px; padding: 0 10px; right:184px; margin-left:-100%; }
 .C-footer { clear:both; border:solid 1px #ababab; border-top:0px; border-bottom-left-radius:8px; border-bottom-right-radius:8px; }
-.C-headerfloat { float:right; padding-top:8px; margin-left:20px; }  /* this is an optional floated area that appears to the right of the header */
+.C-header_back { float:left; margin-left:-37px; padding-top:8px; margin-right:8px; }  /* This is an optional floated area for the back button that appears to the left of the header. */
+.C-header_right { float:right; padding-top:8px; margin-left:20px; }  /* this is an optional floated area that appears to the right of the header */
 
 /* for each variant, overwrite the padding-left for C-cont and change the background image to fit the right faux columns */
-/* SMALL VARIANT */
+/* SMALL VARIANT (most things, esp. browsing content in feeds) */
 .C-full.sm .C-header { }
 .C-full.sm .C-cont { background:#FFF url(../images/layout/C/bg_sm.png) top left repeat-y; }
 .C-full.sm .C-sidebar { background:url(../images/layout/C/sidebar_sm.png) top left no-repeat; }
 .C-full.sm .C-footer { background:#FFF url(../images/layout/C/bg_sm.png) top left repeat-y; }
-/* MED VARIANT */
+/* LARGE VARIANT (Add Content with live preview screen) */
 .C-full.lg .C-header { }
 .C-full.lg .C-cont { background:#FFF url(../images/layout/C/bg_lg.png) top left repeat-y; padding-left:318px; }
 .C-full.lg .C-sidebar { background:url(../images/layout/C/sidebar_lg.png) top left no-repeat; width:298px; right:318px; }
@@ -98,7 +99,7 @@ a.button:active{background-position:bottom right;color:#333;text-shadow:0 0.1em 
 a.button:active span{background-position:bottom left;padding:6px 0 7px 20px;}
 
 /* Special Rules: */
-.C-headerfloat a.button { margin-right:0px; margin-left:6px; }
+.C-header_right a.button { margin-right:0px; margin-left:6px; }
 
 
 /*##########################################################################*/
