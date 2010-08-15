@@ -61,14 +61,14 @@ h5 { font-size:1.3em; }
 /*##########################################################################*/
 
 /*##########  BASIC LAYOUT  ##########*/
-.C-full { margin-bottom:18px; border-radius:8px; box-shadow: #ababab 0 3px 2px; -webkit-box-shadow: #ababab 0 3px 2px; }
-.C-header { background:#FFF url(../images/layout/C/header_bg.png) bottom left repeat-x; padding:8px 14px; border:solid 1px #ababab; border-bottom:0px; border-top-left-radius:8px; border-top-right-radius:8px; }
-.C-header h1 { color:#666; font-size:1.6em; font-weight:bolder; letter-spacing:-0.05em; text-shadow:0 0.05em #eee; padding-top:9px; }
+.C-full { margin-bottom:18px; border-radius:8px; -moz-border-radius:8px; box-shadow: #ababab 0 3px 2px; -webkit-box-shadow: #ababab 0 3px 2px; }
+.C-header { background:#FFF url(../images/layout/C/header_bg.png) bottom left repeat-x; padding:8px 14px; border:solid 1px #ababab; border-bottom:0px; border-top-left-radius:8px; -moz-border-radius-topleft:8px; border-top-right-radius:8px; -moz-border-radius-topright:8px; }
+.C-header h1 { color:#666; font-size:1.6em; font-weight:bolder; letter-spacing:-0.05em; text-shadow:0 1px #eee; padding-top:9px; }
 .C-cont { padding-left:184px; border-left:solid 1px #ababab; border-right:solid 1px #ababab; }
 .C-cont .column { position:relative; float:left; }
-.C-center { padding:10px 0px; width:100%; }
+.C-center { padding:10px 0px; width:100%; }  /* left/right padding inside of this div should be determined by the contained content, not by a wrapper div defined here! */
 .C-sidebar { min-height:300px; width:164px; padding: 0 10px; right:184px; margin-left:-100%; }
-.C-footer { clear:both; border:solid 1px #ababab; border-top:0px; border-bottom-left-radius:8px; border-bottom-right-radius:8px; }
+.C-footer { clear:both; border:solid 1px #ababab; border-top:0px; border-bottom-left-radius:8px; -moz-border-radius-bottomleft:8px; border-bottom-right-radius:8px; -moz-border-radius-bottomright:8px; }
 .C-header_back { float:left; margin-left:-37px; padding-top:12px; margin-right:8px; }  /* This is an optional floated area for the back button that appears to the left of the header. */
 .C-header_right { float:right; padding-top:8px; margin-left:20px; }  /* this is an optional floated area that appears to the right of the header */
 
@@ -88,8 +88,6 @@ h5 { font-size:1.3em; }
 /*##########################################################################*/
 /*  Buttons  */
 /*##########################################################################*/
-
-/* Need to handle: Top Menu, Blue Normal, Blue Back */
 
 /*##########  DEFAULT BUTTON: BLUE NORMAL  ##########*/
 /* Method adapted from http://www.oscaralexander.com/tutorials/how-to-make-sexy-buttons-with-css.html */
@@ -141,18 +139,21 @@ div.img_icon { background:url(../images/icons/imageicon.png) center center no-re
 /*  Form Minimals  */
 /*##########################################################################*/
 
+/* Special Rules: */
+.C-center form { padding-left:20px; }
+
 
 /*##########################################################################*/
 /*  Modal Selectors  */
 /*##########################################################################*/
 
 .MS-frame {  }
-.MS-frame h1 { color:#666; margin-left:30px; font-size:1.8em; text-shadow:0 0.05em #FFF; letter-spacing:-0.1em; margin-bottom:4px; }
-.MS-outer { background:url(../images/layout/MS/outer.png) repeat; padding:6px; border-radius:20px; margin-bottom:22px; }
-.MS-inner { background:url(../images/layout/MS/inner.png) repeat; border-radius:14px; padding:17px; }
+.MS-frame h1 { color:#666; margin-left:30px; font-size:1.8em; text-shadow:0 1px #FFF; letter-spacing:-0.1em; margin-bottom:4px; }
+.MS-outer { background:url(../images/layout/MS/outer.png) repeat; padding:6px; border-radius:20px; -moz-border-radius:20px; margin-bottom:22px; }
+.MS-inner { background:url(../images/layout/MS/inner.png) repeat; border-radius:14px; -moz-border-radius:14px; padding:17px; }
 .MS-inner ul.iconlist { margin:0px -6px; } 
 .MS-inner ul.iconlist li { margin:0px 6px; }
-.MS-inner ul.iconlist li a { border-radius:8px; background:url(../images/layout/MS/iconlist_inactive.png) repeat; border:solid 1px #999; opacity:0.4; }
+.MS-inner ul.iconlist li a { border-radius:8px; -moz-border-radius:8px; background:url(../images/layout/MS/iconlist_inactive.png) repeat; border:solid 1px #999; opacity:0.4; }
 .MS-inner ul.iconlist li a:hover { opacity:1; }
 .MS-inner ul.iconlist li a h2 { font-size:1.4em; color:#FFF !important; }
 
