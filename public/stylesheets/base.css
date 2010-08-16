@@ -74,13 +74,14 @@ h5 { font-size:1.3em; }
 
 /* for each variant, overwrite the padding-left for C-cont and change the background image to fit the right faux columns */
 /* SMALL VARIANT (most things, esp. browsing content in feeds) */
-.C-full.sm .C-header { }
 .C-full.sm .C-cont { background:#FFF url(../images/layout/C/bg_sm.png) top left repeat-y; }
 .C-full.sm .C-sidebar { background:url(../images/layout/C/sidebar_sm.png) top left no-repeat; }
 /* LARGE VARIANT (Add Content with live preview screen) */
-.C-full.lg .C-header { }
 .C-full.lg .C-cont { background:#FFF url(../images/layout/C/bg_lg.png) top left repeat-y; padding-left:318px; }
 .C-full.lg .C-sidebar { background:url(../images/layout/C/sidebar_lg.png) top left no-repeat; width:298px; right:318px; }
+/* NO-SIDEBAR VARIANT (Basic New/Edit Forms) */
+.C-full.no .C-cont { background:#FFF; padding-left:0px; }
+.C-full.no .C-sidebar { background:#FFF; width:0; display:none; }	/* this div can be omitted completely if desired */ 
 
 
 /*##########################################################################*/
@@ -92,6 +93,7 @@ a.button, form .submit_bar input { cursor:pointer; box-shadow:inset 0 0px 6px #0
 form .submit_bar input { height:auto; padding:4px 20px 6px 20px; }
 a.button:hover, form .submit_bar input:hover { background-position:100% -26px; color:#000033; text-shadow:0 -1px #eee; box-shadow:inset 0 0px 6px #FFF; -webkit-box-shadow:inset 0 0px 6px #FFF; -moz-box-shadow:inset 0 0px 6px #FFF; border:solid 1px #000033; }
 a.button:active, form .submit_bar input:active { background-position:100% 100%;color:#333;text-shadow:0 1px #FFF;outline:none; height:20px; padding:6px 20px 0px 20px; box-shadow:inset 0 0px 6px #000; -webkit-box-shadow:inset 0 0px 6px #000; -moz-box-shadow:inset 0 0px 6px #000; border:solid 1px #000; }
+form .submit_bar input:active { height:auto; padding:6px 20px 4px 20px; }
 
 /* Special Rules: */
 .C-header_right a.button { margin-right:0px; margin-left:6px; }
@@ -141,7 +143,9 @@ form .field .inputs textarea { width:600px; height:100px; padding:2px; backgroun
 form .field .inputs input.alert { border:solid 2px #cc3333; }  /* this is useful for calling attention to certain fields that may have failed validation; should be coupled with an inline validation message */
 form .field .fieldbox { border:solid 1px #ccc; padding:4px 6px; border-radius:6px; -moz-border-radius:6px; } /* this is a special element to replace a .inputs div */
 form .submit_bar { background:#FFF url(../images/layout/C/submit_bar_bg.png) top left repeat-x; margin-top:30px; padding:16px 20px; }
-form input.submit { background:url(../images/layout/forms/submit_button.png) center center no-repeat; width:81px; height:29px; }
+
+/* Special Rules */
+.C-full.no .C-cont form .fields { padding:22px 0px; }
 
 
 /*##########################################################################*/
