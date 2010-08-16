@@ -33,8 +33,9 @@ input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inher
 input,button,textarea,select{*font-size:100%;}
 small { font-size:0.6em; }
 
-a { text-decoration:none; font-weight:bold; }
+a { color:#006699; text-decoration:none; font-weight:bold; }
 a:hover { text-decoration:underline; }
+a:visited { color:#9d11b3; }
 
 #main { padding:100px 3% 10px 3%; }
 .clear { clear:both; }
