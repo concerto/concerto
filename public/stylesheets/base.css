@@ -91,7 +91,7 @@ h5 { font-size:1.3em; }
 a.button, form .submit_bar input { cursor:pointer; box-shadow:inset 0 0px 6px #003366; -webkit-box-shadow:inset 0 0px 6px #003366; -moz-box-shadow:inset 0 0px 6px #003366; height:22px; padding:4px 20px 0px 20px; font-weight:bold; color:#FFF;float:left;letter-spacing:-0.08em;text-shadow:0 -1px #333;font-size:0.8em;margin-right:6px;text-decoration:none; background:url(../images/layout/button_norm_states.png) top left repeat-x; border:solid 1px #003366; border-radius:4px; -moz-border-radius:4px; }
 form .submit_bar input { height:auto; padding:4px 20px 6px 20px; }
 a.button:hover, form .submit_bar input:hover { background-position:100% -26px; color:#000033; text-shadow:0 -1px #eee; box-shadow:inset 0 0px 6px #FFF; -webkit-box-shadow:inset 0 0px 6px #FFF; -moz-box-shadow:inset 0 0px 6px #FFF; border:solid 1px #000033; }
-a.button:active, form .submit_bar input:active { background-position:100% 100%;color:#333;text-shadow:0 1px #FFF;outline:none; padding:6px 20px 4px 20px; box-shadow:inset 0 0px 6px #000; -webkit-box-shadow:inset 0 0px 6px #000; -moz-box-shadow:inset 0 0px 6px #000; border:solid 1px #000; }
+a.button:active, form .submit_bar input:active { background-position:100% 100%;color:#333;text-shadow:0 1px #FFF;outline:none; height:20px; padding:6px 20px 0px 20px; box-shadow:inset 0 0px 6px #000; -webkit-box-shadow:inset 0 0px 6px #000; -moz-box-shadow:inset 0 0px 6px #000; border:solid 1px #000; }
 
 /* Special Rules: */
 .C-header_right a.button { margin-right:0px; margin-left:6px; }
@@ -187,7 +187,7 @@ tr.TM-sectop td { padding:3px 2px 5px 2px; }
 #TM ul.buttons li {display:inline;list-style:none;}
 #TM ul.buttons li a.button {background:transparent url(../images/layout/TM/button_TM_states.png) top left repeat-x; box-shadow:0 0 0; -moz-box-shadow:0 0 0; -webkit-box-shadow:0 0 0; color:#666;text-shadow:0 1px #eee;letter-spacing:0em;font-size:0.8em;margin:0px 2px; height:24px; padding:7px 20px 0px 20px; font-weight:bold; border:solid 1px #999; border-radius:6px; -moz-border-radius:6px; }
 #TM ul.buttons li a.button:hover {color:#000033; text-shadow:0 1px #eee; background-position:100% -31px; border:solid 1px #000033; box-shadow:inset 0 0px 6px #FFF; -webkit-box-shadow:inset 0 0px 6px #FFF; -moz-box-shadow:inset 0 0px 6px #FFF; }
-#TM ul.buttons li a.button:active { color:#333;text-shadow:0 1px #FFF; background-position:100% -62px; border:solid 1px #898989; height:21px; padding:10px 20px 0px 20px; }
+#TM ul.buttons li a.button:active { color:#333;text-shadow:0 1px #FFF; background-position:100% -62px; border:solid 1px #898989; box-shadow:inset 0 0px 6px #000; -webkit-box-shadow:inset 0 0px 6px #000; -moz-box-shadow:inset 0 0px 6px #000; height:21px; padding:10px 20px 0px 20px; }
 #TM ul.buttons li.selected a.button { box-shadow:inset 0 0px 6px #000; -webkit-box-shadow:inset 0 0px 10px #000; -moz-box-shadow:inset 0 0px 6px #000; text-decoration:none;text-shadow:0 -1px #333; color:#FFF; background-position:100% 100%; border:solid 1px #333; }
 
 /*##########  LOGIN (LG)  ##########*/
