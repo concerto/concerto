@@ -86,25 +86,27 @@ h5 { font-size:1.3em; }
 /*  Buttons  */
 /*##########################################################################*/
 
-/*##########  DEFAULT BUTTON: BLUE NORMAL  ##########*/
+/*##########  DEFAULT BUTTON LINK: BLUE NORMAL  ##########*/
 /* Method adapted from http://www.oscaralexander.com/tutorials/how-to-make-sexy-buttons-with-css.html */
-a.button{background:transparent url(../images/layout/button_a.png) no-repeat scroll top right;color:#FFF;display:block;float:left;height:29px;letter-spacing:-0.08em;text-shadow:0 -1px #333;font-size:0.8em;margin-right:6px;padding-right:20px;text-decoration:none;}
+/*a.button{background:transparent url(../images/layout/button_a.png) no-repeat scroll top right;color:#FFF;display:block;float:left;height:29px;letter-spacing:-0.08em;text-shadow:0 -1px #333;font-size:0.8em;margin-right:6px;padding-right:20px;text-decoration:none;}
 a.button span{background:transparent url(../images/layout/button_span.png) no-repeat;display:block;padding:5px 0 8px 20px;}
 a.button:hover{background-position:100% -29px;color:#000033; text-shadow:0 -1px #eee; }
 a.button:hover span{background-position:0% -29px;}
 a.button:active{background-position:100% 100%;color:#333;text-shadow:0 1px #FFF;outline:none;}
-a.button:active span{background-position:0% 100%;padding:7px 0 6px 20px;}
+a.button:active span{background-position:0% 100%;padding:7px 0 6px 20px;}*/
+
+/*##########  DEFAULT BUTTON LINK: BLUE NORMAL  ##########*/
+a.button, form .submit_bar input { cursor:pointer; box-shadow:inset 0 0px 6px #003366; -webkit-box-shadow:inset 0 0px 6px #003366; -moz-box-shadow:inset 0 0px 6px #003366; padding:4px 20px 6px 20px; font-weight:bold; color:#FFF;float:left;letter-spacing:-0.08em;text-shadow:0 -1px #333;font-size:0.8em;margin-right:6px;text-decoration:none; background:url(../images/layout/button_norm_states.png) top left repeat-x; border:solid 1px #003366; border-radius:4px; -moz-border-radius:4px; }
+a.button:hover, form .submit_bar input:hover { background-position:100% -26px; color:#000033; text-shadow:0 -1px #eee; box-shadow:inset 0 0px 6px #FFF; -webkit-box-shadow:inset 0 0px 6px #FFF; -moz-box-shadow:inset 0 0px 6px #FFF; border:solid 1px #000033; }
+a.button:active, form .submit_bar input:active { background-position:100% 100%;color:#333;text-shadow:0 1px #FFF;outline:none; padding:6px 20px 4px 20px; box-shadow:inset 0 0px 6px #000; -webkit-box-shadow:inset 0 0px 6px #000; -moz-box-shadow:inset 0 0px 6px #000; border:solid 1px #000; }
 
 /* Special Rules: */
 .C-header_right a.button { margin-right:0px; margin-left:6px; }
 
 /*##########  BLUE BACK BUTTON  ##########*/
-a.back {background:transparent url(../images/layout/button_back_a.png) no-repeat scroll top right;height:24px;padding-right:12px;font-size:0.7em;}
-a.back span {background:transparent url(../images/layout/button_back_span.png) no-repeat;padding:5px 0 6px 20px;}
-a.back:hover {background-position:100% -24px;}
-a.back:hover span {background-position:0% -24px;}
-a.back:active {background-position:100% 100%;}
-a.back:active span{background-position:0% 100%;padding:6px 0 5px 20px;}
+a.back {background:transparent url(../images/layout/button_back_states.png) no-repeat scroll top left; font-size:0.7em; box-shadow:0 0 0; -webkit-box-shadow: 0 0 0; -moz-box-shadow:0 0 0; border:0; border-right:solid 1px #396bab; border-top-left-radius:4px; -moz-border-radius-topleft:4px; border-top-right-radius:4px; -moz-border-radius-topright:4px; height:18px; padding:4px 12px 0px 20px; } 
+a.back:hover {background-position:0% -22px; border:0; border-right:solid 1px #53abe7; box-shadow:0 0 0; -webkit-box-shadow: 0 0 0; -moz-box-shadow:0 0 0; }
+a.back:active {background-position:0% 100%; box-shadow:0 0 0; -webkit-box-shadow: 0 0 0; -moz-box-shadow:0 0 0; height:16px; padding:6px 12px 0px 20px; }
 
 
 /*##########################################################################*/
@@ -190,14 +192,10 @@ tr.TM-sectop td { padding:3px 2px 5px 2px; }
 
 /*##########  CASCADE OF BUTTON STYLES FOR MENU ITEMS  ##########*/
 #TM ul.buttons li {display:inline;list-style:none;}
-#TM ul.buttons li a.button {background:transparent url(../images/layout/TM/button_TM_a.png) no-repeat scroll top right;height:33px;padding-right:20px;color:#666;text-shadow:0 1px #eee;letter-spacing:0em;font-size:0.8em;margin:0px 2px;}
-#TM ul.buttons li a.button span {background:transparent url(../images/layout/TM/button_TM_span.png) no-repeat;padding:8px 0 9px 20px;cursor:pointer;}
-#TM ul.buttons li a.button:hover {color:#000033; text-shadow:0 1px #eee; background-position:100% -33px;}
-#TM ul.buttons li a.button:hover span{ background-position:0% -33px; }
-#TM ul.buttons li a.button:active { color:#333;text-shadow:0 1px #FFF; background-position:100% -66px; }
-#TM ul.buttons li a.button:active span { background-position:0% -66px; padding:10px 0 7px 20px; }
-#TM ul.buttons li.selected a.button { text-decoration:none;text-shadow:0 -1px #333; color:#FFF; background-position:100% 100%; }
-#TM ul.buttons li.selected a.button span { background-position:0% 100%; }
+#TM ul.buttons li a.button {background:transparent url(../images/layout/TM/button_TM_states.png) top left repeat-x; box-shadow:0 0 0; -moz-box-shadow:0 0 0; -webkit-box-shadow:0 0 0; color:#666;text-shadow:0 1px #eee;letter-spacing:0em;font-size:0.8em;margin:0px 2px; height:24px; padding:7px 20px 0px 20px; font-weight:bold; border:solid 1px #b4b4b4; border-radius:6px; -moz-border-radius:6px; }
+#TM ul.buttons li a.button:hover {color:#000033; text-shadow:0 1px #eee; background-position:100% -31px; border:solid 1px #000033; box-shadow:inset 0 0px 6px #FFF; -webkit-box-shadow:inset 0 0px 6px #FFF; -moz-box-shadow:inset 0 0px 6px #FFF; }
+#TM ul.buttons li a.button:active { color:#333;text-shadow:0 1px #FFF; background-position:100% -62px; border:solid 1px #898989; height:21px; padding:10px 20px 0px 20px; }
+#TM ul.buttons li.selected a.button { box-shadow:inset 0 0px 6px #000; -webkit-box-shadow:inset 0 0px 10px #000; -moz-box-shadow:inset 0 0px 6px #000; text-decoration:none;text-shadow:0 -1px #333; color:#FFF; background-position:100% 100%; border:solid 1px #333; }
 
 /*##########  LOGIN (LG)  ##########*/
 #LG-inner { float:left; width:153px; height:69px; padding:0px 28px 0px 104px; background:url(../images/layout/LG_bluebg.png) top left no-repeat; }
