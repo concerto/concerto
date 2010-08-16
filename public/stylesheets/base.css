@@ -137,6 +137,7 @@ form .field { clear:both; vertical-align:middle; }
 form .field label { padding-top:7px; margin-bottom:12px; font-family:"Myriad Pro", Helvetica, Arial, sans-serif; width:110px; float:left; color:#666; font-size:1em; letter-spacing:-0em; text-align:right; padding-right:10px; }
 form .field .inputs, form .field .fieldbox { float:left; margin-bottom:12px; }	 /* .inputs is the basic treatment for text fields and boxes */
 form .field .inputs input, form .field .fieldbox input { width:600px; padding:2px; background:#fefefe url(../images/layout/forms/textfield_bg.png) top left repeat-x; border:solid 1px #999; }
+form .field .inputs textarea { width:600px; height:100px; padding:2px; background:#fefefe url(../images/layout/forms/textfield_bg.png) top left repeat-x; border:solid 1px #999; }
 form .field .inputs input.alert { border:solid 2px #cc3333; }  /* this is useful for calling attention to certain fields that may have failed validation; should be coupled with an inline validation message */
 form .field .fieldbox { border:solid 1px #ccc; padding:4px 6px; border-radius:6px; -moz-border-radius:6px; } /* this is a special element to replace a .inputs div */
 form .submit_bar { background:#FFF url(../images/layout/C/submit_bar_bg.png) top left repeat-x; margin-top:30px; padding:16px 20px; }

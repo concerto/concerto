@@ -9,23 +9,38 @@
 </div>
 <% end %>
 
+<h1>1. Fill in the Text to be Displayed</h1>
 <div class="field">
-  <%= form.label :name %><br />
-  <%= form.text_field :name %>
+  	<%= form.label :data, "Ticker Text" %>
+  	<div class="inputs">
+		<%= form.text_area :data %>
+	</div>
+</div>
+
+<h1>2. Provide Basic Details</h1>
+<div class="field">
+  	<%= form.label :name %>
+  	<div class="inputs">
+		<%= form.text_field :name, :class => 'alert' %>
+	</div>
 </div>
 <div class="field">
-  <%= form.label :duration %><br />
-  <%= form.text_field :duration %>
+  	<%= form.label :duration %>
+  	<div class="inputs">
+		<%= form.text_field :duration %>
+	</div>
 </div>
 <%= render :partial => 'contents/form_elements/dates', :locals => {:form => form} %>
 <div class="field">
-  <%= form.label :user %><br />
-  <%= form.collection_select :user_id, User.all, :id, :name %>
+  	<%= form.label :user %>
+  	<div class="inputs">
+		<%= form.collection_select :user_id, User.all, :id, :name %>
+	</div>
 </div>
+
+<h1>3. Select Feed</h1>
 <% if @content.new_record? %>
   <%= render :partial => 'contents/form_elements/feeds' %>
 <% end %>
-<div class="field">
-  <%= form.label :data %><br />
-  <%= form.text_area :data %>
-</div>
+
+
