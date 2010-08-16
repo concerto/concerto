@@ -188,7 +188,7 @@ tr.TM-sectop td { padding:3px 2px 5px 2px; }
 .TM-secline-left, .TM-secline-right { background:url(../images/layout/TM/TM_secline.png) top left no-repeat; width:2px; height:69px; padding:0px !important; }
 .TM-secline-right { background-position:-2px 0px; }
 
-/*##########  SPECIAL MENU BUTTONS  ##########*/
+/*##########  CASCADE OF BUTTON STYLES FOR MENU ITEMS  ##########*/
 #TM ul.buttons li {display:inline;list-style:none;}
 #TM ul.buttons li a.button {background:transparent url(../images/layout/TM/button_TM_a.png) no-repeat scroll top right;height:33px;padding-right:20px;color:#666;text-shadow:0 1px #eee;letter-spacing:0em;font-size:0.8em;margin:0px 2px;}
 #TM ul.buttons li a.button span {background:transparent url(../images/layout/TM/button_TM_span.png) no-repeat;padding:8px 0 9px 20px;cursor:pointer;}
