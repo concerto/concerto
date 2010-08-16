@@ -99,7 +99,7 @@ a.button:active, form .submit_bar input:active { background-position:100% 100%;c
 /*##########  BLUE BACK BUTTON  ##########*/
 a.back {background:transparent url(../images/layout/button_back_states.png) no-repeat scroll top left; font-size:0.7em; box-shadow:0 0 0; -webkit-box-shadow: 0 0 0; -moz-box-shadow:0 0 0; border:0; border-right:solid 1px #396bab; border-top-left-radius:4px; -moz-border-radius-topleft:4px; border-top-right-radius:4px; -moz-border-radius-topright:4px; height:18px; padding:4px 12px 0px 20px; } 
 a.back:hover {background-position:0% -22px; border:0; border-right:solid 1px #53abe7; box-shadow:0 0 0; -webkit-box-shadow: 0 0 0; -moz-box-shadow:0 0 0; }
-a.back:active {background-position:0% 100%; box-shadow:0 0 0; -webkit-box-shadow: 0 0 0; -moz-box-shadow:0 0 0; height:16px; padding:6px 12px 0px 20px; }
+a.back:active {background-position:0% 100%; border:0; border-right:solid 1px #999; box-shadow:0 0 0; -webkit-box-shadow: 0 0 0; -moz-box-shadow:0 0 0; height:16px; padding:6px 12px 0px 20px; }
 
 
 /*##########################################################################*/
@@ -154,9 +154,9 @@ form input.submit { background:url(../images/layout/forms/submit_button.png) cen
 .MS-inner { background:url(../images/layout/MS/inner.png) repeat; border-radius:14px; -moz-border-radius:14px; padding:17px; }
 .MS-inner ul.iconlist { margin:0px -6px; } 
 .MS-inner ul.iconlist li { margin:0px 6px; }
-.MS-inner ul.iconlist li a { border-radius:8px; -moz-border-radius:8px; background:url(../images/layout/MS/iconlist_inactive.png) repeat; border:solid 1px #999; opacity:0.4; }
+.MS-inner ul.iconlist li a { color:#FFF; text-decoration:none; border-radius:8px; -moz-border-radius:8px; background:url(../images/layout/MS/iconlist_inactive.png) repeat; border:solid 1px #999; opacity:0.5; }
 .MS-inner ul.iconlist li a:hover { opacity:1; }
-.MS-inner ul.iconlist li a h2 { font-size:1.4em; color:#FFF !important; }
+.MS-inner ul.iconlist li a h2 { font-size:1.5em; color:#FFF !important; }
 
 
 
