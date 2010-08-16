@@ -61,7 +61,7 @@ h5 { font-size:1.3em; }
 /*##########################################################################*/
 
 /*##########  BASIC LAYOUT  ##########*/
-.C-full { margin-bottom:18px; border-radius:8px; -moz-border-radius:8px; box-shadow: #ababab 0 3px 2px; -webkit-box-shadow: #ababab 0 3px 2px; }
+.C-full { margin-bottom:18px; border-radius:8px; -moz-border-radius:8px; box-shadow: #ababab 0 3px 2px; -moz-box-shadow:#ababab 0 3px 2px; -webkit-box-shadow: #ababab 0 3px 2px; }
 .C-header { background:#FFF url(../images/layout/C/header_bg.png) bottom left repeat-x; padding:12px 14px; padding-bottom:5px; border:solid 1px #ababab; border-bottom:0px; border-top-left-radius:8px; -moz-border-radius-topleft:8px; border-top-right-radius:8px; -moz-border-radius-topright:8px; }
 .C-header h1 { color:#666; font-size:1.8em; letter-spacing:-0.05em; text-shadow:0 1px #eee; padding-top:9px; }
 .C-cont { padding-left:184px; border-left:solid 1px #ababab; border-right:solid 1px #ababab; }
@@ -87,16 +87,8 @@ h5 { font-size:1.3em; }
 /*##########################################################################*/
 
 /*##########  DEFAULT BUTTON LINK: BLUE NORMAL  ##########*/
-/* Method adapted from http://www.oscaralexander.com/tutorials/how-to-make-sexy-buttons-with-css.html */
-/*a.button{background:transparent url(../images/layout/button_a.png) no-repeat scroll top right;color:#FFF;display:block;float:left;height:29px;letter-spacing:-0.08em;text-shadow:0 -1px #333;font-size:0.8em;margin-right:6px;padding-right:20px;text-decoration:none;}
-a.button span{background:transparent url(../images/layout/button_span.png) no-repeat;display:block;padding:5px 0 8px 20px;}
-a.button:hover{background-position:100% -29px;color:#000033; text-shadow:0 -1px #eee; }
-a.button:hover span{background-position:0% -29px;}
-a.button:active{background-position:100% 100%;color:#333;text-shadow:0 1px #FFF;outline:none;}
-a.button:active span{background-position:0% 100%;padding:7px 0 6px 20px;}*/
-
-/*##########  DEFAULT BUTTON LINK: BLUE NORMAL  ##########*/
-a.button, form .submit_bar input { cursor:pointer; box-shadow:inset 0 0px 6px #003366; -webkit-box-shadow:inset 0 0px 6px #003366; -moz-box-shadow:inset 0 0px 6px #003366; padding:4px 20px 6px 20px; font-weight:bold; color:#FFF;float:left;letter-spacing:-0.08em;text-shadow:0 -1px #333;font-size:0.8em;margin-right:6px;text-decoration:none; background:url(../images/layout/button_norm_states.png) top left repeat-x; border:solid 1px #003366; border-radius:4px; -moz-border-radius:4px; }
+a.button, form .submit_bar input { cursor:pointer; box-shadow:inset 0 0px 6px #003366; -webkit-box-shadow:inset 0 0px 6px #003366; -moz-box-shadow:inset 0 0px 6px #003366; height:22px; padding:4px 20px 0px 20px; font-weight:bold; color:#FFF;float:left;letter-spacing:-0.08em;text-shadow:0 -1px #333;font-size:0.8em;margin-right:6px;text-decoration:none; background:url(../images/layout/button_norm_states.png) top left repeat-x; border:solid 1px #003366; border-radius:4px; -moz-border-radius:4px; }
+form .submit_bar input { height:auto; padding:4px 20px 6px 20px; }
 a.button:hover, form .submit_bar input:hover { background-position:100% -26px; color:#000033; text-shadow:0 -1px #eee; box-shadow:inset 0 0px 6px #FFF; -webkit-box-shadow:inset 0 0px 6px #FFF; -moz-box-shadow:inset 0 0px 6px #FFF; border:solid 1px #000033; }
 a.button:active, form .submit_bar input:active { background-position:100% 100%;color:#333;text-shadow:0 1px #FFF;outline:none; padding:6px 20px 4px 20px; box-shadow:inset 0 0px 6px #000; -webkit-box-shadow:inset 0 0px 6px #000; -moz-box-shadow:inset 0 0px 6px #000; border:solid 1px #000; }
 
@@ -141,7 +133,7 @@ div.img_icon { background:url(../images/icons/imageicon.png) center center no-re
 form h1 { clear:both; color:#333; font-size:1.35em; font-weight:normal; border-bottom:solid 1px #999; padding-top:22px; margin-bottom:14px; }
 form .fields { padding-left:20px; }  /* this is the container of ALL fields on a particular content cell-based form */
 form .field { clear:both; vertical-align:middle; }
-form .field label { padding-top:7px; margin-bottom:12px; font-family:"Myriad Pro", Helvetica, Arial, sans-serif; width:110px; float:left; color:#666; font-size:1em; letter-spacing:-0.1em; text-align:right; padding-right:10px; }
+form .field label { padding-top:7px; margin-bottom:12px; font-family:"Myriad Pro", Helvetica, Arial, sans-serif; width:110px; float:left; color:#666; font-size:1em; letter-spacing:-0em; text-align:right; padding-right:10px; }
 form .field .inputs, form .field .fieldbox { float:left; margin-bottom:12px; }	 /* .inputs is the basic treatment for text fields and boxes */
 form .field .inputs input, form .field .fieldbox input { width:600px; padding:2px; background:#fefefe url(../images/layout/forms/textfield_bg.png) top left repeat-x; border:solid 1px #999; }
 form .field .inputs input.alert { border:solid 2px #cc3333; }  /* this is useful for calling attention to certain fields that may have failed validation; should be coupled with an inline validation message */
@@ -192,7 +184,7 @@ tr.TM-sectop td { padding:3px 2px 5px 2px; }
 
 /*##########  CASCADE OF BUTTON STYLES FOR MENU ITEMS  ##########*/
 #TM ul.buttons li {display:inline;list-style:none;}
-#TM ul.buttons li a.button {background:transparent url(../images/layout/TM/button_TM_states.png) top left repeat-x; box-shadow:0 0 0; -moz-box-shadow:0 0 0; -webkit-box-shadow:0 0 0; color:#666;text-shadow:0 1px #eee;letter-spacing:0em;font-size:0.8em;margin:0px 2px; height:24px; padding:7px 20px 0px 20px; font-weight:bold; border:solid 1px #b4b4b4; border-radius:6px; -moz-border-radius:6px; }
+#TM ul.buttons li a.button {background:transparent url(../images/layout/TM/button_TM_states.png) top left repeat-x; box-shadow:0 0 0; -moz-box-shadow:0 0 0; -webkit-box-shadow:0 0 0; color:#666;text-shadow:0 1px #eee;letter-spacing:0em;font-size:0.8em;margin:0px 2px; height:24px; padding:7px 20px 0px 20px; font-weight:bold; border:solid 1px #999; border-radius:6px; -moz-border-radius:6px; }
 #TM ul.buttons li a.button:hover {color:#000033; text-shadow:0 1px #eee; background-position:100% -31px; border:solid 1px #000033; box-shadow:inset 0 0px 6px #FFF; -webkit-box-shadow:inset 0 0px 6px #FFF; -moz-box-shadow:inset 0 0px 6px #FFF; }
 #TM ul.buttons li a.button:active { color:#333;text-shadow:0 1px #FFF; background-position:100% -62px; border:solid 1px #898989; height:21px; padding:10px 20px 0px 20px; }
 #TM ul.buttons li.selected a.button { box-shadow:inset 0 0px 6px #000; -webkit-box-shadow:inset 0 0px 10px #000; -moz-box-shadow:inset 0 0px 6px #000; text-decoration:none;text-shadow:0 -1px #333; color:#FFF; background-position:100% 100%; border:solid 1px #333; }
