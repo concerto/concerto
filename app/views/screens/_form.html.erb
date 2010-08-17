@@ -1,40 +1,55 @@
 <%= form_for(@screen) do |f| %>
-  <% if @screen.errors.any? %>
-  <div id="errorExplanation">
-    <h2><%= pluralize(@screen.errors.count, "error") %> prohibited this screen from being saved:</h2>
-    <ul>
-      <% @screen.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :location %><br />
-    <%= f.text_field :location %>
-  </div>
-  <div class="field">
-    <%= f.label :is_public %><br />
-    <%= f.check_box :is_public %>
-  </div>
-  <div class="field">
-    <%= f.label :owner_id %><br />
-    <%= f.text_field :owner_id %>
-  </div>
-  <div class="field">
-    <%= f.label :owner_type %><br />
-    <%= f.text_field :owner_type %>
-  </div>
-  <div class="field">
-    <%= f.label :template %><br />
-    <%= f.collection_select :template_id, @templates, :id, :name %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+	<% if @screen.errors.any? %>
+	<div id="errorExplanation">
+	  <h2><%= pluralize(@screen.errors.count, "error") %> prohibited this screen from being saved:</h2>
+	  <ul>
+	    <% @screen.errors.full_messages.each do |msg| %>
+	      <li><%= msg %></li>
+	    <% end %>
+	  </ul>
+	</div>
+	<% end %>
+	<div class="fields">
+		<div class="field">
+			<%= f.label :name %>
+			<div class="inputs">
+				<%= f.text_field :name %>
+			</div>
+		</div>
+		<div class="field">
+			<%= f.label :location %>
+			<div class="inputs">
+				<%= f.text_field :location %>
+			</div>
+		</div>
+		<div class="field">
+			<%= f.label :is_public %>
+			<div class="inputs">
+				<%= f.check_box :is_public %>
+			</div>
+		</div>
+		<div class="field">
+			<%= f.label :owner_id %>
+			<div class="inputs">
+				<%= f.text_field :owner_id %>
+			</div>
+		</div>
+		<div class="field">
+			<%= f.label :owner_type %>
+			<div class="inputs">
+				<%= f.text_field :owner_type %>
+			</div>
+		</div>
+		<div class="field">
+			<%= f.label :template %>
+			<div class="inputs">
+				<%= f.collection_select :template_id, @templates, :id, :name %>
+			</div>
+		</div>
+	</div>
+	
+	<div class="submit_bar actions">
+	  	<%= f.submit %>
+		<div class="clear"></div>
+	</div>
 <% end %>

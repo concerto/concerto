@@ -1,5 +1,13 @@
-<h1>New screen</h1>
+<div class="C-full no">
+	<div class="C-header">
+		<div class="C-header_back"><%= link_to "Back", screens_path, :class => "button back" %></div>
+		<h1>New Screen</h1>
+	</div> 
+	<div class="C-cont">
+		<div class="C-center column">
+			<%= render 'form' %>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
 
-<%= render 'form' %>
-
-<%= link_to 'Back', screens_path %>
