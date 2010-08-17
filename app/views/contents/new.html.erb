@@ -5,7 +5,7 @@
 			<ul class="iconlist">
 				<% content_types.each do |subclass| %>
 				<li> 
-			  		<% link_to new_content_path(:type=>subclass.model_name.singular) do %> 
+			  		<%= link_to new_content_path(:type=>subclass.model_name.singular) do %> 
 			  			<div class="iconlist_padding"> 
 		        			<div class="ins"> 
 		          				<div class="type-folder"><%= image_tag("ph/ph.png", :alt => "") %></div>
