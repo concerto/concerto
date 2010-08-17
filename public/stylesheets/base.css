@@ -103,6 +103,15 @@ a.back {background:transparent url(../images/layout/button_back_states.png) no-r
 a.back:hover {background-position:0% -22px; border:0; border-right:solid 1px #53abe7; box-shadow:0 0 0; -webkit-box-shadow: 0 0 0; -moz-box-shadow:0 0 0; }
 a.back:active {background-position:0% 100%; border:0; border-right:solid 1px #999; box-shadow:0 0 0; -webkit-box-shadow: 0 0 0; -moz-box-shadow:0 0 0; height:16px; padding:6px 12px 0px 20px; }
 
+/*##########  FEED BUTTON  ##########*/
+ul.feedbuttons { padding:12px 0px; }
+ul.feedbuttons li { display:inline;list-style:none; clear:both; }
+ul.feedbuttons li a.button { position:relative; background:none; text-shadow:0 0 0; color:#666; font-size:0.6em; border:0; height:19px; width:79%; padding:6px 10px 0px 29px; }
+ul.feedbuttons li a.button:hover { color:#000; }
+ul.feedbuttons li a.button span { width:20px; font-size:0.5em; text-align:center; position:absolute; text-shadow:0 0 0; padding:3px 0px; top:4px; left:4px; border-radius:100px; background:#666; color:#FFF; }
+ul.feedbuttons li.selected a.button { color:#FFF; background:transparent url(../images/layout/button_feed_states.png) center right no-repeat; text-shadow:0 1px #000; border-top-left-radius:6px; -moz-border-radius-topleft:6px; border-bottom-left-radius:6px; -moz-border-radius-bottomleft:6px; }
+ul.feedbuttons li.selected a.button span { color:#333; background:#FFF; }
+
 
 /*##########################################################################*/
 /*  Grid Views  */
@@ -192,7 +201,7 @@ tr.TM-sectop td { padding:3px 2px 5px 2px; }
 #TM ul.buttons li {display:inline;list-style:none;}
 #TM ul.buttons li a.button {background:transparent url(../images/layout/TM/button_TM_states.png) top left repeat-x; box-shadow:0 0 0; -moz-box-shadow:0 0 0; -webkit-box-shadow:0 0 0; color:#666;text-shadow:0 1px #eee;letter-spacing:0em;font-size:0.8em;margin:0px 2px; height:24px; padding:7px 20px 0px 20px; font-weight:bold; border:solid 1px #999; border-radius:6px; -moz-border-radius:6px; }
 #TM ul.buttons li a.button:hover {color:#000033; text-shadow:0 1px #eee; background-position:100% -31px; border:solid 1px #2f84da; }
-#TM ul.buttons li a.button:active { color:#333;text-shadow:0 1px #eee; background-position:100% -62px; border:solid 1px #898989; box-shadow:inset 0 0px 6px #000; -webkit-box-shadow:inset 0 0px 6px #000; -moz-box-shadow:inset 0 0px 6px #000; height:21px; padding:9px 20px 0px 20px; }
+#TM ul.buttons li a.button:active { color:#333;text-shadow:0 1px #eee; background-position:100% -62px; border:solid 1px #000; box-shadow:inset 0 0px 6px #000; -webkit-box-shadow:inset 0 0px 6px #000; -moz-box-shadow:inset 0 0px 6px #000; height:21px; padding:9px 20px 0px 20px; }
 #TM ul.buttons li.selected a.button { box-shadow:inset 0 0px 6px #000; -webkit-box-shadow:inset 0 0px 10px #000; -moz-box-shadow:inset 0 0px 6px #000; text-decoration:none;text-shadow:0 -1px #333; color:#FFF; background-position:100% 100%; border:solid 1px #333; }
 
 /*##########  LOGIN (LG)  ##########*/
