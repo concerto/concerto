@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= controller.action_name.titleize %> - <%= controller.controller_name.titleize %> - Concerto Signage Panel</title>
+	<%= stylesheet_link_tag 'base' %>
+  <%= javascript_include_tag :defaults %>
+  <%= csrf_meta_tag %>
+  <%= render :partial => 'elements/head' %>
+  <%= render :partial => 'elements/javascript' %>
+</head>
+<body>
+<%= render :partial => "elements/topmenu" %>
+<div id="main">
+  <% if flash[:notice] %>
+    <p class="notice"><%= notice %></p>
+  <% end %>
+  <%= yield %>
+</div>
+</body>
+</html>
