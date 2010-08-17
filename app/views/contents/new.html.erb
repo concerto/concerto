@@ -1,7 +1,9 @@
-<div class="MS-frame">
-	<h1>Select Content Type to Add</h1>
+<section class="MS-frame">
+  <header>
+	 <h1>Select Content Type to Add</h1>
+  </header>
 	<div class="MS-outer">
-		<div class="MS-inner">
+		<article>
 			<ul class="iconlist">
 				<% content_types.each do |subclass| %>
 				<li> 
@@ -17,24 +19,22 @@
 				<% end%>
 			</ul>
 			<div class="clear"></div>
-		</div>
+		</article>
 	</div>
-</div>
+</section>
 
-<div class="C-full lg">
-	<div class="C-header">
+<section class="C-full lg">
+	<header>
 		<%= back_button "#" %>
 		<div class="C-header_right"><a class="button" href="#">Design a Graphic</a></div>
 		<h1>Add <%= @content.class %> Content</h1>
-	</div> 
+	</header> 
 	<div class="C-cont">
-		<div class="C-center column">
+		<article>
 			<%= render 'form' %>
-		</div> 
-		<div class="C-sidebar column"> 
-			<%# content_for :left_sidebar do %>
-			<%# end %>
-		</div>
+		</article>
+		<aside> 
+		</aside>
 		<div class="clear"></div>
 	</div>
-</div>
+</section>
