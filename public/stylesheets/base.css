@@ -89,7 +89,7 @@ h5 { font-size:1.3em; }
 /*##########################################################################*/
 
 /*##########  DEFAULT BUTTON LINK: BLUE NORMAL  ##########*/
-a.button, form .submit_bar input { cursor:pointer; box-shadow:0 0 0; -webkit-box-shadow: 0 0 0; -moz-box-shadow:0 0 0;height:22px; padding:4px 20px 0px 20px; font-weight:bold; color:#FFF;float:left;letter-spacing:-0.08em;text-shadow:0 -1px #003366;font-size:0.8em;margin-right:6px;text-decoration:none; background:url(../images/layout/button_norm_states.png) top left repeat-x; border:solid 1px #003366; border-radius:4px; -moz-border-radius:4px; }
+a.button, form .submit_bar input { cursor:pointer; box-shadow:0 0 0; -webkit-box-shadow: 0 0 0; -moz-box-shadow:0 0 0;height:22px; padding:4px 20px 0px 20px; font-weight:bold; color:#FFF;float:left;letter-spacing:-0.07em;text-shadow:0 -1px #003366;font-size:0.8em;margin-right:6px;text-decoration:none; background:url(../images/layout/button_norm_states.png) top left repeat-x; border:solid 1px #003366; border-radius:4px; -moz-border-radius:4px; }
 form .submit_bar input { height:auto; padding:4px 20px 6px 20px; }
 a.button:hover, form .submit_bar input:hover { background-position:100% -26px; color:#000033; text-shadow:0 -1px #eee; border:solid 1px #2f84da; }
 a.button:active, form .submit_bar input:active { background-position:100% 100%;color:#333;text-shadow:0 1px #eee;outline:none; height:20px; padding:6px 20px 0px 20px; box-shadow:inset 0 0px 6px #000; -webkit-box-shadow:inset 0 0px 6px #000; -moz-box-shadow:inset 0 0px 6px #000; border:solid 1px #000; }
