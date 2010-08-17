@@ -1,6 +1,5 @@
-<h1>Editing group</h1>
-
+<% content_for :header do %>
+  <%= back_button groups_path %>
+  <h1>Edit Group</h1>
+<% end %>
 <%= render 'form' %>
-
-<%= link_to 'Show', @group %> |
-<%= link_to 'Back', groups_path %>

@@ -1,10 +1,5 @@
-	<div class="C-header">
-		<%= back_button groups_path %>
-		<h1>New Group</h1>
-	</div> 
-	<div class="C-cont">
-		<div class="C-center column">
-			<%= render 'form' %>
-		</div>
-		<div class="clear"></div>
-	</div>
+<% content_for :header do %>
+  <%= back_button groups_path %>
+  <h1>New Group</h1>
+<% end %>
+<%= render 'form' %>

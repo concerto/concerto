@@ -1,6 +1,5 @@
-<h1>Editing screen</h1>
-
+<% content_for :header do %>
+  <%= back_button screens_path %>
+  <h1>Edit Screen</h1>
+<% end %>
 <%= render 'form' %>
-
-<%= link_to 'Show', @screen %> |
-<%= link_to 'Back', screens_path %>

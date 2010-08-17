@@ -14,7 +14,23 @@
   <% if flash[:notice] %>
     <p class="notice"><%= notice %></p>
   <% end %>
-  <%= yield %>
+  <div class="C-full <%= sidebar_class %>">
+    <div class="C-header">
+      <% if content_for?(:header) %>
+		    <%= yield :header %>
+		  <% end %>
+    </div>
+    <div class="C-cont">
+      <div class="C-center column">
+		    <%= yield %>
+		  </div>
+		  <% if content_for?(:sidebar) %>
+		    <div class="C-sidebar column">
+		      <%= yield :sidebar %>
+		    </div>
+		  <% end %>
+		<div class="clear"></div>
+  </div>
 </div>
 </body>
 </html>

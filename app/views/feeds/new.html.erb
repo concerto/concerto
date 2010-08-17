@@ -1,12 +1,5 @@
-<div class="C-full no">
-	<div class="C-header">
-		<%= back_button feeds_path %>
-		<h1>New Feed</h1>
-	</div> 
-	<div class="C-cont">
-		<div class="C-center column">
-			<%= render 'form' %>
-		</div>
-		<div class="clear"></div>
-	</div>
-</div>
+<% content_for :header do %>
+  <%= back_button feeds_path %>
+  <h1>New Feed</h1>
+<% end %>
+<%= render 'form' %>

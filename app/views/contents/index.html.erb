@@ -1,35 +1,30 @@
-<div class="C-full sm">
-	<div class="C-header">
-		<h1>Browse Content</h1>
-	</div> 
-	<div class="C-cont">
-		<div class="C-center column">
-			<a class="button" href="#" onclick="this.blur();"><span>Design a Graphic</span></a>
-			<% @contents.each do |content| %>
-			<ul class="iconlist"> 
-				  	<li> 
-				  		<a href=""> 
-				  			<div class="iconlist_padding"> 
-			        			<div class="ins"> 
-			          				<div class="type-folder"><%= content.data %><%#= image_tag("ph/ph.png", :alt => "") %></div>
-			        			</div> 
-			        			<h2>
-									<%= content.name %>
-									<br />
-									<%= content.start_time %> - <%= content.end_time %>
-								</h2> 
-			      			</div> 
-				  		</a> 
-				  	</li>
-			</ul>
-			<% end %>
-		</div> 
-		<div class="C-sidebar column"> 
-			<ul class="feedbuttons">
-				<li class="selected"><% link_to "#", :class => "button" do %><span>99+</span>Service &amp; Community<% end %></li>
-				<li><% link_to "#", :class => "button" do %><span>7</span>Entertainment<% end %></li>
-			</ul>
-		</div>
-		<div class="clear"></div>
-	</div>
-</div>
+<% content_for :header do %>
+  <%= back_button screens_path %>
+  <h1>New Screen</h1>
+<% end %>
+<% content_for :sidebar do %>
+	<ul class="feedbuttons">
+		<li class="selected"><% link_to "#", :class => "button" do %><span>99+</span>Service &amp; Community<% end %></li>
+		<li><% link_to "#", :class => "button" do %><span>7</span>Entertainment<% end %></li>
+	</ul>
+<% end %>
+
+<a class="button" href="#" onclick="this.blur();"><span>Design a Graphic</span></a>
+<% @contents.each do |content| %>
+<ul class="iconlist"> 
+    	<li> 
+    		<a href=""> 
+    			<div class="iconlist_padding"> 
+        			<div class="ins"> 
+          				<div class="type-folder"><%= content.data %><%#= image_tag("ph/ph.png", :alt => "") %></div>
+        			</div> 
+        			<h2>
+  					<%= content.name %>
+  					<br />
+  					<%= content.start_time %> - <%= content.end_time %>
+  				</h2> 
+      			</div> 
+    		</a> 
+    	</li>
+</ul>
+<% end %>

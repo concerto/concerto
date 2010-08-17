@@ -1,6 +1,5 @@
-<h1>Editing feed</h1>
-
+<% content_for :header do %>
+  <%= back_button feeds_path %>
+  <h1>Edit Feed</h1>
+<% end %>
 <%= render 'form' %>
-
-<%= link_to 'Show', @feed %> |
-<%= link_to 'Back', feeds_path %>
