@@ -1,29 +1,17 @@
 <section class="C-full sm">
 	<header>
 		<%= back_button "#" %>
-		<h1>Browse Content</h1>
+		<h1 id="contentlist" >Browse Content</h1>
+		<%= link_to 'View in Grid', contents_path(:type => 'grid', :anchor => "contentlist"), :class => "link-button update_holder" %>
+		<%= link_to 'View in table', contents_path(:type => 'table', :anchor => "contentlist"), :class => "link-button update_holder" %>
 	</header> 
 	<div class="C-cont">
 		<article>
 			<a class="button" href="#" onclick="this.blur();"><span>Design a Graphic</span></a>
-      <% @contents.each do |content| %>
-      <ul class="iconlist"> 
-          	<li> 
-          		<a href=""> 
-          			<div class="iconlist_padding"> 
-              			<div class="ins"> 
-                				<div class="type-folder"><%= content.data %><%#= image_tag("ph/ph.png", :alt => "") %></div>
-              			</div> 
-              			<h2>
-        					<%= content.name %>
-        					<br />
-        					<%= content.start_time %> - <%= content.end_time %>
-        				</h2> 
-            			</div> 
-          		</a> 
-          	</li>
-      </ul>
-      <% end %>
+			<div class="clear"></div>
+			<div id="content_holder">
+				<%= render :partial => @content_display, :locals => {:contents => @contents, :is_ajax => true} %>
+			</div>
 		</article> 
 		<aside>
 		  <ul class="feedbuttons">

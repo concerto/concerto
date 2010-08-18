@@ -16,10 +16,14 @@ class ContentsController < ApplicationController
   # GET /contents.xml
   def index
     @contents = Content.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @contents }
+    @content_display = params[:type] || 'table'
+    if request.xhr?
+      render :partial=> @content_display, :locals => {:contents => @contents, :is_ajax => true}
+    else
+      respond_to do |format|
+        format.html # index.html.erb
+        format.xml  { render :xml => @contents }
+      end
     end
   end
 
