@@ -6,24 +6,24 @@
 	<div class="C-cont">
 		<article>
 			<a class="button" href="#" onclick="this.blur();"><span>Design a Graphic</span></a>
-      <% @contents.each do |content| %>
-      <ul class="iconlist"> 
-          	<li> 
-          		<a href=""> 
-          			<div class="iconlist_padding"> 
-              			<div class="ins"> 
-                				<div class="type-folder"><%= content.data %><%#= image_tag("ph/ph.png", :alt => "") %></div>
-              			</div> 
-              			<h2>
-        					<%= content.name %>
-        					<br />
-        					<%= content.start_time %> - <%= content.end_time %>
-        				</h2> 
-            			</div> 
-          		</a> 
-          	</li>
-      </ul>
-      <% end %>
+			<% @contents.each do |content| %>
+			<ul class="iconlist"> 
+			  	<li> 
+			  		<a href=""> 
+			  			<div class="iconlist_padding"> 
+			      			<div class="ins"> 
+			        				<div class="type-folder"><%= content.data %><%#= image_tag("ph/ph.png", :alt => "") %></div>
+			      			</div> 
+			      			<h2>
+								<%= content.name %>
+								<br />
+								<%= content.start_time %> - <%= content.end_time %>
+							</h2> 
+			    			</div> 
+			  		</a> 
+			  	</li>
+			</ul>
+			<% end %>
 		</article> 
 		<aside>
 		  <ul class="feedbuttons">
