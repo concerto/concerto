@@ -2,11 +2,12 @@
 	<header>
 		<%= back_button "#" %>
 		<h1 id="contentlist" >Browse Content</h1>
-		<%= link_to 'View in Grid', contents_path(:type => 'grid', :anchor => "contentlist"), :class => "link-button update_holder" %>
-		<%= link_to 'View in table', contents_path(:type => 'table', :anchor => "contentlist"), :class => "link-button update_holder" %>
+		<%#= link_to 'View in Grid', contents_path(:type => 'grid', :anchor => "contentlist"), :class => "link-button update_holder" %>
+		<%#= link_to 'View in table', contents_path(:type => 'table', :anchor => "contentlist"), :class => "link-button update_holder" %>
 	</header> 
 	<div class="C-cont">
 		<article>
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 			<a class="button" href="#">Design a Graphic</a>
 			<div class="clear"></div>
 			<div id="content_holder">
@@ -15,8 +16,8 @@
 		</article> 
 		<aside>
 		  <ul class="feedbuttons">
-		    <li class="selected"><%= link_to "#", :class => "button" do %><span>99+</span>Service &amp; Community<% end %></li>
-		    <li><%= link_to "#", :class => "button" do %><span>7</span>Entertainment<% end %></li>
+		    <li class="selected"><%= link_to "#", :class => "button" do %><span class="count">99+</span>Service &amp; Community<% end %></li>
+		    <li><%= link_to "#", :class => "button" do %><span class="count">7</span><span class="disclosure">&nbsp;</span>Entertainment<% end %></li>
 	     </ul>
 		</aside>
 		<div class="clear"></div>
