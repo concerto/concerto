@@ -2,7 +2,7 @@
 source 'http://gemcutter.org'
 
 
-gem "rails", "3.0.0.rc"
+gem "rails", "3.0.0.rc2"
 
 ## Bundle edge rails:
 # gem "rails", :git => "git://github.com/rails/rails.git"
