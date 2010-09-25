@@ -34,8 +34,10 @@ end
 </div>
 <div class="field">
   	<%= form.label :duration %>
-  	<div class="inputs">
-		<%= form.text_field :duration %>
+    <div class="inputs">
+      <div class="leftseconds">4s</div>
+      <input type="range" name="test" min="4" max="12" value="8" class="inputrange" />
+      <div class="rightseconds">12s</div>
 	</div>
 </div>
 <%= render :partial => 'contents/form_elements/dates', :locals => {:form => form} %>

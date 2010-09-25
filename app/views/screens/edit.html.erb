@@ -1,6 +1,12 @@
-<h1>Editing screen</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @screen %> |
-<%= link_to 'Back', screens_path %>
+<section class="C-full no">
+	<header>
+		<%= back_button screens_path %>
+		<h1>Edit Screen</h1>
+	</header>
+	<div class="C-cont">
+		<article>
+			<%= render 'form' %>
+		</article>
+		<div class="clear"></div>
+	</div>
+</section>
