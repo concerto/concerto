@@ -36,7 +36,7 @@ end
   	<%= form.label :duration %>
     <div class="inputs">
       <div class="leftseconds">4s</div>
-      <input type="range" name="test" min="4" max="12" value="8" class="inputrange" />
+      <%= form.range_field :duration, {:min =>"4", :max=>"12", :value=>"8", :class=>"inputrange"} %>
       <div class="rightseconds">12s</div>
 	</div>
 </div>
