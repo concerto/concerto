@@ -32,14 +32,7 @@ end
 		<%= form.text_field :name, :class => 'alert' %>
 	</div>
 </div>
-<div class="field">
-  	<%= form.label :duration %>
-    <div class="inputs">
-      <div class="leftseconds">4s</div>
-      <%= form.range_field :duration, {:min =>"4", :max=>"12", :value=>"8", :class=>"inputrange"} %>
-      <div class="rightseconds">12s</div>
-	</div>
-</div>
+<%= render :partial => 'contents/form_elements/duration', :locals => {:form => form, :min => 4, :max => 12} %>
 <%= render :partial => 'contents/form_elements/dates', :locals => {:form => form} %>
 <div class="field">
   	<%= form.label :user %>
