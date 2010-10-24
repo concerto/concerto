@@ -1,0 +1,11 @@
+<% content_for :head do %>
+  <%= javascript_include_tag 'rangeinput' %>
+<% end %>
+<div class="field">
+        <%= form.label :duration %>
+        <div class="inputs">
+                <div class="leftseconds"><%= min %>s</div>
+                <%= form.range_field :duration, {:min =>min, :max=>max, :class=>"inputrange"} %>
+                <div class="rightseconds"><%= max %>s</div>
+        </div>
+</div>

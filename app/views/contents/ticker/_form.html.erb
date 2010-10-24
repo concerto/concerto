@@ -24,12 +24,7 @@
 		<%= form.text_field :name, :class => 'alert' %>
 	</div>
 </div>
-<div class="field">
-  	<%= form.label :duration %>
-  	<div class="inputs">
-		<%= form.text_field :duration %>
-	</div>
-</div>
+<%= render :partial => 'contents/form_elements/duration', :locals => {:form => form, :min => 4, :max => 12} %>
 <%= render :partial => 'contents/form_elements/dates', :locals => {:form => form} %>
 <div class="field">
   	<%= form.label :user %>
