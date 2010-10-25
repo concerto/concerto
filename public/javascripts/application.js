@@ -2,6 +2,10 @@
 // This file is automatically included by javascript_include_tag :defaults
 
 $(document).ready(function () {
+  $('#start_time').timepicker();
+  $("#end_time").timepicker();
+  $('#start_date').datepicker();
+  $('#end_date').datepicker();
 	//Content grid/table switching
 	$('a.update_holder').live('click', function(event){
 		event.preventDefault();
