@@ -3,7 +3,7 @@
   <%= javascript_include_tag 'jquery-ui-timepicker-addon.js' %>
 <% end %>
 
-<div class="field">
+<div class="field datetime">
   	<%= form.label :start_time %>
     <%= form.hidden_field :start_time %>   
     <div class="fieldbox">
@@ -11,7 +11,7 @@
       <%= text_field("start", "time", :maxlength => 20 ,:style=>"width:80px")%><%=image_tag('elements/time.png', :id=>'time',:align=>'top' , :style=>"padding-left:4px")%>
   </div>
 </div>
-<div class="field">
+<div class="field datetime">
   	<%= form.label :end_time %>
   	<div class="fieldbox">
       <%= form.hidden_field :end_time %>
