@@ -166,9 +166,9 @@ form .submit_bar { background:#FFF url(../images/layout/C/submit_bar_bg.png) top
 /*##########################################################################*/
 
 .MS-frame {  }
-.MS-frame header h1 { color:#666; margin-left:30px; font-size:1.8em; text-shadow:0 1px #FFF; letter-spacing:-0.05em; margin-bottom:4px; }
+.MS-frame header h1 { display:block; color:#666; margin-left:30px; font-size:1.8em; text-shadow:0 1px #FFF; letter-spacing:-0.05em; margin-bottom:4px; }
 .MS-frame .MS-outer { background:url(../images/layout/MS/outer.png) repeat; padding:6px; border-radius:20px; -moz-border-radius:20px; margin-bottom:22px; }
-.MS-frame article { background:url(../images/layout/MS/inner.png) repeat; border-radius:14px; -moz-border-radius:14px; padding:17px; }
+.MS-frame article { display:block; background:url(../images/layout/MS/inner.png) repeat; border-radius:14px; -moz-border-radius:14px; padding:17px; }
 .MS-frame article ul.iconlist { margin:0px -6px; } 
 .MS-frame article ul.iconlist li { margin:0px 6px; }
 .MS-frame article ul.iconlist li a { color:#FFF; text-decoration:none; border-radius:8px; -moz-border-radius:8px; background:url(../images/layout/MS/iconlist_inactive.png) repeat; border:solid 1px #999; opacity:0.5; }
