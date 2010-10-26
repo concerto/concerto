@@ -6,10 +6,15 @@
   <%= stylesheet_link_tag 'base' %>
   <%= stylesheet_link_tag 'jquery-ui-1.8.5.custom' %>
   <%= stylesheet_link_tag 'datetime' %>
+  
   <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
   <%= render :partial => 'elements/head' %>
   <%= render :partial => 'elements/javascript' %>
+
+  <!--[if lt IE 9]>
+  <%= javascript_include_tag "html5.js" %>
+  <![endif]-->
 </head>
 <body>
 <%= render :partial => "elements/topmenu" %>
