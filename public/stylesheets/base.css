@@ -62,7 +62,7 @@ h5 { font-size:1.3em; }
 /*##########################################################################*/
 
 /*##########  BASIC LAYOUT  ##########*/
-.C-full { display:block; margin-bottom:18px; box-shadow: #ababab 0 3px 2px; -moz-box-shadow: 0 3px 2px #ababab; }
+.C-full { display:block; margin-bottom:18px; box-shadow: #ababab 0 3px 2px; -moz-box-shadow: 0 3px 2px #ababab; -webkit-box-shadow: #ababab 0 3px 2px; }
 .C-full header { display:block; background:#FFF url(../images/layout/C/header_bg.png) bottom left repeat-x; padding:12px 14px; padding-bottom:5px; border:solid 1px #ababab; border-bottom:0px; border-top-left-radius:8px; -moz-border-radius-topleft:8px; border-top-right-radius:8px; -moz-border-radius-topright:8px; }
 .C-full header h1 { color:#666; font-size:1.8em; letter-spacing:-0.05em; text-shadow:0 1px #eee; padding-top:9px; }
 .C-cont { padding-left:204px; border-bottom:solid 1px #ababab; border-left:solid 1px #ababab; border-right:solid 1px #ababab; }
