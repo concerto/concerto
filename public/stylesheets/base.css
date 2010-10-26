@@ -106,7 +106,7 @@ a.back:active {background-position:0% 100%; border:0; border-right:solid 1px #99
 /*##########  FEED BUTTON  ##########*/
 ul.feedbuttons { padding:12px 0px; }
 ul.feedbuttons li { display:inline;list-style:none; clear:both; }
-ul.feedbuttons li a.button { position:relative; background:none; text-shadow:0 0 0; color:#666; font-size:0.6em; border:0; height:19px; width:140px; padding:6px 22px 0px 32px; }
+ul.feedbuttons li a.button { position:relative; background:none; text-shadow:0 0 0; color:#666; font-size:0.6em; border:0; height:19px; width:140px; padding:6px 22px 0px 32px; -moz-border-radius:0px; }
 ul.feedbuttons li a.button:hover { color:#000; background:#dce6ee; border-radius:0px; -moz-border-radius:0px; }
 ul.feedbuttons li a.button span.count { width:22px; text-align:center; position:absolute; font-size:0.9em; text-shadow:0 0 0; padding:3px 0px; top:4px; left:3px; border-radius:100px; -moz-border-radius:100px; -webkit-border-radius:100px; background:#666; color:#FFF; }
 ul.feedbuttons li a.button span.disclosure { width:10px; height:10px; text-align:center; position:absolute; background:url(../images/layout/button_disclosure.png) center center no-repeat; display:block; top:8px; right:10px; }
