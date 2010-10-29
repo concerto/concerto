@@ -1,0 +1,18 @@
+<% if has_children == 1 %>
+<ul class="feedbuttons">
+	<% feed.children.each do |child_feed| %>
+	<li><% link_to browse_feed_path(child_feed), :class => "button", :remote => true do %><span class="count">#</span><span class="disclosure">&nbsp;</span><%= child_feed.name %><% end %></li>
+	<% end %>
+</ul>
+<% else %>
+<ul class="feedbuttons">
+	<% if feed.parent %>
+		<% @feeds = feed.parent.children %>
+	<% else %>
+		<% @feeds = Feed.all %>
+	<% end %>
+	<% @feeds.each do |this_feed| %>
+	<li<% if this_feed == feed %> class="selected"<% end %>><% link_to browse_feed_path(this_feed), :class => "button", :remote => true do %><span class="count">#</span><% if this_feed != feed %><span class="disclosure">&nbsp;</span><% end %><%= this_feed.name %><% end %></li>
+	<% end %>
+</ul>
+<% end %>

@@ -34,13 +34,18 @@ Concerto::Application.routes.draw do
         put :deny
       end
     end
+    
+    member do
+      get :browse
+    end
   end
 
   #map.resources :feeds do |feeds|
   #  feeds.resources :submissions
   #end
 
-  resources :contents, :path => "content"
+  resources :contents, :path => "content"  
+  
   resources :graphics, :controller => :contents, :path => "content"
   resources :tickers, :controller => :contents, :path => "content"
 
@@ -93,7 +98,7 @@ Concerto::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => "welcome#index"
+  root :to => "contents#index"
 
   # See how all your routes lay out with "rake routes"
 

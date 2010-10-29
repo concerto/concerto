@@ -1,24 +1,25 @@
 <section class="C-full sm">
 	<header>
-		<%= back_button "#" %>
-		<h1 id="contentlist" >Browse Content</h1>
+		<div class="back_button"></div>
+		<h1 id="contentlist">Browse Content</h1>
 		<%#= link_to 'View in Grid', contents_path(:type => 'grid', :anchor => "contentlist"), :class => "link-button update_holder" %>
 		<%#= link_to 'View in table', contents_path(:type => 'table', :anchor => "contentlist"), :class => "link-button update_holder" %>
 	</header> 
 	<div class="C-cont">
 		<article>
-			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-			<a class="button" href="#">Design a Graphic</a>
+			<%#= link_to "Design a Graphic", "#", :class => "button" %>
+			&nbsp;
 			<div class="clear"></div>
 			<div id="content_holder">
 				<%= render :partial => @content_display, :locals => {:contents => @contents, :is_ajax => true} %>
 			</div>
 		</article> 
-		<aside>
+		<aside id="sb">
 		  <ul class="feedbuttons">
-		    <li class="selected"><%= link_to "#", :class => "button" do %><span class="count">99+</span>Service &amp; Community<% end %></li>
-		    <li><%= link_to "#", :class => "button" do %><span class="count">7</span><span class="disclosure">&nbsp;</span>Entertainment<% end %></li>
-	     </ul>
+				<% @feeds.each do |feed| %>
+				<li><% link_to browse_feed_path(feed), :class => "button", :remote => true do %><span class="count">#</span><span class="disclosure">&nbsp;</span><%= feed.name %><% end %></li>
+				<% end %>
+	    </ul>
 		</aside>
 		<div class="clear"></div>
 	</div>

@@ -15,7 +15,7 @@
     <td><%= template.name %></td>
     <td><%= template.author %></td>
     <td><%= template.is_hidden %></td>
-    <td><%= link_to 'Show', template %></td>
+    <td><%= link_to 'Show', template %> <%= link_to "Preview", preview_template_path(template) %></td>
     <td><%= link_to 'Edit', edit_template_path(template) %></td>
     <td><%= link_to 'Destroy', template, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
