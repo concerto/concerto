@@ -15,9 +15,16 @@ class FeedsController < ApplicationController
   def show
     @feed = Feed.find(params[:id])
 
+    if @feed.children.size == 0 
+      @has_children = 0
+    else
+      @has_children = 1
+    end
+    
     respond_to do |format|
       format.html { } # show.html.erb
       format.xml  { render :xml => @feed }
+      format.js { render :layout => false }
     end
   end
 
@@ -78,21 +85,6 @@ class FeedsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(feeds_url) }
       format.xml  { head :ok }
-    end
-  end
-  
-  
-  
-  def browse
-    @feed = Feed.find(params[:id])
-    if @feed.children.size == 0 
-      @has_children = 0
-    else
-      @has_children = 1
-    end
-    
-    respond_to do |format|
-      format.js { render :layout => false }
     end
   end
 end

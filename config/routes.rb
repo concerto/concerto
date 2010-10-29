@@ -34,10 +34,6 @@ Concerto::Application.routes.draw do
         put :deny
       end
     end
-    
-    member do
-      get :browse
-    end
   end
 
   #map.resources :feeds do |feeds|
