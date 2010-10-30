@@ -2,10 +2,6 @@
 // This file is automatically included by javascript_include_tag :defaults
 
 $(document).ready(function () {
-  $('#start_time').timepicker();
-  $("#end_time").timepicker();
-  $('#start_date').datepicker();
-  $('#end_date').datepicker();
 	//Content grid/table switching
 	$('a.update_holder').live('click', function(event){
 		event.preventDefault();
@@ -21,21 +17,4 @@ $(document).ready(function () {
 			}
 		});
 	});
-
-	$(":range").rangeinput();
-	var api = $(":range").data("rangeinput");
-	seconds = api.getValue();
-	seconds = seconds+"s";
-	$(".handle").html(seconds);
-	$(":range").bind({onSlide:function () {
-		seconds = api.getValue();
-		seconds = seconds+"s";
-		$(".handle").html(seconds);
-	}});
-	$(":range").change(function() {
-		seconds = api.getValue();
-		seconds = seconds+"s";
-		$(".handle").html(seconds);
-	});
-	$(".inputrange").hide();
 });

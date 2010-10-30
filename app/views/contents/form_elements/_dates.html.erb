@@ -2,6 +2,12 @@
   <%= javascript_include_tag 'jquery-ui-1.8.5.custom.min.js' %>
   <%= javascript_include_tag 'jquery-ui-timepicker-addon.js' %>
 <% end %>
+<% content_for :js_ready do %>
+  $('#start_time').timepicker();
+  $("#end_time").timepicker();
+  $('#start_date').datepicker();
+  $('#end_date').datepicker();
+<% end %>
 
 <div class="field datetime">
   	<%= form.label :start_time %>

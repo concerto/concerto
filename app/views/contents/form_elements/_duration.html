@@ -1,6 +1,24 @@
 <% content_for :head do %>
   <%= javascript_include_tag 'rangeinput' %>
 <% end %>
+<% content_for :js_ready do %>
+  $(":range").rangeinput();
+  var api = $(":range").data("rangeinput");
+  seconds = api.getValue();
+  seconds = seconds+"s";
+  $(".handle").html(seconds);
+  $(":range").bind({onSlide:function () {
+    seconds = api.getValue();
+    seconds = seconds+"s";
+    $(".handle").html(seconds);
+  }});
+  $(":range").change(function() {
+    seconds = api.getValue();
+    seconds = seconds+"s";
+    $(".handle").html(seconds);
+  });
+  $(".inputrange").hide();
+<% end %>
 <div class="field">
         <%= form.label :duration %>
         <div class="inputs">
