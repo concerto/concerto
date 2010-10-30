@@ -7,21 +7,36 @@
   $("#end_time").timepicker();
   $('#start_date').datepicker();
   $('#end_date').datepicker();
+
+  $('#time_start').click(function(){
+    $('#start_time').trigger("focus");
+    });
+
+  $('#date_start').click(function(){
+    $('#start_date').trigger("focus");
+    });
+
+  $('#time_end').click(function(){
+    $('#end_time').trigger("focus");
+    });
+  $('#date_end').click(function(){
+    $('#end_date').trigger("focus");
+    });
 <% end %>
 
 <div class="field datetime">
   	<%= form.label :start_time %>
     <%= form.hidden_field :start_time %>   
     <div class="fieldbox">
-      <%= text_field("start", "date", :maxlength => 20, :class => "datefield")%><%=image_tag('elements/date.png', :id=>'date',:align=>'top' , :style=>"padding-left:4px;padding-right:20px")%>
-      <%= text_field("start", "time", :maxlength => 20, :class => "timefield")%><%=image_tag('elements/time.png', :id=>'time',:align=>'top' , :style=>"padding-left:4px")%>
+      <%= text_field("start", "date", :maxlength => 20, :class => "datefield")%><%=image_tag('elements/date.png', :id=>'date_start',:align=>'top' , :style=>"padding-left:4px;padding-right:20px")%>
+      <%= text_field("start", "time", :maxlength => 20, :class => "timefield")%><%=image_tag('elements/time.png', :id=>'time_start',:align=>'top' , :style=>"padding-left:4px")%>
   </div>
 </div>
 <div class="field datetime">
   	<%= form.label :end_time %>
   	<div class="fieldbox">
       <%= form.hidden_field :end_time %>
-      <%= text_field("end", "date", :maxlength => 20, :class => "datefield")%><%=image_tag('elements/date.png', :id=>'date',:align=>'top' , :style=>"padding-left:4px;padding-right:20px")%>
-      <%= text_field("end", "time", :maxlength => 20, :class => "timefield")%><%=image_tag('elements/time.png', :id=>'time',:align=>'top' , :style=>"padding-left:4px")%>
+      <%= text_field("end", "date", :maxlength => 20, :class => "datefield")%><%=image_tag('elements/date.png', :id=>'date_end',:align=>'top' , :style=>"padding-left:4px;padding-right:20px")%>
+      <%= text_field("end", "time", :maxlength => 20, :class => "timefield")%><%=image_tag('elements/time.png', :id=>'time_end',:align=>'top' , :style=>"padding-left:4px")%>
 	</div>
 </div>
