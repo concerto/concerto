@@ -227,3 +227,12 @@ tr.TM-sectop td { padding:3px 2px 5px 2px; }
 .left{float:left;font-size:1em;letter-spacing:-0.07em;color:#999;font-weight:500;width:85px;padding-top:3px;}
 div.leftseconds{float:left;padding-right:8px;color:#000;margin-top:7px;font-weight:800;}
 div.rightseconds{float:left;padding-left:8px;color:#000;font-weight:800;margin-top:7px;}
+
+
+/*##########################################################################*/
+/*  Date / Time Elements */
+/*##########################################################################*/
+
+.timefield  { width: 80px  !important; }
+.datefield  { width: 110px !important; }
+.dticon {float:none !important; width:35px !important}

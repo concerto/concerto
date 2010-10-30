@@ -7,15 +7,15 @@
   	<%= form.label :start_time %>
     <%= form.hidden_field :start_time %>   
     <div class="fieldbox">
-      <%= text_field("start", "date", :maxlength => 20, :style=>"width:110px")%><%=image_tag('elements/date.png', :id=>'date',:align=>'top' , :style=>"padding-left:4px;padding-right:20px")%>
-      <%= text_field("start", "time", :maxlength => 20 ,:style=>"width:80px")%><%=image_tag('elements/time.png', :id=>'time',:align=>'top' , :style=>"padding-left:4px")%>
+      <%= text_field("start", "date", :maxlength => 20, :class => "datefield")%><%=image_tag('elements/date.png', :id=>'date',:align=>'top' , :style=>"padding-left:4px;padding-right:20px")%>
+      <%= text_field("start", "time", :maxlength => 20, :class => "timefield")%><%=image_tag('elements/time.png', :id=>'time',:align=>'top' , :style=>"padding-left:4px")%>
   </div>
 </div>
 <div class="field datetime">
   	<%= form.label :end_time %>
   	<div class="fieldbox">
       <%= form.hidden_field :end_time %>
-      <%= text_field("end", "date", :maxlength => 20, :style=>"width:110px")%><%=image_tag('elements/date.png', :id=>'date',:align=>'top' , :style=>"padding-left:4px;padding-right:20px")%>
-      <%= text_field("end", "time", :maxlength => 20 ,:style=>"width:80px")%><%=image_tag('elements/time.png', :id=>'time',:align=>'top' , :style=>"padding-left:4px")%>
+      <%= text_field("end", "date", :maxlength => 20, :class => "datefield")%><%=image_tag('elements/date.png', :id=>'date',:align=>'top' , :style=>"padding-left:4px;padding-right:20px")%>
+      <%= text_field("end", "time", :maxlength => 20, :class => "timefield")%><%=image_tag('elements/time.png', :id=>'time',:align=>'top' , :style=>"padding-left:4px")%>
 	</div>
 </div>
