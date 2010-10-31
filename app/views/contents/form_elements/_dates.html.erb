@@ -28,15 +28,15 @@
   	<%= form.label :start_time %>
     <%= form.hidden_field :start_time %>   
     <div class="fieldbox">
-      <%= text_field("start", "date", :maxlength => 20, :class => "datefield")%><%=image_tag('elements/date.png', :id=>'date_start',:align=>'top' , :style=>"padding-left:4px;padding-right:20px")%>
-      <%= text_field("start", "time", :maxlength => 20, :class => "timefield")%><%=image_tag('elements/time.png', :id=>'time_start',:align=>'top' , :style=>"padding-left:4px")%>
+      <%= text_field("start", "date", :maxlength => 20, :class => "datefield")%><a id="date_start" class="dticon button date">&nbsp;</a>
+      <%= text_field("start", "time", :maxlength => 20, :class => "timefield")%><a id="time_start" class="dticon button time">&nbsp;</a>
   </div>
 </div>
 <div class="field datetime">
   	<%= form.label :end_time %>
   	<div class="fieldbox">
       <%= form.hidden_field :end_time %>
-      <%= text_field("end", "date", :maxlength => 20, :class => "datefield")%><%=image_tag('elements/date.png', :id=>'date_end',:align=>'top' , :style=>"padding-left:4px;padding-right:20px")%>
-      <%= text_field("end", "time", :maxlength => 20, :class => "timefield")%><%=image_tag('elements/time.png', :id=>'time_end',:align=>'top' , :style=>"padding-left:4px")%>
+      <%= text_field("end", "date", :maxlength => 20, :class => "datefield")%><a id="date_end" class="dticon button date">&nbsp;</a>
+      <%= text_field("end", "time", :maxlength => 20, :class => "timefield")%><a id="time_end" class="dticon button time">&nbsp;</a>
 	</div>
 </div>
