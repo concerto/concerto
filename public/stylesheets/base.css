@@ -127,7 +127,7 @@ ul.feedbuttons li a.button:active { box-shadow:0 0 0; -webkit-box-shadow: 0 0 0;
 /*##########  GRAPHICAL ICON LISTS  ##########*/
 ul.iconlist { }
 ul.iconlist li { list-style:none; float:left; margin:15px 6px; }
-ul.iconlist li a { background:#eee; padding:5px; width:180px; height:210px; border:solid 1px #ccc; border-radius:12px; font-size:small; display:block; text-align:center; }
+ul.iconlist li a { background:#eee; padding:5px; width:180px; height:210px; border:solid 1px #ccc; border-radius:12px; -moz-border-radius:12px; -webkit-border-radius:12px; font-size:small; display:block; text-align:center; }
 ul.iconlist li a img { width:140px; box-shadow: #ababab 0 3px 2px; -moz-box-shadow: 0 3px 2px #ababab; -webkit-box-shadow: #ababab 0 3px 2px; }
 ul.iconlist li a:hover { background:#99ccff; border:solid 1px #3399cc; }
 ul.iconlist li a h1 { font-size:1.2em; color:#333 !important; background:none !important; padding:0px !important; margin:0px; font-weight:bold !important; text-align:center; }
