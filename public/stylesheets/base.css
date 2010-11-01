@@ -92,14 +92,16 @@ h5 { font-size:1.3em; }
 a.button, form .submit_bar input, .handle, .dticon { box-shadow:0 0 0; -webkit-box-shadow: 0 0 0; -moz-box-shadow:0 0 0;height:22px; font-weight:bold; color:#FFF; letter-spacing:-0.07em;text-shadow:0 -1px #003366;font-size:0.8em;margin-right:6px;text-decoration:none; background:url(../images/layout/button_norm_states.png) top left repeat-x; border:solid 1px #003366; border-radius:4px; -moz-border-radius:4px; }
 a.button, form .submit_bar input { float:left; cursor:pointer; padding:4px 20px 0px 20px; }
 form .submit_bar input { height:auto; padding:4px 20px; }
-a.button:hover, form .submit_bar input:hover { background-position:100% -26px; color:#000033; text-shadow:0 -1px #eee; border:solid 1px #2f84da; }
-a.button:active, form .submit_bar input:active { background-position:100% 100%;color:#333;text-shadow:0 1px #eee;outline:none; height:20px; padding:6px 20px 0px 20px; box-shadow:inset 0 0px 6px #000; -webkit-box-shadow:inset 0 0px 6px #000; -moz-box-shadow:inset 0 0px 6px #000; border:solid 1px #000; }
+a.button:hover, form .submit_bar input:hover, a.button.time:hover, a.button.date:hover { background-position:100% -26px; color:#000033; text-shadow:0 -1px #eee; border:solid 1px #2f84da; }
+a.button:active, form .submit_bar input:active, a.button.time:active, a.button.date:active { background-position:100% 100%;color:#333;text-shadow:0 1px #eee; outline:none; box-shadow:inset 0 0px 6px #000; -webkit-box-shadow:inset 0 0px 6px #000; -moz-box-shadow:inset 0 0px 6px #000; border:solid 1px #000; }
+a.button:active, form .submit_bar input:active { height:20px; padding:6px 20px 0px 20px; }
 form .submit_bar input:active { height:auto; padding:6px 20px 4px 20px; }
 
 /* Special Rules: */
 .C-header_right a.button { margin-right:0px; margin-left:6px; }
-a.button.time {width:26px!important; height:26px !important; background:url(../images/layout/button_time_states.png) top left no-repeat !important;} 
-a.button.date {width:26px!important; height:26px !important; background:url(../images/layout/button_date_states.png) top left no-repeat !important;} 
+a.button.time, a.button.date { display:inline-block; padding:0px; float:none; cursor:pointer; text-decoration:none; margin-left:5px; vertical-align:top; }
+a.button.time {width:26px; height:26px; background:url(../images/layout/button_time_states.png) top left no-repeat; } 
+a.button.date {width:26px; height:26px; background:url(../images/layout/button_date_states.png) top left no-repeat;} 
 
 /*##########  BLUE BACK BUTTON  ##########*/
 a.back {background:transparent url(../images/layout/button_back_states.png) no-repeat scroll top left; font-size:0.7em; box-shadow:0 0 0; -webkit-box-shadow: 0 0 0; -moz-box-shadow:0 0 0; border:0; border-right:solid 1px #396bab; border-top-left-radius:4px; -moz-border-radius-topleft:4px; border-top-right-radius:4px; -moz-border-radius-topright:4px; height:18px; padding:4px 12px 0px 20px; } 
@@ -237,4 +239,3 @@ div.rightseconds{float:left;padding-left:8px;color:#000;font-weight:800;margin-t
 
 .timefield  { width: 80px  !important; }
 .datefield  { width: 110px !important; }
-.dticon {display:inline-block;padding:0px!important;float:none!important; cursor:default!important; text-decoration:none !important; margin-left:5px; vertical-align:top}
