@@ -4,42 +4,42 @@
 <% end %>
 <% content_for :js_ready do %>
 
-  $('#<%=params[:type]%>_start_time').timepicker({
+  $('#start_time_time').timepicker({
       ampm:true
   });
-  $('#<%=params[:type]%>_end_time').timepicker({
+  $('#end_time_time').timepicker({
       ampm:true
   });
-  $('#<%=params[:type]%>_start_date').datepicker();
-  $('#<%=params[:type]%>_end_date').datepicker();
+  $('#start_time_date').datepicker();
+  $('#end_time_date').datepicker();
 
   $('#time_start').click(function(){
-  $('#<%=params[:type]%>_start_time').trigger("focus");
+  $('#start_time_time').trigger("focus");
     });
 
   $('#date_start').click(function(){
-  $('#<%=params[:type]%>_start_date').trigger("focus");
+  $('#start_time_date').trigger("focus");
     });
 
   $('#time_end').click(function(){
-  $('#<%=params[:type]%>_end_time').trigger("focus");
+  $('#end_time_time').trigger("focus");
     });
   $('#date_end').click(function(){
-  $('#<%=params[:type]%>_end_date').trigger("focus");
+  $('#end_time_date').trigger("focus");
     });
 <% end %>
 
 <div class="field datetime">
   	<%= form.label :start_time %>
     <div class="fieldbox">
-      <%= form.text_field("start_date", :maxlength => 20, :class => "datefield", :value=>Time.now.strftime("%m/%d/%Y"))%><a id="date_start" class="button date">&nbsp;</a>
-      <%= form.text_field("start_time", :maxlength => 20, :class => "timefield", :value=>"12:00 am")%><a id="time_start" class="button time">&nbsp;</a>
+      <%= form.text_field("start_time[date]", :id => "start_time_date", :maxlength => 20, :class => "datefield", :value=>Time.now.strftime("%m/%d/%Y"))%><a id="date_start" class="button date">&nbsp;</a>
+      <%= form.text_field("start_time[time]", :id => "start_time_time", :maxlength => 20, :class => "timefield", :value=>"12:00 am")%><a id="time_start" class="button time">&nbsp;</a>
   </div>
 </div>
 <div class="field datetime">
   	<%= form.label :end_time %>
   	<div class="fieldbox">
-      <%= form.text_field("end_date", :maxlength => 20, :class => "datefield", :value=>7.days.from_now.strftime("%m/%d/%Y"))%><a id="date_end" class="button date">&nbsp;</a>
-      <%= form.text_field("end_time", :maxlength => 20, :class => "timefield", :value=>"11:59 pm")%><a id="time_end" class="button time">&nbsp;</a>
+      <%= form.text_field("end_time[date]", :id => "end_time_date", :maxlength => 20, :class => "datefield", :value=>7.days.from_now.strftime("%m/%d/%Y"))%><a id="date_end" class="button date">&nbsp;</a>
+      <%= form.text_field("end_time[time]", :id => "end_time_time", :maxlength => 20, :class => "timefield", :value=>"11:59 pm")%><a id="time_end" class="button time">&nbsp;</a>
 	</div>
 </div>

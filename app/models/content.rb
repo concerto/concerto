@@ -31,4 +31,23 @@ class Content < ActiveRecord::Base
     (start_time.nil? || start_time < Time.now) && (end_time.nil? || end_time > Time.now)
   end
 
+  # Setter for the start time.  If a hash is passed, convert that into a Time object and then a string.
+  # Otherwise, just set it like normal.
+  def start_time=(_start_time)
+    if _start_time.kind_of?(Hash)
+      write_attribute(:start_time, Time.parse("#{_start_time[:date]} #{_start_time[:time]}").to_s(:db)) 
+    else
+      write_attribute(:start_time, _start_time)
+    end
+  end
+
+  # See start_time=.
+  def end_time=(_end_time)
+    if _end_time.kind_of?(Hash)
+      write_attribute(:end_time, Time.parse("#{_end_time[:date]} #{_end_time[:time]}").to_s(:db))
+    else
+      write_attribute(:end_time, _end_time)
+    end
+  end
+
 end
