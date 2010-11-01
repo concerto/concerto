@@ -3,40 +3,42 @@
   <%= javascript_include_tag 'jquery-ui-timepicker-addon.js' %>
 <% end %>
 <% content_for :js_ready do %>
-  $('#start_time').timepicker();
-  $("#end_time").timepicker();
-  $('#start_date').datepicker();
-  $('#end_date').datepicker();
+  $('#graphic_start_time').timepicker({
+    ampm:true
+  });
+  $('#graphic_end_time').timepicker({
+    ampm:true
+  });
+  $('#graphic_start_date').datepicker();
+  $('#graphic_end_date').datepicker();
 
   $('#time_start').click(function(){
-    $('#start_time').trigger("focus");
+    $('#graphic_start_time').trigger("focus");
     });
 
   $('#date_start').click(function(){
-    $('#start_date').trigger("focus");
+    $('#graphic_start_date').trigger("focus");
     });
 
   $('#time_end').click(function(){
-    $('#end_time').trigger("focus");
+    $('#graphic_end_time').trigger("focus");
     });
   $('#date_end').click(function(){
-    $('#end_date').trigger("focus");
+    $('#graphic_end_date').trigger("focus");
     });
 <% end %>
 
 <div class="field datetime">
   	<%= form.label :start_time %>
-    <%= form.hidden_field :start_time %>   
     <div class="fieldbox">
-      <%= text_field("start", "date", :maxlength => 20, :class => "datefield")%><a id="date_start" class="button date">&nbsp;</a>
-      <%= text_field("start", "time", :maxlength => 20, :class => "timefield")%><a id="time_start" class="button time">&nbsp;</a>
+      <%= text_field("graphic", "start_date", :maxlength => 20, :class => "datefield")%><a id="date_start" class="button date">&nbsp;</a>
+      <%= text_field("graphic", "start_time", :maxlength => 20, :class => "timefield")%><a id="time_start" class="button time">&nbsp;</a>
   </div>
 </div>
 <div class="field datetime">
   	<%= form.label :end_time %>
   	<div class="fieldbox">
-      <%= form.hidden_field :end_time %>
-      <%= text_field("end", "date", :maxlength => 20, :class => "datefield")%><a id="date_end" class="button date">&nbsp;</a>
-      <%= text_field("end", "time", :maxlength => 20, :class => "timefield")%><a id="time_end" class="button time">&nbsp;</a>
+      <%= text_field("graphic", "end_date", :maxlength => 20, :class => "datefield")%><a id="date_end" class="button date">&nbsp;</a>
+      <%= text_field("graphic", "end_time", :maxlength => 20, :class => "timefield")%><a id="time_end" class="button time">&nbsp;</a>
 	</div>
 </div>
