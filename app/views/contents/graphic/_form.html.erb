@@ -26,7 +26,7 @@ end
   </div>
 <div class="field">
   <label>Accepted Filetypes</label>
-  <div><%=image_tag('elements/filetype-icons.jpg')%></div>
+  <div><%= image_tag('elements/filetype-icons.jpg') %></div>
 </div>
 
 <h1>2. Provide Basic Details</h1>
@@ -39,9 +39,15 @@ end
 <%= render :partial => 'contents/form_elements/duration', :locals => {:form => form, :min => 4, :max => 12} %>
 <%= render :partial => 'contents/form_elements/dates', :locals => {:form => form} %>
 <div class="field">
-  	<%= form.label :user %>
-  	<div class="inputs">
+  <%= form.label :user %>
+  <div class="inputs">
 		<%= form.collection_select :user_id, User.all, :id, :name %>
+	</div>
+</div>
+<div class="field">
+  <%= form.label :kind %>
+  <div class="inputs">
+		<%= form.collection_select :kind_id, Kind.all, :id, :name %>
 	</div>
 </div>
 

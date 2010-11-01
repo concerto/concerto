@@ -1,1 +1,6 @@
-<h1>Content for the feed <%= feed.name %> goes here</h1>
+<ul class="iconlist">
+	<% feed.approved_contents.each do |content| %>
+		<%= render :partial => 'contents/content', :locals => { :content => content } %>
+	<% end %>
+</ul>
+<div class="clear"></div>

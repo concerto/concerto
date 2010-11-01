@@ -10,7 +10,7 @@ class Content < ActiveRecord::Base
 
   #Validations
   validates :name, :presence => true
-  validates :kind, :presence => true, :associated => true
+  #validates :kind, :presence => true, :associated => true
   validates :user, :presence => true, :associated => true
 
   #Easily query for active, expired, or future content
