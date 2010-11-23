@@ -44,13 +44,6 @@ end
 		<%= form.collection_select :user_id, User.all, :id, :name %>
 	</div>
 </div>
-<div class="field">
-  <%= form.label :kind %>
-  <div class="inputs">
-		<%= form.collection_select :kind_id, Kind.all, :id, :name %>
-	</div>
-</div>
-
 <h1>3. Select Feed</h1>
 <% if @content.new_record? %>
   <%= render :partial => 'contents/form_elements/feeds' %>
