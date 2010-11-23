@@ -22,7 +22,7 @@ module ContentsHelper
   
     options[:type] ||= 'default'
     
-    render  :partial => "contents/#{content.type.underscore}/render_#{options[:type]}", 
+    render  :partial => "contents/#{content.class.to_s.underscore}/render_#{options[:type]}", 
             :locals => {:content => content, :options => options}
   end
 end

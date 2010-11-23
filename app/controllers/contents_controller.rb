@@ -125,4 +125,14 @@ class ContentsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  # GET /contents/1/display
+  # Trigger the render function a piece of content and passes all the params
+  # along for processing.  Should send an inline result of the processing.
+  def display
+    @content = Content.find(params[:id])
+    @file = @content.render(params)
+    send_data @file.file_data, :filename => @file.file_name, :type => @file.file_type, :disposition => 'inline'
+  end
+
 end

@@ -40,11 +40,15 @@ Concerto::Application.routes.draw do
   #  feeds.resources :submissions
   #end
 
-  resources :contents, :path => "content"  
+  resources :contents, :path => "content" do
+    get :display, :on => :member
+  end
   
-  resources :graphics, :controller => :contents, :path => "content"
-  resources :tickers, :controller => :contents, :path => "content"
+  resources :graphics, :controller => :contents, :path => "content" do
+    get :display, :on => :member
+  end
 
+  resources :tickers, :controller => :contents, :path => "content"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
