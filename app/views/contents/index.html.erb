@@ -16,7 +16,7 @@
 		<aside id="sb">
 		  <ul class="feedbuttons">
 				<% @feeds.each do |feed| %>
-				<li><% link_to feed, :class => "button", :remote => true do %><span class="count"><%= feed.approved_contents.count %></span><span class="disclosure">&nbsp;</span><%= feed.name %><% end %></li>
+				<li><%= link_to feed, :class => "button", :remote => true do %><span class="count"><%= feed.approved_contents.count %></span><span class="disclosure">&nbsp;</span><%= feed.name %><% end %></li>
 				<% end %>
 	    </ul>
 		</aside>
