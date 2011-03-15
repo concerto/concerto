@@ -1,6 +1,11 @@
 <div class="field">
-  <% dfs_tree(Feed.roots).each_with_index do |feed, i| %>
-    <%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed) %>
-    <%= "-" * feed.depth %> <%= feed.name %><br />
+  <% feeds = dfs_tree(Feed.roots) %>
+  <% if feeds.empty? %>
+    <p>There are no feeds in the system that you can submit content to.  Please contact your system administrator for more imformation.</p>
+  <% else %>
+    <% feeds.each_with_index do |feed, i| %>
+      <%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed) %>
+      <%= "-" * feed.depth %> <%= feed.name %><br />
+    <% end %>
   <% end %>
 </div>
