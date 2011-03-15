@@ -33,6 +33,9 @@ GEM
     erubis (2.6.6)
       abstract (>= 1.0.0)
     i18n (0.4.2)
+    jquery-rails (0.2.7)
+      rails (~> 3.0)
+      thor (~> 0.14.4)
     mail (2.2.9.1)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.1)
@@ -72,6 +75,7 @@ PLATFORMS
 
 DEPENDENCIES
   mysql
+  jquery-rails
   rails (= 3.0.3)
   rmagick (>= 2.12.2)
   test_benchmark
