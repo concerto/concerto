@@ -1,7 +1,6 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'http://gemcutter.org'
 
-
 gem "rails", "3.0.3"
 
 ## Bundle edge rails:
@@ -14,14 +13,12 @@ gem "mysql", :require => "mysql"
 #RMagick is used for image resizing and processing
 gem "rmagick", ">= 2.12.2"
 
-## Bundle the gems you use:
-# gem "bj"
-# gem "hpricot", "0.6"
+# We use jquery
+gem "jquery-rails"
+
 # gem "sqlite3-ruby", :require => "sqlite3"
-# gem "aws-s3", :require => "aws/s3"
 
 ## Bundle gems used only in certain environments:
-# gem "rspec", :group => :test
- group :test do
-   gem "test_benchmark", :require => 'test_benchmark'
- end
+group :test do
+  gem "test_benchmark", :require => 'test_benchmark'
+end
