@@ -59,6 +59,7 @@ class ScreensController < ApplicationController
   # PUT /screens/1.xml
   def update
     @screen = Screen.find(params[:id])
+    @templates = Template.all
 
     respond_to do |format|
       if @screen.update_attributes(params[:screen])
