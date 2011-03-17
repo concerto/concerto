@@ -1,5 +1,5 @@
 Concerto::Application.routes.draw do
-  resources :medias, :only => [:show]
+  resources :media, :only => [:show]
 
   resources :templates do
     resources :positions

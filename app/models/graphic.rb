@@ -4,7 +4,7 @@ class Graphic < Content
 
   #Validations
   validates :duration, :numericality => { :greater_than => 0 }
-  validates :medias, :length => { :minimum => 1, :too_short => "At least 1 file is required." }
+  validates :media, :length => { :minimum => 1, :too_short => "At least 1 file is required." }
   
   # Automatically set the kind for the content
   # if it is new.
@@ -21,7 +21,7 @@ class Graphic < Content
     # about the resizing, but this is a good first pass.
     if options.key?(:width) && options.key?(:height)
       require 'RMagick'
-      @media = self.medias.original.first
+      @media = self.media.original.first
 
       image = Magick::ImageList.new
       image.from_blob(@media.file_contents)

@@ -6,7 +6,7 @@ class GraphicTest < ActiveSupport::TestCase
     graphic = Graphic.new
     assert graphic.invalid?
     assert graphic.errors[:duration].any?
-    assert graphic.errors[:medias].any?
+    assert graphic.errors[:media].any?
   end
   
   #Verify the kind is getting auto-assigned

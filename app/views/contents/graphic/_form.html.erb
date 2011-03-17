@@ -1,6 +1,6 @@
 <%
-if @content.medias.empty?
-  @content.medias.build({:key=>"original"})
+if @content.media.empty?
+  @content.media.build({:key=>"original"})
 end 
 %>
 <% if @content.errors.any? %>
@@ -18,7 +18,7 @@ end
 <div class="field">
   	<label>Specify File</label>
 	<div class="fieldbox">
-		<%= form.fields_for :medias do |media| %>
+		<%= form.fields_for :media do |media| %>
     		<%= media.file_field :file %>
     		<%= media.hidden_field :key %>
   		<% end %>

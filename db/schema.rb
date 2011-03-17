@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100629160714) do
+ActiveRecord::Schema.define(:version => 20110317033903) do
 
   create_table "contents", :force => true do |t|
     t.string   "name"
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(:version => 20100629160714) do
     t.datetime "updated_at"
   end
 
-  create_table "medias", :force => true do |t|
+  create_table "media", :force => true do |t|
     t.integer  "attachable_id"
     t.string   "attachable_type"
     t.string   "key"

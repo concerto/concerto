@@ -25,7 +25,7 @@ class TemplatesController < ApplicationController
   # GET /templates/new.xml
   def new
     @template = Template.new
-    @template.medias.build
+    @template.media.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -36,8 +36,8 @@ class TemplatesController < ApplicationController
   # GET /templates/1/edit
   def edit
     @template = Template.find(params[:id])
-    if(@template.medias.empty?)
-      @template.medias.build
+    if(@template.media.empty?)
+      @template.media.build
     end
   end
 
@@ -45,7 +45,7 @@ class TemplatesController < ApplicationController
   # POST /templates.xml
   def create
     @template = Template.new(params[:template])
-    @template.medias.each do |media|
+    @template.media.each do |media|
       media.key = "original"
     end
     
@@ -65,7 +65,7 @@ class TemplatesController < ApplicationController
   # PUT /templates/1.xml
   def update
     @template = Template.find(params[:id])
-    @template.medias.each do |media|
+    @template.media.each do |media|
       media.key = "original"
     end
 
@@ -98,7 +98,7 @@ class TemplatesController < ApplicationController
     require 'RMagick'
     
     @template = Template.find(params[:id])
-    @media = @template.medias.original.first
+    @media = @template.media.original.first
     @image = Magick::Image.from_blob(@media.file_contents).first
     @height = @image.rows
     @width = @image.columns

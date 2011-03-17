@@ -1,4 +1,4 @@
-<%= form_for(@template, :html => { :multipart => true }) do |f| %>
+<%= form_for(@template, :url => import_templates_path, :html => { :multipart => true }) do |f| %>
   <% if @template.errors.any? %>
   <div id="errorExplanation">
     <h2><%= pluralize(@template.errors.count, "error") %> prohibited this template from being saved:</h2>
@@ -11,23 +11,21 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <%= label_tag :package %><br />
+    <%= file_field_tag :package %>
+  </div>
+  <hr />
+  <div class="field">
+    <%= label_tag :image %><br />
+    <%= file_field_tag :image %>
   </div>
   <div class="field">
-    <%= f.label :author %><br />
-    <%= f.text_field :author %>
+    <%= label_tag :descriptor %><br />
+    <%= file_field_tag :descriptor %>
   </div>
-  <div class="field">
-    <%= f.label :is_hidden %><br />
-    <%= f.check_box :is_hidden %>
-  </div>
-  <div class="field">
-  <%= f.fields_for :media do |media| %>
-    <%= media.file_field :file %>
-  <% end %>
-  </div>
+
+
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit("Import Template") %>
   </div>
 <% end %>
