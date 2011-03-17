@@ -16,6 +16,9 @@ gem "rmagick", ">= 2.12.2"
 # We use jquery
 gem "jquery-rails"
 
+# Ruby 1.9.2 doesn't include unit testing by default
+gem 'test-unit'
+
 # gem "sqlite3-ruby", :require => "sqlite3"
 
 ## Bundle gems used only in certain environments:

@@ -66,7 +66,7 @@ class FeedTest < ActiveSupport::TestCase
   test "feed descendants" do
     assert feeds(:service).descendants.empty?
     
-    assert feeds(:announcements).descendants.size, 3
+    assert_equal feeds(:announcements).descendants.size, 3
     assert feeds(:announcements).descendants.include?(feeds(:boring_announcements))
     assert feeds(:announcements).descendants.include?(feeds(:sleepy_announcements))
     assert feeds(:announcements).descendants.include?(feeds(:important_announcements))
