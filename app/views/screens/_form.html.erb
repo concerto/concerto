@@ -46,6 +46,18 @@
 				<%= f.collection_select :template_id, @templates, :id, :name %>
 			</div>
 		</div>
+                <div class="field">
+                        <%= f.label :width %>
+                        <div class="inputs">
+                                <%= f.text_field :width %>
+                        </div>
+                </div>
+                <div class="field">
+                        <%= f.label :height %>
+                        <div class="inputs">
+                                <%= f.text_field :height %>
+                        </div>
+                </div>
 	</div>
 	
 	<div class="submit_bar actions">

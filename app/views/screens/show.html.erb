@@ -22,7 +22,10 @@
   <b>Template:</b>
   <%= @screen.template.name %>
 </p>
-
+<p>
+  <b>resolution</b>
+  <%= @screen.width %> X <%= @screen.height %> (<%= @screen.aspect_ratio["width"] %>:<%=  @screen.aspect_ratio["height"] %>)
+</p>
 
 <%= link_to 'Edit', edit_screen_path(@screen) %> |
 <%= link_to 'Back', screens_path %>

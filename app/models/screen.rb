@@ -14,5 +14,26 @@ class Screen < ActiveRecord::Base
   #For now, the check will be string based, it should probably be moved to
   #something like if owner_type.is_class (however that would work)
   validates :owner, :presence => true, :associated => true, :if => Proc.new { ["User", "Group"].include?(owner_type) }
+  validates :width, :presence => true
+  validates :height, :presence => true
 
+  # Determine the screen's aspect ratio.  If it doesn't exist, calculate it
+  def aspect_ratio
+    if width.nil? || height.nil?
+      return { "width", "", "height", "" }
+    end
+    gcd = gcd(width,height)
+    aspect_width = width/gcd
+    aspect_height = height/gcd
+    return { "width", aspect_width, "height", aspect_height }
+  end
+
+  # Run Euclidean algorithm to find GCD
+  def gcd (a,b)
+    if b == 0
+      return a
+    end
+    return gcd (b, a.modulo(b) )
+  end
 end
+
