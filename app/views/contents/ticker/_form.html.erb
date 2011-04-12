@@ -13,7 +13,10 @@
 <div class="field">
   	<%= form.label :data, "Ticker Text" %>
   	<div class="inputs">
-		<%= form.text_area :data %>
+  	<% content_for :js_ready do %>
+      $('#ticker_data').live('keyup keydown', function(e) { $('#char-count').html($(this).val().length);});
+    <% end %>
+		<%= form.text_area :data %><div>Characters:<span id="char-count">0</span></div>
 	</div>
 </div>
 
