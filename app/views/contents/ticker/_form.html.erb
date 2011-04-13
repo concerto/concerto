@@ -1,23 +1,13 @@
 <% content_for :js_ready do %>
-/**
- * Character Counter for inputs and text areas
- */
+//Character count for ticker text
 $('.word_count').each(function(){  
-    // get current number of characters  
     var length = $(this).val().length;  
-    // get current number of words  
-    //var length = $(this).val().split(/\b[\s,\.-:;]*/).length;  
-    // update characters  
-    $("#char_count").html( length );  
-    // bind on key up event  
-    $(this).keyup(function(){  
-        // get new length of characters  
-        var new_length = $(this).val().length;  
-        // get new length of words  
-        //var new_length = $(this).val().split(/\b[\s,\.-:;]*/).length;  
-        // update  
-        $("#char_count").html( new_length );
-    });  
+    $("#char_count").html(length);
+    // bind on key up event
+    $(this).keyup(function(){
+        var new_length = $(this).val().length;
+        $("#char_count").html(new_length);
+    });
 });
 <% end %>
 <% if @content.errors.any? %>
@@ -35,9 +25,9 @@ $('.word_count').each(function(){
 <div class="field">
   	<%= form.label :data, "Ticker Text" %>
   	<div class="inputs">
-		<%= form.text_area :data, :class => 'word_count'%>
+		<%= form.text_area :data, :class => 'word_count' %>
+		<div>Characters:<span id="char_count">0</span></div>
 	</div>
-	<div id="char_count"></div>
 </div>
 
 <h1>2. Provide Basic Details</h1>
