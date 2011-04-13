@@ -1,3 +1,25 @@
+<% content_for :js_ready do %>
+/**
+ * Character Counter for inputs and text areas
+ */
+$('.word_count').each(function(){  
+    // get current number of characters  
+    var length = $(this).val().length;  
+    // get current number of words  
+    //var length = $(this).val().split(/\b[\s,\.-:;]*/).length;  
+    // update characters  
+    $("#char_count").html( length );  
+    // bind on key up event  
+    $(this).keyup(function(){  
+        // get new length of characters  
+        var new_length = $(this).val().length;  
+        // get new length of words  
+        //var new_length = $(this).val().split(/\b[\s,\.-:;]*/).length;  
+        // update  
+        $("#char_count").html( new_length );
+    });  
+});
+<% end %>
 <% if @content.errors.any? %>
 <div id="errorExplanation">
   <h2><%= pluralize(@content.errors.count, "error") %> prohibited this content from being saved:</h2>
@@ -13,8 +35,9 @@
 <div class="field">
   	<%= form.label :data, "Ticker Text" %>
   	<div class="inputs">
-		<%= form.text_area :data %>
+		<%= form.text_area :data, :class => 'word_count'%>
 	</div>
+	<div id="char_count"></div>
 </div>
 
 <h1>2. Provide Basic Details</h1>
@@ -23,6 +46,7 @@
   	<div class="inputs">
 		<%= form.text_field :name, :class => 'alert' %>
 	</div>
+	<div id="char_count">
 </div>
 <%= render :partial => 'contents/form_elements/duration', :locals => {:form => form, :min => 4, :max => 12} %>
 <%= render :partial => 'contents/form_elements/dates', :locals => {:form => form} %>
@@ -37,5 +61,3 @@
 <% if @content.new_record? %>
   <%= render :partial => 'contents/form_elements/feeds' %>
 <% end %>
-
-
