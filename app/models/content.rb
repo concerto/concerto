@@ -35,7 +35,8 @@ class Content < ActiveRecord::Base
   # Otherwise, just set it like normal.
   def start_time=(_start_time)
     if _start_time.kind_of?(Hash)
-      write_attribute(:start_time, Time.parse("#{_start_time[:date]} #{_start_time[:time]}").to_s(:db)) 
+      #write_attribute(:start_time, Time.parse("#{_start_time[:date]} #{_start_time[:time]}").to_s(:db))
+      write_attribute(:start_time, Time.strptime("#{_start_time[:date]} #{_start_time[:time]}","%m/%d/%Y %l:%M %p").to_s(:db))
     else
       write_attribute(:start_time, _start_time)
     end
@@ -44,7 +45,7 @@ class Content < ActiveRecord::Base
   # See start_time=.
   def end_time=(_end_time)
     if _end_time.kind_of?(Hash)
-      write_attribute(:end_time, Time.parse("#{_end_time[:date]} #{_end_time[:time]}").to_s(:db))
+      write_attribute(:end_time, Time.strptime("#{_end_time[:date]} #{_end_time[:time]}","%m/%d/%Y %l:%M %p").to_s(:db))
     else
       write_attribute(:end_time, _end_time)
     end
