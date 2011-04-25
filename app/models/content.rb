@@ -31,12 +31,13 @@ class Content < ActiveRecord::Base
     (start_time.nil? || start_time < Time.now) && (end_time.nil? || end_time > Time.now)
   end
 
-  # Setter for the start time.  If a hash is passed, convert that into a Time object and then a string.
-  # Otherwise, just set it like normal.
+  # Setter for the start time.  If a hash is passed, convert that into a DateTime object and then a string.
+  # Otherwise, just set it like normal.  This is a bit confusing due to the differences in how Ruby handles
+  # times between 1.9.x and 1.8.x.
   def start_time=(_start_time)
     if _start_time.kind_of?(Hash)
       #write_attribute(:start_time, Time.parse("#{_start_time[:date]} #{_start_time[:time]}").to_s(:db))
-      write_attribute(:start_time, Time.strptime("#{_start_time[:date]} #{_start_time[:time]}","%m/%d/%Y %l:%M %p").to_s(:db))
+      write_attribute(:start_time, DateTime.strptime("#{_start_time[:date]} #{_start_time[:time]}","%m/%d/%Y %l:%M %p").to_s(:db))
     else
       write_attribute(:start_time, _start_time)
     end
@@ -45,7 +46,7 @@ class Content < ActiveRecord::Base
   # See start_time=.
   def end_time=(_end_time)
     if _end_time.kind_of?(Hash)
-      write_attribute(:end_time, Time.strptime("#{_end_time[:date]} #{_end_time[:time]}","%m/%d/%Y %l:%M %p").to_s(:db))
+      write_attribute(:end_time, DateTime.strptime("#{_end_time[:date]} #{_end_time[:time]}","%m/%d/%Y %l:%M %p").to_s(:db))
     else
       write_attribute(:end_time, _end_time)
     end
