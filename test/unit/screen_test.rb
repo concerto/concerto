@@ -45,4 +45,11 @@ class ScreenTest < ActiveSupport::TestCase
     s.owner_id = 0
     assert !s.valid?, "Screen owner must be valid"
   end
+  test "that a screen has an aspect ratio" do
+    s = screens(:one)
+    s.width = 1920 
+    s.height = 1080
+    assert_equal 16, s.aspect_ratio["width"]
+    assert_equal 9, s.aspect_ratio["height"]
+  end
 end

@@ -33,7 +33,7 @@ class Screen < ActiveRecord::Base
     if b == 0
       return a
     end
-    return gcd (b, a.modulo(b) )
+    return gcd(b, a.modulo(b) )
   end
 end
 
