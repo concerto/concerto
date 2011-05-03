@@ -6,6 +6,8 @@ one:
   is_public: false
   owner: katie
   template: one
+  width: 1920
+  height: 1080
 
 two:
   name: SGS Screen
