@@ -20,12 +20,12 @@ class Screen < ActiveRecord::Base
   # Determine the screen's aspect ratio.  If it doesn't exist, calculate it
   def aspect_ratio
     if width.nil? || height.nil?
-      return { "width", "", "height", "" }
+      return { :width=> "", :height=> "" }
     end
     gcd = gcd(width,height)
     aspect_width = width/gcd
     aspect_height = height/gcd
-    return { "width", aspect_width, "height", aspect_height }
+    return {:width => aspect_width, :height => aspect_height }
   end
 
   # Run Euclidean algorithm to find GCD
@@ -33,7 +33,7 @@ class Screen < ActiveRecord::Base
     if b == 0
       return a
     end
-    return gcd(b, a.modulo(b) )
+    return gcd(b, a.modulo(b))
   end
 end
 

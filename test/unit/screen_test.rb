@@ -49,7 +49,7 @@ class ScreenTest < ActiveSupport::TestCase
     s = screens(:one)
     s.width = 1920 
     s.height = 1080
-    assert_equal 16, s.aspect_ratio["width"]
-    assert_equal 9, s.aspect_ratio["height"]
+    assert_equal 16, s.aspect_ratio[:width]
+    assert_equal 9, s.aspect_ratio[:height]
   end
 end
