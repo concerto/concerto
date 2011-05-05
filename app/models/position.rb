@@ -11,6 +11,22 @@ class Position < ActiveRecord::Base
   def width
     right-left
   end
+
+  # Enable the width to be set of a position.
+  # The right is adjusted relative to the left.
+  # A Concerto-1 style accessor, mainly used
+  # for importing templates.
+  def width=(size)
+    self.right = left + size
+  end
+
+  # Enabling the height to be set for a position.
+  # The bottom is adjusted relative to the top.
+  # A Concerto-1 style accessor, mainly used
+  # for importing templates.
+  def height=(size)
+    self.bottom = top + size
+  end
   
   # Compute the height of the position block.
   # Another Concerto-1 style attribute, figuring out
