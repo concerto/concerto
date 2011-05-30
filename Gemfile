@@ -2,7 +2,7 @@
 source 'http://rubygems.org'
 
 gem "rails", "3.1.0.rc1"
-gem "mysql2", "0.3.2"
+
 # Rails 3.1 - Asset Pipeline
 gem 'json'
 gem 'sass'
