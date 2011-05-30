@@ -1,4 +1,12 @@
 class User < ActiveRecord::Base
+  # Include default devise modules. Others available are:
+  # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+
+  # Setup accessible (or protected) attributes for your model
+  attr_accessible :email, :password, :password_confirmation, :remember_me
+
   has_many :contents
   has_many :submissions, :foreign_key => "moderator_id"
   has_many :memberships, :dependent => :destroy
@@ -26,4 +34,5 @@ class User < ActiveRecord::Base
   def in_group?(group)
     groups.include?(group)
   end
+  
 end

@@ -24,3 +24,5 @@ gem 'test-unit'
 group :test do
   gem "test_benchmark", :require => 'test_benchmark'
 end
+
+gem 'devise'

@@ -1,4 +1,6 @@
 Concerto::Application.routes.draw do
+  devise_for :users
+
   resources :media, :only => [:show]
 
   resources :templates do
@@ -20,8 +22,6 @@ Concerto::Application.routes.draw do
       end
     end
   end
-
-  resources :users
 
   resources :kinds do
     resources :fields
