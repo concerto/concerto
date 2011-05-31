@@ -15,13 +15,7 @@ class User < ActiveRecord::Base
 
   
   #Validations
-  validates :username, :presence => true, :uniqueness => true
   validates :email, :presence => true, :uniqueness => true
-  
-  # Use the username instead of the id in URL's and stuff
-  def to_param
-    username
-  end
 
   # A simple name, combining the first and last name
   # We should probably expand this so it doesn't look stupid
@@ -30,7 +24,7 @@ class User < ActiveRecord::Base
     first_name + " " + last_name
   end
 
-  # Quickly test if a user belongs to a group
+  # Quickly test if a user belongs to a group (this breaks if either is nil)
   def in_group?(group)
     groups.include?(group)
   end

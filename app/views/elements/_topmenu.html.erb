@@ -3,10 +3,14 @@
 	<a href="#" id="TM-logobutton"></a>
 	<div id="LG-inner">
 		<div class="TM-sectop">
-			<p><b>Current User</b></p>
+			<% if user_signed_in? %><p><b><%= current_user.name %></b></p><% end %>
 		</div>
 		<div class="TM-secbot">
-			<p><a href="#">Settings</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">Log Out</a></p>
+		    <% if user_signed_in? %>
+			  <p><%= link_to "Settings", edit_user_path(current_user) %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "Log out", destroy_user_session_path %> </p>
+			<% else %>
+			  <p><%= link_to "Sign up", new_user_registration_path %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "Sign in", new_user_session_path %>  </p>
+			<% end %>
 		</div>
 	</div>
 	<!-- Begin Menu for CONTENT -->
