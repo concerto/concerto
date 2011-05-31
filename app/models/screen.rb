@@ -14,7 +14,10 @@ class Screen < ActiveRecord::Base
   #For now, the check will be string based, it should probably be moved to
   #something like if owner_type.is_class (however that would work)
   validates :owner, :presence => true, :associated => true, :if => Proc.new { ["User", "Group"].include?(owner_type) }
-
+ 
+  #types of entities that may "own" a screen
+  SCREEN_OWNER_TYPES = ["User", "Group"]
+  
   # Determine the screen's aspect ratio.  If it doesn't exist, calculate it
   def aspect_ratio
     if width.nil? || height.nil?
