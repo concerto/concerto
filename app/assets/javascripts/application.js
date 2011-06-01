@@ -28,3 +28,14 @@ $(document).ready(function () {
 		});
 	});
 });
+
+#This is for the screens admin form - and probably belongs somewhere else
+jQuery(function($) {
+  // when the field changes...
+  $("#screen_owner_type").change(function() {
+    // make a POST call and replace the content
+    $.post("/update_owners", {owner: $('select#screen_owner_type :selected').val()}, function(data) {
+      $("#owner_div").html(data);
+    });
+  });
+})
