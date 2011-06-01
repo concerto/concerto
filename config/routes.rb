@@ -1,5 +1,7 @@
 Concerto::Application.routes.draw do
+  #Custom route for the screen creation/admin form JS
   match "update_owners" => "screens#update_owners"
+  
   devise_for :users
   resources :users
 

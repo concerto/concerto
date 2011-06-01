@@ -1,17 +1,3 @@
-<script type="text/javascript">
-// Append the function to the "document ready" chain
-jQuery(function($) {
-  var owntype = $('select#screen_owner_type :selected').val();
-  // when the #search field changes
-  $("#screen_owner_type").change(function() {
-    // make a POST call and replace the content
-    $.post("/update_owners", function(data) {
-      $("#owner_div").html(data);
-    });
-  });
-})
-</script>
-        
 <%= form_for(@screen) do |f| %>
 	<% if @screen.errors.any? %>
 	<div id="errorExplanation">
@@ -41,20 +27,17 @@ jQuery(function($) {
 			<div class="inputs">
 				<%= f.check_box :is_public %>
 			</div>
-		</div>
-
-        
+		</div>        
 		<div class="field">
 			<%= f.label :owner_type %>
 			<div class="inputs">
-			    <%= f.select :owner_type, Screen::SCREEN_OWNER_TYPES %>
+			    <%= f.select :owner_type, Screen::SCREEN_OWNER_TYPES, {:prompt=>'Please Select...'} %>
 			</div>
 		</div>
-		<div id="owner_div"></div>
 		<div class="field">
 			<%= f.label :owner_id %>
 			<div class="inputs">
-			    <%= f.collection_select :owner_id, User.all, :id, :name %>
+			    <div id="owner_div"></div>
 			</div>
 		</div>		
 		<div class="field">

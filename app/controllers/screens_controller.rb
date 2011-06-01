@@ -85,9 +85,9 @@ class ScreensController < ApplicationController
   end
   
  def update_owners
-   if params[:type] == "User"
+   if params[:owner] == "User"
      @owners = User.all
-   else
+   elsif params[:owner] == "Group"
      @owners = Group.all
    end
    render :layout => false
