@@ -29,7 +29,8 @@ $(document).ready(function () {
 	});
 });
 
-#This is for the screens admin form - and probably belongs somewhere else
+
+//This is for the screens admin form - and probably belongs somewhere else
 jQuery(function($) {
   // when the field changes...
   $("#screen_owner_type").change(function() {
