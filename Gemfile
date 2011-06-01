@@ -12,7 +12,7 @@ gem 'uglifier'
 gem 'jquery-rails'
 
 # ActiveRecord requires a database adapter.
-gem 'sqlite3-ruby', :require => 'sqlite3'
+gem 'sqlite3'
 
 #RMagick is used for image resizing and processing
 gem "rmagick", ">= 2.12.2"
@@ -23,6 +23,8 @@ gem 'test-unit'
 ## Bundle gems used only in certain environments:
 group :test do
   gem "test_benchmark", :require => 'test_benchmark'
+  # Pretty printed test output
+  gem 'turn', :require => false
 end
 
 gem 'devise'
