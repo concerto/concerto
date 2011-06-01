@@ -83,4 +83,14 @@ class ScreensController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+ def update_owners
+   if params[:type] == "User"
+     @owners = User.all
+   else
+     @owners = Group.all
+   end
+   render :layout => false
+ end
+ 
 end

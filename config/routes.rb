@@ -1,4 +1,5 @@
 Concerto::Application.routes.draw do
+  match "update_owners" => "screens#update_owners"
   devise_for :users
   resources :users
 
@@ -12,7 +13,7 @@ Concerto::Application.routes.draw do
   end
 
   resources :screens do
-    resources :subscriptions
+    resources :subscriptions 
   end
 
   resources :groups do
