@@ -1,4 +1,5 @@
 require 'test_helper'
+include ActionDispatch::TestProcess
 
 class GraphicTest < ActiveSupport::TestCase
   # Attributes cannot be left empty/blank
@@ -9,9 +10,25 @@ class GraphicTest < ActiveSupport::TestCase
     assert graphic.errors[:media].any?
   end
   
-  #Verify the kind is getting auto-assigned
+  # Verify the kind is getting auto-assigned
   test "kind should be auto set" do
     graphic = Graphic.new
     assert_equal graphic.kind, Kind.where(:name => "Graphics").first
+  end
+
+  # Graphics require imagess to be attached
+  # Note: This isn't an accurate simulation of the
+  # actual file upload process.  We should run that in
+  # the integration test
+  test "graphics require a file" do
+    graphic = Graphic.new(:name => "Sample Graphic",
+                          :duration => 15,
+                          :user => users(:katie))
+    file = fixture_file_upload("/files/concerto_background.jpg", 'image/jpeg', :binary)
+    graphic.media.build({:key => "original"})
+    graphic.media.first.file = file
+
+    assert graphic.valid?
+    assert graphic.save
   end
 end
