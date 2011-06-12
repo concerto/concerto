@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   # We should probably expand this so it doesn't look stupid
   # if people only have a first name or only have a last name
   def name
-    first_name + " " + last_name
+    (first_name || "") + " " + (last_name || "")
   end
 
   # Quickly test if a user belongs to a group (this breaks if either is nil)
