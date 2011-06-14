@@ -12,6 +12,9 @@ Concerto::Application.routes.draw do
     member do
       get :preview
     end
+    collection do
+      post :import
+    end
   end
 
   resources :screens do
