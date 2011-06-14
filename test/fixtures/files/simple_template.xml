@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<template>
+  <name>Sample Template</name>
+  <width>1920</width>
+  <height>1080</height>
+  <author>Testing Author</author>
+  <field>
+    <name>Graphics</name>
+    <type>Graphics</type>
+    <style>border:solid 2px #ccc;</style>
+    <left>0.025</left>
+    <top>0.026</top>
+    <width>0.567</width>
+    <height>0.77</height>
+  </field>
+</template>

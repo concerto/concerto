@@ -138,36 +138,33 @@ class TemplatesController < ApplicationController
   end
 
   # PUT /templates/import
-  # Import a template from an XML description and convert it 
+  # Import a template from an XML description and convert it to an actual
+  # template model.
+  #
+  # TODO - This should be cleaned up, we should throw smarter errors too.
   def import
     xml_file = params[:xml]
     image_file = params[:image]
-
-    data = Hash::from_xml(xml_file.read)
-    
-    @template = Template.new(:name => data['template']['name'],
-                            :author => data['template']['author'])
-    @template.media.build({:key=>"original", :file => image_file})
-    
-    data['template']['field'].each do |field|
-      position = @template.positions.build
-      field.each_pair do |key, value|
-        position.send("#{key}=".to_sym, value) if position.respond_to?("#{key}=".to_sym)
-      end
-      if field.has_key?('name')
-        position.field = Field.where(:name => field['name']).first
-      end
-      if !position.valid?
-        position.destroy
-      end
-    end
-    respond_to do |format|
-      if @template.save
-        format.html { redirect_to(@template, :notice => 'Template was successfully created.') }
-        format.xml  { render :xml => @template, :status => :created, :location => @template }
-      else
+    @template = Template.new
+    if xml_file.nil? || image_file.nil?
+      respond_to do |format|
         format.html { render :action => "new" }
         format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
+      end
+    else
+      xml_data = xml_file.read
+      if !xml_data.blank? && @template.import_xml(xml_data)
+        @template.media.build({:key=>"original", :file => image_file})
+      end  
+
+      respond_to do |format|
+        if @template.save
+          format.html { redirect_to(@template, :notice => 'Template was successfully created.') }
+          format.xml  { render :xml => @template, :status => :created, :location => @template }
+        else
+          format.html { render :action => "new" }
+          format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
+        end
       end
     end
   end
