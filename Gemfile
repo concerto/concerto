@@ -17,12 +17,8 @@ gem 'sqlite3'
 #RMagick is used for image resizing and processing
 gem "rmagick", ">= 2.12.2"
 
-# Ruby 1.9.2 doesn't include unit testing by default
-gem 'test-unit'
-
 ## Bundle gems used only in certain environments:
 group :test do
-  gem "test_benchmark", :require => 'test_benchmark'
   # Pretty printed test output
   gem 'turn', :require => false
 end
