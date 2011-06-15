@@ -28,12 +28,7 @@ class Template < ActiveRecord::Base
     data['template']['field'] = [data['template']['field']] unless data['template']['field'].kind_of?(Array)        
     data['template']['field'].each do |field|
       position = self.positions.build
-      field.each_pair do |key, value|
-        position.send("#{key}=".to_sym, value) if position.respond_to?("#{key}=".to_sym)
-      end
-      if field.has_key?('name')
-        position.field = Field.where(:name => field['name']).first
-      end
+      position.import_hash(field)
       if !position.valid?
         # This position might not actually be deleted,
         # instead it will be marked for deletion (aka not creating it)

@@ -38,4 +38,31 @@ class Position < ActiveRecord::Base
   def height
     bottom-top
   end
+
+  # Given a hash of position data, potentially from a 
+  # Concerto 1 template descriptor, build this position
+  # to have the correct attributes.
+  def import_hash(data)
+    # If these keys exist, we need to process them first.
+    # This prevents race conditions where calling width before
+    # left will set the wrong right.
+    priority_keys = ['top', 'left', 'bottom', 'right']
+    priority_keys.each do |key|
+      if data.has_key?(key)
+        self.send("#{key}=".to_sym, data[key].to_f)
+        data.delete(key)
+      end
+    end
+    # The name of a position shold be used to try and 
+    # identify the field.  This is for backwards compatability
+    # purposes with v1 descriptors.
+    if data.has_key?('name')
+      self.field = Field.where(:name => data['name']).first
+      data.delete('name')
+    end
+    # Handle everything else...
+    data.each_pair do |key, value|
+      self.send("#{key}=".to_sym, value) if self.respond_to?("#{key}=".to_sym)
+    end
+  end
 end
