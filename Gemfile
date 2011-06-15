@@ -2,10 +2,12 @@
 source 'http://rubygems.org'
 
 gem "rails", "3.1.0.rc4"
+gem "rake", "0.8.7"
 
 # Rails 3.1 - Asset Pipeline
 gem 'json'
 gem 'sass'
+gem 'sass-rails'
 gem 'coffee-script'
 gem 'uglifier'
 # Rails 3.1 - JavaScript
