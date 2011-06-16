@@ -44,7 +44,7 @@ class GroupsController < ApplicationController
     
     respond_to do |format|
       if @group.save
-        @membership = Membership.new(:group_id => @group.id, :user_id => current_user.id, :is_leader => 1)
+        @membership = Membership.new(:group => @group, :user => current_user, :is_leader => true)
         @membership.save
         format.html { redirect_to(@group, :notice => 'Group was successfully created.') }
         format.xml  { render :xml => @group, :status => :created, :location => @group }
