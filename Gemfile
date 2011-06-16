@@ -6,7 +6,6 @@ gem "rake", "0.8.7"
 
 # Rails 3.1 - Asset Pipeline
 gem 'json'
-gem 'sass'
 gem 'sass-rails'
 gem 'coffee-script'
 gem 'uglifier'
