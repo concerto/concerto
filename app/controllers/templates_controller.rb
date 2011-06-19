@@ -104,24 +104,26 @@ class TemplatesController < ApplicationController
     @width = @image.columns
     
     if([Mime::JPG, Mime::PNG, Mime::HTML].include?(request.format))
-      dw = Magick::Draw.new
-      @template.positions.each do |position|
-        #Draw the rectangle
-        dw.fill("grey")
-        dw.stroke_opacity(0)
-        dw.fill_opacity(0.6)
-        dw.rectangle(@width*position.left, @height*position.top, @width*position.right, @height*position.bottom)
-        
-        #Layer the field name
-        dw.stroke("black")
-        dw.fill("black")
-        dw.text_anchor(Magick::MiddleAnchor)
-        dw.opacity(1)
-        dw.pointsize = 100
-        dw.text((@width*(position.left + position.right)/2),(@height*(position.top + position.bottom)/2+40),position.field.name)      
-      end
-      dw.draw(@image)
-      
+      if !@template.positions.empty?
+        dw = Magick::Draw.new
+        @template.positions.each do |position|
+          #Draw the rectangle
+          dw.fill("grey")
+          dw.stroke_opacity(0)
+          dw.fill_opacity(0.6)
+          dw.rectangle(@width*position.left, @height*position.top, @width*position.right, @height*position.bottom)
+          
+          #Layer the field name
+          dw.stroke("black")
+          dw.fill("black")
+          dw.text_anchor(Magick::MiddleAnchor)
+          dw.opacity(1)
+          dw.pointsize = 100
+          dw.text((@width*(position.left + position.right)/2),(@height*(position.top + position.bottom)/2+40),position.field.name)      
+        end
+        dw.draw(@image)
+      end      
+
       case request.format
       when Mime::JPG
         @image.format = "JPG"
