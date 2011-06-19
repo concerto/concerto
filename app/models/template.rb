@@ -25,14 +25,16 @@ class Template < ActiveRecord::Base
     self.name = data['template']['name']
     self.author = data['template']['author']
 
-    data['template']['field'] = [data['template']['field']] unless data['template']['field'].kind_of?(Array)        
-    data['template']['field'].each do |field|
-      position = self.positions.build
-      position.import_hash(field)
-      if !position.valid?
-        # This position might not actually be deleted,
-        # instead it will be marked for deletion (aka not creating it)
-        position.destroy
+    if data['template'].has_key?('field')
+      data['template']['field'] = [data['template']['field']] unless data['template']['field'].kind_of?(Array)
+      data['template']['field'].each do |field|
+        position = self.positions.build
+        position.import_hash(field)
+        if !position.valid?
+          # This position might not actually be deleted,
+          # instead it will be marked for deletion (aka not creating it)
+          position.destroy
+        end
       end
     end
     return self.valid?

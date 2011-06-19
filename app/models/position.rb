@@ -43,6 +43,7 @@ class Position < ActiveRecord::Base
   # Concerto 1 template descriptor, build this position
   # to have the correct attributes.
   def import_hash(data)
+    return false if data.nil? || data.empty?
     # If these keys exist, we need to process them first.
     # This prevents race conditions where calling width before
     # left will set the wrong right.
