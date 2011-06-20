@@ -29,15 +29,11 @@
 			</div>
 		</div>        
 		<div class="field">
-			<%= f.label :owner_type %>
+			<%= f.label :owner %>
 			<div class="inputs">
-			    <%= f.select :owner_type, Screen::SCREEN_OWNER_TYPES, {:prompt=>'Please Select...'} %>
-			</div>
-		</div>
-		<div class="field">
-			<%= f.label :owner_id %>
-			<div class="inputs">
-			    <div id="owner_div"></div>
+                          <% options = {'Users' => @users.map{|u| [u.name, "User-#{u.id}"]},
+                                        'Groups' => @groups.map{|g| [g.name, "Group-#{g.id}"]}} %> 
+                          <%= select_tag :owner, grouped_options_for_select(options, "#{@screen.owner_type}-#{@screen.owner_id}") %>
 			</div>
 		</div>		
 		<div class="field">

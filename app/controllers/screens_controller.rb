@@ -26,6 +26,8 @@ class ScreensController < ApplicationController
   def new
     @screen = Screen.new
     @templates = Template.all
+    @users = User.all
+    @groups = Group.all
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @screen }
@@ -36,6 +38,8 @@ class ScreensController < ApplicationController
   def edit
     @screen = Screen.find(params[:id])
     @templates = Template.all
+    @users = User.all
+    @groups = Group.all
   end
 
   # POST /screens
@@ -43,7 +47,17 @@ class ScreensController < ApplicationController
   def create
     @screen = Screen.new(params[:screen])
     @templates = Template.all
+    @users = User.all
+    @groups = Group.all
 
+    # Process the owner into something that makes sense
+    owner = params[:owner].split('-')
+    if Screen::SCREEN_OWNER_TYPES.include?(owner[0])
+      @screen.owner_type = owner[0]
+      @screen.owner_id = owner[1]
+    end
+       
+    
     respond_to do |format|
       if @screen.save
         format.html { redirect_to(@screen, :notice => 'Screen was successfully created.') }
@@ -60,6 +74,15 @@ class ScreensController < ApplicationController
   def update
     @screen = Screen.find(params[:id])
     @templates = Template.all
+    @users = User.all
+    @groups = Group.all
+
+    # Process the owner into something that makes sense
+    owner = params[:owner].split('-')
+    if Screen::SCREEN_OWNER_TYPES.include?(owner[0])
+      @screen.owner_type = owner[0]   
+      @screen.owner_id = owner[1] 
+    end
 
     respond_to do |format|
       if @screen.update_attributes(params[:screen])
