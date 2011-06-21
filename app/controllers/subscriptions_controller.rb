@@ -8,7 +8,7 @@ class SubscriptionsController < ApplicationController
   # GET /screen/:screen_id/subscriptions
   # GET /screen/:screen_id/subscriptions.xml
   def index
-    @subscriptions = Subscription.all
+    @subscriptions = @screen.subscriptions.all
 
     respond_to do |format|
       format.html # index.html.erb
