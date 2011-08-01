@@ -3,24 +3,24 @@
 <% end %>
 <table width="100%" cellpadding="0" cellspacing="0">
   <tr>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Parent</th>
-    <th>Group</th>
-	<th>Show</th>
-	<th>Edit</th>
-	<th>Delete</th>
+    <th><%= t(:name) %></th>
+    <th><%= t(:description) %></th>
+    <th><%= t(:parent) %></th>
+    <th><%= t(:group) %></th>
+	<th><%= t(:show) %></th>
+	<th><%= t(:edit) %></th>
+	<th><%= t(:delete) %></th>
   </tr>
 <% @feeds.each do |feed| %>
   <tr>
     <td><%= feed.name %></td>
     <td><%= feed.description %></td>
     <td><%= feed.group.name unless feed.group.nil? %></td>
-    <td><%= link_to 'Show', feed %></td>
-    <td><%= link_to 'Edit', edit_feed_path(feed) %></td>
-    <td><%= link_to 'Destroy', feed, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to t(:show), feed %></td>
+    <td><%= link_to t(:edit), edit_feed_path(feed) %></td>
+    <td><%= link_to t(:delete), feed, :confirm => t(:are_you_sure), :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 <br />
-<%= link_to 'New feed', new_feed_path %>
+<%= link_to t(:new_feed), new_feed_path %>

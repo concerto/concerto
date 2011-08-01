@@ -1,7 +1,7 @@
 <%= form_for(@feed) do |f| %>
 	<% if @feed.errors.any? %>
 	<div id="errorExplanation">
-	  <h2><%= pluralize(@feed.errors.count, "error") %> prohibited this feed from being saved:</h2>
+	  <h2><%= pluralize(@feed.errors.count, "error") %> <%= t(:prohibited_feed_save) %></h2>
 	  <ul>
 	    <% @feed.errors.full_messages.each do |msg| %>
 	      <li><%= msg %></li>
@@ -12,25 +12,25 @@
 	
 	<div class="fields">	
 		<div class="field">
-		  	<%= f.label :name %>
+		  	<%= f.label t(:name) %>
 		  	<div class="inputs">
 				<%= f.text_field :name %>
 			</div>
 		</div>
 		<div class="field">
-		  	<%= f.label :description %>
+		  	<%= f.label t(:description) %>
 		  	<div class="inputs">
 				<%= f.text_area :description %>
 			</div>
 		</div>
 		<div class="field">
-		  	<%= f.label :parent_id %>
+		  	<%= f.label t(:parent) %>
 		  	<div class="inputs">
 				<%= f.text_field :parent_id %>
 			</div>
 		</div>
 		<div class="field">
-		  	<%= f.label :group %>
+		  	<%= f.label t(:group) %>
 		  	<div class="inputs">
 				<%= f.collection_select :group_id, Group.all, :id, :name %>
 			</div>
@@ -38,7 +38,7 @@
 	</div>
 
 	<div class="submit_bar actions">
-    	<%= f.submit %>
+    	<%= f.submit t(:submit)%>
 		<div class="clear"></div>
   	</div>
 <% end %>
