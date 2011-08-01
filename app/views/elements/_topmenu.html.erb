@@ -7,9 +7,9 @@
 		</div>
 		<div class="TM-secbot">
 		    <% if user_signed_in? %>
-			  <p><%= link_to "Settings", edit_user_path(current_user) %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "Log out", destroy_user_session_path %> </p>
+			  <p><%= link_to t(:settings), edit_user_path(current_user) %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to t(:log_out), destroy_user_session_path %> </p>
 			<% else %>
-			  <p><%= link_to "Sign up", new_user_registration_path %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to "Sign in", new_user_session_path %>  </p>
+			  <p><%= link_to t(:sign_up), new_user_registration_path %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to t(:sign_in), new_user_session_path %>  </p>
 			<% end %>
 		</div>
 	</div>
@@ -20,15 +20,15 @@
 			<td rowspan="2" class="TM-secline-right"></td>
 			<td>
 				<ul class="buttons">
-					<li<% if current_page?(new_content_path) %> class="selected"<% end %>><%= link_to new_content_path, :class => 'button' do %>Add<% end %></li>
-					<li><%= link_to contents_path, :class => 'button' do %>Moderate<% end %></li>
-					<li<% if current_page?(contents_path) %> class="selected"<% end %>><%= link_to contents_path, :class => 'button' do %>Browse<% end %></li>
+					<li<% if current_page?(new_content_path) %> class="selected"<% end %>><%= link_to new_content_path, :class => 'button' do %><%= t(:add) %><% end %></li>
+					<li><%= link_to contents_path, :class => 'button' do %><%= t(:content) %><% end %></li>
+					<li<% if current_page?(contents_path) %> class="selected"<% end %>><%= link_to contents_path, :class => 'button' do %><%= t(:browse) %><% end %></li>
 				</ul>
 			</td>
 			<td rowspan="2" class="TM-secline-right"></td>
 		</tr>
 		<tr class="TM-secbot">
-			<td><h1>Content</h1></td>
+			<td><h1><%= t(:content) %></h1></td>
 		</tr>
 	</table>
 	<!-- End Menu for CONTENT -->
@@ -37,13 +37,13 @@
 		<tr class="TM-sectop">
 			<td>
 				<ul class="buttons">
-					<li<% if controller.controller_name == 'groups' %> class="selected"<% end %>><%= link_to groups_path, :class => 'button' do %>Groups<% end %></li>
+					<li<% if controller.controller_name == 'groups' %> class="selected"<% end %>><%= link_to groups_path, :class => 'button' do %><%= t(:groups) %><% end %></li>
 				</ul>
 			</td>
 			<td rowspan="2" class="TM-secline-right"></td>
 		</tr>
 		<tr class="TM-secbot">
-			<td><h1>Users</h1></td>
+			<td><h1><%= t(:users) %></h1></td>
 		</tr>
 	</table>
 	<!-- End Menu for USERS -->
@@ -52,13 +52,13 @@
 		<tr class="TM-sectop">
 			<td>
 				<ul class="buttons">
-					<li<% if controller.controller_name == 'screens' %> class="selected"<% end %>><%= link_to screens_path, :class => 'button' do %>Manage<% end %></li>
+					<li<% if controller.controller_name == 'screens' %> class="selected"<% end %>><%= link_to screens_path, :class => 'button' do %><%=t(:manage) %><% end %></li>
 				</ul>
 			</td>
 			<td rowspan="2" class="TM-secline-right"></td>
 		</tr>
 		<tr class="TM-secbot">
-			<td><h1>Screens</h1></td>
+			<td><h1><%= t(:screens) %></h1></td>
 		</tr>
 	</table>
 	<!-- End Menu for USERS -->

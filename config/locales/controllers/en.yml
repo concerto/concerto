@@ -1,7 +1,4 @@
-en:
-  #Navigation
-  browse_content: "Browse Content"
-  
+en:  
   #Contents controller
   content_created: "Content was successfully created."
   content_updated: "Content was successfully updated."
