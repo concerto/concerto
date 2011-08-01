@@ -25,7 +25,7 @@
   </div>
   <div class="field">
     <%= f.label :Language %><br />
-    <%= select("user","locale",TRANSLATED_LANGUAGES, {:selected => @user.locale, :include_blank => true}) %>
+    <%= f.select(:locale,TRANSLATED_LANGUAGES, {:include_blank => true}) %>
   </div>  
   <div class="actions">
     <%= f.submit %>
