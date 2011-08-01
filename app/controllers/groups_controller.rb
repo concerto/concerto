@@ -46,7 +46,7 @@ class GroupsController < ApplicationController
       if @group.save
         @membership = Membership.new(:group => @group, :user => current_user, :is_leader => true)
         @membership.save
-        format.html { redirect_to(@group, :notice => 'Group was successfully created.') }
+        format.html { redirect_to(@group, :notice => t(:group_created)) }
         format.xml  { render :xml => @group, :status => :created, :location => @group }
       else
         format.html { render :action => "new" }
@@ -62,7 +62,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.update_attributes(params[:group])
-        format.html { redirect_to(@group, :notice => 'Group was successfully updated.') }
+        format.html { redirect_to(@group, :notice => t(:group_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

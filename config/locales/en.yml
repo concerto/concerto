@@ -1,2 +1,52 @@
 en:
+  #Navigation
   browse_content: "Browse Content"
+  
+  #Contents controller
+  content_created: "Content was successfully created."
+  content_updated: "Content was successfully updated."
+  
+  #Feeds controller
+  feed_created: "Feed was successfully created."
+  feed_updated: "Feed was successfully updated."  
+
+  #Fields controller
+  field_created: "Field was successfully created."
+  field_updated: "Field was successfully updated."
+  
+  #Groups controller
+  group_created: "Group was successfully created."
+  group_updated: "Group was successfully updated."  
+  
+  #Memberships controller
+  membership_created: "Membership was successfully created."
+  membership_updated: "Membership was successfully updated."  
+  member_promoted: "Member promoted" 
+  member_demoted: "Member demoted"
+  member_removed: "Member removed"
+  
+  #Positions controller
+  position_created: "Position was successfully created."
+  position_updated: "Position was successfully updated."   
+  
+  #Screens controller
+  screen_created: "Screen was successfully created."
+  screen_updated: "Screen was successfully updated."     
+  
+  #Submissions controller
+  content_approved: "Content was approved."
+  content_failed_approve: "Content failed to approved."
+  content_denied: "Content was denied."
+  content_failed_deny: "Content failed to deny."
+  
+  #Subscriptions controller
+  subscription_created: "Subscription was successfully created."
+  subscription_updated: "Subscription was successfully updated."  
+  
+  #Templates controller
+  template_created: "Template was successfully created."
+  template_updated: "Template was successfully updated."       
+  
+  #Users controller
+  user_created: "User was successfully created."
+  user_updated: "User was successfully updated."     

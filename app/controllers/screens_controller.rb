@@ -60,7 +60,7 @@ class ScreensController < ApplicationController
     
     respond_to do |format|
       if @screen.save
-        format.html { redirect_to(@screen, :notice => 'Screen was successfully created.') }
+        format.html { redirect_to(@screen, :notice => t(:position_created)) }
         format.xml  { render :xml => @screen, :status => :created, :location => @screen }
       else
         format.html { render :action => "new" }
@@ -86,7 +86,7 @@ class ScreensController < ApplicationController
 
     respond_to do |format|
       if @screen.update_attributes(params[:screen])
-        format.html { redirect_to(@screen, :notice => 'Screen was successfully updated.') }
+        format.html { redirect_to(@screen, :notice => t(:screen_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

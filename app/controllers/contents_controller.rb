@@ -89,7 +89,7 @@ class ContentsController < ApplicationController
           #then we might auto approve the submission here
         end
         @content.save #This second save adds the submissions
-        format.html { redirect_to(@content, :notice => 'Content was successfully created.') }
+        format.html { redirect_to(@content, :notice => t(:content_created)) }
         format.xml  { render :xml => @content, :status => :created, :location => @content }
       else
         format.html { render :action => "new" }
@@ -105,7 +105,7 @@ class ContentsController < ApplicationController
 
     respond_to do |format|
       if @content.update_attributes(params[:content])
-        format.html { redirect_to(@content, :notice => 'Content was successfully updated.') }
+        format.html { redirect_to(@content, :notice => t(:content_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

@@ -52,7 +52,7 @@ class FieldsController < ApplicationController
 
     respond_to do |format|
       if @field.save
-        format.html { redirect_to([@kind, @field], :notice => 'Field was successfully created.') }
+        format.html { redirect_to([@kind, @field], :notice => t(:field_created)) }
         format.xml  { render :xml => @field, :status => :created, :location => @field }
       else
         format.html { render :action => "new" }
@@ -68,7 +68,7 @@ class FieldsController < ApplicationController
 
     respond_to do |format|
       if @field.update_attributes(params[:field])
-        format.html { redirect_to([@kind, @field], :notice => 'Field was successfully updated.') }
+        format.html { redirect_to([@kind, @field], :notice => t(:field_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

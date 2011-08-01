@@ -7,7 +7,7 @@ class MembershipsController < ApplicationController
 
     respond_to do |format|
       if @membership.save
-        format.html { redirect_to(@group, :notice => 'User was successfully added.') }
+        format.html { redirect_to(@group, :notice => t(:membership_created)) }
         format.xml  { render :xml => @group, :status => :created, :location => @group }
       else
         format.html { redirect_to @group }
@@ -22,7 +22,7 @@ class MembershipsController < ApplicationController
     @membership = Membership.find(params[:id])
     @membership.is_leader = true
     if @membership.save
-      redirect_to(@membership.group, :notice => 'Member promoted') 
+      redirect_to(@membership.group, :notice => t(:member_promoted)) 
     else
       redirect_to @membership.group
     end
@@ -34,7 +34,7 @@ class MembershipsController < ApplicationController
     @membership = Membership.find(params[:id])
     @membership.is_leader = false
     if @membership.save
-      redirect_to(@membership.group, :notice => 'Member demoted') 
+      redirect_to(@membership.group, :notice => t(:member_demoted)) 
     else
       redirect_to @membership.group
     end
@@ -48,7 +48,7 @@ class MembershipsController < ApplicationController
 
     respond_to do |format|
       if @membership.update_attributes(params[:membership])
-        format.html { redirect_to(@group, :notice => 'Membership was successfully updated.') }
+        format.html { redirect_to(@group, :notice => t(:membership_updated)) }
         format.xml  { head :ok }
       else
         format.html { redirect_to @group }
@@ -65,7 +65,7 @@ class MembershipsController < ApplicationController
     @membership.destroy
 
     respond_to do |format|
-      format.html { redirect_to(@group, :notice => 'User removed') }
+      format.html { redirect_to(@group, :notice => t(:member_removed)) }
       format.xml  { head :ok }
     end
   end

@@ -13,9 +13,9 @@ class SubmissionsController < ApplicationController
     submission = Submission.find(params[:id])
     respond_to do |format|
       if submission.approve(User.find(params[:user_id]), params[:submission][:duration])
-        format.html { redirect_to(feed_submissions_path, :notice => 'Content was approved.') }
+        format.html { redirect_to(feed_submissions_path, :notice => t(:content_approved)) }
       else
-        format.html { redirect_to(feed_submission_path, :notice => 'Content failed to approved.') }
+        format.html { redirect_to(feed_submission_path, :notice => t(:content_failed_approve)) }
       end
     end
   end
@@ -25,10 +25,10 @@ class SubmissionsController < ApplicationController
     submission = Submission.find(params[:id])
     respond_to do |format|
       if submission.deny(User.find(params[:user_id]))
-        format.html { redirect_to(feed_submissions_path, :notice => 'Content was denied.') }
+        format.html { redirect_to(feed_submissions_path, :notice => t(:content_denied)) }
       else
         logger.debug submission.errors
-        format.html { redirect_to(feed_submission_path, :notice => 'Content failed to deny.') }
+        format.html { redirect_to(feed_submission_path, :notice => t(:content_failed_deny)) }
       end
     end
   end

@@ -52,7 +52,7 @@ class PositionsController < ApplicationController
 
     respond_to do |format|
       if @position.save
-        format.html { redirect_to([@template, @position], :notice => 'Position was successfully created.') }
+        format.html { redirect_to([@template, @position], :notice => t(:position_created)) }
         format.xml  { render :xml => @position, :status => :created, :location => @position }
       else
         format.html { render :action => "new" }
@@ -68,7 +68,7 @@ class PositionsController < ApplicationController
 
     respond_to do |format|
       if @position.update_attributes(params[:position])
-        format.html { redirect_to([@template, @position], :notice => 'Position was successfully updated.') }
+        format.html { redirect_to([@template, @position], :notice => t(:position_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

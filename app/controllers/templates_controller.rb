@@ -52,7 +52,7 @@ class TemplatesController < ApplicationController
 
     respond_to do |format|
       if @template.save
-        format.html { redirect_to(@template, :notice => 'Template was successfully created.') }
+        format.html { redirect_to(@template, :notice => t(:template_created)) }
         format.xml  { render :xml => @template, :status => :created, :location => @template }
       else
         format.html { render :action => "new" }
@@ -71,7 +71,7 @@ class TemplatesController < ApplicationController
 
     respond_to do |format|
       if @template.update_attributes(params[:template])
-        format.html { redirect_to(@template, :notice => 'Template was successfully updated.') }
+        format.html { redirect_to(@template, :notice => t(:template_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -161,7 +161,7 @@ class TemplatesController < ApplicationController
 
       respond_to do |format|
         if @template.save
-          format.html { redirect_to(@template, :notice => 'Template was successfully created.') }
+          format.html { redirect_to(@template, :notice => t(:template_created)) }
           format.xml  { render :xml => @template, :status => :created, :location => @template }
         else
           format.html { render :action => "new" }
