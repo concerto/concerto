@@ -1,3 +1,36 @@
 en:
-  #Navigation
+  #index
   browse_content: "Browse Content"
+  
+  #_form
+  submit: "Submit"
+  
+  #_table
+  title: "Title"
+  link: "Link"
+  description: "Description"
+  submitted: "Submitted"
+  updated: "Updated"
+  
+  #edit
+  editing_content: "Editing Content"
+  show: "Show"
+  back: "Back"
+  
+  #form_elements/_feeds
+  no_feeds: "There are no feeds in the system that you can submit content to.  Please contact your system administrator for more information."
+  
+  #graphic/_form
+  prohibited_save: "prohibited this content from being saved:"
+  upload_graphic: "1. Upload Graphic From Your Computer"
+  specify_file: "Specify File"
+  accepted_filetypes: "Accepted Filetypes"
+  provide_details: "Provide Basic Details"
+  select_feed: "3. Select Feed"
+  select_content_type: "Select Content Type to Add"
+  
+  #new
+  select_type: "Select Type"
+  design_graphic: "Design a Graphic"
+  add: "Add"
+  content: "Content"
