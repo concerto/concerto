@@ -34,6 +34,7 @@ GEM
     arel (2.1.4)
     bcrypt-ruby (2.1.4)
     builder (3.0.0)
+    cancan (1.6.5)
     coffee-rails (3.1.0.rc.5)
       actionpack (~> 3.1.0.rc1)
       coffee-script (>= 2.2.0)
@@ -119,6 +120,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  cancan
   coffee-rails (~> 3.1.0.rc)
   devise
   jquery-rails

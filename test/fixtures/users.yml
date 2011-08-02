@@ -4,6 +4,7 @@ katie:
   first_name: Katie
   last_name: Boudreau
   email: ktb@test.com
+  is_admin: true
 
 kristen:
   first_name: Kristen
