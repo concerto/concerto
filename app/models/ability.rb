@@ -28,8 +28,9 @@ class Ability
     # An unauthenticated user can create a new user
     can :create, User unless user.persisted?
 
-    # An authenticated user can create content
+    # An authenticated user can create stuff
     can :create, Content if user.persisted?
+    can :create, Screen if user.persisted?
   end
 
 end
