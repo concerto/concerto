@@ -5,6 +5,8 @@ service:
   description: This feed is for community service related announcments
   parent_id:
   group: wtg
+  is_submittable: true
+  is_viewable: true
 
 announcements:
   name: Announcements
@@ -23,9 +25,18 @@ important_announcements:
   description: Really important stuff
   parent: announcements
   group: wtg
+  is_submittable: false
   
 sleepy_announcements:
   name: zZzZzZ
   description: Announcements that will put you to sleep
   parent: boring_announcements
   group: wtg
+  is_viewable: false
+
+secret_announcements:
+  name: Secret Stuff
+  description: No one but the group should be able to see this
+  group: wtg
+  is_submittable: false
+  is_viewable: false

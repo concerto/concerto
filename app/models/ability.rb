@@ -14,6 +14,11 @@ class Ability
 
     # Anything real can read a user
     can :read, User if accessor.persisted?
+    
+    # Anything can read a viewable feed
+    # the ability to 'read' a feed implies that
+    # you can browse it's contents as well
+    can :read, Feed, :is_viewable => true
   end
 
   # Permissions we grant users
@@ -33,6 +38,9 @@ class Ability
     # An authenticated user can create stuff
     can :create, Content if user.persisted?
     can :create, Screen if user.persisted?
+
+    # An authenticated user can submit content
+    can :submit, Feed, :is_submittable => true if user.persisted?
   end
 
 end

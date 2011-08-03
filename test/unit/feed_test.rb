@@ -101,4 +101,55 @@ class FeedTest < ActiveSupport::TestCase
     assert_equal feeds(:sleepy_announcements).self_and_siblings.size, 1
     assert feeds(:sleepy_announcements).self_and_siblings.include?(feeds(:sleepy_announcements))
   end
+
+  # Authentication
+  test "users can browse viewable feeds" do
+    ability = Ability.new(users(:kristen))
+    assert ability.can?(:read, feeds(:service))
+    assert ability.cannot?(:read, feeds(:sleepy_announcements))
+    assert ability.cannot?(:read, feeds(:secret_announcements))
+  
+    ability = Ability.new(User.new)
+    assert ability.can?(:read, feeds(:service))
+    assert ability.cannot?(:read, feeds(:sleepy_announcements))
+    assert ability.cannot?(:read, feeds(:secret_announcements))
+  end
+
+  test "users can submit to submittable feeds" do
+    ability = Ability.new(users(:kristen))
+    assert ability.can?(:submit, feeds(:service))
+    assert ability.cannot?(:submit, feeds(:important_announcements))
+    assert ability.cannot?(:submit, feeds(:secret_announcements))
+  end
+  
+  test "new users can't submit to any feeds" do
+    ability = Ability.new(User.new)
+    assert ability.cannot?(:submit, feeds(:service))
+    assert ability.cannot?(:submit, feeds(:important_announcements))
+    assert ability.cannot?(:submit, feeds(:secret_announcements))
+  end
+
+  test "screens browse viewable feeds" do
+    ability = Ability.new(screens(:one))
+    assert ability.can?(:read, feeds(:service))
+    assert ability.cannot?(:read, feeds(:sleepy_announcements))
+    assert ability.cannot?(:read, feeds(:secret_announcements))
+
+    ability = Ability.new(Screen.new)
+    assert ability.can?(:read, feeds(:service))
+    assert ability.cannot?(:read, feeds(:sleepy_announcements))
+    assert ability.cannot?(:read, feeds(:secret_announcements))
+  end
+
+  test "screens cant submit anywhere" do
+    ability = Ability.new(screens(:one))
+    assert ability.cannot?(:submit, feeds(:service))
+    assert ability.cannot?(:submit, feeds(:sleepy_announcements))
+    assert ability.cannot?(:submit, feeds(:secret_announcements))
+
+    ability = Ability.new(Screen.new)
+    assert ability.cannot?(:submit, feeds(:service))
+    assert ability.cannot?(:submit, feeds(:sleepy_announcements))
+    assert ability.cannot?(:submit, feeds(:secret_announcements))
+  end
 end

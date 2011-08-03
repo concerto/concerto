@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110802060439) do
+ActiveRecord::Schema.define(:version => 20110803054805) do
 
   create_table "contents", :force => true do |t|
     t.string   "name"
@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(:version => 20110802060439) do
     t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_viewable",    :default => true
+    t.boolean  "is_submittable", :default => true
   end
 
   create_table "fields", :force => true do |t|
