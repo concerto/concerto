@@ -27,9 +27,11 @@ class UserTest < ActiveSupport::TestCase
     assert ability.cannot?(:destroy, @kristen)
 
     assert ability.cannot?(:create, User)
-    assert ability.cannot?(:read, @katie)
     assert ability.cannot?(:update, @katie)
     assert ability.cannot?(:destroy, @katie)
+
+    # Actually, let users see each other
+    assert ability.can?(:read, @katie)
   end
 
   test "new users can only sign up" do

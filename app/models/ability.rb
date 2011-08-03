@@ -12,6 +12,8 @@ class Ability
       send(type.to_sym, accessor)
     end
 
+    # Anything real can read a user
+    can :read, User if accessor.persisted?
   end
 
   # Permissions we grant users
