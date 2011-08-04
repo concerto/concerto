@@ -129,12 +129,21 @@ class FeedTest < ActiveSupport::TestCase
     assert ability.cannot?(:submit, feeds(:secret_announcements))
   end
 
-  test "screens browse viewable feeds" do
+  test "screens browse public viewable feeds" do
     ability = Ability.new(screens(:one))
     assert ability.can?(:read, feeds(:service))
     assert ability.cannot?(:read, feeds(:sleepy_announcements))
     assert ability.cannot?(:read, feeds(:secret_announcements))
+  end
+  
+  test "screens browse co-owned feeds" do
+    ability = Ability.new(screens(:two))
+    assert ability.can?(:read, feeds(:service))
+    assert ability.can?(:read, feeds(:sleepy_announcements))
+    assert ability.can?(:read, feeds(:secret_announcements))
+  end
 
+  test "new screens browse only public feeds" do
     ability = Ability.new(Screen.new)
     assert ability.can?(:read, feeds(:service))
     assert ability.cannot?(:read, feeds(:sleepy_announcements))

@@ -45,4 +45,14 @@ class Ability
     can :submit, Feed, :is_submittable => true if user.persisted?
   end
 
+  # Permission we grant screens
+  def screen_abilities(screen)
+  
+    # If a screen is owned by the same group as the feed
+    # it can see content.
+    can :read, Feed do |feed|
+      screen.owner.is_a?(Group) && screen.owner == feed.group
+    end
+  end
+
 end
