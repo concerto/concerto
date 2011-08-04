@@ -6,12 +6,6 @@ class Ability
     # that doesn't have an account or anything.
     accessor ||= User.new
 
-    # Load abilities based on the type of object
-    type = accessor.class.to_s.downcase + "_abilities"
-    if respond_to?(type.to_sym)
-      send(type.to_sym, accessor)
-    end
-
     # Anything real can read a user
     can :read, User if accessor.persisted?
     
@@ -19,6 +13,14 @@ class Ability
     # the ability to 'read' a feed implies that
     # you can browse it's contents as well
     can :read, Feed, :is_viewable => true
+
+    # Load abilities based on the type of object.
+    # We should do this at the bottom to make sure to 
+    # override any generic attributes we assigned above.
+    type = accessor.class.to_s.downcase + "_abilities"
+    if respond_to?(type.to_sym)
+      send(type.to_sym, accessor)
+    end
   end
 
   # Permissions we grant users
