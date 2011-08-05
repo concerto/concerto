@@ -1,0 +1,17 @@
+rvm:
+  - 1.8.7
+  - 1.9.2
+
+before_script:
+  - cp config/database.yml.sample config/database.yml
+  - git submodule init
+  - git submodule update
+  - bundle exec rake db:migrate
+
+branches:
+  only:
+    - master
+
+notifications:
+  irc: "irc.freenode.org#concerto-dev"
+  email: false
