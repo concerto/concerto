@@ -51,7 +51,11 @@ class Ability
     # If a screen is owned by the same group as the feed
     # it can see content.
     can :read, Feed do |feed|
-      screen.owner.is_a?(Group) && screen.owner == feed.group
+      if screen.owner.is_a?(Group)
+        screen.owner == feed.group
+      elsif screen.owner.is_a?(User)
+        feed.group.users.include?(screen.owner)
+      end
     end
   end
 

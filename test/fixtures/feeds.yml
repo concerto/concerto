@@ -36,7 +36,7 @@ sleepy_announcements:
 
 secret_announcements:
   name: Secret Stuff
-  description: No one but the group should be able to see this
-  group: wtg
+  description: RPI TV enjoys secret meetings
+  group: rpitv
   is_submittable: false
   is_viewable: false

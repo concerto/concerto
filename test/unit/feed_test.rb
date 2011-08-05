@@ -126,20 +126,25 @@ class FeedTest < ActiveSupport::TestCase
     ability = Ability.new(User.new)
     assert ability.cannot?(:submit, feeds(:service))
     assert ability.cannot?(:submit, feeds(:important_announcements))
-    assert ability.cannot?(:submit, feeds(:secret_announcements))
   end
 
   test "screens browse public viewable feeds" do
-    ability = Ability.new(screens(:one))
+    ability = Ability.new(screens(:two))
+    # Can read a public feed
     assert ability.can?(:read, feeds(:service))
-    assert ability.cannot?(:read, feeds(:sleepy_announcements))
+    # Cannot read a completely unconnected feed
     assert ability.cannot?(:read, feeds(:secret_announcements))
   end
   
-  test "screens browse co-owned feeds" do
+  test "screens browse co-owned feeds via group" do
     ability = Ability.new(screens(:two))
-    assert ability.can?(:read, feeds(:service))
+    # A feed owned by the same group
     assert ability.can?(:read, feeds(:sleepy_announcements))
+  end
+
+  test "screens browse co-owned feeds via user" do
+    ability = Ability.new(screens(:one))
+    # A feed owned by a group that has screen owner as a emmebr
     assert ability.can?(:read, feeds(:secret_announcements))
   end
 
@@ -147,7 +152,6 @@ class FeedTest < ActiveSupport::TestCase
     ability = Ability.new(Screen.new)
     assert ability.can?(:read, feeds(:service))
     assert ability.cannot?(:read, feeds(:sleepy_announcements))
-    assert ability.cannot?(:read, feeds(:secret_announcements))
   end
 
   test "screens cant submit anywhere" do
