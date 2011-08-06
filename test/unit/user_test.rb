@@ -3,13 +3,13 @@ require 'test_helper'
 class UserTest < ActiveSupport::TestCase
 
   def setup
+    @admin = users(:admin)
     @katie = users(:katie)
     @kristen = users(:kristen)
   end
 
   test "admin users can do anything to users" do
-    admin = @katie
-    ability = Ability.new(admin)
+    ability = Ability.new(@admin)
     assert ability.can?(:create, User)
     assert ability.can?(:read, @kristen)
     assert ability.can?(:update, @kristen)
