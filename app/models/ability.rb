@@ -43,6 +43,13 @@ class Ability
 
     # An authenticated user can submit content
     can :submit, Feed, :is_submittable => true if user.persisted?
+
+    # If a user is part of the group, they can always
+    # read and submit content to the feed.
+    can [:read, :submit],  Feed do |feed|
+      feed.group.users.include?(user)
+    end
+
   end
 
   # Permission we grant screens

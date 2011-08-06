@@ -1,6 +1,11 @@
 require 'test_helper'
 
 class FeedTest < ActiveSupport::TestCase
+  def setup
+    @public = feeds(:service)
+    @hidden = feeds(:secret_announcements)
+  end
+
   # Attributes cannot be left empty/blank
   test "feed attributes must not be empty" do
     feed = Feed.new
@@ -103,66 +108,74 @@ class FeedTest < ActiveSupport::TestCase
   end
 
   # Authentication
-  test "users can browse viewable feeds" do
+
+  # Users reading feeds
+  test "user can browse viewable feeds" do
     ability = Ability.new(users(:kristen))
-    assert ability.can?(:read, feeds(:service))
-    assert ability.cannot?(:read, feeds(:sleepy_announcements))
-    assert ability.cannot?(:read, feeds(:secret_announcements))
-  
-    ability = Ability.new(User.new)
-    assert ability.can?(:read, feeds(:service))
-    assert ability.cannot?(:read, feeds(:sleepy_announcements))
-    assert ability.cannot?(:read, feeds(:secret_announcements))
+    assert ability.can?(:read, @public)
+    assert ability.cannot?(:read, @hidden)
   end
 
-  test "users can submit to submittable feeds" do
+  test "new user can browse viewable feeds" do
+    ability = Ability.new(User.new)
+    assert ability.can?(:read, @public)
+    assert ability.cannot?(:read, @hidden)
+  end
+
+  test "user can browse hidden feed due to group" do
+    ability = Ability.new(users(:katie))
+    assert ability.can?(:read, @hidden)
+  end
+
+  # Users submitting to feeds
+  test "user can submit to submittable feeds" do
     ability = Ability.new(users(:kristen))
-    assert ability.can?(:submit, feeds(:service))
-    assert ability.cannot?(:submit, feeds(:important_announcements))
-    assert ability.cannot?(:submit, feeds(:secret_announcements))
+    assert ability.can?(:submit, @public)
+    assert ability.cannot?(:submit, @hidden)
   end
   
   test "new users can't submit to any feeds" do
     ability = Ability.new(User.new)
-    assert ability.cannot?(:submit, feeds(:service))
-    assert ability.cannot?(:submit, feeds(:important_announcements))
+    assert ability.cannot?(:submit, @public)
+    assert ability.cannot?(:submit, @hidden)
   end
 
+  test "user can submit hidden feed due to group" do
+    ability = Ability.new(users(:katie))
+    assert ability.can?(:submit, @hidden)
+  end
+
+  # Screens reading feeds
   test "screens browse public viewable feeds" do
     ability = Ability.new(screens(:two))
-    # Can read a public feed
-    assert ability.can?(:read, feeds(:service))
-    # Cannot read a completely unconnected feed
-    assert ability.cannot?(:read, feeds(:secret_announcements))
+    assert ability.can?(:read, @public)
+    assert ability.cannot?(:read, @hidden)
   end
   
   test "screens browse co-owned feeds via group" do
     ability = Ability.new(screens(:two))
-    # A feed owned by the same group
     assert ability.can?(:read, feeds(:sleepy_announcements))
   end
 
   test "screens browse co-owned feeds via user" do
     ability = Ability.new(screens(:one))
-    # A feed owned by a group that has screen owner as a emmebr
     assert ability.can?(:read, feeds(:secret_announcements))
   end
 
   test "new screens browse only public feeds" do
     ability = Ability.new(Screen.new)
-    assert ability.can?(:read, feeds(:service))
-    assert ability.cannot?(:read, feeds(:sleepy_announcements))
+    assert ability.can?(:read, @public)
+    assert ability.cannot?(:read, @hidden)
   end
 
+  # Screens submitting (which they shouldn't do
   test "screens cant submit anywhere" do
     ability = Ability.new(screens(:one))
-    assert ability.cannot?(:submit, feeds(:service))
-    assert ability.cannot?(:submit, feeds(:sleepy_announcements))
-    assert ability.cannot?(:submit, feeds(:secret_announcements))
+    assert ability.cannot?(:submit, @public)
+    assert ability.cannot?(:submit, @hidden)
 
     ability = Ability.new(Screen.new)
-    assert ability.cannot?(:submit, feeds(:service))
-    assert ability.cannot?(:submit, feeds(:sleepy_announcements))
-    assert ability.cannot?(:submit, feeds(:secret_announcements))
+    assert ability.cannot?(:submit, @public)
+    assert ability.cannot?(:submit, @hidden)
   end
 end
