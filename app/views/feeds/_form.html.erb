@@ -26,7 +26,7 @@
 		<div class="field">
 		  	<%= f.label t(:parent) %>
 		  	<div class="inputs">
-				<%= f.text_field :parent_id %>
+                        <%= f.select :parent_id, dfs_tree(Feed.roots).collect{|c| [raw("&nbsp;&nbsp;")* c.depth + c.name, c.id ]}, {:include_blank => true } %>
 			</div>
 		</div>
 		<div class="field">
