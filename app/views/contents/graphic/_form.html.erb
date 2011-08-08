@@ -5,7 +5,7 @@ end
 %>
 <% if @content.errors.any? %>
 <div id="errorExplanation">
-  <h2><%= pluralize(@content.errors.count, "error") %> prohibited this content from being saved:</h2>
+  <h2><%= pluralize(@content.errors.count, "error") + t(:prohibited_save) %></h2>
   <ul>
     <% @content.errors.full_messages.each do |msg| %>
       <li><%= msg %></li>
@@ -14,9 +14,9 @@ end
 </div>
 <% end %>
 
-<h1>1. Upload Graphic From Your Computer</h1>
+<h1><%=t(:upload_graphic)%></h1>
 <div class="field">
-  	<label>Specify File</label>
+  	<label><%=t(:specify_file)%></label>
 	<div class="fieldbox">
 		<%= form.fields_for :media do |media| %>
     		<%= media.file_field :file %>
@@ -25,11 +25,11 @@ end
     </div>
   </div>
 <div class="field">
-  <label>Accepted Filetypes</label>
+  <label><%=t(:accepted_filetypes)%></label>
   <div><%= image_tag('elements/filetype-icons.jpg') %></div>
 </div>
 
-<h1>2. Provide Basic Details</h1>
+<h1><%=t(:provide_details)%></h1>
 <div class="field">
   	<%= form.label :name %>
   	<div class="inputs">
@@ -44,7 +44,7 @@ end
 		<%= form.collection_select :user_id, User.all, :id, :name %>
 	</div>
 </div>
-<h1>3. Select Feed</h1>
+<h1><%=t(:select_feed)%></h1>
 <% if @content.new_record? %>
   <%= render :partial => 'contents/form_elements/feeds' %>
 <% end %>

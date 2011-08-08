@@ -52,7 +52,7 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       if @subscription.save
-        format.html { redirect_to([@screen, @subscription], :notice => 'Subscription was successfully created.') }
+        format.html { redirect_to([@screen, @subscription], :notice => t(:subscription_created)) }
         format.xml  { render :xml => @subscription, :status => :created, :location => @subscription }
       else
         format.html { render :action => "new" }
@@ -68,7 +68,7 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       if @subscription.update_attributes(params[:subscription])
-        format.html { redirect_to([@screen, @subscription], :notice => 'Subscription was successfully updated.') }
+        format.html { redirect_to([@screen, @subscription], :notice => t(:subscription_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

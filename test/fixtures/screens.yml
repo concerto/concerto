@@ -4,7 +4,7 @@ one:
   name: The first screen
   location: Katie's Room
   is_public: false
-  owner: katie
+  owner: katie (User)
   template: one
   width: 1920
   height: 1080
@@ -13,5 +13,5 @@ two:
   name: SGS Screen
   location: SGS
   is_public: true
-  owner: wtg
+  owner: wtg (Group)
   template: one

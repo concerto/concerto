@@ -50,4 +50,15 @@ class ScreenTest < ActiveSupport::TestCase
     assert_equal 16, s.aspect_ratio[:width]
     assert_equal 9, s.aspect_ratio[:height]
   end
+
+  # Authorization tests
+  test "real users can create screens" do
+    ability = Ability.new(users(:katie))
+    assert ability.can?(:create, Screen)
+  end
+
+  test "empty users cannot create screens" do
+    ability = Ability.new(User.new)
+    assert ability.cannot?(:create, Screen)
+  end
 end

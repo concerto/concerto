@@ -1,7 +1,7 @@
 <div class="field">
   <% feeds = dfs_tree(Feed.roots) %>
   <% if feeds.empty? %>
-    <p>There are no feeds in the system that you can submit content to.  Please contact your system administrator for more imformation.</p>
+    <p><%= t(:no_feeds)%></p>
   <% else %>
     <% feeds.each_with_index do |feed, i| %>
       <%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed) %>

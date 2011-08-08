@@ -2,27 +2,27 @@
   <%= render :partial => 'left_menu', :locals => { :current => @feed, :feeds => @feed.self_and_siblings } %>
 <% end %>
 <p>
-  <b>Name:</b>
+  <b><%= t(:name)%>:</b>
   <%= @feed.name %>
 </p>
 
 <p>
-  <b>Description:</b>
+  <b><%= t(:description)%>:</b>
   <%= @feed.description %>
 </p>
 
 <p>
-  <b>Parent:</b>
+  <b><%= t(:parent)%>:</b>
   <%= link_to @feed.parent.name, @feed.parent unless @feed.is_root? %>
 </p>
 
 <p>
-  <b>Group:</b>
+  <b><%= t(:group)%>:</b>
   <%= @feed.group.name %>
 </p>
 
 <% if !@feed.children.empty? %>
-<p><b>Child Feeds:</b></p>
+<p><b><%= t(:child_feeds)%>:</b></p>
 <ul>
   <% @feed.children.each do |feed| %>
     <li><%= link_to feed.name, feed %></li>
@@ -32,7 +32,7 @@
 <% end %>
 
 <p>
-  <b>Approved Content:</b>
+  <b><%= t(:approved_content)%>:</b>
   <ul>
   <% @feed.approved_contents.each do |content| %>
     <li>
@@ -42,7 +42,7 @@
   </ul>
 </p>
 <p>
-  <b>Denied Content:</b>
+  <b><%= t(:denied_content)%>:</b>
   <ul>
   <% @feed.denied_contents.each do |content| %>
     <li>
@@ -52,15 +52,15 @@
   </ul>
 </p>
 <p>
-  <b>Pending Content:</b>
+  <b><%= t(:pending_content)%>:</b>
   <ul>
   <% @feed.submissions.pending.each do |submission| %>
     <li>
-      <%= link_to submission.content.name, submission.content %> <%= link_to "[Moderate]", feed_submission_path(@feed, submission) %>
+      <%= link_to submission.content.name, submission.content %> <%= link_to "[#{t(:moderate)}]", feed_submission_path(@feed, submission) %>
     </li>
   <% end %>
   </ul>
 </p>
 
-<%= link_to 'Edit', edit_feed_path(@feed) %> |
-<%= link_to 'Back', feeds_path %>
+<%= link_to t(:edit), edit_feed_path(@feed) %> |
+<%= link_to t(:back), feeds_path %>

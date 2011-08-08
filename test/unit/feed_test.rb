@@ -1,6 +1,11 @@
 require 'test_helper'
 
 class FeedTest < ActiveSupport::TestCase
+  def setup
+    @public = feeds(:service)
+    @hidden = feeds(:secret_announcements)
+  end
+
   # Attributes cannot be left empty/blank
   test "feed attributes must not be empty" do
     feed = Feed.new
@@ -100,5 +105,77 @@ class FeedTest < ActiveSupport::TestCase
     
     assert_equal feeds(:sleepy_announcements).self_and_siblings.size, 1
     assert feeds(:sleepy_announcements).self_and_siblings.include?(feeds(:sleepy_announcements))
+  end
+
+  # Authentication
+
+  # Users reading feeds
+  test "user can browse viewable feeds" do
+    ability = Ability.new(users(:kristen))
+    assert ability.can?(:read, @public)
+    assert ability.cannot?(:read, @hidden)
+  end
+
+  test "new user can browse viewable feeds" do
+    ability = Ability.new(User.new)
+    assert ability.can?(:read, @public)
+    assert ability.cannot?(:read, @hidden)
+  end
+
+  test "user can browse hidden feed due to group" do
+    ability = Ability.new(users(:katie))
+    assert ability.can?(:read, @hidden)
+  end
+
+  # Users submitting to feeds
+  test "user can submit to submittable feeds" do
+    ability = Ability.new(users(:kristen))
+    assert ability.can?(:submit, @public)
+    assert ability.cannot?(:submit, @hidden)
+  end
+  
+  test "new users can't submit to any feeds" do
+    ability = Ability.new(User.new)
+    assert ability.cannot?(:submit, @public)
+    assert ability.cannot?(:submit, @hidden)
+  end
+
+  test "user can submit hidden feed due to group" do
+    ability = Ability.new(users(:katie))
+    assert ability.can?(:submit, @hidden)
+  end
+
+  # Screens reading feeds
+  test "screens browse public viewable feeds" do
+    ability = Ability.new(screens(:two))
+    assert ability.can?(:read, @public)
+    assert ability.cannot?(:read, @hidden)
+  end
+  
+  test "screens browse co-owned feeds via group" do
+    ability = Ability.new(screens(:two))
+    assert ability.can?(:read, feeds(:sleepy_announcements))
+  end
+
+  test "screens browse co-owned feeds via user" do
+    ability = Ability.new(screens(:one))
+    assert ability.can?(:read, feeds(:secret_announcements))
+  end
+
+  test "new screens browse only public feeds" do
+    ability = Ability.new(Screen.new)
+    assert ability.can?(:read, @public)
+    assert ability.cannot?(:read, @hidden)
+  end
+
+  # Screens submitting (which they shouldn't do
+  test "screens cant submit anywhere" do
+    ability = Ability.new(screens(:one))
+    assert ability.cannot?(:submit, @public)
+    assert ability.cannot?(:submit, @hidden)
+
+    ability = Ability.new(Screen.new)
+    assert ability.cannot?(:submit, @public)
+    assert ability.cannot?(:submit, @hidden)
   end
 end

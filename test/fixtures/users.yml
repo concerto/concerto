@@ -1,4 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/Fixtures.html
+admin:
+  first_name: Admin
+  last_name: USER
+  email: admin@admin.com
+  is_admin: true
 
 katie:
   first_name: Katie
