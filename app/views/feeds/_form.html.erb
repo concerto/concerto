@@ -35,6 +35,18 @@
 				<%= f.collection_select :group_id, Group.all, :id, :name %>
 			</div>
 		</div>
+                <div class="field">
+                        <%= f.label t(:is_viewable) %>
+                        <div class="inputs">
+                                <%= f.check_box :is_viewable %>
+                        </div>
+                </div>
+                <div class="field">
+                        <%= f.label t(:is_submittable) %>
+                        <div class="inputs">
+                                <%= f.check_box :is_submittable %>
+                        </div>
+                </div>
 	</div>
 
 	<div class="submit_bar actions">

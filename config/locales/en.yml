@@ -3,3 +3,5 @@
 
 en:
   hello: "Hello world"
+  is_viewable: "Viewable"
+  is_submittable: "Submittable"
