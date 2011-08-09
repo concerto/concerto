@@ -3,9 +3,9 @@
 katie_wtg:
   user: katie
   group: wtg
-  is_leader: true
+  level: <%= Membership::LEVELS[:leader] %>
 
 katie_rpitv:
   user: katie
   group: rpitv
-  is_leader: false
+  level: <%= Membership::LEVELS[:regular] %>

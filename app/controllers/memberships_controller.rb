@@ -20,7 +20,7 @@ class MembershipsController < ApplicationController
   # PUT /groups/:group_id/memberships/1/promote.xml
   def promote
     @membership = Membership.find(params[:id])
-    @membership.is_leader = true
+    @membership.level = Membership::LEVELS[:leader]
     if @membership.save
       redirect_to(@membership.group, :notice => t(:member_promoted)) 
     else
@@ -32,7 +32,7 @@ class MembershipsController < ApplicationController
   # PUT /groups/:group_id/memberships/1/demote.xml
   def demote
     @membership = Membership.find(params[:id])
-    @membership.is_leader = false
+    @membership.level = Membership::LEVELS[:regular]
     if @membership.save
       redirect_to(@membership.group, :notice => t(:member_demoted)) 
     else

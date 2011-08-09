@@ -5,7 +5,7 @@ class Group < ActiveRecord::Base
   has_many :screens, :as => :owner
 
   #Scoped relations for leaders
-  has_many :leaders, :through => :memberships, :source => :user, :conditions => {"memberships.is_leader" => true}  
+  has_many :leaders, :through => :memberships, :source => :user, :conditions => {"memberships.level" => Membership::LEVELS[:leader]}  
 
   #Validations
   validates :name, :presence => true, :uniqueness => true
