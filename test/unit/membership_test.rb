@@ -42,4 +42,14 @@ class MembershipTest < ActiveSupport::TestCase
     assert_equal regular.first, m, "Membership matches regular"
   end
 
+  # Pending users don't count for membership
+  test "pending members aren't in group" do
+    wtg = groups(:wtg)
+    kristen = users(:kristen)
+    assert_no_difference 'wtg.users.count' do
+      @m = Membership.new(:user => users(:kristen), :group => groups(:wtg))
+      @m.save
+    end
+    @m.destroy
+  end
 end
