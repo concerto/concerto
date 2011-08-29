@@ -1,7 +1,7 @@
 /* Concerto 2 - CSS: BASE */
 /* Designed by the Concerto 2 Core Team (http://concerto-signage.org) in 2011. */
 
-
+@import "vars";
 
 /*##########################################################################*/
 /*  Frame and Resets  */
@@ -10,7 +10,7 @@
 html {
   color: #000;
   background: #eeeeee url(../assets/layout/pagebg.gif) center center repeat;
-  font-family: "Lucida Grande",Arial,sans-serif; }
+  font-family: $sans-body; }
 
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
   margin: 0;
@@ -18,7 +18,7 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fiel
   font-size: 100%; }
 
 body {
-  min-width: 800px; }
+  min-width: $main-width; }
 
 table {
   border-collapse: collapse;
@@ -93,7 +93,7 @@ a {
 /*##########################################################################*/
 
 h1, h2, h3, h4, h5, h6, h7 {
-  font-family: "Myriad Pro", Helvetica, Arial, sans-serif;
+  font-family: $sans-headers;
   line-height: normal; }
 
 h1 {

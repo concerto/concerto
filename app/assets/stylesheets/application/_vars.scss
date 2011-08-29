@@ -1,0 +1,63 @@
+/* Commonalities */
+
+$sans-headers: "Myriad Pro", Helvetica, Arial, sans-serif;
+$sans-body: "Lucida Grande",Arial,sans-serif;
+$main-width: 980px;
+$concerto-blue: #006699;
+
+
+/* Mixins */
+
+@mixin rounded($topleft, $topright, $bottomright, $bottomleft) {
+	// top left:
+	border-top-left-radius:$topleft;
+	-webkit-border-top-left-radius:$topleft;
+	-moz-border-radius-topleft:$topleft;
+	
+	// top right:
+	border-top-right-radius:$topright;
+	-webkit-border-top-right-radius:$topright;
+	-moz-border-radius-topright:$topright;
+	
+	// bottom left:
+	border-bottom-left-radius:$bottomleft;
+	-webkit-border-bottom-left-radius:$bottomleft;
+	-moz-border-radius-bottomleft:$bottomleft;
+	
+	// bottom right:
+	border-bottom-right-radius:$bottomright;
+	-webkit-border-bottom-right-radius:$bottomright;
+	-moz-border-radius-bottomright:$bottomright;
+}
+
+
+/* Common Inheritance */
+
+.wrap {
+  width: $main-width;
+  margin: 0 auto; 
+}
+
+.caps {
+  text-transform: uppercase; 
+}
+
+.spaced {
+  letter-spacing: .12em; 
+}
+
+.center {
+  text-align: center; 
+}
+
+.larger {
+  font-size: 1.2em; 
+}
+
+.emboss {
+  text-shadow: 0 1px 1px #FFF; 
+}
+
+.nomargin {
+  margin: 0 !important; 
+}
