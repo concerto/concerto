@@ -1,0 +1,298 @@
+/*##########################################################################*/
+/*  Buttons  */
+/*##########################################################################*/
+
+/*##########  DEFAULT BUTTON LINK: BLUE NORMAL  ##########*/
+
+a.button, form .submit_bar input, .handle, .dticon {
+  box-shadow: 0 0 0;
+  -webkit-box-shadow: 0 0 0;
+  -moz-box-shadow: 0 0 0;
+  height: 22px;
+  font-weight: bold;
+  color: #FFF;
+  letter-spacing: -0.07em;
+  text-shadow: 0 -1px #003366;
+  font-size: 0.8em;
+  margin-right: 6px;
+  text-decoration: none;
+  background: url(../assets/layout/button_norm_states.png) top left repeat-x;
+  border: solid 1px #003366;
+  border-radius: 4px;
+  -moz-border-radius: 4px; }
+
+a.button {
+  float: left;
+  cursor: pointer;
+  padding: 4px 20px 0px 20px; }
+
+form .submit_bar input {
+  float: left;
+  cursor: pointer;
+  padding: 4px 20px 0px 20px;
+  height: auto;
+  padding: 4px 20px; }
+
+a.button:hover, form .submit_bar input:hover {
+  background-position: 100% -26px;
+  color: #000033;
+  text-shadow: 0 -1px #eeeeee;
+  border: solid 1px #2f84da; }
+
+a.button {
+  &.time:hover, &.date:hover {
+    background-position: 100% -26px;
+    color: #000033;
+    text-shadow: 0 -1px #eeeeee;
+    border: solid 1px #2f84da; }
+  &:active {
+    background-position: 100% 100%;
+    color: #333;
+    text-shadow: 0 1px #eee;
+    outline: none;
+    box-shadow: inset 0 0px 6px #000;
+    -webkit-box-shadow: inset 0 0px 6px #000;
+    -moz-box-shadow: inset 0 0px 6px #000;
+    border: solid 1px #000; } }
+
+form .submit_bar input:active {
+  background-position: 100% 100%;
+  color: #333;
+  text-shadow: 0 1px #eee;
+  outline: none;
+  box-shadow: inset 0 0px 6px #000;
+  -webkit-box-shadow: inset 0 0px 6px #000;
+  -moz-box-shadow: inset 0 0px 6px #000;
+  border: solid 1px #000; }
+
+a.button {
+  &.time:active, &.date:active {
+    background-position: 100% 100%;
+    color: #333;
+    text-shadow: 0 1px #eee;
+    outline: none;
+    box-shadow: inset 0 0px 6px #000;
+    -webkit-box-shadow: inset 0 0px 6px #000;
+    -moz-box-shadow: inset 0 0px 6px #000;
+    border: solid 1px #000; }
+  &:active {
+    height: 20px;
+    padding: 6px 20px 0px 20px; } }
+
+form .submit_bar input:active {
+  height: 20px;
+  padding: 6px 20px 0px 20px;
+  height: auto;
+  padding: 6px 20px 4px 20px; }
+
+/* Special Rules: */
+
+.C-header_right a.button {
+  margin-right: 0px;
+  margin-left: 6px; }
+
+a {
+  &.button {
+    &.time, &.date {
+      display: inline-block;
+      padding: 0px;
+      float: none;
+      cursor: pointer;
+      text-decoration: none;
+      margin-left: 5px;
+      vertical-align: top; }
+    &.time {
+      width: 26px;
+      height: 26px;
+      background: url(../assets/layout/button_time_states.png) top left no-repeat; }
+    &.date {
+      width: 26px;
+      height: 26px;
+      background: url(../assets/layout/button_date_states.png) top left no-repeat; } }
+  &.back {
+    background: transparent url(../assets/layout/button_back_states.png) no-repeat scroll top left;
+    font-size: 0.7em;
+    box-shadow: 0 0 0;
+    -webkit-box-shadow: 0 0 0;
+    -moz-box-shadow: 0 0 0;
+    border: 0;
+    border-right: solid 1px #396bab;
+    border-top-left-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    border-top-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+    height: 18px;
+    padding: 4px 12px 0px 20px;
+    &:hover {
+      background-position: 0% -22px;
+      border: 0;
+      border-right: solid 1px #53abe7;
+      box-shadow: 0 0 0;
+      -webkit-box-shadow: 0 0 0;
+      -moz-box-shadow: 0 0 0; }
+    &:active {
+      background-position: 0% 100%;
+      border: 0;
+      border-right: solid 1px #999;
+      box-shadow: 0 0 0;
+      -webkit-box-shadow: 0 0 0;
+      -moz-box-shadow: 0 0 0;
+      height: 16px;
+      padding: 6px 12px 0px 20px; } } }
+
+/*##########  BLUE BACK BUTTON  ##########*/
+
+/*##########  FEED BUTTON  ##########*/
+
+ul {
+  &.feedbuttons {
+    padding: 12px 0px;
+    li {
+      display: inline;
+      list-style: none;
+      clear: both;
+      a.button {
+        position: relative;
+        background: none;
+        text-shadow: 0 0 0;
+        color: #666;
+        font-size: 0.6em;
+        border: 0;
+        height: 19px;
+        width: 140px;
+        padding: 6px 22px 0px 32px;
+        -moz-border-radius: 0px;
+        &:hover {
+          color: #000;
+          background: #dce6ee;
+          border-radius: 0px;
+          -moz-border-radius: 0px; }
+        span {
+          &.count {
+            width: 22px;
+            text-align: center;
+            position: absolute;
+            font-size: 0.9em;
+            text-shadow: 0 0 0;
+            padding: 3px 0px;
+            top: 4px;
+            left: 3px;
+            border-radius: 100px;
+            -moz-border-radius: 100px;
+            -webkit-border-radius: 100px;
+            background: #666;
+            color: #FFF; }
+          &.disclosure {
+            width: 10px;
+            height: 10px;
+            text-align: center;
+            position: absolute;
+            background: url(../assets/layout/button_disclosure.png) center center no-repeat;
+            display: block;
+            top: 8px;
+            right: 10px; } } }
+      &.selected a.button {
+        color: #FFF;
+        background: transparent url(../assets/layout/button_feed_states.png) center right no-repeat;
+        text-shadow: 0 1px #000;
+        border-radius: 0px;
+        -moz-border-radius: 0px;
+        border-top-left-radius: 6px;
+        -moz-border-radius-topleft: 6px;
+        border-bottom-left-radius: 6px;
+        -moz-border-radius-bottomleft: 6px;
+        span {
+          color: #333;
+          background: #FFF; } }
+      a.button:active {
+        box-shadow: 0 0 0;
+        -webkit-box-shadow: 0 0 0;
+        -moz-box-shadow: 0 0 0; } } }
+  &.iconlist {
+    padding: 9px 6px;
+    li {
+      list-style: none;
+      float: left;
+      margin: 0px 6px;
+      a {
+        padding: 5px;
+        width: 180px;
+        height: 210px;
+        border-radius: 12px;
+        -moz-border-radius: 12px;
+        -webkit-border-radius: 12px;
+        font-size: small;
+        display: block;
+        text-align: center;
+        img {
+          width: 140px;
+          box-shadow: #ababab 0 3px 2px;
+          -moz-box-shadow: 0 3px 2px #ababab;
+          -webkit-box-shadow: #ababab 0 3px 2px; }
+        &:hover {}
+        h1 {
+          font-size: 1.2em;
+          color: #333 !important;
+          background: none !important;
+          padding: 0px !important;
+          margin: 0px;
+          font-weight: bold !important;
+          text-align: center; }
+        h2 {
+          font-size: 1em;
+          font-weight: normal;
+          margin: 0px;
+          padding: 0px;
+          text-align: center; } } } } }
+
+/*##########################################################################*/
+/*  Grid Views  */
+/*##########################################################################*/
+
+/*##########  GRAPHICAL ICON LISTS  ##########*/
+
+div {
+  &.iconlist_padding {
+    padding: 8px; }
+  &.ins {
+    z-index: 1;
+    width: 164px;
+    height: 130px; }
+  &.type-file {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center; }
+  &.type-folder {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    img {
+      border: 0px !important; } }
+  &.type-img img {
+    border: solid 1px #666; }
+  &.type-file img {
+    border: 0px !important; }
+  &.f_icon {
+    background: url(../assets/icons/foldericon.png) center center no-repeat;
+    width: 50px;
+    height: 39px;
+    margin: 75px 0px 0px 110px;
+    position: absolute;
+    z-index: 5; }
+  &.pdf_icon {
+    background: url(../assets/icons/pdficon.png) center center no-repeat;
+    width: 44px;
+    height: 45px;
+    margin: 75px 0px 0px 110px;
+    position: absolute;
+    z-index: 5; }
+  &.img_icon {
+    background: url(../assets/icons/imageicon.png) center center no-repeat;
+    width: 46px;
+    height: 44px;
+    margin: 75px 0px 0px 110px;
+    position: absolute;
+    z-index: 5; } }
+
+/*##########  ICONS  ##########*/
+
