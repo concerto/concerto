@@ -1,40 +1,64 @@
-@import "variables";
-
-
 /*##########################################################################*/
 /*  Headers  */
 /*##########################################################################*/
 
-h1, h2, h3, h4, h5, h6, h7 {
-  font-family: $sans-headers;
-  line-height: normal; }
+
+@import "variables";
+
+//////////////////
+
+@mixin header-base {
+  	font-family: $sans-headers;
+  	line-height: normal; 	
+}
 
 h1 {
-  font-size: 3em;
-  font-weight: 400;
-  &.header {
-    text-transform: uppercase;
-    font-size: 1.3em;
-    letter-spacing: 0.15em;
-    padding: 6px 0;
-    margin-bottom: 16px; }
-  &.indented {
-    padding-left: 8px !important; }
-  &.subpage_header {
-    font-size: 3em;
-    margin-bottom: 8px !important; }
-  small {
-    padding-left: 12px; } }
+  	@include header-base;
+	font-size: 3em;
+  	font-weight: 400;
+  	&.header {
+    	text-transform: uppercase;
+    	font-size: 1.3em;
+    	letter-spacing: 0.15em;
+    	padding: 6px 0;
+    	margin-bottom: 16px; 
+	}
+  	&.indented {
+    	padding-left: 8px !important; 
+	}
+  	&.subpage_header {
+    	font-size: 3em;
+    	margin-bottom: 8px !important; 
+	}
+  	small {
+    	padding-left: 12px; 
+	} 
+}
 
 h2 {
-  font-size: 2.5em; }
+  	@include header-base;
+	font-size: 2.5em; 
+}
 
 h3 {
-  font-size: 2em; }
+  	@include header-base;
+	font-size: 2em; 
+}
 
 h4 {
-  font-size: 1.7em; }
+  	@include header-base;
+	font-size: 1.7em; 
+}
 
 h5 {
-  font-size: 1.3em; }
+  	@include header-base;
+	font-size: 1.3em; 
+}
 
+h6 {
+	@include header-base;
+}
+
+h7 {
+	@include header-base;
+}

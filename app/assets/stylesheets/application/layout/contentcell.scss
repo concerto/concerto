@@ -5,68 +5,79 @@
 
 @import "../partials/variables";
 
+//////////////////
 
 /*##########  BASIC LAYOUT  ##########*/
 
 .C-full {
-  display: block;
-  margin-bottom: 18px;
-  box-shadow: #ababab 0 3px 2px;
-  -moz-box-shadow: 0 3px 2px #ababab;
-  -webkit-box-shadow: #ababab 0 3px 2px;
-  header {
-    display: block;
-    background: white url(../assets/layout/C/header_bg.png) bottom left repeat-x;
-    padding: 12px 14px;
-    padding-bottom: 5px;
-    border: solid 1px #ababab;
-    border-bottom: 0px;
-    border-top-left-radius: 8px;
-    -moz-border-radius-topleft: 8px;
-    border-top-right-radius: 8px;
-    -moz-border-radius-topright: 8px;
-    h1 {
-      color: #666;
-      font-size: 1.8em;
-      letter-spacing: -0.05em;
-      text-shadow: 0 1px #eee;
-      padding-top: 9px; } } }
+	display: block;
+  	margin-bottom: 18px;
+  	box-shadow: #ababab 0 3px 2px;
+  	-moz-box-shadow: 0 3px 2px #ababab;
+  	-webkit-box-shadow: #ababab 0 3px 2px;
+  	header {
+    	display: block;
+    	background: white url(../assets/layout/C/header_bg.png) bottom left repeat-x;
+    	padding: 12px 14px;
+    	padding-bottom: 5px;
+    	border: solid 1px #ababab;
+    	border-bottom: 0px;
+    	border-top-left-radius: 8px;
+    	-moz-border-radius-topleft: 8px;
+    	border-top-right-radius: 8px;
+    	-moz-border-radius-topright: 8px;
+    	h1 {
+      		color: #666;
+      		font-size: 1.8em;
+      		letter-spacing: -0.05em;
+      		text-shadow: 0 1px #eee;
+      		padding-top: 9px; 
+		} 
+	} 
+}
 
 .C-cont {
-  padding-left: 204px;
-  border-bottom: solid 1px #ababab;
-  border-left: solid 1px #ababab;
-  border-right: solid 1px #ababab;
-  article, aside {
-    position: relative;
-    float: left; } }
+  	padding-left: 204px;
+  	border-bottom: solid 1px #ababab;
+  	border-left: solid 1px #ababab;
+  	border-right: solid 1px #ababab;
+  	article, aside {
+    	position: relative;
+    	float: left; 
+	} 
+}
 
 .C-full {
-  article {
-    padding: 0px;
-    width: 100%; }
-  aside {
-    background: url(../assets/layout/C/sidebar_light.png) top right no-repeat;
-    min-height: 300px;
-    width: 184px;
-    padding: 0 10px;
-    right: 204px;
-    margin-left: -100%; } }
+  	article {
+    	padding: 0px;
+    	width: 100%; 
+	}
+  	aside {
+    	background: url(../assets/layout/C/sidebar_light.png) top right no-repeat;
+    	min-height: 300px;
+    	width: 184px;
+    	padding: 0 10px;
+    	right: 204px;
+    	margin-left: -100%; 
+	} 
+}
 
 /* padding inside of this div should be determined by the contained content, not by a wrapper div defined here! */
 
 .C-header_back {
-  float: left;
-  margin-left: -37px;
-  padding-top: 12px;
-  margin-right: 8px; }
+  	float: left;
+  	margin-left: -37px;
+  	padding-top: 12px;
+  	margin-right: 8px; 
+}
 
 /* This is an optional floated area for the back button that appears to the left of the header. */
 
 .C-header_right {
-  float: right;
-  padding-top: 8px;
-  margin-left: 20px; }
+  	float: right;
+  	padding-top: 8px;
+  	margin-left: 20px; 
+}
 
 /* this is an optional floated area that appears to the right of the header */
 
@@ -74,25 +85,34 @@
 /* SMALL VARIANT (most things, esp. browsing content in feeds) */
 
 .C-full {
-  &.sm {
-    .C-cont {
-      background: white url(../assets/layout/C/bg_sm.png) top left repeat-y; }
-    aside {} }
-  &.lg {
-    .C-cont {
-      background: white url(../assets/layout/C/bg_lg.png) top left repeat-y;
-      padding-left: 318px; }
-    aside {
-      width: 298px;
-      right: 318px; } }
-  &.no {
-    .C-cont {
-      background: #FFF;
-      padding-left: 0px; }
-    aside {
-      background: #FFF;
-      width: 0;
-      display: none; } } }
+  	&.sm {
+    	.C-cont {
+      		background: white url(../assets/layout/C/bg_sm.png) top left repeat-y; 
+		}
+    	aside {} 
+	}
+  	&.lg {
+    	.C-cont {
+      		background: white url(../assets/layout/C/bg_lg.png) top left repeat-y;
+      		padding-left: 318px; 
+		}
+    	aside {
+      		width: 298px;
+      		right: 318px; 
+		} 
+	}
+  	&.no {
+    	.C-cont {
+      		background: #FFF;
+      		padding-left: 0px; 
+		}
+    	aside {
+      		background: #FFF;
+      		width: 0;
+      		display: none; 
+		} 
+	} 
+}
 
 /* LARGE VARIANT (Add Content with live preview screen) */
 

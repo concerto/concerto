@@ -5,42 +5,52 @@
 
 @import "../partials/variables";
 
+//////////////////
 
 .MS-frame {
-  header h1 {
-    display: block;
-    color: #666;
-    margin-left: 30px;
-    font-size: 1.8em;
-    text-shadow: 0 1px #FFF;
-    letter-spacing: -0.05em;
-    margin-bottom: 4px; }
-  .MS-outer {
-    background: url(../assets/layout/MS/outer.png) repeat;
-    padding: 6px;
-    border-radius: 20px;
-    -moz-border-radius: 20px;
-    margin-bottom: 22px; }
-  article {
-    display: block;
-    background: url(../assets/layout/MS/inner.png) repeat;
-    border-radius: 14px;
-    -moz-border-radius: 14px;
-    padding: 17px;
-    ul.iconlist {
-      margin: 0px -6px;
-      li {
-        margin: 0px 6px;
-        a {
-          color: #FFF;
-          text-decoration: none;
-          border-radius: 8px;
-          -moz-border-radius: 8px;
-          background: url(../assets/layout/MS/iconlist_inactive.png) repeat;
-          border: solid 1px #999;
-          opacity: 0.5;
-          &:hover {
-            opacity: 1; }
-          h2 {
-            font-size: 1.5em;
-            color: #FFF !important; } } } } } }
+	header h1 {
+    	display: block;
+    	color: #666;
+    	margin-left: 30px;
+    	font-size: 1.8em;
+    	text-shadow: 0 1px #FFF;
+    	letter-spacing: -0.05em;
+    	margin-bottom: 4px; 
+	}
+  	.MS-outer {
+    	background: url(../assets/layout/MS/outer.png) repeat;
+    	padding: 6px;
+    	border-radius: 20px;
+    	-moz-border-radius: 20px;
+    	margin-bottom: 22px; 
+	}
+  	article {
+    	display: block;
+    	background: url(../assets/layout/MS/inner.png) repeat;
+    	border-radius: 14px;
+    	-moz-border-radius: 14px;
+    	padding: 17px;
+    	ul.iconlist {
+      		margin: 0px -6px;
+      		li {
+        		margin: 0px 6px;
+        		a {
+          			color: #FFF;
+          			text-decoration: none;
+          			border-radius: 8px;
+          			-moz-border-radius: 8px;
+          			background: url(../assets/layout/MS/iconlist_inactive.png) repeat;
+          			border: solid 1px #999;
+          			opacity: 0.5;
+          			&:hover {
+            			opacity: 1; 
+					}
+          			h2 {
+            			font-size: 1.5em;
+            			color: #FFF !important; 
+					} 
+				} 
+			} 
+		} 
+	} 
+}

@@ -4,139 +4,164 @@
 
 
 @import "../partials/variables";
+@import "../partials/mixins";
 
+//////////////////
 
 /*##########  STRUCTURE  ##########*/
 
 #TM {
-  position: absolute;
-  z-index: 50;
-  width: 100%;
-  top: 0px;
-  left: 0px;
-  background: url(../assets/layout/TM/TM_bg.png) top left repeat; }
+	position: absolute;
+  	z-index: 50;
+  	width: 100%;
+  	top: 0px;
+  	left: 0px;
+  	background: url(../assets/layout/TM/TM_bg.png) top left repeat; 
+}
 
 a#TM-logobutton {
-  z-index: 100;
-  width: 96px;
-  height: 88px;
-  background: url(../assets/layout/TM/TM_logobutton.png) top left no-repeat;
-  background-position: 0px 0px;
-  border: 0px;
-  display: block;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  &:hover {
-    background-position: -96px 0px; } }
+  	z-index: 100;
+  	width: 96px;
+  	height: 88px;
+  	background: url(../assets/layout/TM/TM_logobutton.png) top left no-repeat;
+  	background-position: 0px 0px;
+  	border: 0px;
+  	display: block;
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+  	&:hover {
+    	background-position: -96px 0px; 
+	} 
+}
 
 table.TM-sec {
-  height: 69px;
-  float: left;
-  margin: 0px;
-  padding: 0 4px; }
+  	height: 69px;
+  	float: left;
+  	margin: 0px;
+  	padding: 0 4px; 
+}
 
 .TM-sectop {
-  height: 41px; }
+  	height: 41px; 
+}
 
 .TM-secbot {
-  /* height is 23px, but we don't need to specify that */ }
+  /* height is 23px, but we don't need to specify that */ 
+}
 
 tr {
-  &.TM-sectop td, &.TM-secbot td {
-    vertical-align: top;
-    padding: 0px 6px; }
-  &.TM-sectop td {
-    padding: 3px 2px 5px 2px; } }
+  	&.TM-sectop td, &.TM-secbot td {
+    	vertical-align: top;
+    	padding: 0px 6px; 
+	}
+  	&.TM-sectop td {
+    	padding: 3px 2px 5px 2px; 
+	} 
+}
 
 .TM-secbot h1 {
-  color: #666;
-  font-size: 0.6em;
-  font-weight: 400;
-  text-shadow: 0 0.05em #FFF;
-  padding-top: 5px;
-  padding-left: 3px;
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-  text-align: center; }
+  	color: #666;
+  	font-size: 0.6em;
+  	font-weight: 400;
+  	text-shadow: 0 0.05em #FFF;
+  	padding-top: 5px;
+  	padding-left: 3px;
+  	text-transform: uppercase;
+  	letter-spacing: 0.3em;
+  	text-align: center; 
+}
 
 .TM-secline-left {
-  background: url(../assets/layout/TM/TM_secline.png) top left no-repeat;
-  width: 2px;
-  height: 69px;
-  padding: 0px !important; }
+  	background: url(../assets/layout/TM/TM_secline.png) top left no-repeat;
+  	width: 2px;
+  	height: 69px;
+  	padding: 0px !important; 
+}
 
 .TM-secline-right {
-  background: url(../assets/layout/TM/TM_secline.png) top left no-repeat;
-  width: 2px;
-  height: 69px;
-  padding: 0px !important;
-  background-position: -2px 0px; }
+  	background: url(../assets/layout/TM/TM_secline.png) top left no-repeat;
+  	width: 2px;
+  	height: 69px;
+  	padding: 0px !important;
+  	background-position: -2px 0px; 
+}
 
 /*##########  CASCADE OF BUTTON STYLES FOR MENU ITEMS  ##########*/
 
 #TM ul.buttons li {
-  display: inline;
-  list-style: none;
-  a.button {
-    background: transparent url(../assets/layout/TM/button_TM_states.png) top left repeat-x;
-    @include no-shadow;
-    color: #666;
-    text-shadow: 0 1px #eee;
-    letter-spacing: 0em;
-    font-size: 0.8em;
-    margin: 0px 2px;
-    height: 24px;
-    padding: 7px 20px 0px 20px;
-    font-weight: bold;
-    border: solid 1px #999;
-    @include rounded(6px, 6px, 6px, 6px);
-    &:hover {
-      color: #000033;
-      text-shadow: 0 1px #eee;
-      background-position: 100% -31px;
-      border: solid 1px #2f84da; }
-    &:active {
-      color: #333;
-      text-shadow: 0 1px #eee;
-      background-position: 100% -62px;
-      border: solid 1px #000;
-      box-shadow: inset 0 0px 6px #000;
-      -webkit-box-shadow: inset 0 0px 6px #000;
-      -moz-box-shadow: inset 0 0px 6px #000;
-      height: 21px;
-      padding: 9px 20px 0px 20px; } }
-  &.selected a.button {
-    box-shadow: inset 0 0px 6px #000;
-    -webkit-box-shadow: inset 0 0px 10px #000;
-    -moz-box-shadow: inset 0 0px 6px #000;
-    text-decoration: none;
-    text-shadow: 0 -1px #333333;
-    color: #FFF;
-    background-position: 100% 100%;
-    border: solid 1px #333; } }
+  	display: inline;
+  	list-style: none;
+  	a.button {
+    	background: transparent url(../assets/layout/TM/button_TM_states.png) top left repeat-x;
+    	@include no-shadow;
+    	color: #666;
+    	text-shadow: 0 1px #eee;
+    	letter-spacing: 0em;
+    	font-size: 0.8em;
+    	margin: 0px 2px;
+    	height: 24px;
+    	padding: 7px 20px 0px 20px;
+    	font-weight: bold;
+    	border: solid 1px #999;
+    	@include rounded(6px, 6px, 6px, 6px);
+    	&:hover {
+      		color: #000033;
+      		text-shadow: 0 1px #eee;
+      		background-position: 100% -31px;
+      		border: solid 1px #2f84da; 
+		}
+    	&:active {
+      		color: #333;
+      		text-shadow: 0 1px #eee;
+      		background-position: 100% -62px;
+      		border: solid 1px #000;
+      		box-shadow: inset 0 0px 6px #000;
+      		-webkit-box-shadow: inset 0 0px 6px #000;
+      		-moz-box-shadow: inset 0 0px 6px #000;
+      		height: 21px;
+      		padding: 9px 20px 0px 20px; 
+		} 
+	}
+  	&.selected a.button {
+    	box-shadow: inset 0 0px 6px #000;
+    	-webkit-box-shadow: inset 0 0px 10px #000;
+    	-moz-box-shadow: inset 0 0px 6px #000;
+    	text-decoration: none;
+    	text-shadow: 0 -1px #333333;
+    	color: #FFF;
+    	background-position: 100% 100%;
+    	border: solid 1px #333; 
+	} 
+}
 
 /*##########  LOGIN (LG)  ##########*/
 
 #LG-inner {
-  float: left;
-  width: 153px;
-  height: 69px;
-  padding: 0px 28px 0px 104px;
-  background: url(../assets/layout/LG_bluebg.png) top left no-repeat;
-  div {
-    &.TM-sectop p {
-      color: #FFF;
-      font-size: 0.8em;
-      text-shadow: 0 -0.2em black;
-      padding-top: 10px;
-      a {
-        color: #FFF; } }
-    &.TM-secbot p {
-      color: #666;
-      font-size: 0.7em;
-      text-shadow: 0 0.05em #FFF;
-      padding-top: 5px;
-      a {
-        font-weight: bold;
-        color: #666; } } } }
+  	float: left;
+  	width: 153px;
+  	height: 69px;
+  	padding: 0px 28px 0px 104px;
+  	background: url(../assets/layout/LG_bluebg.png) top left no-repeat;
+  	div {
+    	&.TM-sectop p {
+      		color: #FFF;
+      		font-size: 0.8em;
+      		text-shadow: 0 -0.2em black;
+      		padding-top: 10px;
+      		a {
+        		color: #FFF; 
+			} 
+		}
+    	&.TM-secbot p {
+      		color: #666;
+      		font-size: 0.7em;
+      		text-shadow: 0 0.05em #FFF;
+      		padding-top: 5px;
+      		a {
+        		font-weight: bold;
+        		color: #666; 
+			} 
+		} 
+	} 
+}

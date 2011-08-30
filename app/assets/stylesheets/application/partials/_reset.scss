@@ -1,87 +1,109 @@
-@import "variables";
-
-
 /*##########################################################################*/
 /*  Frame and Resets  */
 /*##########################################################################*/
 
+@import "variables";
+
+//////////////////
+
 html {
-  color: #000;
-  background: #eeeeee url(../assets/layout/pagebg.gif) center center repeat;
-  font-family: $sans-body; }
+	color: #000;
+  	background: #eeeeee url(../assets/layout/pagebg.gif) center center repeat;
+  	font-family: $sans-body; 
+}
 
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
-  margin: 0;
-  padding: 0;
-  font-size: 100%; }
+	margin: 0;
+  	padding: 0;
+  	font-size: 100%; 
+}
 
 body {
-  min-width: $main-width; }
+	min-width: $main-width; 
+}
 
 table {
-  border-collapse: collapse;
-  border-spacing: 0; }
+	border-collapse: collapse;
+  	border-spacing: 0; 
+}
 
 fieldset, img {
-  border: 0; }
+	border: 0; 
+}
 
 address, caption, cite, code, dfn, em, strong, b, th, var, optgroup {
-  font-style: inherit;
-  font-weight: inherit; }
+	font-style: inherit;
+  	font-weight: inherit; 
+}
 
 del, ins {
-  text-decoration: none; }
+	text-decoration: none; 
+}
 
 li {
-  list-style: none; }
+	list-style: none; 
+}
 
 caption, th {
-  text-align: left; }
+	text-align: left; 
+}
 
 h1, h2, h3, h4, h5, h6 {
-  font-size: 100%;
-  font-weight: normal; }
+	font-size: 100%;
+  	font-weight: normal; 
+}
 
 q {
-  &:before, &:after {
-    content: ''; } }
+	&:before, &:after {
+		content: ''; 
+	} 
+}
 
 abbr {
-  border: 0;
-  font-variant: normal; }
+	border: 0;
+  	font-variant: normal; 
+}
 
 sup, sub {
-  vertical-align: baseline; }
+	vertical-align: baseline; 
+}
 
 b, strong {
-  font-weight: bold; }
+	font-weight: bold; 
+}
 
 legend {
-  color: #000; }
+	color: #000; 
+}
 
 input, button, textarea, select, optgroup, option {
-  font-family: inherit;
-  font-size: inherit;
-  font-style: inherit;
-  font-weight: inherit; }
+	font-family: inherit;
+	font-size: inherit;
+  	font-style: inherit;
+  	font-weight: inherit; 
+}
 
 input, button, textarea, select {
-  *font-size: 100%; }
+	*font-size: 100%; 
+}
 
 small {
-  font-size: 0.6em; }
+	font-size: 0.6em; 
+}
 
 a {
-  color: #006699;
-  text-decoration: none;
-  font-weight: bold;
-  &:hover {
-    text-decoration: underline; }
-  &:visited {
-    color: #9d11b3; } }
+	color: #006699;
+	text-decoration: none;
+  	font-weight: bold;
+  	&:hover {
+    	text-decoration: underline; 
+	}
+  	&:visited {
+    	color: #9d11b3; 
+	} 
+}
 
 #main {
-  padding: 100px 3% 10px 3%; }
+	padding: 100px 3% 10px 3%; 
+}
 
-.clear {
-  clear: both; }
