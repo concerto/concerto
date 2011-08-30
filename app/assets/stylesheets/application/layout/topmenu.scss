@@ -3,7 +3,7 @@
 /*##########################################################################*/
 
 
-@import "../vars";
+@import "../partials/variables";
 
 
 /*##########  STRUCTURE  ##########*/
@@ -80,9 +80,7 @@ tr {
   list-style: none;
   a.button {
     background: transparent url(../assets/layout/TM/button_TM_states.png) top left repeat-x;
-    box-shadow: 0 0 0;
-    -moz-box-shadow: 0 0 0;
-    -webkit-box-shadow: 0 0 0;
+    @include no-shadow;
     color: #666;
     text-shadow: 0 1px #eee;
     letter-spacing: 0em;
@@ -92,8 +90,7 @@ tr {
     padding: 7px 20px 0px 20px;
     font-weight: bold;
     border: solid 1px #999;
-    border-radius: 6px;
-    -moz-border-radius: 6px;
+    @include rounded(6px, 6px, 6px, 6px);
     &:hover {
       color: #000033;
       text-shadow: 0 1px #eee;

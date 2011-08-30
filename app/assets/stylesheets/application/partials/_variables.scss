@@ -30,6 +30,12 @@ $concerto-blue: #006699;
 	-moz-border-radius-bottomright:$bottomright;
 }
 
+@mixin no-shadow {
+	box-shadow: 0 0 0;
+    -moz-box-shadow: 0 0 0;
+    -webkit-box-shadow: 0 0 0;
+}
+
 
 /* Common Inheritance */
 
