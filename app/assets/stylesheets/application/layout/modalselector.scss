@@ -4,6 +4,7 @@
 
 
 @import "../partials/variables";
+@import "../partials/mixins";
 
 //////////////////
 
@@ -20,15 +21,13 @@
   	.MS-outer {
     	background: url(../assets/layout/MS/outer.png) repeat;
     	padding: 6px;
-    	border-radius: 20px;
-    	-moz-border-radius: 20px;
+		@include rounded(20px, 20px, 20px, 20px);
     	margin-bottom: 22px; 
 	}
   	article {
     	display: block;
     	background: url(../assets/layout/MS/inner.png) repeat;
-    	border-radius: 14px;
-    	-moz-border-radius: 14px;
+		@include rounded(14px, 14px, 14px, 14px);
     	padding: 17px;
     	ul.iconlist {
       		margin: 0px -6px;
@@ -37,8 +36,7 @@
         		a {
           			color: #FFF;
           			text-decoration: none;
-          			border-radius: 8px;
-          			-moz-border-radius: 8px;
+					@include rounded(8px, 8px, 8px, 8px);
           			background: url(../assets/layout/MS/iconlist_inactive.png) repeat;
           			border: solid 1px #999;
           			opacity: 0.5;

@@ -94,7 +94,7 @@ tr {
   	list-style: none;
   	a.button {
     	background: transparent url(../assets/layout/TM/button_TM_states.png) top left repeat-x;
-    	@include no-shadow;
+    	@include no-box-shadow;
     	color: #666;
     	text-shadow: 0 1px #eee;
     	letter-spacing: 0em;
@@ -112,21 +112,17 @@ tr {
       		border: solid 1px #2f84da; 
 		}
     	&:active {
-      		color: #333;
+      		@include box-shadow(inset 0 0 6px #000);
+			color: #333;
       		text-shadow: 0 1px #eee;
       		background-position: 100% -62px;
       		border: solid 1px #000;
-      		box-shadow: inset 0 0px 6px #000;
-      		-webkit-box-shadow: inset 0 0px 6px #000;
-      		-moz-box-shadow: inset 0 0px 6px #000;
       		height: 21px;
       		padding: 9px 20px 0px 20px; 
 		} 
 	}
   	&.selected a.button {
-    	box-shadow: inset 0 0px 6px #000;
-    	-webkit-box-shadow: inset 0 0px 10px #000;
-    	-moz-box-shadow: inset 0 0px 6px #000;
+    	@include box-shadow(inset 0 0 10px #000);
     	text-decoration: none;
     	text-shadow: 0 -1px #333333;
     	color: #FFF;

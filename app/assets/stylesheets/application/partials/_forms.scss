@@ -4,6 +4,7 @@
 
 
 @import "variables";
+@import "mixins";
 
 //////////////////
 
@@ -60,8 +61,7 @@ form {
     	.fieldbox {
       		border: solid 1px #ccc;
       		padding: 4px 6px;
-      		border-radius: 6px;
-      		-moz-border-radius: 6px; 
+			@include rounded(6px, 6px, 6px, 6px);
 		} 
 	}
   	.datetime input {

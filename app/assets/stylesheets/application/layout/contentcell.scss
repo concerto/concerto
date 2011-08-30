@@ -4,6 +4,7 @@
 
 
 @import "../partials/variables";
+@import "../partials/mixins";
 
 //////////////////
 
@@ -22,10 +23,7 @@
     	padding-bottom: 5px;
     	border: solid 1px #ababab;
     	border-bottom: 0px;
-    	border-top-left-radius: 8px;
-    	-moz-border-radius-topleft: 8px;
-    	border-top-right-radius: 8px;
-    	-moz-border-radius-topright: 8px;
+		@include rounded(8px, 8px, 0px, 0px);
     	h1 {
       		color: #666;
       		font-size: 1.8em;
