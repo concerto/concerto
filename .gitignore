@@ -1,7 +1,8 @@
 .bundle
 db/*.sqlite3
 log/*.log
-tmp/**/*
+tmp/
+.sass-cache/
 tmp/restart.txt
 config/database.yml
 public/.htaccess
