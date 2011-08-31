@@ -22,7 +22,7 @@
   	font-size: 0.8em;
   	margin-right: 6px;
   	text-decoration: none;
-  	background: url(../assets/layout/button_norm_states.png) top left repeat-x;
+  	background: url(/assets/layout/button_norm_states.png) top left repeat-x;
   	border: solid 1px #003366;
 
 	&:hover {
@@ -59,7 +59,7 @@ a.button {
 	&.back {
 		@include no-box-shadow;
 		@include rounded(0px, 4px, 4px, 0px);
-		background: transparent url(../assets/layout/button_back_states.png) no-repeat scroll top left;
+		background: transparent url(/assets/layout/button_back_states.png) no-repeat scroll top left;
     	font-size: 0.7em;
     	border: 0;
     	border-right: solid 1px #396bab;
@@ -95,12 +95,12 @@ a.button {
 	&.time {
   		width: 26px;
   		height: 26px;
-  		background: url(../assets/layout/button_time_states.png) top left no-repeat; 
+  		background: url(/assets/layout/button_time_states.png) top left no-repeat; 
 	}	
 	&.date {
  		width: 26px;
   		height: 26px;
-  		background: url(../assets/layout/button_date_states.png) top left no-repeat; 
+  		background: url(/assets/layout/button_date_states.png) top left no-repeat; 
 	}
   	&.time:hover, &.date:hover {
     	background-position: 100% -26px;
@@ -175,7 +175,7 @@ ul {
             			height: 10px;
             			text-align: center;
             			position: absolute;
-            			background: url(../assets/layout/button_disclosure.png) center center no-repeat;
+            			background: url(/assets/layout/button_disclosure.png) center center no-repeat;
             			display: block;
             			top: 8px;
             			right: 10px; 
@@ -184,7 +184,7 @@ ul {
 			}
       		&.selected a.button {
         		color: #FFF;
-        		background: transparent url(../assets/layout/button_feed_states.png) center right no-repeat;
+        		background: transparent url(/assets/layout/button_feed_states.png) center right no-repeat;
         		text-shadow: 0 1px #000;
         		border-radius: 0px;
         		-moz-border-radius: 0px;
@@ -283,7 +283,7 @@ div {
     	border: 0px !important; 
 	}
   	&.f_icon {
-    	background: url(../assets/icons/foldericon.png) center center no-repeat;
+    	background: url(/assets/icons/foldericon.png) center center no-repeat;
     	width: 50px;
     	height: 39px;
     	margin: 75px 0px 0px 110px;
@@ -291,7 +291,7 @@ div {
     	z-index: 5; 
 	}
   	&.pdf_icon {
-    	background: url(../assets/icons/pdficon.png) center center no-repeat;
+    	background: url(/assets/icons/pdficon.png) center center no-repeat;
     	width: 44px;
     	height: 45px;
     	margin: 75px 0px 0px 110px;
@@ -299,7 +299,7 @@ div {
     	z-index: 5; 
 	}
   	&.img_icon {
-    	background: url(../assets/icons/imageicon.png) center center no-repeat;
+    	background: url(/assets/icons/imageicon.png) center center no-repeat;
     	width: 46px;
     	height: 44px;
     	margin: 75px 0px 0px 110px;

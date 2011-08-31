@@ -18,7 +18,7 @@
   	-webkit-box-shadow: #ababab 0 3px 2px;
   	header {
     	display: block;
-    	background: white url(../assets/layout/C/header_bg.png) bottom left repeat-x;
+    	background: white url(/assets/layout/C/header_bg.png) bottom left repeat-x;
     	padding: 12px 14px;
     	padding-bottom: 5px;
     	border: solid 1px #ababab;
@@ -51,7 +51,7 @@
     	width: 100%; 
 	}
   	aside {
-    	background: url(../assets/layout/C/sidebar_light.png) top right no-repeat;
+    	background: url(/assets/layout/C/sidebar_light.png) top right no-repeat;
     	min-height: 300px;
     	width: 184px;
     	padding: 0 10px;
@@ -85,13 +85,13 @@
 .C-full {
   	&.sm {
     	.C-cont {
-      		background: white url(../assets/layout/C/bg_sm.png) top left repeat-y; 
+      		background: white url(/assets/layout/C/bg_sm.png) top left repeat-y; 
 		}
     	aside {} 
 	}
   	&.lg {
     	.C-cont {
-      		background: white url(../assets/layout/C/bg_lg.png) top left repeat-y;
+      		background: white url(/assets/layout/C/bg_lg.png) top left repeat-y;
       		padding-left: 318px; 
 		}
     	aside {

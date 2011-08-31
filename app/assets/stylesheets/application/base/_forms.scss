@@ -43,7 +43,7 @@ form {
     	.inputs input, .fieldbox input {
       		width: 600px;
       		padding: 2px;
-      		background: #fefefe url(../assets/layout/forms/textfield_bg.png) top left repeat-x;
+      		background: #fefefe url(/assets/layout/forms/textfield_bg.png) top left repeat-x;
       		border: solid 1px #999; 
 		}
     	.inputs {
@@ -51,7 +51,7 @@ form {
         		width: 600px;
         		height: 100px;
         		padding: 2px;
-        		background: #fefefe url(../assets/layout/forms/textfield_bg.png) top left repeat-x;
+        		background: #fefefe url(/assets/layout/forms/textfield_bg.png) top left repeat-x;
         		border: solid 1px #999; 
 			}
       		input.alert {
@@ -69,7 +69,7 @@ form {
     	padding-bottom: 3px !important; 
 	}
   	.submit_bar {
-    	background: white url(../assets/layout/C/submit_bar_bg.png) top left repeat-x;
+    	background: white url(/assets/layout/C/submit_bar_bg.png) top left repeat-x;
     	margin-top: 30px;
     	padding: 16px 20px;
     	text-align: right; 
