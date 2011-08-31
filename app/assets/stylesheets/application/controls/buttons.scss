@@ -6,15 +6,15 @@
 @import "../partials/variables";
 @import "../partials/mixins";
 
-
-/*##########  DEFAULT BUTTON LINK: BLUE NORMAL  ##########*/
+//////////////////
 
 @mixin button-base {
 	@include no-box-shadow;
 	@include rounded(4px, 4px, 4px, 4px);
+	padding:6px 20px 4px 20px;
 	float: left;
   	cursor: pointer;
-	height: 22px;
+	height: 16px;
   	font-weight: bold;
   	color: #FFF;
   	letter-spacing: -0.07em;
@@ -31,6 +31,7 @@
 	  	text-shadow: 0 -1px #eeeeee;
 	  	border: solid 1px #2f84da;
 	}
+	
 	&:active {
 		@include box-shadow(inset 0 0 6px #000);
 		background-position: 100% 100%;
@@ -38,18 +39,26 @@
 	  	text-shadow: 0 1px #eee;
 	  	outline: none;
 	  	border: solid 1px #000;
-	  	height: 20px;
-	  	padding: 6px 20px 4px 20px;
 	}
+	
+	&:visited {
+		color:#FFF;
+	}
+	
+	&:visited:hover {
+		color: #000033;
+	  	text-shadow: 0 -1px #eeeeee;
+	}
+	
 }
 
 a.button {
-  	@include button-base;
-  	padding: 4px 20px 0px 20px; 
-
+	@include button-base;
+	
+	// back button:
 	&.back {
 		@include no-box-shadow;
-		@include rounded(4px, 4px, 0px, 0px);
+		@include rounded(0px, 4px, 4px, 0px);
 		background: transparent url(../assets/layout/button_back_states.png) no-repeat scroll top left;
     	font-size: 0.7em;
     	border: 0;
@@ -69,10 +78,7 @@ a.button {
 			background-position: 0% 100%;
       		border: 0;
       		border-right: solid 1px #999;
-      		height: 16px;
-      		padding: 6px 12px 0px 20px; 
-		} 
-		
+		} 	
 	}
 	
 	&.time, &.date {
@@ -85,25 +91,23 @@ a.button {
   		vertical-align: top; 
 	}
 	
+	// date and time buttons:
 	&.time {
   		width: 26px;
   		height: 26px;
   		background: url(../assets/layout/button_time_states.png) top left no-repeat; 
-	}
-	
+	}	
 	&.date {
  		width: 26px;
   		height: 26px;
   		background: url(../assets/layout/button_date_states.png) top left no-repeat; 
 	}
-	
   	&.time:hover, &.date:hover {
     	background-position: 100% -26px;
     	color: #000033;
     	text-shadow: 0 -1px #eeeeee;
     	border: solid 1px #2f84da; 
 	}
-	
 	&.time:active, &.date:active {
     	@include box-shadow(inset 0 0 6px #000);
 		background-position: 100% 100%;
@@ -115,10 +119,11 @@ a.button {
 }
 
 form .submit_bar input {
-  	@include button-base;
-  	height: auto;
-  	padding: 4px 20px; 
+	@include button-base;
+	height:auto;
 }
+
+
 
 /* Special Rules: */
 
@@ -302,3 +307,4 @@ div {
     	z-index: 5; 
 	} 
 }
+

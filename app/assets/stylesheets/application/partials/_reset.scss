@@ -91,17 +91,20 @@ small {
 	font-size: 0.6em; 
 }
 
-a {
-	color: #006699;
-	text-decoration: none;
-  	font-weight: bold;
-  	&:hover {
-    	text-decoration: underline; 
-	}
-  	&:visited {
-    	color: #9d11b3; 
-	} 
-}
+//a {
+//	color: #006699;
+//	text-decoration: none;
+//  	font-weight: bold;
+//
+//  	&:hover {
+//    	text-decoration: underline; 
+//	}
+//	
+//  	&:visited {
+//    	color: #9d11b3; 
+//	} 
+//	
+//}
 
 #main {
 	padding: 100px 3% 10px 3%; 
