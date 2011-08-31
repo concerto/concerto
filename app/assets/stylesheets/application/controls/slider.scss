@@ -1,72 +1,83 @@
 /*##########################################################################*/
-/*  Slider Element  */
+/*  Slider Elements  */
 /*##########################################################################*/
 
+
+@import "../base/variables";
+@import "../base/mixins";
+
 .slider {
-  background: #E2E2E2 repeat-x 0 0;
-  height: 6px;
-  position: relative;
-  cursor: pointer;
-  border: 1px solid #999;
-  width: 250px;
-  float: left;
-  margin-top: 12px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px; }
+	@include rounded(5px, 5px, 5px, 5px);
+	background: #E2E2E2 repeat-x 0 0;
+	height: 6px;
+  	position: relative;
+  	cursor: pointer;
+  	border: 1px solid #999;
+  	width: 250px;
+  	float: left;
+  	margin-top: 12px;
+}
 
 .progress {
-  height: 9px;
-  margin-left: 50px;
-  background-color: #C5FF00;
-  display: none;
-  opacity: 0.6px; }
+  	height: 9px;
+  	margin-left: 50px;
+  	background-color: #C5FF00;
+  	display: none;
+  	opacity: 0.6px; 
+}
 
 .handle {
-  width: 35px;
-  top: -10px;
-  position: absolute;
-  display: block;
-  text-align: center;
-  font-size: 0.8em;
-  font-weight: 700;
-  letter-spacing: -0.07em;
-  color: #FFF;
-  vertical-align: bottom;
-  padding-top: 3px;
-  text-decoration: none !important;
-  text-shadow: 0 -1px #003366; }
+  	width: 35px;
+  	top: -10px;
+  	position: absolute;
+  	display: block;
+  	text-align: center;
+  	font-size: 0.8em;
+  	font-weight: 700;
+  	letter-spacing: -0.07em;
+  	color: #FFF;
+  	vertical-align: bottom;
+  	padding-top: 3px;
+  	text-decoration: none !important;
+  	text-shadow: 0 -1px #003366; 
+}
 
 .range {
-  border: 1px inset #ddd;
-  float: left;
-  font-size: 20px;
-  text-align: center;
-  width: 50px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  margin: 0 0 0 15px;
-  padding: 3px 0; }
+  	@include rounded(5px, 5px, 5px, 5px);
+	border: 1px inset #ddd;
+  	float: left;
+  	font-size: 20px;
+  	text-align: center;
+  	width: 50px;
+  	margin: 0 0 0 15px;
+  	padding: 3px 0; 
+}
 
 .left {
-  float: left;
-  font-size: 1em;
-  letter-spacing: -0.07em;
-  color: #999;
-  font-weight: 500;
-  width: 85px;
-  padding-top: 3px; }
+  	float: left;
+  	font-size: 1em;
+  	letter-spacing: -0.07em;
+  	color: #999;
+  	font-weight: 500;
+  	width: 85px;
+  	padding-top: 3px; 
+}
 
 div {
-  &.leftseconds {
-    float: left;
-    padding-right: 8px;
-    color: #000;
-    margin-top: 7px;
-    font-weight: 800; }
-  &.rightseconds {
-    float: left;
-    padding-left: 8px;
-    color: #000;
-    font-weight: 800;
-    margin-top: 7px; } }
+  	&.leftseconds {
+    	float: left;
+    	padding-right: 8px;
+    	color: #000;
+    	margin-top: 7px;
+    	font-weight: 800; 
+	}
+  	
+	&.rightseconds {
+    	float: left;
+    	padding-left: 8px;
+    	color: #000;
+    	font-weight: 800;
+    	margin-top: 7px; 
+	} 
+}
 

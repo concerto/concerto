@@ -11,19 +11,19 @@
 /*##########  BASIC LAYOUT  ##########*/
 
 .C-full {
+	@include box-shadow(0 3px 2px #ababab);
 	display: block;
   	margin-bottom: 18px;
-  	box-shadow: #ababab 0 3px 2px;
-  	-moz-box-shadow: 0 3px 2px #ababab;
-  	-webkit-box-shadow: #ababab 0 3px 2px;
+
   	header {
-    	display: block;
+    	@include rounded(8px, 8px, 0px, 0px);
+		display: block;
     	background: white url(/assets/layout/C/header_bg.png) bottom left repeat-x;
     	padding: 12px 14px;
     	padding-bottom: 5px;
     	border: solid 1px #ababab;
     	border-bottom: 0px;
-		@include rounded(8px, 8px, 0px, 0px);
+		
     	h1 {
       		color: #666;
       		font-size: 1.8em;

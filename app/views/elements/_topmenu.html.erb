@@ -1,7 +1,10 @@
 <!--googleoff: all-->
-<div id="TM">
+
+<nav id="TM">
+	
 	<a href="#" id="TM-logobutton"></a>
-	<div id="LG-inner">
+	
+	<section id="LG-inner">
 		<div class="TM-sectop">
 			<% if user_signed_in? %><p><b><%= current_user.name %></b></p><% end %>
 		</div>
@@ -12,55 +15,20 @@
 			  <p><%= link_to t(:sign_up), new_user_registration_path %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to t(:sign_in), new_user_session_path %>  </p>
 			<% end %>
 		</div>
-	</div>
+	</section>
+	
 	<!-- Begin Menu for CONTENT -->
-	<table class="TM-sec" cellpadding="0" cellspacing="0">
-		<tr class="TM-sectop">
-			<!-- only show the next table cell if this is the first item: -->
-			<td rowspan="2" class="TM-secline-right"></td>
-			<td>
-				<ul class="buttons">
-					<li<% if current_page?(new_content_path) %> class="selected"<% end %>><%= link_to new_content_path, :class => 'button' do %><%= t(:add) %><% end %></li>
-					<li><%= link_to contents_path, :class => 'button' do %><%= t(:content) %><% end %></li>
-					<li<% if current_page?(contents_path) %> class="selected"<% end %>><%= link_to contents_path, :class => 'button' do %><%= t(:browse) %><% end %></li>
-				</ul>
-			</td>
-			<td rowspan="2" class="TM-secline-right"></td>
-		</tr>
-		<tr class="TM-secbot">
-			<td><h1><%= t(:content) %></h1></td>
-		</tr>
-	</table>
+	<section>
+		<div class="TM-sectop">
+			<%= link_to new_content_path, :class => 'button #{ if current_page?(new_content_path) } selected #{ end }' do %><%= t(:add) %><% end %>
+			<%= link_to contents_path, :class => 'button' do %><%= t(:content) %><% end %>
+			<%= link_to contents_path, :class => 'button' do %><%= t(:browse) %><% end %>
+		</div>
+		<div class="TM-secbot">
+			<h1><%= t(:content) %></h1>
+		</div>
+	</section>
 	<!-- End Menu for CONTENT -->
-	<!-- Begin Menu for USERS -->
-	<table class="TM-sec" cellpadding="0" cellspacing="0">
-		<tr class="TM-sectop">
-			<td>
-				<ul class="buttons">
-					<li<% if controller.controller_name == 'groups' %> class="selected"<% end %>><%= link_to groups_path, :class => 'button' do %><%= t(:groups) %><% end %></li>
-				</ul>
-			</td>
-			<td rowspan="2" class="TM-secline-right"></td>
-		</tr>
-		<tr class="TM-secbot">
-			<td><h1><%= t(:users) %></h1></td>
-		</tr>
-	</table>
-	<!-- End Menu for USERS -->
-	<!-- Begin Menu for USERS -->
-	<table class="TM-sec" cellpadding="0" cellspacing="0">
-		<tr class="TM-sectop">
-			<td>
-				<ul class="buttons">
-					<li<% if controller.controller_name == 'screens' %> class="selected"<% end %>><%= link_to screens_path, :class => 'button' do %><%=t(:manage) %><% end %></li>
-				</ul>
-			</td>
-			<td rowspan="2" class="TM-secline-right"></td>
-		</tr>
-		<tr class="TM-secbot">
-			<td><h1><%= t(:screens) %></h1></td>
-		</tr>
-	</table>
-	<!-- End Menu for USERS -->
-</div>
+
+</nav>
 <!--googleon: all-->
