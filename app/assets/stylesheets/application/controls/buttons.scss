@@ -9,9 +9,11 @@
 
 /*##########  DEFAULT BUTTON LINK: BLUE NORMAL  ##########*/
 
-a.button, form .submit_bar input, .handle, .dticon {
+@mixin button-base {
 	@include no-box-shadow;
 	@include rounded(4px, 4px, 4px, 4px);
+	float: left;
+  	cursor: pointer;
 	height: 22px;
   	font-weight: bold;
   	color: #FFF;
@@ -22,103 +24,29 @@ a.button, form .submit_bar input, .handle, .dticon {
   	text-decoration: none;
   	background: url(../assets/layout/button_norm_states.png) top left repeat-x;
   	border: solid 1px #003366;
+
+	&:hover {
+		background-position: 100% -26px;
+	  	color: #000033;
+	  	text-shadow: 0 -1px #eeeeee;
+	  	border: solid 1px #2f84da;
+	}
+	&:active {
+		@include box-shadow(inset 0 0 6px #000);
+		background-position: 100% 100%;
+	  	color: #333;
+	  	text-shadow: 0 1px #eee;
+	  	outline: none;
+	  	border: solid 1px #000;
+	  	height: 20px;
+	  	padding: 6px 20px 4px 20px;
+	}
 }
 
 a.button {
-  	float: left;
-  	cursor: pointer;
+  	@include button-base;
   	padding: 4px 20px 0px 20px; 
-}
 
-form .submit_bar input {
-  	float: left;
-  	cursor: pointer;
-  	height: auto;
-  	padding: 4px 20px; 
-}
-
-a.button:hover, form .submit_bar input:hover {
-  	background-position: 100% -26px;
-  	color: #000033;
-  	text-shadow: 0 -1px #eeeeee;
-  	border: solid 1px #2f84da; 
-}
-
-a.button {
-  	&.time:hover, &.date:hover {
-    	background-position: 100% -26px;
-    	color: #000033;
-    	text-shadow: 0 -1px #eeeeee;
-    	border: solid 1px #2f84da; 
-	}
-  	&:active {
-    	@include box-shadow(inset 0 0 6px #000);
-		background-position: 100% 100%;
-    	color: #333;
-    	text-shadow: 0 1px #eee;
-    	outline: none;
-    	border: solid 1px #000; 
-	} 
-}
-
-form .submit_bar input:active {
-  	@include box-shadow(inset 0 0 6px #000);
-	background-position: 100% 100%;
-  	color: #333;
-  	text-shadow: 0 1px #eee;
-  	outline: none;
-  	border: solid 1px #000; 
-}
-
-a.button {
-  	&.time:active, &.date:active {
-    	@include box-shadow(inset 0 0 6px #000);
-		background-position: 100% 100%;
-    	color: #333;
-    	text-shadow: 0 1px #eee;
-    	outline: none;
-    	border: solid 1px #000; 
-	}
-  	&:active {
-    	height: 20px;
-    	padding: 6px 20px 0px 20px; 
-	} 
-}
-
-form .submit_bar input:active {
-  	height: 20px;
-  	padding: 6px 20px 4px 20px; 
-}
-
-/* Special Rules: */
-
-.C-header_right a.button {
-  	margin-right: 0px;
-  	margin-left: 6px; 
-}
-
-a {
-  	&.button {
-    	&.time, &.date {
-      		display: inline-block;
-      		padding: 0px;
-      		float: none;
-      		cursor: pointer;
-      		text-decoration: none;
-      		margin-left: 5px;
-      		vertical-align: top; 
-		}
-    	&.time {
-      		width: 26px;
-      		height: 26px;
-      		background: url(../assets/layout/button_time_states.png) top left no-repeat; 
-		}
-    	&.date {
-     		width: 26px;
-      		height: 26px;
-      		background: url(../assets/layout/button_date_states.png) top left no-repeat; 
-		} 
-	}
 	&.back {
 		@include no-box-shadow;
 		@include rounded(4px, 4px, 0px, 0px);
@@ -128,12 +56,14 @@ a {
     	border-right: solid 1px #396bab;
     	height: 18px;
     	padding: 4px 12px 0px 20px;
+
     	&:hover {
       		@include no-box-shadow;
 			background-position: 0% -22px;
       		border: 0;
       		border-right: solid 1px #53abe7;
 		}
+		
     	&:active {
       		@include no-box-shadow;
 			background-position: 0% 100%;
@@ -142,10 +72,60 @@ a {
       		height: 16px;
       		padding: 6px 12px 0px 20px; 
 		} 
+		
+	}
+	
+	&.time, &.date {
+  		display: inline-block;
+  		padding: 0px;
+  		float: none;
+  		cursor: pointer;
+  		text-decoration: none;
+  		margin-left: 5px;
+  		vertical-align: top; 
+	}
+	
+	&.time {
+  		width: 26px;
+  		height: 26px;
+  		background: url(../assets/layout/button_time_states.png) top left no-repeat; 
+	}
+	
+	&.date {
+ 		width: 26px;
+  		height: 26px;
+  		background: url(../assets/layout/button_date_states.png) top left no-repeat; 
+	}
+	
+  	&.time:hover, &.date:hover {
+    	background-position: 100% -26px;
+    	color: #000033;
+    	text-shadow: 0 -1px #eeeeee;
+    	border: solid 1px #2f84da; 
+	}
+	
+	&.time:active, &.date:active {
+    	@include box-shadow(inset 0 0 6px #000);
+		background-position: 100% 100%;
+    	color: #333;
+    	text-shadow: 0 1px #eee;
+    	outline: none;
+    	border: solid 1px #000; 
 	}
 }
 
-/*##########  BLUE BACK BUTTON  ##########*/
+form .submit_bar input {
+  	@include button-base;
+  	height: auto;
+  	padding: 4px 20px; 
+}
+
+/* Special Rules: */
+
+.C-header_right a.button {
+  	margin-right: 0px;
+  	margin-left: 6px; 
+}
 
 /*##########  FEED BUTTON  ##########*/
 

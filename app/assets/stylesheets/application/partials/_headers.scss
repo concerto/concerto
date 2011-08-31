@@ -16,6 +16,7 @@ h1 {
   	@include header-base;
 	font-size: 3em;
   	font-weight: 400;
+
   	&.header {
     	text-transform: uppercase;
     	font-size: 1.3em;
@@ -23,16 +24,20 @@ h1 {
     	padding: 6px 0;
     	margin-bottom: 16px; 
 	}
+	
   	&.indented {
     	padding-left: 8px !important; 
 	}
+	
   	&.subpage_header {
     	font-size: 3em;
     	margin-bottom: 8px !important; 
 	}
+	
   	small {
     	padding-left: 12px; 
 	} 
+	
 }
 
 h2 {
