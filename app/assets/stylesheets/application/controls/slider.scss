@@ -5,6 +5,7 @@
 
 @import "../base/variables";
 @import "../base/mixins";
+@import "buttons";
 
 .slider {
 	@include rounded(5px, 5px, 5px, 5px);
@@ -27,7 +28,8 @@
 }
 
 .handle {
-  	width: 35px;
+  	@extend a.button;
+	width: 35px;
   	top: -10px;
   	position: absolute;
   	display: block;
@@ -37,9 +39,17 @@
   	letter-spacing: -0.07em;
   	color: #FFF;
   	vertical-align: bottom;
+	padding-left:2px;
+	padding-right:2px;
   	padding-top: 3px;
   	text-decoration: none !important;
-  	text-shadow: 0 -1px #003366; 
+  	text-shadow: 0 -1px #003366;
+
+	&:active {
+		padding-top:3px;
+		padding-left:2px;
+		padding-right:2px;
+	}
 }
 
 .range {
