@@ -4,6 +4,7 @@
 	
 	<a href="#" id="TM-logobutton"></a>
 	
+	<!-- Begin User Login Area -->
 	<section id="LG-inner">
 		<div class="TM-sectop">
 			<% if user_signed_in? %><p><b><%= current_user.name %></b></p><% end %>
@@ -16,11 +17,12 @@
 			<% end %>
 		</div>
 	</section>
+	<!-- End User Login Area -->
 	
 	<!-- Begin Menu for CONTENT -->
 	<section>
 		<div class="TM-sectop">
-			<%= link_to new_content_path, :class => 'button #{ if current_page?(new_content_path) } selected #{ end }' do %><%= t(:add) %><% end %>
+			<%= link_to new_content_path, :class => "button #{ current_page?(new_content_path) ? 'selected' : '' }" do %><%= t(:add) %><% end %>
 			<%= link_to contents_path, :class => 'button' do %><%= t(:content) %><% end %>
 			<%= link_to contents_path, :class => 'button' do %><%= t(:browse) %><% end %>
 		</div>
@@ -29,6 +31,28 @@
 		</div>
 	</section>
 	<!-- End Menu for CONTENT -->
+	
+	<!-- Begin Menu for USER GROUPS -->
+	<section>
+		<div class="TM-sectop">
+			<%= link_to groups_path, :class => "button #{ controller.controller_name == 'groups' ? 'selected' : '' }" do %><%= t(:groups) %><% end %>
+		</div>
+		<div class="TM-secbot">
+			<h1><%= t(:users) %></h1>
+		</div>
+	</section>
+	<!-- End Menu for USER GROUPS -->
+	
+	<!-- Begin Menu for SCREENS -->
+	<section>
+		<div class="TM-sectop">
+			<%= link_to screens_path, :class => "button #{ controller.controller_name == 'screens' ? 'selected' : '' }" do %><%= t(:manage) %><% end %>
+		</div>
+		<div class="TM-secbot">
+			<h1><%= t(:screens) %></h1>
+		</div>
+	</section>
+	<!-- End Menu for SCREENS -->
 
 </nav>
 <!--googleon: all-->
