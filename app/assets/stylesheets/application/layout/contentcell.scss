@@ -8,14 +8,20 @@
 
 //////////////////
 
-/*##########  BASIC LAYOUT  ##########*/
 
-.C-full {
+@mixin contentcell-base {
 	@include box-shadow(0 3px 2px #ababab);
 	display: block;
   	margin-bottom: 18px;
+}
 
-  	header {
+// section 
+//		header
+		
+section.C {
+	@include contentcell-base;
+	
+	header {
     	@include rounded(8px, 8px, 0px, 0px);
 		display: block;
     	background: white url(/assets/layout/C/header_bg.png) bottom left repeat-x;
@@ -31,64 +37,56 @@
       		text-shadow: 0 1px #eee;
       		padding-top: 9px; 
 		} 
-	} 
-}
 
-.C-cont {
-  	padding-left: 204px;
-  	border-bottom: solid 1px #ababab;
-  	border-left: solid 1px #ababab;
-  	border-right: solid 1px #ababab;
-  	article, aside {
-    	position: relative;
-    	float: left; 
-	} 
-}
-
-.C-full {
-  	article {
-    	padding: 0px;
-    	width: 100%; 
-	}
-  	aside {
-    	background: url(/assets/layout/C/sidebar_light.png) top right no-repeat;
-    	min-height: 300px;
-    	width: 184px;
-    	padding: 0 10px;
-    	right: 204px;
-    	margin-left: -100%; 
-	} 
-}
-
-/* padding inside of this div should be determined by the contained content, not by a wrapper div defined here! */
-
-.C-header_back {
-  	float: left;
-  	margin-left: -37px;
-  	padding-top: 12px;
-  	margin-right: 8px; 
-}
-
-/* This is an optional floated area for the back button that appears to the left of the header. */
-
-.C-header_right {
-  	float: right;
-  	padding-top: 8px;
-  	margin-left: 20px; 
-}
-
-/* this is an optional floated area that appears to the right of the header */
-
-/* for each variant, overwrite the padding-left for C-cont and change the background image to fit the right faux columns */
-/* SMALL VARIANT (most things, esp. browsing content in feeds) */
-
-.C-full {
-  	&.sm {
-    	.C-cont {
-      		background: white url(/assets/layout/C/bg_sm.png) top left repeat-y; 
+		// element inside the header that can be optionally used for right-aligned 
+		// contextual buttons relevant to this section of the page
+		.C-header_right {
+		  	float: right;
+		  	padding-top: 8px;
+		  	margin-left: 20px; 
 		}
-    	aside {} 
+		
+		// this element is only included when the back_button helper is used to place a back button
+		.C-header_back {
+		  	float: left;
+		  	margin-left: -37px;
+		  	padding-top: 12px;
+		  	margin-right: 8px; 
+		}
+		
 	}
+	
+	.C-cont {
+	  	padding-left: 204px;
+	  	border-bottom: solid 1px #ababab;
+	  	border-left: solid 1px #ababab;
+	  	border-right: solid 1px #ababab;
+		background: white url(/assets/layout/C/bg_sm.png) top left repeat-y;  // the default variant is a small sidebar
+	
+	  	article, aside {
+	    	position: relative;
+	    	float: left; 
+		} 
+		
+		article {
+			padding: 0px;
+	    	width: 100%;
+		}
+		
+		aside {
+			background: url(/assets/layout/C/sidebar_light.png) top right no-repeat;
+	    	min-height: 300px;
+	    	width: 184px;
+	    	padding: 0 10px;
+	    	right: 204px;
+	    	margin-left: -100%;	
+		}
+		
+	}
+	
+	// VARIANTS: Different classes can be applied to change the layout of the content cell:
+	
+	// large: make a larger sidebar
   	&.lg {
     	.C-cont {
       		background: white url(/assets/layout/C/bg_lg.png) top left repeat-y;
@@ -99,6 +97,8 @@
       		right: 318px; 
 		} 
 	}
+	
+	// no: remove the sidebar completely
   	&.no {
     	.C-cont {
       		background: #FFF;
@@ -109,12 +109,6 @@
       		width: 0;
       		display: none; 
 		} 
-	} 
+	}
+	
 }
-
-/* LARGE VARIANT (Add Content with live preview screen) */
-
-/* NO-SIDEBAR VARIANT (Basic New/Edit Forms) */
-
-/* this div can be omitted completely if desired */
-
