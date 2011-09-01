@@ -4,21 +4,21 @@
 	</header>
 	<div class="MS-outer">
 		<article>
-			<ul class="iconlist">
+			
+			<ul class="MS">
 				<% content_types.each do |subclass| %>
-				<li> 
-			  		<%= link_to new_content_path(:type=>subclass.model_name.singular) do %> 
-			  			<div class="iconlist_padding"> 
-		        			<div class="ins"> 
-		          				<div class="type-folder"><%= image_tag("ph/ph.png", :alt => "") %></div>
-		        			</div> 
-		        			<h2><%= subclass.model_name.human %></h2> 
-		      			</div> 
-			  		<% end %> 
-			  	</li>
-				<% end%>
+				<li>
+					<%= link_to new_content_path(:type=>subclass.model_name.singular) do %>
+						<%= image_tag("ph/ph.png", :alt => "") %>
+						<div class="content">
+							<h2><%= subclass.model_name.human %></h2>
+						</div>
+					<% end %>
+				</li>
+				<% end %>
+
+				<div class="clear"></div>
 			</ul>
-			<div class="clear"></div>
 		</article>
 	</div>
 </section>

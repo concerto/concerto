@@ -5,6 +5,7 @@
 
 @import "../base/variables";
 @import "../base/mixins";
+@import "gridlist";
 
 //////////////////
 
@@ -18,37 +19,56 @@
     	letter-spacing: -0.05em;
     	margin-bottom: 4px; 
 	}
+	
   	.MS-outer {
     	background: image-url('layout/MS/outer.png') repeat;
     	padding: 6px;
 		@include rounded(20px, 20px, 20px, 20px);
     	margin-bottom: 22px; 
 	}
+	
   	article {
     	display: block;
     	background: image-url('layout/MS/inner.png') repeat;
 		@include rounded(14px, 14px, 14px, 14px);
     	padding: 17px;
-    	ul.iconlist {
-      		margin: 0px -6px;
-      		li {
-        		margin: 0px 6px;
-        		a {
-          			color: #FFF;
-          			text-decoration: none;
-					@include rounded(8px, 8px, 8px, 8px);
-          			background: image-url('layout/MS/iconlist_inactive.png') repeat;
-          			border: solid 1px #999;
-          			opacity: 0.5;
-          			&:hover {
-            			opacity: 1; 
-					}
-          			h2 {
-            			font-size: 1.5em;
-            			color: #FFF !important; 
-					} 
-				} 
-			} 
-		} 
 	} 
+	
+	// Modal Selector (ML)
+	ul.MS {
+		@extend ul.GL;  // inherit from ul.GL element (_gridlist.scss.erb)
+
+		padding: 0px;
+		margin: 0px -6px;
+
+		li {
+			margin: 0px 6px;
+
+			a {
+				color: #FFF;
+	  			text-decoration: none;
+				@include rounded(8px, 8px, 8px, 8px);
+	  			background: image-url('layout/MS/iconlist_inactive.png') repeat;
+	  			border: solid 1px #999;
+	  			opacity: 0.5;
+				color:#FFF;
+
+	  			&:hover {
+	    			opacity: 1; 
+					background:#333;
+				}
+				
+				img {
+					@include no-box-shadow;
+				}
+
+	  			h2 {
+	    			font-size: 1.5em;
+	    			color: #FFF !important; 
+				}
+
+			}
+		}
+	}
+	
 }

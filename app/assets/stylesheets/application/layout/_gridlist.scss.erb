@@ -1,0 +1,70 @@
+/*##########################################################################*/
+/*  Grid Lists (GL): Graphical Thumbnail/Icon Grids  */
+/*##########################################################################*/
+
+
+@import "../base/variables";
+@import "../base/mixins";
+
+//////////////////
+
+
+@mixin gridlist-item {
+	@include rounded(6px, 6px, 6px, 6px);
+	list-style: none;
+	float: left;
+	margin: 3px 6px;
+	padding: 8px;
+	width:180px;
+	height:200px;
+	text-align:center;
+	
+	img {
+		@include box-shadow(0 3px 2px #ababab);
+		margin-bottom:6px;
+	}
+
+	.content {
+		h1 {
+			font-size: 1.2em;
+  			color: #333;
+  			background:none;
+  			padding: 0px;
+  			margin: 0px;
+  			font-weight: bold;
+  			text-align: center;
+		}
+		
+		p {
+			font-size:0.8em;
+		}
+		
+	}
+	
+	&:hover {
+		background:#ccccff;
+	}
+}
+
+ul.GL {
+	padding: 9px 6px;
+	
+	li {
+		a {	 // in this case, the singular gridlist item is ul li a
+			@include gridlist-item;
+			text-decoration:none;
+			
+			&:visited {
+				color:#666;
+			}
+			
+			// these elements come along for the ride by bringing in gridlist-item mixin:
+			img { }
+			.content {
+				h1 { }
+				p {	}
+			}
+		}
+	}
+	
+}
