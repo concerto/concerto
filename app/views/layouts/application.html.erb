@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= controller.action_name.titleize %> - <%= controller.controller_name.titleize %> - Concerto Signage Panel</title>
+  	<title><%= yield(:title) || controller.controller_name.titleize %> - Concerto Panel</title>
     
-  <%= stylesheet_link_tag "application" %>
-  <%= javascript_include_tag "application" %>
+  	<%= stylesheet_link_tag "application" %>
+	<%= javascript_include_tag "application" %>
 
-  <%= csrf_meta_tag %>
-  <%= render :partial => 'elements/head' %>
-  <%= render :partial => 'elements/javascript' %>
+	<%= csrf_meta_tag %>
+	<%= render :partial => 'elements/head' %>
+	<%= render :partial => 'elements/javascript' %>
 
-  <!--[if lt IE 9]>
-  <%= javascript_include_tag "html5.js" %>
-  <![endif]-->
+	<!--[if lt IE 9]>
+	<%= javascript_include_tag "html5.js" %>
+	<![endif]-->
 </head>
 <body>
-  <%= render :partial => "elements/topmenu" %>
-  <div id="main">
-    <% if flash[:notice] %>
-      <p class="notice"><%= notice %></p>
-    <% end %>
-    <%= yield %>
-  </div>
+	<%= render :partial => "elements/topmenu" %>
+	<div id="main">
+	  	<% if flash[:notice] %>
+	    	<p class="notice"><%= notice %></p>
+	  	<% end %>
+	  	<%= yield %>
+	</div>
 </body>
 </html>
