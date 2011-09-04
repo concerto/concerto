@@ -18,11 +18,12 @@
 		
 section.C {
 	@include contentcell-base;
+	@include rounded(8px, 8px, 0px, 0px);
 	
 	header {
     	@include rounded(8px, 8px, 0px, 0px);
 		display: block;
-    	background: white image-url('layout/C/header_bg.png') bottom left repeat-x;
+    	background: #FFF image-url('layout/C/header_bg.png') bottom left repeat-x;
     	padding: 12px 14px;
     	padding-bottom: 5px;
     	border: solid 1px #ababab;
@@ -56,9 +57,7 @@ section.C {
 	
 	.C-cont {
 	  	padding-left: 204px;
-	  	border-bottom: solid 1px #ababab;
-	  	border-left: solid 1px #ababab;
-	  	border-right: solid 1px #ababab;
+	  	border: solid 1px #ababab;
 		background: white image-url('layout/C/bg_sm.png') top left repeat-y;  // the default variant is a small sidebar
 	
 	  	article, aside {
