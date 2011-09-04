@@ -11,9 +11,9 @@
 		</div>
 		<div class="TM-secbot">
 		    <% if user_signed_in? %>
-			  <p><%= link_to t(:settings), edit_user_path(current_user) %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to t(:log_out), destroy_user_session_path %> </p>
+			  <p><%= link_to t(:settings), edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to t(:log_out), destroy_user_session_path %> </p>
 			<% else %>
-			  <p><%= link_to t(:sign_up), new_user_registration_path %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to t(:sign_in), new_user_session_path %>  </p>
+			  <p><%= link_to t(:sign_in), new_user_session_path %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to t(:sign_up), new_user_registration_path %></p>
 			<% end %>
 		</div>
 	</section>
