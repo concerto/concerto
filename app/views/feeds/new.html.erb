@@ -1,12 +1,28 @@
-<section class="C no">
-	<header>
-		<%= back_button feeds_path %>
-		<h1><%=t(:new_feed)%></h1>
-	</header>
-	<div class="C-cont">
-		<article>
-			<%= render 'form' %>
-		</article>
-		<div class="clear"></div>
+<div class="COLFR width75x25">
+	<div class="col1">
+		<section class="C no">
+			<header>
+				<%= back_button feeds_path %>
+				<h1><%=t(:new_feed)%></h1>
+			</header>
+			<div class="C-cont">
+				<article>
+					<%= render 'form' %>
+				</article>
+				<div class="clear"></div>
+			</div>
+		</section>
 	</div>
-</section>
+	
+	<div class="col2">
+		<section class="C no">
+			<div class="C-cont">
+				<article>
+					My Feeds
+				</article>
+				<div class="clear"></div>
+			</div>
+		</section>
+	</div>
+	<div class="clear"></div>
+</div>

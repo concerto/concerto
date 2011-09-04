@@ -1,0 +1,55 @@
+/*##########################################################################*/
+/*  Column Frames (COLFR and COL)  
+	These are layouts used to manage multiple column pages. This element 
+	is completely optional and does not need to be used if a single, 100% 
+	width column is desired.  
+	
+	These columns can be arranged in multiple layouts and contain 
+	one or more layout-backed items, such as content cells.
+/*##########################################################################*/
+
+
+@import "../base/variables";
+@import "../base/mixins";
+
+//////////////////
+
+@mixin col-base {
+	float:left;
+}
+
+.COLFR {
+	clear:both;
+	
+	.col1 {
+		@include col-base;
+	}
+	
+	.col2 {
+		@include col-base;
+	}
+	
+	
+	// VARIANTS:
+	
+	// 50x50 variant: left col is 50% width and right col is 50% width
+	&.width50x50 {
+		
+		.col1, .col2 {
+			width:50%;
+		}
+	}
+	
+	// 75x25 variant: left col is 75% width and right col is 25% width
+	&.width75x25 {
+		
+		.col1 {
+			width:75%;
+		}
+		
+		.col2 {
+			width:25%;
+		}
+		
+	}
+}
