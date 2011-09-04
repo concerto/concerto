@@ -9,6 +9,7 @@
 //////////////////
 
 form {
+	
 	h1 {
 		clear: both;
 		color: #333;
@@ -18,74 +19,77 @@ form {
     	padding-top: 22px;
     	margin-bottom: 14px; 
 	}
-  	.fields {
-    	padding-left: 20px; 
-	}
-  	.field {
-    	clear: both;
-    	vertical-align: middle;
-    	label {
-      		padding-top: 7px;
-      		margin-bottom: 12px;
-      		font-family: "Myriad Pro", Helvetica, Arial, sans-serif;
-      		width: 110px;
-      		float: left;
-      		color: #666;
-      		font-size: 1em;
-      		letter-spacing: 0em;
-      		text-align: right;
-      		padding-right: 10px; 
-		}
-    	.inputs, .fieldbox {
-      		float: left;
-      		margin-bottom: 12px; 
-		}
-    	.inputs input, .fieldbox input {
-      		width: 600px;
-      		padding: 2px;
-      		background: #fefefe image-url('layout/forms/textfield_bg.png') top left repeat-x;
-      		border: solid 1px #999; 
-		}
-    	.inputs {
-      		textarea {
-        		width: 600px;
-        		height: 100px;
-        		padding: 2px;
-        		background: #fefefe image-url('layout/forms/textfield_bg.png') top left repeat-x;
-        		border: solid 1px #999; 
+	
+	.fields {
+		
+		.field {
+			margin-bottom:10px;
+
+			label {
+				color:#666;
+				font-family: $sans-headers;
+				font-size:1em;
+				letter-spacing:0em;
 			}
-      		input.alert {
-        		border: solid 2px #cc3333; 
-			} 
+
+			.inputs, .fieldbox {
+	      		clear:both;
+	      		margin-bottom: 12px; 
+			}
+
+	    	.inputs input, .fieldbox input {
+	      		//width: 600px;
+	      		padding: 2px;
+	      		background: #fefefe image-url('layout/forms/textfield_bg.png') top left repeat-x;
+	      		border: solid 1px #999; 
+			}
+
+	    	.inputs {
+
+	      		input {
+					width:90%;
+				}		
+		
+				textarea {
+	        		width:90%;
+					//width: 600px;
+	        		height: 100px;
+	        		padding: 2px;
+	        		background: #fefefe image-url('layout/forms/textfield_bg.png') top left repeat-x;
+	        		border: solid 1px #999; 
+				}
+
+	      		input.alert {
+	        		border: solid 2px #cc3333; 
+				} 
+
+			}
+
+	    	.fieldbox {
+	      		border: solid 1px #ccc;
+	      		padding: 4px 6px;
+				@include rounded(6px, 6px, 6px, 6px);
+			}
+
 		}
-    	.fieldbox {
-      		border: solid 1px #ccc;
-      		padding: 4px 6px;
-			@include rounded(6px, 6px, 6px, 6px);
-		} 
+		
 	}
+
   	.datetime input {
     	padding-top: 3px !important;
     	padding-bottom: 3px !important; 
 	}
+	
   	.submit_bar {
     	background: white image-url('layout/C/submit_bar_bg.png') top left repeat-x;
     	margin-top: 30px;
     	padding: 16px 20px;
     	text-align: right; 
-	} 
+	}
+	 
 }
 
-/* this is the container of ALL fields on a particular content cell-based form */
-
-/* .inputs is the basic treatment for text fields and boxes */
-
-/* this is useful for calling attention to certain fields that may have failed validation; should be coupled with an inline validation message */
-/* this is a special element to replace a .inputs div */
-
-/* Special Rules */
-
-.C.no .C-cont form .fields {
-	padding: 22px 0px; 
+// Special Rules:
+.C form .fields {
+	padding:12px 0px 0px 20px;
 }
-

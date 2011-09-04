@@ -26,7 +26,7 @@
 		<div class="field">
 		  	<%= f.label t(:parent) %>
 		  	<div class="inputs">
-                        <%= f.select :parent_id, dfs_tree(Feed.roots).collect{|c| [raw("&nbsp;&nbsp;")* c.depth + c.name, c.id ]}, {:include_blank => true } %>
+	                       <%= f.select :parent_id, dfs_tree(Feed.roots).collect{|c| [raw("&nbsp;&nbsp;")* c.depth + c.name, c.id ]}, {:include_blank => true } %>
 			</div>
 		</div>
 		<div class="field">
@@ -35,18 +35,18 @@
 				<%= f.collection_select :group_id, Group.all, :id, :name %>
 			</div>
 		</div>
-                <div class="field">
-                        <%= f.label t(:is_viewable) %>
-                        <div class="inputs">
-                                <%= f.check_box :is_viewable %>
-                        </div>
-                </div>
-                <div class="field">
-                        <%= f.label t(:is_submittable) %>
-                        <div class="inputs">
-                                <%= f.check_box :is_submittable %>
-                        </div>
-                </div>
+	    <div class="field">
+			<%= f.label t(:is_viewable) %>
+			<div class="inputs">
+			        <%= f.check_box :is_viewable %>
+			</div>
+	    </div>
+	    <div class="field">
+			<%= f.label t(:is_submittable) %>
+			<div class="inputs">
+			        <%= f.check_box :is_submittable %>
+			</div>
+	    </div>
 	</div>
 
 	<div class="submit_bar actions">
