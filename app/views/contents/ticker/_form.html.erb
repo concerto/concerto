@@ -36,7 +36,6 @@ $('.word_count').each(function(){
   	<div class="inputs">
 		<%= form.text_field :name, :class => 'alert' %>
 	</div>
-	<div id="char_count">
 </div>
 <%= render :partial => 'contents/form_elements/duration', :locals => {:form => form, :min => 4, :max => 12} %>
 <%= render :partial => 'contents/form_elements/dates', :locals => {:form => form} %>
