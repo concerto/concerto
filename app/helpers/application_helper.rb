@@ -7,11 +7,9 @@ module ApplicationHelper
     tag("div", {:class => "C-header_back"}, true) + link_to(name, path, options) + raw("</div>")
   end
   
-  # Generate page titles
-  def yield_for_title(content_sym, default)
-    output = content_for(content_sym)
-    output = "#{ controller.action_name.titleize } - #{ controller.controller_name.titleize }" if output.blank?
-    output
+  # Generate page titles.
+  def yield_for_title(default)
+    content_for?(:title) ? content_for(:title) : default
   end
 
 end
