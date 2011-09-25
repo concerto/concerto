@@ -50,6 +50,14 @@ class ScreenTest < ActiveSupport::TestCase
     assert_equal 16, s.aspect_ratio[:width]
     assert_equal 9, s.aspect_ratio[:height]
   end
+  test "a screen has positions" do
+    s = screens(:one)
+    assert !s.positions.empty?
+  end
+  test "a screen has fields" do
+    s = screens(:one)
+    assert !s.fields.empty?
+  end
 
   # Authorization tests
   test "real users can create screens" do
