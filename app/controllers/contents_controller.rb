@@ -42,13 +42,12 @@ class ContentsController < ApplicationController
   # GET /contents/new
   # GET /contents/new.xml
   # Instantiate a new object of params[:type].
-  # If params[:type] is nil, use graphics as the default.
   # If the object isn't valid (FooBar) or isn't a 
   # child of Content (Feed) a 400 error is thrown.
   def new
-    #The default content type is "graphic"
+    #The default content type is defined in as default_upload_type in the settings.
     if params[:type].nil?
-      @content_const = "graphic".camelize.constantize
+      @content_const = Concerto::Application.config.default_upload_type.camelize.constantize
     end
     
     #We don't recognize the content type, or
