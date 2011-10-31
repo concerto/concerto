@@ -1,0 +1,8 @@
+<% @fields.each do |field| %>
+  <h1><%= field.name %></h1>
+  <% field.subscriptions.where(:screen_id => @screen.id).each do |subscription| %>
+    <%= render :partial => 'manage', :locals => {:screen => @screen, :subscription => subscription} %>
+  <% end %>
+  <% feeds = Feed.subscribable(@screen, field) %>
+  <%= render :partial => 'manage', :locals => {:screen => @screen, :subscription => Subscription.new(:field => field), :feeds => feeds} unless feeds.empty? %>
+<% end %>

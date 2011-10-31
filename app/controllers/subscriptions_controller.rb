@@ -16,6 +16,15 @@ class SubscriptionsController < ApplicationController
     end
   end
 
+  # GET /screen/:screen_id/subscriptions/manage
+  def manage
+    @fields = @screen.template.positions.collect{|p| p.field}
+
+    respond_to do |format|
+      format.html # manage.html.erb
+    end
+  end
+
   # GET /screen/:screen_id/subscriptions/1
   # GET /screen/:screen_id/subscriptions/1.xml
   def show

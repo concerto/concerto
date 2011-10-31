@@ -12,8 +12,8 @@
 
 <% @subscriptions.each do |subscription| %>
   <tr>
-    <td><%= subscription.feed.name %></td>
-    <td><%= subscription.field.name %></td>
+    <td><%= subscription.feed.name unless subscription.feed.nil? %></td>
+    <td><%= subscription.field.name  unless subscription.field.nil? %></td>
     <td><%= subscription.weight %></td>
     <td><%= link_to 'Show', screen_subscription_path(@screen, subscription) %></td>
     <td><%= link_to 'Edit', edit_screen_subscription_path(@screen, subscription) %></td>
@@ -24,4 +24,5 @@
 
 <br />
 
-<%= link_to 'New subscription', new_screen_subscription_path(@screen) %>
+<%= link_to 'New subscription', new_screen_subscription_path(@screen) %> |
+<%= link_to 'Manage subscriptions', manage_screen_subscriptions_path(@screen) %>

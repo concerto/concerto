@@ -1,0 +1,9 @@
+<%= form_for([screen, subscription]) do |f| %>
+  <% feeds ||= Feed.subscribable(screen, subscription.field) # Use feeds if it is passed, otherwise build list %>
+  <% feeds.push(subscription.feed) unless subscription.feed.nil? # Always show the selected value %>
+  <%= f.collection_select :feed_id, feeds, :id, :name %>
+  <%= f.text_field :weight %>
+  <%= f.hidden_field :field_id %>
+  <%= f.submit %>
+  <%= link_to 'Destroy', [screen, subscription], :confirm => 'Are you sure?', :method => :delete unless subscription.new_record?%>
+<% end %>
