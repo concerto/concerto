@@ -107,6 +107,12 @@ class FeedTest < ActiveSupport::TestCase
     assert feeds(:sleepy_announcements).self_and_siblings.include?(feeds(:sleepy_announcements))
   end
 
+  test "subscribable lists unsubscribed feeds" do
+    f = Feed.subscribable(screens(:one), fields(:one))
+    assert f.include?(feeds(:secret_announcements))
+    assert !f.include?(feeds(:announcements))
+  end
+
   # Authentication
 
   # Users reading feeds

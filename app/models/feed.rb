@@ -58,5 +58,13 @@ class Feed < ActiveRecord::Base
   def self_and_siblings
     parent ? parent.children : Feed.roots
   end
-  
+
+  # The set of feeds available to be subscribed to a (screen, field) pair.
+  # [All feeds - currently subscribed]
+  # TODO: Check permissions.
+  def self.subscribable(screen, field)
+    subscriptions = Subscription.where(:screen_id => screen, :field_id => field)
+    current_feeds = subscriptions.collect{ |s| s.feed }
+    Feed.all - current_feeds
+  end  
 end
