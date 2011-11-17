@@ -63,6 +63,10 @@ class Ability
     can :create, Membership do |membership|
       user.persisted? && membership.level == Membership::LEVELS[:pending]
     end
+
+    # Users can delete their own memberships.
+    can :destroy, Membership, :user => user
+
   end
 
   # Permission we grant screens

@@ -96,4 +96,12 @@ class MembershipTest < ActiveSupport::TestCase
     assert ability.can?(:create, m)
   end
 
+  test "Users can delete their own memberships" do
+    ability = Ability.new(users(:katie))
+    ability.can?(:destroy, memberships(:katie_rpitv))
+
+    ability = Ability.new(users(:kristen))
+    ability.can?(:destroy, memberships(:katie_rpitv))
+  end
+
 end
