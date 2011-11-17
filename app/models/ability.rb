@@ -14,6 +14,9 @@ class Ability
     # you can browse it's contents as well
     can :read, Feed, :is_viewable => true
 
+    # Group leaders are public, anyone can view them.
+    can :read, Membership, :level => Membership::LEVELS[:leader]
+
     # Load abilities based on the type of object.
     # We should do this at the bottom to make sure to 
     # override any generic attributes we assigned above.
@@ -50,6 +53,16 @@ class Ability
       feed.group.users.include?(user)
     end
 
+    # A group leader can manage all memberships
+    # that belong to their group.
+    can :manage, Membership do |membership|
+      membership.group.leaders.include?(user)
+    end
+
+    # Regular users can only create pending memberships.
+    can :create, Membership do |membership|
+      user.persisted? && membership.level == Membership::LEVELS[:pending]
+    end
   end
 
   # Permission we grant screens

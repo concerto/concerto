@@ -52,4 +52,48 @@ class MembershipTest < ActiveSupport::TestCase
     end
     @m.destroy
   end
+
+  # Authorization stuff
+  test "Only leaders are publically readable" do
+    ability = Ability.new(users(:kristen))
+    assert ability.can?(:read, memberships(:katie_wtg))
+    assert ability.cannot?(:read, memberships(:katie_rpitv))    
+  end
+
+  test "Regular users can only create pending" do
+    kristen = users(:kristen)
+    wtg = groups(:wtg)
+    ability = Ability.new(kristen)
+    m = Membership.new(:user => kristen, :group => wtg)
+    #The default level is pending
+    assert ability.can?(:create, m)
+    
+    m.level = Membership::LEVELS[:pending]
+    assert ability.can?(:create, m)
+
+    m.level = Membership::LEVELS[:regular]
+    assert ability.cannot?(:create, m)
+
+    m.level = Membership::LEVELS[:leader]
+    assert ability.cannot?(:create, m)
+  end
+
+  test "Group leaders can create anything" do
+    kristen = users(:kristen)
+    wtg = groups(:wtg)
+    ability = Ability.new(users(:katie))
+    m = Membership.new(:user => kristen, :group => wtg)
+    #The default level is pending
+    assert ability.can?(:create, m)
+
+    m.level = Membership::LEVELS[:pending]
+    assert ability.can?(:create, m)
+
+    m.level = Membership::LEVELS[:regular]
+    assert ability.can?(:create, m)
+
+    m.level = Membership::LEVELS[:leader]
+    assert ability.can?(:create, m)
+  end
+
 end
