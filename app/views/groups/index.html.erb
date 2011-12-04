@@ -1,23 +1,24 @@
-<h1>Listing groups</h1>
+<section class="C no">
+	<header>
+		<h1>All User Groups <%= link_to 'New Group', new_group_path, :class => "button" %></h1>
+	</header>
+	<div class="C-cont">
+		<article>
+			
+			<table>
+			  <tr>
+			    <th>Name</th>
+			    <th>Actions</th>
+			  </tr>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @groups.each do |group| %>
-  <tr>
-    <td><%= group.name %></td>
-    <td><%= link_to 'Show', group %></td>
-    <td><%= link_to 'Edit', edit_group_path(group) %></td>
-    <td><%= link_to 'Destroy', group, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New group', new_group_path %>
+			<% @groups.each do |group| %>
+			  <tr>
+			    <td><%= group.name %></td>
+			    <td><%= link_to 'Show', group %> <%= link_to 'Edit', edit_group_path(group) %> <%= link_to 'Destroy', group, :confirm => 'Are you sure?', :method => :delete %></td>
+			  </tr>
+			<% end %>
+			</table>
+		</article>
+		<div class="clear"></div>
+	</div>
+</section>

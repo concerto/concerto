@@ -3,98 +3,6 @@
 /*##########################################################################*/
 
 
-//////////////////
-
-form {
-	
-	h1 {
-		clear: both;
-		color: #333;
-   	font-size: 1.35em;
-   	font-weight: normal;
-   	border-bottom: solid 1px #999;
-   	padding-top: 22px;
-   	margin-bottom: 14px; 
-	}
-	
-	.clearfix {
-	  margin-bottom: $baseline;
-	  @include clearfix();
-	}
-	
-	fieldset {
-		
-		.field {
-			margin-bottom:10px;
-
-			label {
-				color:#666;
-				font-family: $sans-headers;
-				font-size:1em;
-				letter-spacing:0em;
-			}
-
-			.inputs, .fieldbox {
-     		clear:both;
-     		margin-bottom: 12px; 
-			}
-
-    	.inputs input, .fieldbox input {
-     		padding: 2px;
-     		background: #fefefe image-url('layout/forms/textfield_bg.png') top left repeat-x;
-     		border: solid 1px #999; 
-			}
-
-    	.inputs {
-
-	   		input {
-					width:100%;
-				}		
-		
-				textarea {
-       		width:100%;
-       		height: 100px;
-       		padding: 2px;
-       		background: #fefefe image-url('layout/forms/textfield_bg.png') top left repeat-x;
-       		border: solid 1px #999; 
-				}
-
-     		input.alert {
-       		border: solid 2px #cc3333; 
-				} 
-
-			}
-
-    	.fieldbox {
-     		border: solid 1px #ccc;
-     		padding: 4px 6px;
-				@include border-radius(6px);
-			}
-
-		}
-		
-	}
-
- 	.datetime input {
-   	padding-top: 3px !important;
-   	padding-bottom: 3px !important; 
-	}
-	
- 	.submit_bar {
-		background: white image-url('layout/C/submit_bar_bg.png') top left repeat-x;
-   	margin-top: 30px;
-   	padding: 16px 20px;
-   	text-align: right; 
-	}
-	 
-}
-
-// Special Rules:
-.C form .fields {
-	padding:12px 20px 0px 20px;
-}
-
-
 // Checkboxs and radio buttons
 input[type=checkbox],
 input[type=radio] {
@@ -289,8 +197,7 @@ textarea[readonly] {
 .actions {
   background: #f5f5f5;
   margin-top: $baseline;
-  margin-bottom: $baseline;
-  padding: ($baseline - 1) 20px $baseline 150px;
+  padding: ($baseline - 5) 20px;
   border-top: 1px solid #ddd;
   @include border-radius(0 0 3px 3px);
   .secondary-action {

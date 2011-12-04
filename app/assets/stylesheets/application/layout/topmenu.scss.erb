@@ -12,8 +12,8 @@ nav#TM {
  	background: image-url('layout/TM/TM_bg.png') top left repeat;
 	height:69px; 
 	
- 	a.button {
-		@extend a.button;  // uses a.button as a template, which in turn uses button-base mixin
+ 	.button {
+		@extend .button;  // uses a.button as a template, which in turn uses button-base mixin
 
 		// custom attributes:
 		@include border-radius(6px);
@@ -24,6 +24,7 @@ nav#TM {
    	height: 23px;
    	padding: 7px 20px 0px 20px;
    	border: solid 1px #999;
+		float: left;
 
    	&:hover {
      	text-shadow: 0 1px #eee;
@@ -93,7 +94,7 @@ nav#TM {
 		.TM-secbot {
 			h1 {
 				color: #666;
-		  	font-size: 0.6em;
+		  	font-size: 0.8em;
 		  	font-weight: 400;
 		  	text-shadow: 0 0.05em #FFF;
 		  	padding-top: 6px;
@@ -126,9 +127,9 @@ nav#TM {
 		    
 			div.TM-secbot p {
      		color: #666;
-     		font-size: 0.7em;
+     		font-size: 0.8em;
      		text-shadow: 0 0.05em #FFF;
-     		padding-top: 5px;
+     		padding-top: 3px;
 
      		a {
        		font-weight: bold;
