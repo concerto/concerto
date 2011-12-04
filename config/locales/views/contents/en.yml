@@ -22,11 +22,11 @@ en:
   
   #graphic/_form
   prohibited_save: "prohibited this content from being saved:"
-  upload_graphic: "1. Upload Graphic From Your Computer"
+  upload_graphic: "Upload Graphic From Your Computer"
   specify_file: "Specify File"
   accepted_filetypes: "Accepted Filetypes"
   provide_details: "Provide Basic Details"
-  select_feed: "3. Select Feed"
+  select_feed: "Select Feed"
   select_content_type: "Select Content Type to Add"
   
   #new

@@ -25,7 +25,6 @@
 	<section>
 		<div class="TM-sectop">
 			<%= link_to new_content_path, :class => "button #{ current_page?(new_content_path) ? 'selected' : '' }" do %><%= t(:add) %><% end %>
-			<%= link_to contents_path, :class => 'button' do %><%= t(:content) %><% end %>
 			<%= link_to contents_path, :class => 'button' do %><%= t(:browse) %><% end %>
 		</div>
 		<div class="TM-secbot">
@@ -33,6 +32,28 @@
 		</div>
 	</section>
 	<!-- End Menu for CONTENT -->
+	
+	<!-- Begin Menu for SCREENS -->
+	<section>
+		<div class="TM-sectop">
+			<%= link_to screens_path, :class => "button #{ controller.controller_name == 'screens' ? 'selected' : '' }" do %><%= t(:manage) %><% end %>
+		</div>
+		<div class="TM-secbot">
+			<h1><%= t(:screens) %></h1>
+		</div>
+	</section>
+	<!-- End Menu for SCREENS -->
+
+	<!-- Begin Menu for FEEDS -->
+	<section>
+		<div class="TM-sectop">
+			<%= link_to feeds_path, :class => "button #{ controller.controller_name == 'feeds' ? 'selected' : '' }" do %><%= t(:manage) %><% end %>
+		</div>
+		<div class="TM-secbot">
+			<h1><%= t(:feeds) %></h1>
+		</div>
+	</section>
+	<!-- End Menu for FEEDS -->
 	
 	<!-- Begin Menu for USER GROUPS -->
 	<section>
@@ -45,16 +66,7 @@
 	</section>
 	<!-- End Menu for USER GROUPS -->
 	
-	<!-- Begin Menu for SCREENS -->
-	<section>
-		<div class="TM-sectop">
-			<%= link_to screens_path, :class => "button #{ controller.controller_name == 'screens' ? 'selected' : '' }" do %><%= t(:manage) %><% end %>
-		</div>
-		<div class="TM-secbot">
-			<h1><%= t(:screens) %></h1>
-		</div>
-	</section>
-	<!-- End Menu for SCREENS -->
+
 
 </nav>
 <!--googleon: all-->

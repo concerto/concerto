@@ -9,48 +9,54 @@
 	  </ul>
 	</div>
 	<% end %>
-	
-	<div class="fields">	
-		<div class="field">
-		  	<%= f.label t(:name) %>
-		  	<div class="inputs">
-				<%= f.text_field :name %>
-			</div>
-		</div>
-		<div class="field">
-		  	<%= f.label t(:description) %>
-		  	<div class="inputs">
-				<%= f.text_area :description %>
-			</div>
-		</div>
-		<div class="field">
-		  	<%= f.label t(:parent) %>
-		  	<div class="inputs">
-	                       <%= f.select :parent_id, dfs_tree(Feed.roots).collect{|c| [raw("&nbsp;&nbsp;")* c.depth + c.name, c.id ]}, {:include_blank => true } %>
-			</div>
-		</div>
-		<div class="field">
-		  	<%= f.label t(:group) %>
-		  	<div class="inputs">
-				<%= f.collection_select :group_id, Group.all, :id, :name %>
-			</div>
-		</div>
-	    <div class="field">
-			<%= f.label t(:is_viewable) %>
-			<div class="inputs">
-			        <%= f.check_box :is_viewable %>
-			</div>
-	    </div>
-	    <div class="field">
-			<%= f.label t(:is_submittable) %>
-			<div class="inputs">
-			        <%= f.check_box :is_submittable %>
-			</div>
-	    </div>
-	</div>
 
+	<fieldset>
+		<div class="clearfix">
+			<%= f.label :name %>
+			<div class="input">
+				<%= f.text_field :name, :class => "span6" %>
+			</div>
+		</div>
+		
+		<div class="clearfix">
+			<%= f.label t(:description) %>
+		  <div class="input">
+				<%= f.text_area :description, :rows => 6, :class => "span6" %>
+			</div>
+		</div>
+		
+		<div class="clearfix">
+			<%= f.label t(:parent) %>
+	  	<div class="input">
+				<%= f.select :parent_id, dfs_tree(Feed.roots).collect{|c| [raw("&nbsp;&nbsp;")* c.depth + c.name, c.id ]}, {:include_blank => true }, :class => "span6" %>
+			</div>
+		</div>
+		
+		<div class="clearfix">
+			<%= f.label t(:group) %>
+	  	<div class="input">
+				<%= f.collection_select :group_id, Group.all, :id, :name, :class => "span6" %>
+			</div>
+		</div>
+		
+		<div class="clearfix">
+			<label>Other Options</label>
+			<div class="input">
+				<ul class="inputs-list">
+		      <li>
+		        <%= f.check_box :is_viewable %> <%= f.label :is_viewable %>
+		      </li>
+		      <li>
+		        <%= f.check_box :is_submittable %> <%= f.label :is_submittable %>
+		      </li>
+		    </ul>
+			</div>
+		</div>
+		
+	</fieldset>
+	
 	<div class="submit_bar actions">
-    	<%= f.submit t(:submit)%>
-		<div class="clear"></div>
-  	</div>
+		<%= f.submit %>
+	</div>
 <% end %>
+
