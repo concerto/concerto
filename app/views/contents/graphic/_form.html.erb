@@ -15,7 +15,7 @@ end
 <% end %>
 
 <fieldset>
-	<legend><%=t(:upload_graphic)%></legend>
+	<legend><span><%=t(:upload_graphic)%></span></legend>
 	<div class="clearfix">
 		<label><%=t(:specify_file)%></label>
 		<div class="input">
@@ -28,7 +28,7 @@ end
 </fieldset>
 	
 <fieldset>
-	<legend><%=t(:provide_details)%></legend>
+	<legend><span><%=t(:provide_details)%></span></legend>
 	<div class="clearfix">
   	<%= form.label :name %>
   	<div class="input">
@@ -48,7 +48,7 @@ end
 </fieldset>
 
 <fieldset>
-	<legend><%=t(:select_feed)%></legend>
+	<legend><span><%=t(:select_feed)%></span></legend>
 	<% if @content.new_record? %>
   <%= render :partial => 'contents/form_elements/feeds' %>
 	<% end %>

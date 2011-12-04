@@ -3,16 +3,26 @@
 
 // Groups of fields with labels on top (legends)
 fieldset {
-  margin-bottom: $baseline;
+  margin:$baseline 0px;
   padding-top: $baseline;
+
   legend {
-    display: block;
-    padding-left: 150px;
-    font-size: $basefont * 1.5;
-    line-height: 1;
-    color: $grayDark;
-    *padding: 0 0 5px 145px; /* IE6-7 */
-    *line-height: 1.5; /* IE6-7 */
+    border-bottom:solid 1px $grayLighter;
+		display: block;
+		width:100%;
+		padding: 18px 0px 6px 0px;
+
+		span {
+    	font-size: $basefont;
+			letter-spacing: 0.1em; 
+			text-transform: uppercase;
+			color: $gray;
+			line-height: 1;
+			padding-left: 150px;
+			*padding: 0 0 5px 145px; /* IE6-7 */
+    	*line-height: 1.5; /* IE6-7 */
+		}
+		
   }
 }
 
@@ -285,7 +295,7 @@ textarea[readonly] {
 // Actions (the buttons)
 .actions {
   background: #f5f5f5;
-  margin-top: $baseline;
+  margin-top: $baseline * 2;
   padding: ($baseline - 1) 20px $baseline 150px;
   border-top: 1px solid #ddd;
   @include border-radius(0 0 3px 3px);
