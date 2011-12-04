@@ -1,12 +1,8 @@
 <%= form_for(@content, :html => { :multipart => true }) do |f| %>
-	<div class="fields">
-		<%= render :partial => "contents/#{@content.type.underscore}/form", :locals => {:form => f} %>
-  		<div class="field">
-    		<%= hidden_field_tag :type, @content.type %>
-  		</div>
-  	</div>
+	<%= render :partial => "contents/#{@content.type.underscore}/form", :locals => {:form => f} %>
+	<%= hidden_field_tag :type, @content.type %>
+		
 	<div class="submit_bar actions">
 		<%= f.submit t(:submit)%>
-		<div class="clear"></div>
-  	</div>
+  </div>
 <% end %>

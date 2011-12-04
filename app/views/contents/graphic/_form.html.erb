@@ -14,38 +14,43 @@ end
 </div>
 <% end %>
 
-<h1><%=t(:upload_graphic)%></h1>
-<div class="field">
-  	<label><%=t(:specify_file)%></label>
-	<div class="fieldbox">
-		<%= form.fields_for :media do |media| %>
-    		<%= media.file_field :file %>
-    		<%= media.hidden_field :key %>
-  		<% end %>
-    </div>
-  </div>
-<div class="field">
-  <label><%=t(:accepted_filetypes)%></label>
-  <div><%= image_tag('elements/filetype-icons.jpg') %></div>
-</div>
-
-<h1><%=t(:provide_details)%></h1>
-<div class="field">
+<fieldset>
+	<legend><%=t(:upload_graphic)%></legend>
+	<div class="clearfix">
+		<label><%=t(:specify_file)%></label>
+		<div class="input">
+			<%= form.fields_for :media do |media| %>
+			<%= media.file_field :file %>
+			<%= media.hidden_field :key %>
+			<% end %>
+		</div>
+	</div>
+</fieldset>
+	
+<fieldset>
+	<legend><%=t(:provide_details)%></legend>
+	<div class="clearfix">
   	<%= form.label :name %>
-  	<div class="inputs">
-		<%= form.text_field :name, :class => 'alert' %>
+  	<div class="input">
+			<%= form.text_field :name, :class => 'alert' %>
+		</div>
 	</div>
-</div>
-<%= render :partial => 'contents/form_elements/duration', :locals => {:form => form, :min => 4, :max => 12} %>
-<%= render :partial => 'contents/form_elements/dates', :locals => {:form => form} %>
-<div class="field">
-  <%= form.label :user %>
-  <div class="inputs">
-		<%= form.collection_select :user_id, User.all, :id, :name %>
+	
+	<%= render :partial => 'contents/form_elements/duration', :locals => {:form => form, :min => 4, :max => 12} %>
+	<%= render :partial => 'contents/form_elements/dates', :locals => {:form => form} %>
+	
+	<div class="clearfix">
+		<%= form.label :user %>
+	  <div class="input">
+			<%= form.collection_select :user_id, User.all, :id, :name %>
+		</div>
 	</div>
-</div>
-<h1><%=t(:select_feed)%></h1>
-<% if @content.new_record? %>
+</fieldset>
+
+<fieldset>
+	<legend><%=t(:select_feed)%></legend>
+	<% if @content.new_record? %>
   <%= render :partial => 'contents/form_elements/feeds' %>
-<% end %>
+	<% end %>
+</fieldset>
 	
