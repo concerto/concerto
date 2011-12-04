@@ -9,55 +9,61 @@
 	  </ul>
 	</div>
 	<% end %>
-	<div class="fields">
-		<div class="field">
+
+	<fieldset>
+		<div class="clearfix">
 			<%= f.label :name %>
-			<div class="inputs">
-				<%= f.text_field :name %>
+			<div class="input">
+				<%= f.text_field :name, :class => "span6" %>
 			</div>
 		</div>
-		<div class="field">
+		
+		<div class="clearfix">
 			<%= f.label :location %>
-			<div class="inputs">
-				<%= f.text_field :location %>
+			<div class="input">
+				<%= f.text_field :location, :class => "span6" %>
 			</div>
 		</div>
-		<div class="field">
-			<%= f.label :is_public %>
-			<div class="inputs">
-				<%= f.check_box :is_public %>
+		
+		<div class="clearfix">
+			<label>Screen Dimensions</label>
+			<div class="input">
+				<div class="inline-inputs">
+					<%= f.text_field :width, :class => "span2" %> (W) x <%= f.text_field :height, :class => "span2" %> (H)
+				</div>
 			</div>
-		</div>        
-		<div class="field">
-			<%= f.label :owner %>
-			<div class="inputs">
-                          <% options = {'Users' => @users.map{|u| [u.name, "User-#{u.id}"]},
-                                        'Groups' => @groups.map{|g| [g.name, "Group-#{g.id}"]}} %> 
-                          <%= select_tag :owner, grouped_options_for_select(options, "#{@screen.owner_type}-#{@screen.owner_id}") %>
-			</div>
-		</div>		
-		<div class="field">
+		</div>
+		
+		<div class="clearfix">
 			<%= f.label :template %>
-			<div class="inputs">
+			<div class="input">
 				<%= f.collection_select :template_id, @templates, :id, :name %>
 			</div>
 		</div>
-                <div class="field">
-                        <%= f.label :width %>
-                        <div class="inputs">
-                                <%= f.text_field :width %>
-                        </div>
-                </div>
-                <div class="field">
-                        <%= f.label :height %>
-                        <div class="inputs">
-                                <%= f.text_field :height %>
-                        </div>
-                </div>
-	</div>
+		
+		<div class="clearfix">
+			<%= f.label :owner %>
+			<div class="input">
+	      <% options = {'Users' => @users.map{|u| [u.name, "User-#{u.id}"]},
+	                    'Groups' => @groups.map{|g| [g.name, "Group-#{g.id}"]}} %> 
+	      <%= select_tag :owner, grouped_options_for_select(options, "#{@screen.owner_type}-#{@screen.owner_id}") %>
+			</div>
+		</div>
+		
+		<div class="clearfix">
+			<label>Visibility</label>
+			<div class="input">
+				<ul class="inputs-list">
+		      <li>
+		        <%= f.check_box :is_public %> <%= f.label :is_public %>
+		      </li>
+		    </ul>
+			</div>
+		</div>
+	</fieldset>
 	
 	<div class="submit_bar actions">
-	  	<%= f.submit %>
-		<div class="clear"></div>
+		<%= f.submit %>
 	</div>
 <% end %>
+

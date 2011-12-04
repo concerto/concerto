@@ -1,31 +1,32 @@
-<h1>Listing screens</h1>
+<section class="C no">
+	<header>
+		<h1>All Screens <%= link_to 'New Screen', new_screen_path, :class => "button" %></h1>
+	</header>
+	<div class="C-cont">
+		<article>
+			
+			<table>
+			  <tr>
+			    <th>Name</th>
+			    <th>Location</th>
+			    <th>Is public</th>
+			    <th>Owner</th>
+			    <th>Template</th>
+					<th>Actions</th>
+			  </tr>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Location</th>
-    <th>Is public</th>
-    <th>Owner</th>
-    <th>Template</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @screens.each do |screen| %>
-  <tr>
-    <td><%= screen.name %></td>
-    <td><%= screen.location %></td>
-    <td><%= screen.is_public %></td>
-    <td><%= screen.owner.name %></td>
-    <td><%= screen.template.name %></td>
-    <td><%= link_to 'Show', screen %></td>
-    <td><%= link_to 'Edit', edit_screen_path(screen) %></td>
-    <td><%= link_to 'Destroy', screen, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New screen', new_screen_path %>
+				<% @screens.each do |screen| %>
+			  <tr>
+			    <td><%= screen.name %></td>
+			    <td><%= screen.location %></td>
+			    <td><%= screen.is_public %></td>
+			    <td><%= screen.owner.name %></td>
+			    <td><%= screen.template.name %></td>
+			    <td><%= link_to 'Show', screen %> <%= link_to 'Edit', edit_screen_path(screen) %> <%= link_to 'Destroy', screen, :confirm => 'Are you sure?', :method => :delete %></td>
+				</tr>
+			<% end %>
+			</table>
+		</article>
+		<div class="clear"></div>
+	</div>
+</section>

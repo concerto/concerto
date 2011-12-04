@@ -25,7 +25,7 @@
 	<section>
 		<div class="TM-sectop">
 			<%= link_to new_content_path, :class => "button #{ current_page?(new_content_path) ? 'selected' : '' }" do %><%= t(:add) %><% end %>
-			<%= link_to contents_path, :class => 'button' do %><%= t(:browse) %><% end %>
+			<%= link_to contents_path, :class => "button #{ current_page?(contents_path) ? 'selected' : '' }" do %><%= t(:browse) %><% end %>
 		</div>
 		<div class="TM-secbot">
 			<h1><%= t(:content) %></h1>
