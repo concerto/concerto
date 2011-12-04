@@ -7,27 +7,27 @@
 
 .MS-frame {
 	header h1 {
-    	display: block;
-    	color: #666;
-    	margin-left: 30px;
-    	font-size: 1.8em;
-    	text-shadow: 0 1px #FFF;
-    	letter-spacing: -0.05em;
-    	margin-bottom: 4px; 
+   	display: block;
+   	color: #666;
+   	margin-left: 30px;
+   	font-size: 1.8em;
+   	text-shadow: 0 1px #FFF;
+   	letter-spacing: -0.05em;
+   	margin-bottom: 4px; 
 	}
 	
-  	.MS-outer {
-    	background: image-url('layout/MS/outer.png') repeat;
-    	padding: 6px;
-		@include border-radius(20px);
-			margin-bottom: 22px; 
+ 	.MS-outer {
+   	@include border-radius(20px);
+		background: image-url('layout/MS/outer.png') repeat;
+   	padding: 6px;
+		margin-bottom: 22px; 
 	}
 	
-  	article {
-    	display: block;
-    	background: image-url('layout/MS/inner.png') repeat;
-		@include border-radius(14px);
-			padding: 17px;
+ 	article {
+   	@include border-radius(14px);
+		display: block;
+   	background: image-url('layout/MS/inner.png') repeat;
+		padding: 17px;
 	} 
 	
 	// Modal Selector (ML)
@@ -42,15 +42,15 @@
 
 			a {
 				color: #FFF;
-	  			text-decoration: none;
+  			text-decoration: none;
 				@include border-radius(8px);
-					background: image-url('layout/MS/iconlist_inactive.png') repeat;
-	  			border: solid 1px #999;
-	  			opacity: 0.5;
+				background: image-url('layout/MS/iconlist_inactive.png') repeat;
+  			border: solid 1px #999;
+  			opacity: 0.5;
 				color:#FFF;
 
-	  			&:hover {
-	    			opacity: 1; 
+	  		&:hover {
+    			opacity: 1; 
 					background:#333;
 				}
 				
@@ -58,13 +58,15 @@
 					@include no-box-shadow;
 				}
 
-	  			h2 {
-	    			font-size: 1.5em;
-	    			color: #FFF !important; 
+	  		h2 {
+    			font-size: 1.5em;
+    			color: #FFF !important; 
 				}
 
 			}
+			
 		}
+		
 	}
 	
 }

@@ -8,34 +8,34 @@
 /*##########  STRUCTURE  ##########*/
 
 nav#TM {
-  	width: 100%;
-  	background: image-url('layout/TM/TM_bg.png') top left repeat;
+ 	width: 100%;
+ 	background: image-url('layout/TM/TM_bg.png') top left repeat;
 	height:69px; 
 	
-  	a.button {
+ 	a.button {
 		@extend a.button;  // uses a.button as a template, which in turn uses button-base mixin
 
 		// custom attributes:
 		@include border-radius(6px);
 		background: transparent image-url('layout/TM/button_TM_states.png') top left repeat-x;
-    	color: #666;
-    	text-shadow: 0 1px #eee;
-    	margin: 0px 2px;
-    	height: 23px;
-    	padding: 7px 20px 0px 20px;
-    	border: solid 1px #999;
+   	color: #666;
+   	text-shadow: 0 1px #eee;
+   	margin: 0px 2px;
+   	height: 23px;
+   	padding: 7px 20px 0px 20px;
+   	border: solid 1px #999;
 
-    	&:hover {
-      		text-shadow: 0 1px #eee;
-      		background-position: 100% -31px;
-      		border: solid 1px #2f84da; 
+   	&:hover {
+     	text-shadow: 0 1px #eee;
+   		background-position: 100% -31px;
+   		border: solid 1px #2f84da; 
 		}
 
-    	&:active {
-      		background-position: 100% -62px;
-      		border: solid 1px #333;
+    &:active {
+   		background-position: 100% -62px;
+   		border: solid 1px #333;
 			height: 22px;
-      		padding: 8px 20px 0px 20px; 
+   		padding: 8px 20px 0px 20px; 
 		}
 
 		&:visited {
@@ -44,94 +44,101 @@ nav#TM {
 		
 		&.selected {
 			@include box-shadow(inset 0 0 10px #000);
-	    	text-decoration: none;
-	    	text-shadow: 0 -1px #333333;
-	    	color: #FFF;
-	    	background-position: 100% 100%;
-	    	border: solid 1px #333;
+    	text-decoration: none;
+    	text-shadow: 0 -1px #333333;
+    	color: #FFF;
+    	background-position: 100% 100%;
+    	border: solid 1px #333;
 	
 			&:active {
 				color:#FFF;
 				padding: 7px 20px 0px 20px;
 				height:23px;
 			}
+			
 		}
+		
 	}
 	
 	a#TM-logobutton {
-	  	z-index: 100;
-	  	width: 96px;
-	  	height: 88px;
-	  	background: image-url('layout/TM/TM_logobutton.png') top left no-repeat;
-	  	background-position: 0px 0px;
-	  	border: 0px;
-	  	display: block;
-	  	position: absolute;
-	  	top: 0px;
-	  	left: 0px;
-	
-	  	&:hover {
-	    	background-position: -96px 0px; 
+  	z-index: 100;
+  	width: 96px;
+  	height: 88px;
+  	background: image-url('layout/TM/TM_logobutton.png') top left no-repeat;
+  	background-position: 0px 0px;
+  	border: 0px;
+  	display: block;
+  	position: absolute;
+  	top: 0px;
+  	left: 0px;
+
+  	&:hover {
+    	background-position: -96px 0px; 
 		} 
+		
 	}
 	
 	// each part of the menu is a "section"
 	section {	
 		border-right:solid 1px #ccc; 
 		height: 59px;
-	  	float: left;
-	  	margin: 0px;
+  	float: left;
+  	margin: 0px;
 		padding: 4px 2px 0px 2px;
 	
 		.TM-sectop {
-		  	height: 38px; 
+	  	height: 38px; 
 		}
 		
 		.TM-secbot {
 			h1 {
 				color: #666;
-			  	font-size: 0.6em;
-			  	font-weight: 400;
-			  	text-shadow: 0 0.05em #FFF;
-			  	padding-top: 6px;
-			  	text-transform: uppercase;
-			  	letter-spacing: 0.3em;
-			  	text-align: center;
+		  	font-size: 0.6em;
+		  	font-weight: 400;
+		  	text-shadow: 0 0.05em #FFF;
+		  	padding-top: 6px;
+		  	text-transform: uppercase;
+		  	letter-spacing: 0.3em;
+		  	text-align: center;
 			}
+			
 		}
 		
 		// applies only to login section (leftmost in top menu)
 		&#LG-inner {
-		  	float: left;
-		  	width: 153px;
-		  	height: 60px;
-		  	padding: 3px 28px 0px 54px;
-		  	background: image-url('layout/LG_bluebg.png') top right no-repeat;
-		
-		  	div.TM-sectop p {
-	      		color: #FFF;
-	      		font-size: 1em;
-	      		text-shadow: 0px -1px 0px $black;
-	      		padding-top: 4px;
+	  	float: left;
+	  	width: 153px;
+	  	height: 60px;
+	  	padding: 3px 28px 0px 54px;
+	  	background: image-url('layout/LG_bluebg.png') top right no-repeat;
 	
-	      		a {
-	        		color: #FFF; 
-				} 
+	  	div.TM-sectop p {
+     		color: #FFF;
+     		font-size: 1em;
+     		text-shadow: 0px -1px 0px $black;
+     		padding-top: 4px;
+
+     		a {
+       		color: #FFF; 
+				}
+				 
 			}
 		    
 			div.TM-secbot p {
-	      		color: #666;
-	      		font-size: 0.7em;
-	      		text-shadow: 0 0.05em #FFF;
-	      		padding-top: 5px;
-	
-	      		a {
-	        		font-weight: bold;
-	        		color: #666; 
+     		color: #666;
+     		font-size: 0.7em;
+     		text-shadow: 0 0.05em #FFF;
+     		padding-top: 5px;
+
+     		a {
+       		font-weight: bold;
+       		color: #666; 
 				} 
+				
 			} 
 
 		}
 		
 	}
+	
 }
