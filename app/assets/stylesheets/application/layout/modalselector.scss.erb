@@ -23,15 +23,15 @@
   	.MS-outer {
     	background: image-url('layout/MS/outer.png') repeat;
     	padding: 6px;
-		@include rounded(20px, 20px, 20px, 20px);
-    	margin-bottom: 22px; 
+		@include border-radius(20px);
+			margin-bottom: 22px; 
 	}
 	
   	article {
     	display: block;
     	background: image-url('layout/MS/inner.png') repeat;
-		@include rounded(14px, 14px, 14px, 14px);
-    	padding: 17px;
+		@include border-radius(14px);
+			padding: 17px;
 	} 
 	
 	// Modal Selector (ML)
@@ -47,8 +47,8 @@
 			a {
 				color: #FFF;
 	  			text-decoration: none;
-				@include rounded(8px, 8px, 8px, 8px);
-	  			background: image-url('layout/MS/iconlist_inactive.png') repeat;
+				@include border-radius(8px);
+					background: image-url('layout/MS/iconlist_inactive.png') repeat;
 	  			border: solid 1px #999;
 	  			opacity: 0.5;
 				color:#FFF;

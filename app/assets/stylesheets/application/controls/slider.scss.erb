@@ -8,7 +8,7 @@
 @import "buttons";
 
 .slider {
-	@include rounded(5px, 5px, 5px, 5px);
+	@include border-radius(5px);
 	background: #E2E2E2 repeat-x 0 0;
 	height: 6px;
   	position: relative;
@@ -54,8 +54,8 @@
 }
 
 .range {
-  	@include rounded(5px, 5px, 5px, 5px);
-	border: 1px inset #ddd;
+  	@include border-radius(5px);
+		border: 1px inset #ddd;
   	float: left;
   	font-size: 20px;
   	text-align: center;
