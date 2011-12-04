@@ -12,7 +12,7 @@
 // this mixin is used as a template for all buttons:
 @mixin button-base {
 	@include no-box-shadow;
-	@include rounded(4px, 4px, 4px, 4px);
+	@include border-radius(4px);
 	padding:5px 20px 5px 20px;
 	float: left;
   	cursor: pointer;
@@ -62,7 +62,7 @@ a.button {
 	// back button:
 	&.back {
 		@include no-box-shadow;
-		@include rounded(0px, 4px, 4px, 0px);
+		@include border-radius-corners(0px, 4px, 4px, 0px);
 		background: transparent image-url('layout/button_back_states.png') no-repeat scroll top left;
     	font-size: 0.7em;
     	border: 0;
