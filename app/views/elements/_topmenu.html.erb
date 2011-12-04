@@ -2,12 +2,14 @@
 
 <nav id="TM">
 	
-	<a href="#" id="TM-logobutton"></a>
-	
 	<!-- Begin User Login Area -->
 	<section id="LG-inner">
 		<div class="TM-sectop">
-			<% if user_signed_in? %><p><b><%= current_user.name %></b></p><% end %>
+			<% if user_signed_in? %>
+			<p><b><%= current_user.name %></b></p>
+			<% else %>
+			<p><b>Concerto</b></p>
+			<% end %>
 		</div>
 		<div class="TM-secbot">
 		    <% if user_signed_in? %>

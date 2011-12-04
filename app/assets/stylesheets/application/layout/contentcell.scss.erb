@@ -3,9 +3,6 @@
 /*##########################################################################*/
 
 
-@import "../base/variables";
-@import "../base/mixins";
-
 //////////////////
 
 
@@ -22,19 +19,20 @@ section.C {
 	
 	header {
     	@include border-radius-corners(8px, 8px, 0px, 0px);
-		display: block;
+			display: block;
     	background: #FFF image-url('layout/C/header_bg.png') bottom left repeat-x;
-    	padding: 12px 14px;
+    	padding: 6px 14px;
     	padding-bottom: 5px;
     	border: solid 1px #ababab;
     	border-bottom: 0px;
 		
     	h1 {
       		color: #666;
-      		font-size: 1.8em;
-      		letter-spacing: -0.05em;
+      		font-size: 1.2em;
+      		letter-spacing: 0.05em;
       		text-shadow: 0 1px #eee;
-      		padding-top: 9px; 
+      		padding-top: 9px;
+ 					//text-transform: uppercase;
 		} 
 
 		// element inside the header that can be optionally used for right-aligned 

@@ -1,13 +1,14 @@
-@import "base/reset";
-@import "base/variables";
-@import "base/mixins";
-@import "base/headers";
-@import "base/forms";
+@import "common/variables";
+@import "common/mixins";
+@import "common/reset";
 
 @import "controls/buttons";
 @import "controls/datetime";
 @import "controls/slider";
 
+@import "layout/scaffolding";
+@import "layout/headers";
+@import "layout/forms";
 @import "layout/colframe";
 @import "layout/contentcell";
 @import "layout/gridlist";
