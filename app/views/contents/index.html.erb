@@ -12,7 +12,7 @@
 					<ul class="tabs">
 					  <li class="legend">Sub-feeds:</li>
 						<% @feeds.each do |feed| %>
-						<li><%= link_to feed, :remote => true do %><%= feed.name %> (<span class="count"><%= feed.approved_contents.count %></span>)<% end %></li>
+						<li><%= link_to feed, :remote => true do %><%= feed.name %> <span class="count">(<%= feed.approved_contents.count %>)</span><% end %></li>
 						<% end %>
 					</ul>
 				</div>
