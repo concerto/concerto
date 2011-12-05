@@ -1,27 +1,28 @@
-<h1>Listing users</h1>
+<section class="C no">
+	<header>
+		<h1>All Users <%= link_to 'New User', new_user_path, :class => "button" %></h1>
+	</header>
+	<div class="C-cont">
+		<article>
+			
+			<table>
+			  <tr>
+			    <th>First name</th>
+			    <th>Last name</th>
+			    <th>Email</th>
+					<th>Actions</th>
+			  </tr>
 
-<table>
-  <tr>
-    <th>First name</th>
-    <th>Last name</th>
-    <th>Email</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @users.each do |user| %>
-  <tr>
-    <td><%= user.first_name %></td>
-    <td><%= user.last_name %></td>
-    <td><%= user.email %></td>
-    <td><%= link_to 'Show', user %></td>
-    <td><%= link_to 'Edit', edit_user_path(user) %></td>
-    <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New User', new_user_path %>
+				<% @users.each do |user| %>
+			  <tr>
+			    <td><%= user.first_name %></td>
+			    <td><%= user.last_name %></td>
+			    <td><%= user.email %></td>
+			    <td><%= link_to 'Show', user %> <%= link_to 'Edit', edit_user_path(user) %> <%= link_to 'Destroy', screen, :confirm => 'Are you sure?', :method => :delete %></td>
+				</tr>
+			<% end %>
+			</table>
+		</article>
+		<div class="clear"></div>
+	</div>
+</section>

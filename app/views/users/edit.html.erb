@@ -1,6 +1,12 @@
-<h1>Editing user</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>
+<section class="C no">
+	<header>
+		<%= back_button users_path %>
+		<h1>Edit User</h1>
+	</header>
+	<div class="C-cont">
+		<article>
+			<%= render 'form' %>
+		</article>
+		<div class="clear"></div>
+	</div>
+</section>

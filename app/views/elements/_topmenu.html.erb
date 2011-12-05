@@ -59,6 +59,7 @@
 	<section>
 		<div class="TM-sectop">
 			<%= link_to groups_path, :class => "button #{ controller.controller_name == 'groups' ? 'selected' : '' }" do %><%= t(:groups) %><% end %>
+			<%= link_to users_path, :class => "button #{ controller.controller_name == 'users' ? 'selected' : '' }" do %>Accounts<% end %>
 		</div>
 		<div class="TM-secbot">
 			<h1><%= t(:users) %></h1>
