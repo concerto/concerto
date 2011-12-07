@@ -20,14 +20,19 @@ en:
   #form_elements/_feeds
   no_feeds: "There are no feeds in the system that you can submit content to.  Please contact your system administrator for more information."
   
-  #graphic/_form
+  #content/form
   prohibited_save: "prohibited this content from being saved:"
-  upload_graphic: "Upload Graphic From Your Computer"
-  specify_file: "Specify File"
-  accepted_filetypes: "Accepted Filetypes"
   provide_details: "Provide Basic Details"
   select_feed: "Select Feed"
   select_content_type: "Select Content Type to Add"
+
+  #graphic/form
+  upload_graphic: "Upload Graphic From Your Computer"
+  specify_file: "Specify File"
+  accepted_filetypes: "Accepted Filetypes"
+
+  #ticker/form
+  upload_ticker: "Type Your Message"
   
   #new
   select_type: "Select Type"

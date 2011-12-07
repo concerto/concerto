@@ -1,8 +1,35 @@
 <%= form_for(@content, :html => { :multipart => true }) do |f| %>
-	<%= render :partial => "contents/#{@content.type.underscore}/form", :locals => {:form => f} %>
-	<%= hidden_field_tag :type, @content.type %>
-		
-	<div class="submit_bar actions">
-		<%= f.submit t(:submit)%>
-  </div>
+  <%= hidden_field_tag :type, @content.type %>
+  <% if lookup_context.exists?("#{@content.type.underscore}/form_full", ['contents'], true) %>
+    <%= render :partial => "contents/#{@content.type.underscore}/form_full", :locals => {:form => f} %>
+  <% else %>
+     <% if @content.errors.any? %>
+       <div id="errorExplanation">
+         <h2><%= pluralize(@content.errors.count, "error") + t(:prohibited_save) %></h2>
+         <ul>
+           <% @content.errors.full_messages.each do |msg| %>
+             <li><%= msg %></li>
+           <% end %>
+         </ul>
+       </div>
+     <% end %>
+
+     <% if lookup_context.exists?("#{@content.type.underscore}/form_top", ['contents'], true) %>
+       <%= render :partial => "contents/#{@content.type.underscore}/form_top", :locals => {:form => f} %>
+     <% else %>
+       <%= render :partial => "form_top", :locals => {:form => f} %>
+     <% end %>
+
+     <% if lookup_context.exists?("#{@content.type.underscore}/form_middle", ['contents'], true) %>
+       <%= render :partial => "contents/#{@content.type.underscore}/form_middle", :locals => {:form => f} %>
+     <% else %>
+       <%= render :partial => "form_middle", :locals => {:form => f} %>
+     <% end %>
+
+     <% if lookup_context.exists?("#{@content.type.underscore}/form_bottom", ['contents'], true) %>
+       <%= render :partial => "contents/#{@content.type.underscore}/form_bottom", :locals => {:form => f} %>
+     <% else %>
+       <%= render :partial => "form_bottom", :locals => {:form => f} %>
+     <% end %>
+  <% end %>
 <% end %>
