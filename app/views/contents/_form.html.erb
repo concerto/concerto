@@ -1,7 +1,8 @@
 <%= form_for(@content, :html => { :multipart => true }) do |f| %>
+<% type_folder = "contents/#{@content.type.underscore}" %>
   <%= hidden_field_tag :type, @content.type %>
-  <% if lookup_context.exists?("#{@content.type.underscore}/form_full", ['contents'], true) %>
-    <%= render :partial => "contents/#{@content.type.underscore}/form_full", :locals => {:form => f} %>
+  <% if lookup_context.exists?("#{type_folder}/form_full", [], true) %>
+    <%= render :partial => "#{type_folder}/form_full", :locals => {:form => f} %>
   <% else %>
      <% if @content.errors.any? %>
        <div id="errorExplanation">
@@ -13,23 +14,8 @@
          </ul>
        </div>
      <% end %>
-
-     <% if lookup_context.exists?("#{@content.type.underscore}/form_top", ['contents'], true) %>
-       <%= render :partial => "contents/#{@content.type.underscore}/form_top", :locals => {:form => f} %>
-     <% else %>
-       <%= render :partial => "form_top", :locals => {:form => f} %>
-     <% end %>
-
-     <% if lookup_context.exists?("#{@content.type.underscore}/form_middle", ['contents'], true) %>
-       <%= render :partial => "contents/#{@content.type.underscore}/form_middle", :locals => {:form => f} %>
-     <% else %>
-       <%= render :partial => "form_middle", :locals => {:form => f} %>
-     <% end %>
-
-     <% if lookup_context.exists?("#{@content.type.underscore}/form_bottom", ['contents'], true) %>
-       <%= render :partial => "contents/#{@content.type.underscore}/form_bottom", :locals => {:form => f} %>
-     <% else %>
-       <%= render :partial => "form_bottom", :locals => {:form => f} %>
-     <% end %>
+     <%= render_partial_if("form_top", "#{type_folder}/form_top", {:form => f}) %>
+     <%= render_partial_if("form_middle", "#{type_folder}/form_middle", {:form => f}) %>
+     <%= render_partial_if("form_bottom", "#{type_folder}/form_bottom", {:form => f}) %>
   <% end %>
 <% end %>
