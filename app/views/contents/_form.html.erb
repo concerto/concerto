@@ -14,8 +14,8 @@
          </ul>
        </div>
      <% end %>
-     <%= render_partial_if("form_top", "#{type_folder}/form_top", {:form => f}) %>
-     <%= render_partial_if("form_middle", "#{type_folder}/form_middle", {:form => f}) %>
-     <%= render_partial_if("form_bottom", "#{type_folder}/form_bottom", {:form => f}) %>
+     <%= render_partial_if("#{type_folder}/form_top", "form_top", {:form => f}) %>
+     <%= render_partial_if("#{type_folder}/form_middle", "form_middle", {:form => f}) %>
+     <%= render_partial_if("#{type_folder}/form_bottom", "form_bottom", {:form => f}) %>
   <% end %>
 <% end %>

@@ -12,13 +12,13 @@ module ApplicationHelper
     content_for?(:title) ? content_for(:title) : default
   end
 
-  # Render the partial specified in optional if it exists within
+  # Render the partial at the specified path if it exists within
   # the lookup_context, otherwise render the partial specified in default.
   # Locals are passed along accordingly.
-  def render_partial_if(default, optional="", locals={})
-    if lookup_context.exists?(optional, [], true)
-      render :partial => optional, :locals => locals
-    else
+  def render_partial_if(partial, default=nil, locals={})
+    if lookup_context.exists?(partial, [], true)
+      render :partial => partial, :locals => locals
+    elsif !default.blank?
       render :partial => default, :locals => locals
     end
   end
