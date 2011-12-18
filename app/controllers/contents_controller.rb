@@ -132,7 +132,7 @@ class ContentsController < ApplicationController
     @content = Content.find(params[:id])
     if stale?(:etag => params, :last_modified => @content.updated_at.utc, :public => true)
       @file = @content.render(params)
-      send_data @file.file_data, :filename => @file.file_name, :type => @file.file_type, :disposition => 'inline'
+      send_data @file.file_contents, :filename => @file.file_name, :type => @file.file_type, :disposition => 'inline'
     end
   end
 
