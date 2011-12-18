@@ -7,14 +7,33 @@
 
 
 @mixin gridlist-item {
-	@include border-radius(6px);
 	list-style: none;
 	float: left;
-	margin: 3px 6px;
-	padding: 8px;
-	width:180px;
-	height:200px;
+	min-width: 150px;
+	width:20%;
+	height:80px;
 	text-align:center;
+	
+	a {	 // in this case, the singular gridlist item is ul li a
+		padding: 8px;
+		border-right: solid 1px $grayLight;
+		border-bottom: solid 1px $grayLight;
+		height: 64px;
+		display: block;
+		text-decoration:none;
+		
+		&:visited {
+			color:#666;
+		}
+		
+		// these elements come along for the ride by bringing in gridlist-item mixin:
+		img { }
+		.content {
+			h1 { }
+			p {	}
+		}
+		
+	}
 	
 	img {
 		@include box-shadow(0 3px 2px #ababab);
@@ -44,25 +63,12 @@
 }
 
 ul.GL {
-	padding: 9px 6px;
+	border-top:solid 1px $grayLight;
+	margin: 0px;
+	padding: 0px;
 	
 	li {
-		a {	 // in this case, the singular gridlist item is ul li a
-			@include gridlist-item;
-			text-decoration:none;
-			
-			&:visited {
-				color:#666;
-			}
-			
-			// these elements come along for the ride by bringing in gridlist-item mixin:
-			img { }
-			.content {
-				h1 { }
-				p {	}
-			}
-			
-		}
+		@include gridlist-item;
 		
 	}
 	

@@ -1,4 +1,52 @@
-<h1>The following content is pending moderation:</h1>
-<% @submissions.each do |submission| %>
-  <%= link_to submission.content.name, [submission.feed, submission] %><br />
-<% end %>
+<section class="C no">
+	<header>
+		<span class="label">Browse Content</span>
+		<h1 id="contentlist"><%= link_to "All Feeds", feeds_path %> > <%= @this_feed.name %></h1>
+	</header> 
+	<div class="C-cont">
+		<article>
+			<div class="subnav clearfix">
+				<div class="pull-left" style="width:8%;">
+					<a href="#" class="button">Jump to Feed...</a>
+				</div>
+				<div class="pull-right" style="width:91%;">
+					
+					<ul class="tabs">
+					  <li class="legend">Sub-feeds:</li>
+						<% @sub_feeds.each do |feed| %>
+						<li><%= link_to feed, :remote => true do %><%= feed.name %> <span class="count">(<%= feed.approved_contents.count %>)</span><% end %></li>
+						<% end %>
+					</ul>
+					
+				</div>
+			</div>
+			<div id="content_holder">
+				
+				<ul class="GL">
+					<% @submissions.each do |submission| %>
+				  <li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+					<% end %>
+				</ul>
+				
+				<%#= render :partial => @content_display, :locals => {:contents => @contents, :is_ajax => true} %>
+			</div>
+		</article> 
+		<div class="clear"></div>
+	</div>
+</section>

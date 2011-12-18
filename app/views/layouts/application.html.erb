@@ -17,10 +17,10 @@
 <body>
 	<%= render :partial => "elements/topmenu" %>
 	<div id="main">
-	  	<% if flash[:notice] %>
-	    	<p class="notice"><%= notice %></p>
-	  	<% end %>
-	  	<%= yield %>
+  	<% if flash[:notice] %>
+    	<p class="notice"><%= notice %></p>
+  	<% end %>
+  	<%= yield %>
 	</div>
 </body>
 </html>
