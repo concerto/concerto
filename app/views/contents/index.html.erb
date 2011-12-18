@@ -4,22 +4,26 @@
 	</header> 
 	<div class="C-cont">
 		<article>
-			<div class="subnav clearfix">
-				<div class="pull-left" style="width:8%;">
-					<a href="#" class="button">Jump to Feed...</a>
-				</div>
-				<div class="pull-right" style="width:91%;">
-					<ul class="tabs">
-					  <li class="legend">Sub-feeds:</li>
-						<% @feeds.each do |feed| %>
-						<li><%= link_to feed, :remote => true do %><%= feed.name %> <span class="count">(<%= feed.approved_contents.count %>)</span><% end %></li>
-						<% end %>
-					</ul>
-				</div>
+			<div class="pull-left" style="width:48%;">
+				<h1>Browse by Feed</h1>
+				<% @feeds.each do |feed| %>
+				<h3>
+					<%= link_to feed, :remote => true do %><%= feed.name %> <span class="count">(<%= feed.approved_contents.count %>)</span><% end %>
+				</h3>
+				<h4><%= feed.description %></h4>
+				<p>Sub-Feeds: <% feed.children.each do |sub_feed| %><%= link_to sub_feed, :remote => true do %><%= sub_feed.name %> <span class="count">(<%= sub_feed.approved_contents.count %>)</span><% end %>, <% end %></p>
+				<br />
+				<% end %>
 			</div>
-			<div id="content_holder">
-				<%= render :partial => @content_display, :locals => {:contents => @contents, :is_ajax => true} %>
+			<div class="pull-right" style="width:48%;">
+				<h1>Browse by Screen</h1>
+				<% @screens.each do |screen| %>
+				<h3>
+					<%= link_to screen, :remote => true do %><%= screen.name %> <span class="count">(Count?)</span><% end %>
+				</h3>
+				<% end %>
 			</div>
+			<div class="clear"></div>
 		</article> 
 		<div class="clear"></div>
 	</div>

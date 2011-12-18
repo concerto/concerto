@@ -18,6 +18,7 @@ class ContentsController < ApplicationController
     @contents = Content.all
     @content_display = params[:type] || 'table'
     @feeds = Feed.all
+    @screens = Screen.all
     if request.xhr?
       render :partial=> @content_display, :locals => {:contents => @contents, :is_ajax => true}
     else

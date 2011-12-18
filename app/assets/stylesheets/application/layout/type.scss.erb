@@ -1,0 +1,221 @@
+/* Typography.scss
+ * Headings, body text, lists, code, and more for a versatile and durable typography system
+ * ---------------------------------------------------------------------------------------- */
+
+
+// BODY TEXT
+// ---------
+
+p {
+  @include shorthand-font(normal,$basefont,$baseline);
+  margin-bottom: $baseline / 2;
+  small {
+    font-size: $basefont - 2;
+    color: $grayLight;
+  }
+}
+
+
+// HEADINGS
+// --------
+
+@mixin header-base {
+ 	font-family: $sans-headers;
+ 	line-height: normal; 	
+}
+
+h1 {
+ 	@include header-base;
+	font-size: 30px;
+ 	font-weight: 400;
+
+ 	&.header {
+   	text-transform: uppercase;
+   	font-size: 1.3em;
+   	letter-spacing: 0.15em;
+   	padding: 6px 0;
+   	margin-bottom: 16px; 
+	}
+	
+ 	&.indented {
+   	padding-left: 8px !important; 
+	}
+	
+ 	&.subpage_header {
+   	font-size: 3em;
+   	margin-bottom: 8px !important; 
+	}
+	
+ 	small {
+   	padding-left: 12px; 
+	} 
+	
+}
+
+h2 {
+ 	@include header-base;
+	font-size: 24px; 
+}
+
+h3 {
+ 	@include header-base;
+	font-size: 18px; 
+}
+
+h4 {
+ 	@include header-base;
+	font-size: 16px; 
+}
+
+h5 {
+ 	@include header-base;
+	font-size: 14px; 
+}
+
+h6 {
+	@include header-base;
+}
+
+h7 {
+	@include header-base;
+}
+
+
+// COLORS
+// ------
+
+// Unordered and Ordered lists
+ul, ol {
+  margin: 0 0 $baseline 25px;
+}
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  margin-bottom: 0;
+}
+ul {
+  list-style: disc;
+}
+ol {
+  list-style: decimal;
+}
+li {
+  line-height: $baseline;
+  color: $gray;
+}
+ul.unstyled {
+  list-style: none;
+  margin-left: 0;
+}
+
+// Description Lists
+dl {
+  margin-bottom: $baseline;
+  dt, dd {
+    line-height: $baseline;
+  }
+  dt {
+    font-weight: bold;
+  }
+  dd {
+    margin-left: $baseline / 2;
+  }
+}
+
+// MISC
+// ----
+
+// Horizontal rules
+hr {
+  margin: 20px 0 19px;
+  border: 0;
+  border-bottom: 1px solid #eee;
+}
+
+// Emphasis
+strong {
+  font-style: inherit;
+  font-weight: bold;
+}
+em {
+  font-style: italic;
+  font-weight: inherit;
+  line-height: inherit;
+}
+.muted {
+  color: $grayLight;
+}
+
+// Blockquotes
+blockquote {
+  margin-bottom: $baseline;
+  border-left: 5px solid #eee;
+  padding-left: 15px;
+  p {
+    @include shorthand-font(300,14px,$baseline);
+    margin-bottom: 0;
+  }
+  small {
+    display: block;
+    @include shorthand-font(300,12px,$baseline);
+    color: $grayLight;
+    &:before {
+      content: '\2014 \00A0';
+    }
+  }
+}
+
+// Addresses
+address {
+  display: block;
+  line-height: $baseline;
+  margin-bottom: $baseline;
+}
+
+// Inline and block code styles
+code, pre {
+  padding: 0 3px 2px;
+  font-family: Monaco, Andale Mono, Courier New, monospace;
+  font-size: 12px;
+  @include border-radius(3px);
+}
+code {
+  background-color: lighten($orange, 40%);
+  color: rgba(0,0,0,.75);
+  padding: 1px 3px;
+}
+pre {
+  background-color: #f5f5f5;
+  display: block;
+  padding: ($baseline - 1) / 2;
+  margin: 0 0 $baseline;
+  line-height: $baseline;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0,0,0,.15);
+  @include border-radius(3px);
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+
+}
+
+
+// LABELS
+// ------
+
+.label {
+  padding: 1px 3px 2px;
+  font-size: $basefont * .75;
+  font-weight: bold;
+  color: $white;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background-color: $grayLight;
+  @include border-radius(3px);
+  &.important { background-color: #c43c35; }
+  &.warning   { background-color: $orange; }
+  &.success   { background-color: $green; }
+  &.notice    { background-color: lighten($blue, 25%); }
+}

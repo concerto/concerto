@@ -1,7 +1,9 @@
 class SubmissionsController < ApplicationController
 
   def index
-    @submissions = Submission.where(:feed_id => params[:feed_id]).pending
+    @this_feed = Feed.find(params[:feed_id])
+    @sub_feeds = @this_feed.children
+    @submissions = Submission.where(:feed_id => params[:feed_id])
   end
 
   def show
