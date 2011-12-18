@@ -17,11 +17,11 @@ class Graphic < Content
   # Resizes the image to fit a width and height specified (both required ATM).
   # Returns a new (unsaved) Media instance.
   def render(options={})
+    @media = self.media.original.first
     # In theory, there should be more code in here to look for a cached image and be smarter
     # about the resizing, but this is a good first pass.
     if options.key?(:width) && options.key?(:height)
       require 'RMagick'
-      @media = self.media.original.first
 
       image = Magick::ImageList.new
       image.from_blob(@media.file_contents)
@@ -35,6 +35,8 @@ class Graphic < Content
       )
 
       return file
+    else
+      return @media
     end
   end
 
