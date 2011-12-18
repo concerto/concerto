@@ -1,26 +1,25 @@
-<p>
-  <b>Cotent:</b>
-  <%= @submission.content.name %>
-</p>
-
-<p>
-  <b>Feed:</b>
-  <%= @submission.feed.name unless @submission.feed.nil? %>
-</p>
-
-<p>
-  <b>Duration:</b>
-  <%= @submission.duration %>
-</p>
-
-<p>
-  <b>Approved?:</b>
-  <%= @submission.moderation_flag %>
-</p>
-
-<hr />
-<%= render :partial => 'approve_form', :locals => { :submission => @submission } %>
-<hr />
-<%= render :partial => 'deny_form', :locals => { :submission => @submission } %>
-
-
+<section class="C">
+	<header>
+		<h1 id="contentlist"><%= @submission.content.name %></h1>
+	</header> 
+	<div class="C-cont">
+		<article>
+			<div id="content_holder">
+				<%= render_content(@submission.content) %>
+				
+			</div>
+		</article>
+		<aside>
+			<%= render :partial => 'approve_form', :locals => { :submission => @submission } %>
+			<%= render :partial => 'deny_form', :locals => { :submission => @submission } %>
+			<br />
+			<b>Approved?:</b>
+		  <%= @submission.moderation_flag %>
+			<br />
+			<b>Feed:</b>
+		  <%= @submission.feed.name unless @submission.feed.nil? %>
+			
+		</aside>
+		<div class="clear"></div>
+	</div>
+</section>
