@@ -12,10 +12,9 @@
 	min-width: 150px;
 	width:20%;
 	height:80px;
-	text-align:center;
 	
 	a {	 // in this case, the singular gridlist item is ul li a
-		padding: 8px;
+		padding: 8px 12px;
 		border-right: solid 1px $grayLight;
 		border-bottom: solid 1px $grayLight;
 		height: 64px;
@@ -26,18 +25,22 @@
 			color:#666;
 		}
 		
+		&:hover {
+			background:#ccccff;
+		}
+		
 		// these elements come along for the ride by bringing in gridlist-item mixin:
-		img { }
-		.content {
-			h1 { }
-			p {	}
+		b {
+			color: $black;
 		}
 		
 	}
 	
 	img {
-		@include box-shadow(0 3px 2px #ababab);
+		@include box-shadow(0 3px 2px $grayLighter);
+		float: left;
 		margin-bottom:6px;
+		margin-right:10px;
 	}
 
 	.content {
@@ -57,9 +60,6 @@
 		
 	}
 	
-	&:hover {
-		background:#ccccff;
-	}
 }
 
 ul.GL {

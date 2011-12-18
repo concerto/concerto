@@ -24,23 +24,12 @@
 				
 				<ul class="GL">
 					<% @submissions.each do |submission| %>
-				  <li><%= link_to submission.content.name, [submission.feed, submission] %></li>
-					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
-					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
-					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
-					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
-					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
-					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
-					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
-					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
-					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
-					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
-					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
-					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
-					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
-					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
-					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
-					<li><%= link_to submission.content.name, [submission.feed, submission] %></li>
+				  <li>
+						<%= link_to [submission.feed, submission] do %>
+							<%= image_tag("ph/grid_ph.jpg") %>
+							<b><%= submission.content.name %></b>
+						<% end %>
+					</li>
 					<% end %>
 				</ul>
 				
