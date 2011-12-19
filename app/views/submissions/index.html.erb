@@ -6,78 +6,33 @@
 	<div class="C-cont">
 		<article>
 			<div class="subnav clearfix">
-				<div class="pull-left" style="width:8%;">
+				<div class="pull-left" style="width:100px">
 					<a href="#" class="button">Jump to Feed...</a>
 				</div>
-				<div class="pull-right" style="width:91%;">
 					
-					<ul class="tabs">
-					  <li class="legend">Sub-feeds:</li>
-						<% @sub_feeds.each do |feed| %>
-						<li><%= link_to feed, :remote => true do %><%= feed.name %> <span class="count">(<%= feed.approved_contents.count %>)</span><% end %></li>
-						<% end %>
-					</ul>
+				<ul class="tabs">
+				  <li class="legend">Sub-feeds:</li>
+					<% @sub_feeds.each do |feed| %>
+					<li><%= link_to feed, :remote => true do %><%= feed.name %> <span class="count">(<%= feed.approved_contents.count %>)</span><% end %></li>
+					<% end %>
+				</ul>
 					
-				</div>
 			</div>
 			<div id="content_holder">
 				
 				<ul class="GL">
 					<% @submissions.each do |submission| %>
 				  <li>
-						<%= link_to [submission.feed, submission] do %>
-							<%= image_tag("ph/grid_ph.jpg") %>
-							<b><%= submission.content.name %></b>
+						<div>
+							<%= link_to image_tag("ph/grid_ph.jpg"), [submission.feed, submission] %>
+							<b><%= link_to submission.content.name, [submission.feed, submission] %></b>
 							<br />
 							<%= submission.content.start_time %> to <%= submission.content.end_time %>
 							<br />
-							<%= submission.duration %> s
-							<br />
-						<% end %>
-					</li>
-					<li>
-						<%= link_to [submission.feed, submission] do %>
-							<%= image_tag("ph/grid_ph.jpg") %>
-							<b><%= submission.content.name %></b>
-							<br />
-							<%= submission.content.start_time %> to <%= submission.content.end_time %>
-							<br />
-							<%= submission.duration %> s
-							<br />
-						<% end %>
-					</li>
-					<li>
-						<%= link_to [submission.feed, submission] do %>
-							<%= image_tag("ph/grid_ph.jpg") %>
-							<b><%= submission.content.name %></b>
-							<br />
-							<%= submission.content.start_time %> to <%= submission.content.end_time %>
-							<br />
-							<%= submission.duration %> s
-							<br />
-						<% end %>
-					</li>
-					<li>
-						<%= link_to [submission.feed, submission] do %>
-							<%= image_tag("ph/grid_ph.jpg") %>
-							<b><%= submission.content.name %></b>
-							<br />
-							<%= submission.content.start_time %> to <%= submission.content.end_time %>
-							<br />
-							<%= submission.duration %> s
-							<br />
-						<% end %>
-					</li>
-					<li>
-						<%= link_to [submission.feed, submission] do %>
-							<%= image_tag("ph/grid_ph.jpg") %>
-							<b><%= submission.content.name %></b>
-							<br />
-							<%= submission.content.start_time %> to <%= submission.content.end_time %>
-							<br />
-							<%= submission.duration %> s
-							<br />
-						<% end %>
+							<span class="controls">
+								<%= link_to "Moderate", '#', :class => "button small" %>
+							</span>
+						</div>
 					</li>
 					<% end %>
 				</ul>

@@ -11,27 +11,26 @@
 	float: left;
 	min-width: 150px;
 	width:20%;
-	height:80px;
+	min-height:80px;
 	
-	a {	 // in this case, the singular gridlist item is ul li a
-		padding: 8px 12px;
+	div {	 // in this case, the singular gridlist item is ul li a
+		padding: 12px;
 		border-right: solid 1px $grayLight;
 		border-bottom: solid 1px $grayLight;
-		height: 64px;
+		min-height: 64px;
 		display: block;
 		text-decoration:none;
-		
-		&:visited {
-			color:#666;
-		}
-		
-		&:hover {
-			background:#e5f3f7;
-		}
 		
 		// these elements come along for the ride by bringing in gridlist-item mixin:
 		b {
 			color: $black;
+		}
+		
+		.controls {
+			background: $grayLightest;
+			display: block;
+			margin-top: 4px;
+			padding: 4px;
 		}
 		
 	}
