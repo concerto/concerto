@@ -18,7 +18,12 @@
   </div>
   <div id="content_holder">
 				
-  	<ul class="GL">
+  	<% if @submissions.size == 0 %>
+    <div class="default-padding">
+      <h3>Oops - there's no content inside this feed.</h3>
+    </div>
+    <% else %>
+    <ul class="GL">
   		<% @submissions.each do |submission| %>
   	  <li>
   			<div>
@@ -34,7 +39,8 @@
   		</li>
   		<% end %>
   	</ul>
-				
+		<% end %>
+    		
   </div>
 </article>
 <div class="clear"></div>
