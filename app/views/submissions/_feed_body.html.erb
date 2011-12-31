@@ -11,7 +11,7 @@
   	  	<li class="legend">Sub-feeds:</li>
   	  <% end %>
   		<% @sub_feeds.each do |feed| %>
-  			<li><%= link_to feed, :remote => true do %><%= feed.name %> <span class="count">(<%= feed.approved_contents.count %>)</span><% end %></li>
+      <li><%= link_to feed_submissions_path(feed), :remote => true do %><%= feed.name %> <span class="count">(<%= feed.approved_contents.count %>)</span><% end %></li>
   		<% end %>
   	</ul>
 					

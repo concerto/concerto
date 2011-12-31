@@ -1,2 +1,8 @@
 <span class="label">Browse Content</span>
-<h1 id="contentlist"><%= link_to "All Feeds", contents_path, :remote => true %> > <%= @this_feed.name %></h1>
+<h1 id="contentlist">
+  <%= link_to "All Feeds", contents_path, :remote => true %> &gt; 
+  <% @this_feed.ancestors.reverse.each do |ancestor_feed| %>
+  <%= link_to ancestor_feed.name, feed_submissions_path(ancestor_feed), :remote => true %> &gt; 
+  <% end %>
+  <%= @this_feed.name %>
+</h1>
