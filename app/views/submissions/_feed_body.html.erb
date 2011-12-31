@@ -1,0 +1,40 @@
+<article>
+  <div class="subnav clearfix">
+  	<div class="pull-left" style="width:100px">
+  		<a href="#" class="button">Jump to Feed...</a>
+  	</div>
+					
+  	<ul class="tabs">
+  	  <% if @sub_feeds.size < 1 %>
+  	  	<li class="legend">No Sub-feeds</li>
+  	  <% else %>
+  	  	<li class="legend">Sub-feeds:</li>
+  	  <% end %>
+  		<% @sub_feeds.each do |feed| %>
+  			<li><%= link_to feed, :remote => true do %><%= feed.name %> <span class="count">(<%= feed.approved_contents.count %>)</span><% end %></li>
+  		<% end %>
+  	</ul>
+					
+  </div>
+  <div id="content_holder">
+				
+  	<ul class="GL">
+  		<% @submissions.each do |submission| %>
+  	  <li>
+  			<div>
+  				<%= link_to image_tag("ph/grid_ph.jpg", :class => "with-shadow"), [submission.feed, submission] %>
+  				<b><%= link_to submission.content.name, [submission.feed, submission], :remote => true %></b>
+  				<br />
+  				<%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
+  				<br />
+  				<span class="controls">
+  					<%= link_to "Moderate", '#', :class => "button small" %>
+  				</span>
+  			</div>
+  		</li>
+  		<% end %>
+  	</ul>
+				
+  </div>
+</article>
+<div class="clear"></div>

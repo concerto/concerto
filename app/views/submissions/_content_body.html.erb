@@ -1,0 +1,17 @@
+<article>
+	<div class="content-holder">
+		<%= render_content(@submission.content) %>
+	</div>
+</article>
+<aside>
+	<%= render :partial => 'approve_form', :locals => { :submission => @submission } %>
+	<%= render :partial => 'deny_form', :locals => { :submission => @submission } %>
+	<br />
+	<b>Approved?:</b>
+  <%= @submission.moderation_flag %>
+	<br />
+	<b>Feed:</b>
+  <%= @submission.feed.name unless @submission.feed.nil? %>
+			
+</aside>
+<div class="clear"></div>

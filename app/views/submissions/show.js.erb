@@ -1,0 +1,3 @@
+$('#browse-header').html("<h1 id='contentlist'><%= @submission.content.name %></h1>");
+$('section.C').removeClass('no');
+$('#browse-body').html("<%= escape_javascript(render :partial => 'submissions/content_body') %>");
