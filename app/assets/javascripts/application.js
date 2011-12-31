@@ -44,7 +44,7 @@ jQuery(function($) {
 
 if (history && history.pushState) {
   $(function () {
-    $('a.[data-remote=true]').live('click', function () {
+    $('a[data-remote=true]').live('click', function () {
       $.getScript(this.href);
       history.pushState(null, document.title, this.href);
       return false;
