@@ -27,7 +27,7 @@
   		<% @submissions.each do |submission| %>
   	  <li>
   			<div>
-  				<%= link_to image_tag("ph/grid_ph.jpg", :class => "with-shadow"), [submission.feed, submission] %>
+  				<%= link_to image_tag("ph/grid_ph.jpg", :class => "with-shadow"), [submission.feed, submission], :remote => true %>
   				<b><%= link_to submission.content.name, [submission.feed, submission], :remote => true %></b>
   				<br />
   				<%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
