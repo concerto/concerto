@@ -4,10 +4,20 @@ class SubmissionsController < ApplicationController
     @this_feed = Feed.find(params[:feed_id])
     @sub_feeds = @this_feed.children
     @submissions = Submission.where(:feed_id => params[:feed_id])
+    
+    respond_to do |format|
+      format.js { }
+      format.html { }
+    end
   end
 
   def show
     @submission = Submission.find(params[:id])
+    
+    respond_to do |format|
+      format.js { }
+      format.html { }
+    end
   end
 
   # PUT /feeds/1/submission/1/approve

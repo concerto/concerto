@@ -1,45 +1,11 @@
 <section class="C no">
-	<header>
-		<span class="label">Browse Content</span>
-		<h1 id="contentlist"><%= link_to "All Feeds", feeds_path %> > <%= @this_feed.name %></h1>
-	</header> 
-	<div class="C-cont">
-		<article>
-			<div class="subnav clearfix">
-				<div class="pull-left" style="width:100px">
-					<a href="#" class="button">Jump to Feed...</a>
-				</div>
-					
-				<ul class="tabs">
-				  <li class="legend">Sub-feeds:</li>
-					<% @sub_feeds.each do |feed| %>
-					<li><%= link_to feed, :remote => true do %><%= feed.name %> <span class="count">(<%= feed.approved_contents.count %>)</span><% end %></li>
-					<% end %>
-				</ul>
-					
-			</div>
-			<div id="content_holder">
-				
-				<ul class="GL">
-					<% @submissions.each do |submission| %>
-				  <li>
-						<div>
-							<%= link_to image_tag("ph/grid_ph.jpg"), [submission.feed, submission] %>
-							<b><%= link_to submission.content.name, [submission.feed, submission] %></b>
-							<br />
-							<%= submission.content.start_time %> to <%= submission.content.end_time %>
-							<br />
-							<span class="controls">
-								<%= link_to "Moderate", '#', :class => "button small" %>
-							</span>
-						</div>
-					</li>
-					<% end %>
-				</ul>
-				
-				<%#= render :partial => @content_display, :locals => {:contents => @contents, :is_ajax => true} %>
-			</div>
-		</article> 
-		<div class="clear"></div>
-	</div>
+  <header id="browse-header">
+    <%= render :partial => "submissions/feed_header" %>
+  </header>
+  <div class="C-cont">
+    <article id="browse-content">
+      <%= render :partial => "submissions/feed_content" %>
+    </article>
+    <div class="clear"></div>
+  </div>
 </section>
