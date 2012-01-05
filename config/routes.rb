@@ -2,6 +2,25 @@ Concerto::Application.routes.draw do
   #Custom route for the screen creation/admin form JS
   #TODO(bamnet): Clean this up
   match "update_owners" => "screens#update_owners"
+
+  # These routes control the frontend of Concerto used by screens.
+  # You probably should not touch them without thinking very hard
+  # about what you are doing because they could break things in 
+  # a very visible way.
+  namespace :frontend do
+    resources :screens, :only => [:show], :path => '' do
+      member do
+        get :setup
+      end
+      resources :fields, :only => [] do
+        member do
+          get :content
+        end
+      end
+    end
+  end
+  # End really dangerous routes.
+
   
   devise_for :users
   resources :users

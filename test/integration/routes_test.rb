@@ -9,4 +9,8 @@ class RoutesTest < ActionController::IntegrationTest
     # A backup way to test this
     #assert_equal "/content", contents_path
   end  
+
+  test "no screen path in frontend route" do
+    assert_recognizes({:controller => 'frontend/screens', :action => 'show', :id => '1'}, "frontend/1")
+  end
 end
