@@ -1,7 +1,7 @@
 class Frontend::FieldsController < ApplicationController
   layout false
 
-  def content
+  def contents
     respond_to do |format|
       format.json { render :json => [] }
     end

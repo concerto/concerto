@@ -14,7 +14,7 @@ Concerto::Application.routes.draw do
       end
       resources :fields, :only => [] do
         member do
-          get :content
+          get :contents, :path => 'content'
         end
       end
     end
