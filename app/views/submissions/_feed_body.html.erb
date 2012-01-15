@@ -49,8 +49,14 @@
   				<br />
   				<%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
   				<br />
-  				<span class="controls">
-  					<%= link_to "Moderate", '#', :class => "button small" %>
+          <span class="controls">
+            <a href="#" class="button small button-dropdown js-dropdown-button" data-dropdown-pane=".mod">Moderate</a>
+            <div class="dropdown small mod">
+              <ul>
+                <li><a href="#">Approve</a></li>
+                <li><a href="#">Deny</a></li>
+              </ul>
+            </div>
   				</span>
   			</div>
   		</li>

@@ -13,7 +13,7 @@
 	width:20%;
 	min-height:80px;
 	
-	div {	 // in this case, the singular gridlist item is ul li a
+  > div {	 // in this case, the singular gridlist item is ul li a
 		padding: 12px;
 		border-right: solid 1px $grayLight;
 		border-bottom: solid 1px $grayLight;
@@ -35,7 +35,7 @@
 		
 	}
 	
-	img {
+  img {
 		@extend .with-shadow;
 		float: left;
 		margin-bottom:6px;
@@ -66,7 +66,7 @@ ul.GL {
 	margin: 0px;
 	padding: 0px;
 	
-	li {
+  > li {
 		@include gridlist-item;
 		
 	}
