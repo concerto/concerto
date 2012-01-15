@@ -5,8 +5,18 @@
         <a href="#" class="button dropdown-toggle js-dropdown-button" data-dropdown-pane="#jumptofeed">Jump to Feed...</a>
         <div id="jumptofeed" class="dropdown">
           <a href="#" class="close">x</a>
-          Hello world
-        </div>  
+          <h3>Click on a feed to jump to it</h3>
+          <% feeds = dfs_tree(Feed.roots) %>
+          <% if feeds.empty? %>
+          <p><%= t(:no_feeds) %></p>
+          <% else %>
+          <ul>
+            <% feeds.each_with_index do |feed, i| %>
+              <li><%= link_to feed_submissions_path(feed), :remote => true do %><%= feed.name %> <span class="count">(<%= feed.approved_contents.count %>)</span><% end %></li>
+            <% end %>
+          </ul>
+          <% end %>
+        </div>
       </div>
     </div>
 

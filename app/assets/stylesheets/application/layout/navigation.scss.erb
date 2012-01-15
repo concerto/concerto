@@ -197,7 +197,6 @@
 // li.menu for backwards compatibility
 // The link that is clicked to toggle the dropdown
 // a.menu for backwards compatibility
-a.menu:after,
 .dropdown-toggle:after {
   width: 0;
   height: 0;
@@ -212,28 +211,24 @@ a.menu:after,
   border-top: 4px solid $white;
   @include opacity(50);
 }
-// The dropdown menu (ul)
+// The dropdown panel
 // .menu-dropdown for backwards compatibility
-.menu-dropdown,
 .dropdown {
   background: $white;
   display: none; // None by default, but block on "open" of the menu
   position: absolute;
-  //top: 40px;
   z-index: 900;
   min-width: 160px;
-  max-width: 220px;
   _width: 160px;
   margin-left: 0; // override default ul styles
   margin-right: 0;
   margin-top: 2px;
-  padding: 6px 0;
   zoom: 1; // do we need this?
   border-color: #999;
   border-color: rgba(0,0,0,.4);
   border-style: solid;
-  border-width: 4px;
-  @include border-radius(6px);
+  border-width: 1px;
+  @include border-radius-corners(0px, 0px, 6px, 6px);
   @include box-shadow(0 0 13px rgba(0,0,0,0.5) );
 
   &.small { 
@@ -254,19 +249,25 @@ a.menu:after,
     _width: 600px;
   }
 
-  // Unfloat any li's to make them stack
-  li {
-    float: none;
-    display: block;
-    background-color: none;
+  h3 {
+    background: rgba(0,0,0,.4);
+    padding:12px 12px 6px 6px;
+    text-shadow: 0 -1px 0px $grayDark;
+    color: $white;
   }
-  // Dividers (basically an hr) within the dropdown
-  .divider {
-    height: 1px;
-    margin: 5px 0;
-    overflow: hidden;
-    background-color: #eee;
-    border-bottom: 1px solid $white;
+
+  a.close {
+    float: right;
+    font-weight: bold;
+    color: $grayDark;
+    width: 8px;
+    height: 8px;
+    margin-right: 8px;
+
+    &:hover {
+      color: $black;
+      text-decoration: none;
+    }
   }
 }
 
