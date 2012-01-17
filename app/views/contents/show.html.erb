@@ -65,6 +65,6 @@
 </p>
 
 
-<%= link_to "Media", @content.media.original.first %>
+<%= link_to "Media", @content.media.original.first unless @content.media.empty? || @content.media.original.empty? %>
 <%= link_to 'Edit', edit_content_path(@content) %> |
 <%= link_to 'Back', contents_path %>
