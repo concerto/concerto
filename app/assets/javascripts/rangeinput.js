@@ -1,17 +1,17 @@
 /**
  * @license 
- * jQuery Tools 1.2.5 Rangeinput - HTML5 <input type="range" /> for humans
+ * jQuery Tools @VERSION Rangeinput - HTML5 <input type="range" /> for humans
  * 
  * NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.
  * 
  * http://flowplayer.org/tools/rangeinput/
  *
  * Since: Mar 2010
- * Date:    Wed Sep 22 06:02:10 2010 +0000 
+ * Date: @DATE 
  */
 (function($) {
 	 
-	$.tools = $.tools || {version: '1.2.5'};
+	$.tools = $.tools || {version: '@VERSION'};
 	 
 	var tool;
 	
@@ -141,7 +141,7 @@
 		// private variables
 		var self = this,  
 			 css = conf.css, 
-			 root = $("<div><div/><a/></div>").data("rangeinput", self),	
+			 root = $("<div><div/><a href='#'/></div>").data("rangeinput", self),	
 			 vertical,		
 			 value,			// current value
 			 origo,			// handle's start point
@@ -175,14 +175,13 @@
 		}  
 		
 		// Replace built-in range input (type attribute cannot be changed)
-		if (input.attr("type") == 'range') {
-			var tmp = $("<input/>");
-			$.each("class,disabled,id,maxlength,name,readonly,required,size,style,tabindex,title,value".split(","), function(i, attr)  {
-				tmp.attr(attr, input.attr(attr));		
-			});
-			tmp.val(conf.value);
-			input.replaceWith(tmp);
-			input = tmp;
+		if (input.attr("type") == 'range') {			
+			var def = input.clone().wrap("<div/>").parent().html(),
+				 clone = $(def.replace(/type/i, "type=text data-orig-type"));
+				 
+			clone.val(conf.value);
+			input.replaceWith(clone);
+			input = clone;
 		}
 		
 		input.addClass(css.input);
@@ -260,7 +259,7 @@
 			if (vertical) {
 				handle.animate({top: x}, speed, callback);
 				if (conf.progress) { 
-					progress.animate({height: len - x + handle.width() / 2}, speed);	
+					progress.animate({height: len - x + handle.height() / 2}, speed);	
 				}				
 				
 			} else {
@@ -373,7 +372,7 @@
 				return e.preventDefault(); 
 			}				  
 			init(); 
-			var fix = handle.width() / 2;   
+			var fix = vertical ? handle.height() / 2 : handle.width() / 2;
 			slide(e, vertical ? len-origo-fix + e.pageY  : e.pageX -origo -fix);  
 		});
 
@@ -467,6 +466,6 @@
 		return els ? els : this; 
 	};	
 	
-	$(".handle").html('test');
+	
 }) (jQuery);
 

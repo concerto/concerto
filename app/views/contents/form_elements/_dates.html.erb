@@ -1,32 +1,5 @@
-<% content_for :head do %>
-  <%= javascript_include_tag 'jquery-ui-timepicker-addon.js' %>
-<% end %>
-
 <% content_for :js_ready do %>
 
-  $('#start_time_time').timepicker({
-      ampm:true
-  });
-  $('#end_time_time').timepicker({
-      ampm:true
-  });
-  $('#start_time_date').datepicker();
-  $('#end_time_date').datepicker();
-
-  $('#time_start').click(function(){
-  $('#start_time_time').trigger("focus");
-    });
-
-  $('#date_start').click(function(){
-  $('#start_time_date').trigger("focus");
-    });
-
-  $('#time_end').click(function(){
-  $('#end_time_time').trigger("focus");
-    });
-  $('#date_end').click(function(){
-  $('#end_time_date').trigger("focus");
-    });
 <% end %>
 
 <div class="clearfix datetime">
