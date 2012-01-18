@@ -53,7 +53,6 @@
                 top: 0
               },
               b;
-          )
           // set the position of the dropdown panel so that it doesn't get hidden
           optionExtend.anchorTo == "left" ? b = {
             left: myOffset.left - a.left,
