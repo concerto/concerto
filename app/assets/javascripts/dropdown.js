@@ -60,22 +60,22 @@
           } : optionExtend.anchorTo == "right" && (b = {
             left: myOffset.left - (dropdownSelector.outerWidth(!0) + a.left - $this.outerWidth(!0)),
             top: myOffset.top - a.top + $this.outerHeight(!0)
-          }), 
+          }); 
           
           dropdownSelector.css({
             top: b.top,
             left: b.left
-          }), 
+          }); 
           
           // simulate a click (which will re-run the delegate click event and 
           // hide the dropdown) upon ESC key press
           $(document).bind("keydown.dropdown-button", function(event) {
             if (event.keyCode == 27) $this.click()
-          }), 
+          }); 
           
           // we'll append an overlay to float beneath the dropdown to act 
           // as a clickable area - when clicked, the dropdown will be hidden
-          $("body").append('<div id="dropdown-overlay"></div>'),
+          $("body").append('<div id="dropdown-overlay"></div>');
           
           // apply css styles to dropdown overlay and show it:
           $('#dropdown-overlay')
@@ -84,19 +84,19 @@
             .css("top", 0)
             .css("left", 0)
             .css("height", "100%")
-            .css("width", "100%"),
+            .css("width", "100%");
           
-          dropdownSelector.show(),
+          dropdownSelector.show();
 
           setTimeout(function() {
             dropdownSelector.addClass("active")
-          }, 50),
+          }, 50);
 
-          dropdownSelector.trigger("activated.dropdownPane"),
+          dropdownSelector.trigger("activated.dropdownPane");
 
-          $this.addClass("selected"),
+          $this.addClass("selected");
 
-          $this.trigger("show.dropdown-button")
+          $this.trigger("show.dropdown-button");
         
         }
 
