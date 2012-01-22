@@ -1,108 +1,89 @@
 /*
- *  dropdown, a jQuery plugin for generic dropdown panels that can be 
+ *  dropdown, a jQuery plugin for generic dropdown panels that can be
  *  triggered by any element
  *
  *  Author: brian.r.zaik@gmail.com (Brian R Zaik)
+ *          bmichalski@gmail.com (Brian Michalski)
  *
  *  Usage:
- *  $(document).dropdown(".js-dropdown-button");
+ *  <div class='dropdown'>
+ *    <a class='dropdown-control'>Click Me</a>
+ *    <div class='dropdown-contents' style='display: none;'>
+ *      Stuff here to show
+ *     </div>
+ *  </div>
+ *
+ *  $(".dropdown").dropdown();
  *
  *  Settings:
- *    dropdownSelector: Where to find a selector for the <div> or 
- *      other container for the dropdown element.
- *    anchorTo: Specify if the dropdown is anchored to the left 
- *      (default) or the right.
+ *    open_button: A selector for something within the dropdown element
+ *      which should display / hide the content.
+ *    content: A selector for the content to be shown (i.e whats in the menu).
+ *    close_button: A selector to close the dropdown, perhaps an "X".
+ *    underlay: The ID of a div that will be created under everything.
  */
 
-!function( $ ) {
-  "use strict"
+(function($) {
+  $.fn.dropdown = function(options) {
+    var settings = $.extend({
+      'open_button': '.dropdown-control',
+      'close_button': '.dropdown-close',
+      'underlay': 'dropdown-underlay',
+      'content': '.dropdown-contents'
+    });
 
-    $.fn.dropdown = function( selector, options ) {
-      return $(this).delegate( selector, "click", function( event ) {
-        
-        // prevent default behavior for links:
-        event.preventDefault();
+    var dropdown_containers = $(this);
 
-        var $this = $(this),
-            
-            optionExtend = $.extend({
-              dropdownPaneSelector: $this.attr("data-dropdown-pane"),
-              anchorTo: "left",
-              offsetFrom: $()
-            }, options),
+    // For each dropdown that matches the selector...
+    dropdown_containers.each(function() {
+      var container = $(this);
+      // Find all the buttons inside it.
+      var open_button = container.children(settings['open_button']);
+      open_button.on('click', function() {
+        var content = container.children(settings['content']);
+        content.toggle();
 
-            dropdownSelector = $(optionExtend.dropdownPaneSelector),
+        // If the content is now being displayed,
+        // create a div under it to prevent all other interactions
+        if (content.is(':visible')) {
+          var underlay = $('<div id="' + settings['underlay'] + '"></div>');
+          underlay.css({
+            'position': 'fixed',
+            'top': '0',
+            'left': '0',
+            'height': '100%',
+            'width': '100%',
+            'z-index': content.css('z-index') - 1
+          });
 
-            // declare a function to hide and unbind when triggered
-            hideFunction = function() {
-              $(document).unbind("keydown.dropdown-button"), 
-              $("#dropdown-overlay").remove(),
-              dropdownSelector.removeClass("active"),
-              setTimeout(function() {
-                dropdownSelector.hide()
-              }, 200),
-              $this.removeClass("selected"),
-              dropdownSelector.trigger("deactivated.dropdownPane")
-            };
+          // Remove the overlay when there's a click event in the drop down menu
+          content.on('click', function() {
+            underlay.remove();
+          });
 
-        if (dropdownSelector.is(":visible")) hideFunction();
-        else {
-          var myOffset = $this.offset(),
-              a = optionExtend.offsetFrom.length ? optionExtend.offsetFrom.offset() : {
-                left: 0,
-                top: 0
-              },
-              b;
-          // set the position of the dropdown panel so that it doesn't get hidden
-          optionExtend.anchorTo == "left" ? b = {
-            left: myOffset.left - a.left,
-            top: myOffset.top - a.top + $this.outerHeight(!0)
-          } : optionExtend.anchorTo == "right" && (b = {
-            left: myOffset.left - (dropdownSelector.outerWidth(!0) + a.left - $this.outerWidth(!0)),
-            top: myOffset.top - a.top + $this.outerHeight(!0)
-          }); 
-          
-          dropdownSelector.css({
-            top: b.top,
-            left: b.left
-          }); 
-          
-          // simulate a click (which will re-run the delegate click event and 
-          // hide the dropdown) upon ESC key press
-          $(document).bind("keydown.dropdown-button", function(event) {
-            if (event.keyCode == 27) $this.click()
-          }); 
-          
-          // we'll append an overlay to float beneath the dropdown to act 
-          // as a clickable area - when clicked, the dropdown will be hidden
-          $("body").append('<div id="dropdown-overlay"></div>');
-          
-          // apply css styles to dropdown overlay and show it:
-          $('#dropdown-overlay')
-            .click(hideFunction)
-            .css("position", "fixed")
-            .css("top", 0)
-            .css("left", 0)
-            .css("height", "100%")
-            .css("width", "100%");
-          
-          dropdownSelector.show();
+          // When users click in that div, just simulate a click
+          // on the button that opened it.
+          underlay.on('click', function() {
+            open_button.trigger('click');
+          });
 
-          setTimeout(function() {
-            dropdownSelector.addClass("active")
-          }, 50);
+          underlay.appendTo('body');
 
-          dropdownSelector.trigger("activated.dropdownPane");
-
-          $this.addClass("selected");
-
-          $this.trigger("show.dropdown-button");
-        
+        } else {
+          // If the content is no longer being displayed,
+          // remove the underlay div.
+          $('#' + settings['underlay']).remove();
         }
+        return false;
+      });
 
-      
-      })
-
-    }
-
-} ( window.jQuery )
+      // The container can have a close button, which when clicked
+      // it simulates the on the button that opened it.
+      var close_button = container.find(settings['close_button']);
+      close_button.on('click', function() {
+        open_button.trigger('click');
+        return false;
+      });
+    });
+  }
+}) (jQuery);

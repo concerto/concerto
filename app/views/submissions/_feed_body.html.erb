@@ -1,10 +1,10 @@
 <article>
   <div class="subnav clearfix">
   	<div class="pull-left" style="width:120px">
-      <div class="dropdown-container">
-        <a href="#" class="button dropdown-toggle js-dropdown-button" data-dropdown-pane="#jumptofeed">Jump to Feed...</a>
-        <div id="jumptofeed" class="dropdown medium">
-          <a href="#" class="close">x</a>
+      <div class="dropdown dropdown-container">
+        <a href="#" class="button dropdown-toggle dropdown-control">Jump to Feed...</a>
+        <div id="jumptofeed" class="dropdown-contents medium">
+          <a href="#" class="close dropdown-close">x</a>
           <h3>Click on a feed to jump to it</h3>
           <% feeds = dfs_tree(Feed.roots) %>
           <% if feeds.empty? %>
@@ -49,15 +49,16 @@
   				<br />
   				<%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
   				<br />
-          <span class="controls">
-            <a href="#" class="button small button-dropdown js-dropdown-button" data-dropdown-pane=".mod">Moderate</a>
-            <div class="dropdown small mod">
+          <div class="dropdown" style="float: left;">
+            <a href="#" class="button small dropdown-control">Moderate</a>
+            <div class="dropdown-contents small">
               <ul>
+                <li><%= submission.content.name %></li>
                 <li><a href="#">Approve</a></li>
                 <li><a href="#">Deny</a></li>
               </ul>
             </div>
-  				</span>
+          </div>
   			</div>
   		</li>
   		<% end %>
@@ -67,3 +68,6 @@
   </div>
 </article>
 <div class="clear"></div>
+<script type="text/javascript">
+  $('.dropdown').dropdown();
+</script>
