@@ -23,6 +23,9 @@ gem 'sqlite3'
 #RMagick is used for image resizing and processing
 gem "rmagick", ">= 2.12.2"
 
+# Attachable does all the file work.
+gem 'attachable', '>= 0.0.1'
+
 ## Bundle gems used only in certain environments:
 group :test do
   # Pretty printed test output
