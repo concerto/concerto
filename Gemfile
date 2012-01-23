@@ -30,7 +30,7 @@ gem 'sqlite3'
 gem "rmagick", ">= 2.12.2"
 
 # Attachable does all the file work.
-gem 'attachable', '>= 0.0.1'
+gem 'attachable', '>= 0.0.2'
 
 gem 'devise'
 gem 'cancan'
