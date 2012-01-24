@@ -1,5 +1,5 @@
 <% content_for :js_ready do %>
-  $(":range").rangeinput();
+  $("input#graphic_duration").rangeinput();
   var api = $(":range").data("rangeinput");
   seconds = api.getValue();
   seconds = seconds+"s";
@@ -14,14 +14,14 @@
     seconds = seconds+"s";
     $(".handle").html(seconds);
   });
-  $(".inputrange").hide();
+  $(".duration_range").hide();
 <% end %>
 
 <div class="clearfix">
 	<%= form.label :duration %>
 	<div class="input">
 		<div class="leftseconds"><%= min %>s</div>
-		<%= form.range_field :duration, {:min =>min, :max=>max, :class=>"inputrange"} %>
+		<%= form.range_field :duration, {:min =>min, :max=>max, :class=>"duration_range"} %>
 		<div class="rightseconds"><%= max %>s</div>
 	</div>
 </div>

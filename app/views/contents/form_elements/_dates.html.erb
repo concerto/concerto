@@ -1,5 +1,29 @@
 <% content_for :js_ready do %>
+$("#start_time_date").dateinput();
+$('#start_time_time').timepicker();
+$("#end_time_date").dateinput();
+$("#end_time_time").timepicker();
 
+var end_date_api = $("#end_time_date").data("dateinput");
+var start_date_api = $("#start_time_date").data("dateinput");
+
+$('#time_start').click(function() {
+  $('#start_time_time').trigger("focus");
+  });
+
+
+$('#time_end').click(function() {
+  $('#end_time_time').trigger("focus");
+  });
+
+
+$('#date_start').click(function(event) {
+  window.setTimeout(start_date_api.show, 1);
+  });
+
+$('#date_end').click(function(event) {
+  window.setTimeout(end_date_api.show, 1);
+  });
 <% end %>
 
 <div class="clearfix datetime">
