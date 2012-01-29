@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require html5_shiv/html5
 //= require_tree .
 
 $(document).ready(function () {
