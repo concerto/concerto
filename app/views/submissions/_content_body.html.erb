@@ -4,10 +4,13 @@
 	</div>
 </article>
 <aside>
-  <div class="btn-group" data-toggle="buttons-radio">
-    <button class="button">Approve</button>
-    <button class="button">Deny</button>
+  <div class="btn-toolbar">
+    <div class="btn-group" data-toggle="buttons-radio">
+      <button class="btn">Approve</button>
+      <button class="btn">Deny</button>
+    </div>
   </div>
+
   <%= render :partial => 'approve_form', :locals => { :submission => @submission } %>
 	<%= render :partial => 'deny_form', :locals => { :submission => @submission } %>
 	<br />
