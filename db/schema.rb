@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110809043113) do
+ActiveRecord::Schema.define(:version => 20120129214235) do
 
   create_table "contents", :force => true do |t|
     t.string   "name"
@@ -62,7 +63,7 @@ ActiveRecord::Schema.define(:version => 20110809043113) do
     t.string   "file_name"
     t.string   "file_type"
     t.integer  "file_size"
-    t.binary   "file_data",       :limit => 10485760
+    t.binary   "file_data",       :limit => 16777215
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -77,10 +78,10 @@ ActiveRecord::Schema.define(:version => 20110809043113) do
 
   create_table "positions", :force => true do |t|
     t.text     "style"
-    t.decimal  "top",         :default => 0.0
-    t.decimal  "left",        :default => 0.0
-    t.decimal  "bottom",      :default => 0.0
-    t.decimal  "right",       :default => 0.0
+    t.decimal  "top",         :precision => 6, :scale => 5, :default => 0.0
+    t.decimal  "left",        :precision => 6, :scale => 5, :default => 0.0
+    t.decimal  "bottom",      :precision => 6, :scale => 5, :default => 0.0
+    t.decimal  "right",       :precision => 6, :scale => 5, :default => 0.0
     t.integer  "field_id"
     t.integer  "template_id"
     t.datetime "created_at"
@@ -108,6 +109,7 @@ ActiveRecord::Schema.define(:version => 20110809043113) do
     t.integer  "duration"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "moderation_reason"
   end
 
   create_table "subscriptions", :force => true do |t|
