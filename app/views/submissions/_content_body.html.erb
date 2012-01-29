@@ -4,15 +4,19 @@
 	</div>
 </article>
 <aside>
-  <div class="btn-toolbar">
-    <div class="btn-group" data-toggle="buttons-radio">
-      <button class="btn">Approve</button>
-      <button class="btn">Deny</button>
+
+  <div class="form-stacked">
+    <h4>Moderate Content</h4>
+    <div id="moderate-select" class="btn-toolbar">
+      <div class="btn-group" data-toggle="buttons-radio">
+        <button class="btn approve">Approve</button>
+        <button class="btn deny">Deny</button>
+      </div>
     </div>
+
+    <div id="moderate-include"></div>
   </div>
 
-  <%= render :partial => 'approve_form', :locals => { :submission => @submission } %>
-	<%= render :partial => 'deny_form', :locals => { :submission => @submission } %>
 	<br />
 	<b>Approved?:</b>
   <%= @submission.moderation_flag %>

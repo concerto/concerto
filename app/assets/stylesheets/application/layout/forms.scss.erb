@@ -12,7 +12,7 @@ fieldset {
 		width:100%;
 		padding: 18px 0px 6px 0px;
 
-		span {
+    > span {
     	font-size: $basefont;
 			letter-spacing: 0.1em; 
 			text-transform: uppercase;
@@ -430,30 +430,34 @@ textarea[readonly] {
   }
 }
 
-// Stacked forms
+
+
+// Stacked Forms
+//------------------
+// These are not the default form designs but are used in certain places 
+// They place form labels on top of inputs to save horizontal space.
+// The .form-stacked class is usually appended to a form or fieldset element 
+// that encapsulates all of the inputs which should be stacked.
+
 .form-stacked {
-  padding-left: 20px;
-  fieldset {
-    padding-top: $baseline / 2;
+  legend > span {
+    padding-left: 0px;
   }
-  legend {
-    padding-left: 0;
-  }
+
   label {
     display: block;
     float: none;
     width: auto;
-    font-weight: bold;
     text-align: left;
-    line-height: 20px;
-    padding-top: 0;
   }
+
   .clearfix {
     margin-bottom: $baseline / 2;
     div.input {
       margin-left: 0;
     }
   }
+  
   .inputs-list {
     margin-bottom: 0;
     li {
@@ -475,4 +479,16 @@ textarea[readonly] {
     margin-left: -20px;
     padding-left: 20px;
   }
+}
+
+
+
+// Forms in Boxes
+//------------------
+// Entire <form> elements or <fieldset>'s can be inserted into bordered boxes
+// This is commonly done with groups of related inputs in the sidebar (submissions#show, for instance)
+
+.form-box {
+  @include border-radius(6px);
+  border:solid 1px $grayLight;
 }

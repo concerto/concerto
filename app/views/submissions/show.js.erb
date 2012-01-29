@@ -1,3 +1,27 @@
-$('#browse-header').html("<%= escape_javascript(render :partial => 'submissions/content_header') %>");
-$('section.C').removeClass('no');
-$('#browse-body').html("<%= escape_javascript(render :partial => 'submissions/content_body') %>");
+$("#browse-header").html("<%= escape_javascript(render :partial => 'submissions/content_header') %>");
+$("section.C").removeClass("no");
+$("#browse-body").html("<%= escape_javascript(render :partial => 'submissions/content_body') %>");
+
+$(document).on("click", "#moderate-select button.approve", function(event) {
+  event.preventDefault();
+  $("#moderate-include")
+    .slideUp("fast", function() {
+      $(this)
+        .empty()
+        .append("<%= escape_javascript(render :partial => 'submissions/approve_form', :locals => { :submission => @submission } ) %>")
+        .slideDown("fast");
+    });
+});
+
+$(document).on("click", "#moderate-select button.deny", function(event) {
+  event.preventDefault();
+  $("#moderate-include")
+    .slideUp("fast", function() {
+      $(this)
+        .empty()
+        .append("<%= escape_javascript(render :partial => 'submissions/deny_form', :locals => { :submission => @submission } ) %>")
+        .slideDown("fast");
+    });
+});
+
+
