@@ -1,11 +1,20 @@
 <div class="clearfix">
   <% feeds = dfs_tree(Feed.roots) %>
   <% if feeds.empty? %>
-  <p><%= t(:no_feeds)%></p>
+    <p><%= t(:no_feeds)%></p>
   <% else %>
-  <% feeds.each_with_index do |feed, i| %>
-  <%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed) %>
-  <%= "-" * feed.depth %> <%= feed.name %><br />
-  <% end %>
+    <input type="search" id="feed_filter" placeholder="Type here to filter"/>
+    <br />
+    <ol class='filterable'>
+    <% feeds.each_with_index do |feed, i| %>
+      <li data-filter="<%= feed.name %>"><%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed) %>
+      <%= "-" * feed.depth %> <%= feed.name %></li>
+    <% end %>
+    </ol>
   <% end %>
 </div>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#feed_filter').listFilter();
+});
+</script>
