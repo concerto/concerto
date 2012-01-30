@@ -1,4 +1,5 @@
 class SubmissionsController < ApplicationController
+  helper :contents
 
   def index
     @this_feed = Feed.find(params[:feed_id])

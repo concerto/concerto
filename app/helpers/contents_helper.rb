@@ -21,8 +21,9 @@ module ContentsHelper
     options.symbolize_keys! #All the cool kids do this
   
     options[:type] ||= 'default'
-    
-    render  :partial => "contents/#{content.class.to_s.underscore}/render_#{options[:type]}", 
-            :locals => {:content => content, :options => options}
+
+    render_partial_if("contents/#{content.class.to_s.underscore}/render_#{options[:type]}",
+                      "contents/render_#{options[:type]}",
+                      {:content => content, :options => options})
   end
 end
