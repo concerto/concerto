@@ -29,7 +29,7 @@
     var input_box = $(this);
     var lists = $(settings['list']);
 
-    this.bind('keyup.listFilter', function(event) {
+    this.bind('keyup.listFilter search.listFilter', function(event) {
 
       // A special case to clear the input if ESC is pushed
       if (event.keyCode == 27) {
@@ -37,6 +37,8 @@
       }
 
       var text = input_box.val();
+      var specials = new RegExp("[.*+?|()\\[\\]{}\\\\]", "g");
+      text = text.replace(specials, "\\$&");
       var regex = new RegExp('^' + text, 'i');
 
       lists.each(function() {
