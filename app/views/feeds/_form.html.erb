@@ -24,14 +24,17 @@
 				<%= f.text_area :description, :rows => 6, :class => "span6" %>
 			</div>
 		</div>
-		
+		<%
+                  feeds = dfs_tree(Feed.roots).collect{|c| [raw("&nbsp;&nbsp;")* c.depth + c.name, c.id ]}
+                  unless feeds.empty?
+                %>
 		<div class="clearfix">
 			<%= f.label t(:parent) %>
 	  	<div class="input">
 				<%= f.select :parent_id, dfs_tree(Feed.roots).collect{|c| [raw("&nbsp;&nbsp;")* c.depth + c.name, c.id ]}, {:include_blank => true }, :class => "span6" %>
 			</div>
 		</div>
-		
+		<% end %>
 		<div class="clearfix">
 			<%= f.label t(:group) %>
 	  	<div class="input">
