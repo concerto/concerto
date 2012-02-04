@@ -1,5 +1,5 @@
 class Frontend::ScreensController < ApplicationController
-  layout false
+  layout 'frontend'
 
   def show
     respond_to do |format|
