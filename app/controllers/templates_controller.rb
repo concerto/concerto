@@ -103,7 +103,8 @@ class TemplatesController < ApplicationController
     @height = @image.rows
     @width = @image.columns
     
-    if([Mime::JPG, Mime::PNG, Mime::HTML].include?(request.format))
+    jpg =  Mime::Type.lookup_by_extension(:jpg)  #JPG is getting defined elsewhere.
+    if([jpg, Mime::PNG, Mime::HTML].include?(request.format))
       if !@template.positions.empty?
         dw = Magick::Draw.new
         @template.positions.each do |position|
@@ -125,13 +126,15 @@ class TemplatesController < ApplicationController
       end      
 
       case request.format
-      when Mime::JPG
+      when jpg
         @image.format = "JPG"
       when Mime::PNG
         @image.format = "PNG"
       end
     
-      send_data @image.to_blob, :filename => "#{@template.name.underscore}.#{@image.format.downcase}", :type => @image.mime_type, :disposition => 'inline'
+      send_data @image.to_blob,
+                :filename => "#{@template.name.underscore}.#{@image.format.downcase}_preview",
+                :type => @image.mime_type, :disposition => 'inline'
     else
       respond_to do |format|
         format.svg
