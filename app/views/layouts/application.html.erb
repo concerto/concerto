@@ -14,9 +14,18 @@
 	<%= javascript_include_tag "html5.js" %>
 	<![endif]-->
 </head>
-<body>
-	<%= render :partial => "elements/topmenu" %>
-	<div id="main">
+<body class="TM-visible">
+  <nav id="show-TM">
+    <a href="#">-- Show Top Menu --</a>
+  </nav>
+
+  <!--googleoff: all-->
+  <nav id="TM">
+    <%= render :partial => "elements/topmenu_contents" %>
+  </nav>
+  <!--googleon: all-->
+  
+  <div id="main">
   	<% if flash[:notice] %>
     	<p class="notice"><%= notice %></p>
   	<% end %>

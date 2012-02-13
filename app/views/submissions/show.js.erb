@@ -1,3 +1,15 @@
+/*$("#TM").slideUp("fast", function() {
+  $("#show-TM").slideDown("fast");
+});
+
+$(document).on("click", "#show-TM", function(event) {
+  event.preventDefault();
+  $("#show-TM").slideUp("fast", function() {
+    $("#TM").slideDown("fast");
+  });
+});
+*/
+
 $("#browse-header").html("<%= escape_javascript(render :partial => 'submissions/content_header') %>");
 $("section.C").removeClass("no");
 $("#browse-body").html("<%= escape_javascript(render :partial => 'submissions/content_body') %>");
