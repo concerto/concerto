@@ -2,6 +2,25 @@
 
 <nav id="TM">
 	
+	<!-- Begin User Login Area -->
+	<section>
+		<div class="TM-sectop">
+			<% if user_signed_in? %>
+			<p><b><%= current_user.name %></b></p>
+			<% else %>
+			<p><b>Concerto</b></p>
+			<% end %>
+		</div>
+		<div class="TM-secbot">
+		    <% if user_signed_in? %>
+          <h1><%= link_to t(:settings), edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to t(:log_out), destroy_user_session_path %> </h1>
+			<% else %>
+			  <h1><%= link_to t(:sign_in), new_user_session_path %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to t(:sign_up), new_user_registration_path %></h1>
+			<% end %>
+		</div>
+	</section>
+	<!-- End User Login Area -->
+	
 	<!-- Begin Menu for CONTENT -->
 	<section>
 		<div class="TM-sectop">
