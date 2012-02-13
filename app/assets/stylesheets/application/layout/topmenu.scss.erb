@@ -9,11 +9,12 @@
 
 nav#TM {
  	width: 100%;
- 	background: image-url('layout/TM/TM_bg.png') top left repeat;
-	height:69px; 
+  @include vertical-gradient(#fbfbfb, #d5d5d5);
+  @include box-shadow(0px 1px 6px $gray);
+  border-bottom: solid 1px #999;
 	
- 	.button {
-		@extend .button;  // uses a.button as a template, which in turn uses button-base mixin
+ 	.btn {
+		@extend .btn;  // uses a.button as a template, which in turn uses button-base mixin
 
 		// custom attributes:
 		@include border-radius(6px);
@@ -21,8 +22,8 @@ nav#TM {
    	color: #666;
    	text-shadow: 0 1px #eee;
    	margin: 0px 2px;
-   	height: 23px;
-   	padding: 7px 20px 0px 20px;
+    padding: 4px 10px;
+    font-size: 11px;
    	border: solid 1px #999;
 		float: left;
 
@@ -35,8 +36,8 @@ nav#TM {
     &:active {
    		background-position: 100% -62px;
    		border: solid 1px #333;
-			height: 22px;
-   		padding: 8px 20px 0px 20px; 
+      padding-top: 5px;
+      padding-bottom: 3px;
 		}
 
 		&:visited {
@@ -85,23 +86,24 @@ nav#TM {
 	
 	// each part of the menu is a "section"
 	section {	
-		border-right:solid 1px #ccc; 
-		height: 59px;
+    border-right:solid 1px #ccc; 
   	float: left;
   	margin: 0px;
-		padding: 4px 2px 0px 2px;
+    padding-top: 4px;
 	
 		.TM-sectop {
-	  	height: 38px; 
+      height: 34px; 
 		}
 		
-		.TM-secbot {
+    .TM-secbot {
+      background: #f9f9f9;
+
 			h1 {
 				color: #666;
-		  	font-size: 0.8em;
+		  	font-size: 0.75em;
 		  	font-weight: 400;
 		  	text-shadow: 0 0.05em #FFF;
-		  	padding-top: 6px;
+		  	padding: 3px 0px;
 		  	text-transform: uppercase;
 		  	letter-spacing: 0.3em;
 		  	text-align: center;

@@ -2,30 +2,11 @@
 
 <nav id="TM">
 	
-	<!-- Begin User Login Area -->
-	<section id="LG-inner">
-		<div class="TM-sectop">
-			<% if user_signed_in? %>
-			<p><b><%= current_user.name %></b></p>
-			<% else %>
-			<p><b>Concerto</b></p>
-			<% end %>
-		</div>
-		<div class="TM-secbot">
-		    <% if user_signed_in? %>
-			  <p><%= link_to t(:settings), edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to t(:log_out), destroy_user_session_path %> </p>
-			<% else %>
-			  <p><%= link_to t(:sign_in), new_user_session_path %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to t(:sign_up), new_user_registration_path %></p>
-			<% end %>
-		</div>
-	</section>
-	<!-- End User Login Area -->
-	
 	<!-- Begin Menu for CONTENT -->
 	<section>
 		<div class="TM-sectop">
-			<%= link_to new_content_path, :class => "button #{ current_page?(new_content_path) ? 'selected' : '' }" do %><%= t(:add) %><% end %>
-			<%= link_to contents_path, :class => "button #{ current_page?(contents_path) ? 'selected' : '' }" do %><%= t(:browse) %><% end %>
+			<%= link_to new_content_path, :class => "btn #{ current_page?(new_content_path) ? 'selected' : '' }" do %><%= t(:add) %><% end %>
+			<%= link_to contents_path, :class => "btn #{ current_page?(contents_path) ? 'selected' : '' }" do %><%= t(:browse) %><% end %>
 		</div>
 		<div class="TM-secbot">
 			<h1><%= t(:content) %></h1>
@@ -36,7 +17,7 @@
 	<!-- Begin Menu for SCREENS -->
 	<section>
 		<div class="TM-sectop">
-			<%= link_to screens_path, :class => "button #{ controller.controller_name == 'screens' ? 'selected' : '' }" do %><%= t(:manage) %><% end %>
+			<%= link_to screens_path, :class => "btn #{ controller.controller_name == 'screens' ? 'selected' : '' }" do %><%= t(:manage) %><% end %>
 		</div>
 		<div class="TM-secbot">
 			<h1><%= t(:screens) %></h1>
@@ -47,7 +28,7 @@
 	<!-- Begin Menu for FEEDS -->
 	<section>
 		<div class="TM-sectop">
-			<%= link_to feeds_path, :class => "button #{ controller.controller_name == 'feeds' ? 'selected' : '' }" do %><%= t(:manage) %><% end %>
+			<%= link_to feeds_path, :class => "btn #{ controller.controller_name == 'feeds' ? 'selected' : '' }" do %><%= t(:manage) %><% end %>
 		</div>
 		<div class="TM-secbot">
 			<h1><%= t(:feeds) %></h1>
@@ -58,8 +39,8 @@
 	<!-- Begin Menu for USER GROUPS -->
 	<section>
 		<div class="TM-sectop">
-			<%= link_to groups_path, :class => "button #{ controller.controller_name == 'groups' ? 'selected' : '' }" do %><%= t(:groups) %><% end %>
-			<%= link_to users_path, :class => "button #{ controller.controller_name == 'users' ? 'selected' : '' }" do %>Accounts<% end %>
+			<%= link_to groups_path, :class => "btn #{ controller.controller_name == 'groups' ? 'selected' : '' }" do %><%= t(:groups) %><% end %>
+			<%= link_to users_path, :class => "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" do %>Accounts<% end %>
 		</div>
 		<div class="TM-secbot">
 			<h1><%= t(:users) %></h1>
@@ -67,7 +48,7 @@
 	</section>
 	<!-- End Menu for USER GROUPS -->
 	
-
+  <div class="clear"></div>
 
 </nav>
 <!--googleon: all-->
