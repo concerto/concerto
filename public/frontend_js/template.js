@@ -57,4 +57,12 @@ concerto.frontend.Template.prototype.load = function(data) {
 };
 
 
-concerto.frontend.Template.prototype.getDiv = function() { return this.div_; };
+/**
+ * Inset a div into the template.
+ * We treat the template div as a private variable,
+ * so we should avoid touching it outside the Template class.
+ * @param {!Object} div The think to insert into the template.
+ */
+concerto.frontend.Template.prototype.inject = function(div) {
+  goog.dom.appendChild(this.div_, div);
+};

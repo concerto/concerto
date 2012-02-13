@@ -29,7 +29,7 @@ concerto.frontend.Position.prototype.createDiv = function() {
   var div = goog.dom.createDom('div');
   goog.style.setStyle(div, 'position', 'absolute');
   goog.style.setStyle(div, 'background-color', 'green');
-  goog.dom.appendChild(this.template.getDiv(), div);
+  this.template.inject(div);
   this.div_ = div;
 };
 
