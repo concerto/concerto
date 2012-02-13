@@ -4,8 +4,20 @@
   <title>Concerto - Open Source Digital Signage</title>
   <%= csrf_meta_tag %>
   <script src="/frontend_js/closure-library/closure/goog/base.js"></script>
-  <script src="/frontend_js/hello.js"></script>
+  <script src="/frontend_js/position.js"></script>
+  <script src="/frontend_js/template.js"></script>
+  <script src="/frontend_js/screen.js"></script>
+  <style type="text/css">
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+  </style>
 </head>
-<body onLoad="sayHi()">
+<body>
+  <script type="text/javascript">
+    var s = new concerto.frontend.Screen(1);
+  </script>
 </body>
 </html>
