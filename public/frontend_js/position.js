@@ -2,17 +2,30 @@ goog.require('goog.style');
 
 goog.provide('concerto.frontend.position');
 
-concerto.frontend.Position = function(template, div){
+
+
+/**
+ * A Position on a Template.
+ * @param {!Object} template The concerto.frontend.Template that
+ *   is holding this position.
+ * @param {?Object} div The div to use for the position.
+ * @constructor
+ */
+concerto.frontend.Position = function(template, div) {
   this.id = null;
   this.template = template;
-  if (!goog.isDefAndNotNull(div)){
+  if (!goog.isDefAndNotNull(div)) {
     this.createDiv();
   } else {
     this.div_ = div;
   }
 };
 
-concerto.frontend.Position.prototype.createDiv = function(){
+
+/**
+ * Create the div to use for the position.
+ */
+concerto.frontend.Position.prototype.createDiv = function() {
   var div = goog.dom.createDom('div');
   goog.style.setStyle(div, 'position', 'absolute');
   goog.style.setStyle(div, 'background-color', 'green');
@@ -20,7 +33,13 @@ concerto.frontend.Position.prototype.createDiv = function(){
   this.div_ = div;
 };
 
-concerto.frontend.Position.prototype.load = function(data){
+
+/**
+ * Setup the position.
+ * Load data and use it to setup the position, then draw it.
+ * @param {!Object} data The position information.
+ */
+concerto.frontend.Position.prototype.load = function(data) {
   this.id = data.id;
   this.bottom = parseFloat(data.bottom);
   this.left = parseFloat(data.left);
@@ -31,9 +50,17 @@ concerto.frontend.Position.prototype.load = function(data){
   this.draw();
 };
 
-concerto.frontend.Position.prototype.draw = function(){
-  goog.style.setPosition(this.div_, (this.left*100) + '%', (this.top*100) + '%');
-  var height = this.bottom - this.top;
-  var width = this.right - this.left;
-  goog.style.setSize(this.div_, (width*100) + '%', (height*100) + '%');
+
+/**
+ * Draw the position.
+ * Set the position (top, left) of the div, and
+ * set the size of it using the stored data.
+ */
+concerto.frontend.Position.prototype.draw = function() {
+  var left = this.left * 100;
+  var top = this.top * 100;
+  goog.style.setPosition(this.div_, left + '%', top + '%');
+  var height = (this.bottom - this.top) * 100;
+  var width = (this.right - this.left) * 100;
+  goog.style.setSize(this.div_, width + '%', height + '%');
 };
