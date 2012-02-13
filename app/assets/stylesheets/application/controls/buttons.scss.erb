@@ -134,8 +134,7 @@
     margin-top: -1px;
   }
 
-
-  	// back button:
+  // back button:
 	&.back {
 		@include no-box-shadow;
 		@include border-radius-corners(0px, 4px, 4px, 0px);
@@ -225,3 +224,20 @@ input[type="submit"].btn {
     *padding-bottom: 3px;
   }
 }
+
+// Links with Highlights
+//----------------
+// these are not normal buttons per se but rather links with background highlights 
+// when the user hovers over them
+
+.link-hl {
+  padding: 1px;
+  padding-right: 3px;
+
+  &:hover {
+    background: $concerto-blue-5;
+    color: $concerto-blue-0;
+    text-decoration: none;
+  }
+}
+

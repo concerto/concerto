@@ -1,23 +1,24 @@
 <article>
-  <div class="pull-left" style="width:48%;">
-  	<h1>Browse by Feed</h1>
-  	<% @feeds.each do |feed| %>
-  	<h3>
-  		<%= link_to feed_submissions_path(feed), :remote => true, :class => "browse_feedlink" do %><%= feed.name %> <span class="count">(<%= feed.approved_contents.count %>)</span><% end %>
-  	</h3>
-  	<h4><%= feed.description %></h4>
-  	<p>Sub-Feeds: <% feed.children.each do |sub_feed| %><%= link_to feed_submissions_path(sub_feed), :remote => true do %><%= sub_feed.name %> <span class="count">(<%= sub_feed.approved_contents.count %>)</span><% end %>, <% end %></p>
-  	<br />
-  	<% end %>
-  </div>
-  <div class="pull-right" style="width:48%;">
-  	<h1>Browse by Screen</h1>
-  	<% @screens.each do |screen| %>
-  	<h3>
-  		<%= link_to screen, :remote => true do %><%= screen.name %> <span class="count">(Count?)</span><% end %>
-  	</h3>
-  	<% end %>
-  </div>
-  <div class="clear"></div>
-</article>
-<div class="clear"></div>
+<ul class="SL">
+  <% @feeds.each do |feed| %>
+    <li>
+    <h3>
+      <%= link_to feed_submissions_path(feed), :remote => true, :class => "link-hl" do %>
+        <span class="badge"><%= feed.approved_contents.count %></span> <%= feed.name %>
+    <% end %>
+    <small>&nbsp;&nbsp;<%= feed.description %></small>
+  </h3>
+  <% if feed.children.count > 0 %>
+    <p class="indented">Sub-feeds: 
+    <% feed.children.each do |sub_feed| %>
+      <%= link_to feed_submissions_path(sub_feed), :remote => true, :class => "link-hl" do %>
+        <%= sub_feed.name %>
+      <% end %>
+    <% end %>
+    </p>
+  <% end %>
+  </li>
+<% end %>
+    </ul>
+    </article>
+    <div class="clear"></div>

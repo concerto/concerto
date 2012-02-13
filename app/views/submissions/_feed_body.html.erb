@@ -1,61 +1,63 @@
 <article>
-  <div class="subnav clearfix">
-  	<div class="pull-left" style="width:120px">
-      <div class="dropdown dropdown-container">
-        <a href="#" class="button dropdown-toggle dropdown-control">Jump to Feed...</a>
-        <div id="jumptofeed" class="dropdown-contents medium">
-          <a href="#" class="close dropdown-close">x</a>
-          <h3>Click on a feed to jump to it</h3>
-          <% feeds = dfs_tree(Feed.roots) %>
-          <% if feeds.empty? %>
-            <p><%= t(:no_feeds) %></p>
-          <% else %>
-            <input type="search" id="filter_feeds" placeholder="Type here to filter"/>
-            <ul class="filterable">
-              <% feeds.each_with_index do |feed, i| %>
-                <li data-filter="<%= feed.name %>">
-                  <%= link_to feed_submissions_path(feed), :remote => true do %>
-                    <%= feed.name %> <span class="count">(<%= feed.approved_contents.count %>)</span>
-                  <% end %>
-                </li>
+<div class="subnav clearfix">
+  <div class="pull-left" style="width:120px">
+    <div class="dropdown dropdown-container">
+      <a href="#" class="button dropdown-toggle dropdown-control">Jump to Feed...</a>
+      <div id="jumptofeed" class="dropdown-contents medium">
+        <a href="#" class="close dropdown-close">x</a>
+        <h3>Click on a feed to jump to it</h3>
+        <% feeds = dfs_tree(Feed.roots) %>
+        <% if feeds.empty? %>
+          <p><%= t(:no_feeds) %></p>
+        <% else %>
+          <input type="search" id="filter_feeds" placeholder="Type here to filter"/>
+          <ul class="filterable">
+            <% feeds.each_with_index do |feed, i| %>
+              <li data-filter="<%= feed.name %>">
+              <%= link_to feed_submissions_path(feed), :remote => true, :class => "link-hl" do %>
+                <%= feed.name %> <span class="badge"><%= feed.approved_contents.count %></span>
               <% end %>
-            </ul>
-          <% end %>
-        </div>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
       </div>
     </div>
-
-					
-  	<ul class="tabs">
-  	  <% if @sub_feeds.size < 1 %>
-  	  	<li class="legend">No Sub-feeds</li>
-  	  <% else %>
-  	  	<li class="legend">Sub-feeds:</li>
-  	  <% end %>
-  		<% @sub_feeds.each do |feed| %>
-      <li><%= link_to feed_submissions_path(feed), :remote => true do %><%= feed.name %> <span class="count">(<%= feed.approved_contents.count %>)</span><% end %></li>
-  		<% end %>
-  	</ul>
-					
   </div>
-  <div id="content_holder">
-				
-  	<% if @submissions.size == 0 %>
+
+
+  <ul class="tabs">
+    <% if @sub_feeds.size < 1 %>
+      <li class="legend">No Sub-feeds</li>
+    <% else %>
+      <li class="legend">Sub-feeds:</li>
+    <% end %>
+    <% @sub_feeds.each do |feed| %>
+      <li>
+        <%= link_to feed_submissions_path(feed), :remote => true do %><span class="badge"><%= feed.approved_contents.count %></span> <%= feed.name %><% end %>
+      </li>
+    <% end %>
+  </ul>
+
+</div>
+<div id="content_holder">
+
+  <% if @submissions.size == 0 %>
     <div class="default-padding">
       <h3>Oops - there's no content inside this feed.</h3>
     </div>
-    <% else %>
+  <% else %>
     <ul class="GL">
-  		<% @submissions.each do |submission| %>
-  	  <li>
-  			<div>
-  				<%= link_to [submission.feed, submission], :remote => true do %>
-                                  <%= render_content(submission.content, {:type => 'grid'}) %>
-                                <% end %>
-  				<b><%= link_to submission.content.name, [submission.feed, submission], :remote => true %></b>
-  				<br />
-  				<%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
-  				<br />
+      <% @submissions.each do |submission| %>
+        <li>
+        <div>
+          <%= link_to [submission.feed, submission], :remote => true do %>
+            <%= render_content(submission.content, {:type => 'grid'}) %>
+          <% end %>
+          <b><%= link_to submission.content.name, [submission.feed, submission], :remote => true %></b>
+          <br />
+          <%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
+          <br />
           <div class="dropdown" style="float: left;">
             <a href="#" class="btn small dropdown-control">Moderate</a>
             <div class="dropdown-contents small">
@@ -66,18 +68,18 @@
               </ul>
             </div>
           </div>
-  			</div>
-  		</li>
-  		<% end %>
-  	</ul>
-		<% end %>
-    		
-  </div>
+        </div>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+</div>
 </article>
 <div class="clear"></div>
 <script type="text/javascript">
-$(document).ready(function() {
-  $('.dropdown').dropdown();
-  $('#filter_feeds').listFilter();
-});
+  $(document).ready(function() {
+      $('.dropdown').dropdown();
+      $('#filter_feeds').listFilter();
+  });
 </script>

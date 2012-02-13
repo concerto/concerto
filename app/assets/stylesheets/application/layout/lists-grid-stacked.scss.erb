@@ -1,0 +1,120 @@
+// lists-grid-stacked.scss.erb
+
+
+
+//---------------
+// Gridlist UL
+// This UL aligns 1..n items in a visual grid. Each item is floated left and fills up available space 
+// (20% width apiece). This UL is used extensively on browse content grids of content.
+
+@mixin gridlist-item {
+	list-style: none;
+	float: left;
+	min-width: 150px;
+	width:20%;
+	min-height:80px;
+	
+  > div {	 // in this case, the singular gridlist item is ul li a
+		padding: 12px;
+		border-right: solid 1px $grayLight;
+		border-bottom: solid 1px $grayLight;
+		min-height: 64px;
+		display: block;
+		text-decoration:none;
+		
+		// these elements come along for the ride by bringing in gridlist-item mixin:
+		b {
+			color: $black;
+		}
+		
+		.controls {
+			background: $grayLightest;
+			display: block;
+			margin-top: 4px;
+			padding: 4px;
+		}
+		
+	}
+	
+  img {
+		@extend .with-shadow;
+		float: left;
+		margin-bottom:6px;
+		margin-right:10px;
+	}
+
+	.content {
+		h1 {
+			font-size: 1.2em;
+ 			color: #333;
+ 			background:none;
+ 			padding: 0px;
+ 			margin: 0px;
+ 			font-weight: bold;
+ 			text-align: center;
+		}
+		
+		p {
+			font-size:0.8em;
+		}
+		
+	}
+	
+}
+
+ul.GL {
+	border-top:solid 1px $grayLight;
+	margin: 0px;
+	padding: 0px;
+	
+  > li {
+		@include gridlist-item;		
+	}	
+}
+
+
+//---------------
+// Stacked lists UL
+// An alternative to gridlists, this UL simply stacks its list items
+// on top of one another with visual elements. It is often used for 
+// nested lists, such as the feed list on contents#index.
+
+// this mixin defines how each top-level item looks in the UL:
+@mixin stackedlist-item {
+  //@include vertical-gradient($white, #eee);
+  border-top: solid 1px $grayLighter;
+  padding: 12px;
+}
+
+// this mixin defines how each second-level (nested) item looks in the UL:
+@mixin stackedlist-nesteditem {
+  padding-left: 25px;
+  background: #efefef;
+}
+
+ul.SL {
+  margin-left: 0px;
+
+  > li {
+    @include stackedlist-item;
+
+    // this is the second level of UL, which represents a nested list
+    // we only recommend one level deep of visual nesting
+    ul {
+      margin-left: 0px;
+
+      > li {
+        @include stackedlist-nesteditem;
+      }
+    }
+
+  }
+
+  p {
+    margin:0px;
+  }
+  
+  .indented {
+    padding-left: 20px;
+  }
+}
