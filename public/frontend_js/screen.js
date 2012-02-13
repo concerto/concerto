@@ -26,7 +26,7 @@ concerto.frontend.Screen = function(screen_id) {
  * the screen setup data.
  * @return {string} Screen setup URL.
  */
-concerto.frontend.Screen.prototype.config_url = function() {
+concerto.frontend.Screen.prototype.configUrl = function() {
   var url = ['/frontend/', this.id, '/setup.json'];
   return url.join('');
 };
@@ -37,7 +37,7 @@ concerto.frontend.Screen.prototype.config_url = function() {
  * Download the config, parse it, and start creating the template.
  */
 concerto.frontend.Screen.prototype.setup = function() {
-  var url = this.config_url();
+  var url = this.configUrl();
   this.connection.send('setup', url, 'GET', '', null, 1, goog.bind(function(e) {
     var xhr = e.target;
     var obj = xhr.getResponseJson();
