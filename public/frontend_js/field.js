@@ -9,7 +9,7 @@ goog.provide('concerto.frontend.Field');
 /**
  * A Position's Field.
  * Responsible for rendering the content in a position.
- * @param {Object} position The position that owns this.
+ * @param {!concerto.frontend.Position} position The position that owns this.
  * @param {number} id The field ID number.
  * @constructor
  */

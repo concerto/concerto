@@ -9,18 +9,18 @@ goog.provide('concerto.frontend.position');
 
 /**
  * A Position on a Template.
- * @param {!Object} template The concerto.frontend.Template that
+ * @param {!concerto.frontend.Template} template The template
  *   is holding this position.
- * @param {?Object} div The div to use for the position.
+ * @param {Object=} opt_div The div to use for the position.
  * @constructor
  */
-concerto.frontend.Position = function(template, div) {
+concerto.frontend.Position = function(template, opt_div) {
   this.id = null;
   this.template = template;
-  if (!goog.isDefAndNotNull(div)) {
+  if (!goog.isDefAndNotNull(opt_div)) {
     this.createDiv();
   } else {
-    this.div_ = div;
+    this.div_ = opt_div;
   }
 };
 

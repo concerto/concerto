@@ -10,17 +10,19 @@ goog.provide('concerto.frontend.template');
 /**
  * Screen Template.
  * The template being shown on the screen.
- * @param {=Object} div Div to hold template.
- *   will be created if needed.
+ * @param {!concerto.frontend.Screen} screen The screen showing this template.
+ * @param {Object=} opt_div Div to hold template.
+ *   Will be created if needed.
  * @constructor
  */
-concerto.frontend.Template = function(div) {
+concerto.frontend.Template = function(screen, opt_div) {
+  this.screen = screen;
   this.id = null;
   this.positions = [];
-  if (!goog.isDefAndNotNull(div)) {
+  if (!goog.isDefAndNotNull(opt_div)) {
     this.createDiv();
   } else {
-    this.div_ = div;
+    this.div_ = opt_div;
   }
 };
 
@@ -31,10 +33,10 @@ concerto.frontend.Template = function(div) {
  * take up the full document body.
  */
 concerto.frontend.Template.prototype.createDiv = function() {
-  var div = goog.dom.createDom('div');
+  var div = goog.dom.createDom('div', {'id': 'template', 'class': 'template'});
   goog.style.setSize(div, '100%', '100%');
   goog.style.setStyle(div, 'background-color', 'blue');
-  goog.dom.appendChild(document.body, div);
+  this.screen.inject(div);
   this.div_ = div;
 };
 
@@ -47,6 +49,8 @@ concerto.frontend.Template.prototype.createDiv = function() {
  */
 concerto.frontend.Template.prototype.load = function(data) {
   this.id = data.id;
+  goog.dom.setProperties(this.div_, {'id': 'template_' + this.id});
+
   if (goog.isDefAndNotNull(data.positions)) {
     goog.array.forEach(data.positions, goog.bind(function(position_data) {
       var position = new concerto.frontend.Position(this);
@@ -58,10 +62,10 @@ concerto.frontend.Template.prototype.load = function(data) {
 
 
 /**
- * Inset a div into the template.
+ * Insert a div into the template.
  * We treat the template div as a private variable,
  * so we should avoid touching it outside the Template class.
- * @param {!Object} div The think to insert into the template.
+ * @param {!Object} div The thing to insert into the template.
  */
 concerto.frontend.Template.prototype.inject = function(div) {
   goog.dom.appendChild(this.div_, div);

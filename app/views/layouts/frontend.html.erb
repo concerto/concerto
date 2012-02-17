@@ -15,10 +15,13 @@
       height: 100%;
     }
   </style>
-</head>
-<body>
   <script type="text/javascript">
-    var s = new concerto.frontend.Screen(1);
+    var s;
+    function load(){
+      s = new concerto.frontend.Screen(1);
+    }
   </script>
+</head>
+<body onload="load()">
 </body>
 </html>
