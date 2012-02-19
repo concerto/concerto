@@ -1,0 +1,23 @@
+<article>
+  <div>
+    <% if @screens.size == 0 %>
+      <div class="default-padding">
+        <h3>Oops - there are no screens to display.  <%= link_to "Why not add one?", new_screen_path %></h3>
+      </div>
+    <% else %>
+      <ul class="GL">
+        <% @screens.each do |screen| %>
+          <li>
+            <div>
+              <%= link_to screen do %>
+                Image
+              <% end %>
+              <b><%= link_to screen.name, screen %></b>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
+</article>
+<div class="clear"></div>
