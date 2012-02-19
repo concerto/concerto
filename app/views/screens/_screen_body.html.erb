@@ -1,0 +1,35 @@
+<article>
+  <h1>See screen preview and modify subscriptions</h1>
+</article>
+
+<aside>
+
+  <div>
+    <%= link_to 'Edit Screen Details', edit_screen_path(@screen), :class => "btn" %>
+    <br /><br />
+
+    <p><b>Location:</b> <%= @screen.location %></p>
+
+    <p><b>Owned by:</b> <%= @screen.owner ? @screen.owner.name : 'No Group' %></p>
+
+    <p>
+      <b>Current Subscriptions:</b>
+
+      <ul>
+        <% @screen.fields.each do |field| %>
+          <li><%= field.name %></li>
+          <% if !field.subscriptions.empty? %>
+            <ul>
+              <% field.subscriptions.each do |subscription| %>
+                <li><%= link_to subscription.feed.name, subscription.feed %><%= " - #{subscription.weight}" unless subscription.weight.blank?%></li>
+              <% end %>
+            </ul>
+          <% end %>
+        <% end %>
+      </ul>
+    </p>
+  </div>
+
+</aside>
+
+<div class="clear"></div>

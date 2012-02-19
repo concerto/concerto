@@ -1,45 +1,8 @@
-<p>
-  <b>Name:</b>
-  <%= @screen.name %>
-</p>
-
-<p>
-  <b>Location:</b>
-  <%= @screen.location %>
-</p>
-
-<p>
-  <b>Is public:</b>
-  <%= @screen.is_public %>
-</p>
-
-<p>
-  <b>Owner:</b>
-  <%= @screen.owner.name %>
-</p>
-
-<p>
-  <b>Template:</b>
-  <%= link_to @screen.template.name, @screen.template %>
-</p>
-<p>
-  <b>resolution</b>
-  <%= @screen.width %> X <%= @screen.height %> (<%= @screen.aspect_ratio["width"] %>:<%=  @screen.aspect_ratio["height"] %>)
-</p>
-<p>
-  <b>Current Subscriptions:</a>
-  <ul>
-    <% @screen.fields.each do |field| %>
-      <li><%= field.name %></li>
-      <% if !field.subscriptions.empty? %>
-        <ul>
-          <% field.subscriptions.each do |subscription| %>
-            <li><%= link_to subscription.feed.name, subscription.feed %><%= " - #{subscription.weight}" unless subscription.weight.blank?%></li>
-          <% end %>
-        </ul>
-      <% end %>
-    <% end %>
-  </ul>
-</p>
-<%= link_to 'Edit', edit_screen_path(@screen) %> |
-<%= link_to 'Back', screens_path %>
+<section class="C">
+  <header id="screens-header">
+    <%= render :partial => "screens/screen_header" %>
+  </header>
+  <div id="screens-body" class="C-cont">
+    <%= render :partial => "screens/screen_body" %>
+  </div>
+</section>

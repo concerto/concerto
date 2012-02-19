@@ -1,6 +1,6 @@
 <section class="C">
 	<header id="browse-header">
-		<h1 id="contentlist"><%= @submission.content.name %></h1>
+		<%= render :partial => "submissions/content_header" %>
 	</header> 
 	<div id="browse-body" class="C-cont">
 		<%= render :partial => "submissions/content_body" %>
