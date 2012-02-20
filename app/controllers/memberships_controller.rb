@@ -3,7 +3,14 @@ class MembershipsController < ApplicationController
   # POST /groups/:group_id/memberships.xml
   def create
     @group = Group.find(params[:group_id])
-    @membership = Membership.new({:user_id => params[:membership][:user_id], :group_id => params[:group_id]})
+
+    if params[:autoconfirm]
+      @membership = Membership.find_or_create_by_user_id_and_group_id(params[:membership][:user_id], params[:group_id])
+      @membership.update_attributes(:moderation_flag => 'true', :level => Membership::LEVELS[:regular])
+    else
+      @membership = Membership.find_or_create_by_user_id_and_group_id(params[:user_id], params[:group_id])
+      @membership.update_attributes(:moderation_flag => nil, :level => Membership::LEVELS[:pending])
+    end
 
     respond_to do |format|
       if @membership.save
@@ -16,30 +23,6 @@ class MembershipsController < ApplicationController
     end
   end
   
-  # PUT /groups/:group_id/memberships/1/promote
-  # PUT /groups/:group_id/memberships/1/promote.xml
-  def promote
-    @membership = Membership.find(params[:id])
-    @membership.level = Membership::LEVELS[:leader]
-    if @membership.save
-      redirect_to(@membership.group, :notice => t(:member_promoted)) 
-    else
-      redirect_to @membership.group
-    end
-  end
-  
-  # PUT /groups/:group_id/memberships/1/demote
-  # PUT /groups/:group_id/memberships/1/demote.xml
-  def demote
-    @membership = Membership.find(params[:id])
-    @membership.level = Membership::LEVELS[:regular]
-    if @membership.save
-      redirect_to(@membership.group, :notice => t(:member_demoted)) 
-    else
-      redirect_to @membership.group
-    end
-  end
-
   # PUT /groups/:group_id/memberships/1
   # PUT /groups/:group_id/memberships/1.xml
   def update
@@ -67,6 +50,31 @@ class MembershipsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(@group, :notice => t(:member_removed)) }
       format.xml  { head :ok }
+    end
+  end
+
+  # PUT /groups/:group_id/memberships/1/approve
+  def approve
+    membership = Membership.find(params[:id])
+    respond_to do |format|
+      if membership.approve()
+        format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_approved)) }
+      else
+        format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_failed_approve)) }
+      end
+    end
+  end
+  
+  # PUT /groups/:group_id/memberships/1/deny
+  def deny
+    membership = Membership.find(params[:id])
+    respond_to do |format|
+      if membership.deny()
+        format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membersip_denied)) }
+      else
+        logger.debug membership.errors
+        format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_failed_deny)) }
+      end
     end
   end
 end
