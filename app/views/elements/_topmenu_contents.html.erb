@@ -22,7 +22,7 @@
 <section>
 <div class="TM-sectop">
   <%= link_to new_content_path, :class => "btn #{ current_page?(new_content_path) ? 'selected' : '' }" do %><%= t(:add) %><% end %>
-  <%= link_to contents_path, :class => "btn #{ current_page?(contents_path) || current_page?(feed_submission_path) ? 'selected' : '' }" do %><%= t(:browse) %><% end %>
+  <%= link_to contents_path, :class => "btn #{ current_page?(contents_path) || current_page?(:controller => 'submissions', :action => 'index') || current_page?(:controller => 'submissions', :action => 'show') ? 'selected' : '' }" do %><%= t(:browse) %><% end %>
 </div>
 <div class="TM-secbot">
   <h1><%= t(:content) %></h1>
