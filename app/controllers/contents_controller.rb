@@ -99,6 +99,10 @@ class ContentsController < ApplicationController
   # PUT /contents/1.xml
   def update
     @content = Content.find(params[:id])
+    submissions = Submission.where(:content_id => params[:id])
+    submissions.each do |submission|
+      submission.update_attributes(:moderation_flag => nil)
+    end
 
     respond_to do |format|
       if @content.update_attributes(params[:content])
