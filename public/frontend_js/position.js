@@ -1,5 +1,6 @@
 goog.require('concerto.frontend.Field');
 goog.require('goog.array');
+goog.require('goog.dom');
 goog.require('goog.object');
 goog.require('goog.style');
 
@@ -29,7 +30,8 @@ concerto.frontend.Position = function(template, opt_div) {
  * Create the div to use for the position.
  */
 concerto.frontend.Position.prototype.createDiv = function() {
-  var div = goog.dom.createDom('div', {'id': this.id, 'class': 'field'});
+  var properties = {'id': 'position_' + this.id, 'class': 'position'};
+  var div = goog.dom.createDom('div', properties);
   goog.style.setStyle(div, 'position', 'absolute');
   goog.style.setStyle(div, 'background-color', 'green');
   this.template.inject(div);

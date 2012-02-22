@@ -1,6 +1,8 @@
 goog.require('concerto.frontend.template');
+goog.require('goog.dom');
 goog.require('goog.net.XhrIo');
 goog.require('goog.net.XhrManager');
+goog.require('goog.style');
 
 goog.provide('concerto.frontend.screen');
 
