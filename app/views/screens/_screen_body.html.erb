@@ -1,5 +1,16 @@
 <article>
-  <h1>See screen preview and modify subscriptions</h1>
+  <div class="screen-model" style="width: 800px; height: 505px;">
+    <div class="inner" style="width: 800px; height: 450px;">
+      <% @screen.template.positions.each do |pos| %>
+        <div class="pos" style="top: <%= pos.top %>%; left: <%= pos.left %>%; width: <%= pos.right * 100 %>%; height: <%= pos.bottom * 100 %>%; <%= pos.style %>">
+          <%= pos.id %>
+        </div>
+      <% end %>
+    </div>
+    <div class="bevel">
+      <%= image_tag("miniscreen/bevel_logo.png", :alt => "Concerto" ) %>
+    </div>
+  </div>
 </article>
 
 <aside>
