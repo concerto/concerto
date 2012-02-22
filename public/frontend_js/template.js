@@ -1,9 +1,9 @@
-goog.require('concerto.frontend.position');
+goog.provide('concerto.frontend.Template');
+
+goog.require('concerto.frontend.Position');
 goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.style');
-
-goog.provide('concerto.frontend.template');
 
 
 

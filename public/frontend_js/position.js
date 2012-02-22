@@ -1,10 +1,10 @@
+goog.provide('concerto.frontend.Position');
+
 goog.require('concerto.frontend.Field');
 goog.require('goog.array');
 goog.require('goog.dom');
 goog.require('goog.object');
 goog.require('goog.style');
-
-goog.provide('concerto.frontend.position');
 
 
 

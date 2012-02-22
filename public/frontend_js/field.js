@@ -1,8 +1,8 @@
+goog.provide('concerto.frontend.Field');
+
 goog.require('goog.dom');
 goog.require('goog.style');
 goog.require('goog.text.LoremIpsum');
-
-goog.provide('concerto.frontend.Field');
 
 
 
