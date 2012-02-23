@@ -46,7 +46,9 @@ concerto.frontend.Field.prototype.createDiv = function() {
 /**
  * Load a new piece of content for a field.
  * Create a new piece of content, associate it with the required events
- * and then start loading it.
+ * and then start loading it.  Listen for the FINISH_LOAD event to
+ * inidicate we should show this content and the DISPLAY_END event to
+ * load a new piece of content.
  */
 concerto.frontend.Field.prototype.loadContent = function() {
   var random_duration = Math.floor(Math.random() * 11);
@@ -72,6 +74,11 @@ concerto.frontend.Field.prototype.loadContent = function() {
  * Triggered when the content has finished loading,
  * we remove the current piece of content and replace it
  * with the new one.
+ *
+ * This dispatches the STOP_RENDER and FINISH_RENDER events
+ * for the old piece of content.
+ *
+ * This dispatches the COMPLETE_RENDER event for the new piece of content.
  */
 concerto.frontend.Field.prototype.showContent = function() {
   // Get the HTML from the next piece of content we'll be
