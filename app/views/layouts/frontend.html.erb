@@ -4,6 +4,11 @@
   <title>Concerto - Open Source Digital Signage</title>
   <%= csrf_meta_tag %>
   <script src="/frontend_js/closure-library/closure/goog/base.js"></script>
+  <script type="text/javascript">
+    goog.require('goog.events.EventTarget');
+    goog.require('goog.events.Event');
+  </script>
+  <script src="/frontend_js/content.js"></script>
   <script src="/frontend_js/field.js"></script>
   <script src="/frontend_js/position.js"></script>
   <script src="/frontend_js/template.js"></script>
@@ -13,15 +18,30 @@
       margin: 0;
       padding: 0;
       height: 100%;
+      background-color: black;
+    }
+    .scr {
+      border: 1px solid black;
+      width: 48%;
+      height: 45%;
+      float: left;
+      margin: 10px;
     }
   </style>
   <script type="text/javascript">
     var s;
     function load(){
-      s = new concerto.frontend.Screen(1);
+      s1 = new concerto.frontend.Screen(1, document.getElementById('scr1'));
+      s2 = new concerto.frontend.Screen(1, document.getElementById('scr2'));
+      s3 = new concerto.frontend.Screen(1, document.getElementById('scr3'));
+      s4 = new concerto.frontend.Screen(1, document.getElementById('scr4'));
     }
   </script>
 </head>
 <body onload="load()">
+  <div id="scr1" class="scr"></div>
+  <div id="scr2" class="scr"></div>
+  <div id="scr3" class="scr"></div>
+  <div id="scr4" class="scr"></div>
 </body>
 </html>
