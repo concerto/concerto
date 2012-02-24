@@ -61,15 +61,10 @@ concerto.frontend.Content.prototype.finishLoad = function() {
 /**
  * Prepare the content for rendering.
  * After this stage we can assume the content is being shown in
- * the field in some capacity.
- *
- * This dispatches the START_RENDER event.
- *
- * @return {Object} HTML div with the rendered content.
+ * the field in some capacity.  We must stage the div in this.div.
  */
 concerto.frontend.Content.prototype.render = function() {
-  this.dispatchEvent(concerto.frontend.Content.EventType.START_RENDER);
-  return this.div_;
+  this.div = this.div_;
 };
 
 

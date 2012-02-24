@@ -1,6 +1,7 @@
 goog.provide('concerto.frontend.Field');
 
 goog.require('concerto.frontend.Content');
+goog.require('concerto.frontend.field.Transition');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
@@ -24,8 +25,10 @@ concerto.frontend.Field = function(position, id) {
   this.current_content_ = null;
   this.next_content_ = null;
 
+  this.auto_advance_ = true;
+
   this.createDiv();
-  this.loadContent();
+  this.nextContent();
 };
 goog.inherits(concerto.frontend.Field, goog.events.EventTarget);
 
@@ -35,7 +38,8 @@ goog.inherits(concerto.frontend.Field, goog.events.EventTarget);
  */
 concerto.frontend.Field.prototype.createDiv = function() {
   if (!goog.isDefAndNotNull(this.div_)) {
-    var div = goog.dom.createDom('div');
+    var properties = {'id': 'field_' + this.id, 'class': 'field'};
+    var div = goog.dom.createDom('div', properties);
     goog.style.setSize(div, '100%', '100%');
     this.position.inject(div);
     this.div_ = div;
@@ -44,7 +48,16 @@ concerto.frontend.Field.prototype.createDiv = function() {
 
 
 /**
- * Load a new piece of content for a field.
+ * Inset a div into the field.
+ * @param {!Object} div The thing to insert into the field.
+ */
+concerto.frontend.Field.prototype.inject = function(div) {
+  goog.dom.appendChild(this.div_, div);
+};
+
+
+/**
+ * Get and setup the next content for a field.
  * Create a new piece of content, associate it with the required events
  * and then start loading it.  Listen for the FINISH_LOAD event to
  * inidicate we should show this content and the DISPLAY_END event to
@@ -59,51 +72,50 @@ concerto.frontend.Field.prototype.loadContent = function() {
       concerto.frontend.Content.EventType.FINISH_LOAD,
       this.showContent, false, this);
 
-  // When the content has been shown for too long load a new one.
+  // When the content has been shown for too long try to load a new one.
   goog.events.listen(this.next_content_,
       concerto.frontend.Content.EventType.DISPLAY_END,
-      this.loadContent, false, this);
-
-  // Actually load that piece of content.
-  this.next_content_.load();
+      this.autoAdvance, false, this);
 };
 
 
 /**
  * Start showing the new piece of content in a field.
  * Triggered when the content has finished loading,
- * we remove the current piece of content and replace it
- * with the new one.
- *
- * This dispatches the STOP_RENDER and FINISH_RENDER events
- * for the old piece of content.
- *
- * This dispatches the COMPLETE_RENDER event for the new piece of content.
+ * we render the content, trigger the transition, and update
+ * the current field state.
  */
 concerto.frontend.Field.prototype.showContent = function() {
-  // Get the HTML from the next piece of content we'll be
-  // inserting into the field.
-  var new_div = this.next_content_.render();
+  // Render the HTML for the div into content.div
+  this.next_content_.render();
 
-  // If there is currently content in the field, signal
-  // that it should stop rendering and remove it from the dom.
-  // When it is fully removed we signal it has finished rendering.
-  if (goog.isDefAndNotNull(this.current_content_)) {
-    this.current_content_.dispatchEvent(
-        concerto.frontend.Content.EventType.STOP_RENDER);
-    this.prev_content_ = this.current_content_;
-    goog.dom.removeChildren(this.div_);
-    this.current_content_.dispatchEvent(
-        concerto.frontend.Content.EventType.FINISH_RENDER);
-  }
+  var transition = new concerto.frontend.field.Transition(
+      this, this.current_content_, this.next_content_);
+  transition.go();
 
   // Promote the new piece of content to the current piece of content.
   this.current_content_ = this.next_content_;
   this.next_content_ = null;
+};
 
-  // Insert the new piece of content into the field,
-  // and signal it has completed rendering.
-  goog.dom.appendChild(this.div_, new_div);
-  this.current_content_.dispatchEvent(
-      concerto.frontend.Content.EventType.COMPLETE_RENDER);
+
+/**
+ * Advance content.
+ */
+concerto.frontend.Field.prototype.nextContent = function() {
+  // If a piece of content is already in the queue, use that.
+  if (!goog.isDefAndNotNull(this.next_content_)) {
+    this.loadContent();
+  }
+  this.next_content_.load();
+};
+
+
+/**
+ * Autoadvance content.
+ */
+concerto.frontend.Field.prototype.autoAdvance = function() {
+  if (this.auto_advance_) {
+    this.nextContent();
+  }
 };

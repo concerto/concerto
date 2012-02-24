@@ -78,7 +78,7 @@ concerto.frontend.Position.prototype.draw = function() {
  * Inset a div into the position.
  * We treat the position div as a private variable,
  * so we should avoid touching it outside the position class.
- * @param {!Object} div The think to insert into the position.
+ * @param {!Object} div The thing to insert into the position.
  */
 concerto.frontend.Position.prototype.inject = function(div) {
   goog.dom.appendChild(this.div_, div);
@@ -95,7 +95,7 @@ concerto.frontend.Position.prototype.setProperties = function() {
   // Set the ID and class.
   var properties = {
     'id': 'position_' + this.id,
-    'class': 'field'
+    'class': 'position'
   };
   goog.dom.setProperties(this.div_, properties);
 
