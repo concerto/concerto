@@ -1,7 +1,7 @@
 goog.provide('concerto.frontend.Field');
 
 goog.require('concerto.frontend.Content');
-goog.require('concerto.frontend.field.Transition');
+goog.require('concerto.frontend.Transition.Fade');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
@@ -14,10 +14,11 @@ goog.require('goog.style');
  * Responsible for rendering the content in a position.
  * @param {!concerto.frontend.Position} position The position that owns this.
  * @param {number} id The field ID number.
+ * @param {Object=} opt_transition A transition to use between content.
  * @constructor
  * @extends {goog.events.EventTarget}
  */
-concerto.frontend.Field = function(position, id) {
+concerto.frontend.Field = function(position, id, opt_transition) {
   this.position = position;
   this.id = id;
 
@@ -26,6 +27,7 @@ concerto.frontend.Field = function(position, id) {
   this.next_content_ = null;
 
   this.auto_advance_ = true;
+  this.transition_ = opt_transition || concerto.frontend.Transition.Fade;
 
   this.createDiv();
   this.nextContent();
@@ -89,11 +91,11 @@ concerto.frontend.Field.prototype.showContent = function() {
   // Render the HTML for the div into content.div
   this.next_content_.render();
 
-  var transition = new concerto.frontend.field.Transition(
+  var transition = new this.transition_(
       this, this.current_content_, this.next_content_);
   transition.go();
 
-  // Promote the new piece of content to the current piece of content.
+  this.prev_content = this.current_content_;
   this.current_content_ = this.next_content_;
   this.next_content_ = null;
 };
