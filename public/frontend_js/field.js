@@ -1,6 +1,7 @@
 goog.provide('concerto.frontend.Field');
 
-goog.require('concerto.frontend.Content');
+goog.require('concerto.frontend.Content.ClientTime');
+goog.require('concerto.frontend.Content.RandomText');
 goog.require('concerto.frontend.Transition.Fade');
 goog.require('goog.dom');
 goog.require('goog.events');
@@ -36,21 +37,21 @@ concerto.frontend.Field = function(position, id, opt_transition) {
 
   /**
    * Previous content that was shown.
-   * @type {?concerto.frontend.Content}
+   * @type {?Object}
    * @private
    */
   this.prev_content_ = null;
 
   /**
    * Current piece of content being shown.
-   * @type {?concerto.frontend.Content}
+   * @type {?Object}
    * @private
    */
   this.current_content_ = null;
 
   /**
    * Next piece of content to show.
-   * @type {?concerto.frontend.Content}
+   * @type {?Object}
    * @private
    */
   this.next_content_ = null;
@@ -109,7 +110,15 @@ concerto.frontend.Field.prototype.inject = function(div) {
  */
 concerto.frontend.Field.prototype.loadContent = function() {
   var random_duration = Math.floor(Math.random() * 11);
-  this.next_content_ = new concerto.frontend.Content(random_duration);
+  var data = { duration: random_duration };
+
+  var contents = [
+    concerto.frontend.Content.SampleImage,
+    concerto.frontend.Content.RandomText,
+    concerto.frontend.Content.ClientTime
+  ];
+
+  this.next_content_ = new contents[Math.floor(Math.random() * 3)](data);
 
   // When the content is loaded, we show it in the field,
   goog.events.listen(this.next_content_,
@@ -151,7 +160,7 @@ concerto.frontend.Field.prototype.nextContent = function() {
   if (!goog.isDefAndNotNull(this.next_content_)) {
     this.loadContent();
   }
-  this.next_content_.load();
+  this.next_content_.startLoad();
 };
 
 

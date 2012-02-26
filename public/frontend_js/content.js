@@ -2,29 +2,34 @@ goog.provide('concerto.frontend.Content');
 goog.provide('concerto.frontend.Content.EventType');
 
 goog.require('goog.async.Delay');
-goog.require('goog.date.Date');
+goog.require('goog.date.DateTime');
 goog.require('goog.events');
 goog.require('goog.events.Event');
 goog.require('goog.events.EventTarget');
-goog.require('goog.text.LoremIpsum');
 
 
 
 /**
  * Content being shown on a screen.
  *
- * @param {number=} opt_duration The duration the content should be shown for.
+ * @param {Object} data Properties for this piece of content.
  * @constructor
  * @extends {goog.events.EventTarget}
  */
-concerto.frontend.Content = function(opt_duration) {
+concerto.frontend.Content = function(data) {
   goog.events.EventTarget.call(this);
+
+  /**
+   * The Content ID.
+   * @type {?number}
+   */
+  this.id = data.id || null;
 
   /**
    * The duration in seconds this content should be shown.
    * @type {number}
    */
-  this.duration = opt_duration || 10;
+  this.duration = data.duration || 10;
 };
 goog.inherits(concerto.frontend.Content, goog.events.EventTarget);
 
@@ -37,7 +42,7 @@ goog.inherits(concerto.frontend.Content, goog.events.EventTarget);
  *
  * This dispatches the START_LOAD event.
  */
-concerto.frontend.Content.prototype.load = function() {
+concerto.frontend.Content.prototype.startLoad = function() {
   /**
    * Div to hold this content.
    * @type {Element}
@@ -47,20 +52,28 @@ concerto.frontend.Content.prototype.load = function() {
 
   /**
    * Time this content started loading.
-   * @type {goog.date.Date}
+   * @type {goog.date.DateTime}
    * @private
    */
-  this.start_ = new goog.date.Date();
+  this.start_ = new goog.date.DateTime();
 
   this.setupTimer();
 
   this.dispatchEvent(concerto.frontend.Content.EventType.START_LOAD);
 
-  // HACK HACK HACK
-  var generator = new goog.text.LoremIpsum();
-  goog.dom.setTextContent(this.div_, generator.generateParagraph());
-  setTimeout(goog.bind(this.finishLoad, this), 1000);
-  // END HACK HACK HACK
+  this.load_();
+};
+
+
+/**
+ * Placeholder for the bulk of the loading logic.
+ * You should override this function, just call finishLoad when you're
+ * content is done loading into this.div_.
+ *
+ * @private
+ */
+concerto.frontend.Content.prototype.load_ = function() {
+  this.finishLoad();
 };
 
 
@@ -72,10 +85,10 @@ concerto.frontend.Content.prototype.load = function() {
 concerto.frontend.Content.prototype.finishLoad = function() {
   /**
    * The time the content finished loading.
-   * @type {goog.date.Date}
+   * @type {goog.date.DateTime}
    * @private
    */
-  this.end_ = goog.date.Date();
+  this.end_ = new goog.date.DateTime();
 
   this.dispatchEvent(concerto.frontend.Content.EventType.FINISH_LOAD);
 };
