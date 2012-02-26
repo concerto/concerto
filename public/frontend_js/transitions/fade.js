@@ -12,6 +12,7 @@ goog.require('goog.fx.dom.FadeOutAndHide');
 /**
  * Extends {@link concerto.frontend.Transition} by providing a
  * fade out then fade in style transition.
+ *
  * @param {concerto.frontend.Field} field The field holding the content.
  * @param {concerto.frontend.Content=} opt_current The current content shown.
  * @param {concerto.frontend.Content=} opt_next The next content to show.
@@ -19,6 +20,10 @@ goog.require('goog.fx.dom.FadeOutAndHide');
  * @extends {concerto.frontend.Transition}
  */
 concerto.frontend.Transition.Fade = function(field, opt_current, opt_next) {
+  /**
+   * Fade duration.
+   * @type {number}
+   */
   this.duration = 500;
 
   concerto.frontend.Transition.call(this, field, opt_current, opt_next);

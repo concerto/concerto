@@ -11,6 +11,7 @@ goog.require('goog.fx.dom.FadeOutAndHide');
 /**
  * A Transition between contents.
  * Responsble for swapping what is in the field.
+ *
  * @param {concerto.frontend.Field} field The field holding the content.
  * @param {concerto.frontend.Content} current The current content shown.
  * @param {concerto.frontend.Content} next The next content to show.
@@ -18,8 +19,26 @@ goog.require('goog.fx.dom.FadeOutAndHide');
  * @extends {goog.events.EventTarget}
  */
 concerto.frontend.Transition = function(field, current, next) {
+  goog.events.EventTarget.call(this);
+
+  /**
+   * Field requsting the transition.
+   * @type {!concerto.frontend.Field}
+   */
   this.field = field;
+
+  /**
+   * Curent piece of content to be transitioned away.
+   * @type {?concerto.frontend.Content}
+   * @private
+   */
   this.current_content_ = current || null;
+
+  /**
+   * New piece of content to transition in.
+   * @type {?concerto.frontend.Content}
+   * @private
+   */
   this.next_content_ = next || null;
 };
 goog.inherits(concerto.frontend.Transition, goog.events.EventTarget);
@@ -76,7 +95,7 @@ concerto.frontend.Transition.prototype.outDone_ = function() {
  * Add the new content to the field, call {@link inDone_} when we finish.
  *
  * This dispatches the START_RENDER event.
- * @private();
+ * @private
  */
 concerto.frontend.Transition.prototype.in_ = function() {
   this.next_content_.dispatchEvent(

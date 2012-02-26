@@ -12,13 +12,19 @@ goog.require('goog.text.LoremIpsum');
 
 /**
  * Content being shown on a screen.
+ *
  * @param {number=} opt_duration The duration the content should be shown for.
  * @constructor
  * @extends {goog.events.EventTarget}
  */
 concerto.frontend.Content = function(opt_duration) {
-  this.duration = opt_duration || 10;
   goog.events.EventTarget.call(this);
+
+  /**
+   * The duration in seconds this content should be shown.
+   * @type {number}
+   */
+  this.duration = opt_duration || 10;
 };
 goog.inherits(concerto.frontend.Content, goog.events.EventTarget);
 
@@ -32,7 +38,18 @@ goog.inherits(concerto.frontend.Content, goog.events.EventTarget);
  * This dispatches the START_LOAD event.
  */
 concerto.frontend.Content.prototype.load = function() {
+  /**
+   * Div to hold this content.
+   * @type {Element}
+   * @private
+   */
   this.div_ = goog.dom.createDom('div');
+
+  /**
+   * Time this content started loading.
+   * @type {goog.date.Date}
+   * @private
+   */
   this.start_ = new goog.date.Date();
 
   this.setupTimer();
@@ -53,7 +70,13 @@ concerto.frontend.Content.prototype.load = function() {
  * This dispatches the FINISH_LOAD event.
  */
 concerto.frontend.Content.prototype.finishLoad = function() {
+  /**
+   * The time the content finished loading.
+   * @type {goog.date.Date}
+   * @private
+   */
   this.end_ = goog.date.Date();
+
   this.dispatchEvent(concerto.frontend.Content.EventType.FINISH_LOAD);
 };
 
@@ -64,6 +87,10 @@ concerto.frontend.Content.prototype.finishLoad = function() {
  * the field in some capacity.  We must stage the div in this.div.
  */
 concerto.frontend.Content.prototype.render = function() {
+  /**
+   * A public element with the content.
+   * @type {Element}
+   */
   this.div = this.div_;
 };
 
@@ -75,6 +102,12 @@ concerto.frontend.Content.prototype.render = function() {
  */
 concerto.frontend.Content.prototype.setupTimer = function() {
   var duration = this.duration * 1000;
+
+  /**
+   * A timer for the content's duration.
+   * @type {goog.async.Delay}
+   * @private
+   */
   this.timer_ = new goog.async.Delay(this.finishTimer, duration, this);
 
   goog.events.listen(this,
@@ -105,6 +138,7 @@ concerto.frontend.Content.prototype.finishTimer = function() {
 
 /**
  * The events fired by the content.
+ *
  * @enum {string} The event types for the content.
  */
 concerto.frontend.Content.EventType = {

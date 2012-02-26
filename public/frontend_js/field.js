@@ -12,6 +12,7 @@ goog.require('goog.style');
 /**
  * A Position's Field.
  * Responsible for rendering the content in a position.
+ *
  * @param {!concerto.frontend.Position} position The position that owns this.
  * @param {number} id The field ID number.
  * @param {Object=} opt_transition A transition to use between content.
@@ -19,14 +20,54 @@ goog.require('goog.style');
  * @extends {goog.events.EventTarget}
  */
 concerto.frontend.Field = function(position, id, opt_transition) {
+  goog.events.EventTarget.call(this);
+
+  /**
+   * Position showing this field.
+   * @type {!concerto.frontend.Position}
+   */
   this.position = position;
+
+  /**
+   * Field ID.
+   * @type {number}
+   */
   this.id = id;
 
+  /**
+   * Previous content that was shown.
+   * @type {?concerto.frontend.Content}
+   * @private
+   */
   this.prev_content_ = null;
+
+  /**
+   * Current piece of content being shown.
+   * @type {?concerto.frontend.Content}
+   * @private
+   */
   this.current_content_ = null;
+
+  /**
+   * Next piece of content to show.
+   * @type {?concerto.frontend.Content}
+   * @private
+   */
   this.next_content_ = null;
 
+  /**
+   * Should this field automatically move to the next piece of
+   * content when the duration of the current content expires.
+   * @type {boolean}
+   * @private
+   */
   this.auto_advance_ = true;
+
+  /**
+   * Transition to use between content items.
+   * @type {!Object}
+   * @private
+   */
   this.transition_ = opt_transition || concerto.frontend.Transition.Fade;
 
   this.createDiv();
@@ -51,7 +92,8 @@ concerto.frontend.Field.prototype.createDiv = function() {
 
 /**
  * Inset a div into the field.
- * @param {!Object} div The thing to insert into the field.
+ *
+ * @param {Element} div The thing to insert into the field.
  */
 concerto.frontend.Field.prototype.inject = function(div) {
   goog.dom.appendChild(this.div_, div);

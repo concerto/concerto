@@ -10,51 +10,107 @@ goog.require('goog.style');
 
 /**
  * A Position on a Template.
+ *
  * @param {!concerto.frontend.Template} template The template
  *   is holding this position.
- * @param {Object=} opt_div The div to use for the position.
+ * @param {Element=} opt_div The div to use for the position.
  * @constructor
  */
 concerto.frontend.Position = function(template, opt_div) {
+  /**
+   * Position ID.
+   * @type {?number}
+   */
   this.id = null;
+
+  /**
+   * Template holding the position.
+   * @type {!concerto.frontend.Template}
+   */
   this.template = template;
-  if (!goog.isDefAndNotNull(opt_div)) {
-    this.createDiv();
-  } else {
-    this.div_ = opt_div;
-  }
+
+  /**
+   * Div holding the position
+   * @type {!Element}
+   * @private
+   */
+  this.div_ = opt_div || this.createDiv_();
 };
 
 
 /**
  * Create the div to use for the position.
+ *
+ * @private
+ * @return {Element} Div used for holding the position.
  */
-concerto.frontend.Position.prototype.createDiv = function() {
+concerto.frontend.Position.prototype.createDiv_ = function() {
   var properties = {'id': 'position_' + this.id, 'class': 'position'};
   var div = goog.dom.createDom('div', properties);
   goog.style.setStyle(div, 'position', 'absolute');
   goog.style.setStyle(div, 'background-color', 'green');
   this.template.inject(div);
-  this.div_ = div;
+  return div;
 };
 
 
 /**
  * Setup the position.
  * Load data and use it to setup the position, then draw it.
+ *
  * @param {!Object} data The position information.
  */
 concerto.frontend.Position.prototype.load = function(data) {
   this.id = data.id;
-  this.bottom = parseFloat(data.bottom);
-  this.left = parseFloat(data.left);
-  this.right = parseFloat(data.right);
-  this.top = parseFloat(data.top);
-  this.style = data.style;
 
+  /**
+   * Bottom %.
+   * @type {number}
+   * @private
+   */
+  this.bottom_ = parseFloat(data.bottom);
+
+  /**
+   * Left %.
+   * @type {number}
+   * @private
+   */
+  this.left_ = parseFloat(data.left);
+
+  /**
+   * Right %.
+   * @type {number}
+   * @private
+   */
+  this.right_ = parseFloat(data.right);
+
+  /**
+   * Top %.
+   * @type {number}
+   * @private
+   */
+  this.top_ = parseFloat(data.top);
+
+  /**
+   * CSS styling information.
+   * @type {string}
+   * @private
+   */
+  this.style_ = data.style;
+
+  /**
+   * ID of the field for this position.
+   * @type {number}
+   */
   this.field_id = data.field_id;
+
   this.draw();
   this.setProperties();
+
+  /**
+   * Field in this position.
+   * @type {concerto.frontend.Field}
+   */
   this.field = new concerto.frontend.Field(this, this.field_id);
 };
 
@@ -65,11 +121,11 @@ concerto.frontend.Position.prototype.load = function(data) {
  * set the size of it using the stored data.
  */
 concerto.frontend.Position.prototype.draw = function() {
-  var left = this.left * 100;
-  var top = this.top * 100;
+  var left = this.left_ * 100;
+  var top = this.top_ * 100;
   goog.style.setPosition(this.div_, left + '%', top + '%');
-  var height = (this.bottom - this.top) * 100;
-  var width = (this.right - this.left) * 100;
+  var height = (this.bottom_ - this.top_) * 100;
+  var width = (this.right_ - this.left_) * 100;
   goog.style.setSize(this.div_, width + '%', height + '%');
 };
 
@@ -78,7 +134,8 @@ concerto.frontend.Position.prototype.draw = function() {
  * Inset a div into the position.
  * We treat the position div as a private variable,
  * so we should avoid touching it outside the position class.
- * @param {!Object} div The thing to insert into the position.
+ *
+ * @param {Element} div The thing to insert into the position.
  */
 concerto.frontend.Position.prototype.inject = function(div) {
   goog.dom.appendChild(this.div_, div);
@@ -100,7 +157,7 @@ concerto.frontend.Position.prototype.setProperties = function() {
   goog.dom.setProperties(this.div_, properties);
 
   // Load the styles into an map.
-  var loaded_styles = goog.style.parseStyleAttribute(this.style);
+  var loaded_styles = goog.style.parseStyleAttribute(this.style_);
   // Filter out the locked properties.
   var clean_styles = goog.object.filter(loaded_styles, function(value, key, o) {
     return !goog.array.contains(concerto.frontend.Position.LOCKED_STYLES,
@@ -118,7 +175,8 @@ concerto.frontend.Position.prototype.setProperties = function() {
 /**
  * Styles the user may not overwrite.
  * Names should be in lower case.
- * @define {Array.string} Style names.
+ *
+ * @type {Array.<string>} Style names.
  */
 concerto.frontend.Position.LOCKED_STYLES = [
   'overflow', 'width', 'height', 'top', 'left', 'bottom', 'right'
@@ -127,9 +185,9 @@ concerto.frontend.Position.LOCKED_STYLES = [
 
 /**
  * Default styles.
- * @define {Object.string, (number|string)} Default style-value mapping.
+ *
+ * @type {Object.<string, (number|string)>} Default style-value mapping.
  */
 concerto.frontend.Position.DEFAULT_STYLES = {
   'overflow': 'hidden'
 };
-
