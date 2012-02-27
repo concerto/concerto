@@ -1,1 +1,6 @@
 en:
+  #index
+  provide_details: "Provide Basic Details"
+  select_template: "Select Template"
+  current_template: "Current Selection"
+  select_new_template: "Select New"

@@ -11,6 +11,7 @@
 	<% end %>
 
 	<fieldset>
+    <legend><span><%= t(:provide_details) %></span></legend>
 		<div class="clearfix">
 			<%= f.label :name %>
 			<div class="input">
@@ -35,13 +36,6 @@
 		</div>
 		
 		<div class="clearfix">
-			<%= f.label :template %>
-			<div class="input">
-				<%= f.collection_select :template_id, @templates, :id, :name %>
-			</div>
-		</div>
-		
-		<div class="clearfix">
 			<%= f.label :owner %>
 			<div class="input">
 	      <% options = {'Users' => @users.map{|u| [u.name, "User-#{u.id}"]},
@@ -59,8 +53,55 @@
 		      </li>
 		    </ul>
 			</div>
-		</div>
-	</fieldset>
+    </div>
+
+  </fieldset>
+
+  <fieldset>
+    <legend><span><%= t(:select_template) %></span></legend>
+
+    <div class="clearfix">
+      <label><%= t(:current_template) %></label>
+      <div class="input">
+        <% if @screen.template %>
+        <ul class="GL inset-selection small">
+          <li>
+            <%= link_to "#" do %>
+              <div class="cont">
+                <p><b><%= @screen.template.name %></b></p>
+                <p>by <%= @screen.template.author %></p>
+              </div>
+            <% end %>
+          </li>
+        </ul>
+        <% else %>
+        <h3>None Selected</h3>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <label><%= t(:select_new_template) %></label>
+      <div class="input">
+        
+        <ul class="GL inset-selection small">
+          <% @templates.each do |template| %>
+          <li>
+            <%= link_to "#" do %>
+              <%= f.radio_button :template_id, template.id %>
+              <%= label_tag(:template_id, template.name) %>
+              <div class="cont">
+                <p><b><%= template.name %></b></p>
+                <p>by <%= template.author %></p>
+              </div>
+            <% end %>
+          </li>
+          <% end %>
+        </ul>
+
+      </div>
+    </div>
+  </fieldset>
 	
 	<div class="submit_bar actions">
 		<%= f.submit %>

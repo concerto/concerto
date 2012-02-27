@@ -37,7 +37,10 @@ class ScreensController < ApplicationController
   # GET /screens/1/edit
   def edit
     @screen = Screen.find(params[:id])
+    screen_aspect_ratio = @screen.width / @screen.height
     @templates = Template.all
+    #@templates_bestfit = Template.find(:all, :conditions => "width / height = #{screen_aspect_ratio}")
+    #@templates_other = Template.find(:all, :conditions => "width / height != #{screen.aspect_ratio}")
     @users = User.all
     @groups = Group.all
   end

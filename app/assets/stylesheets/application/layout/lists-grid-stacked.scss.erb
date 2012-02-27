@@ -14,7 +14,7 @@
 	width:20%;
 	min-height:80px;
 	
-  > div {	 // in this case, the singular gridlist item is ul li a
+  > div, .cont {
 		padding: 12px;
 		border-right: solid 1px $grayLight;
 		border-bottom: solid 1px $grayLight;
@@ -32,19 +32,9 @@
 			display: block;
 			margin-top: 4px;
 			padding: 4px;
-		}
-		
-	}
-	
-  img {
-		@extend .with-shadow;
-		float: left;
-		margin-bottom:6px;
-		margin-right:10px;
-	}
+    }
 
-	.content {
-		h1 {
+    h1 {
 			font-size: 1.2em;
  			color: #333;
  			background:none;
@@ -55,10 +45,20 @@
 		}
 		
 		p {
-			font-size:0.8em;
+      margin-bottom: 3px;
 		}
+
+
 		
 	}
+	
+  img {
+		@extend .with-shadow;
+		float: left;
+		margin-bottom:6px;
+		margin-right:10px;
+	}
+
 	
 }
 
@@ -69,7 +69,57 @@ ul.GL {
 	
   > li {
 		@include gridlist-item;		
-	}	
+  }
+
+  // inset-selection gridlists appear inside forms and while they use 
+  // the base styles of GL, several attributes are different
+  // these gridlists are used to make a selection of one or more items
+  // within them (hence their usage in forms)
+  &.inset-selection {
+    border-top: none;
+
+    // a common use for inset gridlists is to have each item in the GL
+    // be a clickable link - each item appears with a slight rounded 
+    // border and is a fully clickable region
+
+    > li {
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+
+    > li > a {
+      @include border-radius(4px);
+      display: block;
+      border: solid 1px $grayLight;
+      color: $gray;
+      $transition: border linear .1s, background linear .1s;
+      @include transition($transition);
+
+      &:hover {
+        background: $concerto-blue-6;
+        border: solid 1px $concerto-blue-2;
+        text-decoration: none;
+      }
+    }
+
+    .cont {
+      border: none;
+    }
+  }
+
+  // this class can be applied to a GL to compress the size of each
+  // list item inside the grid
+  &.small {
+    > li {
+      min-height: 60px;
+
+      .cont {
+        padding: 8px;
+        min-height: 40px;
+      }
+    }
+
+  }
 }
 
 
