@@ -42,7 +42,7 @@ Template.find_or_create_by_name(:name => "Default Template", :author => "Concert
 
 #Associate each field with a position in the template
 concerto_template = Template.where(:name => "Default Template").first.id
-Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Graphics").first.id,concerto_template, :top => ".1", :left => ".1", :bottom => ".9", :right => ".4")
-Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Ticker").first.id,concerto_template, :top => ".1", :left => ".1", :bottom => ".9", :right => ".4")
-Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Text").first.id,concerto_template, :top => ".1", :left => ".1", :bottom => ".9", :right => ".4")
-Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Time").first.id,concerto_template, :top => ".1", :left => ".1", :bottom => ".9", :right => ".4")
+Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Graphics").first.id,concerto_template, :top => ".026", :left => ".025", :bottom => ".77", :right => ".567", :style => "border:solid 2px #ccc;")
+Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Ticker").first.id,concerto_template, :top => ".885", :left => ".221", :bottom => ".1", :right => ".754", :style => "color:#FFF !important; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important;")
+Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Text").first.id,concerto_template, :top => ".011", :left => ".68", :bottom => ".796", :right => ".3", :style =>"color:#FFF !important; font-family:Frobisher, Arial, sans-serif;")
+Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Time").first.id,concerto_template, :top => ".885", :left => ".024", :bottom => ".089", :right => ".156", :style => "color:#ccc !important; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important; letter-spacing:.12em !important;")
