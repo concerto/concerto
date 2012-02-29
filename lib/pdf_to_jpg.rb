@@ -11,10 +11,10 @@ def pdf_to_jpg(pdf_location)
 
   pdf = Magick::ImageList.new(pdf_location)
 
-  pdf.each do |page|
-    write_filename = tmp_location + "/" + file_name + "." + page.to_i + ".jpg"
+  pdf.each_with_index do |page, i|
+    write_filename = tmp_location + "/" + file_name + "." + i.to_s + ".jpg"
     #write the JPG files to the directory specified
-    pdf[page].write(write_filename)
+    pdf[i].write(write_filename)
     #appends full filename to array
     converted_jpgs << write_filename    
   end
