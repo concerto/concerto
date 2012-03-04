@@ -61,28 +61,7 @@
     <legend><span><%= t(:select_template) %></span></legend>
 
     <div class="clearfix">
-      <label><%= t(:current_template) %></label>
-      <div class="input">
-        <% if @screen.template %>
-        <ul class="GL inset-selection small">
-          <li>
-            <div>
-              <div class="cont">
-                <p><b><%= @screen.template.name %></b></p>
-                <p>by <%= @screen.template.author %></p>
-              </div>
-              <div class="clear"></div>
-            </div>
-          </li>
-        </ul>
-        <% else %>
-        <h3>None Selected</h3>
-        <% end %>
-      </div>
-    </div>
-
-    <div class="clearfix">
-      <label><%= t(:select_new_template) %></label>
+      <label><%= t(:best_fit_templates) %></label>
       <div class="input">
         
         <ul class="GL inset-selection small">

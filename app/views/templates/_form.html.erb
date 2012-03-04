@@ -10,24 +10,39 @@
   </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :author %><br />
-    <%= f.text_field :author %>
-  </div>
-  <div class="field">
-    <%= f.label :is_hidden %><br />
-    <%= f.check_box :is_hidden %>
-  </div>
-  <div class="field">
-  <%= f.fields_for :media do |media| %>
-    <%= media.file_field :file %>
-  <% end %>
-  </div>
-  <div class="actions">
+  <fieldset>
+    <div class="clearfix">
+      <%= f.label :name %>
+      <div class="input">
+        <%= f.text_field :name %>
+      </div>
+    </div>
+    
+    <div class="clearfix">
+      <%= f.label :author %>
+      <div class="input">
+        <%= f.text_field :author %>
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <%= f.label :is_hidden %>
+      <div class="input">
+        <%= f.check_box :is_hidden %>
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <%= f.label "Upload Background" %>
+      <div class="input">
+        <%= f.fields_for :media do |media| %>
+          <%= media.file_field :file %>
+        <% end %>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="submit_bar actions">
     <%= f.submit %>
   </div>
 <% end %>
