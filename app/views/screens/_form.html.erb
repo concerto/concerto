@@ -66,12 +66,13 @@
         <% if @screen.template %>
         <ul class="GL inset-selection small">
           <li>
-            <%= link_to "#" do %>
+            <div>
               <div class="cont">
                 <p><b><%= @screen.template.name %></b></p>
                 <p>by <%= @screen.template.author %></p>
               </div>
-            <% end %>
+              <div class="clear"></div>
+            </div>
           </li>
         </ul>
         <% else %>
@@ -88,12 +89,14 @@
           <% @templates.each do |template| %>
           <li>
             <%= link_to "#" do %>
-              <%= f.radio_button :template_id, template.id %>
-              <%= label_tag(:template_id, template.name) %>
+              <div class="inp">
+                <%= f.radio_button :template_id, template.id %>
+              </div>
               <div class="cont">
                 <p><b><%= template.name %></b></p>
                 <p>by <%= template.author %></p>
               </div>
+              <div class="clear"></div>
             <% end %>
           </li>
           <% end %>

@@ -12,14 +12,13 @@
 	float: left;
 	min-width: 150px;
 	width:20%;
-	min-height:80px;
-	
-  > div, .cont {
+  min-height:80px;
+
+  .cont {
 		padding: 12px;
 		border-right: solid 1px $grayLight;
 		border-bottom: solid 1px $grayLight;
 		min-height: 64px;
-		display: block;
 		text-decoration:none;
 		
 		// these elements come along for the ride by bringing in gridlist-item mixin:
@@ -87,23 +86,38 @@ ul.GL {
       margin-bottom: 6px;
     }
 
-    > li > a {
-      @include border-radius(4px);
-      display: block;
-      border: solid 1px $grayLight;
-      color: $gray;
-      $transition: border linear .1s, background linear .1s;
-      @include transition($transition);
+    > li {
+      > a, > div {
+        @include border-radius(4px);
+        display: block;
+        border: solid 1px $grayLight;
+        color: $gray;
+        $transition: border linear .1s, background linear .1s;
+        @include transition($transition);
+      }
 
-      &:hover {
+      > a:hover {
         background: $concerto-blue-6;
         border: solid 1px $concerto-blue-2;
         text-decoration: none;
+
+        .inp {
+          background: $concerto-blue-4;
+        }
       }
+    }
+    
+    .inp {
+      float: left;
+      background: $grayLightest;
+      min-height: 46px;
+      padding: 8px 5px;
+      @include border-radius-corners(4px, 0px, 0px, 4px);
     }
 
     .cont {
       border: none;
+      float: left;
     }
   }
 
