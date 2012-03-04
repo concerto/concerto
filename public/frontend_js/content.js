@@ -3,6 +3,7 @@ goog.provide('concerto.frontend.Content.EventType');
 
 goog.require('goog.async.Delay');
 goog.require('goog.date.DateTime');
+goog.require('goog.debug.Logger');
 goog.require('goog.events');
 goog.require('goog.events.Event');
 goog.require('goog.events.EventTarget');
@@ -35,6 +36,15 @@ goog.inherits(concerto.frontend.Content, goog.events.EventTarget);
 
 
 /**
+ * The logger for this class.
+ * @type {goog.debug.Logger}
+ * @private
+ */
+concerto.frontend.Content.prototype.logger_ = goog.debug.Logger.getLogger(
+    'concerto.frontend.Content');
+
+
+/**
  * Start loading a piece of content.
  * Construct a div for the piece of content, request the
  * timers be setup to handle the duration, and start pre-loading
@@ -43,6 +53,8 @@ goog.inherits(concerto.frontend.Content, goog.events.EventTarget);
  * This dispatches the START_LOAD event.
  */
 concerto.frontend.Content.prototype.startLoad = function() {
+  this.logger_.info('Content ' + this.id + ' is starting to load.');
+
   /**
    * Div to hold this content.
    * @type {Element}
@@ -89,6 +101,9 @@ concerto.frontend.Content.prototype.finishLoad = function() {
    * @private
    */
   this.end_ = new goog.date.DateTime();
+  var loadTime = this.end_.getMilliseconds() - this.start_.getMilliseconds();
+  this.logger_.info('Content ' + this.id + ' is done loading. Took: ' +
+      loadTime + 'ms.');
 
   this.dispatchEvent(concerto.frontend.Content.EventType.FINISH_LOAD);
 };
@@ -100,6 +115,7 @@ concerto.frontend.Content.prototype.finishLoad = function() {
  * the field in some capacity.  We must stage the div in this.div.
  */
 concerto.frontend.Content.prototype.render = function() {
+  this.logger_.info('Content ' + this.id + ' is being rendered.');
   /**
    * A public element with the content.
    * @type {Element}

@@ -3,6 +3,7 @@ goog.provide('concerto.frontend.Field');
 goog.require('concerto.frontend.Content.ClientTime');
 goog.require('concerto.frontend.Content.RandomText');
 goog.require('concerto.frontend.Transition.Fade');
+goog.require('goog.debug.Logger');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
@@ -78,6 +79,15 @@ goog.inherits(concerto.frontend.Field, goog.events.EventTarget);
 
 
 /**
+ * The logger for this class.
+ * @type {goog.debug.Logger}
+ * @private
+ */
+concerto.frontend.Field.prototype.logger_ = goog.debug.Logger.getLogger(
+    'concerto.frontend.Field');
+
+
+/**
  * Create a div for the field.
  */
 concerto.frontend.Field.prototype.createDiv = function() {
@@ -109,6 +119,7 @@ concerto.frontend.Field.prototype.inject = function(div) {
  * load a new piece of content.
  */
 concerto.frontend.Field.prototype.loadContent = function() {
+  this.logger_.info('Field ' + this.id + ' is looking for new content.');
   var random_duration = Math.floor(Math.random() * 11);
   var data = { duration: random_duration };
 
@@ -139,6 +150,7 @@ concerto.frontend.Field.prototype.loadContent = function() {
  * the current field state.
  */
 concerto.frontend.Field.prototype.showContent = function() {
+  this.logger_.info('Field ' + this.id + ' is showing new content.');
   // Render the HTML for the div into content.div
   this.next_content_.render();
 
@@ -156,6 +168,8 @@ concerto.frontend.Field.prototype.showContent = function() {
  * Advance content.
  */
 concerto.frontend.Field.prototype.nextContent = function() {
+  this.logger_.info('Field ' + this.id +
+      ' would like a new piece of content.');
   // If a piece of content is already in the queue, use that.
   if (!goog.isDefAndNotNull(this.next_content_)) {
     this.loadContent();
@@ -169,6 +183,9 @@ concerto.frontend.Field.prototype.nextContent = function() {
  */
 concerto.frontend.Field.prototype.autoAdvance = function() {
   if (this.auto_advance_) {
+    this.logger_.info('Field ' + this.id + ' is auto-advancing.');
     this.nextContent();
+  } else {
+    this.logger_.info('Field ' + this.id + ' is not advancing.');
   }
 };

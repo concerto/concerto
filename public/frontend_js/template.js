@@ -2,6 +2,7 @@ goog.provide('concerto.frontend.Template');
 
 goog.require('concerto.frontend.Position');
 goog.require('goog.array');
+goog.require('goog.debug.Logger');
 goog.require('goog.dom');
 goog.require('goog.style');
 
@@ -42,6 +43,15 @@ concerto.frontend.Template = function(screen, opt_div) {
    */
   this.div_ = opt_div || this.createDiv_();
 };
+
+
+/**
+ * The logger for this class.
+ * @type {goog.debug.Logger}
+ * @private
+ */
+concerto.frontend.Template.prototype.logger_ = goog.debug.Logger.getLogger(
+    'concerto.frontend.Template');
 
 
 /**

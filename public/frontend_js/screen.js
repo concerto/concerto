@@ -1,6 +1,7 @@
 goog.provide('concerto.frontend.Screen');
 
 goog.require('concerto.frontend.Template');
+goog.require('goog.debug.Logger');
 goog.require('goog.dom');
 goog.require('goog.net.XhrIo');
 goog.require('goog.net.XhrManager');
@@ -48,6 +49,15 @@ goog.exportSymbol('concerto.frontend.Screen', concerto.frontend.Screen);
 
 
 /**
+ * The logger for this class.
+ * @type {goog.debug.Logger}
+ * @private
+ */
+concerto.frontend.Screen.prototype.logger_ = goog.debug.Logger.getLogger(
+    'concerto.frontend.Screen');
+
+
+/**
  * Configuration URL.
  * A temporary method to build the URL used for downloading
  * the screen setup data.
@@ -74,6 +84,7 @@ concerto.frontend.Screen.prototype.setup = function() {
   this.div_ = div;
 
   var url = this.configUrl();
+  this.logger_.info('Requesting screen config from ' + url);
   this.connection.send('setup', url, 'GET', '', null, 1, goog.bind(function(e) {
     var xhr = e.target;
     var obj = xhr.getResponseJson();
