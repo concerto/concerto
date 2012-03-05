@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120213110013) do
+ActiveRecord::Schema.define(:version => 20120305021107) do
 
   create_table "contents", :force => true do |t|
     t.string   "name"
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(:version => 20120213110013) do
     t.string   "file_name"
     t.string   "file_type"
     t.integer  "file_size"
-    t.binary   "file_data",       :limit => 10485760
+    t.binary   "file_data",       :limit => 16777215
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -79,10 +79,10 @@ ActiveRecord::Schema.define(:version => 20120213110013) do
 
   create_table "positions", :force => true do |t|
     t.text     "style"
-    t.decimal  "top",         :default => 0.0
-    t.decimal  "left",        :default => 0.0
-    t.decimal  "bottom",      :default => 0.0
-    t.decimal  "right",       :default => 0.0
+    t.decimal  "top",         :precision => 6, :scale => 5, :default => 0.0
+    t.decimal  "left",        :precision => 6, :scale => 5, :default => 0.0
+    t.decimal  "bottom",      :precision => 6, :scale => 5, :default => 0.0
+    t.decimal  "right",       :precision => 6, :scale => 5, :default => 0.0
     t.integer  "field_id"
     t.integer  "template_id"
     t.datetime "created_at"
@@ -128,6 +128,8 @@ ActiveRecord::Schema.define(:version => 20120213110013) do
     t.boolean  "is_hidden"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "original_width"
+    t.integer  "original_height"
   end
 
   create_table "users", :force => true do |t|
