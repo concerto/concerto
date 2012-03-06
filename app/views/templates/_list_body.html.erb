@@ -1,0 +1,27 @@
+<article>
+<div id="content_holder">
+
+  <% if @templates.size == 0 %>
+    <div class="default-padding">
+      <h3>Oops - there are no templates yet.  Why don't you <%= link_to new_template_path, "add one" %>?</h3>
+    </div>
+  <% else %>
+    <ul class="GL">
+      <% @templates.each do |template| %>
+        <li>
+        <div class="cont">
+          <%= link_to template, :remote => true do %>
+            Image
+          <% end %>
+          <b><%= link_to template.name, template, :remote => true %></b>
+          <br />
+          <p>by <%= template.author %></p>
+        </div>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+</div>
+</article>
+<div class="clear"></div>

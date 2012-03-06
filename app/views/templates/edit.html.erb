@@ -1,6 +1,5 @@
 <h1>Editing template</h1>
 
-<%= render 'form' %>
+<%= render 'form', :locals => { :template => @template } %>
 
-<%= link_to 'Show', @template %> |
-<%= link_to 'Back', templates_path %>
+<%= render 'form_import' %>
