@@ -8,7 +8,7 @@
   <% @group.memberships.leader.each do |membership| %>
     <li>
       <%= membership.user.name %> - 
-      <% if !membership.is_leader? %> - change membership level <% end %>
+      <%= link_to "Demote", demote_group_membership_path(@group, membership), :method => :put %>
     </li>
   <% end %>
   </ul>
@@ -16,26 +16,10 @@
 <p>
   <b>Members:</b>
   <ul>
-  <% @group.memberships.regular.each do |membership| %>
+  <% @group.memberships.each do |membership| %>
     <li>
       <%= membership.user.name %> - <%= link_to "Destroy", [@group, membership], :confirm => 'Are you sure?', :method => :delete %>
-      <% if !membership.is_leader? %>
-        <%= form_for([@group, membership]) do |f| %>
-          <%= f.select :level, Membership::LEVELS %>
-          <%= f.submit %>
-        <% end %>
-      <% end %>
-    </li>
-  <% end %>
-  </ul>
-</p>
-<p>
-  <b>Pending Members:</b>
-  <ul>
-  <% @group.memberships.pending.each do |membership| %>
-    <li>
-      <%= membership.user.name %> - <%= link_to "Aprove", approve_group_membership_path(@group, membership), :confirm => 'Are you sure?', :method => :put %>
-                                    <%= link_to "Deny", deny_group_membership_path(@group, membership), :confirm => 'Are you sure?', :method => :put %>
+      <% if !membership.is_leader? %> - <%= link_to "Promote", promote_group_membership_path(@group, membership), :method => :put %><% end %>
     </li>
   <% end %>
   </ul>
@@ -44,7 +28,6 @@
   <b>Add Member:</b>
   <%= form_for([@group, @group.memberships.new]) do |f| %>
     <%= f.collection_select :user_id, User.all - @group.users, :id, :name %>
-    <%= hidden_field_tag 'autoconfirm', true %>
     <%= f.submit %>
   <% end %>
 </p>

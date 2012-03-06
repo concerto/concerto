@@ -73,8 +73,7 @@ ActiveRecord::Schema.define(:version => 20120305021107) do
     t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "level",           :default => 0
-    t.boolean  "moderation_flag"
+    t.integer  "level",      :default => 0
   end
 
   create_table "positions", :force => true do |t|

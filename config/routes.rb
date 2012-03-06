@@ -49,8 +49,8 @@ Concerto::Application.routes.draw do
   resources :groups do
     resources :memberships, :only => [:create, :update, :destroy] do
       member do
-        put :approve
-        put :deny
+        put :promote
+        put :demote
       end
     end
   end
