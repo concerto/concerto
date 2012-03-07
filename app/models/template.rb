@@ -39,4 +39,17 @@ class Template < ActiveRecord::Base
     end
     return self.valid?
   end
+
+
+  # Update the original_width and original_height
+  # fields using the orignal image.
+  def update_original_sizes
+    original_media = self.media.original.first
+    unless original_media.nil?
+      image = Magick::Image.from_blob(original_media.file_contents).first
+      self.original_width = image.columns
+      self.original_height = image.rows
+    end
+    return true
+  end
 end
