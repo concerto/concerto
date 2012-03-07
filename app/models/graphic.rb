@@ -21,8 +21,6 @@ class Graphic < Content
     # In theory, there should be more code in here to look for a cached image and be smarter
     # about the resizing, but this is a good first pass.
     if options.key?(:width) && options.key?(:height)
-      require 'RMagick'
-
       image = Magick::ImageList.new
       image.from_blob(@media.file_contents)
       image.resize!(options[:width].to_i, options[:height].to_i)

@@ -27,7 +27,7 @@ gem 'sqlite3'
 # gem 'jbuilder'
 
 #RMagick is used for image resizing and processing
-gem "rmagick", ">= 2.12.2"
+gem "rmagick", ">= 2.12.2", :require => 'RMagick'
 
 # Attachable does all the file work.
 gem 'attachable', '>= 0.0.2'

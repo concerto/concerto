@@ -97,8 +97,6 @@ class TemplatesController < ApplicationController
   # GET /template/1/preview
   # Generate a preview of the template based on the request format.
   def preview
-    require 'RMagick'
-    
     @template = Template.find(params[:id])
     @media = @template.media.original.first
     @image = Magick::Image.from_blob(@media.file_contents).first
