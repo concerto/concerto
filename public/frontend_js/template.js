@@ -1,6 +1,7 @@
 goog.provide('concerto.frontend.Template');
 
 goog.require('concerto.frontend.Position');
+goog.require('goog.Uri');
 goog.require('goog.array');
 goog.require('goog.debug.Logger');
 goog.require('goog.dom');
@@ -82,6 +83,8 @@ concerto.frontend.Template.prototype.load = function(data) {
   this.id = data.id;
   goog.dom.setProperties(this.div_, {'id': 'template_' + this.id});
 
+  this.render_();
+
   if (goog.isDefAndNotNull(data.positions)) {
     goog.array.forEach(data.positions, goog.bind(function(position_data) {
       var position = new concerto.frontend.Position(this);
@@ -89,6 +92,26 @@ concerto.frontend.Template.prototype.load = function(data) {
       goog.array.insert(this.positions, position);
     }, this));
   }
+};
+
+
+/**
+ * Render the template styles.
+ * Set the correect background image and stuff.
+ *
+ * @private
+ */
+concerto.frontend.Template.prototype.render_ = function() {
+  var size = goog.style.getSize(this.div_);
+
+  var background_url = new goog.Uri('/templates/' + this.id + '/display');
+  background_url.setParameterValue('height', size.height);
+  background_url.setParameterValue('width', size.width);
+
+  goog.style.setStyle(this.div_, 'background-image',
+      'url(' + background_url.toString() + ')');
+  goog.style.setStyle(this.div_, 'background-size', '100% 100%');
+  goog.style.setStyle(this.div_, 'background-repeat', 'no-repeat');
 };
 
 

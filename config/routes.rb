@@ -31,6 +31,7 @@ Concerto::Application.routes.draw do
     resources :positions
     member do
       get :preview
+      get :display
     end
     collection do
       post :import
