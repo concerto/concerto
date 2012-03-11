@@ -50,7 +50,7 @@
     <ul class="GL">
       <% @submissions.each do |submission| %>
         <li>
-        <div>
+        <div class="cont">
           <%= link_to [submission.feed, submission], :remote => true do %>
             <%= render_content(submission.content, {:type => 'grid'}) %>
           <% end %>

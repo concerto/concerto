@@ -12,7 +12,9 @@
               <%= link_to screen do %>
                 <i class="icon-controller-screens"></i>
               <% end %>
-              <b><%= link_to screen.name, screen %></b>
+              <p><b><%= link_to screen.name, screen %></b></p>
+              <p><%= screen.location %></p>
+              <p><%= screen.fields.count %> fields</p>
             </div>
           </li>
         <% end %>
