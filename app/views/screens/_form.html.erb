@@ -61,6 +61,13 @@
     <legend><span><%= t(:select_template) %></span></legend>
 
     <div class="clearfix">
+
+      <div class="input">
+        <%= link_to "Add New Template", new_template_path, :class => "btn info", :target => "_blank" %>
+      </div>
+    </div>
+
+    <div class="clearfix">
       <label><%= t(:best_fit_templates) %></label>
       <div class="input">
         
