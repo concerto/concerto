@@ -78,6 +78,7 @@
               <div class="inp">
                 <%= f.radio_button :template_id, template.id %>
               </div>
+              <%= image_tag preview_template_path(template, :format => :png), :style => "height: 60px; margin: 0px;" %>
               <div class="cont">
                 <p><b><%= template.name %></b></p>
                 <p>by <%= template.author %></p>
