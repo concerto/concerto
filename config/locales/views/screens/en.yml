@@ -5,3 +5,5 @@ en:
   current_template: "Current Selection"
   best_fit_templates: "Best-Fit Templates"
   other_templates: "Other Templates"
+  select_feed: "Select Feed"
+  filter_for_feeds: "Filter for Feeds"
