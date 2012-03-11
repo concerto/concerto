@@ -34,6 +34,7 @@
 <section>
 <div class="TM-sectop">
   <%= link_to screens_path, :class => "btn #{ controller.controller_name == 'screens' ? 'selected' : '' }" do %><%= t(:manage) %><% end %>
+  <%= link_to templates_path, :class => "btn #{ controller.controller_name == 'templates' ? 'selected' : '' }" do %><%= t(:templates) %><% end %>
 </div>
 <div class="TM-secbot">
   <h1><%= t(:screens) %></h1>
