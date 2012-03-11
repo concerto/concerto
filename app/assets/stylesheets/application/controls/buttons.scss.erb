@@ -66,6 +66,7 @@
   padding: 2px 10px;
   @include no-box-shadow;
   @include border-radius(4px);
+  @include vertical-gradient(#8ac6e8, #306da2);
   font-size: $basefont - 2;
   cursor: pointer;
   font-weight: bold;
@@ -73,7 +74,7 @@
   letter-spacing: -0.07em;
   text-shadow: 0 -1px 0px $concerto-blue-1;
   text-decoration: none;
-  background: image-url('layout/button_norm_states.png') top left repeat-x;
+  //background: image-url('layout/button_norm_states.png') top left repeat-x;
   border: solid 1px #003366;
   
   $shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
@@ -82,12 +83,11 @@
   @include ie7-restore-left-whitespace;
 
   &:hover {
-    background-position: 100% -26px;
+    @include vertical-gradient(#c8eff9, #3ea5de);
     color: #000033 !important;
-    text-shadow: 0 -1px #eee;
+    text-shadow: 0 -1px 0px #eee;
     border: solid 1px #2f84da;
     text-decoration: none;
-    background-color: lighten($white, 10%);
 
   }
 
@@ -100,9 +100,9 @@
   &.active,
   &:active {
     @include box-shadow(inset 0 0 6px $black);
-    background-position: 100% 100%;
+    @include vertical-gradient(#dedede, #767676);
     color: #333;
-    text-shadow: 0 1px #eee;
+    text-shadow: 0 -1px 0px #eee;
     outline: none;
     border: solid 1px $black;
   }
