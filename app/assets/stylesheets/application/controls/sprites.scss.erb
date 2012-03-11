@@ -1,0 +1,30 @@
+// SPRITES
+// Glyphs and icons for buttons, nav, and more
+// -------------------------------------------
+
+
+// CONTROLLER ICONS (60px x 60px)
+// -----
+
+// These are used on various views to designate controllers 
+// (screens, templates, user groups, etc.).  They are 
+// 60px x 60px in size.
+
+// <i class="icon-controller-screens"></i>.
+
+[class^="icon-controller-"],
+[class*=" icon-controller-"] {
+  display: inline-block;
+  width: 60px;
+  height: 44px;
+  line-height: 44px;
+  vertical-align: text-top;
+  background-image: image-url('elements/icons_controllers_sprites.png');
+  background-position: 44px 44px;
+  background-repeat: no-repeat;
+
+  @include ie7-restore-right-whitespace();
+}
+.icon-controller-screens { background-position: 0px 0px; }
+.icon-controller-templates { background-position: -60px 0px; }
+.icon-controller-groups { background-position: -120px 0px; }

@@ -8,9 +8,9 @@
       <ul class="GL">
         <% @screens.each do |screen| %>
           <li>
-            <div>
+            <div class="cont">
               <%= link_to screen do %>
-                Image
+                <i class="icon-controller-screens"></i>
               <% end %>
               <b><%= link_to screen.name, screen %></b>
             </div>
