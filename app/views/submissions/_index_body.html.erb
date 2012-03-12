@@ -1,31 +1,28 @@
 <article>
 <div class="subnav clearfix">
   <div class="pull-left" style="width:120px">
-    <div class="dropdown dropdown-container">
-      <a href="#" class="button dropdown-toggle dropdown-control">Jump to Feed...</a>
-      <div id="jumptofeed" class="dropdown-contents medium">
-        <a href="#" class="close dropdown-close">x</a>
-        <h3>Click on a feed to jump to it</h3>
-        <% feeds = dfs_tree(Feed.roots) %>
-        <% if feeds.empty? %>
-          <p><%= t(:no_feeds) %></p>
-        <% else %>
-          <input type="search" id="filter_feeds" placeholder="Type here to filter"/>
-          <ul class="filterable">
-            <% feeds.each_with_index do |feed, i| %>
-              <li data-filter="<%= feed.name %>">
-              <%= link_to feed_submissions_path(feed), :remote => true, :class => "link-hl" do %>
-                <%= feed.name %> <span class="badge"><%= feed.approved_contents.count %></span>
-              <% end %>
-              </li>
+    <%= link_to "Jump to Feed...", "#", :title => "Click on a feed to jump", :class => "btn dropdown-toggle dropdown-control", :rel => "#jump_to" %>
+
+    <div id="jump_to" style="display: none;">
+      <% feeds = dfs_tree(Feed.roots) %>
+      <% if feeds.empty? %>
+        <p><%= t(:no_feeds) %></p>
+      <% else %>
+        <input type="search" id="filter_feeds" placeholder="Type here to filter"/>
+        <ul class="filterable">
+          <% feeds.each_with_index do |feed, i| %>
+            <li data-filter="<%= feed.name %>">
+            <%= link_to feed_submissions_path(feed), :remote => true, :class => "link-hl" do %>
+              <%= feed.name %> <span class="badge"><%= feed.approved_contents.count %></span>
             <% end %>
-          </ul>
-        <% end %>
-      </div>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
     </div>
+
   </div>
-
-
+ 
   <ul class="tabs">
     <% if @sub_feeds.size < 1 %>
       <li class="legend">No Sub-feeds</li>
@@ -58,16 +55,15 @@
           <br />
           <%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
           <br />
-          <div class="dropdown" style="float: left;">
-            <a href="#" class="btn small dropdown-control">Moderate</a>
-            <div class="dropdown-contents small">
-              <ul>
-                <li><%= submission.content.name %></li>
-                <li><a href="#">Approve</a></li>
-                <li><a href="#">Deny</a></li>
-              </ul>
-            </div>
+          <%= link_to "Moderate", "#", :title => "Moderate '#{ submission.content.name }'", :class => "btn small dropdown-control", :rel => "#moderate_#{ submission.id }" %>
+
+          <div id="moderate_<%= submission.id %>" style="display:none;">
+            <ul>
+              <li><a href="#">Approve</a></li>
+              <li><a href="#">Deny</a></li>
+            </ul>
           </div>
+
         </div>
         </li>
       <% end %>
@@ -77,9 +73,45 @@
 </div>
 </article>
 <div class="clear"></div>
+
 <script type="text/javascript">
+
   $(document).ready(function() {
-      $('.dropdown').dropdown();
-      $('#filter_feeds').listFilter();
+    $('.dropdown-control').click(function(event) { event.preventDefault(); });
+    
+    $('.dropdown-control').each(function() {
+      
+      $(this).qtip( {
+
+        content: {
+          text: $( $(this).attr('rel') ).html(),
+          title: {
+            text: $(this).attr('title'),
+            button: true
+          }
+        },
+
+        position: {
+          at: 'bottom center', // Position the tooltip above the link
+          my: 'top left',
+          viewport: $(window) // Keep the tooltip on-screen at all times
+        },
+
+        show: {
+          event: 'click', // Show it on click...
+          solo: true // ...and hide all other tooltips...
+        },
+
+        hide: 'unfocus',
+        style: 'ui-tooltip-light ui-tooltip-rounded'
+
+      });
+
+    });
+      
+    // feed filtering
+    $('#filter_feeds').listFilter();
+
   });
 </script>
+
