@@ -169,11 +169,6 @@
 
 .ui-tooltip-light {
   
-  .ui-tooltip-titlebar {
-    border-color: #E2E2E2;
-    color: #454545; 
-  }
-  
   .ui-tooltip-content {
     border-color: #E2E2E2;
     color: #454545;
@@ -181,14 +176,16 @@
   }
   
   .ui-tooltip-titlebar {
-    background-color: #f1f1f1; 
+    background-color: $gray;
+    color: $white;
+    border: none;
   } 
 }
 
 /*!Add shadows to your tooltips in:FF3+,Chrome 2+,Opera 10.6+,IE6+,Safari 2+*/
 
 .ui-tooltip-shadow {
-  @include box-shadow(1px 1px 3px 1px rgba(0, 0, 0, 0.15) );
+  @include box-shadow(1px 1px 3px 1px $gray );
   
   .ui-tooltip-titlebar, .ui-tooltip-content {
     filter: progid:DXImageTransform.Microsoft.Shadow(Color='gray',Direction=135,Strength=3);
