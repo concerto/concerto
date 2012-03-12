@@ -1,7 +1,7 @@
 <article>
 <div class="subnav clearfix">
   <div class="pull-left" style="width:120px">
-    <%= link_to "Jump to Feed...", "#", :title => "Click on a feed to jump", :class => "btn dropdown-toggle dropdown-control", :rel => "#jump_to" %>
+    <%= link_to "Jump to Feed...", "#", :title => "Click on a feed to jump", :class => "btn small info dropdown-toggle dropdown-control", :rel => "#jump_to" %>
 
     <div id="jump_to" style="display: none;">
       <% feeds = dfs_tree(Feed.roots) %>
