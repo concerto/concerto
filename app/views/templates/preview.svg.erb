@@ -11,7 +11,8 @@
   <g>
     <image id="background" xlink:href="<%= url_for @media %>" height="100%" width="100%" x="0" y="0"
            preserveAspectRatio="none" />
-    <% @template.positions.each do |position| %>
+    <% unless @hide_fields
+         @template.positions.each do |position| %>
     <g>
       <rect x="<%= 100*position.left %>%" y="<%= 100*position.top %>%"
             width="<%= 100*position.width %>%" height="<%= 100*position.height %>%" 
@@ -22,6 +23,7 @@
         <%= position.field.name %>
       </text>
     </g>
-    <% end %>
+    <%   end
+       end %>
   </g>
 </svg>

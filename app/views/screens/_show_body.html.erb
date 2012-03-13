@@ -1,7 +1,7 @@
 <article>
   <div class="screen-model" style="width: 800px; height: 505px;">
     <%= link_to "Change Screen Template", edit_screen_path(@screen, :anchor => "template_selection"), :class => "btn clear small", :style => "position: absolute; top: 6px; right: 25px;" %>
-    <div class="inner" style="background: url(<%= preview_template_path(@screen.template, :format => :png) %>) center center no-repeat; width: 800px; height: 450px;">
+    <div class="inner" style="background: url(<%= preview_template_path(@screen.template, :width => 800, :height => 450, :format => :png) %>) center center no-repeat; width: 800px; height: 450px;">
       <% @screen.template.positions.each do |pos| %>
         <div class="pos" style="top: <%= pos.top * 100 %>%; left: <%= pos.left * 100 %>%; width: <%= (pos.right - pos.left) * 100 %>%; height: <%= (pos.bottom - pos.top) * 100 %>%; <%= pos.style %>">
           <%= pos.id %>

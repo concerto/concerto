@@ -97,38 +97,34 @@ class TemplatesController < ApplicationController
   # GET /template/1/display
   # Render the template for display on a screen.
   def display
+    require'image_utility'
     @template = Template.find(params[:id])
     @media = @template.media.original.first
-    @image = Magick::Image.from_blob(@media.file_contents).first
+    image = Magick::Image.from_blob(@media.file_contents).first
     
     # Resize the image to a height and width if they are both being set.
     # Round these numbers up to ensure the image will at least fill
     # the requested space.
     width = nil
     height = nil
-    width = params[:height].to_f.ceil unless params[:height].nil?
-    height = params[:width].to_f.ceil unless params[:width].nil?
+    height = params[:height].to_f.ceil unless params[:height].nil?
+    width = params[:width].to_f.ceil unless params[:width].nil?
 
-    unless height.nil? or width.nil?
-      # There is a lengthy discussion of resizing options here:
-      # http://rmagick.rubyforge.org/resizing-methods.html.
-      # I am not factoring any information from that page into this choice.
-      @image.scale!(height, width)
-    end
+    image = ImageUtility.resize(image, width, height, false)
     case request.format
       when Mime::Type.lookup_by_extension(:jpg)
-        @image.format = "JPG"
+        image.format = "JPG"
       when Mime::PNG
-        @image.format = "PNG"
+        image.format = "PNG"
     end
 
     # Set some reasonable cache headers
     response.headers["Last-Modified"] = CGI.rfc1123_date(@template.updated_at)
     expires_in 36.hours, :public => true
 
-    send_data @image.to_blob,
-              :filename => "#{@template.name.underscore}.#{@image.format.downcase}",
-              :type => @image.mime_type, :disposition => 'inline'
+    send_data image.to_blob,
+              :filename => "#{@template.name.underscore}.#{image.format.downcase}",
+              :type => image.mime_type, :disposition => 'inline'
   end
   
   # GET /template/1/preview
@@ -136,42 +132,60 @@ class TemplatesController < ApplicationController
   def preview
     @template = Template.find(params[:id])
     @media = @template.media.original.first
-    @image = Magick::Image.from_blob(@media.file_contents).first
-    @height = @image.rows
-    @width = @image.columns
+    image = Magick::Image.from_blob(@media.file_contents).first
+
+    # Hide the fields if the hide_fields param is set,
+    # show them by default though.
+    @hide_fields = false
+    if !params[:hide_fields].nil?
+      @hide_fields = [true, "true", 1, "1"].include?(params[:hide_fields])
+    end
+
+    height = image.rows
+    width = image.columns
     
     jpg =  Mime::Type.lookup_by_extension(:jpg)  #JPG is getting defined elsewhere.
     if([jpg, Mime::PNG, Mime::HTML].include?(request.format))
-      if !@template.positions.empty?
+      if !@hide_fields && !@template.positions.empty?
         dw = Magick::Draw.new
         @template.positions.each do |position|
           #Draw the rectangle
           dw.fill("grey")
           dw.stroke_opacity(0)
           dw.fill_opacity(0.6)
-          dw.rectangle(@width*position.left, @height*position.top, @width*position.right, @height*position.bottom)
+          dw.rectangle(width*position.left, height*position.top, width*position.right, height*position.bottom)
           
           #Layer the field name
           dw.stroke("black")
           dw.fill("black")
           dw.text_anchor(Magick::MiddleAnchor)
           dw.opacity(1)
-          dw.pointsize = 100
-          dw.text((@width*(position.left + position.right)/2),(@height*(position.top + position.bottom)/2+40),position.field.name)      
+          font_size = [width, height].min / 10
+          dw.pointsize = font_size
+          dw.text((width*(position.left + position.right)/2),(height*(position.top + position.bottom)/2+0.4*font_size),position.field.name)      
         end
-        dw.draw(@image)
+        dw.draw(image)
       end      
+
+      # Resize the image if needed.
+      # We do this post-field drawing because RMagick seems to struggle with small font sizes.
+      height = params[:height].nil? ? nil : params[:height].to_f.ceil
+      width = params[:width].nil? ? nil :  params[:width].to_f.ceil
+      if height || width
+        require 'image_utility'
+        image = ImageUtility::resize(image, width, height)
+      end
 
       case request.format
       when jpg
-        @image.format = "JPG"
+        image.format = "JPG"
       when Mime::PNG
-        @image.format = "PNG"
+        image.format = "PNG"
       end
     
-      send_data @image.to_blob,
-                :filename => "#{@template.name.underscore}.#{@image.format.downcase}_preview",
-                :type => @image.mime_type, :disposition => 'inline'
+      send_data image.to_blob,
+                :filename => "#{@template.name.underscore}.#{image.format.downcase}_preview",
+                :type => image.mime_type, :disposition => 'inline'
     else
       respond_to do |format|
         format.svg
