@@ -1,7 +1,7 @@
 <article>
 <div class="subnav clearfix">
   <div class="pull-left" style="width:120px">
-    <%= link_to "Jump to Feed...", "#", :title => "Click on a feed to jump", :class => "btn small info dropdown-toggle dropdown-control", :rel => "#jump_to" %>
+    <%= link_to "Jump to Feed...", "#", :title => "Click on a feed to jump", :class => "btn small info dropdown-toggle dropdown-control dd-jumpto", :rel => "#jump_to" %>
 
     <div id="jump_to" style="display: none;">
       <% feeds = dfs_tree(Feed.roots) %>
@@ -55,13 +55,18 @@
           <br />
           <%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
           <br />
-          <%= link_to "Moderate", "#", :title => "Moderate '#{ submission.content.name }'", :class => "btn small dropdown-control", :rel => "#moderate_#{ submission.id }" %>
+          <p>
+            <%= link_to "#", :class => "dropdown-control dd-moderate", :title => "Moderate '#{ submission.content.name }'", :rel => "#moderate_#{ submission.id }" do %>
+              <%= submission.moderation_flag == 1 ? "Approved" : "Declined" %>
+            <% end %>
+          </p>
 
           <div id="moderate_<%= submission.id %>" style="display:none;">
-            <ul>
-              <li><a href="#">Approve</a></li>
-              <li><a href="#">Deny</a></li>
-            </ul>
+            <div class="btn-group">
+              <button class="btn success">Approve</button>
+              <button class="btn danger">Deny</button>
+            </div>
+            <br />
           </div>
 
         </div>
@@ -79,7 +84,7 @@
   $(document).ready(function() {
     $('.dropdown-control').click(function(event) { event.preventDefault(); });
     
-    $('.dropdown-control').each(function() {
+    $('.dropdown-control.dd-jumpto').each(function() {
       
       $(this).qtip( {
 
@@ -104,6 +109,36 @@
 
         hide: 'unfocus',
         style: 'ui-tooltip-light ui-tooltip-shadow ui-tooltip-rounded'
+
+      });
+
+    });
+
+    $('.dropdown-control.dd-moderate').each(function() {
+      
+      $(this).qtip( {
+
+        content: {
+          text: $( $(this).attr('rel') ).html(),
+          title: {
+            text: $(this).attr('title'),
+            button: true
+          }
+        },
+
+        position: {
+          at: 'bottom center', // Position the tooltip above the link
+          my: 'top left',
+          viewport: $(window) // Keep the tooltip on-screen at all times
+        },
+
+        show: {
+          event: 'hover', // Show it on click...
+          solo: true // ...and hide all other tooltips...
+        },
+
+        hide: 'unfocus',
+        style: 'ui-tooltip-dark ui-tooltip-shadow ui-tooltip-rounded'
 
       });
 
