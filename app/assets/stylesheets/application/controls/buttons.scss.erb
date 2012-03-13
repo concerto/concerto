@@ -46,14 +46,27 @@
   // Danger and error appear as red
   &.danger {
     @include vertical-gradient(#ee5f5b, #bd362f);
+    border-color: #bd362f;
+
+    &:hover {
+      @include vertical-gradient(#f7adab, #ee5f5b);
+      border-color: #ee5f5b;
+    }
   }
   // Success appears as green
   &.success {
     @include vertical-gradient(#62c462, #51a351);
+    border-color: #51a351;
+
+    &:hover {
+      @include vertical-gradient(#9bee9b, #62c462);
+      border-color: #62c462;
+    }
   }
   // Info appears as a neutral blue
   &.info {
     @include vertical-gradient(#5bc0de, #2f96b4);
+    border-color: #2f96b4;
   }
 
   &.clear {

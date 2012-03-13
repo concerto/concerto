@@ -57,15 +57,32 @@
           <br />
           <p>
             <%= link_to "#", :class => "dropdown-control dd-moderate", :title => "Moderate '#{ submission.content.name }'", :rel => "#moderate_#{ submission.id }" do %>
-              <%= submission.moderation_flag == 1 ? "Approved" : "Declined" %>
+              <% if submission.is_approved? %>
+                Approved
+              <% elsif submission.is_denied? %>
+                Denied
+              <% else %>
+                Pending Moderation
+              <% end %>
             <% end %>
           </p>
 
           <div id="moderate_<%= submission.id %>" style="display:none;">
-            <div class="btn-group">
-              <button class="btn success">Approve</button>
-              <button class="btn danger">Deny</button>
-            </div>
+            <% if submission.is_approved? %>
+              <p>Currently <b style="color: green;">Approved</b></p>
+              <%= link_to "Change to Denied", deny_feed_submission_path(submission, :feed_id => submission.feed), :class => "btn danger" %>
+              <br />
+            <% elsif submission.is_denied? %>
+              <p>Currently <b style="color: red;">Denied</b></p>
+              <%= link_to "Change to Approved", approve_feed_submission_path(submission, :feed_id => submission.feed), :class => "btn success" %>
+              <br />
+            <% else %>
+              <p>Currently <b>Pending Moderation</b></p>
+              <div class="btn-group">
+                <%= link_to "Approve", approve_feed_submission_path(submission, :feed_id => submission.feed), :class => "btn success" %>
+                <%= link_to "Deny", deny_feed_submission_path(submission, :feed_id => submission.feed), :class => "btn danger" %>
+              </div>
+            <% end %>
             <br />
           </div>
 

@@ -180,6 +180,41 @@
     color: $white;
     border: none;
   } 
+
+}
+
+/*!Dark tooltip style */
+
+.ui-tooltip-dark {
+  
+  .ui-tooltip-titlebar+.ui-tooltip-content {
+    @include border-radius-corners(0px, 0px, 5px, 5px);
+  }
+
+  @include box-shadow(0 0 3px #333);
+  
+  .ui-tooltip-titlebar, .ui-tooltip-content {
+    _margin-bottom: 0;
+    .margin-bottom: 0;
+    background: transparent;
+    background: rgba(0, 0, 0, 0.85);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#D9000000,endColorstr=#D9000000);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#D9000000,endColorstr=#D9000000)";
+    color: $white;
+    border-color: #CCC; 
+  }
+
+  .ui-tooltip-titlebar {
+    color: $gray;
+  }
+  
+  .ui-tooltip-icon {
+    border-color: #222; 
+  }
+  
+  .ui-tooltip-titlebar .ui-state-hover {
+    border-color: #303030; 
+  } 
 }
 
 /*!Add shadows to your tooltips in:FF3+,Chrome 2+,Opera 10.6+,IE6+,Safari 2+*/
@@ -213,33 +248,7 @@
   @include border-radius-corners(0px, 0px, 5px, 5px);
 }
 
-.ui-tooltip-dark {
-  
-  .ui-tooltip-titlebar+.ui-tooltip-content {
-    @include border-radius-corners(0px, 0px, 5px, 5px);
-  }
 
-  @include box-shadow(0 0 3px #333);
-  
-  .ui-tooltip-titlebar, .ui-tooltip-content {
-    _margin-bottom: 0;
-    .margin-bottom: 0;
-    background: transparent;
-    background: rgba(0, 0, 0, 0.85);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#D9000000,endColorstr=#D9000000);
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#D9000000,endColorstr=#D9000000)";
-    color: white;
-    border-color: #CCC; 
-  }
-  
-  .ui-tooltip-icon {
-    border-color: #222; 
-  }
-  
-  .ui-tooltip-titlebar .ui-state-hover {
-    border-color: #303030; 
-  } 
-}
 
 .ui-tooltip:not(.ie9haxors) div {
   &.ui-tooltip-content, &.ui-tooltip-titlebar {
