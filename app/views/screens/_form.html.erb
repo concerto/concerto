@@ -79,10 +79,10 @@
                 <%= f.radio_button :template_id, template.id %>
               </div>
 
-              <%= image_tag preview_template_path(template, :height => 60, :format => :png), :style => "height: 60px; margin: 0px;" %>
+              <%= image_tag preview_template_path(template, :height => 60, :format => :png), :style => "margin: 0px;" %>
               
               <div id="preview_<%= template.id %>" class="dd" style="display:none;">
-                <%= image_tag preview_template_path(template, :width => 260, :format => :png), :style => "width: 260px; margin: 0px;" %>
+                <%= image_tag preview_template_path(template, :width => 540, :height => 310, :aspect_ratio => true, :format => :png), :style => "margin: 0px;" %>
               </div>
               
               <div class="cont">
@@ -133,7 +133,7 @@
           },
       
           hide: 'unfocus',
-          style: 'ui-tooltip-dark ui-tooltip-shadow ui-tooltip-rounded'
+          style: 'ui-tooltip-dark ui-tooltip-bigenough ui-tooltip-shadow ui-tooltip-rounded'
         });
       });
     });
