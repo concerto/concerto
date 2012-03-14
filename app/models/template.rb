@@ -52,4 +52,15 @@ class Template < ActiveRecord::Base
     end
     return true
   end
+
+  # Find the last time this template was modified by looking at the
+  # template, fields, and original media.  Return the largest update_at value.
+  def last_modified
+    timestamps = [updated_at]
+    latest_position = positions.order('updated_at DESC').first
+    timestamps.append(latest_position.updated_at) unless latest_position.nil?
+    latest_media = media.original.order('updated_at DESC').first
+    timestamps.append(latest_media.updated_at)
+    return timestamps.max
+  end
 end

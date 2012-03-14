@@ -119,7 +119,7 @@ class TemplatesController < ApplicationController
     end
 
     # Set some reasonable cache headers
-    response.headers["Last-Modified"] = CGI.rfc1123_date(@template.updated_at)
+    response.headers["Last-Modified"] = CGI.rfc1123_date(@template.last_modified)
     expires_in 36.hours, :public => true
 
     send_data image.to_blob,
@@ -131,64 +131,66 @@ class TemplatesController < ApplicationController
   # Generate a preview of the template based on the request format.
   def preview
     @template = Template.find(params[:id])
-    @media = @template.media.original.first
-    image = Magick::Image.from_blob(@media.file_contents).first
+    if stale?(:last_modified => @template.last_modified.utc, :etag => @template, :public => true)
+      @media = @template.media.original.first
+      image = Magick::Image.from_blob(@media.file_contents).first
 
-    # Hide the fields if the hide_fields param is set,
-    # show them by default though.
-    @hide_fields = false
-    if !params[:hide_fields].nil?
-      @hide_fields = [true, "true", 1, "1"].include?(params[:hide_fields])
-    end
+      # Hide the fields if the hide_fields param is set,
+      # show them by default though.
+      @hide_fields = false
+      if !params[:hide_fields].nil?
+        @hide_fields = [true, "true", 1, "1"].include?(params[:hide_fields])
+      end
 
-    height = image.rows
-    width = image.columns
-    
-    jpg =  Mime::Type.lookup_by_extension(:jpg)  #JPG is getting defined elsewhere.
-    if([jpg, Mime::PNG, Mime::HTML].include?(request.format))
-      if !@hide_fields && !@template.positions.empty?
-        dw = Magick::Draw.new
-        @template.positions.each do |position|
-          #Draw the rectangle
-          dw.fill("grey")
-          dw.stroke_opacity(0)
-          dw.fill_opacity(0.6)
-          dw.rectangle(width*position.left, height*position.top, width*position.right, height*position.bottom)
-          
-          #Layer the field name
-          dw.stroke("black")
-          dw.fill("black")
-          dw.text_anchor(Magick::MiddleAnchor)
-          dw.opacity(1)
-          font_size = [width, height].min / 10
-          dw.pointsize = font_size
-          dw.text((width*(position.left + position.right)/2),(height*(position.top + position.bottom)/2+0.4*font_size),position.field.name)      
+      height = image.rows
+      width = image.columns
+      
+      jpg =  Mime::Type.lookup_by_extension(:jpg)  #JPG is getting defined elsewhere.
+      if([jpg, Mime::PNG, Mime::HTML].include?(request.format))
+        if !@hide_fields && !@template.positions.empty?
+          dw = Magick::Draw.new
+          @template.positions.each do |position|
+            #Draw the rectangle
+            dw.fill("grey")
+            dw.stroke_opacity(0)
+            dw.fill_opacity(0.6)
+            dw.rectangle(width*position.left, height*position.top, width*position.right, height*position.bottom)
+            
+            #Layer the field name
+            dw.stroke("black")
+            dw.fill("black")
+            dw.text_anchor(Magick::MiddleAnchor)
+            dw.opacity(1)
+            font_size = [width, height].min / 10
+            dw.pointsize = font_size
+            dw.text((width*(position.left + position.right)/2),(height*(position.top + position.bottom)/2+0.4*font_size),position.field.name)      
+          end
+          dw.draw(image)
+        end      
+
+        # Resize the image if needed.
+        # We do this post-field drawing because RMagick seems to struggle with small font sizes.
+        height = params[:height].nil? ? nil : params[:height].to_f.ceil
+        width = params[:width].nil? ? nil :  params[:width].to_f.ceil
+        if height || width
+          require 'image_utility'
+          image = ImageUtility::resize(image, width, height)
         end
-        dw.draw(image)
-      end      
 
-      # Resize the image if needed.
-      # We do this post-field drawing because RMagick seems to struggle with small font sizes.
-      height = params[:height].nil? ? nil : params[:height].to_f.ceil
-      width = params[:width].nil? ? nil :  params[:width].to_f.ceil
-      if height || width
-        require 'image_utility'
-        image = ImageUtility::resize(image, width, height)
-      end
+        case request.format
+        when jpg
+          image.format = "JPG"
+        when Mime::PNG
+          image.format = "PNG"
+        end
 
-      case request.format
-      when jpg
-        image.format = "JPG"
-      when Mime::PNG
-        image.format = "PNG"
-      end
-    
-      send_data image.to_blob,
-                :filename => "#{@template.name.underscore}.#{image.format.downcase}_preview",
-                :type => image.mime_type, :disposition => 'inline'
-    else
-      respond_to do |format|
-        format.svg
+        send_data image.to_blob,
+                  :filename => "#{@template.name.underscore}.#{image.format.downcase}_preview",
+                  :type => image.mime_type, :disposition => 'inline'
+      else
+        respond_to do |format|
+          format.svg
+        end
       end
     end
   end
