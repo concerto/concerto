@@ -17,24 +17,31 @@ class Graphic < Content
   # Resizes the image to fit a width and height specified (both required ATM).
   # Returns a new (unsaved) Media instance.
   def render(options={})
-    @media = self.media.original.first
+    original_media = self.media.original.first
     # In theory, there should be more code in here to look for a cached image and be smarter
     # about the resizing, but this is a good first pass.
-    if options.key?(:width) && options.key?(:height)
-      image = Magick::ImageList.new
-      image.from_blob(@media.file_contents)
-      image.resize!(options[:width].to_i, options[:height].to_i)
+    if options.key?(:width) || options.key?(:height)
+      require 'image_utility'
+      image = Magick::Image.from_blob(original_media.file_contents).first
+
+      # Resize the image to a height and width if they are both being set.
+      # Round these numbers up to ensure the image will at least fill
+      # the requested space.
+      height = options[:height].nil? ? nil : options[:height].to_f.ceil
+      width = options[:width].nil? ? nil : options[:width].to_f.ceil
+
+      image = ImageUtility.resize(image, width, height, true)
 
       file = Media.new(
         :attachable => self,
         :file_data => image.to_blob,
         :file_type => image.mime_type,
-        :file_name => @media.file_name
+        :file_name => original_media.file_name
       )
 
       return file
     else
-      return @media
+      return original_media
     end
   end
 
