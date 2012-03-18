@@ -1,7 +1,8 @@
 goog.provide('concerto.frontend.Field');
 
 goog.require('concerto.frontend.Content.ClientTime');
-goog.require('concerto.frontend.Content.RandomText');
+goog.require('concerto.frontend.Content.Graphic');
+goog.require('concerto.frontend.Content.Ticker');
 goog.require('concerto.frontend.Transition.Fade');
 goog.require('goog.debug.Logger');
 goog.require('goog.dom');
@@ -17,11 +18,13 @@ goog.require('goog.style');
  *
  * @param {!concerto.frontend.Position} position The position that owns this.
  * @param {number} id The field ID number.
+ * @param {string} content_path The URL to get information about the content
+ *    that you would show here.
  * @param {Object=} opt_transition A transition to use between content.
  * @constructor
  * @extends {goog.events.EventTarget}
  */
-concerto.frontend.Field = function(position, id, opt_transition) {
+concerto.frontend.Field = function(position, id, content_path, opt_transition) {
   goog.events.EventTarget.call(this);
 
   /**
@@ -35,6 +38,12 @@ concerto.frontend.Field = function(position, id, opt_transition) {
    * @type {number}
    */
   this.id = id;
+
+  /**
+   * URL for content.
+   * @type {?string}
+   */
+  this.content_url = content_path;
 
   /**
    * Previous content that was shown.
@@ -71,6 +80,13 @@ concerto.frontend.Field = function(position, id, opt_transition) {
    * @private
    */
   this.transition_ = opt_transition || concerto.frontend.Transition.Fade;
+
+  /**
+   * Alias to the XHR connection.
+   * @type {!goog.new.XhrManager}
+   * @private
+   */
+  this.connection_ = this.position.template.screen.connection;
 
   this.createDiv();
   this.nextContent();
@@ -117,29 +133,45 @@ concerto.frontend.Field.prototype.inject = function(div) {
  * and then start loading it.  Listen for the FINISH_LOAD event to
  * inidicate we should show this content and the DISPLAY_END event to
  * load a new piece of content.
+ *
+ * @param {Boolean} start_load If we should trigger the startLoad event
+ *    automatically.
  */
-concerto.frontend.Field.prototype.loadContent = function() {
+concerto.frontend.Field.prototype.loadContent = function(start_load) {
+  var load_content_on_finish = start_load || null;
+
   this.logger_.info('Field ' + this.id + ' is looking for new content.');
-  var random_duration = Math.floor(Math.random() * 11);
-  var data = { duration: random_duration };
+  this.connection_.send(this.id, this.content_url, 'GET', '', null, 1,
+      goog.bind(function(e) {
 
-  var contents = [
-    concerto.frontend.Content.SampleImage,
-    concerto.frontend.Content.RandomText,
-    concerto.frontend.Content.ClientTime
-  ];
+        var xhr = e.target;
+        //Currently only think about the first content.
+        var obj = xhr.getResponseJson()[0];
+        var contents = {
+          'Graphic': concerto.frontend.Content.Graphic,
+          'Ticker': concerto.frontend.Content.Ticker
+        };
 
-  this.next_content_ = new contents[Math.floor(Math.random() * 3)](data);
+        obj.field = {
+          'size': goog.style.getSize(this.div_)
+        };
 
-  // When the content is loaded, we show it in the field,
-  goog.events.listen(this.next_content_,
-      concerto.frontend.Content.EventType.FINISH_LOAD,
-      this.showContent, false, this);
+        this.next_content_ = new contents[obj.type](obj);
 
-  // When the content has been shown for too long try to load a new one.
-  goog.events.listen(this.next_content_,
-      concerto.frontend.Content.EventType.DISPLAY_END,
-      this.autoAdvance, false, this);
+        // When the content is loaded, we show it in the field,
+        goog.events.listen(this.next_content_,
+            concerto.frontend.Content.EventType.FINISH_LOAD,
+            this.showContent, false, this);
+
+        // When the content has been shown for too long try to load a new one.
+        goog.events.listen(this.next_content_,
+            concerto.frontend.Content.EventType.DISPLAY_END,
+            this.autoAdvance, false, this);
+
+        if (load_content_on_finish) {
+          this.next_content_.startLoad();
+        }
+      }, this));
 };
 
 
@@ -172,9 +204,10 @@ concerto.frontend.Field.prototype.nextContent = function() {
       ' would like a new piece of content.');
   // If a piece of content is already in the queue, use that.
   if (!goog.isDefAndNotNull(this.next_content_)) {
-    this.loadContent();
+    this.loadContent(true);
+  } else {
+    this.next_content_.startLoad();
   }
-  this.next_content_.startLoad();
 };
 
 

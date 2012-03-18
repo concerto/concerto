@@ -28,7 +28,6 @@ concerto.frontend.Template = function(screen, opt_div) {
   /**
    * The template ID number.
    * @type {?number}
-   * @private
    */
   this.id = null;
 

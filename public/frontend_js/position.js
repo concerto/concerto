@@ -121,7 +121,8 @@ concerto.frontend.Position.prototype.load = function(data) {
    * Field in this position.
    * @type {concerto.frontend.Field}
    */
-  this.field = new concerto.frontend.Field(this, this.field_id);
+  this.field = new concerto.frontend.Field(this, this.field_id,
+      data.field_contents_path);
 };
 
 
