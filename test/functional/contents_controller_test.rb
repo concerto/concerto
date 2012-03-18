@@ -28,5 +28,13 @@ class ContentsControllerTest < ActionController::TestCase
     get :index
     assert_response :success
   end
+  
+  test "should demoderate submissions on edit" do
+    put :update, :id => contents(:sample_ticker).id, :duration => "7"
+    related_submissions = contents(:sample_ticker).submissions
+    related_submissions.each do |submission|
+      assert_nil(submission.moderation_flag)
+    end
+  end
 
 end
