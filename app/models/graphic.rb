@@ -38,4 +38,18 @@ class Graphic < Content
     end
   end
 
+  # Placeholder attributes for rendering.
+  attr_accessor :screen, :field
+
+  # Store the information needed when generating the path to the image.
+  def pre_render(screen, field)
+    self.screen = screen
+    self.field = field
+  end
+
+  # Generate the path to the iamge to be displayed.
+  def render_details
+    {:path => url_helpers.frontend_screen_field_content_path(self.screen, self.field, self)}
+  end
+
 end

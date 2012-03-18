@@ -1,0 +1,2 @@
+module Frontend::ContentsHelper
+end

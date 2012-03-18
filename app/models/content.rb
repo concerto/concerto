@@ -3,7 +3,7 @@ class Content < ActiveRecord::Base
   belongs_to :kind
   has_many :submissions, :dependent => :destroy
   has_many :feeds, :through => :submissions
-  has_many :media, :as => :attachable
+  has_many :media, :as => :attachable, :dependent => :destroy
   
   accepts_nested_attributes_for :media
   accepts_nested_attributes_for :submissions
@@ -22,6 +22,9 @@ class Content < ActiveRecord::Base
   has_many :approved_feeds, :through => :submissions, :source => :feed, :conditions => {"submissions.moderation_flag" => true}
   has_many :pending_feeds, :through => :submissions, :source => :feed, :conditions => "submissions.moderation_flag IS NULL"
   has_many :denied_feeds, :through => :submissions, :source => :feed, :conditions => {"submissions.moderation_flag" => false}
+
+  #Magic to let us generate routes
+  delegate :url_helpers, :to => 'Rails.application.routes'
 
   # Determine if content is active based on its start and end times.
   # Content is active if two conditions are met:
@@ -50,6 +53,17 @@ class Content < ActiveRecord::Base
     else
       write_attribute(:end_time, _end_time)
     end
+  end
+
+
+  # A placeholder for a pre-rendering processing trigger.
+  def pre_render(*arg)
+    true
+  end
+
+  # The additional data required when rendering this content.
+  def render_details
+    {:data => self.data}
   end
 
 end

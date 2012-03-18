@@ -9,6 +9,8 @@ class Position < ActiveRecord::Base
   validates :top, :numericality => {:greater_than_or_equal_to => -1, :less_than_or_equal_to => 1}
   validates :bottom, :numericality => {:greater_than_or_equal_to => -1, :less_than_or_equal_to => 1}
 
+  attr_accessor :field_contents_path
+
   # Compute the width of the position block.
   # A Concerto-1 style attribute, figuring out
   # the total width of the element.

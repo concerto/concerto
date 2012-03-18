@@ -18,6 +18,9 @@ class Frontend::ScreensController < ApplicationController
     else
       # Inject the path into an fake attribute so it gets sent with the setup info.
       @screen.template.path = frontend_screen_template_path(@screen, @screen.template)
+      @screen.template.positions.each do |p|
+        p.field_contents_path = frontend_screen_field_contents_path(@screen, p.field, :format => :json)
+      end
       respond_to do |format|
         format.json {
           render :json => @screen.to_json(
@@ -27,6 +30,7 @@ class Frontend::ScreensController < ApplicationController
                 :include => {
                   :positions => {
                     :except => [:created_at, :updated_at, :template_id],
+                    :methods => [:field_contents_path]
                   },
                 },
                 :only => [:id],
