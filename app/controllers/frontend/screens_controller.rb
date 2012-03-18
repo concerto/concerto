@@ -16,11 +16,19 @@ class Frontend::ScreensController < ApplicationController
     rescue ActiveRecord::ActiveRecordError
       render :json => {}, :status => 404
     else
-      # Inject the path into an fake attribute so it gets sent with the setup info.
-      @screen.template.path = frontend_screen_template_path(@screen, @screen.template)
+
+      # Inject paths into fake attribute so they gets sent with the setup info.
+      # Pretend that it's better not to change the format of the image, so we detect it's upload extension.
+      if !@screen.template.media.original.first.nil?
+        template_format = File.extname(@screen.template.media.original.first.file_name)[1..-1]
+      else
+        template_format = nil
+      end
+      @screen.template.path = frontend_screen_template_path(@screen, @screen.template, :format => template_format)      
       @screen.template.positions.each do |p|
         p.field_contents_path = frontend_screen_field_contents_path(@screen, p.field, :format => :json)
       end
+
       respond_to do |format|
         format.json {
           render :json => @screen.to_json(
