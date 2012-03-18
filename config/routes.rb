@@ -17,6 +17,7 @@ Concerto::Application.routes.draw do
           get :contents, :path => 'content'
         end
       end
+      resources :templates, :only => [:show]
     end
   end
   # End really dangerous routes.
@@ -31,7 +32,6 @@ Concerto::Application.routes.draw do
     resources :positions
     member do
       get :preview
-      get :display
     end
     collection do
       post :import

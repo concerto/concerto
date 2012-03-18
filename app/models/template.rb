@@ -7,6 +7,9 @@ class Template < ActiveRecord::Base
 
   #Validations
   validates :name, :presence => true
+
+  #Placeholder attributes
+  attr_accessor :path
   
   # Given a string from an XML descriptor, build the template
   # to try and match the description.  Each position will be

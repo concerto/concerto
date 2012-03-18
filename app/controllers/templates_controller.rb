@@ -93,39 +93,6 @@ class TemplatesController < ApplicationController
       format.xml  { head :ok }
     end
   end
-
-  # GET /template/1/display
-  # Render the template for display on a screen.
-  def display
-    require'image_utility'
-    @template = Template.find(params[:id])
-    @media = @template.media.original.first
-    image = Magick::Image.from_blob(@media.file_contents).first
-    
-    # Resize the image to a height and width if they are both being set.
-    # Round these numbers up to ensure the image will at least fill
-    # the requested space.
-    width = nil
-    height = nil
-    height = params[:height].to_f.ceil unless params[:height].nil?
-    width = params[:width].to_f.ceil unless params[:width].nil?
-
-    image = ImageUtility.resize(image, width, height, false)
-    case request.format
-      when Mime::Type.lookup_by_extension(:jpg)
-        image.format = "JPG"
-      when Mime::PNG
-        image.format = "PNG"
-    end
-
-    # Set some reasonable cache headers
-    response.headers["Last-Modified"] = CGI.rfc1123_date(@template.last_modified)
-    expires_in 36.hours, :public => true
-
-    send_data image.to_blob,
-              :filename => "#{@template.name.underscore}.#{image.format.downcase}",
-              :type => image.mime_type, :disposition => 'inline'
-  end
   
   # GET /template/1/preview
   # Generate a preview of the template based on the request format.

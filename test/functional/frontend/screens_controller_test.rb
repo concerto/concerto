@@ -22,6 +22,7 @@ class Frontend::ScreensControllerTest < ActionController::TestCase
     assert_equal data['name'], screens(:one).name
     assert_equal data['template']['positions'].length,
                  screens(:one).template.positions.length
+    assert data['template']['path'].length > 0
   end
 
   test "cannot setup missing screen" do

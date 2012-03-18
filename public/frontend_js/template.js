@@ -28,8 +28,15 @@ concerto.frontend.Template = function(screen, opt_div) {
   /**
    * The template ID number.
    * @type {?number}
+   * @private
    */
   this.id = null;
+
+  /**
+   * The URL to the template.
+   * @type {?string}
+   */
+  this.path = null;
 
   /**
    * Positions being shown on this template.
@@ -81,6 +88,7 @@ concerto.frontend.Template.prototype.createDiv_ = function() {
  */
 concerto.frontend.Template.prototype.load = function(data) {
   this.id = data.id;
+  this.path_ = data.path;
   goog.dom.setProperties(this.div_, {'id': 'template_' + this.id});
 
   this.render_();
@@ -104,7 +112,7 @@ concerto.frontend.Template.prototype.load = function(data) {
 concerto.frontend.Template.prototype.render_ = function() {
   var size = goog.style.getSize(this.div_);
 
-  var background_url = new goog.Uri('/templates/' + this.id + '/display');
+  var background_url = new goog.Uri(this.path_);
   background_url.setParameterValue('height', size.height);
   background_url.setParameterValue('width', size.width);
 

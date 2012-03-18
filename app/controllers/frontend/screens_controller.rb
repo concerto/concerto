@@ -16,6 +16,8 @@ class Frontend::ScreensController < ApplicationController
     rescue ActiveRecord::ActiveRecordError
       render :json => {}, :status => 404
     else
+      # Inject the path into an fake attribute so it gets sent with the setup info.
+      @screen.template.path = frontend_screen_template_path(@screen, @screen.template)
       respond_to do |format|
         format.json {
           render :json => @screen.to_json(
@@ -28,6 +30,7 @@ class Frontend::ScreensController < ApplicationController
                   },
                 },
                 :only => [:id],
+                :methods => [:path]
               }
             }
           )
