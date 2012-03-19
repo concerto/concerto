@@ -3,7 +3,10 @@ class MembershipsController < ApplicationController
   # POST /groups/:group_id/memberships.xml
   def create
     @group = Group.find(params[:group_id])
-    @membership = Membership.new({:user_id => params[:membership][:user_id], :group_id => params[:group_id]})
+    @membership = Membership.new({
+      :user_id => params[:membership][:user_id],
+      :group_id => params[:group_id],
+      :level => Membership::LEVELS[:pending]})
 
     respond_to do |format|
       if @membership.save

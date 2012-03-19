@@ -1,11 +1,13 @@
 class Membership < ActiveRecord::Base
   # Membership levels
   LEVELS = {
+    # A denied member is not a member of the group.
+    :denied => 0,
     # A pending member has not yet been accepted into a group.
     # We need to update authorization to reflect this.
-    :pending => 0,
+    :pending => 1,
     # A regular member is a member of the group.
-    :regular => 1,
+    :regular => 2,
     # A leader controls the group.
     :leader => 9,
   }

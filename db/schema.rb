@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120305021107) do
+ActiveRecord::Schema.define(:version => 20120318110613) do
 
   create_table "contents", :force => true do |t|
     t.string   "name"
@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(:version => 20120305021107) do
     t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "level",           :default => 0
+    t.integer  "level",           :default => 1
     t.boolean  "moderation_flag"
   end
 
