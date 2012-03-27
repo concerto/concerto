@@ -14,7 +14,7 @@
 			<% @groups.each do |group| %>
 			  <tr>
 			    <td><%= group.name %></td>
-			    <td><%= link_to 'Show', group %> <%= link_to 'Edit', edit_group_path(group) %> <%= link_to 'Destroy', group, :confirm => 'Are you sure?', :method => :delete %><%= link_to_if(user_signed_in?, "Join", { :controller => "memberships", :action => "create", :group_id => group.id, :membership => {:user_id => current_user.id}}, :method => :post) %></td>
+			    <td><%= link_to 'Show', group %> <%= link_to 'Edit', edit_group_path(group) %> <%= link_to 'Destroy', group, :confirm => 'Are you sure?', :method => :delete %><%= link_to("Join", group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post) if user_signed_in? %></td>
 			  </tr>
 			<% end %>
 			</table>
