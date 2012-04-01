@@ -5,3 +5,5 @@ en:
   hello: "Hello world"
   is_viewable: "Viewable"
   is_submittable: "Submittable"
+  membership_approved: "Approved"
+  membersip_denied: "Denied"

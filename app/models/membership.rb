@@ -24,7 +24,7 @@ class Membership < ActiveRecord::Base
   scope :leader, where(:level => Membership::LEVELS[:leader])
   scope :regular, where(:level => Membership::LEVELS[:regular])
 
-  #Scoping shortcuts for approved/pending
+  # Scoping shortcuts for approved/pending
   scope :approved, where(":level > Membership::LEVELS[:pending]")
   scope :pending, where(:level => Membership::LEVELS[:pending])
   
