@@ -1,7 +1,7 @@
 class Group < ActiveRecord::Base
   has_many :feeds
   has_many :memberships, :dependent => :destroy
-  has_many :users, :through => :memberships, :conditions => ["memberships.level != ?", Membership::LEVELS[:pending]]
+  has_many :users, :through => :memberships, :conditions => ["memberships.level > ?", Membership::LEVELS[:pending]]
   has_many :screens, :as => :owner
 
   #Scoped relations for leaders
