@@ -47,7 +47,7 @@
 <p>
   <b>Add Member:</b>
   <%= form_for([@group, @group.memberships.new]) do |f| %>
-    <%= f.collection_select :user_id, User.all - @group.users, :id, :name %>
+    <%= f.collection_select :user_id, User.all - @group.all_users, :id, :name %>
     <%= hidden_field_tag 'autoconfirm', true %>
     <%= f.submit %>
   <% end %>
