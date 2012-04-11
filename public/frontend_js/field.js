@@ -8,6 +8,7 @@ goog.require('goog.debug.Logger');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
+goog.require('goog.structs.Queue');
 goog.require('goog.style');
 
 
@@ -60,11 +61,11 @@ concerto.frontend.Field = function(position, id, content_path, opt_transition) {
   this.current_content_ = null;
 
   /**
-   * Next piece of content to show.
-   * @type {?Object}
+   * Next content to show.
+   * @type {goog.structs.Queue}
    * @private
    */
-  this.next_content_ = null;
+  this.next_contents_ = new goog.structs.Queue();
 
   /**
    * Should this field automatically move to the next piece of
@@ -155,20 +156,20 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
           'size': this.position.getSize()
         };
 
-        this.next_content_ = new contents[obj.type](obj);
+        var next_content = new contents[obj.type](obj);
+        this.next_contents_.enqueue(next_content);
 
         // When the content is loaded, we show it in the field,
-        goog.events.listen(this.next_content_,
+        goog.events.listen(next_content,
             concerto.frontend.Content.EventType.FINISH_LOAD,
             this.showContent, false, this);
 
         // When the content has been shown for too long try to load a new one.
-        goog.events.listen(this.next_content_,
+        goog.events.listen(next_content,
             concerto.frontend.Content.EventType.DISPLAY_END,
             this.autoAdvance, false, this);
-
         if (load_content_on_finish) {
-          this.next_content_.startLoad();
+          this.next_contents_.peek().startLoad();
         }
       }, this));
 };
@@ -183,15 +184,15 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
 concerto.frontend.Field.prototype.showContent = function() {
   this.logger_.info('Field ' + this.id + ' is showing new content.');
   // Render the HTML for the div into content.div
-  this.next_content_.render();
+  var content = this.next_contents_.dequeue();
+  content.render();
 
   var transition = new this.transition_(
-      this, this.current_content_, this.next_content_);
+      this, this.current_content_, content);
   transition.go();
 
   this.prev_content = this.current_content_;
-  this.current_content_ = this.next_content_;
-  this.next_content_ = null;
+  this.current_content_ = content;
 };
 
 
@@ -202,10 +203,11 @@ concerto.frontend.Field.prototype.nextContent = function() {
   this.logger_.info('Field ' + this.id +
       ' would like a new piece of content.');
   // If a piece of content is already in the queue, use that.
-  if (!goog.isDefAndNotNull(this.next_content_)) {
+  if (this.next_contents_.isEmpty()) {
+    this.logger_.info('Field ' + this.id + ' needs to look for more content.');
     this.loadContent(true);
   } else {
-    this.next_content_.startLoad();
+    this.next_contents_.peek().startLoad();
   }
 };
 
