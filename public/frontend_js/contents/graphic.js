@@ -60,7 +60,7 @@ concerto.frontend.Content.Graphic.prototype.load_ = function() {
 
 /**
  * Called when the image finishes loading.
- * Put some padding on the div to center the image before showing it.
+ * Put some margin on the div to center the image before showing it.
  * @param {goog.events.EventType} e The finish event.
  * @private
  */
@@ -68,10 +68,9 @@ concerto.frontend.Content.Graphic.prototype.loaderFinish_ = function(e) {
   var image = e.target;
   goog.dom.appendChild(this.div_, image);
 
-  var side_padding = (this.field_width_ - image.width) / 2;
-  var top_padding = (this.field_height_ - image.height) / 2;
-  goog.style.setStyle(this.div_, 'padding',
-      top_padding + 'px ' + side_padding + 'px');
-
+  var side_margin = (this.field_width_ - image.width) / 2;
+  var top_margin = (this.field_height_ - image.height) / 2;
+  goog.style.setStyle(this.div_, 'margin',
+      top_margin + 'px ' + side_margin + 'px');
   this.finishLoad();
 };
