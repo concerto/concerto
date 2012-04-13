@@ -133,24 +133,6 @@ class FeedTest < ActiveSupport::TestCase
     assert ability.can?(:read, @hidden)
   end
 
-  # Users submitting to feeds
-  test "user can submit to submittable feeds" do
-    ability = Ability.new(users(:kristen))
-    assert ability.can?(:submit, @public)
-    assert ability.cannot?(:submit, @hidden)
-  end
-  
-  test "new users can't submit to any feeds" do
-    ability = Ability.new(User.new)
-    assert ability.cannot?(:submit, @public)
-    assert ability.cannot?(:submit, @hidden)
-  end
-
-  test "user can submit hidden feed due to group" do
-    ability = Ability.new(users(:katie))
-    assert ability.can?(:submit, @hidden)
-  end
-
   # Screens reading feeds
   test "screens browse public viewable feeds" do
     ability = Ability.new(screens(:two))
@@ -172,16 +154,5 @@ class FeedTest < ActiveSupport::TestCase
     ability = Ability.new(Screen.new)
     assert ability.can?(:read, @public)
     assert ability.cannot?(:read, @hidden)
-  end
-
-  # Screens submitting (which they shouldn't do
-  test "screens cant submit anywhere" do
-    ability = Ability.new(screens(:one))
-    assert ability.cannot?(:submit, @public)
-    assert ability.cannot?(:submit, @hidden)
-
-    ability = Ability.new(Screen.new)
-    assert ability.cannot?(:submit, @public)
-    assert ability.cannot?(:submit, @hidden)
   end
 end
