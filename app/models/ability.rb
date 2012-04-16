@@ -6,16 +6,41 @@ class Ability
     # that doesn't have an account or anything.
     accessor ||= User.new
 
+    ## Users
     # Anything real can read a user
     can :read, User if accessor.persisted?
     
+    ## Feeds
     # Anything can read a viewable feed
     # the ability to 'read' a feed implies that
     # you can browse it's contents as well
     can :read, Feed, :is_viewable => true
 
+    ## Fields
+    # Anything can read fields and positions.
+    # Only admin users can edit them.
+    can :read, Field
+
+    ## Positions
+    can :read, Position
+
+    ## Membership
     # Group leaders are public, anyone can view them.
     can :read, Membership, :level => Membership::LEVELS[:leader]
+
+    ## Groups
+    # Groups are only public if something they manage is viewable.
+    can :read, Group do |group|
+      group.feeds.where(:is_submittable => true).exists? || group.feeds.where(:is_viewable => true).exists?
+    end
+    can :read, Group do |group|
+      group.screens.where(:is_public => true).exists?
+    end
+
+    ## Templates
+    # Oddly enough, templates store a hidden flag instead of public
+    # like everything else.
+    can :read, Template, :is_hidden => false
 
     # Load abilities based on the type of object.
     # We should do this at the bottom to make sure to 
@@ -101,6 +126,13 @@ class Ability
     # Group members can read all other memberships
     can :read, Membership, :group => {:id => user.group_ids}
 
+    ## Groups
+    # A group member can read their group
+    can :read, Group, :id => user.group_ids
+    # Group leaders can edit the group
+    can :update, Group do |group|
+      group.leaders.include?(user)
+    end
   end
 
   # Permission we grant screens
