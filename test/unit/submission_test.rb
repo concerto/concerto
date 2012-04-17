@@ -133,34 +133,4 @@ class SubmissionTest < ActiveSupport::TestCase
     s.moderator = nil
     assert s.invalid?
   end
-
-  # Users submitting to feeds
-  test "user can submit to submittable feeds" do
-    ability = Ability.new(users(:kristen))
-    assert ability.can?(:create, @public_submission)
-    assert ability.cannot?(:create, @hidden_submission)
-  end
-
-  test "new users can't submit to any feeds" do
-    ability = Ability.new(User.new)
-    assert ability.cannot?(:create, @public_submission)
-    assert ability.cannot?(:create, @hidden_submission)
-  end
-
-  test "user can submit hidden feed due to group" do
-    ability = Ability.new(users(:katie))
-    assert ability.can?(:create, @hidden_submission)
-  end
-
-  # Screens submitting (which they shouldn't do
-  test "screens cant submit anywhere" do
-    ability = Ability.new(screens(:one))
-    assert ability.cannot?(:create, @public_submission)
-    assert ability.cannot?(:create, @hidden_submission)
-
-    ability = Ability.new(Screen.new)
-    assert ability.cannot?(:create, @public_submission)
-    assert ability.cannot?(:create, @hidden_submission)
-  end
-
 end

@@ -82,7 +82,7 @@ class Ability
     end
     # Users can read group screens
     can :read, Screen do |screen|
-      screen.owner.is_a?(Group) && screen.owner.include?(user)
+      screen.owner.is_a?(Group) && screen.owner.users.include?(user)
     end
     # Group leaders can create / delete their group screens
     can [:update, :delete], Screen do |screen|

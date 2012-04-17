@@ -15,3 +15,10 @@ two:
   is_public: true
   owner: wtg (Group)
   template: one
+
+rpitv:
+  name: RPI TV Screen
+  location: Sharp Hall
+  is_public: false
+  owner: rpitv (Group)
+  template: one
