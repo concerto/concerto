@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120418012853) do
+ActiveRecord::Schema.define(:version => 20120418142310) do
 
   create_table "contents", :force => true do |t|
     t.string   "name"
@@ -74,15 +74,6 @@ ActiveRecord::Schema.define(:version => 20120418012853) do
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
     t.integer  "level",      :default => 1
-  end
-
-  create_table "players", :force => true do |t|
-    t.string   "secret"
-    t.string   "ip_address"
-    t.integer  "screen_id"
-    t.boolean  "activated"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
   end
 
   create_table "positions", :force => true do |t|
