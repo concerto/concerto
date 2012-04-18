@@ -9,3 +9,8 @@ two:
   name: MyString
   author: MyString
   is_hidden: false
+
+hidden:
+  name: Hidden Template
+  author: No one
+  is_hidden: true
