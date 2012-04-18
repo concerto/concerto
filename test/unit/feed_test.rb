@@ -112,47 +112,4 @@ class FeedTest < ActiveSupport::TestCase
     assert f.include?(feeds(:secret_announcements))
     assert !f.include?(feeds(:announcements))
   end
-
-  # Authentication
-
-  # Users reading feeds
-  test "user can browse viewable feeds" do
-    ability = Ability.new(users(:kristen))
-    assert ability.can?(:read, @public)
-    assert ability.cannot?(:read, @hidden)
-  end
-
-  test "new user can browse viewable feeds" do
-    ability = Ability.new(User.new)
-    assert ability.can?(:read, @public)
-    assert ability.cannot?(:read, @hidden)
-  end
-
-  test "user can browse hidden feed due to group" do
-    ability = Ability.new(users(:katie))
-    assert ability.can?(:read, @hidden)
-  end
-
-  # Screens reading feeds
-  test "screens browse public viewable feeds" do
-    ability = Ability.new(screens(:two))
-    assert ability.can?(:read, @public)
-    assert ability.cannot?(:read, @hidden)
-  end
-  
-  test "screens browse co-owned feeds via group" do
-    ability = Ability.new(screens(:two))
-    assert ability.can?(:read, feeds(:sleepy_announcements))
-  end
-
-  test "screens browse co-owned feeds via user" do
-    ability = Ability.new(screens(:one))
-    assert ability.can?(:read, feeds(:secret_announcements))
-  end
-
-  test "new screens browse only public feeds" do
-    ability = Ability.new(Screen.new)
-    assert ability.can?(:read, @public)
-    assert ability.cannot?(:read, @hidden)
-  end
 end

@@ -32,5 +32,37 @@ class UserSubmissionAbilityTest < ActiveSupport::TestCase
     @submission.feed = @rpitv
     assert ability.cannot?(:create, @submission)
   end
+
+  test "Submissions can be modified by moderator" do
+    ability = Ability.new(@katie)
+    content = Content.new(:user => users(:admin))
+    @submission.content = content
+    @submission.feed = @wtg
+
+    assert ability.can?(:update, @submission)
+  end
+
+  test "Submissions cannot be deleted by moderator" do
+    ability = Ability.new(@katie)
+    content = Content.new(:user => users(:admin))
+    @submission.content = content
+    @submission.feed = @wtg
+
+    assert ability.cannot?(:delete, @submission)
+  end
+
+  test "Submission can be modified by content owner" do
+    ability = Ability.new(@kristen)
+    content = Content.new(:user => @kristen)
+    @submission.content = content
+    @submission.feed = @rpitv
+
+    assert ability.can?(:update, @submission)
+    assert ability.can?(:delete, @submission)
+
+    ability = Ability.new(@katie)
+    assert ability.cannot?(:update, @submission)
+    assert ability.cannot?(:delete, @submission)
+  end
 end
 
