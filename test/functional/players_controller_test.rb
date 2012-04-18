@@ -1,8 +1,11 @@
 require 'test_helper'
 
 class PlayersControllerTest < ActionController::TestCase
+  include Devise::TestHelpers
+
   setup do
     @player = players(:one)
+    request.env["devise.mapping"] = Devise.mappings[:user]
   end
 
   test "should get index" do
