@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  secret: MyString
+  ip_address: MyString
+  screen_id: 1
+  activated: false
+
+two:
+  secret: MyString
+  ip_address: MyString
+  screen_id: 1
+  activated: false
