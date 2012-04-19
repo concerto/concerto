@@ -2,6 +2,7 @@ require 'test_helper'
 
 class TemplatesControllerTest < ActionController::TestCase
   include Devise::TestHelpers
+  include ActionDispatch::TestProcess
 
   def setup
     request.env["devise.mapping"] = Devise.mappings[:user]
@@ -16,6 +17,16 @@ class TemplatesControllerTest < ActionController::TestCase
       assert_equal("original", media.key)
     end
     assert_redirected_to template_path(actual)
+  end
+  
+  test "importing a simple template" do
+    file = fixture_file_upload("/files/simple_template.xml", 'text/xml')
+    image = fixture_file_upload("/files/simple_template.xml", 'image')
+    assert_difference('Template.count', 1) do
+      put :import, {:xml => file, :image => image}
+    end
+    actual = assigns(:template).positions.first
+    assert_equal( 0.025, actual.left)
   end
 
 end
