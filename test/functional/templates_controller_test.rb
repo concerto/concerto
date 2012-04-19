@@ -26,7 +26,10 @@ class TemplatesControllerTest < ActionController::TestCase
       put :import, {:xml => file, :image => image}
     end
     actual = assigns(:template).positions.first
-    assert_equal( 0.025, actual.left)
+    assert_equal 0.025, actual.left
+    assert_equal 0.026, actual.top
+    assert_equal 0.592, actual.right
+    assert_equal 0.796, actual.bottom
   end
 
 end

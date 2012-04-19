@@ -7,7 +7,11 @@ class TemplateTest < ActiveSupport::TestCase
     t = Template.new
     file = fixture_file_upload("/files/simple_template.xml", 'text/xml')
     assert t.import_xml(file.read)
-    assert_equal t.positions.size, 1
+    actual = t.positions.first
+    assert_equal 0.025, actual.left
+    assert_equal 0.026, actual.top
+    assert_equal 0.592, actual.right
+    assert_equal 0.796, actual.bottom
   end
   
   # Test the ability to import a template without fields
