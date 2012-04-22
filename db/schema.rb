@@ -21,8 +21,8 @@ ActiveRecord::Schema.define(:version => 20120418142310) do
     t.text     "data"
     t.integer  "user_id"
     t.integer  "kind_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "type"
   end
 
@@ -31,8 +31,8 @@ ActiveRecord::Schema.define(:version => 20120418142310) do
     t.text     "description"
     t.integer  "parent_id"
     t.integer  "group_id"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "is_viewable",    :default => true
     t.boolean  "is_submittable", :default => true
   end
@@ -46,14 +46,14 @@ ActiveRecord::Schema.define(:version => 20120418142310) do
 
   create_table "groups", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "kinds", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "media", :force => true do |t|
@@ -107,8 +107,8 @@ ActiveRecord::Schema.define(:version => 20120418142310) do
     t.boolean  "moderation_flag"
     t.integer  "moderator_id"
     t.integer  "duration"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.text     "moderation_reason"
   end
 
