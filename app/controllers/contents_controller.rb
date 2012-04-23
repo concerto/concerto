@@ -43,9 +43,9 @@ class ContentsController < ApplicationController
   # If the object isn't valid (FooBar) or isn't a 
   # child of Content (Feed) a 400 error is thrown.
   def new
-    #The default content type is defined in as default_upload_type in the settings.
-    if params[:type].nil?
-      @content_const = Concerto::Application.config.default_upload_type.camelize.constantize
+    #The default content type is defined in the Configuration model as default_upload_type
+    if params[:type].nil? && ConcertoConfig[:default_upload_type] != false
+      @content_const = ConcertoConfig[:default_upload_type].camelize.constantize
     end
     
     #We don't recognize the content type, or
