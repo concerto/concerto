@@ -1,15 +1,12 @@
 class ContentsController < ApplicationController
   before_filter :get_content_const, :only => [:new, :create]
-  before_filter { |controller| check_permissions(controller.action_name) }
+  before_filter :check_permissions, :only => [:new, :create]
   
-  #takes the action name being run as an argument an runs cancan's authorization routine
-  #TODO: Account for index and show actions - may need more definited Abilities
-  def check_permissions(action_name)
-    if action_name == "new" || action_name == "create"
-      authorize! :create, Content
-    elsif action_name == "edit" || action_name == "destroy" || action_name == "update"
-      authorize! [:update, :delete], Content
-    end
+  #Runs cancan permissions check for new and create actions
+  #Would have been nice to check all permissions here as we have access to both the action 
+  #name and the params hash, but that would have required twice the AR calls
+  def check_create_permission
+    authorize! :create, Content
   end
   
   # Grab the constent object for the type of
@@ -77,6 +74,7 @@ class ContentsController < ApplicationController
   # GET /contents/1/edit
   def edit
     @content = Content.find(params[:id])
+    authorize! :update, @content
   end
 
   # POST /contents
@@ -110,7 +108,7 @@ class ContentsController < ApplicationController
   # PUT /contents/1.xml
   def update
     @content = Content.find(params[:id])
-
+    authorize! :update, @content
 
     respond_to do |format|
       if @content.update_attributes(params[:content])
@@ -131,6 +129,8 @@ class ContentsController < ApplicationController
   # DELETE /contents/1.xml
   def destroy
     @content = Content.find(params[:id])
+    authorize! :delete, @content
+    
     @content.destroy
 
     respond_to do |format|
