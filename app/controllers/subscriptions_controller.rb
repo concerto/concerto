@@ -18,6 +18,7 @@ class SubscriptionsController < ApplicationController
 
   # GET /screen/:screen_id/subscriptions/manage
   def manage
+    @this_field = Field.find(params[:field_id])
     @fields = @screen.template.positions.collect{|p| p.field}
 
     respond_to do |format|
@@ -41,6 +42,7 @@ class SubscriptionsController < ApplicationController
   def new
     @subscription = Subscription.new
     @subscription.screen = @screen
+    @subscription.field = @field
 
     respond_to do |format|
       format.html # new.html.erb
@@ -58,10 +60,11 @@ class SubscriptionsController < ApplicationController
   def create
     @subscription = Subscription.new(params[:subscription])
     @subscription.screen = @screen
+    @subscription.field = @field
 
     respond_to do |format|
       if @subscription.save
-        format.html { redirect_to([@screen, @subscription], :notice => t(:subscription_created)) }
+        format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field, @subscription), :notice => t(:subscription_created)) }
         format.xml  { render :xml => @subscription, :status => :created, :location => @subscription }
       else
         format.html { render :action => "new" }

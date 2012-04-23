@@ -37,10 +37,12 @@ Concerto::Application.routes.draw do
   end
 
   resources :screens do
-    resources :subscriptions do
-      collection do
-        get :manage
-        put :save
+    resources :fields do
+      resources :subscriptions do
+        collection do
+          get :manage
+          put :save
+        end
       end
     end
   end
