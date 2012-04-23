@@ -1,7 +1,20 @@
 <h1><%= @this_field.name %></h1>
-<% @this_field.subscriptions.where(:screen_id => @screen.id).each do |subscription| %>
-  <%= render subscription %>
-  <!-- :partial => 'manage', :locals => {:screen => @screen, :subscription => subscription} %> -->
-<% end %>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Frequency</th>
+    <th>Actions</th>
+  </tr>
+
+  <% @this_field.subscriptions.where(:screen_id => @screen.id).each do |subscription| %>
+    <tr>
+      <td><%= subscription.feed.name %></td>
+      <td>Select frequency</td>
+      <td><%= link_to "Remove", "#", :class => "btn danger" %></td>
+    </tr>
+  <% end %>
+
+</table>
+
 <% feeds = Feed.subscribable(@screen, @this_field) %>
-<%#= render :partial => 'manage', :locals => {:screen => @screen, :subscription => Subscription.new(:field => @this_field), :feeds => feeds} unless feeds.empty? %>
+<%= render :partial => 'manage', :locals => {:screen => @screen, :field => @this_field, :subscription => Subscription.new, :feeds => feeds} unless feeds.empty? %>
