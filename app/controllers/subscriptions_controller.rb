@@ -18,6 +18,7 @@ class SubscriptionsController < ApplicationController
 
   # GET /screen/:screen_id/subscriptions/manage
   def manage
+    @this_field = Field.find(params[:field_id])
     @fields = @screen.template.positions.collect{|p| p.field}
 
     respond_to do |format|
