@@ -1,5 +1,16 @@
 class ContentsController < ApplicationController
   before_filter :get_content_const, :only => [:new, :create]
+  before_filter { |controller| check_permissions(controller.action_name) }
+  
+  #takes the action name being run as an argument an runs cancan's authorization routine
+  #TODO: Account for index and show actions - may need more definited Abilities
+  def check_permissions(action_name)
+    if action_name == "new" || action_name == "create"
+      authorize! :create, Content
+    elsif action_name == "edit" || action_name == "destroy" || action_name == "update"
+      authorize! [:update, :delete], Content
+    end
+  end
   
   # Grab the constent object for the type of
   # content we're working with.  Probably needs

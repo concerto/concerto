@@ -8,17 +8,20 @@ class ContentsControllerTest < ActionController::TestCase
   end
 
   test "should get generic new" do
+    sign_in users(:katie)
     get :new
     assert_response :success
   end
-
+  
   test "should get new graphic" do
+    sign_in users(:katie)
     get(:new, {:type => "graphic"})
     assert_response :success
     assert_select(HTML::Selector.new "input[type=file]")
   end
 
   test "should get new ticker" do
+    sign_in users(:katie)
     get(:new, {:type => "ticker"})
     assert_response :success
     assert_select("textarea")
@@ -30,6 +33,7 @@ class ContentsControllerTest < ActionController::TestCase
   end
   
   test "should demoderate submissions on edit" do
+    sign_in users(:admin)
     put :update, :id => contents(:sample_ticker).id, :duration => "7"
     related_submissions = contents(:sample_ticker).submissions
     related_submissions.each do |submission|
