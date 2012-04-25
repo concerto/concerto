@@ -1,4 +1,6 @@
 class MembershipsController < ApplicationController
+  load_and_authorize_resource
+  
   # POST /groups/:group_id/memberships
   # POST /groups/:group_id/memberships.xml
   def create

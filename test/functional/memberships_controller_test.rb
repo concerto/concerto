@@ -8,6 +8,7 @@ class MembershipsControllerTest < ActionController::TestCase
   end
 
   test "should create pending membership" do
+    sign_in users(:katie)
     assert_difference('Membership.count', 1) do
       post :create, {:membership => {:user_id => users(:kristen).id}, :group_id => groups(:rpitv).id}
     end
@@ -18,6 +19,7 @@ class MembershipsControllerTest < ActionController::TestCase
   end
 
   test "should autoaprove members added by admins" do
+    sign_in users(:katie)
     assert_difference('Membership.count', 1) do
       post :create, {:membership => {:user_id => users(:kristen).id}, :group_id => groups(:wtg).id, :autoconfirm => true}
     end
