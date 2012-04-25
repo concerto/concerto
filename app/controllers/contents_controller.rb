@@ -1,13 +1,6 @@
 class ContentsController < ApplicationController
   before_filter :get_content_const, :only => [:new, :create]
-  before_filter :check_permissions, :only => [:new, :create]
-  
-  #Runs cancan permissions check for new and create actions
-  #Would have been nice to check all permissions here as we have access to both the action 
-  #name and the params hash, but that would have required twice the AR calls
-  def check_create_permission
-    authorize! :create, Content
-  end
+  load_and_authorize_resource :except => [:index, :show]
   
   # Grab the constent object for the type of
   # content we're working with.  Probably needs
