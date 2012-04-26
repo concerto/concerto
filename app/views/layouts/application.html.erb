@@ -15,16 +15,8 @@
 	<![endif]-->
 </head>
 <body>
-  <nav id="show-TM">
-    <a href="#">-- Show Top Menu --</a>
-  </nav>
+  <%= render :partial => "elements/topmenu_contents" %>
 
-  <!--googleoff: all-->
-  <nav id="TM">
-    <%= render :partial => "elements/topmenu_contents" %>
-  </nav>
-  <!--googleon: all-->
-  
   <div id="main">
   	<% if flash[:notice] %>
     	<p class="notice"><%= notice %></p>

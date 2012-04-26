@@ -1,30 +1,20 @@
-<!-- Begin User Login Area -->
-<section>
-<div class="TM-sectop">
-  <% if user_signed_in? %>
-    <p><b><%= current_user.name %></b></p>
-  <% else %>
-    <p><b>Concerto</b></p>
-  <% end %>
-  <% if user_signed_in? %>
-    <p><%= link_to t(:settings), edit_user_path(current_user) %>, <%= link_to t(:log_out), destroy_user_session_path %></p>
-  <% else %>
-    <p><%= link_to t(:sign_in), new_user_session_path %>, <%= link_to t(:sign_up), new_user_registration_path %></p>
-  <% end %>
-</div>
-<div class="TM-secbot">
+<nav id="show-TM">
+  <a href="#">-- Show Top Menu --</a>
+</nav>
 
-</div>
-</section>
-<!-- End User Login Area -->
-
-<% if user_signed_in? %>
-  
+<!--googleoff: all-->
+<nav id="TM">
+  <% if not user_signed_in? %>
+    <%= link_to "Concerto", "/", :id => "TM-logobutton" %>
+    <p id="TM-logintext"><%= link_to t(:sign_in), new_user_session_path %> to upload and manage content.  No account? <%= link_to t(:sign_up), new_user_registration_path %> now!</p>
+  <% else %>
+    <%= link_to "Concerto", "/", :id => "TM-logobutton", :class => "full" %>
+    
   <!-- Begin Menu for CONTENT -->
   <section>
   <div class="TM-sectop">
-    <%= link_to new_content_path, :class => "btn #{ current_page?(new_content_path) ? 'selected' : '' }" do %><%= t(:add) %><% end %>
     <%= link_to contents_path, :class => "btn #{ current_page?(contents_path) || current_page?(:controller => 'submissions', :action => 'index') || current_page?(:controller => 'submissions', :action => 'show') ? 'selected' : '' }" do %><%= t(:browse) %><% end %>
+    <%= link_to new_content_path, :class => "btn #{ current_page?(new_content_path) ? 'selected' : '' }" do %><%= t(:add) %><% end %>
   </div>
   <div class="TM-secbot">
     <h1><%= t(:content) %></h1>
@@ -34,40 +24,52 @@
   
   <!-- Begin Menu for SCREENS -->
   <section>
-  <div class="TM-sectop">
-    <%= link_to screens_path, :class => "btn #{ controller.controller_name == 'screens' ? 'selected' : '' }" do %><%= t(:manage) %><% end %>
-    <%= link_to templates_path, :class => "btn #{ controller.controller_name == 'templates' ? 'selected' : '' }" do %><%= t(:templates) %><% end %>
-  </div>
-  <div class="TM-secbot">
-    <h1><%= t(:screens) %></h1>
-  </div>
+    <div class="TM-sectop">
+      <%= link_to screens_path, :class => "btn #{ controller.controller_name == 'screens' ? 'selected' : '' }" do %><%= t(:manage) %><% end %>
+      <%= link_to templates_path, :class => "btn #{ controller.controller_name == 'templates' ? 'selected' : '' }" do %><%= t(:templates) %><% end %>
+    </div>
+    <div class="TM-secbot">
+      <h1><%= t(:screens) %></h1>
+    </div>
   </section>
   <!-- End Menu for SCREENS -->
   
   <!-- Begin Menu for FEEDS -->
   <section>
-  <div class="TM-sectop">
-    <%= link_to feeds_path, :class => "btn #{ controller.controller_name == 'feeds' ? 'selected' : '' }" do %><%= t(:manage) %><% end %>
-  </div>
-  <div class="TM-secbot">
-    <h1><%= t(:feeds) %></h1>
-  </div>
+    <div class="TM-sectop">
+      <%= link_to feeds_path, :class => "btn #{ controller.controller_name == 'feeds' ? 'selected' : '' }" do %><%= t(:manage) %><% end %>
+    </div>
+    <div class="TM-secbot">
+      <h1><%= t(:feeds) %></h1>
+    </div>
   </section>
   <!-- End Menu for FEEDS -->
   
   <!-- Begin Menu for USER GROUPS -->
   <section>
-  <div class="TM-sectop">
-    <%= link_to groups_path, :class => "btn #{ controller.controller_name == 'groups' ? 'selected' : '' }" do %><%= t(:groups) %><% end %>
-    <%= link_to users_path, :class => "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" do %>Accounts<% end %>
-  </div>
-  <div class="TM-secbot">
-    <h1><%= t(:users) %></h1>
-  </div>
+    <div class="TM-sectop">
+      <%= link_to groups_path, :class => "btn #{ controller.controller_name == 'groups' ? 'selected' : '' }" do %><%= t(:groups) %><% end %>
+      <%= link_to users_path, :class => "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" do %>Accounts<% end %>
+    </div>
+    <div class="TM-secbot">
+      <h1><%= t(:users) %></h1>
+    </div>
   </section>
   <!-- End Menu for USER GROUPS -->
 
-<% end %>
+  <!-- Begin User Login Area -->
+  <section class="right">
+    <div class="TM-sectop">
+      <p><b><%= current_user.name %></b></p>
+      <p><%= link_to t(:settings), edit_user_path(current_user) %>, <%= link_to t(:log_out), destroy_user_session_path %></p>
+    </div>
+    <div class="TM-secbot">
+    </div>
+  </section>
+  <!-- End User Login Area -->
 
-<div class="clear"></div>
+  <% end %>
+  <div class="clear"></div>
+</nav>
+<!--googleon: all-->
 
