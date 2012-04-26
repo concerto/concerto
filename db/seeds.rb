@@ -35,7 +35,8 @@ user.save
 Membership.create(:user_id => 1, :group_id => 1, :level => 9)
 
 #Put in default configuration parameters
-ConcertoConfig.create(:key => "default_upload_type", :value => "graphic")
+ConcertoConfig.find_or_create_by_key(:key => "default_upload_type", :value => "graphic")
+ConcertoConfig.find_or_create_by_key(:key => "public_concerto", :value => "true")
 
 #Create an initial feed
 Feed.find_or_create_by_name(:name => "Concerto", :description => "Initial Concerto Feed", :group_id => 1, :is_viewable => 1, :is_submittable => 1)
