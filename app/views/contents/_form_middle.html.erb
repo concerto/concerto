@@ -9,13 +9,6 @@
 
         <%= render :partial => 'contents/form_elements/duration', :locals => {:form => form, :min => 4, :max => 12} %>
         <%= render :partial => 'contents/form_elements/dates', :locals => {:form => form} %>
-
-        <div class="clearfix">
-                <%= form.label :user %>
-          <div class="input">
-                        <%= form.collection_select :user_id, User.all, :id, :name %>
-                </div>
-        </div>
 </fieldset>
 
 <fieldset>
@@ -24,5 +17,3 @@
   <%= render :partial => 'contents/form_elements/feeds' %>
         <% end %>
 </fieldset>
-
-
