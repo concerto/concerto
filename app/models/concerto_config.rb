@@ -29,6 +29,7 @@ class ConcertoConfig < ActiveRecord::Base
       value = self[method]
       return value unless value.nil?
     end
-    super(method, args)
+    super
   end
 end
+

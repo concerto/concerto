@@ -1,7 +1,7 @@
 class ContentsController < ApplicationController
   before_filter :get_content_const, :only => [:new, :create]
   load_and_authorize_resource :except => [:index, :show]
-  
+
   # Grab the constent object for the type of
   # content we're working with.  Probably needs
   # additional error checking.
@@ -41,22 +41,22 @@ class ContentsController < ApplicationController
   # GET /contents/new
   # GET /contents/new.xml
   # Instantiate a new object of params[:type].
-  # If the object isn't valid (FooBar) or isn't a 
+  # If the object isn't valid (FooBar) or isn't a
   # child of Content (Feed) a 400 error is thrown.
   def new
     #The default content type is defined in the Configuration model as default_upload_type
     if params[:type].nil? && ConcertoConfig[:default_upload_type] != false
       @content_const = ConcertoConfig[:default_upload_type].camelize.constantize
     end
-    
+
     #We don't recognize the content type, or
     #its not a child of Content.
     if @content_const.nil? || @content_const.superclass != Content
       render :nothing => true, :status => 400
     else
-    
+
       @content = @content_const.new()
-      
+
       respond_to do |format|
         format.html { } # new.html.erb
         format.xml  { render :xml => @content }
@@ -74,10 +74,12 @@ class ContentsController < ApplicationController
   # POST /contents.xml
   def create
     @content =  @content_const.new(params[@content_const.model_name.singular])
+    @content.user = current_user
+
     @feed_ids = []
     if params.has_key?("feed_id")
       @feed_ids = params[:feed_id].values
-    end    
+    end
 
     respond_to do |format|
       if @content.save
@@ -123,7 +125,7 @@ class ContentsController < ApplicationController
   def destroy
     @content = Content.find(params[:id])
     authorize! :delete, @content
-    
+
     @content.destroy
 
     respond_to do |format|
