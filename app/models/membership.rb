@@ -27,17 +27,22 @@ class Membership < ActiveRecord::Base
   # Scoping shortcuts for approved/pending
   scope :approved, where(":level > Membership::LEVELS[:pending]")
   scope :pending, where(:level => Membership::LEVELS[:pending])
-  
+
+  # Get level name of a membership
+  def level_name
+    name = (Membership::LEVELS.respond_to?(:key) ?  Membership::LEVELS.key(level) :  Membership::LEVELS.index(level)).to_s
+  end
+
   # Test if the membership has been approved.
   def is_approved?
     level > Membership::LEVELS[:pending]
   end
-  
+
   # Test if the membership has been denied.
   def is_denied?
     level == Membership::LEVELS[:denied]
   end
-  
+
   # Test if the membership is pending.
   def is_pending?
     level == Membership::LEVELS[:pending]
@@ -57,7 +62,7 @@ class Membership < ActiveRecord::Base
        false
      end
   end
-  
+
   # Deny a user in group
   def deny()
     if update_attributes({:level => Membership::LEVELS[:denied]})
