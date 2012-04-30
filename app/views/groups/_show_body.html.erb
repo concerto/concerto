@@ -93,7 +93,7 @@
 
   <div>
     <% if @group.made_request?(current_user) %>
-      <p><b>You are currently a <%= @membership.level_name %> of this group.</b></p>
+      <p><b>You are currently a <%= @membership.level_name %><%= " member" unless @membership.is_leader? %> of this group.</b></p>
       <% if @group.has_member?(current_user) %>
         <%= link_to("Leave Group", group_membership_path(:group_id => @group.id, :id => @membership.id), :method => :delete, :class => "btn") %>
         <% if @membership.is_leader? %>
