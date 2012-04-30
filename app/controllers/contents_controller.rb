@@ -44,15 +44,20 @@ class ContentsController < ApplicationController
   # If the object isn't valid (FooBar) or isn't a
   # child of Content (Feed) a 400 error is thrown.
   def new
-    #The default content type is defined in the Configuration model as default_upload_type
-    if params[:type].nil? && ConcertoConfig[:default_upload_type] != false
-      @content_const = ConcertoConfig[:default_upload_type].camelize.constantize
+    # We might already have a content type, 
+    if @content_const.nil? || @content_const.superclass != Content
+      default_upload_type = ConcertoConfig[:default_upload_type]
+      if !default_upload_type
+        raise "Missing Default Content Type"
+      else
+        @content_const = default_upload_type.camelize.constantize
+      end
     end
 
-    #We don't recognize the content type, or
-    #its not a child of Content.
+    # We don't recognize the requested content type, or
+    # its not a child of Content so we'll return a 400.
     if @content_const.nil? || @content_const.superclass != Content
-      render :nothing => true, :status => 400
+      render :text => "Unrecognized content type.", :status => 400
     else
 
       @content = @content_const.new()

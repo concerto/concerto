@@ -27,6 +27,23 @@ class ContentsControllerTest < ActionController::TestCase
     assert_select("textarea")
   end
 
+  test "should fallback to generic" do
+    sign_in users(:katie)
+    get(:new, {:type => "bananas"})
+    assert_response :success
+    assert_select(HTML::Selector.new "input[type=file]")
+  end
+
+  test "broken default type raises exception" do
+    sign_in users(:katie)
+    default = ConcertoConfig.find_by_key("default_upload_type")
+    default.delete
+
+    assert_raise RuntimeError do
+      get :new
+    end
+  end
+
   test "should get index" do
     get :index
     assert_response :success
