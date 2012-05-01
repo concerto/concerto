@@ -1,4 +1,5 @@
 class SubmissionsController < ApplicationController
+  load_and_authorize_resource
   helper :contents
 
   def index

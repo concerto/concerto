@@ -1,4 +1,5 @@
 class GroupsController < ApplicationController
+  load_and_authorize_resource
   # GET /groups
   # GET /groups.xml
   def index

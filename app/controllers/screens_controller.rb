@@ -1,4 +1,5 @@
 class ScreensController < ApplicationController
+  load_and_authorize_resource
   # GET /screens
   # GET /screens.xml
   def index

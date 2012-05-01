@@ -9,6 +9,7 @@ class TemplatesControllerTest < ActionController::TestCase
   end
 
   test "should create template" do
+    sign_in users(:admin)
     assert_difference('Template.count', 1) do
       post :create, {:template => {:name => "leet template", :author => "the bat", :is_hidden => false}}
     end
@@ -20,6 +21,7 @@ class TemplatesControllerTest < ActionController::TestCase
   end
   
   test "importing a simple template" do
+    sign_in users(:admin)
     file = fixture_file_upload("/files/simple_template.xml", 'text/xml')
     image = fixture_file_upload("/files/simple_template.xml", 'image')
     assert_difference('Template.count', 1) do

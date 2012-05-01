@@ -1,4 +1,5 @@
 class PositionsController < ApplicationController
+  load_and_authorize_resource
   before_filter :get_template
   
   def get_template

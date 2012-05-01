@@ -1,4 +1,5 @@
 class FeedsController < ApplicationController
+  load_and_authorize_resource :except => [:index, :show]
   # GET /feeds
   # GET /feeds.xml
   def index
