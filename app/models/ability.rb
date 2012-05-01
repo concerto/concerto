@@ -80,6 +80,11 @@ class Ability
     can [:read, :update, :delete], Screen do |screen|
       screen.owner.is_a?(User) && screen.owner == user
     end
+    
+    #Subscriptions
+    #Only the owning group or user can manage screen subscriptions
+    can :manage, Subscription, :screen => { :owner_id => user.id}
+    
     # Users can read group screens
     can :read, Screen do |screen|
       screen.owner.is_a?(Group) && screen.owner.users.include?(user)
