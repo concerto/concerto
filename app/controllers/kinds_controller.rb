@@ -1,5 +1,5 @@
 class KindsController < ApplicationController
-  #load_and_authorize_resource
+  load_and_authorize_resource
   
   # GET /kinds
   # GET /kinds.xml
