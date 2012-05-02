@@ -15,6 +15,9 @@ class Ability
     # the ability to 'read' a feed implies that
     # you can browse it's contents as well
     can :read, Feed, :is_viewable => true
+    #TODO Content permissions per #78
+    can :read, Content if true
+    can :read, Submission if true 
 
     ## Fields
     # Anything can read fields and positions.
