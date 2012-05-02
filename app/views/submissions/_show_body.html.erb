@@ -4,7 +4,7 @@
 	</div>
 </article>
 <aside>
-
+  <% if can? :update, @submission %>
   <div class="form-stacked">
     <h4>Moderate Content</h4>
     <div id="moderate-select" class="btn-toolbar">
@@ -16,6 +16,7 @@
 
     <div id="moderate-include"></div>
   </div>
+  <% end %> 
 
 	<br />
 	<b>Approved?:</b>
