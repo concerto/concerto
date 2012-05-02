@@ -26,17 +26,15 @@ Field.find_or_create_by_name({:name => 'Time', :kind => Kind.where(:name => 'Tex
 #Create an initial group
 Group.find_or_create_by_name(:name => "Concerto Admins")
 
-#Create an initial user
-user = User.find_or_create_by_email(:email => "ConcertoAdmin@concerto.test", :first_name => "Concerto", :last_name => "Admin",  :password => "concerto2")
-user.is_admin = 1
-user.save
-
 #Associate user with initial group
 Membership.create(:user_id => 1, :group_id => 1, :level => 9)
 
 #Put in default configuration parameters
 ConcertoConfig.find_or_create_by_key(:key => "default_upload_type", :value => "graphic")
 ConcertoConfig.find_or_create_by_key(:key => "public_concerto", :value => "true")
+ConcertoConfig.find_or_create_by_key(:key => "content_default_start_time", :value => "00:00:00")
+ConcertoConfig.find_or_create_by_key(:key => "content_default_end_time", :value => "22:59:00")
+ConcertoConfig.find_or_create_by_key(:key => "content_default_duration", :value => "7")
 
 #Create an initial feed
 Feed.find_or_create_by_name(:name => "Concerto", :description => "Initial Concerto Feed", :group_id => 1, :is_viewable => 1, :is_submittable => 1)

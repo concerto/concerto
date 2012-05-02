@@ -1,6 +1,9 @@
 #Current configuration keys:
 #:public_concerto
 #:default_upload_type
+#:content_default_start_time
+#:content_default_end_time
+#:content_default_duration
 
 class ConcertoConfig < ActiveRecord::Base
   
