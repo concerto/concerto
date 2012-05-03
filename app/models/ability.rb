@@ -17,7 +17,6 @@ class Ability
     can :read, Feed, :is_viewable => true
     #TODO Content permissions per #78
     can :read, Content if true
-    can :read, Submission if true 
 
     ## Fields
     # Anything can read fields and positions.
@@ -102,11 +101,16 @@ class Ability
     # the feed is submittable or they are a member of the group.
     can :create, Submission, :feed => {:is_submittable => true} if user.persisted?
     can :create, Submission, :feed => {:group => {:id => user.group_ids }}
-    # Users can delete and update their own submissions
-    can [:update, :delete], Submission, :content => {:user => {:id => user.id }}
-    # Submissions can be updated by moderators
-    can :update, Submission do |submission|
+    # Users can read, delete and update their own submissions.
+    can [:read, :update, :delete], Submission, :content => {:user => {:id => user.id }}
+    # Submissions can be read and updated by moderators.
+    can [:read, :update], Submission do |submission|
       submission.feed.group.leaders.include?(user)
+    end
+    # Approved submissions can be read if their feed is public of the user is a member
+    # of the feeds group.
+    can :read, Submission do |s|
+      s.moderation_flag && (s.feed.is_viewable || s.feed.group.users.include?(user))
     end
 
     ## Feeds
