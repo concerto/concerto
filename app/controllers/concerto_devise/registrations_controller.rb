@@ -5,7 +5,9 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
     build_resource
     #If there are no users, the first one created will be an admin
     if User.all.empty?
+      #set the first user to be an admin and mark setup as being complete
       resource.is_admin = true
+      ConcertoConfig.set("setup_complete", "true")
     end
     if resource.save
       if resource.active_for_authentication?

@@ -30,11 +30,12 @@ Group.find_or_create_by_name(:name => "Concerto Admins")
 Membership.create(:user_id => 1, :group_id => 1, :level => 9)
 
 #Put in default configuration parameters
-ConcertoConfig.find_or_create_by_key(:key => "default_upload_type", :value => "graphic")
-ConcertoConfig.find_or_create_by_key(:key => "public_concerto", :value => "true")
-ConcertoConfig.find_or_create_by_key(:key => "content_default_start_time", :value => "12:00 am")
-ConcertoConfig.find_or_create_by_key(:key => "content_default_end_time", :value => "11:59 pm")
-ConcertoConfig.find_or_create_by_key(:key => "content_default_duration", :value => "7")
+ConcertoConfig.find_or_create_by_key(:key => "default_upload_type", :value => "graphic", :value_default => "graphic", :value_type => "string")
+ConcertoConfig.find_or_create_by_key(:key => "public_concerto", :value => "true", :value_default => "true", :value_type => "boolean")
+ConcertoConfig.find_or_create_by_key(:key => "content_default_start_time", :value => "12:00 am", :value_default => "12:00 am", :value_type => "string")
+ConcertoConfig.find_or_create_by_key(:key => "content_default_end_time", :value => "11:59 pm", :value_default => "11:59 pm", :value_type => "string")
+ConcertoConfig.find_or_create_by_key(:key => "content_default_duration", :value => "7", :value_default => "7", :value_type => "integer")
+ConcertoConfig.find_or_create_by_key(:key => "setup_complete", :value => "false", :value_default => "true", :value_type => "boolean")
 
 #Create an initial feed
 Feed.find_or_create_by_name(:name => "Concerto", :description => "Initial Concerto Feed", :group_id => 1, :is_viewable => 1, :is_submittable => 1)

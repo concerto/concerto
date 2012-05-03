@@ -4,6 +4,7 @@
 #:content_default_start_time
 #:content_default_end_time
 #:content_default_duration
+#:setup_complete
 
 class ConcertoConfig < ActiveRecord::Base
   
@@ -23,6 +24,12 @@ class ConcertoConfig < ActiveRecord::Base
     end
     rec.value
   end
+  
+  #Make setting values from Rails nice and easy
+  def self.set(key,value)
+    setting = ConcertoConfig.where(:key => key).first || ConcertoConfig.new(:key => key)
+    setting.update_attribute(:value, value)
+  end  
 
   # Override self.method_missing to allow
   # instance attribute type access to Configuration
