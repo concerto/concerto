@@ -26,7 +26,7 @@ class SubmissionsController < ApplicationController
   def approve
     submission = Submission.find(params[:id])
     respond_to do |format|
-      if submission.approve(current_user, params[:moderation_reason], params[:submission][:duration])
+      if submission.approve(current_user, params[:submission][:moderation_reason], params[:submission][:duration])
         format.html { redirect_to(feed_submissions_path, :notice => t(:content_approved)) }
       else
         format.html { redirect_to(feed_submission_path, :notice => t(:content_failed_approve)) }
@@ -38,7 +38,7 @@ class SubmissionsController < ApplicationController
   def deny
     submission = Submission.find(params[:id])
     respond_to do |format|
-      if submission.deny(current_user, params[:moderation_reason])
+      if submission.deny(current_user, params[:submission][:moderation_reason])
         format.html { redirect_to(feed_submissions_path, :notice => t(:content_denied)) }
       else
         logger.debug submission.errors

@@ -2,7 +2,7 @@
   <div class="clearfix">
     <%= f.label :moderation_reason, "Reason" %>
     <div class="input">
-      <%= text_area_tag "moderation_reason", nil, :class => "span3" %>
+      <%= f.text_area :moderation_reason, :class => "span3" %>
     </div>
   </div>
   <%= f.submit "Moderate Content", :class => "btn primary" %>
