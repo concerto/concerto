@@ -15,8 +15,14 @@ class Ability
     # the ability to 'read' a feed implies that
     # you can browse it's contents as well
     can :read, Feed, :is_viewable => true
-    #TODO Content permissions per #78
-    can :read, Content if true
+
+    ## Content
+    # Content approved on public feeds is publcally accessible.
+    can :read, Content, :submissions => {:feed => {:is_viewable => true}, :moderation_flag => true}
+    # If any of the submissions can be read the content can be read too.
+    can :read, Content do |content|
+      content.submissions.any?{|s| can?(:read, s)}
+    end
 
     ## Fields
     # Anything can read fields and positions.
@@ -107,10 +113,9 @@ class Ability
     can [:read, :update], Submission do |submission|
       submission.feed.group.leaders.include?(user)
     end
-    # Approved submissions can be read if their feed is public of the user is a member
-    # of the feeds group.
+    # Approved submissions can be read if they can read the feed.
     can :read, Submission do |s|
-      s.moderation_flag && (s.feed.is_viewable || s.feed.group.users.include?(user))
+      s.moderation_flag && can?(:read, s.feed)
     end
 
     ## Feeds
