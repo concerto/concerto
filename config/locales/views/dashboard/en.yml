@@ -1,0 +1,7 @@
+en:
+  #index
+  public_concerto: "Public Concerto access"
+  default_upload_type: "Default content upload type"
+  content_default_start_time: "Default start time for content"
+  content_default_end_time: "Default end time for content"
+  content_default_duration: "Default duration for content (in days)"

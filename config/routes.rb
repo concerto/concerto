@@ -85,7 +85,7 @@ Concerto::Application.routes.draw do
   
   #Set a non-restul route to the dashboard
   match 'dashboard/' => 'dashboard#index'
-  
+  match 'dashboard/update' => 'dashboard#update', :via => "post"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
