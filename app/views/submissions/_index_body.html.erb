@@ -55,6 +55,7 @@
           <br />
           <%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
           <br />
+          <% if can? :update, @submission %>
           <p>
             <%= link_to "#", :class => "dropdown-control dd-moderate", :title => "Moderate '#{ submission.content.name }'", :rel => "#moderate_#{ submission.id }" do %>
               <% if submission.is_approved? %>
@@ -66,7 +67,8 @@
               <% end %>
             <% end %>
           </p>
-
+          
+          
           <div id="moderate_<%= submission.id %>" style="display:none;">
             <% if submission.is_approved? %>
               <p>Currently <b style="color: green;">Approved</b></p>
@@ -85,6 +87,7 @@
             <% end %>
             <br />
           </div>
+          <% end %>
 
         </div>
         </li>
