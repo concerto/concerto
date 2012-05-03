@@ -41,7 +41,13 @@ ConcertoConfig.find_or_create_by_key(:key => "setup_complete", :value => "false"
 Feed.find_or_create_by_name(:name => "Concerto", :description => "Initial Concerto Feed", :group_id => 1, :is_viewable => 1, :is_submittable => 1)
 
 #Create an initial template
-Template.find_or_create_by_name(:name => "Default Template", :author => "Concerto")
+@template = Template.find_or_create_by_name(:name => "Default Template", :author => "Concerto")
+
+#Taking care to make this file upload idempotent
+if Media.where(:file_name => "BlueSwooshNeo_16x9.jpg").empty?
+  file = File.new("/var/www/concerto/db/seed_assets/BlueSwooshNeo_16x9.jpg")
+  @template.media.create(:file => file, :key => "original", :file_type => "image/jpg")
+end
 
 #Associate each field with a position in the template
 concerto_template = Template.where(:name => "Default Template").first.id
