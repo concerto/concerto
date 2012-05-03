@@ -1,11 +1,5 @@
 <%= form_for([submission.feed, submission], :url => approve_feed_submission_path(submission.feed, submission)) do |f| %>
   <div class="clearfix">
-    <%= f.label :user_id, "Moderator" %>
-    <div class="input">
-      <%= select_tag "user_id", options_from_collection_for_select(User.all, "id", "name"), :class => "span3" %>
-    </div>
-  </div>
-  <div class="clearfix">
     <%= f.label :duration %>
     <div class="input">
       <%= f.number_field :duration, :class => "span3" %>
