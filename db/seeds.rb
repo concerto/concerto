@@ -45,7 +45,7 @@ Feed.find_or_create_by_name(:name => "Concerto", :description => "Initial Concer
 
 #Taking care to make this file upload idempotent
 if Media.where(:file_name => "BlueSwooshNeo_16x9.jpg").empty?
-  file = File.new("/var/www/concerto/db/seed_assets/BlueSwooshNeo_16x9.jpg")
+  file = File.new("./seed_assets/BlueSwooshNeo_16x9.jpg")
   @template.media.create(:file => file, :key => "original", :file_type => "image/jpg")
 end
 
