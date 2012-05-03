@@ -1,3 +1,9 @@
-<%= form_for([submission.feed, submission], :url => deny_feed_submission_path(submission.feed, @submission)) do |f| %>
+<%= form_for([submission.feed, submission], :url => deny_feed_submission_path(submission.feed, submission)) do |f| %>
+  <div class="clearfix">
+    <%= f.label :moderation_reason, "Reason" %>
+    <div class="input">
+      <%= text_area_tag "moderation_reason", nil, :class => "span3" %>
+    </div>
+  </div>
   <%= f.submit "Moderate Content", :class => "btn primary" %>
 <% end %>
