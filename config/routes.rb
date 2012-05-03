@@ -82,6 +82,10 @@ Concerto::Application.routes.draw do
   end
 
   resources :tickers, :controller => :contents, :path => "content"
+  
+  #Set a non-restul route to the dashboard
+  match 'dashboard/' => 'dashboard#index'
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
