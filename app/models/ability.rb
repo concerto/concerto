@@ -10,46 +10,49 @@ class Ability
     # Anything real can read a user
     can :read, User if accessor.persisted?
     
-    ## Feeds
-    # Anything can read a viewable feed
-    # the ability to 'read' a feed implies that
-    # you can browse it's contents as well
-    can :read, Feed, :is_viewable => true
-
-    ## Content
-    # Content approved on public feeds is publcally accessible.
-    can :read, Content, :submissions => {:feed => {:is_viewable => true}, :moderation_flag => true}
-    # If any of the submissions can be read the content can be read too.
-    can :read, Content do |content|
-      content.submissions.any?{|s| can?(:read, s)}
+    #Only define these permissive settings if concerto is set to be public
+    if ConcertoConfig[:public_concerto] == "true"     
+      ## Feeds
+      # Anything can read a viewable feed
+      # the ability to 'read' a feed implies that
+      # you can browse it's contents as well
+      can :read, Feed, :is_viewable => true
+  
+      ## Content
+      # Content approved on public feeds is publcally accessible.
+      can :read, Content, :submissions => {:feed => {:is_viewable => true}, :moderation_flag => true}
+      # If any of the submissions can be read the content can be read too.
+      can :read, Content do |content|
+        content.submissions.any?{|s| can?(:read, s)}
+      end
+  
+      ## Fields
+      # Anything can read fields and positions.
+      # Only admin users can edit them.
+      can :read, Field
+  
+      ## Positions
+      can :read, Position
+  
+      ## Membership
+      # Group leaders are public, anyone can view them.
+      can :read, Membership, :level => Membership::LEVELS[:leader]
+  
+      ## Groups
+      # Groups are only public if something they manage is viewable.
+      can :read, Group do |group|
+        group.feeds.where(:is_submittable => true).exists? || group.feeds.where(:is_viewable => true).exists?
+      end
+      can :read, Group do |group|
+        group.screens.where(:is_public => true).exists?
+      end
+  
+      ## Templates
+      # Oddly enough, templates store a hidden flag instead of public
+      # like everything else.
+      can :read, Template, :is_hidden => false
     end
-
-    ## Fields
-    # Anything can read fields and positions.
-    # Only admin users can edit them.
-    can :read, Field
-
-    ## Positions
-    can :read, Position
-
-    ## Membership
-    # Group leaders are public, anyone can view them.
-    can :read, Membership, :level => Membership::LEVELS[:leader]
-
-    ## Groups
-    # Groups are only public if something they manage is viewable.
-    can :read, Group do |group|
-      group.feeds.where(:is_submittable => true).exists? || group.feeds.where(:is_viewable => true).exists?
-    end
-    can :read, Group do |group|
-      group.screens.where(:is_public => true).exists?
-    end
-
-    ## Templates
-    # Oddly enough, templates store a hidden flag instead of public
-    # like everything else.
-    can :read, Template, :is_hidden => false
-
+     
     # Load abilities based on the type of object.
     # We should do this at the bottom to make sure to 
     # override any generic attributes we assigned above.
