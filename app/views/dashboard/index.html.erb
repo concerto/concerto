@@ -1,19 +1,13 @@
 <%= form_tag "/dashboard/update" do %>
-
-  <%= t(:public_concerto) %>:
-  <%= check_box_tag "concerto_config[public_concerto]", true, :checked => !!ConcertoConfig[:public_concerto] %><br />
-
-  <%= t(:default_upload_type) %>:
-  <%= text_field_tag "concerto_config[default_upload_type]", ConcertoConfig[:default_upload_type] %><br />
-  
-  <%= t(:content_default_start_time) %>:
-  <%= text_field_tag "concerto_config[content_default_start_time]", ConcertoConfig[:content_default_start_time] %><br />
-  
-  <%= t(:content_default_end_time) %>:
-  <%= text_field_tag "concerto_config[content_default_end_time]", ConcertoConfig[:content_default_end_time] %><br />
-  
-  <%= t(:content_default_duration) %>:
-  <%= text_field_tag "concerto_config[content_default_duration]", ConcertoConfig[:content_default_duration] %><br />
-
+<% @configs = ConcertoConfig.all %>
+  <% for c in @configs %>
+    <% if c.value_type == "string" || "integer" %>
+      <%= t(c.key.to_sym) %>:
+      <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym] %><br />    
+    <% elsif c.value_type == "boolean" %>
+      <%= t(c.key.to_sym) %>:
+      <%= check_box_tag "concerto_config[#{c.key}]", true, :checked => !!ConcertoConfig[c.key.to_sym] %><br />
+    <% end %>
+  <% end %>
   <%= submit_tag "Save" %>
 <% end %>
