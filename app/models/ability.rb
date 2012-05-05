@@ -20,9 +20,9 @@ class Ability
   
       ## Content
       # Content approved on public feeds is publcally accessible.
-      can :read, Content, :submissions => {:feed => {:is_viewable => true}, :moderation_flag => true}
+      can [:read,:display], Content, :submissions => {:feed => {:is_viewable => true}, :moderation_flag => true}
       # If any of the submissions can be read the content can be read too.
-      can :read, Content do |content|
+      can [:read,:display], Content do |content|
         content.submissions.any?{|s| can?(:read, s)}
       end
   
