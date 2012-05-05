@@ -1,7 +1,7 @@
 <%= form_tag "/dashboard/update" do %>
 <% @configs = ConcertoConfig.all %>
   <% for c in @configs %>
-    <% if c.value_type == "string" || "integer" %>
+    <% if c.value_type == "string" || c.value_type == "integer" %>
       <%= t(c.key.to_sym) %>:
       <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym] %><br />    
     <% elsif c.value_type == "boolean" %>

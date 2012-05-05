@@ -5,3 +5,5 @@ en:
   content_default_start_time: "Default start time for content"
   content_default_end_time: "Default end time for content"
   content_default_duration: "Default duration for content (in days)"
+  start_date_offset: "Time between submission and content start"
+  default_content_run_time: "Default content run time (in days)"
