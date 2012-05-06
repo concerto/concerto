@@ -18,11 +18,15 @@ $('#time_end').click(function() {
 
 
 $('#date_start').click(function(event) {
-  window.setTimeout(start_date_api.show, 1);
+  window.setTimeout(function() {
+    start_date_api.show();
+    }, 1);
   });
 
 $('#date_end').click(function(event) {
-  window.setTimeout(end_date_api.show, 1);
+  window.setTimeout(function() { 
+    end_date_api.show();
+    }, 1);
   });
 <% end %>
 
