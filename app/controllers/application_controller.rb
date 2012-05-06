@@ -22,4 +22,9 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  #Don't break for CanCan exceptions; send the user to the front page with a Flash error message
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :flash => { :notice => exception.message }
+  end
+  
 end
