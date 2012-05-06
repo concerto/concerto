@@ -25,6 +25,7 @@ class SubmissionsController < ApplicationController
   # PUT /feeds/1/submissions/1
   def update
     @submission = Submission.find(params[:id])
+    @submission.moderator = current_user
 
     respond_to do |format|
       if @submission.update_attributes(params[:submission])
