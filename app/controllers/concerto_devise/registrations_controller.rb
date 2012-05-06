@@ -5,11 +5,18 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
     build_resource
     #If there are no users, the first one created will be an admin
     if User.all.empty?
-      #set the first user to be an admin and mark setup as being complete
+      first_user_setup = true
+      #set the first user to be an admin
       resource.is_admin = true
-      ConcertoConfig.set("setup_complete", "true")
     end
-    if resource.save
+    if resource.save    
+      if first_user_setup == true
+        ConcertoConfig.set("setup_complete", "true")
+        #let's be idempotent here...
+        group = Group.find_or_create_by_name(:name => "Concerto Admins")
+        #create the membership only after we have the user
+        Membership.create(:user_id => resource.id, :group_id => group.id, :level => Membership::LEVELS[:leader])
+      end     
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
         sign_in(resource_name, resource)

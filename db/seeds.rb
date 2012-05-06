@@ -26,9 +26,6 @@ Field.find_or_create_by_name({:name => 'Time', :kind => Kind.where(:name => 'Tex
 #Create an initial group
 Group.find_or_create_by_name(:name => "Concerto Admins")
 
-#Associate user with initial group
-Membership.create(:user_id => 1, :group_id => 1, :level => 9)
-
 #Put in default configuration parameters
 ConcertoConfig.find_or_create_by_key(:key => "default_upload_type", :value => "graphic", :value_default => "graphic", :value_type => "string")
 ConcertoConfig.find_or_create_by_key(:key => "public_concerto", :value => "true", :value_default => "true", :value_type => "boolean")
