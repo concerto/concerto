@@ -5,7 +5,7 @@ Concerto::Application.routes.draw do
 
   # These routes control the frontend of Concerto used by screens.
   # You probably should not touch them without thinking very hard
-  # about what you are doing because they could break things in 
+  # about what you are doing because they could break things in
   # a very visible way.
   namespace :frontend do
     resources :screens, :only => [:show], :path => '' do
@@ -20,7 +20,7 @@ Concerto::Application.routes.draw do
   end
   # End really dangerous routes.
 
-  
+
   devise_for :users, :controllers => {:registrations => 'concerto_devise/registrations'}
   resources :users
 
@@ -61,12 +61,7 @@ Concerto::Application.routes.draw do
   end
 
   resources :feeds do
-    resources :submissions, :only => [:index, :show] do
-      member do
-        put :approve
-        put :deny
-      end
-    end
+    resources :submissions, :only => [:index, :show, :update]
   end
 
   #map.resources :feeds do |feeds|
@@ -76,13 +71,13 @@ Concerto::Application.routes.draw do
   resources :contents, :path => "content" do
     get :display, :on => :member
   end
-  
+
   resources :graphics, :controller => :contents, :path => "content" do
     get :display, :on => :member
   end
 
   resources :tickers, :controller => :contents, :path => "content"
-  
+
   #Set a non-restul route to the dashboard
   match 'dashboard/' => 'dashboard#index'
   match 'dashboard/update' => 'dashboard#update', :via => "post"
