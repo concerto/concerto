@@ -55,7 +55,7 @@
           <br />
           <%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
           <br />
-          <% if can? :update, @submission %>
+          <% if can_moderate_feed? %>
           <p>
             <%= link_to "#", :class => "dropdown-control dd-moderate", :title => "Moderate '#{ submission.content.name }'", :rel => "#moderate_#{ submission.id }" do %>
               <% if submission.is_approved? %>

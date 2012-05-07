@@ -4,6 +4,7 @@ class SubmissionsController < ApplicationController
 
   def index
     @this_feed = Feed.find(params[:feed_id])
+    can_moderate_feed = can?(:update, @this_feed)
     @sub_feeds = @this_feed.children
     @submissions = Submission.where(:feed_id => params[:feed_id])
 
