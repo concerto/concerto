@@ -101,14 +101,14 @@ class UserSubmissionAbilityTest < ActiveSupport::TestCase
     assert ability.cannot?(:delete, @submission)
   end
 
-  test "Submission can be read and modified by content owner" do
+  test "Content owner can only read and delete submission" do
     content = Content.new(:user => @kristen)
     @submission.content = content
     @submission.feed = @rpitv
 
     ability = Ability.new(@kristen)
     assert ability.can?(:read, @submission)
-    assert ability.can?(:update, @submission)
+    assert ability.cannot?(:update, @submission)
     assert ability.can?(:delete, @submission)
 
     ability = Ability.new(@katie)
