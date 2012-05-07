@@ -16,7 +16,7 @@ class UserUserAbilityTest < ActiveSupport::TestCase
     assert ability.can?(:destroy, User.new)
   end
 
-  test "regular users can only update themselves" do
+  test "regular users can only read and update themselves" do
     user = @kristen
     ability = Ability.new(user)
     assert ability.can?(:read, @kristen)
@@ -32,6 +32,15 @@ class UserUserAbilityTest < ActiveSupport::TestCase
 
     # Actually, let users see each other
     assert ability.can?(:read, @katie)
+  end
+
+  test "regular users cannot list all users" do
+    user = @kristen
+    ability = Ability.new(user)
+    assert ability.cannot?(:list, User)
+
+    ability = Ability.new(@admin)
+    assert ability.can?(:list, User)
   end
 
   test "new users can only sign up" do

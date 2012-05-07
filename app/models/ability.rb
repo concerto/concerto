@@ -75,6 +75,11 @@ class Ability
     can [:read, :update], User, :id => user.id
     # An unauthenticated user can create a new user
     can :create, User unless user.persisted?
+    # The User#index action requires a special setup.
+    # By default, all the :read checks will pass because any
+    # user can read at least 1 user.  We use this custom
+    # action to only let admins access the user list.
+    can :list, User if user.is_admin?
 
     ## Content
     # Authenticated users can create content

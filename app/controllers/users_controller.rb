@@ -1,9 +1,10 @@
 class UsersController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource :except => [:index]
   respond_to :html, :json
    
   # GET /users
   def index
+    authorize! :list, User
     respond_with(@users = User.all)
   end
 
