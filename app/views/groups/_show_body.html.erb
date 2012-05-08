@@ -51,16 +51,13 @@
 
     </table>
 
-    <% if @membership.is_leader? %>
+    <% if !@membership.nil? && @membership.is_leader? %>
       <b>Add Member</b>
       <%= form_for([@group, @group.memberships.new]) do |f| %>
         <%= f.collection_select :user_id, User.all - @group.all_users, :id, :name %>
         <%= hidden_field_tag 'autoconfirm', true %>
         <%= f.submit %>
       <% end %>
-    <% end %>
-
-    <% if @membership.is_leader? %>
 
       <br /><br />
 
