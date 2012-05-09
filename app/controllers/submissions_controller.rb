@@ -3,10 +3,12 @@ class SubmissionsController < ApplicationController
   helper :contents
 
   def index
-    @this_feed = Feed.find(params[:feed_id])
-    @can_moderate_feed = can?(:update, @this_feed)
-    @sub_feeds = @this_feed.children
-    @submissions = Submission.where(:feed_id => params[:feed_id])
+    @feed = Feed.find(params[:feed_id])
+    @can_moderate_feed = can?(:update, @feed)
+    @submissions = @feed.submissions
+    if !@can_moderate_feed
+      @submissions = @submissions.approved
+    end
 
     respond_to do |format|
       format.js { }

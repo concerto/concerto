@@ -24,12 +24,12 @@
   </div>
 
   <ul class="tabs">
-    <% if @sub_feeds.size < 1 %>
+    <% if @feed.children.empty? %>
       <li class="legend">No Sub-feeds</li>
     <% else %>
       <li class="legend">Sub-feeds:</li>
     <% end %>
-    <% @sub_feeds.each do |feed| %>
+    <% @feed.children.each do |feed| %>
       <li>
         <%= link_to feed_submissions_path(feed), :remote => true do %><span class="badge"><%= feed.approved_contents.count %></span> <%= feed.name %><% end %>
       </li>
@@ -39,7 +39,7 @@
 </div>
 <div id="content_holder">
 
-  <% if @submissions.size == 0 %>
+  <% if @submissions.empty? %>
     <div class="default-padding">
       <h3>Oops - there's no content inside this feed.</h3>
     </div>
