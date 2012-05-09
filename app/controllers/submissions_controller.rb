@@ -1,9 +1,13 @@
 class SubmissionsController < ApplicationController
   load_and_authorize_resource
+  before_filter :get_feed
   helper :contents
 
-  def index
+  def get_feed
     @feed = Feed.find(params[:feed_id])
+  end
+
+  def index
     @can_moderate_feed = can?(:update, @feed)
     @submissions = @feed.submissions
     if !@can_moderate_feed
@@ -18,6 +22,11 @@ class SubmissionsController < ApplicationController
 
   def show
     @submission = Submission.find(params[:id])
+
+    # Enforce the correct feed ID in the URL
+    if @submission.feed != @feed
+      redirect_to feed_submissions_path(params[:feed_id])
+    end
 
     respond_to do |format|
       format.js { }
