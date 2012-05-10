@@ -60,23 +60,21 @@ Concerto::Application.routes.draw do
     resources :fields
   end
 
+  match 'content/' => 'feeds#index'
   resources :feeds do
     resources :submissions, :only => [:index, :show, :update]
   end
 
-  #map.resources :feeds do |feeds|
-  #  feeds.resources :submissions
-  #end
-
-  resources :contents, :path => "content" do
+  resources :contents, :except => [:index], :path => "content" do
     get :display, :on => :member
   end
 
-  resources :graphics, :controller => :contents, :path => "content" do
+  # TODO(bamnet): Figure out if these routes mean anything.
+  resources :graphics, :controller => :contents, :except => [:index], :path => "content" do
     get :display, :on => :member
   end
 
-  resources :tickers, :controller => :contents, :path => "content"
+  resources :tickers, :controller => :contents, :except => [:index], :path => "content"
 
   #Set a non-restul route to the dashboard
   match 'dashboard/' => 'dashboard#index'
