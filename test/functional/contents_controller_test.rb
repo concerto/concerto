@@ -44,11 +44,6 @@ class ContentsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should get index" do
-    get :index
-    assert_response :success
-  end
-  
   test "should demoderate submissions on edit" do
     sign_in users(:admin)
     put :update, :id => contents(:sample_ticker).id, :duration => "7"

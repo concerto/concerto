@@ -1,6 +1,6 @@
 class ContentsController < ApplicationController
   before_filter :get_content_const, :only => [:new, :create]
-  load_and_authorize_resource :except => [:index, :show]
+  load_and_authorize_resource :except => [:show]
 
   # Grab the constent object for the type of
   # content we're working with.  Probably needs
@@ -10,20 +10,6 @@ class ContentsController < ApplicationController
       @content_const = params[:type].camelize.constantize
     rescue
       @content_const = nil
-    end
-  end
-
-  # GET /contents
-  # GET /contents.xml
-  def index
-    @contents = Content.all
-    @content_display = params[:type] || 'table'
-    @feeds = Feed.all
-    @screens = Screen.all
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @contents }
-      format.js { }
     end
   end
 
@@ -134,7 +120,7 @@ class ContentsController < ApplicationController
     @content.destroy
 
     respond_to do |format|
-      format.html { redirect_to(contents_url) }
+      format.html { redirect_to(feeds_url) }
       format.xml  { head :ok }
     end
   end
