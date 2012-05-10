@@ -8,6 +8,7 @@ class FeedsController < ApplicationController
     respond_to do |format|
       format.html { } # index.html.erb
       format.xml  { render :xml => @feeds }
+      format.js { render :layout => false }
     end
   end
 

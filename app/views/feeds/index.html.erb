@@ -1,30 +1,8 @@
 <section class="C no">
-	<header>
-		<h1>All Content Feeds <%= link_to t(:new_feed), new_feed_path, :class => "button" %></h1>
-	</header>
-	<div class="C-cont">
-		<article>
-			
-			<table cellpadding="0" cellspacing="0" width="100%">
-			  <tr>
-			    <th><%= t(:name) %></th>
-					<th><%= t(:description) %></th>
-					<th><%= t(:parent) %></th>
-					<th><%= t(:group) %></th>
-			    <th>Actions</th>
-			  </tr>
-
-			<% @feeds.each do |feed| %>
-			  <tr>
-			    <td><%= feed.name %></td>
-			    <td><%= feed.description %></td>
-					<td>&nbsp;</td>
-			    <td><%= feed.group.name unless feed.group.nil? %></td>
-			    <td><%= link_to t(:show), feed %> <%= link_to t(:edit), edit_feed_path(feed) %> <%= link_to t(:delete), feed, :confirm => t(:are_you_sure), :method => :delete %></td>
-			  </tr>
-			<% end %>
-			</table>
-		</article>
-		<div class="clear"></div>
-	</div>
+  <header id="browse-header">
+    <%= render :partial => "feeds/browse_header" %>
+  </header>
+  <div id="browse-body" class="C-cont">
+    <%= render :partial => "feeds/browse_body" %>
+  </div>
 </section>
