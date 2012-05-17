@@ -31,7 +31,7 @@
 		<div class="clearfix">
 			<%= f.label t(:parent) %>
 	  	<div class="input">
-				<%= f.select :parent_id, parent_feeds.collect{|c| [raw("&nbsp;&nbsp;")* c.depth + c.name, c.id ]}, {:include_blank => true }, :class => "span6" %>
+				<%= f.select :parent_id, parent_feeds.collect{|c| [("&nbsp; &nbsp;"*c.depth).html_safe + c.name, c.id ]}, {:include_blank => true }, :class => "span6" %>
 			</div>
 		</div>
 		<% end %>
