@@ -1,0 +1,14 @@
+﻿pirate:
+  #_topmenu
+  settings: "Marks"
+  log_out: "Abandon ship"
+  sign_up: "Sign on"
+  sign_in: "Check In"
+  add: "Add"
+  content: "doubloon"
+  groups: "Crews"
+  users: "Scaliwags"
+  manage: "Control"
+  templates: "Treasure Map"
+  screens: "Telescope"
+  moderate: "Yay or Nay"

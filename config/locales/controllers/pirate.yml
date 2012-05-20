@@ -1,0 +1,49 @@
+pirate:
+  #Contents controller
+  content_created: "Yar, yer content was made."
+  content_updated: "Yar, yer content changed."
+
+  #Feeds controller
+  feed_created: "Yar, yer feed got made."
+  feed_updated: "Yar, yer feed changed."
+
+  #Fields controller
+  field_created: "Yar, yer field got made."
+  field_updated: "Yar, yer field changed."
+
+  #Groups controller
+  group_created: "Yar, yer group got made."
+  group_updated: "Yar, yer group changed."
+
+  #Memberships controller
+  membership_created: "Yar, yer membership got made."
+  membership_updated: "Yar, yer membership changed."
+  member_removed: "He walked the plank"
+
+  #Positions controller
+  position_created: "Yar, yer position got made."
+  position_updated: "Yar, yer position changed."
+
+  #Screens controller
+  screen_created: "Yar, yer screen got made."
+  screen_updated: "Yar, yer screen changed."
+
+  #Submissions controller
+  content_approved: "Yer content looks good to me."
+  content_failed_approve: "Yer content doesn't work."
+  content_denied: "Nah, the contents no good."
+  content_failed_deny: "There's no denying that content."
+  content_moderated: "Yer content was looked at."
+  content_failed_moderation: "Yer content can't be looked at"
+
+  #Subscriptions controller
+  subscription_created: "Yar, yer subscription got made."
+  subscription_updated: "Yar, yer subscription changed."
+
+  #Templates controller
+  template_created: "Yar, yer template got made."
+  template_updated: "Yar, yer template changed."
+
+  #Users controller
+  user_created: "Welcome aboard."
+  user_updated: "Yar, yer user changed."

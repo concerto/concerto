@@ -1,0 +1,10 @@
+pirate:
+  #index
+  public_concerto: "Any sort of rift raft"
+  default_upload_type: "The normal type"
+  content_default_start_time: "When we set sail"
+  content_default_end_time: "When we come home"
+  content_default_duration: "number of days at sea"
+  start_date_offset: "How long shall we wait to ship off?"
+  default_content_run_time: "Default content run time (in days)"
+  setup_complete: "We're ready to set sail"

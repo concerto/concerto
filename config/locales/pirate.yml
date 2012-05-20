@@ -1,2 +1,16 @@
 pirate:
-  browse_content: "Arrr, browse content Ye'll ne'er get me buried booty!"
+  is_viewable: "see for yourself!"
+  is_submittable: "Yer can send it here"
+  membership_approved: "Welcome aboard"
+  membersip_denied: "Walk the plank!"
+
+  #CanCan Exceptions localization (https://github.com/ryanb/cancan/wiki/exception-handling)
+  unauthorized:
+    read:
+      all: "Ye'll never see %{subject}."
+    create:
+      all: "Ye'll never make %{subject}."
+    update:
+      all: "Ye'll never change %{subject}."
+    delete:
+      all: "Ye'll never get rid the %{subject}."
