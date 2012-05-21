@@ -34,3 +34,5 @@ gem 'attachable', '>= 0.0.5'
 
 gem 'devise'
 gem 'cancan'
+
+gem 'jquery-tools'
