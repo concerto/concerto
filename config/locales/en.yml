@@ -7,6 +7,8 @@ en:
   membership_approved: "Approved"
   membersip_denied: "Denied"
   
+  signin_login_spiel: "to upload and manage content."  
+  
   #CanCan Exceptions localization (https://github.com/ryanb/cancan/wiki/exception-handling)
   unauthorized:
     read:

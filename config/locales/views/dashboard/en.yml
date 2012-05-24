@@ -8,3 +8,4 @@ en:
   start_date_offset: "Time between submission and content start"
   default_content_run_time: "Default content run time (in days)"
   setup_complete: "Concerto setup complete"
+  allow_registration: "Allow open user registration"

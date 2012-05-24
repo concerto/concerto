@@ -2,7 +2,7 @@ class DashboardController < ApplicationController
   
   # GET /dashboard
   def index
-    authorize! :read, @concerto_config
+    authorize! :read, ConcertoConfig
     @concerto_configs = ConcertoConfig.all
   end
 

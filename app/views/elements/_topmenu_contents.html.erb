@@ -6,7 +6,7 @@
 <nav id="TM">
   <% if not user_signed_in? %>
     <%= link_to "Concerto", "/", :id => "TM-logobutton" %>
-    <p id="TM-logintext"><%= link_to t(:sign_in), new_user_session_path %> to upload and manage content.  No account? <%= link_to t(:sign_up), new_user_registration_path %> now!</p>
+    <p id="TM-logintext"><%= link_to t(:sign_in), new_user_session_path %> <%=t(:signin_login_spiel) %> <% if ConcertoConfig[:allow_registration] == "true" %>No account? <%= link_to t(:sign_up), new_user_registration_path %> now!<% end %></p>
   <% else %>
     <%= link_to "Concerto", "/", :id => "TM-logobutton", :class => "full" %>
     

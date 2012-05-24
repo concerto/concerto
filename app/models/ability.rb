@@ -73,8 +73,11 @@ class Ability
     ## Users
     # A user can read and update themselves.
     can [:read, :update], User, :id => user.id
-    # An unauthenticated user can create a new user
-    can :create, User unless user.persisted?
+    # An unauthenticated user can create a new user, if that's allowed globally
+    if ConcertoConfig[:allow_registration] == "true"
+      can :create, User unless user.persisted?
+    end
+    
     # The User#index action requires a special setup.
     # By default, all the :read checks will pass because any
     # user can read at least 1 user.  We use this custom
