@@ -60,7 +60,6 @@ Concerto::Application.routes.draw do
     resources :fields
   end
 
-  match 'content/' => 'feeds#index'
   resources :feeds do
     resources :submissions, :only => [:index, :show, :update]
   end
@@ -129,6 +128,11 @@ Concerto::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   root :to => "feeds#index"
+
+  # This is the catch-all path we use for people who type /content when they
+  # are semantically looking for all the feeds to show the content.  We put it
+  # here at the bottom to avoid capturing any of the restful content paths.
+  match 'content/' => 'feeds#index'
 
   # See how all your routes lay out with "rake routes"
 
