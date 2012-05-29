@@ -7,9 +7,9 @@ class UserScreenAbilityTest < ActiveSupport::TestCase
     @rpitv = screens(:rpitv)
   end
 
-  test "Screens can only be created by real users" do
+  test "Screens can only be created by admins (by default)" do
     ability = Ability.new(users(:katie))
-    assert ability.can?(:create, Screen)
+    assert ability.cannot?(:create, Screen)
   end
 
   test "Screens cannot be created by unsaved users" do
