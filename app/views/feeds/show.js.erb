@@ -1,4 +1,4 @@
 $('#browse_content').html("<%= escape_javascript(render :partial => 'feed_items', :locals => { :feed => @feed }) %>");
 
 //$('#sb').animate({width:'toggle'},100);
-$('#sb').html("<%= escape_javascript(render :partial => 'feed_buttons', :locals => { :feed => @feed, :has_children => @has_children }) %>");
+$('#sb').html("<%= escape_javascript(render :partial => 'feed_buttons', :locals => { :feed => @feed }) %>");

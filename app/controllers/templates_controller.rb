@@ -1,4 +1,5 @@
 class TemplatesController < ApplicationController
+  load_and_authorize_resource
   # GET /templates
   # GET /templates.xml
   def index

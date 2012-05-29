@@ -1,0 +1,9 @@
+﻿pirate:
+  #index
+  provide_details: "What's in that cask"
+  select_template: "What cutout you gonna use?"
+  current_template: "Here be yer cutout"
+  best_fit_templates: "Some cutouts that work well"
+  other_templates: "More cutouts"
+  select_feed: "Which feed you want?"
+  filter_for_feeds: "Selected feeds"

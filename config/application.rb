@@ -56,5 +56,13 @@ module Concerto
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    
+    #exempt these methods from the initial install check to prevent redirect loops
+    config.to_prepare do
+      Devise::RegistrationsController.skip_before_filter :check_for_initial_install
+      ConcertoDevise::RegistrationsController.skip_before_filter :check_for_initial_install
+    end
+
+    
   end
 end

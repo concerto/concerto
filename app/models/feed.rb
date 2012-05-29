@@ -12,17 +12,24 @@ class Feed < ActiveRecord::Base
   #Validations
   validates :name, :presence => true, :uniqueness => true
   validates :group, :presence => true, :associated => true
-  
+  validate :parent_id_cannot_be_this_feed
+
+  def parent_id_cannot_be_this_feed
+    if !parent_id.blank? and parent_id == id
+      errors.add(:parent_id, "can't be this feed")
+    end
+  end
+
   #Feed Hierachy
   belongs_to :parent, :class_name => "Feed"
   has_many :children, :class_name => "Feed", :foreign_key => "parent_id"
   scope :roots, where(:parent_id => nil)
-  
+
   # Test if this feed is a root feed or not
   def is_root?
     parent_id.nil?
   end
-  
+
   # Collect a list of parent feeds.
   # Each feed the monkey stops as he climbs
   # up the tree.
@@ -31,8 +38,8 @@ class Feed < ActiveRecord::Base
     node, nodes = self, []
     nodes << node = node.parent while node.parent
     nodes
-  end  
-  
+  end
+
   # Collect recursive list of child feeds.
   # Every feed the monkey could stop by as he
   # climbs down a tree.
@@ -47,13 +54,13 @@ class Feed < ActiveRecord::Base
     } unless node.children.empty?
     nodes
   end
-  
+
   # Figure out how deep in the tree
   # the current feed is.  0 = root
   def depth
     ancestors.count
   end
-  
+
   # The group of feeds who share a common parent.
   def self_and_siblings
     parent ? parent.children : Feed.roots
@@ -66,5 +73,5 @@ class Feed < ActiveRecord::Base
     subscriptions = Subscription.where(:screen_id => screen, :field_id => field)
     current_feeds = subscriptions.collect{ |s| s.feed }
     Feed.all - current_feeds
-  end  
+  end
 end

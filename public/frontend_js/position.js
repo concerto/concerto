@@ -142,6 +142,15 @@ concerto.frontend.Position.prototype.draw = function() {
 
 
 /**
+ * Get the size of the position.
+ * @return {!goog.math.Size} Object with width/height properties.
+ */
+concerto.frontend.Position.prototype.getSize = function() {
+  return goog.style.getSize(this.div_);
+};
+
+
+/**
  * Inset a div into the position.
  * We treat the position div as a private variable,
  * so we should avoid touching it outside the position class.

@@ -5,7 +5,7 @@ Concerto::Application.routes.draw do
 
   # These routes control the frontend of Concerto used by screens.
   # You probably should not touch them without thinking very hard
-  # about what you are doing because they could break things in 
+  # about what you are doing because they could break things in
   # a very visible way.
   namespace :frontend do
     resources :screens, :only => [:show], :path => '' do
@@ -20,8 +20,8 @@ Concerto::Application.routes.draw do
   end
   # End really dangerous routes.
 
-  
-  devise_for :users
+
+  devise_for :users, :controllers => {:registrations => 'concerto_devise/registrations'}
   resources :users
 
   resources :media, :only => [:show]
@@ -37,10 +37,12 @@ Concerto::Application.routes.draw do
   end
 
   resources :screens do
-    resources :subscriptions do
-      collection do
-        get :manage
-        put :save
+    resources :fields do
+      resources :subscriptions do
+        collection do
+          get :manage
+          put :save
+        end
       end
     end
   end
@@ -48,8 +50,8 @@ Concerto::Application.routes.draw do
   resources :groups do
     resources :memberships, :only => [:create, :update, :destroy] do
       member do
-        put :promote
-        put :demote
+        put :approve
+        put :deny
       end
     end
   end
@@ -59,27 +61,23 @@ Concerto::Application.routes.draw do
   end
 
   resources :feeds do
-    resources :submissions, :only => [:index, :show] do
-      member do
-        put :approve
-        put :deny
-      end
-    end
+    resources :submissions, :only => [:index, :show, :update]
   end
 
-  #map.resources :feeds do |feeds|
-  #  feeds.resources :submissions
-  #end
-
-  resources :contents, :path => "content" do
-    get :display, :on => :member
-  end
-  
-  resources :graphics, :controller => :contents, :path => "content" do
+  resources :contents, :except => [:index], :path => "content" do
     get :display, :on => :member
   end
 
-  resources :tickers, :controller => :contents, :path => "content"
+  # TODO(bamnet): Figure out if these routes mean anything.
+  resources :graphics, :controller => :contents, :except => [:index], :path => "content" do
+    get :display, :on => :member
+  end
+
+  resources :tickers, :controller => :contents, :except => [:index], :path => "content"
+
+  #Set a non-restul route to the dashboard
+  match 'dashboard/' => 'dashboard#index'
+  match 'dashboard/update' => 'dashboard#update', :via => "post"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -129,7 +127,12 @@ Concerto::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => "contents#index"
+  root :to => "feeds#index"
+
+  # This is the catch-all path we use for people who type /content when they
+  # are semantically looking for all the feeds to show the content.  We put it
+  # here at the bottom to avoid capturing any of the restful content paths.
+  match 'content/' => 'feeds#index'
 
   # See how all your routes lay out with "rake routes"
 

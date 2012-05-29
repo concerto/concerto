@@ -1,4 +1,5 @@
 class ScreensController < ApplicationController
+  load_and_authorize_resource
   # GET /screens
   # GET /screens.xml
   def index
@@ -37,6 +38,7 @@ class ScreensController < ApplicationController
   # GET /screens/1/edit
   def edit
     @screen = Screen.find(params[:id])
+    @template = Template.new
     
     @templates = Template.all
     #@templates_bestfit = Template.find(:all, :conditions => "width / height = #{screen_aspect_ratio}")

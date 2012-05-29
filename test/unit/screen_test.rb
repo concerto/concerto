@@ -58,15 +58,4 @@ class ScreenTest < ActiveSupport::TestCase
     s = screens(:one)
     assert !s.fields.empty?
   end
-
-  # Authorization tests
-  test "real users can create screens" do
-    ability = Ability.new(users(:katie))
-    assert ability.can?(:create, Screen)
-  end
-
-  test "empty users cannot create screens" do
-    ability = Ability.new(User.new)
-    assert ability.cannot?(:create, Screen)
-  end
 end

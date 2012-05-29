@@ -1,6 +1,7 @@
 class ContentsController < ApplicationController
   before_filter :get_content_const, :only => [:new, :create]
-  
+  load_and_authorize_resource :except => [:show]
+
   # Grab the constent object for the type of
   # content we're working with.  Probably needs
   # additional error checking.
@@ -9,20 +10,6 @@ class ContentsController < ApplicationController
       @content_const = params[:type].camelize.constantize
     rescue
       @content_const = nil
-    end
-  end
-
-  # GET /contents
-  # GET /contents.xml
-  def index
-    @contents = Content.all
-    @content_display = params[:type] || 'table'
-    @feeds = Feed.all
-    @screens = Screen.all
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @contents }
-      format.js { }
     end
   end
 
@@ -40,22 +27,27 @@ class ContentsController < ApplicationController
   # GET /contents/new
   # GET /contents/new.xml
   # Instantiate a new object of params[:type].
-  # If the object isn't valid (FooBar) or isn't a 
+  # If the object isn't valid (FooBar) or isn't a
   # child of Content (Feed) a 400 error is thrown.
   def new
-    #The default content type is defined in as default_upload_type in the settings.
-    if params[:type].nil?
-      @content_const = Concerto::Application.config.default_upload_type.camelize.constantize
-    end
-    
-    #We don't recognize the content type, or
-    #its not a child of Content.
+    # We might already have a content type, 
     if @content_const.nil? || @content_const.superclass != Content
-      render :nothing => true, :status => 400
+      default_upload_type = ConcertoConfig[:default_upload_type]
+      if !default_upload_type
+        raise "Missing Default Content Type"
+      else
+        @content_const = default_upload_type.camelize.constantize
+      end
+    end
+
+    # We don't recognize the requested content type, or
+    # its not a child of Content so we'll return a 400.
+    if @content_const.nil? || @content_const.superclass != Content
+      render :text => "Unrecognized content type.", :status => 400
     else
-    
+
       @content = @content_const.new()
-      
+
       respond_to do |format|
         format.html { } # new.html.erb
         format.xml  { render :xml => @content }
@@ -66,16 +58,19 @@ class ContentsController < ApplicationController
   # GET /contents/1/edit
   def edit
     @content = Content.find(params[:id])
+    authorize! :update, @content
   end
 
   # POST /contents
   # POST /contents.xml
   def create
     @content =  @content_const.new(params[@content_const.model_name.singular])
+    @content.user = current_user
+
     @feed_ids = []
     if params.has_key?("feed_id")
       @feed_ids = params[:feed_id].values
-    end    
+    end
 
     respond_to do |format|
       if @content.save
@@ -99,7 +94,7 @@ class ContentsController < ApplicationController
   # PUT /contents/1.xml
   def update
     @content = Content.find(params[:id])
-
+    authorize! :update, @content
 
     respond_to do |format|
       if @content.update_attributes(params[:content])
@@ -120,10 +115,12 @@ class ContentsController < ApplicationController
   # DELETE /contents/1.xml
   def destroy
     @content = Content.find(params[:id])
+    authorize! :delete, @content
+
     @content.destroy
 
     respond_to do |format|
-      format.html { redirect_to(contents_url) }
+      format.html { redirect_to(feeds_url) }
       format.xml  { head :ok }
     end
   end

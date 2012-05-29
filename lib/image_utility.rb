@@ -11,9 +11,6 @@ module ImageUtility
       if maintain_aspect_ratio && (!width.nil? && !height.nil?) 
         desired_ratio = width.to_f / height
         image_ratio = image.columns.to_f / image.rows
-        Rails.logger.debug(desired_ratio)
-        Rails.logger.debug(image_ratio)
-        Rails.logger.debug("Done")
         if image_ratio > desired_ratio
           height = nil
         else

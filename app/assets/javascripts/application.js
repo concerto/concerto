@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require html5_shiv/html5
 //= require jquery.qtip.min
+//= require jquery-tools/dateinput/dateinput
+//= require jquery-tools/rangeinput/rangeinput
 //= require_tree .
 
 $(document).ready(function () {

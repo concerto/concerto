@@ -1,4 +1,5 @@
 class FeedsController < ApplicationController
+  load_and_authorize_resource :except => [:index, :show]
   # GET /feeds
   # GET /feeds.xml
   def index
@@ -7,6 +8,7 @@ class FeedsController < ApplicationController
     respond_to do |format|
       format.html { } # index.html.erb
       format.xml  { render :xml => @feeds }
+      format.js { render :layout => false }
     end
   end
 
@@ -15,12 +17,6 @@ class FeedsController < ApplicationController
   def show
     @feed = Feed.find(params[:id])
 
-    if @feed.children.size == 0 
-      @has_children = 0
-    else
-      @has_children = 1
-    end
-    
     respond_to do |format|
       format.html { } # show.html.erb
       format.xml  { render :xml => @feed }

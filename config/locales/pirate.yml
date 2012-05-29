@@ -1,2 +1,21 @@
+# Sample localization file for Pirate. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
 pirate:
-  browse_content: "Arrr, browse content Ye'll ne'er get me buried booty!"
+  is_viewable: "see for yourself!"
+  is_submittable: "Yer can send it here"
+  membership_approved: "Welcome aboard"
+  membersip_denied: "Walk the plank!"
+
+  signin_login_spiel: "to access yer buried treasure."
+
+  #CanCan Exceptions localization (https://github.com/ryanb/cancan/wiki/exception-handling)
+  unauthorized:
+    read:
+      all: "Ye'll never see %{subject}."
+    create:
+      all: "Ye'll never make %{subject}."
+    update:
+      all: "Ye'll never change %{subject}."
+    delete:
+      all: "Ye'll never get rid the %{subject}."

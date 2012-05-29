@@ -75,15 +75,4 @@ class ContentTest < ActiveSupport::TestCase
     assert_equal c.end_time.strftime('%Y-%m-%d %H:%M:%S'), "2011-01-01 00:00:00"
   end
 
-  # Authorization tests
-  test "real users can create content" do
-    ability = Ability.new(users(:katie))
-    assert ability.can?(:create, Content)
-  end
-
-  test "empty users cannot create content" do
-    ability = Ability.new(User.new)
-    assert ability.cannot?(:create, Content)
-  end
-
 end

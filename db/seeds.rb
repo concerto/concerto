@@ -26,19 +26,28 @@ Field.find_or_create_by_name({:name => 'Time', :kind => Kind.where(:name => 'Tex
 #Create an initial group
 Group.find_or_create_by_name(:name => "Concerto Admins")
 
-#Create an initial user
-user = User.find_or_create_by_email(:email => "ConcertoAdmin@concerto.test", :first_name => "Concerto", :last_name => "Admin",  :password => "concerto2")
-user.is_admin = 1
-user.save
-
-#Associate user with initial group
-Membership.create(:user_id => 1, :group_id => 1, :level => 9)
+#Put in default configuration parameters
+ConcertoConfig.find_or_create_by_key(:key => "default_upload_type", :value => "graphic", :value_default => "graphic", :value_type => "string")
+ConcertoConfig.find_or_create_by_key(:key => "public_concerto", :value => "true", :value_default => "true", :value_type => "boolean")
+ConcertoConfig.find_or_create_by_key(:key => "content_default_start_time", :value => "12:00 am", :value_default => "12:00 am", :value_type => "string")
+ConcertoConfig.find_or_create_by_key(:key => "content_default_end_time", :value => "11:59 pm", :value_default => "11:59 pm", :value_type => "string")
+ConcertoConfig.find_or_create_by_key(:key => "start_date_offset", :value => "0", :value_default => "0", :value_type => "integer")
+ConcertoConfig.find_or_create_by_key(:key => "default_content_run_time", :value => "7", :value_default => "7", :value_type => "integer")
+ConcertoConfig.find_or_create_by_key(:key => "setup_complete", :value => "false", :value_default => "true", :value_type => "boolean")
+ConcertoConfig.find_or_create_by_key(:key => "allow_registration", :value => "true", :value_default => "true", :value_type => "boolean")
+ConcertoConfig.find_or_create_by_key(:key => "allow_user_screen_creation", :value => "false", :value_default => "false", :value_type => "boolean")
 
 #Create an initial feed
 Feed.find_or_create_by_name(:name => "Concerto", :description => "Initial Concerto Feed", :group_id => 1, :is_viewable => 1, :is_submittable => 1)
 
 #Create an initial template
-Template.find_or_create_by_name(:name => "Default Template", :author => "Concerto")
+@template = Template.find_or_create_by_name(:name => "Default Template", :author => "Concerto")
+
+#Taking care to make this file upload idempotent
+if Media.where(:file_name => "BlueSwooshNeo_16x9.jpg").empty?
+  file = File.new("db/seed_assets/BlueSwooshNeo_16x9.jpg")
+  @template.media.create(:file => file, :key => "original", :file_type => "image/jpg")
+end
 
 #Associate each field with a position in the template
 concerto_template = Template.where(:name => "Default Template").first.id

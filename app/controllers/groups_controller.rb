@@ -1,4 +1,5 @@
 class GroupsController < ApplicationController
+  load_and_authorize_resource
   # GET /groups
   # GET /groups.xml
   def index
@@ -14,6 +15,7 @@ class GroupsController < ApplicationController
   # GET /groups/1.xml
   def show
     @group = Group.find(params[:id])
+    @membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first
 
     respond_to do |format|
       format.html # show.html.erb
@@ -41,7 +43,7 @@ class GroupsController < ApplicationController
   # POST /groups.xml
   def create
     @group = Group.new(params[:group])
-    
+
     respond_to do |format|
       if @group.save
         @membership = Membership.new(:group => @group, :user => current_user, :level => Membership::LEVELS[:leader])

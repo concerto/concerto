@@ -25,13 +25,13 @@
 			</div>
 		</div>
 		<%
-                  feeds = dfs_tree(Feed.roots).collect{|c| [raw("&nbsp;&nbsp;")* c.depth + c.name, c.id ]}
-                  unless feeds.empty?
+                  parent_feeds = dfs_tree(Feed.roots, @feed)
+                  unless parent_feeds.empty?
                 %>
 		<div class="clearfix">
 			<%= f.label t(:parent) %>
 	  	<div class="input">
-				<%= f.select :parent_id, dfs_tree(Feed.roots).collect{|c| [raw("&nbsp;&nbsp;")* c.depth + c.name, c.id ]}, {:include_blank => true }, :class => "span6" %>
+				<%= f.select :parent_id, parent_feeds.collect{|c| [("&nbsp; &nbsp;"*c.depth).html_safe + c.name, c.id ]}, {:include_blank => true }, :class => "span6" %>
 			</div>
 		</div>
 		<% end %>

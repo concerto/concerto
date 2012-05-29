@@ -67,22 +67,25 @@ nav#TM {
 	}
 	
 	a#TM-logobutton {
-  	z-index: 100;
-  	width: 96px;
-  	height: 88px;
-  	background: image-url('layout/TM/TM_logobutton.png') top left no-repeat;
-  	background-position: 0px 0px;
-  	border: 0px;
-  	display: block;
-  	position: absolute;
-  	top: 0px;
-  	left: 0px;
+    @include vertical-gradient($concerto-blue-1, $concerto-blue-2);
+    float: left;
+    color: $white;
+    padding: 4px 12px;
+    font-weight: bold;
+    vertical-align: middle;
 
-  	&:hover {
-    	background-position: -96px 0px; 
-		} 
-		
-	}
+    &.full {
+      height: 50px;
+    }
+  }
+
+  p#TM-logintext {
+    float: left;
+    padding: 4px 12px;
+    margin: 0px;
+    color: $gray;
+    font-size: 0.85em;
+  }
 	
 	// each part of the menu is a "section"
 	section {	
@@ -90,7 +93,11 @@ nav#TM {
   	float: left;
   	margin: 0px;
     padding-top: 4px;
-	
+
+    &.right {
+      float: right;
+    }
+
 		.TM-sectop {
       height: 34px;
       padding: 0px 2px;

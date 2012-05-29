@@ -1,4 +1,5 @@
 class FieldsController < ApplicationController
+  load_and_authorize_resource
   before_filter :get_kind
   
   def get_kind

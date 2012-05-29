@@ -20,29 +20,52 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="clearfix">
 			<%= f.label :email %>
 			<div class="input">
 				<%= f.text_field :email, :class => "span4" %>
 			</div>
 		</div>
-		
+
 		<div class="clearfix">
-			<label>Admin Status</label>
+			<%= f.label :locale %>
 			<div class="input">
-				<ul class="inputs-list">
-		      <li>
-		        <%= f.check_box :is_admin %> <%= f.label :is_admin %>
-		      </li>
-		    </ul>
+				<%= f.select :locale, options_for_select(I18n.available_locales, I18n.locale.to_sym) %>
 			</div>
 		</div>
+
+		<% if can? :manage, @user %>
+  		<div class="clearfix">
+  			<label>Admin Status</label>
+  			<div class="input">
+  				<ul class="inputs-list">
+  		      <li>
+  		        <%= f.check_box :is_admin %> <%= f.label :is_admin %>
+  		      </li>
+  		    </ul>
+  			</div>
+  		</div>
+		<% end %>
 	</fieldset>
-	
+
 	<div class="submit_bar actions">
 		<%= f.submit %>
 	</div>
 <% end %>
 
 
+<h2>Change your password</h2>
+
+<%= form_for(@user) do |f| %>
+
+  <%= f.hidden_field :reset_password_token %>
+
+  <p><%= f.label :password, "New password" %><br />
+  <%= f.password_field :password %></p>
+
+  <p><%= f.label :password_confirmation, "Confirm new password" %><br />
+  <%= f.password_field :password_confirmation %></p>
+
+  <p><%= f.submit "Change my password" %></p>
+<% end %>

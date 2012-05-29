@@ -2,6 +2,20 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
   is_viewable: "Viewable"
   is_submittable: "Submittable"
+  membership_approved: "Approved"
+  membersip_denied: "Denied"
+  
+  signin_login_spiel: "to upload and manage content."  
+  
+  #CanCan Exceptions localization (https://github.com/ryanb/cancan/wiki/exception-handling)
+  unauthorized:
+    read:
+      all: "You're not authorized to read %{subject}."
+    create:
+      all: "You're not authorized to create %{subject}."
+    update:
+      all: "You're not authorized to update %{subject}."      
+    delete:
+      all: "You're not authorized to delete %{subject}."
