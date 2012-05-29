@@ -35,6 +35,7 @@ ConcertoConfig.find_or_create_by_key(:key => "start_date_offset", :value => "0",
 ConcertoConfig.find_or_create_by_key(:key => "default_content_run_time", :value => "7", :value_default => "7", :value_type => "integer")
 ConcertoConfig.find_or_create_by_key(:key => "setup_complete", :value => "false", :value_default => "true", :value_type => "boolean")
 ConcertoConfig.find_or_create_by_key(:key => "allow_registration", :value => "true", :value_default => "true", :value_type => "boolean")
+ConcertoConfig.find_or_create_by_key(:key => "allow_user_screen_creation", :value => "false", :value_default => "false", :value_type => "boolean")
 
 #Create an initial feed
 Feed.find_or_create_by_name(:name => "Concerto", :description => "Initial Concerto Feed", :group_id => 1, :is_viewable => 1, :is_submittable => 1)

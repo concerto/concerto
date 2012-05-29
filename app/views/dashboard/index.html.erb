@@ -6,7 +6,11 @@
       <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym] %><br />    
     <% elsif c.value_type == "boolean" %>
       <%= t(c.key.to_sym) %>:
-      <%= check_box_tag "concerto_config[#{c.key}]", true, :checked => !!ConcertoConfig[c.key.to_sym] %><br />
+      <% if ConcertoConfig[c.key.to_sym] == "true" %>
+        <%= check_box_tag "concerto_config[#{c.key}]", true, :checked => true %><br />
+      <% else %>
+        <%= check_box_tag "concerto_config[#{c.key}]", true%><br />
+      <% end %>
     <% end %>
   <% end %>
   <%= submit_tag "Save" %>

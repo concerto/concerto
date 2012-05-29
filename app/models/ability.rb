@@ -92,7 +92,9 @@ class Ability
 
     ## Screens
     # Authenticated users can create screens
-    can :create, Screen if user.persisted?
+    if ConcertoConfig[:allow_user_screen_creation] == "true"
+      can :create, Screen if user.persisted?
+    end
     # Anyone can read public screens
     can :read, Screen, :is_public => true
     # Users can read, update and delete their own screens
