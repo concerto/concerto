@@ -9,3 +9,4 @@ pirate:
   default_content_run_time: "Default content run time (in days)"
   setup_complete: "We're ready to set sail"
   allow_registration: "Let any scalawag aboard"
+  allow_user_screen_creation: "Let any scalawag create a screen"
