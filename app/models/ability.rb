@@ -50,7 +50,7 @@ class Ability
       ## Templates
       # Oddly enough, templates store a hidden flag instead of public
       # like everything else.
-      can :read, Template, :is_hidden => false
+      can [:read, :preview], Template, :is_hidden => false
     end
      
     # Load abilities based on the type of object.

@@ -11,14 +11,16 @@ class SharedTemplateAbilityTest < ActiveSupport::TestCase
     [@user, @screen].each do |thing|
       ability = Ability.new(thing)
       assert ability.can?(:read, @template)
+      assert ability.can?(:preview, @template)
     end
   end
 
-  test "noone can read public templates" do
+  test "noone can read hidden templates" do
     template = templates(:hidden)
     [@user, @screen].each do |thing|
       ability = Ability.new(thing)
       assert ability.cannot?(:read, template)
+      assert ability.cannot?(:preview, template)
     end
   end
 
