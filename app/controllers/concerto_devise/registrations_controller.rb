@@ -1,5 +1,10 @@
 #Overriding the Devise Registrations controller for fun and profit
 class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
+  before_filter :check_permissions, :only=>[:new, :create]
+
+  def check_permissions
+    authorize! :create, User
+  end
 
   def create
     build_resource

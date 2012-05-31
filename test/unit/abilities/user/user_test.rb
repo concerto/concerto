@@ -50,4 +50,10 @@ class UserUserAbilityTest < ActiveSupport::TestCase
     assert ability.cannot?(:update, @katie)
     assert ability.cannot?(:destroy, @katie)
   end
+
+  test "new users cannot sign up with disabled" do
+    ConcertoConfig.set(:allow_registration, "false")
+    ability = Ability.new(User.new)
+    assert ability.cannot?(:create, User)
+  end
 end
