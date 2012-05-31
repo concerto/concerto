@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120423022536) do
+ActiveRecord::Schema.define(:version => 20120531055810) do
 
   create_table "concerto_configs", :force => true do |t|
     t.string "key"
@@ -131,7 +131,7 @@ ActiveRecord::Schema.define(:version => 20120423022536) do
   create_table "templates", :force => true do |t|
     t.string   "name"
     t.string   "author"
-    t.boolean  "is_hidden"
+    t.boolean  "is_hidden",       :default => false
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
     t.integer  "original_width"

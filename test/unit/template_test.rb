@@ -12,6 +12,7 @@ class TemplateTest < ActiveSupport::TestCase
     assert_equal 0.026, actual.top
     assert_equal 0.592, actual.right
     assert_equal 0.796, actual.bottom
+    assert_equal false, t.is_hidden
   end
 
   test "importing a template with multiple positions" do
