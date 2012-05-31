@@ -72,17 +72,29 @@
           <div id="moderate_<%= submission.id %>" style="display:none;">
             <% if submission.is_approved? %>
               <p>Currently <b style="color: green;">Approved</b></p>
-              <%= link_to "Change to Denied", feed_submission_path(submission, submission.feed), :class => "btn danger" %>
-              <br />
+              <p>Change to Denied</p>
+              <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => false } %>
             <% elsif submission.is_denied? %>
               <p>Currently <b style="color: red;">Denied</b></p>
-              <%= link_to "Change to Approved", feed_submission_path(submission, submission.feed), :class => "btn success" %>
-              <br />
+              <p>Change to Approved</p>
+              <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => true } %>
             <% else %>
               <p>Currently <b>Pending Moderation</b></p>
-              <div class="btn-group">
-                <%= link_to "Approve", feed_submission_path(submission, submission.feed), :class => "btn success" %>
-                <%= link_to "Deny", feed_submission_path(submission, submission.feed), :class => "btn danger" %>
+              <div class="form-stacked">
+                <h4>Moderate Content</h4>
+                <div id="moderate-select" class="btn-toolbar">
+                  <div class="btn-group" data-toggle="buttons-radio">
+                    <button class="btn approve">Approve</button>
+                    <button class="btn deny">Deny</button>
+                  </div>
+                </div>
+
+                <div id="moderate-true">
+                  <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => true } %>
+                </div>
+                <div id="moderate-false">
+                  <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => false } %>
+                </div>
               </div>
             <% end %>
             <br />
@@ -102,6 +114,20 @@
 <script type="text/javascript">
 
   $(document).ready(function() {
+
+    $("#moderate-true").hide();
+    $("#moderate-false").hide();
+
+    $(document).on("click", "#moderate-select button.approve", function(event) {
+      event.preventDefault();
+      $("#moderate-true").show();
+    });
+
+    $(document).on("click", "#moderate-select button.deny", function(event) {
+      event.preventDefault();
+      $("#moderate-false").hide();
+    });
+
     $('.dropdown-control').click(function(event) { event.preventDefault(); });
 
     $('.dropdown-control.dd-jumpto').each(function() {
@@ -166,6 +192,7 @@
 
     // feed filtering
     $('#filter_feeds').listFilter();
+
 
   });
 </script>
