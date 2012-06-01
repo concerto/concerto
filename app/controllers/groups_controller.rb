@@ -15,8 +15,9 @@ class GroupsController < ApplicationController
   # GET /groups/1.xml
   def show
     @group = Group.find(params[:id])
-    @membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first
-
+    if current_user
+      @membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first
+    end
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @group }
