@@ -1,7 +1,10 @@
 <% content_for :js_ready do %>
-$("#start_time_date").dateinput();
+var date_settings = {
+  format: 'mm/dd/yyyy',
+};
+$("#start_time_date").dateinput(date_settings);
 $('#start_time_time').timepicker();
-$("#end_time_date").dateinput();
+$("#end_time_date").dateinput(date_settings);
 $("#end_time_time").timepicker();
 
 var end_date_api = $("#end_time_date").data("dateinput");
