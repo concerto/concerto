@@ -13,7 +13,7 @@
         <td><%= membership.user.name %></td>
 
         <td>
-          <% if @membership.is_leader? %>
+          <% if can? :edit, membership %>
             <%= form_for([@group, membership]) do |f| %>
               <%= f.select :level, Membership::LEVELS %>
               <%= f.submit %>
@@ -39,7 +39,7 @@
         <td><%= membership.user.name %></td>
 
         <td>
-          <% if @membership.is_leader? %>
+          <% if can? :edit, membership %>
             <%= form_for([@group, membership]) do |f| %>
               <%= f.select :level, Membership::LEVELS %>
               <%= f.submit %>
@@ -51,7 +51,7 @@
 
     </table>
 
-    <% if !@membership.nil? && @membership.is_leader? %>
+    <% if can? :edit, @group %>
       <b>Add Member</b>
       <%= form_for([@group, @group.memberships.new]) do |f| %>
         <%= f.collection_select :user_id, User.all - @group.all_users, :id, :name %>
@@ -86,23 +86,25 @@
 
 </article>
 
-<aside>
+<% if user_signed_in? %>
+  <aside>
 
-  <div>
-    <% if @group.made_request?(current_user) %>
-      <p><b>You are currently a <%= @membership.level_name %><%= " member" unless @membership.is_leader? %> of this group.</b></p>
-      <% if @group.has_member?(current_user) %>
-        <%= link_to("Leave Group", group_membership_path(:group_id => @group.id, :id => @membership.id), :method => :delete, :class => "btn") %>
-        <% if @membership.is_leader? %>
-          <%= link_to 'Edit Group Details', edit_group_path(@group), :class => "btn" %>
+    <div>
+      <% if @group.made_request?(current_user) %>
+        <% membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first %>
+        <p><b>You are currently a <%= membership.level_name %><%= " member" unless can? :edit, @group %> of this group.</b></p>
+        <% if @group.has_member?(current_user) %>
+          <%= link_to("Leave Group", group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn") %>
+          <% if can? :edit, @group %>
+            <%= link_to 'Edit Group Details', edit_group_path(@group), :class => "btn" %>
+          <% end %>
         <% end %>
+      <% else %>
+        <p><b>You are not currently in this group.</b></p>
+        <%= link_to("Join Group", group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
       <% end %>
-    <% else %>
-      <p><b>You are not currently in this group.</b></p>
-      <%= link_to("Join Group", group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
-    <% end %>
-  </div>
+    </div>
 
-</aside>
-
+  </aside>
+<% end %>
 <div class="clear"></div>
