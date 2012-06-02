@@ -9,7 +9,7 @@
     <p id="TM-logintext"><%= link_to t(:sign_in), new_user_session_path %> <%=t(:signin_login_spiel) %> <% if ConcertoConfig[:allow_registration] == "true" %>No account? <%= link_to t(:sign_up), new_user_registration_path %> now!<% end %></p>
   <% else %>
     <%= link_to "Concerto", "/", :id => "TM-logobutton", :class => "full" %>
-    
+
   <!-- Begin Menu for CONTENT -->
   <section>
   <div class="TM-sectop">
@@ -21,7 +21,7 @@
   </div>
   </section>
   <!-- End Menu for CONTENT -->
-  
+
   <!-- Begin Menu for SCREENS -->
   <section>
     <div class="TM-sectop">
@@ -33,7 +33,7 @@
     </div>
   </section>
   <!-- End Menu for SCREENS -->
-  
+
   <!-- Begin Menu for FEEDS -->
   <section>
     <div class="TM-sectop">
@@ -44,12 +44,12 @@
     </div>
   </section>
   <!-- End Menu for FEEDS -->
-  
+
   <!-- Begin Menu for USER GROUPS -->
   <section>
     <div class="TM-sectop">
       <%= link_to groups_path, :class => "btn #{ controller.controller_name == 'groups' ? 'selected' : '' }" do %><%= t(:groups) %><% end %>
-      <%= link_to users_path, :class => "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" do %>Accounts<% end %>
+      <%= link_to users_path, :class => "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" do %><%= t(:accounts) %><% end %>
     </div>
     <div class="TM-secbot">
       <h1><%= t(:users) %></h1>
@@ -72,4 +72,3 @@
   <div class="clear"></div>
 </nav>
 <!--googleon: all-->
-
