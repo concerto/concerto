@@ -1,3 +1,8 @@
+#To deploy in production:
+  #rake db:migrate RAILS_ENV="production"
+  #rake db:seed RAILS_ENV="production"
+  #bundle exec rake assets:precompile
+
 Concerto::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
