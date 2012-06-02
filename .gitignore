@@ -8,3 +8,4 @@ config/database.yml
 public/.htaccess
 .DS_Store
 doc/app/*
+public/assets/*
