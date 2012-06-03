@@ -1,0 +1,74 @@
+<article>
+  <div class="content-holder">
+		<%= render_content(@content) %>
+	</div>
+</article>
+<aside>
+<p>
+  <b>Name:</b>
+  <%= @content.name %>
+</p>
+
+<p>
+  <b>Duration:</b>
+  <%= @content.duration %>
+</p>
+
+<p>
+  <b>Start time:</b>
+  <%= @content.start_time %>
+</p>
+
+<p>
+  <b>End time:</b>
+  <%= @content.end_time %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @content.user.name unless @content.user.nil? %>
+</p>
+
+<p>
+  <b>Kind:</b>
+  <%= @content.kind.name unless @content.kind.nil? %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%= @content.type unless @content.type.nil? %>
+</p>
+
+<p>
+  <b>Approved Feeds:</b>
+  <ul>
+  <% @content.approved_feeds.each do |feed| %>
+    <li><%= link_to feed.name, feed %></li>
+  <% end %>
+  </ul>
+</p>
+
+<p>
+  <b>Pending Feeds:</b>
+  <ul>
+  <% @content.pending_feeds.each do |feed| %>
+    <li><%= link_to feed.name, feed %></li>
+  <% end %>
+  </ul>
+</p>
+
+<p>
+  <b>Denied Feeds:</b>
+  <ul>
+  <% @content.denied_feeds.each do |feed| %>
+    <li><%= link_to feed.name, feed %></li>
+  <% end %>
+  </ul>
+</p>
+
+
+<%= link_to "Media", @content.media.original.first unless @content.media.empty? || @content.media.original.empty? %>
+<%= link_to 'Edit', edit_content_path(@content) %> |
+<%= link_to 'Back', feeds_path %>
+</aside>
+<div class="clear"></div>
