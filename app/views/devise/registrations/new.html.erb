@@ -1,72 +1,56 @@
-<% content_for :title, "Register New Account" %>
-<div class="COLFR width25x75">
-	<div class="col1">
-		<section class="C no">
-			<header>
-				<h1>New Account</h1>
-			</header>
-			<div class="C-cont">
-				<article>
-					<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-						<%= devise_error_messages! %>
-						
-						<div class="fields">	
-							<div class="field">
-							  	<%= f.label :first_name %>
-							  	<div class="inputs">
-									<%= f.text_field :first_name %>
-								</div>
-							</div>
-							<div class="field">
-							  	<%= f.label :last_name %>
-							  	<div class="inputs">
-									<%= f.text_field :last_name %>
-								</div>
-							</div>
-							<div class="field">
-							  	<%= f.label :email %>
-							  	<div class="inputs">
-									<%= f.email_field :email %>
-								</div>
-							</div>
-							<div class="field">
-							  	<%= f.label :password %>
-							  	<div class="inputs">
-									<%= f.password_field :password %>
-								</div>
-							</div>
-							<div class="field">
-							  	<%= f.label :password_confirmation, "Confirm Password" %>
-							  	<div class="inputs">
-									<%= f.password_field :password_confirmation %>
-								</div>
-							</div>
+<section class="C no">
+	<header>
+		<%= back_button :back %>
+		<h1>Register Account</h1>
+	</header>
+	<div class="C-cont">
+    <article>
+			
+			<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+				<%= devise_error_messages! %>
+				
+				<fieldset>
+					<div class="field">
+					  <%= f.label :first_name %>
+					  <div class="inputs">
+						  <%= f.text_field :first_name %>
 						</div>
-						
-						<div class="submit_bar actions">
-					    	<%= f.submit "Register Account" %>
-							<div class="clear"></div>
-					  	</div>
+					</div>
+					<div class="field">
+					  <%= f.label :last_name %>
+					  <div class="inputs">
+							<%= f.text_field :last_name %>
+						</div>
+					</div>
+					<div class="field">
+					  <%= f.label :email %>
+					  <div class="inputs">
+							<%= f.email_field :email %>
+						</div>
+					</div>
+					<div class="field">
+					  <%= f.label :password %>
+					  <div class="inputs">
+							<%= f.password_field :password %>
+						</div>
+					</div>
+					<div class="field">
+					  <%= f.label :password_confirmation, "Confirm Password" %>
+					  <div class="inputs">
+							<%= f.password_field :password_confirmation %>
+						</div>
+					</div>
+				</div>
+				
+				<div class="submit_bar actions">
+				  <%= f.submit "Register Account" %>
+				  &nbsp;&nbsp;&nbsp;
+      		<%= render :partial => "devise/shared/links" %>
+				</div>
 
-					<% end %>
-					
-				</article>
-				<div class="clear"></div>
-			</div>
-		</section>
+			<% end %>
+
+		</article>
+		<div class="clear"></div>
 	</div>
-	
-	<div class="col2">
-		<section class="C no">
-			<header></header>
-			<div class="C-cont">
-				<article>
-					<h1>What is Concerto?</h1>
-					
-				</article>
-				<div class="clear"></div>
-			</div>
-		</section>
-	</div>
-	<div class="clear"></div>
-</div>
+</section>
