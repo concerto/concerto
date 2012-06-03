@@ -1,12 +1,19 @@
-<section class="C no">
-	<header>
-		<%= back_button :back %>
-		<h1>Sign In</h1>
-	</header>
-	<div class="C-cont">
-		<article>
-			<%= render 'form' %>
-		</article>
-		<div class="clear"></div>
-	</div>
-</section>
+<% if params[:no_content_cell] %>
+  <div class="form-stacked">
+    <%= render 'form' %>
+  </div>
+<% else %>
+  <section class="C no">
+  	<header>
+  		<%= back_button :back %>
+  		<h1>Sign In</h1>
+  	</header>
+  	<div class="C-cont">
+  		<article>
+  			<%= render 'form' %>
+  		</article>
+  		<div class="clear"></div>
+  	</div>
+  </section>
+<% end %>
+

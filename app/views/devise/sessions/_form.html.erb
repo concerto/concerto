@@ -13,8 +13,11 @@
 			</div>
 		</div>
 		<% if devise_mapping.rememberable? -%>
-      <div class="input">
-        <%= f.check_box :remember_me %> <%= f.label :remember_me %>
+      <div class="clearfix">
+        <label>&nbsp;</label>
+        <div class="input">
+          <%= f.check_box :remember_me %> <%= f.label :remember_me %>
+        </div>
       </div>
     <% end -%>
   </fieldset>

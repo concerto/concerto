@@ -6,7 +6,7 @@
 <nav id="TM">
   <% if not user_signed_in? %>
     <%= link_to "Concerto", "/", :id => "TM-logobutton" %>
-    <p id="TM-logintext"><%= link_to t(:sign_in), new_user_session_path %> <%=t(:signin_login_spiel) %> <% if ConcertoConfig[:allow_registration] == "true" %>No account? <%= link_to t(:sign_up), new_user_registration_path %> now!<% end %></p>
+    <p id="TM-logintext"><%= link_to t(:sign_in), new_user_session_path, :id => "login-dropdown" %> <%=t(:signin_login_spiel) %> <% if ConcertoConfig[:allow_registration] == "true" %>No account? <%= link_to t(:sign_up), new_user_registration_path %> now!<% end %></p>
   <% else %>
     <%= link_to "Concerto", "/", :id => "TM-logobutton", :class => "full" %>
 
@@ -71,4 +71,45 @@
   <% end %>
   <div class="clear"></div>
 </nav>
+
+<script type="text/javascript">
+
+  $(document).ready(function() {
+    
+    $("#login-dropdown").each(function() {
+    
+      $(this).qtip({
+        content: {
+          text: 'Loading...', // use this text while loading content via AJAX
+      		ajax: {
+      			url: '/users/sign_in?no_content_cell=1', 
+      			type: 'GET'
+      		}
+        },
+    
+        position: {
+          at: 'bottom center', // Position the tooltip above the link
+          my: 'top left',
+          viewport: $(window) // Keep the tooltip on-screen at all times
+        },
+    
+        show: {
+          event: 'click', // Show it on click...
+          solo: true // ...and hide all other tooltips...
+        },
+    
+        hide: 'unfocus',
+        style: 'ui-tooltip-light ui-tooltip-shadow ui-tooltip-rounded ui-tooltip-nopadding ui-tooltip-autowidth'
+    
+      })
+        
+    })
+  
+    .click(function(e) { e.preventDefault(); });
+    
+  });
+
+</script>
+
+
 <!--googleon: all-->

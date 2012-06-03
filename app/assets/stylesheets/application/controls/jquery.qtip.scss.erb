@@ -253,7 +253,16 @@
   @include border-radius-corners(0px, 0px, 5px, 5px);
 }
 
+/* Class applied to remove inner box padding for tooltip */
+.ui-tooltip-nopadding .ui-tooltip-content {
+  padding: 0px !important;
+}
 
+/* Class applied to make width auto for tooltip content (use sparingly and test!) */
+.ui-tooltip-autowidth {
+  width: auto !important;
+  max-width: none !important;
+}
 
 .ui-tooltip:not(.ie9haxors) div {
   &.ui-tooltip-content, &.ui-tooltip-titlebar {
