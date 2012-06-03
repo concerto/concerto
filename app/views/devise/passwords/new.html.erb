@@ -1,12 +1,32 @@
-<h2>Forgot your password?</h2>
+<section class="C no">
+	<header>
+		<%= back_button :back %>
+		<h1>Forgot your password?</h1>
+	</header>
+	<div class="C-cont">
+		<article>
+			
+			<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
+        <%= devise_error_messages! %>
+      
+        <fieldset>
+          <div class="clearfix">
+      			<%= f.label :email %>
+      			<div class="input">
+      				<%= f.email_field :email %>
+      			</div>
+      		</div>
+        </fieldset>
+        
+        <div class="submit_bar actions">
+      		<%= f.submit "Send Reset Instructions" %>
+      		&nbsp;&nbsp;&nbsp;
+      		<%= render :partial => "devise/shared/links" %>
+      	</div>
+      
+      <% end %>
 
-<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
-  <%= devise_error_messages! %>
-
-  <p><%= f.label :email %><br />
-  <%= f.email_field :email %></p>
-
-  <p><%= f.submit "Send me reset password instructions" %></p>
-<% end %>
-
-<%= render :partial => "devise/shared/links" %>
+		</article>
+		<div class="clear"></div>
+	</div>
+</section>

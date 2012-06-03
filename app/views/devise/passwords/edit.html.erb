@@ -1,16 +1,39 @@
-<h2>Change your password</h2>
+<section class="C no">
+	<header>
+		<h1>Change Password</h1>
+	</header>
+	<div class="C-cont">
+		<article>
+			
+			<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
+        <%= devise_error_messages! %>
+        <%= f.hidden_field :reset_password_token %>
+      
+        <fieldset>
+          <div class="clearfix">
+      			<%= f.label :password, "New password" %>
+      			<div class="input">
+      				<%= f.password_field :password %>
+      			</div>
+      		</div>
+      		
+      		<div class="clearfix">
+      			<%= f.label :password_confirmation, "Repeat password" %>
+      			<div class="input">
+      				<%= f.password_field :password_confirmation %>
+      			</div>
+      		</div>
+        </fieldset>
+        
+        <div class="submit_bar actions">
+      		<%= f.submit "Change Password" %>
+      		&nbsp;&nbsp;&nbsp;
+      		<%= render :partial => "devise/shared/links" %>
+      	</div>
 
-<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= devise_error_messages! %>
-  <%= f.hidden_field :reset_password_token %>
+      <% end %>
 
-  <p><%= f.label :password, "New password" %><br />
-  <%= f.password_field :password %></p>
-
-  <p><%= f.label :password_confirmation, "Confirm new password" %><br />
-  <%= f.password_field :password_confirmation %></p>
-
-  <p><%= f.submit "Change my password" %></p>
-<% end %>
-
-<%= render :partial => "devise/shared/links" %>
+		</article>
+		<div class="clear"></div>
+	</div>
+</section>
