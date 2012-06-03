@@ -17,8 +17,11 @@ end
 
 gem 'jquery-rails'
 
-# ActiveRecord requires a database adapter.
-gem 'sqlite3'
+# In production we prefer MySQL over sqlite3.  If you are only
+# interested in development and don't want to bother with production,
+# run `bundle install --without production` to ignore MySQL.
+gem "sqlite3", :group => [:development, :test]
+gem "mysql2", :group => [:production]
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

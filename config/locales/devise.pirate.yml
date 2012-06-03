@@ -1,9 +1,9 @@
-﻿# Additional translations at http://github.com/plataformatec/devise/wiki/I18n
+# Additional translations at http://github.com/plataformatec/devise/wiki/I18n
 
 pirate:
   errors:
     messages:
-      expired: "is no more, so make new one"
+      expired: "is no more, so make a new one"
       not_found: "can't be found"
       already_confirmed: "was already allowed.  Make yerself known"
       not_locked: "wasn't locked"
@@ -37,8 +37,9 @@ pirate:
       signed_up_but_locked: "Ye signed up, but ye can't come aboard. Yer locked out."
       updated: "Thanks for tellin' us more."
       destroyed: 'Yar! Yer account is no more. Come back soon'
-      send_instructions: "Ye'll be gettin' a message about how to unlock your account shortly."
-      unlocked: 'Your account was successfully unlocked. You are now signed in.'
+    unlocks:
+      send_instructions: "Ye'll be gettin' a message about how to unlock your account shortley."
+      unlocked: 'Yer account unlock was successfull. Welcome aboard.'
     omniauth_callbacks:
       success: '%{kind} recommends you highly.'
       failure: "We can't accept %{kind}s recommendation, for %{reason}."

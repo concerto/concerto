@@ -13,7 +13,7 @@
           <% feeds.each_with_index do |feed, i| %>
             <li data-filter="<%= feed.name %>">
             <%= link_to feed_submissions_path(feed), :remote => true, :class => "link-hl" do %>
-              <%= feed.name %> <span class="badge"><%= feed.approved_contents.count %></span>
+              <%= ("&nbsp;"*feed.depth).html_safe %> <%= feed.name %> <span class="badge"><%= feed.approved_contents.count %></span>
             <% end %>
             </li>
           <% end %>
