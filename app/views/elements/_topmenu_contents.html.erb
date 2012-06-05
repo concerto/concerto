@@ -13,7 +13,7 @@
   <!-- Begin Menu for CONTENT -->
   <section>
   <div class="TM-sectop">
-    <%= link_to feeds_path, :class => "btn #{ current_page?(feeds_path) || current_page?(:controller => 'submissions', :action => 'index') || current_page?(:controller => 'submissions', :action => 'show') ? 'selected' : '' }" do %><%= t(:browse) %><% end %>
+    <%= link_to feeds_path, :class => "btn #{ current_page?(feeds_path) || (controller.controller_name == 'submissions' && ['index', 'show'].include?(controller.action_name)) ? 'selected' : '' }" do %><%= t(:browse) %><% end %>
     <%= link_to new_content_path, :class => "btn #{ current_page?(new_content_path) ? 'selected' : '' }" do %><%= t(:add) %><% end %>
   </div>
   <div class="TM-secbot">

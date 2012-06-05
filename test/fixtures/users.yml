@@ -9,6 +9,7 @@ katie:
   first_name: Katie
   last_name: Boudreau
   email: ktb@test.com
+  encrypted_password: $2a$10$UFJS15eVQKdSyP5qU7K.ceS0lqh5MUHt3DoyidIW70QUTVmPd3w4O
 
 kristen:
   first_name: Kristen
