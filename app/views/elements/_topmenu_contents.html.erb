@@ -13,8 +13,8 @@
   <!-- Begin Menu for CONTENT -->
   <section>
   <div class="TM-sectop">
-    <%= link_to feeds_path, :class => "btn #{ current_page?(feeds_path) || current_page?(:controller => 'submissions', :action => 'index') || current_page?(:controller => 'submissions', :action => 'show') ? 'selected' : '' }" do %><%= t(:browse) %><% end %>
-    <%= link_to new_content_path, :class => "btn #{ current_page?(new_content_path) ? 'selected' : '' }" do %><%= t(:add) %><% end %>
+    <%= link_to t(:browse), feeds_path, :class => "btn #{ current_page?(feeds_path) || current_page?(:controller => 'submissions', :action => 'index') || current_page?(:controller => 'submissions', :action => 'show') ? 'selected' : '' }" %>
+    <%= link_to t(:add), new_content_path, :class => "btn #{ current_page?(new_content_path) ? 'selected' : '' }" %>
   </div>
   <div class="TM-secbot">
     <h1><%= t(:content) %></h1>
@@ -23,33 +23,26 @@
   <!-- End Menu for CONTENT -->
 
   <!-- Begin Menu for SCREENS -->
-  <section>
-    <div class="TM-sectop">
-      <%= link_to screens_path, :class => "btn #{ controller.controller_name == 'screens' ? 'selected' : '' }" do %><%= t(:manage) %><% end %>
-      <%= link_to templates_path, :class => "btn #{ controller.controller_name == 'templates' ? 'selected' : '' }" do %><%= t(:templates) %><% end %>
-    </div>
-    <div class="TM-secbot">
-      <h1><%= t(:screens) %></h1>
-    </div>
-  </section>
+  <% if !(Group.joins(:screens, :users).where(:users => {:id => current_user.id}) + current_user.screens).empty? %>
+    <section>
+      <div class="TM-sectop">
+        <%= link_to t(:manage), screens_path, :class => "btn #{ controller.controller_name == 'screens' ? 'selected' : '' }" %>
+        <%= link_to t(:templates), templates_path, :class => "btn #{ controller.controller_name == 'templates' ? 'selected' : '' }" %>
+      </div>
+      <div class="TM-secbot">
+        <h1><%= t(:screens) %></h1>
+      </div>
+    </section>
+  <% end %>
   <!-- End Menu for SCREENS -->
-
-  <!-- Begin Menu for FEEDS -->
-  <section>
-    <div class="TM-sectop">
-      <%= link_to feeds_path, :class => "btn #{ controller.controller_name == 'feeds' ? 'selected' : '' }" do %><%= t(:manage) %><% end %>
-    </div>
-    <div class="TM-secbot">
-      <h1><%= t(:feeds) %></h1>
-    </div>
-  </section>
-  <!-- End Menu for FEEDS -->
 
   <!-- Begin Menu for USER GROUPS -->
   <section>
     <div class="TM-sectop">
-      <%= link_to groups_path, :class => "btn #{ controller.controller_name == 'groups' ? 'selected' : '' }" do %><%= t(:groups) %><% end %>
-      <%= link_to users_path, :class => "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" do %><%= t(:accounts) %><% end %>
+      <%= link_to t(:groups), groups_path, :class => "btn #{ controller.controller_name == 'groups' ? 'selected' : '' }" %>
+      <% if can? :list, User %>
+        <%= link_to t(:accounts), users_path, :class => "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" %>
+      <% end %>
     </div>
     <div class="TM-secbot">
       <h1><%= t(:users) %></h1>
@@ -110,6 +103,5 @@
   });
 
 </script>
-
 
 <!--googleon: all-->
