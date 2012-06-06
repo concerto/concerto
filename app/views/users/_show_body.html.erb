@@ -1,68 +1,94 @@
 <article>
   <div class="default-padding">
-    <h2>Groups</h2>
+    <% if !@user.memberships.empty? %>
+      <h2>Groups</h2>
 
-    <table>
-      <tr>
-        <th>Name</th>
-  			<th>Roles</th>
-  		</tr>
+      <table>
+        <tr>
+          <th>Name</th>
+    			<th>Roles</th>
+    		</tr>
 
-      <% @user.memberships.each do |membership| %>
-      <tr>
-        <td><%= membership.group.name %></td>
+        <% @user.memberships.each do |membership| %>
+          <tr>
+            <td><%= membership.group.name %></td>
 
-        <td>
-          <%= form_for([membership.group, membership]) do |f| %>
-            <%= f.select :level, Membership::LEVELS %>
-            <%= f.submit %>
-          <% end %>
-        </td>
-      </tr>
-      <% end %>
-    </table>
+            <td>
+              <%= form_for([membership.group, membership]) do |f| %>
+                <%= f.select :level, Membership::LEVELS %>
+                <%= f.submit %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
 
-    <br/><br/>
+      <br/><br/>
+    <% end %>
 
-    <h2>Screens</h2>
+    <% if !@user.screens.empty? %>
+      <h2>Screens</h2>
 
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Location</th>
-        <th>Dimensions</th>
-      </tr>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Dimensions</th>
+        </tr>
 
-    <% @user.screens.each do |screen| %>
-      <tr>
-        <td><%= screen.name %></td>
-        <td><%= screen.location %></td>
-        <td><%= screen.width %> X <%= screen.height %></td>
-      </tr>
-      <% end %>
-    </table>
+        <% @user.screens.each do |screen| %>
+          <tr>
+            <td><%= screen.name %></td>
+            <td><%= screen.location %></td>
+            <td><%= screen.width %> X <%= screen.height %></td>
+          </tr>
+        <% end %>
+      </table>
 
-    <br/><br/>
+      <br/><br/>
+    <% end %>
 
-    <h2>Submissions</h2>
+    <% Group.joins(:screens, :users).where(:users => {:id => @user}).group('groups.id').each do |group| %>
+      <h2><%= group.name %>'s Screens</h2>
 
-    <table>
-      <tr>
-        <th>Name</th>
-  			<th>Type</th>
-  			<th>Airs</th>
-  		</tr>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Dimensions</th>
+        </tr>
 
-    <% @user.contents.each do |content| %>
-      <tr>
-        <td><%= content.name %></td>
-        <td><%= content.type %></td>
-        <td><%= content.start_time %> - <%= content.end_time %></td>
-      </tr>
-      <% end %>
-    </table>
+        <% group.screens.each do |screen| %>
+          <tr>
+            <td><%= screen.name %></td>
+            <td><%= screen.location %></td>
+            <td><%= screen.width %> X <%= screen.height %></td>
+          </tr>
+        <% end %>
+      </table>
+      <br/><br/>
+    <% end %>
 
-    <br/><br/>
+    <% if !@user.contents.empty? %>
+      <h2>Submissions</h2>
+
+      <table>
+        <tr>
+          <th>Name</th>
+    			<th>Type</th>
+    			<th>Airs</th>
+    		</tr>
+
+      <% @user.contents.each do |content| %>
+        <tr>
+          <td><%= content.name %></td>
+          <td><%= content.type %></td>
+          <td><%= content.start_time %> - <%= content.end_time %></td>
+        </tr>
+        <% end %>
+      </table>
+      <br/><br/>
+    <% end %>
 
   </div>
 
