@@ -3,6 +3,9 @@
     <%= render 'form' %>
   </div>
 <% else %>
+  <% if flash[:alert] %>
+    <p class="alert"><%= alert %></p>
+  <% end %>
   <section class="C no">
   	<header>
   		<%= back_button :back %>
