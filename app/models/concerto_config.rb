@@ -37,7 +37,8 @@ class ConcertoConfig < ActiveRecord::Base
   
   #Make setting values from Rails nice and easy
   def self.set(key,value)
-    setting = ConcertoConfig.where(:key => key).first || ConcertoConfig.new(:key => key)
+    #only set this if the config already exists
+    setting = ConcertoConfig.where(:key => key).first # || ConcertoConfig.new(:key => key) 
     setting.update_attribute(:value, value)
   end  
 

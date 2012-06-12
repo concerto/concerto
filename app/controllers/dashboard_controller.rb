@@ -10,7 +10,7 @@ class DashboardController < ApplicationController
   def update
     authorize! :update, @concerto_config
     params[:concerto_config].each  do |k,v|
-      ConcertoConfig.set(k,v)
+      ConcertoConfig.set(k,v) #only set this if the config already exists
     end
     render :action => :index
   end
