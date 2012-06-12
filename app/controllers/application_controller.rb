@@ -2,6 +2,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :set_locale
   before_filter :check_for_initial_install
+  before_filter :set_version
+
+  def set_version
+    require 'concerto/version'
+  end
   
   def set_locale
     if user_signed_in? && current_user.locale != ""
