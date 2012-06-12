@@ -2,19 +2,49 @@
   <a href="#">-- Show Top Menu --</a>
 </nav>
 
-<!--googleoff: all-->
 <nav id="TM">
   <% if not user_signed_in? %>
     <%= link_to "Concerto", "/", :id => "TM-logobutton" %>
-    <p id="TM-logintext"><%= link_to t(:sign_in), new_user_session_path, :id => "login-dropdown" %> <%=t(:signin_login_spiel) %> <% if ConcertoConfig[:allow_registration] == "true" %>No account? <%= link_to t(:sign_up), new_user_registration_path %> now!<% end %></p>
+    <p id="TM-logintext">
+      <%= link_to t(:sign_in), new_user_session_path, :id => "login-dropdown" %> <%=t(:signin_login_spiel) %>
+      <% if can? :create, User %>
+        No account? <%= link_to t(:sign_up), new_user_registration_path %> now!
+      <% end %>
+    </p>
+    <script type="text/javascript">
+    $(document).ready(function() {
+      $("#login-dropdown").each(function() {
+        $(this).qtip({
+          content: {
+            text: 'Loading...', // use this text while loading content via AJAX
+            ajax: {
+              url: '<%= new_user_session_path(:no_content_cell => 1) %>',
+              type: 'GET'
+            }
+          },
+          position: {
+            at: 'bottom center', // Position the tooltip above the link
+            my: 'top left',
+            viewport: $(window) // Keep the tooltip on-screen at all times
+          },
+          show: {
+            event: 'click', // Show it on click...
+            solo: true // ...and hide all other tooltips...
+          },
+          hide: 'unfocus',
+          style: 'ui-tooltip-light ui-tooltip-shadow ui-tooltip-rounded ui-tooltip-nopadding ui-tooltip-autowidth'
+        })
+      }).click(function(e) { e.preventDefault(); });
+    });
+    </script>
   <% else %>
-    <%= link_to "Concerto", "/", :id => "TM-logobutton", :class => "full" %>
+    <%= link_to "Concerto", root_url, :id => "TM-logobutton", :class => "full" %>
 
   <!-- Begin Menu for CONTENT -->
   <section>
   <div class="TM-sectop">
     <%= link_to t(:browse), feeds_path, :class => "btn #{ current_page?(feeds_path) || (controller.controller_name == 'submissions' && ['index', 'show'].include?(controller.action_name)) ? 'selected' : '' }" %>
-    <%= link_to t(:add), new_content_path, :class => "btn #{ current_page?(new_content_path) ? 'selected' : '' }" %>
+    <%= link_to t(:add), new_content_path, :class => "btn #{ current_page?(new_content_path) ? 'selected' : '' }" if can? :create, Content %>
   </div>
   <div class="TM-secbot">
     <h1><%= t(:content) %></h1>
@@ -64,44 +94,3 @@
   <% end %>
   <div class="clear"></div>
 </nav>
-
-<script type="text/javascript">
-
-  $(document).ready(function() {
-    
-    $("#login-dropdown").each(function() {
-    
-      $(this).qtip({
-        content: {
-          text: 'Loading...', // use this text while loading content via AJAX
-      		ajax: {
-      			url: '/users/sign_in?no_content_cell=1', 
-      			type: 'GET'
-      		}
-        },
-    
-        position: {
-          at: 'bottom center', // Position the tooltip above the link
-          my: 'top left',
-          viewport: $(window) // Keep the tooltip on-screen at all times
-        },
-    
-        show: {
-          event: 'click', // Show it on click...
-          solo: true // ...and hide all other tooltips...
-        },
-    
-        hide: 'unfocus',
-        style: 'ui-tooltip-light ui-tooltip-shadow ui-tooltip-rounded ui-tooltip-nopadding ui-tooltip-autowidth'
-    
-      })
-        
-    })
-  
-    .click(function(e) { e.preventDefault(); });
-    
-  });
-
-</script>
-
-<!--googleon: all-->

@@ -1,3 +1,4 @@
+<%= devise_error_messages! %>
 <section class="C no">
 	<header>
 		<%= back_button :back %>
@@ -7,8 +8,6 @@
     <article>
 			
 			<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-				<%= devise_error_messages! %>
-				
 				<fieldset>
 					<div class="field">
 					  <%= f.label :first_name %>
