@@ -1,7 +1,7 @@
 <article>
 <ul class="SL">
   <% @feeds.each do |feed| %>
-    <% unless feed.approved_contents.count == 0 %>
+    <% unless feed.approved_contents.size == 0 %>
       <li>
       <h3>
         <%= link_to feed_submissions_path(feed), :remote => true, :class => "link-hl" do %>

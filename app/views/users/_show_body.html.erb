@@ -11,7 +11,7 @@
 
         <% @user.memberships.each do |membership| %>
           <tr>
-            <td><%= membership.group.name %></td>
+            <td><%= link_to membership.group.name, membership.group%></td>
 
             <td>
               <%= form_for([membership.group, membership]) do |f| %>
@@ -38,7 +38,7 @@
 
         <% @user.screens.each do |screen| %>
           <tr>
-            <td><%= screen.name %></td>
+            <td><%= link_to screen.name, screen %></td>
             <td><%= screen.location %></td>
             <td><%= screen.width %> X <%= screen.height %></td>
           </tr>
@@ -49,7 +49,7 @@
     <% end %>
 
     <% Group.joins(:screens, :users).where(:users => {:id => @user}).group('groups.id').each do |group| %>
-      <h2><%= group.name %>'s Screens</h2>
+      <h2><%= link_to group.name, group %>'s Screens</h2>
 
       <table>
         <tr>
@@ -60,7 +60,7 @@
 
         <% group.screens.each do |screen| %>
           <tr>
-            <td><%= screen.name %></td>
+            <td><%= link_to screen.name, screen %></td>
             <td><%= screen.location %></td>
             <td><%= screen.width %> X <%= screen.height %></td>
           </tr>
@@ -81,9 +81,9 @@
 
       <% @user.contents.each do |content| %>
         <tr>
-          <td><%= content.name %></td>
+          <td><%= link_to content.name, content %></td>
           <td><%= content.type %></td>
-          <td><%= content.start_time %> - <%= content.end_time %></td>
+          <td><%= content.start_time.strftime("%B %d at %I:%M%p %Z") %> - <%= content.end_time.strftime("%B %d at %I:%M%p %Z") %></td>
         </tr>
         <% end %>
       </table>
