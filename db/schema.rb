@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,13 +10,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120531055810) do
+ActiveRecord::Schema.define(:version => 20120612053133) do
 
   create_table "concerto_configs", :force => true do |t|
     t.string "key"
     t.string "value"
     t.string "value_type"
     t.string "value_default"
+    t.string "name"
+    t.string "group"
+    t.text   "description"
   end
 
   create_table "contents", :force => true do |t|
@@ -132,8 +134,8 @@ ActiveRecord::Schema.define(:version => 20120531055810) do
     t.string   "name"
     t.string   "author"
     t.boolean  "is_hidden",       :default => false
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
     t.integer  "original_width"
     t.integer  "original_height"
   end
