@@ -14,7 +14,17 @@
 			<% @groups.each do |group| %>
 			  <tr>
 			    <td><%= group.name %></td>
-			    <td><%= link_to 'Show', group %> <%= link_to 'Edit', edit_group_path(group) %> <%= link_to 'Destroy', group, :confirm => 'Are you sure?', :method => :delete %><%= link_to("Join", group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post) if user_signed_in? & !group.made_request?(current_user) %></td>
+			    <td>
+			    	<% if can? :view, group  %>
+			    		<%= link_to 'Show', group %> 
+			    	<% end %>
+			    	<% if can? :edit, group %>
+			    		<%= link_to 'Edit', edit_group_path(group) %>
+			    	<% end %>
+			    	<% if can? :destroy, group %>
+			    		<%= link_to 'Destroy', group, :confirm => 'Are you sure?', :method => :delete %>
+			    	<% end %>
+		    		<%= link_to("Join", group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post) if user_signed_in? & !group.made_request?(current_user) %></td>
 			  </tr>
 			<% end %>
 			</table>
