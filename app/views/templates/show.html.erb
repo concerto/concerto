@@ -1,19 +1,8 @@
-<p>
-  <b>Name:</b>
-  <%= @template.name %>
-</p>
-
-<p>
-  <b>Author:</b>
-  <%= @template.author %>
-</p>
-
-<p>
-  <b>Is hidden:</b>
-  <%= @template.is_hidden %>
-</p>
-<%= link_to "Preview", preview_template_path(@template) %> | 
-<%= link_to "Media", @template.media.original.first %> | 
-
-<%= link_to 'Edit', edit_template_path(@template) %> |
-<%= link_to 'Back', templates_path %>
+<section class="C">
+  <header id="templates-header">
+    <%= render :partial => "templates/show_header" %>
+  </header>
+  <div id="templates-body" class="C-cont">
+    <%= render :partial => "templates/show_body" %>
+  </div>
+</section>

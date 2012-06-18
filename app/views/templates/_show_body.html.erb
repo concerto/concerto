@@ -1,0 +1,27 @@
+<article>&nbsp;</article>
+<aside>
+
+  <div>
+	<p>
+	  <b>Name:</b>
+	  <%= @template.name %>
+	</p>
+
+	<p>
+	  <b>Author:</b>
+	  <%= @template.author %>
+	</p>
+
+	<p>
+	  <b>Is hidden:</b>
+	  <%= @template.is_hidden %>
+	</p>
+	<%= link_to "Preview", preview_template_path(@template) %> | 
+	<%= link_to "Media", @template.media.original.first %> | 
+
+	<%= link_to 'Edit', edit_template_path(@template) %> |
+	<%= link_to 'Back', templates_path %>
+  </div>
+
+</aside>
+<div class="clear"></div>
