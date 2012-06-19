@@ -10,10 +10,10 @@
       <% @templates.each do |template| %>
         <li>
         <div class="cont">
-          <%= link_to template, :remote => true do %>
+          <%= link_to template do %>
             <i class="icon-controller-templates"></i>
           <% end %>
-          <p><b><%= link_to template.name, template, :remote => true %></b></p>
+          <p><b><%= link_to template.name, template %></b></p>
           <p>by <%= template.author %></p>
         </div>
         </li>
