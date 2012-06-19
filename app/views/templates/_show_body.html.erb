@@ -1,4 +1,4 @@
-<article>&nbsp;</article>
+<article><%= image_tag preview_template_path(@template), :alt => "#{@template.name} Preview" %></article>
 <aside>
 
   <div>
@@ -16,11 +16,9 @@
 	  <b>Is hidden:</b>
 	  <%= @template.is_hidden %>
 	</p>
-	<%= link_to "Preview", preview_template_path(@template) %> | 
 	<%= link_to "Media", @template.media.original.first %> | 
 
 	<%= link_to 'Edit', edit_template_path(@template) %> |
-	<%= link_to 'Back', templates_path %>
   </div>
 
 </aside>
