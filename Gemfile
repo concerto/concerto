@@ -39,3 +39,6 @@ gem 'devise'
 gem 'cancan'
 
 gem 'jquery-tools'
+
+# Test Coverage
+gem 'simplecov', :require => false, :group => :test
