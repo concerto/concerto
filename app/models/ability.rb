@@ -104,7 +104,11 @@ class Ability
     
     #Subscriptions
     #Only the owning group or user can manage screen subscriptions
-    can :manage, Subscription, :screen => { :owner_id => user.id}
+    can :manage, Subscription, :screen => { :owner_id => user.id, :owner_type => 'User'}
+    can :manage, Subscription do |subscription|
+      screen = subscription.screen
+      screen.owner.is_a?(Group) && screen.owner.leaders.include?(user)
+    end
     
     # Users can read group screens
     can :read, Screen do |screen|
