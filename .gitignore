@@ -10,3 +10,4 @@ public/.htaccess
 doc/app/*
 public/assets/*
 vendor/bundle/
+doc/coverage/*
