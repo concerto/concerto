@@ -4,7 +4,7 @@
 
 <nav id="TM">
   <% if not user_signed_in? %>
-    <%= link_to "Concerto", "/", :id => "TM-logobutton" %>
+    <%= link_to "Concerto", root_url, :id => "TM-logobutton" %>
     <p id="TM-logintext">
       <%= link_to t(:sign_in), new_user_session_path, :id => "login-dropdown" %> <%=t(:signin_login_spiel) %>
       <% if can? :create, User %>
