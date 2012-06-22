@@ -1,9 +1,50 @@
+<section class="MS-frame">
+	<header>
+		<h1>Select Template Source:</h1>
+	</header>
+	<div class="MS-outer">
+		<article>
+
+			<ul class="MS">
+				<li>
+					<%= link_to new_template_path(:type=> "import") do %>
+						<%= image_tag("ph/ph.png", :alt => "") %>
+						<div class="content">
+							<h2><%= "Import" %></h2>
+						</div>
+					<% end %>
+				</li>
+				<li>
+					<%= link_to new_template_path(:type=> "create") do %>
+						<%= image_tag("ph/ph.png", :alt => "") %>
+						<div class="content">
+							<h2><%= "Create" %></h2>
+						</div>
+					<% end %>
+				</li>
+
+				<div class="clear"></div>
+			</ul>
+		</article>
+	</div>
+</section>
+
 <section class="C no">
-  <header id="browse-header">
-    <%= back_button :back %>
-    <h1>New Template</h1>
-  </header>
-  <div id="browse-body" class="C-cont">
-    <%= render 'form' %>
-  </div>
+	<header id="template-header">
+		<%= back_button "#", :back %>
+		<h1><%= (params[:type] || 'import').capitalize + " Template" %></h1>
+	</header> 
+	<div class="C-cont">
+		<article>
+			<% if params[:type] == "create" %>
+			  <%= render 'create_form' %>
+			<% else %>
+			  <%= render 'import_form' %>
+			<% end %>
+
+		</article>
+		<aside> 
+		</aside>
+		<div class="clear"></div>
+	</div>
 </section>

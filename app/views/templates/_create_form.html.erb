@@ -1,0 +1,31 @@
+<%= form_for(@template, :url => import_templates_path, :html => { :multipart => true }) do |f| %>
+  <% if @template.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@template.errors.count, "error") %> prohibited this template from being saved:</h2>
+    <ul>
+      <% @template.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <div class="field">
+    <%= label_tag :package %><br />
+    <%= file_field_tag :package %>
+  </div>
+  <hr />
+  <div class="field">
+    <%= label_tag :image %><br />
+    <%= file_field_tag :image %>
+  </div>
+  <div class="field">
+    <%= label_tag :descriptor %><br />
+    <%= file_field_tag :descriptor %>
+  </div>
+
+
+  <div class="actions">
+    <%= f.submit("Import Template") %>
+  </div>
+<% end %>
