@@ -31,15 +31,6 @@
         <%= f.check_box :is_hidden %>
       </div>
     </div>
-
-    <div class="clearfix">
-      <%= f.label "Upload Background" %>
-      <div class="input">
-        <%= f.fields_for :media do |media| %>
-          <%= media.file_field :file %>
-        <% end %>
-      </div>
-    </div>
   </fieldset>
 
   <div class="submit_bar actions">

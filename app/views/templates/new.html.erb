@@ -32,11 +32,11 @@
 <section class="C no">
 	<header id="template-header">
 		<%= back_button "#", :back %>
-		<h1><%= (params[:type] || 'import').capitalize + " Template" %></h1>
+		<h1><%= @type.capitalize + " Template" %></h1>
 	</header> 
 	<div class="C-cont">
 		<article>
-			<% if params[:type] == "create" %>
+			<% if @type == "create" %>
 			  <%= render 'create_form' %>
 			<% else %>
 			  <%= render 'import_form' %>
