@@ -12,6 +12,8 @@ nav#TM {
   @include vertical-gradient(#fbfbfb, #d5d5d5);
   @include box-shadow(0px 1px 6px $gray);
   border-bottom: solid 1px #999;
+  z-index: 99999;
+  position: relative;
 	
  	.btn {
 		@extend .btn;  // uses a.button as a template, which in turn uses button-base mixin
