@@ -29,6 +29,7 @@ class TemplatesController < ApplicationController
   def new
     @template = Template.new
     @template.media.build
+    @type = params[:type] || 'import'
 
     respond_to do |format|
       format.html # new.html.erb
