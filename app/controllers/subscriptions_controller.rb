@@ -1,5 +1,5 @@
 class SubscriptionsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource :except => [:new]
   before_filter :get_screen
   
   def get_screen
@@ -44,7 +44,7 @@ class SubscriptionsController < ApplicationController
     @subscription = Subscription.new
     @subscription.screen = @screen
     @subscription.field = @field
-
+    auth
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @subscription }

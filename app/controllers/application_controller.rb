@@ -31,5 +31,37 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :flash => { :notice => exception.message }
   end
+
+  def auth()
+    action_map = {
+      'index' => :read,
+      'show' => :read,
+      'new' => :create,
+      'edit' => :update,
+      'create' => :create,
+      'update' => :update,
+      'destroy' => :destroy,
+    }
+
+    var_name = controller_name
+    if action_name != 'index'
+      var_name = controller_name.singularize
+    end
+    object = instance_variable_get("@#{var_name}")
+
+    test_action = action_map[action_name]
+    if object.is_a? Enumerable
+      object.delete_if {|o| cannot? test_action, o}
+      if object.empty?
+        ## RAISE
+      end
+    else
+      if cannot? test_action, object
+        ## RAISE
+      end
+    end
+    Rails.logger.debug(object.to_yaml)
+    Rails.logger.debug(can? action_map[action_name], object)
+  end
   
 end
