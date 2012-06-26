@@ -106,9 +106,14 @@ class Ability
     #Only the owning group or user can manage screen subscriptions
     can :manage, Subscription, :screen => { :owner_id => user.id, :owner_type => 'User'}
     can :manage, Subscription do |subscription|
-      screen = subscription.screen
-      screen.owner.is_a?(Group) && screen.owner.leaders.include?(user)
+      if !subscription.screen.nil?
+        screen = subscription.screen
+        screen.owner.is_a?(Group) && screen.owner.leaders.include?(user)
+      end
     end
+    # HACK HACK HACK
+    # TODO(bamnet): Remove this when you have a solid implementation of dependent creation perms.
+    can :create, Subscription
     
     # Users can read group screens
     can :read, Screen do |screen|

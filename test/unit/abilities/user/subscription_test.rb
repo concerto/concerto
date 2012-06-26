@@ -11,8 +11,10 @@ class UserSubscriptionAbilityTest < ActiveSupport::TestCase
   end
 
   test "Screen user owner all access" do
-    abilities = [:update, :delete, :read]
     ability = Ability.new(@katie)
+    assert ability.can?(:create, Subscription)
+
+    abilities = [:update, :delete, :read]
     @subscription.screen = @kt_screen
     abilities.each do |action|
       assert ability.can?(action, @subscription)
@@ -25,8 +27,10 @@ class UserSubscriptionAbilityTest < ActiveSupport::TestCase
   end
 
   test "Screen group owner all access" do
-    abilities = [:update, :delete, :read]
     ability = Ability.new(@katie)
+    assert ability.can?(:create, @subscription)
+
+    abilities = [:update, :delete, :read]
     @subscription.screen = @wtg_screen
     abilities.each do |action|
       assert ability.can?(action, @subscription)
