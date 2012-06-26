@@ -10,37 +10,19 @@
   </div>
   <% end %>
 
-  <fieldset>
-    <div class="clearfix">
-      <%= f.label :name %>
-      <div class="input">
-        <%= f.text_field :name %>
-      </div>
-    </div>
-    
-    <div class="clearfix">
-      <%= f.label :author %>
-      <div class="input">
-        <%= f.text_field :author %>
-      </div>
-    </div>
-
-    <div class="clearfix">
-      <%= f.label :is_hidden %>
-      <div class="input">
-        <%= f.check_box :is_hidden %>
-      </div>
-    </div>
-
-    <div class="clearfix">
-      <%= f.label "Upload Background" %>
-      <div class="input">
-        <%= f.fields_for :media do |media| %>
-          <%= media.file_field :file %>
-        <% end %>
-      </div>
-    </div>
-  </fieldset>
+  <div class="field">
+    <%= label_tag :package %><br />
+    <%= file_field_tag :package %>
+  </div>
+  <hr />
+  <div class="field">
+    <%= label_tag :image %><br />
+    <%= file_field_tag :image %>
+  </div>
+  <div class="field">
+    <%= label_tag :descriptor %><br />
+    <%= file_field_tag :descriptor %>
+  </div>
 
 
   <div class="actions">

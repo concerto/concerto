@@ -10,22 +10,40 @@
   </div>
   <% end %>
 
-  <div class="field">
-    <%= label_tag :package %><br />
-    <%= file_field_tag :package %>
-  </div>
-  <hr />
-  <div class="field">
-    <%= label_tag :image %><br />
-    <%= file_field_tag :image %>
-  </div>
-  <div class="field">
-    <%= label_tag :descriptor %><br />
-    <%= file_field_tag :descriptor %>
-  </div>
+  <fieldset>
+    <div class="clearfix">
+      <%= f.label :name %>
+      <div class="input">
+        <%= f.text_field :name %>
+      </div>
+    </div>
+    
+    <div class="clearfix">
+      <%= f.label :author %>
+      <div class="input">
+        <%= f.text_field :author %>
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <%= f.label "Background Image" %>
+      <div class="input">
+        <%= f.fields_for :media do |media| %>
+          <%= media.file_field :file %>
+        <% end %>
+      </div>
+    </div>
+    
+    <div class="clearfix">
+      <div class="input">
+        <%= f.check_box :is_hidden %> <%= f.label :is_hidden, "Hide this template from being shown in lists" %>
+      </div>
+    </div>
+
+  </fieldset>
 
 
-  <div class="actions">
+  <div class="submit_bar actions">
     <%= f.submit("Import Template") %>
   </div>
 <% end %>
