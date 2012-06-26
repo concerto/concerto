@@ -42,9 +42,6 @@
 
 // Tabs
 .tabs {
-  border-color: #ddd;
-  border-style: solid;
-  border-width: 0 0 1px;
   > li {
     position: relative; // For the dropdowns mostly
     margin-bottom: -1px;
@@ -53,7 +50,7 @@
       margin-right: 2px;
       line-height: ($baseline * 2) - 2;
       border: 1px solid transparent;
-      @include border-radius(4px 4px 0 0);
+      @include border-radius(4px);
       &:hover {
         text-decoration: none;
         background-color: #eee;
@@ -145,7 +142,8 @@
 
 .subnav {
 	background: $concerto-blue-5;
-  padding:4px 4px 0px 12px;
+  padding:2px;
+  padding-left: 12px;
   height: 25px;
 	
 	a.button {
