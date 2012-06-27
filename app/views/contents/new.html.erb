@@ -25,7 +25,6 @@
 
 <section class="C no">
 	<header>
-		<%= back_button "#", t(:select_type) %>
 		<div class="C-header_right"><a class="button" href="#"><%=t(:design_graphic)%></a></div>
 		<h1><%= t(:add) + " " + @content.class.to_s + " " + t(:content) %></h1>
 	</header> 
@@ -33,8 +32,6 @@
 		<article>
 			<%= render 'form' %>
 		</article>
-		<aside> 
-		</aside>
 		<div class="clear"></div>
 	</div>
 </section>

@@ -1,47 +1,29 @@
-<section class="MS-frame">
-	<header>
-		<h1>Select Template Source:</h1>
-	</header>
-	<div class="MS-outer">
-		<article>
+<div class="row-fluid">
+  <div class="span2">
+    <h3>Select way to add template:</h3>
+    <ul>
+      <li><%= link_to "Create from Scratch", new_template_path(:type=> "create") %></li>
+      <li><%= link_to "Import Existing", new_template_path(:type=> "import") %></li>
+    </ul>
+  </div>
+  <div class="span10">
+    <section class="C no">
+    	<header id="template-header">
+    		<h1><%= @type.capitalize + " Template" %></h1>
+    	</header> 
+    	<div class="C-cont">
+    		<article>
+    			<% if @type == "create" %>
+    			  <%= render 'create_form' %>
+    			<% else %>
+    			  <%= render 'import_form' %>
+    			<% end %>
+    
+    		</article>
+    		<div class="clear"></div>
+    	</div>
+    </section>
+  </div>
+</div>
 
-			<ul class="MS">
-				<li>
-					<%= link_to new_template_path(:type=> "import") do %>
-						<%= image_tag("ph/ph.png", :alt => "") %>
-						<div class="content">
-							<h2><%= "Import" %></h2>
-						</div>
-					<% end %>
-				</li>
-				<li>
-					<%= link_to new_template_path(:type=> "create") do %>
-						<%= image_tag("ph/ph.png", :alt => "") %>
-						<div class="content">
-							<h2><%= "Create" %></h2>
-						</div>
-					<% end %>
-				</li>
 
-				<div class="clear"></div>
-			</ul>
-		</article>
-	</div>
-</section>
-
-<section class="C no">
-	<header id="template-header">
-		<h1><%= @type.capitalize + " Template" %></h1>
-	</header> 
-	<div class="C-cont">
-		<article>
-			<% if @type == "create" %>
-			  <%= render 'create_form' %>
-			<% else %>
-			  <%= render 'import_form' %>
-			<% end %>
-
-		</article>
-		<div class="clear"></div>
-	</div>
-</section>

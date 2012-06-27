@@ -6,8 +6,11 @@
 //////////////////
 
 html {
-	color: #000;
- 	background: #eeeeee image-url('layout/pagebg.gif') center center repeat;
+	// include background with retina mixin:
+	@include at2x('layout/pagebg', 12px, 12px, '.gif');
+	background-repeat: repeat;
+ 	
+ 	color: #000;
  	font-family: $sans-body;
 	min-width: 800px;
 }
