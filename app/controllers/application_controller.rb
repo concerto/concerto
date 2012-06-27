@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, :flash => { :notice => exception.message }
   end
 
-  def auth()
+  def auth
     action_map = {
       'index' => :read,
       'show' => :read,
@@ -51,17 +51,14 @@ class ApplicationController < ActionController::Base
 
     test_action = action_map[action_name]
     if object.is_a? Enumerable
-      object.delete_if {|o| cannot? test_action, o}
-      if object.empty?
-        ## RAISE
-      end
+      object.delete_if {|o| cannot?(test_action, o)}
     else
-      if cannot? test_action, object
-        ## RAISE
+      if cannot?(test_action, object)
+        fake_cancan = Class.new.extend(CanCan::Ability)
+        message ||= fake_cancan.unauthorized_message(test_action, object.class)
+        raise CanCan::AccessDenied.new(message, test_action, object.class)
       end
     end
-    Rails.logger.debug(object.to_yaml)
-    Rails.logger.debug(can? action_map[action_name], object)
   end
   
 end
