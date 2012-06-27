@@ -1,37 +1,26 @@
-<section class="MS-frame">
-	<header>
-		<h1><%= t(:select_content_type)%></h1>
-	</header>
-	<div class="MS-outer">
-		<article>
-			
-			<ul class="MS">
-				<% content_types.each do |subclass| %>
-				<li>
-					<%= link_to new_content_path(:type=>subclass.model_name.singular) do %>
-						<%= image_tag("ph/ph.png", :alt => "") %>
-						<div class="content">
-							<h2><%= subclass.model_name.human %></h2>
-						</div>
-					<% end %>
-				</li>
-				<% end %>
-
-				<div class="clear"></div>
-			</ul>
-		</article>
-	</div>
-</section>
-
-<section class="C no">
-	<header>
-		<div class="C-header_right"><a class="button" href="#"><%=t(:design_graphic)%></a></div>
-		<h1><%= t(:add) + " " + @content.class.to_s + " " + t(:content) %></h1>
-	</header> 
-	<div class="C-cont">
-		<article>
-			<%= render 'form' %>
-		</article>
-		<div class="clear"></div>
-	</div>
-</section>
+<div class="row-fluid">
+  <div class="span2">
+    <h3>Select content type:</h3>
+    <ul>
+      <% content_types.each do |subclass| %>
+  			<li>
+  				<%= link_to subclass.model_name.human, new_content_path(:type=>subclass.model_name.singular) %>
+  			</li>
+			<% end %>
+    </ul>
+  </div>
+  <div class="span10">
+    <section class="C no">
+    	<header>
+    		<div class="C-header_right"><a class="button" href="#"><%=t(:design_graphic)%></a></div>
+    		<h1><%= t(:add) + " " + @content.class.to_s + " " + t(:content) %></h1>
+    	</header> 
+    	<div class="C-cont">
+    		<article>
+    			<%= render 'form' %>
+    		</article>
+    		<div class="clear"></div>
+    	</div>
+    </section>
+  </div>
+</div>
