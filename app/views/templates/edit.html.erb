@@ -1,5 +1,12 @@
-<h1>Editing template</h1>
-
-<%= render 'form', :locals => { :template => @template } %>
-
-<%= render 'form_import' %>
+<section class="C no">
+	<header id="template-header">
+		<%= back_button template_path(@template), :back %>
+		<h1>Editing template</h1>
+	</header> 
+	<div class="C-cont">
+		<article>
+			<%= render 'form', :locals => { :template => @template } %>
+		</article>
+		<div class="clear"></div>
+	</div>
+</section>
