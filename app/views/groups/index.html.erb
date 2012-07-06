@@ -13,7 +13,7 @@
 
 			<% @groups.each do |group| %>
 			  <tr>
-			    <td><%= group.name %></td>
+			    <td><%= group.name %><%= " (Private)" if cannot? :view, group %></td>
 			    <td>
 			    	<%= link_to 'Show', group if can? :view, group %> 
 			    	<%= link_to 'Edit', edit_group_path(group) if can? :edit, group %>
