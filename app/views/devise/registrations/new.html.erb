@@ -1,55 +1,55 @@
 <%= devise_error_messages! %>
 <section class="C no">
-	<header>
-		<%= back_button :back %>
-		<h1>Register Account</h1>
-	</header>
-	<div class="C-cont">
+  <header>
+    <%= back_button :back %>
+    <h1>Register Account</h1>
+  </header>
+  <div class="C-cont">
     <article>
-			
-			<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-				<fieldset>
-					<div class="field">
-					  <%= f.label :first_name %>
-					  <div class="inputs">
-						  <%= f.text_field :first_name %>
-						</div>
-					</div>
-					<div class="field">
-					  <%= f.label :last_name %>
-					  <div class="inputs">
-							<%= f.text_field :last_name %>
-						</div>
-					</div>
-					<div class="field">
-					  <%= f.label :email %>
-					  <div class="inputs">
-							<%= f.email_field :email %>
-						</div>
-					</div>
-					<div class="field">
-					  <%= f.label :password %>
-					  <div class="inputs">
-							<%= f.password_field :password %>
-						</div>
-					</div>
-					<div class="field">
-					  <%= f.label :password_confirmation, "Confirm Password" %>
-					  <div class="inputs">
-							<%= f.password_field :password_confirmation %>
-						</div>
-					</div>
-				</div>
-				
-				<div class="submit_bar actions">
-				  <%= f.submit "Register Account" %>
-				  &nbsp;&nbsp;&nbsp;
-      		<%= render :partial => "devise/shared/links" %>
-				</div>
 
-			<% end %>
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+      <fieldset>
+        <div class="clearfix">
+          <%= f.label :first_name %>
+          <div class="input">
+            <%= f.text_field :first_name %>
+          </div>
+        </div>
+        <div class="clearfix">
+          <%= f.label :last_name %>
+          <div class="input">
+            <%= f.text_field :last_name %>
+          </div>
+        </div>
+        <div class="clearfix">
+          <%= f.label :email %>
+          <div class="input">
+            <%= f.email_field :email %>
+          </div>
+        </div>
+        <div class="clearfix">
+          <%= f.label :password %>
+          <div class="input">
+            <%= f.password_field :password %>
+          </div>
+        </div>
+        <div class="clearfix">
+          <%= f.label :password_confirmation, "Confirm Password" %>
+          <div class="input">
+            <%= f.password_field :password_confirmation %>
+          </div>
+        </div>
+      </fieldset>
 
-		</article>
-		<div class="clear"></div>
-	</div>
+      <div class="submit_bar actions">
+        <%= f.submit "Register Account" %>
+        &nbsp;&nbsp;&nbsp;
+        <%= render :partial => "devise/shared/links" %>
+      </div>
+
+    <% end %>
+
+    </article>
+    <div class="clear"></div>
+  </div>
 </section>
