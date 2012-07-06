@@ -1,7 +1,7 @@
 <article>
 <ul class="SL">
   <% @feeds.each do |feed| %>
-    <% unless feed.approved_contents.size == 0 %>
+    <% if feed.approved_contents.size != 0 || (feed.pending_contents.size != 0 && feed.group.has_member?(current_user) ) %>
       <li>
       <h3>
         <%= link_to feed_submissions_path(feed), :remote => true, :class => "link-hl" do %>
