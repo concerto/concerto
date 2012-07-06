@@ -1,10 +1,11 @@
 <div class="row-fluid">
-  <div class="span2">
-    <h3><%= t(:select_content_type) %></h3>
-    <ul>
+  <div class="span2 collapse-right">
+    <br /><br />
+    <ul class="nav nav-tabs nav-stacked nav-drawer-left nav-dark">
+      <li class="nav-header">Add content type:</li>
       <% content_types.each do |subclass| %>
-  			<li>
-  				<%= link_to subclass.model_name.human, new_content_path(:type=>subclass.model_name.singular) %>
+  			<li<% if @content.class.to_s == subclass.model_name.human %> class="active"<% end %>>
+  				<%= link_to subclass.model_name.human, new_content_path(:type => subclass.model_name.singular) %>
   			</li>
 			<% end %>
     </ul>

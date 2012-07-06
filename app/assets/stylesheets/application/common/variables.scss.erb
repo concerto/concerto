@@ -92,6 +92,12 @@ $gridGutterWidthLarge:    30px !default;
 /// FLUID GRID
 // --------------------------------------------------
 
+// to calculate, use this formula: 
+// ($gridColumns * $fluidGridColumnWidth) + ($fluidGridGutterWidth * ($gridColumns - 1)) = 100%
+// ex: 12 * fluidGridColumnWidth + fluidGridGutterWidth * 11 = 100%
+// fluidGridColumnWidth = (100 - 11 * fluidGridGutterWidth) / 12
+// fluidGridGutterWidth = (100 - 12 * fluidGridColumnWidth) / 11
+
 // Default
 // -------------------------
 $fluidGridColumnWidth:         7.2996453905% !default;  /* changed from 6.382978723% !default; */
@@ -99,10 +105,10 @@ $fluidGridGutterWidth:         1.127659574% !default;   /* changed from 2.127659
 
 // Portrait tablet to default desktop
 // -------------------------
-$fluidGridColumnWidthTablet:   5.801104972% !default;
-$fluidGridGutterWidthTablet:   2.762430939% !default;
+$fluidGridColumnWidthTablet:   6.801104972% !default;
+$fluidGridGutterWidthTablet:   1.6715218487 !default;   /* changed from 2.762430939% !default; */
 
 // Large desktop and up
 // -------------------------
-$fluidGridColumnWidthLarge:    5.982905983% !default;
-$fluidGridGutterWidthLarge:    2.564102564% !default;
+$fluidGridColumnWidthLarge:    6.982905983% !default;
+$fluidGridGutterWidthLarge:    1.4731934731 !default;   /* changed from 2.564102564% !default; */

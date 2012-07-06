@@ -1,5 +1,5 @@
 <div class="subnav clearfix">
-  <div class="pull-left" style="padding: 3px 0px; width:120px">
+  <div class="pull-left" style="padding: 3px 0px; width:110px">
     <%= link_to "Jump to Feed...", "#", :title => "Click on a feed to jump", :class => "btn small info dropdown-toggle dropdown-control dd-jumpto", :rel => "#jump_to" %>
 
     <div id="jump_to" style="display: none;">
@@ -22,7 +22,7 @@
 
   </div>
 
-  <ul class="pills">
+  <ul class="nav nav-pills">
     <% if @feed.children.empty? %>
       <li class="legend">No Sub-feeds</li>
     <% else %>
