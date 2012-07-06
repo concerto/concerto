@@ -60,6 +60,27 @@
     position: static;
   }
 
+  // fluid grid resets:
+  .row-fluid {
+    [class*="span"].collapse-right {
+      margin-right: 0px;
+    }
+  }
+
+  // nav resets:
+  .nav-drawer-left {
+    @include border-radius(12px !important);
+    border-right: solid 4px $grayLight !important;
+    margin-top: 0px;
+
+    > li:first-child > a {
+      @include border-radius(8px 8px 0 0 !important);
+    }
+    > li:last-child > a {
+      @include border-radius(0 0 8px 8px !important);
+    }
+  }
+
 }
 
 
@@ -126,6 +147,27 @@
   .input-prepend input, .input-append input, .input-prepend input[class*="span"], .input-append input[class*="span"] {
     display: inline-block; // redeclare so they don't wrap to new lines
     width: auto;
+  }
+
+    // fluid grid resets:
+  .row-fluid {
+    [class*="span"].collapse-right {
+      margin-right: 0px;
+    }
+  }
+
+  // nav resets:
+  .nav-drawer-left {
+    @include border-radius(12px !important);
+    border-right: solid 4px $grayLight !important;
+    margin-top: 0px;
+
+    > li:first-child > a {
+      @include border-radius(8px 8px 0 0 !important);
+    }
+    > li:last-child > a {
+      @include border-radius(0 0 8px 8px !important);
+    }
   }
 
 }

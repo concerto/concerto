@@ -1,10 +1,9 @@
 <div class="row-fluid">
   <div class="span2 collapse-right">
-    <br /><br />
     <ul class="nav nav-tabs nav-stacked nav-drawer-left">
-      <li class="nav-header">Add template by:</li>
-      <li<% if @type == "create" %> class="active"<% end %>><%= link_to "Creating from Scratch", new_template_path(:type=> "create") %></li>
-      <li<% if @type == "import" %> class="active"<% end %>><%= link_to "Importing Existing", new_template_path(:type=> "import") %></li>
+      <li class="nav-header">Template method:</li>
+      <li<% if @type == "create" %> class="active"<% end %>><%= link_to "Create from Scratch", new_template_path(:type=> "create") %></li>
+      <li<% if @type == "import" %> class="active"<% end %>><%= link_to "Import Existing", new_template_path(:type=> "import") %></li>
     </ul>
   </div>
   <div class="span10">
