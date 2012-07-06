@@ -1,7 +1,7 @@
 <div class="row-fluid">
   <div class="span2 collapse-right">
     <br /><br />
-    <ul class="nav nav-tabs nav-stacked nav-drawer-left nav-dark">
+    <ul class="nav nav-tabs nav-stacked nav-drawer-left">
       <li class="nav-header">Add content type:</li>
       <% content_types.each do |subclass| %>
   			<li<% if @content.class.to_s == subclass.model_name.human %> class="active"<% end %>>
