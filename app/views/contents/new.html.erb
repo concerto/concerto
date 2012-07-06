@@ -1,8 +1,7 @@
 <div class="row-fluid">
   <div class="span2 collapse-right">
-    <br /><br />
     <ul class="nav nav-tabs nav-stacked nav-drawer-left">
-      <li class="nav-header">Add content type:</li>
+      <li class="nav-header">Content type to add:</li>
       <% content_types.each do |subclass| %>
   			<li<% if @content.class.to_s == subclass.model_name.human %> class="active"<% end %>>
   				<%= link_to subclass.model_name.human, new_content_path(:type => subclass.model_name.singular) %>
