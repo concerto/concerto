@@ -42,43 +42,44 @@
 
   <!-- Begin Menu for CONTENT -->
   <section>
-  <div class="TM-sectop">
-    <%= link_to t(:browse), feeds_path, :class => "btn #{ current_page?(feeds_path) || (controller.controller_name == 'submissions' && ['index', 'show'].include?(controller.action_name)) ? 'selected' : '' }" %>
-    <%= link_to t(:add), new_content_path, :class => "btn #{ current_page?(new_content_path) ? 'selected' : '' }" if can? :create, Content %>
-  </div>
-  <div class="TM-secbot">
-    <h1><%= t(:content) %></h1>
-  </div>
+    <div class="TM-sectop">
+      <%= link_to t(:browse), feeds_path, :class => "btn #{ current_page?(feeds_path) || (controller.controller_name == 'submissions' && ['index', 'show'].include?(controller.action_name)) ? 'selected' : '' }" %>
+      <%= link_to t(:add), new_content_path, :class => "btn #{ current_page?(new_content_path) ? 'selected' : '' }" if can? :create, Content %>
+    </div>
+    <div class="TM-secbot">
+      <h1><%= t(:content) %></h1>
+    </div>
   </section>
   <!-- End Menu for CONTENT -->
 
-  <!-- Begin Menu for SCREENS -->
+  <!-- Begin Menu for NETWORK -->
   <% if !(Group.joins(:screens, :users).where(:users => {:id => current_user.id}) + current_user.screens).empty? %>
     <section>
       <div class="TM-sectop">
-        <%= link_to t(:manage), screens_path, :class => "btn #{ controller.controller_name == 'screens' ? 'selected' : '' }" %>
-        <%= link_to t(:templates), templates_path, :class => "btn #{ controller.controller_name == 'templates' ? 'selected' : '' }" %>
+        <%= link_to t(:screens), screens_path, :class => "btn #{ controller.controller_name == 'screens' ? 'selected' : '' }" %>
+        <%#= link_to t(:templates), templates_path, :class => "btn #{ controller.controller_name == 'templates' ? 'selected' : '' }" %>
+        <%= link_to t(:users_and_groups), groups_path, :class => "btn #{ controller.controller_name == 'groups' ? 'selected' : '' }" %>
+        <%# if can? :list, User %>
+          <%#= link_to t(:accounts), users_path, :class => "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" %>
+        <%# end %>
       </div>
       <div class="TM-secbot">
-        <h1><%= t(:screens) %></h1>
+        <h1><%= t(:network) %></h1>
       </div>
     </section>
   <% end %>
-  <!-- End Menu for SCREENS -->
+  <!-- End Menu for NETWORK -->
 
-  <!-- Begin Menu for USER GROUPS -->
+  <!-- Begin Menu for ADMIN -->
   <section>
     <div class="TM-sectop">
-      <%= link_to t(:groups), groups_path, :class => "btn #{ controller.controller_name == 'groups' ? 'selected' : '' }" %>
-      <% if can? :list, User %>
-        <%= link_to t(:accounts), users_path, :class => "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" %>
-      <% end %>
+      <%= link_to t(:dashboard), dashboard_path, :class => "btn #{ controller.controller_name == 'dashboard' ? 'selected' : '' }" %>
     </div>
     <div class="TM-secbot">
-      <h1><%= t(:users) %></h1>
+      <h1><%= t(:admin) %></h1>
     </div>
   </section>
-  <!-- End Menu for USER GROUPS -->
+  <!-- End Menu for ADMIN -->
 
   <!-- Begin User Login Area -->
   <section class="right">

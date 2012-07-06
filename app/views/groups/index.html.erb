@@ -1,28 +1,41 @@
-<section class="C no">
-	<header class="C-header">
-		<h1>All User Groups <%= link_to 'New Group', new_group_path, :class => "button" %></h1>
-	</header>
-	<div class="C-cont">
-		<article>
-			
-			<table>
-			  <tr>
-			    <th>Name</th>
-			    <th>Actions</th>
-			  </tr>
-
-			<% @groups.each do |group| %>
-			  <tr>
-			    <td><%= group.name %><%= " (Private)" if cannot? :read, group %></td>
-			    <td>
-			    	<%= link_to 'Show', group if can? :read, group %> 
-			    	<%= link_to 'Edit', edit_group_path(group) if can? :update, group %>
-			    	<%= link_to 'Destroy', group, :confirm => 'Are you sure?', :method => :delete if can? :destroy, group %>
-		    		<%= link_to "Join", group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></td>
-			  </tr>
-			<% end %>
-			</table>
-		</article>
-		<div class="clear"></div>
+<div class="row-fluid">
+	<div class="span9">
+		<section class="C">
+			<header class="C-header">
+				<h1>All Groups <%= link_to 'New Group', new_group_path, :class => "button" %></h1>
+			</header>
+			<div class="C-cont">
+				<ul class="SL">
+					<% @groups.each do |group| %>
+						<li>
+							<h3>
+								<%= link_to group, :class => "link-hl" do %>
+									<%= group.name %>
+								<% end %>
+								<% if can? :update, group %>
+									<small><%= link_to "[#{t(:edit)}]", edit_group_path(group) %></small>
+								<% end %>
+							</h3>
+							<%= link_to "Join", group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></td>
+							<p class="indented">Members: 
+								List...
+							</p>
+						</li>
+					<% end %>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</section>
 	</div>
-</section>
+	<div class="span3">
+		<section class="C">
+			<header class="C-header">
+				<h1><%= t(:users) %></h1>
+			</header>
+			<div class="C-cont">
+				&nbsp;
+				<div class="clear"></div>
+			</div>
+		</section>
+	</div>
+</div>

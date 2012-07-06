@@ -4,6 +4,7 @@ class ScreensController < ApplicationController
   # GET /screens.xml
   def index
     @screens = Screen.all
+    @templates = Template.all
 
     respond_to do |format|
       format.html # index.html.erb

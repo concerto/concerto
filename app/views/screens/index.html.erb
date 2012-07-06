@@ -1,9 +1,24 @@
-<section class="C">
-  <header class="C-header" id="screens-header">
-    <h1>All Screens <%= link_to 'New Screen', new_screen_path, :class => "btn" if can? :create, Screen %></h1>
-  </header>
-  <div id="screens-body" class="C-cont">
-    <%= render :partial => "screens/index_body" %>
-    <div class="clear"></div>
+<div class="row-fluid">
+  <div class="span9">
+    <section class="C">
+      <header class="C-header" id="screens-header">
+        <h1>All Screens <%= link_to 'New Screen', new_screen_path, :class => "btn" if can? :create, Screen %></h1>
+      </header>
+      <div id="screens-body" class="C-cont">
+        <%= render :partial => "screens/index_body" %>
+        <div class="clear"></div>
+      </div>
+    </section>
   </div>
-</section>
+  <div class="span3">
+    <section class="C">
+      <header class="C-header">
+        <h1>Templates</h1>
+      </header>
+      <div class="C-cont">
+        <%= render :partial => "templates/index_body" %>
+        <div class="clear"></div>
+      </div>
+    </section>
+  </div>
+</div>
