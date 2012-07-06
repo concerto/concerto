@@ -33,7 +33,14 @@ a {
   }
 }
 
+// FLUID GRID:
 @include gridFluid($fluidGridColumnWidth, $fluidGridGutterWidth);
+
+.row-fluid {
+  [class*="span"].collapse-right {
+    margin-right: -$fluidGridGutterWidth;
+  }
+}
 
 
 // Quick floats

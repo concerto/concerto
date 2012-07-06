@@ -55,6 +55,10 @@ section.C {
     padding:2px;
     padding-left: 12px;
     height: 25px;
+
+    .nav {
+      margin: 0px;
+    }
     
     a.button {
       background:$concerto-blue-0;
@@ -65,12 +69,13 @@ section.C {
       text-shadow: 0px 0px 0px;
     }
     
-    .pills {
+    .nav-pills {
       padding-top: 2px;
       margin-bottom: 0px;
       
       > li > a {
         @include border-radius(3px);
+        margin: 0px;
         padding: 0px 4px;
         color: $concerto-blue-0;
         line-height: 22px;
