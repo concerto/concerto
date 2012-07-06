@@ -25,9 +25,9 @@
 			</div>
 		</div>
 		<%
-                  parent_feeds = dfs_tree(Feed.roots, @feed)
-                  unless parent_feeds.empty?
-                %>
+    	parent_feeds = dfs_tree(Feed.roots, @feed)
+    	unless parent_feeds.empty?
+   	%>
 		<div class="clearfix">
 			<%= f.label t(:parent) %>
 	  	<div class="input">

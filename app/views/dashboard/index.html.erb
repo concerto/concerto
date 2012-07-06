@@ -1,17 +1,40 @@
-<%= form_tag "/dashboard/update" do %>
-<% @configs = ConcertoConfig.all %>
-  <% for c in @configs %>
-    <% if c.value_type == "string" || c.value_type == "integer" %>
-      <%= t(c.key.to_sym) %>:
-      <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym] %><br />    
-    <% elsif c.value_type == "boolean" %>
-      <%= t(c.key.to_sym) %>:
-      <% if ConcertoConfig[c.key.to_sym] == "true" %>
-        <%= check_box_tag "concerto_config[#{c.key}]", true, :checked => true %><br />
-      <% else %>
-        <%= check_box_tag "concerto_config[#{c.key}]", true%><br />
-      <% end %>
+<section class="C">
+  <header class="C-header">
+    <h1><%= t(:dashboard) %></h1>
+  </header> 
+  <div class="C-cont">
+    <%= form_tag "/dashboard/update" do %>
+      <% @configs = ConcertoConfig.all %>
+
+      <fieldset>
+        <legend><span><%= t(:admin) %></span></legend>
+
+        <% for c in @configs %>
+          <div class="clearfix">
+            <% if c.value_type == "string" || c.value_type == "integer" %>
+              <label><%= t(c.key.to_sym) %></label>
+              <div class="input">
+                <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym] %>
+              </div>
+            <% elsif c.value_type == "boolean" %>
+              <label></label>
+              <div class="input">
+                <% if ConcertoConfig[c.key.to_sym] == "true" %>
+                  <%= check_box_tag "concerto_config[#{c.key}]", true, :checked => true %> 
+                <% else %>
+                  <%= check_box_tag "concerto_config[#{c.key}]", true%> 
+                <% end %>
+                <%= label "concerto_config[#{c.key}]", t(c.key.to_sym) %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </fieldset>
+      
+      <div class="submit_bar actions">
+        <%= submit_tag "Save Settings" %>
+      </div>
     <% end %>
-  <% end %>
-  <%= submit_tag "Save" %>
-<% end %>
+    <div class="clear"></div>
+  </div>
+</section>
