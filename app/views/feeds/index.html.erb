@@ -1,8 +1,24 @@
-<section class="C no">
-  <header id="browse-header">
-    <%= render :partial => "feeds/browse_header" %>
-  </header>
-  <div id="browse-body" class="C-cont">
-    <%= render :partial => "feeds/browse_body" %>
+<div class="row-fluid">
+  <div class="span9">
+    <section class="C">
+      <header class="C-header" id="browse-header">
+        <%= render :partial => "feeds/browse_header" %>
+      </header>
+      <div id="browse-body" class="C-cont">
+        <%= render :partial => "feeds/browse_body" %>
+        <div class="clear"></div>
+      </div>
+    </section>
   </div>
-</section>
+  <div class="span3">
+    <section class="C">
+      <header class="C-header">
+        <h3>Network Vitals</h3>
+      </header>
+      <div class="C-cont">
+        <h2># Screens</h2>
+        <div class="clear"></div>
+      </div>
+    </section>
+  </div>
+</div>

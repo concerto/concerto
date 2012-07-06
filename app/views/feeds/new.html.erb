@@ -1,30 +1,10 @@
-<div class="colfr width75x25">
-	<div class="col1">
-		<section class="C no">
-			<header>
-				<%= back_button feeds_path %>
-				<h1><%=t(:new_feed)%></h1>
-			</header>
-			<div class="C-cont">
-				<article>
-					<%= render 'form' %>
-				</article>
-				<div class="clear"></div>
-			</div>
-		</section>
+<section class="C">
+	<header class="C-header">
+		<%= back_button feeds_path %>
+		<h1><%=t(:new_feed)%></h1>
+	</header>
+	<div class="C-cont">
+		<%= render 'form' %>
+		<div class="clear"></div>
 	</div>
-	
-	<div class="col2">
-		<section class="C no">
-			<header></header>
-			<div class="C-cont">
-				<article>
-					<p>You already have administrative control over these feeds:</p>
-					
-				</article>
-				<div class="clear"></div>
-			</div>
-		</section>
-	</div>
-	<div class="clear"></div>
-</div>
+</section>

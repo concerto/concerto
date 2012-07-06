@@ -10,15 +10,13 @@
     </ul>
   </div>
   <div class="span10">
-    <section class="C no">
-    	<header>
+    <section class="C">
+    	<header class="C-header">
     		<div class="C-header_right"><a class="button" href="#"><%=t(:design_graphic)%></a></div>
     		<h1><%= t(:add) + " " + @content.class.to_s + " " + t(:content) %></h1>
     	</header> 
     	<div class="C-cont">
-    		<article>
-    			<%= render 'form' %>
-    		</article>
+    		<%= render 'form' %>
     		<div class="clear"></div>
     	</div>
     </section>

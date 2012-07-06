@@ -7,19 +7,16 @@
     </ul>
   </div>
   <div class="span10">
-    <section class="C no">
-    	<header id="template-header">
+    <section class="C">
+    	<header class="C-header" id="template-header">
     		<h1><%= @type.capitalize + " Template" %></h1>
     	</header> 
     	<div class="C-cont">
-    		<article>
-    			<% if @type == "create" %>
-    			  <%= render 'create_form' %>
-    			<% else %>
-    			  <%= render 'import_form' %>
-    			<% end %>
-    
-    		</article>
+  			<% if @type == "create" %>
+  			  <%= render 'create_form' %>
+  			<% else %>
+  			  <%= render 'import_form' %>
+  			<% end %>
     		<div class="clear"></div>
     	</div>
     </section>

@@ -1,8 +1,9 @@
-<section class="C no">
-  <header id="browse-header">
+<section class="C">
+  <header class="C-header" id="browse-header">
     <h1>All Templates <%= link_to 'New Template', new_template_path, :class => "btn" if can? :create, @templates %></h1>
   </header>
   <div id="browse-body" class="C-cont">
     <%= render "index_body" %>
+    <div class="clear"></div>
   </div>
 </section>

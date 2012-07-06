@@ -1,12 +1,10 @@
-<section class="C no">
-	<header id="template-header">
+<section class="C">
+	<header class="C-header" id="template-header">
 		<%= back_button template_path(@template), :back %>
 		<h1>Editing template</h1>
 	</header> 
 	<div class="C-cont">
-		<article>
-			<%= render 'form', :locals => { :template => @template } %>
-		</article>
+		<%= render 'form', :locals => { :template => @template } %>
 		<div class="clear"></div>
 	</div>
 </section>

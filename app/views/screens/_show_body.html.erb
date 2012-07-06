@@ -1,25 +1,6 @@
-<article>
-  <div class="screen-model" style="width: 800px; height: 505px;">
-    <%= link_to "Change Screen Template", edit_screen_path(@screen, :anchor => "template_selection"),
-                :class => "btn clear small", :style => "position: absolute; top: 6px; right: 25px;" if can? :update, @screen  %>
-    <div class="inner" style="background: url(<%= preview_template_path(@screen.template, :width => 800, :height => 450, :format => :png) %>) center center no-repeat; width: 800px; height: 450px;">
-      <% @screen.template.positions.each do |pos| %>
-        <div class="pos" style="top: <%= pos.top * 100 %>%; left: <%= pos.left * 100 %>%; width: <%= (pos.right - pos.left) * 100 %>%; height: <%= (pos.bottom - pos.top) * 100 %>%; <%= pos.style %>">
-          <%= pos.id %>
-          <%= link_to "Change Subscriptions", manage_screen_field_subscriptions_path(@screen, pos.field), :class => "btn info" %>
-        </div>
-      <% end %>
-    </div>
-    <div class="bevel">
-      <%= image_tag("miniscreen/bevel_logo.png", :alt => "Concerto" ) %>
-    </div>
-  </div>
-</article>
-
-<aside>
-
-  <div>
-    <%= link_to 'Edit Screen Details', edit_screen_path(@screen), :class => "btn"  if can? :update, @screen %>
+<div class="fluid-row">
+  <div class="span2">
+       <%= link_to 'Edit Screen Details', edit_screen_path(@screen), :class => "btn"  if can? :update, @screen %>
     <br /><br />
 
     <p><b>Location:</b> <%= @screen.location %></p>
@@ -43,7 +24,23 @@
       </ul>
     </p>
   </div>
+  <div class="span10">
+    <div class="screen-model" style="width: 800px; height: 505px;">
+      <%= link_to "Change Screen Template", edit_screen_path(@screen, :anchor => "template_selection"),
+                  :class => "btn clear small", :style => "position: absolute; top: 6px; right: 25px;" if can? :update, @screen  %>
+      <div class="inner" style="background: url(<%= preview_template_path(@screen.template, :width => 800, :height => 450, :format => :png) %>) center center no-repeat; width: 800px; height: 450px;">
+        <% @screen.template.positions.each do |pos| %>
+          <div class="pos" style="top: <%= pos.top * 100 %>%; left: <%= pos.left * 100 %>%; width: <%= (pos.right - pos.left) * 100 %>%; height: <%= (pos.bottom - pos.top) * 100 %>%; <%= pos.style %>">
+            <%= pos.id %>
+            <%= link_to "Change Subscriptions", manage_screen_field_subscriptions_path(@screen, pos.field), :class => "btn info" %>
+          </div>
+        <% end %>
+      </div>
+      <div class="bevel">
+        <%= image_tag("miniscreen/bevel_logo.png", :alt => "Concerto" ) %>
+      </div>
+    </div>
+  </div>
 
-</aside>
-
-<div class="clear"></div>
+  <div class="clear"></div>
+</div>

@@ -1,25 +1,22 @@
-<article>
-  <div>
-    <% if @screens.size == 0 %>
-      <div class="default-padding">
-        <h3>Oops - there are no screens to display.  <%= link_to "Why not add one?", new_screen_path %></h3>
-      </div>
-    <% else %>
-      <ul class="GL">
-        <% @screens.each do |screen| %>
-          <li>
-            <div class="cont">
-              <%= link_to screen do %>
-                <i class="icon-controller-screens"></i>
-              <% end %>
-              <p><b><%= link_to screen.name, screen %></b></p>
-              <p><%= screen.location %></p>
-              <p><%= screen.fields.count %> fields</p>
-            </div>
-          </li>
-        <% end %>
-      </ul>
-    <% end %>
-  </div>
-</article>
-<div class="clear"></div>
+<div>
+  <% if @screens.size == 0 %>
+    <div class="default-padding">
+      <h3>Oops - there are no screens to display.  <%= link_to "Why not add one?", new_screen_path %></h3>
+    </div>
+  <% else %>
+    <ul class="GL">
+      <% @screens.each do |screen| %>
+        <li>
+          <div class="cont">
+            <%= link_to screen do %>
+              <i class="icon-controller-screens"></i>
+            <% end %>
+            <p><b><%= link_to screen.name, screen %></b></p>
+            <p><%= screen.location %></p>
+            <p><%= screen.fields.count %> fields</p>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>

@@ -1,28 +1,25 @@
-<section class="C no">
-	<header>
+<section class="C">
+	<header class="C-header">
 		<h1>All Users <%= link_to 'New User', new_user_path, :class => "button" %></h1>
 	</header>
 	<div class="C-cont">
-		<article>
-			
-			<table>
-			  <tr>
-			    <th>First name</th>
-			    <th>Last name</th>
-			    <th>Email</th>
-					<th>Actions</th>
-			  </tr>
+		<table>
+		  <tr>
+		    <th>First name</th>
+		    <th>Last name</th>
+		    <th>Email</th>
+				<th>Actions</th>
+		  </tr>
 
-				<% @users.each do |user| %>
-			  <tr>
-			    <td><%= user.first_name %></td>
-			    <td><%= user.last_name %></td>
-			    <td><%= user.email %></td>
-			    <td><%= link_to 'Show', user %> <%= link_to 'Edit', edit_user_path(user) %> <%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
-				</tr>
-			<% end %>
-			</table>
-		</article>
+			<% @users.each do |user| %>
+		  <tr>
+		    <td><%= user.first_name %></td>
+		    <td><%= user.last_name %></td>
+		    <td><%= user.email %></td>
+		    <td><%= link_to 'Show', user %> <%= link_to 'Edit', edit_user_path(user) %> <%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
+			</tr>
+		<% end %>
+		</table>
 		<div class="clear"></div>
 	</div>
 </section>
