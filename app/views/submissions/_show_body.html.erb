@@ -1,40 +1,39 @@
-<article>
-  <div class="content-holder">
-		<%= render_content(@submission.content) %>
-	</div>
-</article>
-<aside>
-  <% if can? :update, @submission %>
-  <div class="form-stacked">
-    <h4>Moderate Content</h4>
-    <div id="moderate-select" class="btn-toolbar">
-      <div class="btn-group" data-toggle="buttons-radio">
-        <button class="btn approve">Approve</button>
-        <button class="btn deny">Deny</button>
+<div class="row-fluid">
+  <div class="span2">
+    <% if can? :update, @submission %>
+    <div class="form-stacked">
+      <h4>Moderate Content</h4>
+      <div id="moderate-select" class="btn-toolbar">
+        <div class="btn-group" data-toggle="buttons-radio">
+          <button class="btn approve">Approve</button>
+          <button class="btn deny">Deny</button>
+        </div>
       </div>
+
+      <div id="moderate-include"></div>
     </div>
+    <% end %> 
+    
+    <% user = User.find(@submission.content.user_id) %>
+    Submitted by: <%= link_to user.name, user %>
 
-    <div id="moderate-include"></div>
+    <br />
+    <% case @submission.moderation_flag %>
+    <% when true %>
+    <b>Approved</b>
+    <% when false %>
+    <b>Denied</b>
+    <% when nil %>
+    <b>Pending</b>
+    <% end %>
+
+    <br />
+    Starts:<%= @submission.content.start_time.strftime("%B %d at %I:%M%p %Z") %>
+    <br />
+    Ends: <%= @submission.content.end_time.strftime("%B %d at %I:%M%p %Z") %>
+
   </div>
-  <% end %> 
-  
-  <% user = User.find(@submission.content.user_id) %>
-  Submitted by: <%= link_to user.name, user %>
-
-	<br />
-	<% case @submission.moderation_flag %>
-	<% when true %>
-	<b>Approved</b>
-	<% when false %>
-	<b>Denied</b>
-	<% when nil %>
-	<b>Pending</b>
-	<% end %>
-
-	<br />
-	Starts:<%= @submission.content.start_time.strftime("%B %d at %I:%M%p %Z") %>
-	<br />
-  Ends: <%= @submission.content.end_time.strftime("%B %d at %I:%M%p %Z") %>
-			
-</aside>
-<div class="clear"></div>
+  <div class="span10 content-holder">
+    <%= render_content(@submission.content) %>
+  </div>
+</div>
