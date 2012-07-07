@@ -20,9 +20,9 @@ class Ability
   
       ## Content
       # Content approved on public feeds is publcally accessible.
-      can [:read,:display], Content, :submissions => {:feed => {:is_viewable => true}, :moderation_flag => true}
+      can :read, Content, :submissions => {:feed => {:is_viewable => true}, :moderation_flag => true}
       # If any of the submissions can be read the content can be read too.
-      can [:read,:display], Content do |content|
+      can :read, Content do |content|
         content.submissions.any?{|s| can?(:read, s)}
       end
   
@@ -106,14 +106,9 @@ class Ability
     #Only the owning group or user can manage screen subscriptions
     can :manage, Subscription, :screen => { :owner_id => user.id, :owner_type => 'User'}
     can :manage, Subscription do |subscription|
-      #if !subscription.screen.nil?
-        screen = subscription.screen
-        screen.owner.is_a?(Group) && screen.owner.leaders.include?(user)
-      #end
+      screen = subscription.screen
+      screen.owner.is_a?(Group) && screen.owner.leaders.include?(user)
     end
-    # HACK HACK HACK
-    # TODO(bamnet): Remove this when you have a solid implementation of dependent creation perms.
-    #can :create, Subscription
     
     # Users can read group screens
     can :read, Screen do |screen|
