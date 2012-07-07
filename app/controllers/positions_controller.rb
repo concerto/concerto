@@ -1,5 +1,4 @@
 class PositionsController < ApplicationController
-  load_and_authorize_resource
   before_filter :get_template
   
   def get_template
@@ -10,6 +9,7 @@ class PositionsController < ApplicationController
   # GET /templates/:template_id/positions.xml
   def index
     @positions = @template.positions
+    auth!
 
     respond_to do |format|
       format.html # index.html.erb
@@ -21,6 +21,7 @@ class PositionsController < ApplicationController
   # GET /templates/:template_id/positions/1.xml
   def show
     @position = Position.find(params[:id])
+    auth!
 
     respond_to do |format|
       format.html # show.html.erb
@@ -33,6 +34,7 @@ class PositionsController < ApplicationController
   def new
     @position = Position.new
     @position.template = @template
+    auth!
 
     respond_to do |format|
       format.html # new.html.erb
@@ -43,6 +45,7 @@ class PositionsController < ApplicationController
   # GET /templates/:template_id/positions/1/edit
   def edit
     @position = Position.find(params[:id])
+    auth!
   end
 
   # POST /templates/:template_id/positions
@@ -50,6 +53,7 @@ class PositionsController < ApplicationController
   def create
     @position = Position.new(params[:position])
     @position.template = @template
+    auth!
 
     respond_to do |format|
       if @position.save
@@ -66,6 +70,7 @@ class PositionsController < ApplicationController
   # PUT /templates/:template_id/positions/1.xml
   def update
     @position = Position.find(params[:id])
+    auth!
 
     respond_to do |format|
       if @position.update_attributes(params[:position])
@@ -82,6 +87,7 @@ class PositionsController < ApplicationController
   # DELETE /templates/:template_id/positions/1.xml
   def destroy
     @position = Position.find(params[:id])
+    auth!
     @position.destroy
 
     respond_to do |format|
