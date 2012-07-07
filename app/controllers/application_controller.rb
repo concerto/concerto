@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
     end
     object = (options[:object] || instance_variable_get("@#{var_name}"))
 
-    if allow_empty && (object.is_a? Enumerable)
+    if allow_empty && ((object.is_a? Enumerable) || (object.is_a? ActiveRecord::Relation))
       object.delete_if {|o| cannot?(test_action, o)}
     else
       if cannot?(test_action, object)
