@@ -38,7 +38,9 @@
     });
     </script>
   <% else %>
-    <%= link_to "Concerto", root_url, :id => "TM-logobutton", :class => "full" %>
+    <%= link_to root_url, :id => "TM-logobutton", :class => "full" do %>
+      <i class="icon-logobutton"></i>
+    <% end %>
 
   <!-- Begin Menu for CONTENT -->
   <section>
