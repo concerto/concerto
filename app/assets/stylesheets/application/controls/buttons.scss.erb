@@ -32,7 +32,7 @@
   &.success:hover,
   &.info,
   &.info:hover {
-    color: $white
+    color: $white;
   }
   &.primary.active,
   &.danger.active,
@@ -67,6 +67,7 @@
   &.info {
     @include vertical-gradient(#5bc0de, #2f96b4);
     border-color: #2f96b4;
+    text-shadow: 0 -1px 0px #2f96b4;
   }
 
   &.clear {
@@ -102,7 +103,7 @@
 
   &:hover {
     @include vertical-gradient(#c8eff9, #3ea5de);
-    color: #000033 !important;
+    color: #003366 !important;
     text-shadow: 0 -1px 0px #eee;
     border: solid 1px #2f84da;
     text-decoration: none;
@@ -119,7 +120,7 @@
   &:active {
     @include box-shadow(inset 0 0 6px $black);
     @include vertical-gradient(#dedede, #767676);
-    color: #333;
+    color: #333 !important;
     text-shadow: 0 -1px 0px #eee;
     outline: none;
     border: solid 1px $black;

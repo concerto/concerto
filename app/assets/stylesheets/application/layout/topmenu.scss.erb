@@ -16,7 +16,6 @@ nav#TM {
   position: relative;
 	
  	.btn {
-		@extend .btn;  // uses a.button as a template, which in turn uses button-base mixin
 
 		// custom attributes:
 		@include border-radius(6px);
@@ -40,8 +39,6 @@ nav#TM {
       background: transparent image-url('layout/TM/button_TM_states.png') top left repeat-x;
    		background-position: 100% -62px;
    		border: solid 1px #333;
-      padding-top: 5px;
-      padding-bottom: 3px;
 		}
 
 		&:visited {
@@ -57,7 +54,7 @@ nav#TM {
     	border: solid 1px #333;
 	
 			&:active {
-				color:#FFF;
+				color: $white !important;
       }
 
       &:hover {

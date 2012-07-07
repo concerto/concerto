@@ -1,10 +1,13 @@
 class MembershipsController < ApplicationController
-  load_and_authorize_resource
-  
+  before_filter :get_group
+
+  def get_group
+    @group = Group.find(params[:group_id])
+  end
+
   # POST /groups/:group_id/memberships
   # POST /groups/:group_id/memberships.xml
   def create
-    @group = Group.find(params[:group_id])
     @membership = Membership.find_or_create_by_user_id_and_group_id(params[:membership][:user_id], params[:group_id])
 
     if params[:autoconfirm]
@@ -27,7 +30,6 @@ class MembershipsController < ApplicationController
   # PUT /groups/:group_id/memberships/1
   # PUT /groups/:group_id/memberships/1.xml
   def update
-    @group = Group.find(params[:group_id])
     @membership = Membership.find(params[:id])
 
     respond_to do |format|
@@ -44,7 +46,6 @@ class MembershipsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.xml
   def destroy
-    @group = Group.find(params[:group_id])
     @membership = Membership.find(params[:id])
     @membership.destroy
 

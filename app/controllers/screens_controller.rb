@@ -1,10 +1,10 @@
 class ScreensController < ApplicationController
-  load_and_authorize_resource
   # GET /screens
   # GET /screens.xml
   def index
     @screens = Screen.all
     @templates = Template.all
+    auth!
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,6 +16,7 @@ class ScreensController < ApplicationController
   # GET /screens/1.xml
   def show
     @screen = Screen.find(params[:id])
+    auth!
 
     respond_to do |format|
       format.html # show.html.erb
@@ -27,6 +28,7 @@ class ScreensController < ApplicationController
   # GET /screens/new.xml
   def new
     @screen = Screen.new
+    auth!
     @templates = Template.all
     @users = User.all
     @groups = Group.all
@@ -39,6 +41,7 @@ class ScreensController < ApplicationController
   # GET /screens/1/edit
   def edit
     @screen = Screen.find(params[:id])
+    auth!
     @template = Template.new
     
     @templates = Template.all
@@ -52,6 +55,7 @@ class ScreensController < ApplicationController
   # POST /screens.xml
   def create
     @screen = Screen.new(params[:screen])
+    auth!
     @templates = Template.all
     @users = User.all
     @groups = Group.all
@@ -79,6 +83,7 @@ class ScreensController < ApplicationController
   # PUT /screens/1.xml
   def update
     @screen = Screen.find(params[:id])
+    auth!
     @templates = Template.all
     @users = User.all
     @groups = Group.all
@@ -105,6 +110,7 @@ class ScreensController < ApplicationController
   # DELETE /screens/1.xml
   def destroy
     @screen = Screen.find(params[:id])
+    auth!
     @screen.destroy
 
     respond_to do |format|

@@ -1,5 +1,4 @@
 class SubmissionsController < ApplicationController
-  load_and_authorize_resource
   before_filter :get_feed
   helper :contents
 
@@ -13,6 +12,7 @@ class SubmissionsController < ApplicationController
     if !@can_moderate_feed
       @submissions = @submissions.approved
     end
+    auth!
 
     respond_to do |format|
       format.js { }
@@ -27,6 +27,7 @@ class SubmissionsController < ApplicationController
     if @submission.feed != @feed
       redirect_to feed_submissions_path(params[:feed_id])
     end
+    auth!
 
     respond_to do |format|
       format.js { }
@@ -38,6 +39,7 @@ class SubmissionsController < ApplicationController
   def update
     @submission = Submission.find(params[:id])
     @submission.moderator = current_user
+    auth!
 
     respond_to do |format|
       if @submission.update_attributes(params[:submission])

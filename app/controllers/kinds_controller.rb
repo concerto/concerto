@@ -1,10 +1,9 @@
 class KindsController < ApplicationController
-  load_and_authorize_resource
-  
   # GET /kinds
   # GET /kinds.xml
   def index
     @kinds = Kind.all
+    auth!
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,6 +15,7 @@ class KindsController < ApplicationController
   # GET /kinds/1.xml
   def show
     @kind = Kind.find(params[:id])
+    auth!
 
     respond_to do |format|
       format.html # show.html.erb
@@ -27,6 +27,7 @@ class KindsController < ApplicationController
   # GET /kinds/new.xml
   def new
     @kind = Kind.new
+    auth!
 
     respond_to do |format|
       format.html # new.html.erb
@@ -37,12 +38,14 @@ class KindsController < ApplicationController
   # GET /kinds/1/edit
   def edit
     @kind = Kind.find(params[:id])
+    auth!
   end
 
   # POST /kinds
   # POST /kinds.xml
   def create
     @kind = Kind.new(params[:kind])
+    auth!
 
     respond_to do |format|
       if @kind.save
@@ -59,6 +62,7 @@ class KindsController < ApplicationController
   # PUT /kinds/1.xml
   def update
     @kind = Kind.find(params[:id])
+    auth!
 
     respond_to do |format|
       if @kind.update_attributes(params[:kind])
@@ -75,6 +79,7 @@ class KindsController < ApplicationController
   # DELETE /kinds/1.xml
   def destroy
     @kind = Kind.find(params[:id])
+    auth!
     @kind.destroy
 
     respond_to do |format|
