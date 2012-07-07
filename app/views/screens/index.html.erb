@@ -13,7 +13,7 @@
   <div class="span3">
     <section class="C">
       <header class="C-header">
-        <h1>Templates</h1>
+        <h1>Templates <%= link_to 'New Template', new_template_path, :class => "btn" if can? :create, Template %></h1>
       </header>
       <div class="C-cont">
         <%= render :partial => "templates/index_body" %>
