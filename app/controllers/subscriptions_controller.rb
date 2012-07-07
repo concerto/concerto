@@ -1,5 +1,4 @@
 class SubscriptionsController < ApplicationController
-  load_and_authorize_resource :except => [:new]
   before_filter :get_screen
   
   def get_screen
@@ -10,6 +9,7 @@ class SubscriptionsController < ApplicationController
   # GET /screen/:screen_id/subscriptions.xml
   def index
     @subscriptions = @screen.subscriptions.all
+    auth!
 
     respond_to do |format|
       format.html # index.html.erb
@@ -31,6 +31,7 @@ class SubscriptionsController < ApplicationController
   # GET /screen/:screen_id/subscriptions/1.xml
   def show
     @subscription = Subscription.find(params[:id])
+    auth!
 
     respond_to do |format|
       format.html # show.html.erb
@@ -44,7 +45,7 @@ class SubscriptionsController < ApplicationController
     @subscription = Subscription.new
     @subscription.screen = @screen
     @subscription.field = @field
-    auth
+    auth!
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @subscription }
@@ -54,6 +55,7 @@ class SubscriptionsController < ApplicationController
   # GET /screen/:screen_id/subscriptions/1/edit
   def edit
     @subscription = Subscription.find(params[:id])
+    auth!
   end
 
   # POST /screen/:screen_id/subscriptions
@@ -62,6 +64,7 @@ class SubscriptionsController < ApplicationController
     @subscription = Subscription.new(params[:subscription])
     @subscription.screen = @screen
     @subscription.field = @field
+    auth!
 
     respond_to do |format|
       if @subscription.save
@@ -78,6 +81,7 @@ class SubscriptionsController < ApplicationController
   # PUT /screen/:screen_id/subscriptions/1.xml
   def update
     @subscription = Subscription.find(params[:id])
+    auth!
 
     respond_to do |format|
       if @subscription.update_attributes(params[:subscription])
@@ -94,6 +98,7 @@ class SubscriptionsController < ApplicationController
   # DELETE /screen/:screen_id/subscriptions/1.xml
   def destroy
     @subscription = Subscription.find(params[:id])
+    auth!
     @subscription.destroy
 
     respond_to do |format|

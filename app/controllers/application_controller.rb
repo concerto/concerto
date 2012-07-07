@@ -32,7 +32,10 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, :flash => { :notice => exception.message }
   end
 
-  def auth
+  def auth!(options = {})
+    # action
+    # object
+    # allow_empty
     action_map = {
       'index' => :read,
       'show' => :read,
@@ -43,14 +46,16 @@ class ApplicationController < ActionController::Base
       'destroy' => :destroy,
     }
 
+    test_action = (options[:action] || action_map[action_name])
+    allow_empty = (options[:allow_empty] || true)
+
     var_name = controller_name
     if action_name != 'index'
       var_name = controller_name.singularize
     end
-    object = instance_variable_get("@#{var_name}")
+    object = (options[:object] || instance_variable_get("@#{var_name}"))
 
-    test_action = action_map[action_name]
-    if object.is_a? Enumerable
+    if allow_empty && (object.is_a? Enumerable)
       object.delete_if {|o| cannot?(test_action, o)}
     else
       if cannot?(test_action, object)
