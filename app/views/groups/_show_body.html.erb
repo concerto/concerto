@@ -1,95 +1,6 @@
-<article>
-  <div class="default-padding">
-    <h2>Leaders</h2>
-
-    <table>
-      <tr>
-		    <th>Name</th>
-  			<th>Roles</th>
-  		</tr>
-
-      <% @group.memberships.leader.each do |membership| %>
-      <tr>
-        <td><%= membership.user.name %></td>
-
-        <td>
-          <% if can? :edit, membership %>
-            <%= form_for([@group, membership]) do |f| %>
-              <%= f.select :level, Membership::LEVELS %>
-              <%= f.submit %>
-            <% end %>
-          <% end %>
-        </td>
-      </tr>
-      <% end %>
-    </table>
-
-    <br /><br />
-
-    <h2>Other Members</h2>
-
-    <table>
-      <tr>
-		    <th>Name</th>
-		  	<th>Roles</th>
-  		</tr>
-
-      <% @group.memberships.regular.each do |membership| %>
-      <tr>
-        <td><%= membership.user.name %></td>
-
-        <td>
-          <% if can? :edit, membership %>
-            <%= form_for([@group, membership]) do |f| %>
-              <%= f.select :level, Membership::LEVELS %>
-              <%= f.submit %>
-            <% end %>
-          <% end %>
-        </td>
-      </tr>
-      <% end %>
-
-    </table>
-
-    <% if can? :edit, @group %>
-      <b>Add Member</b>
-      <%= form_for([@group, @group.memberships.new]) do |f| %>
-        <%= f.collection_select :user_id, User.all - @group.all_users, :id, :name %>
-        <%= hidden_field_tag 'autoconfirm', true %>
-        <%= f.submit %>
-      <% end %>
-
-      <br /><br />
-
-      <h2>Pending Members</h2>
-
-      <table>
-        <tr>
-  		    <th>Name</th>
-	  		  <th>Actions</th>
-  		  </tr>
-
-        <% @group.memberships.pending.each do |membership| %>
-        <tr>
-          <td><%= membership.user.name %></td>
-
-          <td>
-            <%= link_to "Approve", approve_group_membership_path(@group, membership), :confirm => 'Are you sure?', :method => :put, :class => "btn success" %>
-            <%= link_to "Deny", deny_group_membership_path(@group, membership), :confirm => 'Are you sure?', :method => :put, :class => "btn danger" %>
-          </td>
-        </tr>
-        <% end %>
-
-      </table>
-    <% end %>
-  </div>
-
-</article>
-
-<% if user_signed_in? %>
-  <aside>
-
-    <div>
+<div class="row-fluid">
+  <div class="span2">
+    <div class="default-padding">
       <% if @group.made_request?(current_user) %>
         <% membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first %>
         <p><b>You are currently a <%= membership.level_name %><%= " member" unless can? :edit, @group %> of this group.</b></p>
@@ -104,7 +15,91 @@
         <%= link_to("Join Group", group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
       <% end %>
     </div>
+  </div>
+  <div class="span10">
+    <div class="default-padding">
+      <h2>Leaders</h2>
 
-  </aside>
-<% end %>
-<div class="clear"></div>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Roles</th>
+        </tr>
+
+        <% @group.memberships.leader.each do |membership| %>
+        <tr>
+          <td><%= membership.user.name %></td>
+
+          <td>
+            <% if can? :edit, membership %>
+              <%= form_for([@group, membership]) do |f| %>
+                <%= f.select :level, Membership::LEVELS %>
+                <%= f.submit %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+        <% end %>
+      </table>
+
+      <br /><br />
+
+      <h2>Other Members</h2>
+
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Roles</th>
+        </tr>
+
+        <% @group.memberships.regular.each do |membership| %>
+        <tr>
+          <td><%= membership.user.name %></td>
+
+          <td>
+            <% if can? :edit, membership %>
+              <%= form_for([@group, membership]) do |f| %>
+                <%= f.select :level, Membership::LEVELS %>
+                <%= f.submit %>
+              <% end %>
+            <% end %>
+          </td>
+        </tr>
+        <% end %>
+
+      </table>
+
+      <% if can? :edit, @group %>
+        <b>Add Member</b>
+        <%= form_for([@group, @group.memberships.new]) do |f| %>
+          <%= f.collection_select :user_id, User.all - @group.all_users, :id, :name %>
+          <%= hidden_field_tag 'autoconfirm', true %>
+          <%= f.submit %>
+        <% end %>
+
+        <br /><br />
+
+        <h2>Pending Members</h2>
+
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Actions</th>
+          </tr>
+
+          <% @group.memberships.pending.each do |membership| %>
+          <tr>
+            <td><%= membership.user.name %></td>
+
+            <td>
+              <%= link_to "Approve", approve_group_membership_path(@group, membership), :confirm => 'Are you sure?', :method => :put, :class => "btn success" %>
+              <%= link_to "Deny", deny_group_membership_path(@group, membership), :confirm => 'Are you sure?', :method => :put, :class => "btn danger" %>
+            </td>
+          </tr>
+          <% end %>
+
+        </table>
+      <% end %>
+    </div>
+  </div>
+</div>

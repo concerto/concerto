@@ -11,12 +11,44 @@
     </section>
   </div>
   <div class="span3">
+    <% if user_signed_in? %>
+    <section class="C">
+      <header class="C-header">
+        <h3>My Concerto</h3>
+      </header>
+      <div class="C-cont">
+        <div class="default-padding">
+          <p>You belong to these groups:</p>
+          <ul>
+          <% current_user.groups.each do |group| %>
+            <li><%= link_to group.name, group %></li>
+          <% end %>
+          </ul>
+          <div class="clearfix">
+            <%= link_to "New Feed", new_feed_path, :class => "btn" if can? :create, Feed %>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </section>
+    <% end %>
+
     <section class="C">
       <header class="C-header">
         <h3>Network Vitals</h3>
       </header>
       <div class="C-cont">
-        <h2># Screens</h2>
+        <div class="default-padding">
+          <div class="clearfix">
+            <h2><%= @screens.count %> Screen<% if @screens.count > 1 %>s<% end %></h2>
+            <p># active&nbsp;&nbsp;&nbsp;&nbsp;# offline</p>
+            <%= link_to "View Screens List", screens_path, :class => "btn" %>
+          </div>
+          <br /><br />
+          <div class="clearfix">
+            <h2># New Submissions Today</h2>
+          </div>
+        </div>
         <div class="clear"></div>
       </div>
     </section>

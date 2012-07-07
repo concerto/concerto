@@ -4,6 +4,7 @@ class FeedsController < ApplicationController
   # GET /feeds.xml
   def index
     @feeds = Feed.roots
+    @screens = Screen.all
 
     respond_to do |format|
       format.html { } # index.html.erb
