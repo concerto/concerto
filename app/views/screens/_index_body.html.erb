@@ -4,6 +4,9 @@
       <h3>Oops - there are no screens to display.  <%= link_to "Why not add one?", new_screen_path %></h3>
     </div>
   <% else %>
+    <div class="subnav clearfix">
+      <h4>My Screens</h4>
+    </div>
     <ul class="GL">
       <% @screens.each do |screen| %>
         <li>
@@ -18,5 +21,26 @@
         </li>
       <% end %>
     </ul>
+    <div class="clear"></div>
+
+    <div class="subnav clearfix">
+      <h4>Other Screens</h4>
+    </div>
+    <ul class="GL">
+      <% @screens.each do |screen| %>
+        <li>
+          <div class="cont">
+            <%= link_to screen do %>
+              <i class="icon-controller-screens"></i>
+            <% end %>
+            <p><b><%= link_to screen.name, screen %></b></p>
+            <p><%= screen.location %></p>
+            <p><%= screen.fields.count %> fields</p>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+    <div class="clear"></div>
+    
   <% end %>
 </div>

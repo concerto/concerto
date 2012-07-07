@@ -5,6 +5,31 @@
 				<h1>All Groups <%= link_to 'New Group', new_group_path, :class => "button" %></h1>
 			</header>
 			<div class="C-cont">
+				<div class="subnav clearfix">
+		      <h4>My Groups</h4>
+		    </div>
+				<ul class="SL">
+					<% @groups.each do |group| %>
+						<li>
+							<h3>
+								<%= link_to group, :class => "link-hl" do %>
+									<%= group.name %>
+								<% end %>
+								<% if can? :update, group %>
+									<small><%= link_to "[#{t(:edit)}]", edit_group_path(group) %></small>
+								<% end %>
+							</h3>
+							<%= link_to "Join", group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></td>
+							<p class="indented">Members: 
+								List...
+							</p>
+						</li>
+					<% end %>
+				</ul>
+
+				<div class="subnav clearfix">
+		      <h4>Other Groups</h4>
+		    </div>
 				<ul class="SL">
 					<% @groups.each do |group| %>
 						<li>
