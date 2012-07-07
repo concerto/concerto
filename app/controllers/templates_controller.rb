@@ -1,9 +1,9 @@
 class TemplatesController < ApplicationController
-  load_and_authorize_resource
   # GET /templates
   # GET /templates.xml
   def index
     @templates = Template.all
+    auth!
 
     respond_to do |format|
       format.html # index.html.erb
@@ -16,6 +16,7 @@ class TemplatesController < ApplicationController
   # GET /templates/1.xml
   def show
     @template = Template.find(params[:id])
+    auth!
 
     respond_to do |format|
       format.html # show.html.erb
@@ -28,6 +29,7 @@ class TemplatesController < ApplicationController
   # GET /templates/new.xml
   def new
     @template = Template.new
+    auth!
     @template.media.build
     @type = params[:type] || 'import'
 
@@ -40,6 +42,7 @@ class TemplatesController < ApplicationController
   # GET /templates/1/edit
   def edit
     @template = Template.find(params[:id])
+    auth!
     if(@template.media.empty?)
       @template.media.build
     end
@@ -49,6 +52,7 @@ class TemplatesController < ApplicationController
   # POST /templates.xml
   def create
     @template = Template.new(params[:template])
+    auth!
     @template.media.each do |media|
       media.key = "original"
     end
@@ -69,6 +73,7 @@ class TemplatesController < ApplicationController
   # PUT /templates/1.xml
   def update
     @template = Template.find(params[:id])
+    auth!
     @template.media.each do |media|
       media.key = "original"
     end
@@ -88,6 +93,7 @@ class TemplatesController < ApplicationController
   # DELETE /templates/1.xml
   def destroy
     @template = Template.find(params[:id])
+    auth!
     @template.destroy
 
     respond_to do |format|
@@ -100,6 +106,8 @@ class TemplatesController < ApplicationController
   # Generate a preview of the template based on the request format.
   def preview
     @template = Template.find(params[:id])
+    auth!(:action => :read)
+
     if stale?(:last_modified => @template.last_modified.utc, :etag => @template, :public => true)
       @media = @template.media.original.first
       image = Magick::Image.from_blob(@media.file_contents).first

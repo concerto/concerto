@@ -1,5 +1,4 @@
 class FieldsController < ApplicationController
-  load_and_authorize_resource
   before_filter :get_kind
   
   def get_kind
@@ -10,6 +9,7 @@ class FieldsController < ApplicationController
   # GET /kind/:kind_id/fields.xml
   def index
     @fields = @kind.fields
+    auth!
 
     respond_to do |format|
       format.html # index.html.erb
@@ -21,6 +21,7 @@ class FieldsController < ApplicationController
   # GET /kind/:kind_id/fields/1.xml
   def show
     @field = Field.find(params[:id])
+    auth!
 
     respond_to do |format|
       format.html # show.html.erb
@@ -33,6 +34,7 @@ class FieldsController < ApplicationController
   def new
     @field = Field.new
     @field.kind = @kind
+    auth!
 
     respond_to do |format|
       format.html # new.html.erb
@@ -43,6 +45,7 @@ class FieldsController < ApplicationController
   # GET /kind/:kind_id/fields/1/edit
   def edit
     @field = Field.find(params[:id])
+    auth!
   end
 
   # POST /kind/:kind_id/fields
@@ -50,6 +53,7 @@ class FieldsController < ApplicationController
   def create
     @field = Field.new(params[:field])
     @field.kind = @kind
+    auth!
 
     respond_to do |format|
       if @field.save
@@ -66,6 +70,7 @@ class FieldsController < ApplicationController
   # PUT /kind/:kind_id/fields/1.xml
   def update
     @field = Field.find(params[:id])
+    auth!
 
     respond_to do |format|
       if @field.update_attributes(params[:field])
@@ -82,6 +87,7 @@ class FieldsController < ApplicationController
   # DELETE /kind/:kind_id/fields/1.xml
   def destroy
     @field = Field.find(params[:id])
+    auth!
     @field.destroy
 
     respond_to do |format|

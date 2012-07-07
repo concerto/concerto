@@ -1,9 +1,9 @@
 class GroupsController < ApplicationController
-  load_and_authorize_resource
   # GET /groups
   # GET /groups.xml
   def index
     @groups = Group.all
+    auth!
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,6 +15,7 @@ class GroupsController < ApplicationController
   # GET /groups/1.xml
   def show
     @group = Group.find(params[:id])
+    auth!
 
     respond_to do |format|
       format.html # show.html.erb
@@ -26,6 +27,7 @@ class GroupsController < ApplicationController
   # GET /groups/new.xml
   def new
     @group = Group.new
+    auth!
 
     respond_to do |format|
       format.html # new.html.erb
@@ -36,12 +38,14 @@ class GroupsController < ApplicationController
   # GET /groups/1/edit
   def edit
     @group = Group.find(params[:id])
+    auth!
   end
 
   # POST /groups
   # POST /groups.xml
   def create
     @group = Group.new(params[:group])
+    auth!
 
     respond_to do |format|
       if @group.save
@@ -60,6 +64,7 @@ class GroupsController < ApplicationController
   # PUT /groups/1.xml
   def update
     @group = Group.find(params[:id])
+    auth!
 
     respond_to do |format|
       if @group.update_attributes(params[:group])
@@ -76,6 +81,7 @@ class GroupsController < ApplicationController
   # DELETE /groups/1.xml
   def destroy
     @group = Group.find(params[:id])
+    auth!
     @group.destroy
 
     respond_to do |format|
