@@ -48,7 +48,7 @@
       <%= link_to t(:browse), feeds_path, :class => "btn #{ current_page?(feeds_path) || (controller.controller_name == 'submissions' && ['index', 'show'].include?(controller.action_name)) ? 'selected' : '' }" %>
       <%= link_to t(:add), new_content_path, :class => "btn #{ current_page?(new_content_path) ? 'selected' : '' }" if can? :create, Content %>
       <%= link_to '#', :class => "btn" do %>
-        <%= t(:moderate) %>&nbsp;<span class="badge">0</span>
+        <%= t(:moderate) %>&nbsp;<span class="badge alert">##</span>
       <% end %>
     </div>
     <div class="TM-secbot">

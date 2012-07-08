@@ -35,8 +35,12 @@ nav#TM {
    		border: solid 1px #2f84da;
 
       .badge {
-        background-color: $concerto-blue-1;
+        //background-color: $concerto-blue-1;
         color: $white;
+
+        &.alert {
+          background-color: $red;
+        }
       }
 		}
 
@@ -72,8 +76,12 @@ nav#TM {
 
   .badge {
     background-color: #666;
-    color: $grayLight;
+    color: $grayLighter;
     text-shadow: 0 0 0;
+
+    &.alert {
+      background-color: darken($red, 10%);
+    }
   }
 	
 	a#TM-logobutton {
