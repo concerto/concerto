@@ -43,7 +43,26 @@ section.C {
       background: $grayLightest;
       height: 100%;
       padding: 4px 8px;
-      border-left: solid 1px $gray;
+      line-height: normal;
+      border-left: solid 1px $grayLight;
+
+      > label {
+        display: block;
+        color: $gray;
+        text-align:center;
+        font-size: 0.8em;
+        line-height: normal;
+      }
+
+      > span {
+        display: block;
+        text-align: center;
+        line-height: normal;
+      }
+    }
+
+    .status-block:last-child {
+      @include border-radius(0px 8px 0px 0px);
     }
 
 		// this element is only included when the back_button helper is used to place a back button
