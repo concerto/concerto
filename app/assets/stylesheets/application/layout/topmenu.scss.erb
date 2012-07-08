@@ -20,6 +20,10 @@ nav#TM {
 		// custom attributes:
 		@include border-radius(6px);
     background: transparent image-url('layout/TM/button_TM_states.png') top left repeat-x;
+    
+    // IE fix: reset Microsoft filter attribute:
+    filter: none;
+
    	color: #666;
    	text-shadow: 0 1px #eee;
    	margin: 0px 2px;
