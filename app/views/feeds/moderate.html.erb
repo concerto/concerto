@@ -1,0 +1,32 @@
+<section class="C">
+  <header id="browse-header" class="C-header">
+    <div class="C-header_right">
+      <div class="status-block">
+        <label>PENDING</label>
+        <span>14</span>
+      </div>
+    </div>
+    <div class="default-padding">
+      <h1>Contents Pending Your Moderation</h1>
+    </div>
+  </header>
+  <div id="browse-body" class="C-cont">
+    <div class="default-padding">
+      <h2><%= @feeds.count %> feeds with pending content</h2>
+    </div>
+
+    <ul class="SL">
+      <% @feeds.each do |pending_feed| %>
+        <li>
+          <h3>
+            <%= link_to feed_submissions_path(pending_feed), :remote => true, :class => "link-hl" do %>
+              <span class="badge alert"><%= pending_feed.pending_contents.count %></span> <%= pending_feed.name %>
+            <% end %>
+          </h3>
+        </li>
+      <% end %>
+    </ul>
+
+    <div class="clear"></div>
+  </div>
+</section>

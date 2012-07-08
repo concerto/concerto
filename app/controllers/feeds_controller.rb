@@ -13,6 +13,16 @@ class FeedsController < ApplicationController
     end
   end
 
+  def moderate
+    @feeds = Feed.all
+    auth!
+    
+    respond_to do |format|
+      format.js { }
+      format.html { }
+    end
+  end
+
   # GET /feeds/1
   # GET /feeds/1.xml
   def show

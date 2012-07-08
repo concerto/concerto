@@ -64,6 +64,8 @@ Concerto::Application.routes.draw do
     resources :fields
   end
 
+  match "moderate/" => "feeds#moderate"
+
   resources :feeds do
     resources :submissions, :only => [:index, :show, :update]
   end

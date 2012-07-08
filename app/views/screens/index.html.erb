@@ -2,7 +2,7 @@
   <div class="span9">
     <section class="C">
       <header class="C-header" id="screens-header">
-        <h1>All Screens <%= link_to 'New Screen', new_screen_path, :class => "btn" if can? :create, Screen %></h1>
+        <h1 class="default-padding">All Screens <%= link_to 'New Screen', new_screen_path, :class => "btn" if can? :create, Screen %></h1>
       </header>
       <div id="screens-body" class="C-cont">
         <%= render :partial => "screens/index_body" %>
@@ -13,7 +13,7 @@
   <div class="span3">
     <section class="C">
       <header class="C-header">
-        <h1>Templates <%= link_to 'New Template', new_template_path, :class => "btn" if can? :create, Template %></h1>
+        <h1 class="default-padding">Templates <%= link_to 'New Template', new_template_path, :class => "btn" if can? :create, Template %></h1>
       </header>
       <div class="C-cont">
         <%= render :partial => "templates/index_body" %>
