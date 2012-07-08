@@ -47,6 +47,9 @@
     <div class="TM-sectop">
       <%= link_to t(:browse), feeds_path, :class => "btn #{ current_page?(feeds_path) || (controller.controller_name == 'submissions' && ['index', 'show'].include?(controller.action_name)) ? 'selected' : '' }" %>
       <%= link_to t(:add), new_content_path, :class => "btn #{ current_page?(new_content_path) ? 'selected' : '' }" if can? :create, Content %>
+      <%= link_to '#', :class => "btn" do %>
+        <%= t(:moderate) %>&nbsp;<span class="badge">0</span>
+      <% end %>
     </div>
     <div class="TM-secbot">
       <h1><%= t(:content) %></h1>
@@ -59,11 +62,7 @@
     <section>
       <div class="TM-sectop">
         <%= link_to t(:screens), screens_path, :class => "btn #{ controller.controller_name == 'screens' ? 'selected' : '' }" %>
-        <%#= link_to t(:templates), templates_path, :class => "btn #{ controller.controller_name == 'templates' ? 'selected' : '' }" %>
         <%= link_to t(:users_and_groups), groups_path, :class => "btn #{ controller.controller_name == 'groups' ? 'selected' : '' }" %>
-        <%# if can? :list, User %>
-          <%#= link_to t(:accounts), users_path, :class => "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" %>
-        <%# end %>
       </div>
       <div class="TM-secbot">
         <h1><%= t(:network) %></h1>

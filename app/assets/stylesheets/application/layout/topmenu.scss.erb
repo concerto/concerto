@@ -23,7 +23,7 @@ nav#TM {
    	color: #666;
    	text-shadow: 0 1px #eee;
    	margin: 0px 2px;
-    padding: 4px 10px;
+    padding: 4px 7px;
     font-size: 11px;
    	border: solid 1px #999;
 		float: left;
@@ -32,7 +32,12 @@ nav#TM {
       background: transparent image-url('layout/TM/button_TM_states.png') top left repeat-x;
      	text-shadow: 0 1px #eee;
    		background-position: 100% -31px;
-   		border: solid 1px #2f84da; 
+   		border: solid 1px #2f84da;
+
+      .badge {
+        background-color: $concerto-blue-1;
+        color: $white;
+      }
 		}
 
     &:active {
@@ -64,6 +69,12 @@ nav#TM {
 		}
 		
 	}
+
+  .badge {
+    background-color: #666;
+    color: $grayLight;
+    text-shadow: 0 0 0;
+  }
 	
 	a#TM-logobutton {
     @include vertical-gradient($concerto-blue-1, $concerto-blue-2);
