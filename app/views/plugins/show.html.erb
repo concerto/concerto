@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @plugin.name %>
+</p>
+
+<p>
+  <b>Module name:</b>
+  <%= @plugin.module_name %>
+</p>
+
+<p>
+  <b>Enabled:</b>
+  <%= @plugin.enabled %>
+</p>
+
+<p>
+  <b>Gem name:</b>
+  <%= @plugin.gem_name %>
+</p>
+
+<p>
+  <b>Gem version:</b>
+  <%= @plugin.gem_version %>
+</p>
+
+<p>
+  <b>Source:</b>
+  <%= @plugin.source %>
+</p>
+
+<p>
+  <b>Source url:</b>
+  <%= @plugin.source_url %>
+</p>
+
+<p>
+  <b>Installed:</b>
+  <%= @plugin.installed %>
+</p>
+
+
+<%= link_to 'Edit', edit_plugin_path(@plugin) %> |
+<%= link_to 'Back', plugins_path %>

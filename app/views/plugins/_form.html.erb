@@ -1,0 +1,49 @@
+<%= form_for(@plugin) do |f| %>
+  <% if @plugin.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@plugin.errors.count, "error") %> prohibited this plugin from being saved:</h2>
+
+      <ul>
+      <% @plugin.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :module_name %><br />
+    <%= f.text_field :module_name %>
+  </div>
+  <div class="field">
+    <%= f.label :enabled %><br />
+    <%= f.check_box :enabled %>
+  </div>
+  <div class="field">
+    <%= f.label :gem_name %><br />
+    <%= f.text_field :gem_name %>
+  </div>
+  <div class="field">
+    <%= f.label :gem_version %><br />
+    <%= f.text_field :gem_version %>
+  </div>
+  <div class="field">
+    <%= f.label :source %><br />
+    <%= f.text_field :source %>
+  </div>
+  <div class="field">
+    <%= f.label :source_url %><br />
+    <%= f.text_field :source_url %>
+  </div>
+  <div class="field">
+    <%= f.label :installed %><br />
+    <%= f.check_box :installed %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,4 +1,6 @@
 Concerto::Application.routes.draw do
+  resources :plugins
+
   #Custom route for the screen creation/admin form JS
   #TODO(bamnet): Clean this up
   match "update_owners" => "screens#update_owners"
