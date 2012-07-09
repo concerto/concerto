@@ -6,7 +6,7 @@ class ConcertoPluginsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @concerto_plugins }
+      format.json { render json => @concerto_plugins }
     end
   end
 
@@ -17,7 +17,7 @@ class ConcertoPluginsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @concerto_plugin }
+      format.json { render json => @concerto_plugin }
     end
   end
 
@@ -28,7 +28,7 @@ class ConcertoPluginsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @concerto_plugin }
+      format.json { render json => @concerto_plugin }
     end
   end
 
@@ -45,11 +45,11 @@ class ConcertoPluginsController < ApplicationController
     respond_to do |format|
       if @concerto_plugin.save    
         write_Gemfile()
-        format.html { redirect_to @concerto_plugin, notice: 'Concerto plugin was successfully created.' }
-        format.json { render json: @concerto_plugin, status: :created, location: @concerto_plugin }
+        format.html { redirect_to @concerto_plugin, notice => 'Concerto plugin was successfully created.' }
+        format.json { render json: @concerto_plugin, status => :created, location: @concerto_plugin }
       else
         format.html { render action: "new" }
-        format.json { render json: @concerto_plugin.errors, status: :unprocessable_entity }
+        format.json { render json: @concerto_plugin.errors, status => :unprocessable_entity }
       end
     end
   end
@@ -62,11 +62,11 @@ class ConcertoPluginsController < ApplicationController
     respond_to do |format|
       if @concerto_plugin.update_attributes(params[:concerto_plugin])
         write_Gemfile()
-        format.html { redirect_to @concerto_plugin, notice: 'Concerto plugin was successfully updated.' }
+        format.html { redirect_to @concerto_plugin, notice => 'Concerto plugin was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.json { render json: @concerto_plugin.errors, status: :unprocessable_entity }
+        format.json { render json: @concerto_plugin.errors, status => :unprocessable_entity }
       end
     end
   end
