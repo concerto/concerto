@@ -7,6 +7,11 @@ class ContentsControllerTest < ActionController::TestCase
     request.env["devise.mapping"] = Devise.mappings[:user]
   end
 
+  test "must sign in before new" do
+    get :new
+    assert_login_failure
+  end
+
   test "should get generic new" do
     sign_in users(:katie)
     get :new
