@@ -1,10 +1,10 @@
-<%= form_for(@plugin) do |f| %>
-  <% if @plugin.errors.any? %>
+<%= form_for(@concerto_plugin) do |f| %>
+  <% if @concerto_plugin.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@plugin.errors.count, "error") %> prohibited this plugin from being saved:</h2>
+      <h2><%= pluralize(@concerto_plugin.errors.count, "error") %> prohibited this concerto_plugin from being saved:</h2>
 
       <ul>
-      <% @plugin.errors.full_messages.each do |msg| %>
+      <% @concerto_plugin.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>

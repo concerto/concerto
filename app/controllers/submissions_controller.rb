@@ -8,11 +8,12 @@ class SubmissionsController < ApplicationController
 
   def index
     @can_moderate_feed = can?(:update, @feed)
-    @submissions = @feed.submissions
-    if !@can_moderate_feed
-      @submissions = @submissions.approved
+    @approved_submissions = @feed.submissions.approved
+    if @can_moderate_feed
+      @pending_submissions = @feed.submissions.pending
     end
-    auth!
+    #brzNote: did appears to result in a redirect when it is uncommented:
+    #auth!
 
     respond_to do |format|
       format.js { }

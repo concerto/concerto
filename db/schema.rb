@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120709001009) do
+ActiveRecord::Schema.define(:version => 20120709002802) do
 
   create_table "concerto_configs", :force => true do |t|
     t.string "key"
@@ -21,6 +21,19 @@ ActiveRecord::Schema.define(:version => 20120709001009) do
     t.string "name"
     t.string "group"
     t.text   "description"
+  end
+
+  create_table "concerto_plugins", :force => true do |t|
+    t.string   "name"
+    t.string   "module_name"
+    t.boolean  "enabled"
+    t.string   "gem_name"
+    t.string   "gem_version"
+    t.string   "source"
+    t.string   "source_url"
+    t.boolean  "installed"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "contents", :force => true do |t|
@@ -84,19 +97,6 @@ ActiveRecord::Schema.define(:version => 20120709001009) do
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
     t.integer  "level",      :default => 1
-  end
-
-  create_table "plugins", :force => true do |t|
-    t.string   "name"
-    t.string   "module_name"
-    t.boolean  "enabled"
-    t.string   "gem_name"
-    t.string   "gem_version"
-    t.string   "source"
-    t.string   "source_url"
-    t.boolean  "installed"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
   end
 
   create_table "positions", :force => true do |t|

@@ -1,0 +1,37 @@
+<h1>Listing concerto_plugins</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Module name</th>
+    <th>Enabled</th>
+    <th>Gem name</th>
+    <th>Gem version</th>
+    <th>Source</th>
+    <th>Source url</th>
+    <th>Installed</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @concerto_plugins.each do |concerto_plugin| %>
+  <tr>
+    <td><%= concerto_plugin.name %></td>
+    <td><%= concerto_plugin.module_name %></td>
+    <td><%= concerto_plugin.enabled %></td>
+    <td><%= concerto_plugin.gem_name %></td>
+    <td><%= concerto_plugin.gem_version %></td>
+    <td><%= concerto_plugin.source %></td>
+    <td><%= concerto_plugin.source_url %></td>
+    <td><%= concerto_plugin.installed %></td>
+    <td><%= link_to 'Show', concerto_plugin %></td>
+    <td><%= link_to 'Edit', edit_concerto_plugin_path(concerto_plugin) %></td>
+    <td><%= link_to 'Destroy', concerto_plugin, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Concerto plugin', new_concerto_plugin_path %>

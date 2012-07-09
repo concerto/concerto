@@ -1,6 +1,6 @@
-class CreatePlugins < ActiveRecord::Migration
+class CreateConcertoPlugins < ActiveRecord::Migration
   def change
-    create_table :plugins do |t|
+    create_table :concerto_plugins do |t|
       t.string :name
       t.string :module_name
       t.boolean :enabled
