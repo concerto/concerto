@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @concerto_plugin.name %>
+</p>
+
+<p>
+  <b>Module name:</b>
+  <%= @concerto_plugin.module_name %>
+</p>
+
+<p>
+  <b>Enabled:</b>
+  <%= @concerto_plugin.enabled %>
+</p>
+
+<p>
+  <b>Gem name:</b>
+  <%= @concerto_plugin.gem_name %>
+</p>
+
+<p>
+  <b>Gem version:</b>
+  <%= @concerto_plugin.gem_version %>
+</p>
+
+<p>
+  <b>Source:</b>
+  <%= @concerto_plugin.source %>
+</p>
+
+<p>
+  <b>Source url:</b>
+  <%= @concerto_plugin.source_url %>
+</p>
+
+<p>
+  <b>Installed:</b>
+  <%= @concerto_plugin.installed %>
+</p>
+
+
+<%= link_to 'Edit', edit_concerto_plugin_path(@concerto_plugin) %> |
+<%= link_to 'Back', concerto_plugins_path %>
