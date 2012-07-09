@@ -43,7 +43,8 @@ class ConcertoPluginsController < ApplicationController
     @concerto_plugin = ConcertoPlugin.new(params[:concerto_plugin])
 
     respond_to do |format|
-      if @concerto_plugin.save
+      if @concerto_plugin.save    
+        write_Gemfile()
         format.html { redirect_to @concerto_plugin, notice: 'Concerto plugin was successfully created.' }
         format.json { render json: @concerto_plugin, status: :created, location: @concerto_plugin }
       else
@@ -60,6 +61,7 @@ class ConcertoPluginsController < ApplicationController
 
     respond_to do |format|
       if @concerto_plugin.update_attributes(params[:concerto_plugin])
+        write_Gemfile()
         format.html { redirect_to @concerto_plugin, notice: 'Concerto plugin was successfully updated.' }
         format.json { head :no_content }
       else
@@ -74,10 +76,19 @@ class ConcertoPluginsController < ApplicationController
   def destroy
     @concerto_plugin = ConcertoPlugin.find(params[:id])
     @concerto_plugin.destroy
-
+    write_Gemfile()
     respond_to do |format|
       format.html { redirect_to concerto_plugins_url }
       format.json { head :no_content }
     end
   end
+  
+  def write_Gemfile
+    open('Gemfile-plugins', 'w+') { |f|
+    ConcertoPlugin.all.each do |plugin|
+      f << "\ngem \"#{plugin.gem_name}\", \"#{plugin.gem_version}\"\n"
+    end
+  }
+  end
+  
 end
