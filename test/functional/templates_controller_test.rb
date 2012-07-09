@@ -8,6 +8,11 @@ class TemplatesControllerTest < ActionController::TestCase
     request.env["devise.mapping"] = Devise.mappings[:user]
   end
 
+  test "must sign in before new" do
+    get :new
+    assert_login_failure
+  end
+
   test "should create template" do
     sign_in users(:admin)
     assert_difference('Template.count', 1) do

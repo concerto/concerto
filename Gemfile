@@ -42,3 +42,5 @@ gem 'jquery-tools'
 
 # Test Coverage
 gem 'simplecov', :require => false, :group => :test
+
+eval File.read('Gemfile-plugins')

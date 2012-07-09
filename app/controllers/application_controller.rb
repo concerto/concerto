@@ -32,10 +32,18 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, :flash => { :notice => exception.message }
   end
 
-  def auth!(options = {})
-    # action
-    # object
-    # allow_empty
+  # Authenticate using the current action and instance variables.
+  # If the instance variable is an {Enumerable} or {ActiveRecord::Relation}
+  # we remove anything that we cannot? from the array.
+  # If the instance variable is a single object, we raise {CanCan::AccessDenied}
+  # if we cannot? the object.
+  #
+  # @param [Hash] opts The options to authenticate with.
+  # @option opts [Symbol] action The CanCan action to test.
+  # @option opts [Object] object The object we should be testing.
+  # @option opts [Boolean] allow_empty (true) If we should allow an empty array
+  # or raise if empty.
+  def auth!(opts = {})
     action_map = {
       'index' => :read,
       'show' => :read,
@@ -46,22 +54,29 @@ class ApplicationController < ActionController::Base
       'destroy' => :destroy,
     }
 
-    test_action = (options[:action] || action_map[action_name])
-    allow_empty = (options[:allow_empty] || true)
+    test_action = (opts[:action] || action_map[action_name])
+    allow_empty = (opts[:allow_empty] || true)
 
     var_name = controller_name
     if action_name != 'index'
       var_name = controller_name.singularize
     end
-    object = (options[:object] || instance_variable_get("@#{var_name}"))
+    object = (opts[:object] || instance_variable_get("@#{var_name}"))
 
-    if allow_empty && ((object.is_a? Enumerable) || (object.is_a? ActiveRecord::Relation))
-      object.delete_if {|o| cannot?(test_action, o)}
-    else
-      if cannot?(test_action, object)
-        fake_cancan = Class.new.extend(CanCan::Ability)
-        message ||= fake_cancan.unauthorized_message(test_action, object.class)
-        raise CanCan::AccessDenied.new(message, test_action, object.class)
+    unless object.nil?
+      if ((object.is_a? Enumerable) || (object.is_a? ActiveRecord::Relation))
+        object.delete_if {|o| cannot?(test_action, o)}
+        if !allow_empty && object.empty?
+          fake_cancan = Class.new.extend(CanCan::Ability)
+          message ||= fake_cancan.unauthorized_message(test_action, object.class)
+          raise CanCan::AccessDenied.new(message, test_action, object.class)
+        end
+      else
+        if cannot?(test_action, object)
+          fake_cancan = Class.new.extend(CanCan::Ability)
+          message ||= fake_cancan.unauthorized_message(test_action, object.class)
+          raise CanCan::AccessDenied.new(message, test_action, object.class)
+        end
       end
     end
   end
