@@ -3,7 +3,7 @@
     <div class="default-padding">
       <% if @group.made_request?(current_user) %>
         <% membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first %>
-        <p><b>You are currently a <%= membership.level_name %><%= " member" unless can? :edit, @group %> of this group.</b></p>
+        <p><b>You are currently a <%= membership.level_name %><%= " member" unless membership.level == Membership::LEVELS[:leader] %> of this group.</b></p>
         <% if @group.has_member?(current_user) %>
           <%= link_to("Leave Group", group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn") %>
           <% if can? :edit, @group %>
