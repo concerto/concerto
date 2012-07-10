@@ -1,10 +1,10 @@
 <div class="row-fluid">
   <div class="span9">
-    <section class="C">
-      <header class="C-header" id="browse-header">
+    <section class="viewblock">
+      <header class="viewblock-header" id="browse-header">
         <%= render :partial => "feeds/browse_header" %>
       </header>
-      <div id="browse-body" class="C-cont">
+      <div id="browse-body" class="viewblock-cont">
         <%= render :partial => "feeds/browse_body" %>
         <div class="clear"></div>
       </div>
@@ -12,11 +12,11 @@
   </div>
   <div class="span3">
     <% if user_signed_in? %>
-    <section class="C">
-      <header class="C-header">
+    <section class="viewblock">
+      <header class="viewblock-header">
         <h1 class="default-padding">My Concerto</h1>
       </header>
-      <div class="C-cont">
+      <div class="viewblock-cont">
         <div class="default-padding">
           <p>You belong to these groups:</p>
           <ul>
@@ -33,11 +33,11 @@
     </section>
     <% end %>
 
-    <section class="C">
-      <header class="C-header">
+    <section class="viewblock">
+      <header class="viewblock-header">
         <h1 class="default-padding">Network Vitals</h1>
       </header>
-      <div class="C-cont">
+      <div class="viewblock-cont">
         <div class="default-padding">
           <div class="clearfix">
             <h2><%= @screens.count %> Screen<% if @screens.count > 1 %>s<% end %></h2>
