@@ -7,7 +7,7 @@
 
 /*##########  STRUCTURE  ##########*/
 
-nav#TM {
+#top-menu {
  	width: 100%;
   @include vertical-gradient(#fbfbfb, #d5d5d5);
   @include box-shadow(0px 1px 6px $gray);
@@ -19,7 +19,7 @@ nav#TM {
 
 		// custom attributes:
 		@include border-radius(6px);
-    background: transparent image-url('layout/TM/button_TM_states.png') top left repeat-x;
+    background: transparent image-url('layout/top-menu/button_top-menu_states.png') top left repeat-x;
     
     // IE fix: reset Microsoft filter attribute:
     filter: none;
@@ -33,7 +33,7 @@ nav#TM {
 		float: left;
 
    	&:hover {
-      background: transparent image-url('layout/TM/button_TM_states.png') top left repeat-x;
+      background: transparent image-url('layout/top-menu/button_top-menu_states.png') top left repeat-x;
      	text-shadow: 0 1px #eee;
    		background-position: 100% -31px;
    		border: solid 1px #2f84da;
@@ -49,7 +49,7 @@ nav#TM {
 		}
 
     &:active {
-      background: transparent image-url('layout/TM/button_TM_states.png') top left repeat-x;
+      background: transparent image-url('layout/top-menu/button_top-menu_states.png') top left repeat-x;
    		background-position: 100% -62px;
    		border: solid 1px #333;
 		}
@@ -88,7 +88,7 @@ nav#TM {
     }
   }
 	
-	a#TM-logobutton {
+	#top-menu-logobutton {
     @include vertical-gradient($concerto-blue-1, $concerto-blue-2);
     float: left;
     color: $white;
@@ -107,7 +107,7 @@ nav#TM {
     }
   }
 
-  p#TM-logintext {
+  #top-menu-logintext {
     float: left;
     padding: 4px 12px;
     margin: 0px;
@@ -126,12 +126,12 @@ nav#TM {
       float: right;
     }
 
-		.TM-sectop {
+		.top-menu-sectop {
       height: 34px;
       padding: 0px 2px;
 		}
 		
-    .TM-secbot {
+    .top-menu-secbot {
       background: #f9f9f9;
 
 			h1 {
@@ -147,15 +147,15 @@ nav#TM {
 			
 		}
 		
-		// applies only to login section (leftmost in top menu)
-		&#LG-inner {
+		// applies only to login section (leftop-menuost in top menu)
+		&#login-inner {
 	  	float: left;
 	  	width: 153px;
 	  	height: 60px;
 	  	padding: 3px 28px 0px 54px;
 	  	background: image-url('layout/LG_bluebg.png') top right no-repeat;
 	
-	  	div.TM-sectop p {
+	  	div.top-menu-sectop p {
      		color: #FFF;
      		font-size: 1em;
      		text-shadow: 0px -1px 0px $black;
@@ -167,7 +167,7 @@ nav#TM {
 				 
 			}
 		    
-			div.TM-secbot p {
+			div.top-menu-secbot p {
      		color: #666;
      		font-size: 0.8em;
      		text-shadow: 0 0.05em #FFF;
@@ -185,24 +185,3 @@ nav#TM {
 	}
 	
 }
-
-
-// "Show Top Menu" banner that is only visible when the top menu is 
-// rolled up
-nav#show-TM {
-  display: none;
-  width: 100%;
-
-  a {
-    background: $grayDark;
-    color: $grayLighter;
-    text-shadow: 0px -1px 0px $black;
-    padding: 2px 12px;
-    display: block;
-    text-transform: uppercase;
-    font-size: 0.7em;
-    letter-spacing: 0.2em;
-    text-align: center;
-  }
-}
-
