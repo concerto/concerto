@@ -1,9 +1,9 @@
-<section class="C">
-	<header class="C-header" id="template-header">
+<section class="viewblock">
+	<header class="viewblock-header" id="template-header">
 		<%= back_button template_path(@template), :back %>
 		<h1 class="default-padding">Editing template</h1>
 	</header> 
-	<div class="C-cont">
+	<div class="viewblock-cont">
 		<%= render 'form', :locals => { :template => @template } %>
 		<div class="clear"></div>
 	</div>

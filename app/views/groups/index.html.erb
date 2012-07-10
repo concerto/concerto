@@ -1,14 +1,14 @@
 <div class="row-fluid">
 	<div class="span9">
-		<section class="C">
-			<header class="C-header">
+		<section class="viewblock">
+			<header class="viewblock-header">
 				<h1 class="default-padding">All Groups <%= link_to 'New Group', new_group_path, :class => "button" %></h1>
 			</header>
-			<div class="C-cont">
+			<div class="viewblock-cont">
 				<div class="subnav clearfix">
 		      <h4>My Groups</h4>
 		    </div>
-				<ul class="SL">
+				<ul class="list-stacked">
 					<% @groups.each do |group| %>
 						<li>
 							<h3>
@@ -30,7 +30,7 @@
 				<div class="subnav clearfix">
 		      <h4>Other Groups</h4>
 		    </div>
-				<ul class="SL">
+				<ul class="list-stacked">
 					<% @groups.each do |group| %>
 						<li>
 							<h3>
@@ -53,11 +53,11 @@
 		</section>
 	</div>
 	<div class="span3">
-		<section class="C">
-			<header class="C-header">
+		<section class="viewblock">
+			<header class="viewblock-header">
 				<h1 class="default-padding"><%= t(:users) %></h1>
 			</header>
-			<div class="C-cont">
+			<div class="viewblock-cont">
 				&nbsp;
 				<div class="clear"></div>
 			</div>

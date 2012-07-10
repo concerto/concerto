@@ -10,12 +10,12 @@
     </ul>
   </div>
   <div class="span10">
-    <section class="C">
-    	<header class="C-header">
-    		<div class="C-header_right default-padding"><a class="button" href="#"><%=t(:design_graphic)%></a></div>
+    <section class="viewblock">
+    	<header class="viewblock-header">
+    		<div class="viewblock-header_right default-padding"><a class="button" href="#"><%=t(:design_graphic)%></a></div>
     		<h1 class="default-padding"><%= t(:add) + " " + @content.class.to_s + " " + t(:content) %></h1>
     	</header> 
-    	<div class="C-cont">
+    	<div class="viewblock-cont">
     		<%= render 'form' %>
     		<div class="clear"></div>
     	</div>

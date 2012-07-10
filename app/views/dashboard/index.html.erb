@@ -1,8 +1,8 @@
-<section class="C">
-  <header class="C-header">
+<section class="viewblock">
+  <header class="viewblock-header">
     <h1 class="default-padding"><%= t(:dashboard) %></h1>
   </header> 
-  <div class="C-cont">
+  <div class="viewblock-cont">
     <%= form_tag "/dashboard/update" do %>
       <% @configs = ConcertoConfig.all %>
 

@@ -2,7 +2,7 @@
   <h1><%= @feeds.count %> Feed<% if @feeds.count > 1 %>s<% end %></h1>
 </div>
 
-<ul class="SL">
+<ul class="list-stacked">
   <% @feeds.each do |feed| %>
    <% if feed.approved_contents.size != 0 || (feed.pending_contents.size != 0 && feed.group.has_member?(current_user) ) %>
    <li>
