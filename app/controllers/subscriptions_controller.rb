@@ -1,8 +1,12 @@
 class SubscriptionsController < ApplicationController
-  before_filter :get_screen
+  before_filter :get_screen, :get_field
   
   def get_screen
     @screen = Screen.find(params[:screen_id])
+  end
+
+  def get_field
+    @field = Field.find(params[:field_id])
   end
 
   # GET /screen/:screen_id/subscriptions
@@ -102,7 +106,7 @@ class SubscriptionsController < ApplicationController
     @subscription.destroy
 
     respond_to do |format|
-      format.html { redirect_to(screen_subscriptions_url(@screen)) }
+      format.html { redirect_to(screen_field_subscriptions_url(@screen, @field)) }
       format.xml  { head :ok }
     end
   end
