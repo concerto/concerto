@@ -7,81 +7,76 @@
 // This UL aligns 1..n items in a visual grid. Each item is floated left and fills up available space 
 // (20% width apiece). This UL is used extensively on browse content grids of content.
 
-@mixin gridlist-item {
-	list-style: none;
-	float: left;
-	min-width: 200px;
-	width: 25%;
-  min-height:88px;
-
-  .cont {
-		padding: 12px;
-		//border-right: solid 1px $grayLight;
-		//border-bottom: solid 1px $grayLight;
-		min-height: 64px;
-		text-decoration:none;
-		
-		// these elements come along for the ride by bringing in gridlist-item mixin:
-		b {
-			color: $black;
-		}
-		
-		.controls {
-			display: block;
-			margin-top: 4px;
-    }
-
-    h1 {
-			font-size: 1.2em;
- 			color: #333;
- 			background:none;
- 			padding: 0px;
- 			margin: 0px;
- 			font-weight: bold;
- 			text-align: center;
-		}
-		
-		p {
-      margin-bottom: 3px;
-		}
-
-
-		
-	}
-	
-  img {
-		@extend .with-shadow;
-		float: left;
-		margin-bottom:6px;
-		margin-right:10px;
-  }
-
-  i {
-    float: left;
-    margin-bottom: 6px;
-    margin-right: 10px;
-  }
-
-	
-}
-
-ul.GL {
+ul.list-grid {
 	//border-top:solid 1px $grayLight;
 	margin: 0px;
 	padding: 0px;
 	
   > li {
-		@include gridlist-item;		
+	  list-style: none;
+    float: left;
+    min-width: 200px;
+    width: 25%;
+    min-height:88px;
+
+    .cont {
+      padding: 12px;
+      //border-right: solid 1px $grayLight;
+      //border-bottom: solid 1px $grayLight;
+      min-height: 64px;
+      text-decoration:none;
+      
+      // these elements come along for the ride by bringing in gridlist-item mixin:
+      b {
+        color: $black;
+      }
+      
+      .controls {
+        display: block;
+        margin-top: 4px;
+      }
+
+      h1 {
+        font-size: 1.2em;
+        color: #333;
+        background:none;
+        padding: 0px;
+        margin: 0px;
+        font-weight: bold;
+        text-align: center;
+      }
+      
+      p {
+        margin-bottom: 3px;
+      }
+
+
+      
+    }
+    
+    img {
+      @extend .with-shadow;
+      float: left;
+      margin-bottom:6px;
+      margin-right:10px;
+    }
+
+    i {
+      float: left;
+      margin-bottom: 6px;
+      margin-right: 10px;
+    }
+
   }
 
   // inset-selection gridlists appear inside forms and while they use 
-  // the base styles of GL, several attributes are different
+  // the base styles of list-grid, several attributes are different
   // these gridlists are used to make a selection of one or more items
   // within them (hence their usage in forms)
   &.inset-selection {
     border-top: none;
 
-    // a common use for inset gridlists is to have each item in the GL
+    // a common use for inset gridlists is to have each item in the list-grid
     // be a clickable link - each item appears with a slight rounded 
     // border and is a fully clickable region
 
@@ -116,7 +111,7 @@ ul.GL {
       background: $grayLightest;
       min-height: 46px;
       padding: 8px 5px;
-      @include border-radius-corners(4px, 0px, 0px, 4px);
+      @include border-radius(4px 0px 0px 4px);
     }
 
     .cont {
@@ -125,7 +120,7 @@ ul.GL {
     }
   }
 
-  // this class can be applied to a GL to compress the size of each
+  // this class can be applied to a list-grid to compress the size of each
   // list item inside the grid
   &.small {
     > li {
@@ -142,7 +137,7 @@ ul.GL {
 
 // variant: for span columns that are small enough, override the 
 // width to make it appear flush:
-.row-fluid .span3 ul.GL > li, .row-fluid .span2 ul.GL > li, .row-fluid .span1 ul.GL > li {
+.row-fluid .span3 ul.list-grid > li, .row-fluid .span2 ul.list-grid > li, .row-fluid .span1 ul.list-grid > li {
   width: 100%;
 }
 
@@ -153,24 +148,12 @@ ul.GL {
 // on top of one another with visual elements. It is often used for 
 // nested lists, such as the feed list on contents#index.
 
-// this mixin defines how each top-level item looks in the UL:
-@mixin stackedlist-item {
-  //@include vertical-gradient($white, #eee);
-  border-top: solid 1px $grayLighter;
-  padding: 12px;
-}
-
-// this mixin defines how each second-level (nested) item looks in the UL:
-@mixin stackedlist-nesteditem {
-  padding-left: 25px;
-  background: #efefef;
-}
-
-ul.SL {
+ul.list-stacked {
   margin-left: 0px;
 
   > li {
-    @include stackedlist-item;
+    border-top: solid 1px $grayLighter;
+    padding: 12px;
 
     // this is the second level of UL, which represents a nested list
     // we only recommend one level deep of visual nesting
@@ -178,7 +161,8 @@ ul.SL {
       margin-left: 0px;
 
       > li {
-        @include stackedlist-nesteditem;
+        padding-left: 25px;
+        background: #efefef;
       }
     }
 

@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
   has_many :groups, :through => :memberships
   has_many :screens, :as => :owner
 
+  has_many :leading_groups, :through => :memberships, :source => :group, :conditions => {"memberships.level" => Membership::LEVELS[:leader]}
+
   #Validations
   validates :email, :presence => true, :uniqueness => true
   validates :first_name, :presence => true
@@ -28,6 +30,11 @@ class User < ActiveRecord::Base
   # Quickly test if a user belongs to a group (this breaks if either is nil)
   def in_group?(group)
     groups.include?(group)
+  end
+
+  # Return an array of all the feeds a user owns.
+  def owned_feeds
+    leading_groups.collect{|g| g.feeds}.flatten
   end
   
 end

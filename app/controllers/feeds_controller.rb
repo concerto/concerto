@@ -15,7 +15,8 @@ class FeedsController < ApplicationController
 
   def moderate
     @feeds = Feed.all
-    auth!
+    @feeds.reject!{|f| not f.pending_contents.count > 0}
+    auth!(:action => :edit)
     
     respond_to do |format|
       format.js { }

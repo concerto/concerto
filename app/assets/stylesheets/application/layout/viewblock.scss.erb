@@ -1,19 +1,17 @@
 /*##########################################################################*/
-/*  Content Cells (C)  */
+/*  View Blocks  */
 /*##########################################################################*/
 
 
-//////////////////
-
-section.C {
+.viewblock {
 	@include box-shadow(0 3px 2px #ababab);
   display: block;
   margin-bottom: 18px;
-  @include border-radius-corners(8px, 8px, 0px, 0px);
+  @include border-radius(8px 8px 0px 0px);
 
-	.C-header {
-   	@include border-radius-corners(8px, 8px, 0px, 0px);
-    background: #FFF image-url('layout/C/header_bg.png') bottom left repeat-x;
+	.viewblock-header {
+   	@include border-radius(8px 8px 0px 0px);
+    background: #FFF image-url('layout/viewblock/header_bg.png') bottom left repeat-x;
     display: block;
     padding: 0px;
     border: solid 1px #ababab;
@@ -32,13 +30,13 @@ section.C {
 
 		// element inside the header that can be optionally used for right-aligned
 		// contextual buttons relevant to this section of the page
-		.C-header_right {
+		.viewblock-header_right {
 	  	float: right;
 	  	margin-left: 20px;
 		}
 
     // status element that fits a label and a value, usually a count
-    // often aligned or floated to the right side of .C-header_right
+    // often aligned or floated to the right side of .viewblock-header_right
     .status-block {
       background: $grayLightest;
       height: 100%;
@@ -66,14 +64,14 @@ section.C {
     }
 
 		// this element is only included when the back_button helper is used to place a back button
-		.C-header_back {
+		.viewblock-header_back {
 	  	float: left;
 	  	margin: 7px 8px 7px -12px;
 		}
 
 	}
 
-	.C-cont {
+	.viewblock-cont {
   	padding: 0px;
     border: solid 1px #ababab;
 		background: $white;

@@ -1,4 +1,4 @@
-<%= form_for([@screen, @subscription]) do |f| %>
+<%= form_for([@screen, @field, @subscription]) do |f| %>
   <% if @subscription.errors.any? %>
   <div id="errorExplanation">
     <h2><%= pluralize(@subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>

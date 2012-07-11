@@ -1,21 +1,21 @@
-<section class="C">
-  <header id="browse-header" class="C-header">
-    <div class="C-header_right">
+<section class="viewblock">
+  <header id="browse-header" class="viewblock-header">
+    <div class="viewblock-header_right">
       <div class="status-block">
         <label>PENDING</label>
-        <span>##</span>
+        <span><%= @pending_submissions_count %></span>
       </div>
     </div>
     <div class="default-padding">
       <h1>Contents Pending Your Moderation</h1>
     </div>
   </header>
-  <div id="browse-body" class="C-cont">
+  <div id="browse-body" class="viewblock-cont">
     <div class="default-padding">
       <h2><%= @feeds.count %> feeds with pending content</h2>
     </div>
 
-    <ul class="SL">
+    <ul class="list-stacked">
       <% @feeds.each do |pending_feed| %>
         <li>
           <h3>

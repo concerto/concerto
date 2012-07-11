@@ -71,7 +71,7 @@
       <label><%= t(:best_fit_templates) %></label>
       <div class="input">
         
-        <ul class="GL inset-selection small">
+        <ul class="list-grid inset-selection small">
           <% @templates.each do |template| %>
           <li>
             <%= link_to "#", :class => "dropdown-control", :rel => "#preview_#{ template.id }" do %>

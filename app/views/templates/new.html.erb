@@ -7,11 +7,11 @@
     </ul>
   </div>
   <div class="span10">
-    <section class="C">
-    	<header class="C-header" id="template-header">
+    <section class="viewblock">
+    	<header class="viewblock-header" id="template-header">
     		<h1 class="default-padding"><%= @type.capitalize + " Template" %></h1>
     	</header>
-    	<div class="C-cont">
+    	<div class="viewblock-cont">
   			<% if @type == "create" %>
   			  <%= render 'create_form' %>
   			<% else %>
