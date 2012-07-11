@@ -3,6 +3,20 @@ class ApplicationController < ActionController::Base
   before_filter :set_locale
   before_filter :check_for_initial_install
   before_filter :set_version
+  before_filter :compute_pending_moderation
+
+  # Expose a instance variable counting the number of pending submissions
+  # a user can moderate.  0 indicates no pending submissions.
+  # @pending_submissions_count
+  def compute_pending_moderation
+    @pending_submissions_count = 0
+    if user_signed_in?
+      feeds = current_user.owned_feeds
+      feeds.each do |f|
+        @pending_submissions_count += f.submissions.pending.count
+      end
+    end
+  end
 
   def set_version
     require 'concerto/version'

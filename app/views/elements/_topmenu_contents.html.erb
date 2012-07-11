@@ -43,8 +43,10 @@
     <div class="top-menu-sectop">
       <%= link_to t(:browse), feeds_path, :class => "btn #{ current_page?(feeds_path) || (controller.controller_name == 'submissions' && ['index', 'show'].include?(controller.action_name)) ? 'selected' : '' }" %>
       <%= link_to t(:add), new_content_path, :class => "btn #{ current_page?(new_content_path) ? 'selected' : '' }" if can? :create, Content %>
-      <%= link_to moderate_path, :class => "btn" do %>
-        <%= t(:moderate) %>&nbsp;<span class="badge alert">##</span>
+      <% if @pending_submissions_count %>
+        <%= link_to moderate_path, :class => "btn" do %>
+          <%= t(:moderate) %>&nbsp;<span class="badge alert"><%= @pending_submissions_count %></span>
+        <% end %>
       <% end %>
     </div>
     <div class="top-menu-secbot">
