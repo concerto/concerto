@@ -5,11 +5,12 @@
 				<h1 class="default-padding">All Groups <%= link_to 'New Group', new_group_path, :class => "button" %></h1>
 			</header>
 			<div class="viewblock-cont">
+<% if !@my_groups.empty? %>
 				<div class="subnav clearfix">
 		      <h4>My Groups</h4>
 		    </div>
 				<ul class="list-stacked">
-					<% @groups.each do |group| %>
+					<% @my_groups.each do |group| %>
 						<li>
 							<h3>
 								<%= link_to group, :class => "link-hl" do %>
@@ -26,7 +27,8 @@
 						</li>
 					<% end %>
 				</ul>
-
+<% end %>
+<% if !@groups.empty? %>
 				<div class="subnav clearfix">
 		      <h4>Other Groups</h4>
 		    </div>
@@ -48,6 +50,7 @@
 						</li>
 					<% end %>
 				</ul>
+<% end %>
 				<div class="clear"></div>
 			</div>
 		</section>

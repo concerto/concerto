@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   has_many :groups, :through => :memberships
   has_many :screens, :as => :owner
 
+  has_many :groups, :through => :memberships, :conditions => ["memberships.level > ?", Membership::LEVELS[:pending]]
   has_many :leading_groups, :through => :memberships, :source => :group, :conditions => {"memberships.level" => Membership::LEVELS[:leader]}
 
   #Validations
