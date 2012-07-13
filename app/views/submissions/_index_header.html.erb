@@ -1,19 +1,19 @@
 <div class="viewblock-header_right">
   <div class="status-block">
     <label>ACTIVE</label>
-    <span><%= @approved_submissions.count %></span>
+    <span><%= @approved_submissions ? @approved_submissions.count : 0 %></span>
   </div>
   <div class="status-block">
     <label>PENDING</label>
-    <span><%= @pending_submissions.count %></span>
+    <span><%= @pending_submissions ? @pending_submissions.count : 0 %></span>
   </div>
   <div class="status-block">
     <label>EXPIRED</label>
-    <span>##</span>
+    <span><%= @expired_submissions ? @expired_submissions.count : 0 %></span>
   </div>
   <div class="status-block">
     <label>DENIED</label>
-    <span><%= @denied_submissions.count %></span>
+    <span><%= @denied_submissions ? @denied_submissions.count : 0 %></span>
   </div>
 </div>
 <div class="default-padding">

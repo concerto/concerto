@@ -12,6 +12,7 @@ class SubmissionsController < ApplicationController
     if @can_moderate_feed
       @pending_submissions = @feed.submissions.pending
       @denied_submissions = @feed.submissions.denied
+      @expired_submissions = @feed.submissions.expired
     end
     #brzNote: did appears to result in a redirect when it is uncommented:
     #auth!
