@@ -1,5 +1,5 @@
 <% content_for :js_ready do %>
-  $("input#graphic_duration").rangeinput();
+  $("input#<%= @content.type.downcase %>_duration").rangeinput();
   var api = $(":range").data("rangeinput");
   seconds = api.getValue();
   seconds = seconds+"s";
