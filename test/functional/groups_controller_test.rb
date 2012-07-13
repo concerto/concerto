@@ -19,6 +19,6 @@ class GroupsControllerTest < ActionController::TestCase
     get :index
     assert assigns(:my_groups)
     assert_equal assigns(:my_groups).count, 2
-    assert_equal assigns(:groups).count, 0
+    assert_equal assigns(:groups).count, 2
   end
 end

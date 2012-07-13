@@ -28,12 +28,13 @@
 					<% end %>
 				</ul>
 <% end %>
-<% if !@groups.empty? %>
+<% other_groups = @groups - @my_groups %>
+<% if !other_groups.empty? %>
 				<div class="subnav clearfix">
 		      <h4>Other Groups</h4>
 		    </div>
 				<ul class="list-stacked">
-					<% @groups.each do |group| %>
+					<% other_groups.each do |group| %>
 						<li>
 							<h3>
 								<%= link_to group, :class => "link-hl" do %>
