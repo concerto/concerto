@@ -1,7 +1,28 @@
-<h1 class="default-padding" id="contentlist">
-  <%= link_to "All Feeds", feeds_path, :remote => true %> &gt; 
-  <% @feed.ancestors.reverse.each do |ancestor_feed| %>
-    <%= link_to ancestor_feed.name, feed_submissions_path(ancestor_feed), :remote => true %> &gt; 
-  <% end %>
-  <%= @feed.name %>
-</h1>
+<div class="viewblock-header_right">
+  <div class="status-block">
+    <label>ACTIVE</label>
+    <span><%= @approved_submissions.count %></span>
+  </div>
+  <div class="status-block">
+    <label>PENDING</label>
+    <span><%= @pending_submissions.count %></span>
+  </div>
+  <div class="status-block">
+    <label>EXPIRED</label>
+    <span>##</span>
+  </div>
+  <div class="status-block">
+    <label>DENIED</label>
+    <span><%= @denied_submissions.count %></span>
+  </div>
+</div>
+<div class="default-padding">
+  <h1 id="contentlist">
+    <%= link_to "All Feeds", feeds_path, :remote => true %> &gt; 
+    <% @feed.ancestors.reverse.each do |ancestor_feed| %>
+      <%= link_to ancestor_feed.name, feed_submissions_path(ancestor_feed), :remote => true %> &gt; 
+    <% end %>
+    <%= @feed.name %>
+  </h1>
+</div>
+

@@ -11,6 +11,7 @@ class SubmissionsController < ApplicationController
     @approved_submissions = @feed.submissions.approved
     if @can_moderate_feed
       @pending_submissions = @feed.submissions.pending
+      @denied_submissions = @feed.submissions.denied
     end
     #brzNote: did appears to result in a redirect when it is uncommented:
     #auth!
