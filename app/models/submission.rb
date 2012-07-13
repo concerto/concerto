@@ -10,10 +10,15 @@ class Submission < ActiveRecord::Base
   validates :duration, :numericality => { :greater_than => 0 }
   validates_uniqueness_of :content_id, :scope => :feed_id  #Enforce content can only be submitted to a feed once
 
-  #Scoping shortcuts for active/denied/pending
+  #Scoping shortcuts for approved/denied/pending
   scope :approved, where(:moderation_flag => true)
   scope :denied, where(:moderation_flag => false)
   scope :pending, where("moderation_flag IS NULL")
+
+  #Scoping shortcuts for active/expired/future
+  scope :active, joins(:content).merge(Content.active)
+  scope :expired, joins(:content).merge(Content.expired)
+  scope :future, joins(:content).merge(Content.future)
 
   # Test if the submission has been approved.
   # (moderation flag is true)

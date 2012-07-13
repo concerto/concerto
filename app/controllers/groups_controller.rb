@@ -2,8 +2,8 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.xml
   def index
+    @groups = Group.all
     @my_groups = current_user.nil? ? [] : current_user.groups
-    @groups = Group.all - @my_groups
     auth!
 
     respond_to do |format|
