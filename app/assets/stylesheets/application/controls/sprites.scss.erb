@@ -10,7 +10,7 @@
 // (screens, templates, user groups, etc.).  They are 
 // 60px x 60px in size.
 
-// <i class="icon-controller-screens"></i>.
+// <i class="icon-controller-screens"></i>
 
 [class^="icon-controller-"],
 [class*=" icon-controller-"] {
@@ -28,6 +28,33 @@
 .icon-controller-screens { background-position: 0px 0px; }
 .icon-controller-templates { background-position: -60px 0px; }
 .icon-controller-groups { background-position: -120px 0px; }
+
+
+// HEADER ICONS (42px x 40px)
+// -----
+
+// <i class="icon-header-activecontent"></i>
+
+[class^="icon-header-"],
+[class*=" icon-header-"] {
+  display: inline-block;
+  width: 42px;
+  height: 40px;
+  line-height: 40px;
+  vertical-align: text-top;
+  @include at2x('elements/icons_headers_sprites', 168px, 40px, '.png');
+  background-position: 42px 40px;
+  background-repeat: no-repeat;
+
+  @include ie7-restore-right-whitespace();
+}
+.icon-header-activecontent { background-position: 0px 0px; }
+.icon-header-deniedcontent { background-position: -42px 0px; }
+.icon-header-expiredcontent { background-position: -84px 0px; }
+.icon-header-pendingcontent { background-position: -126px 0px; }
+
+
+// MISC ICONS
 
 .icon-logobutton {
   display: block;

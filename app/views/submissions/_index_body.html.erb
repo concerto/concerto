@@ -39,7 +39,7 @@
 
 <% if @can_moderate_feed and @pending_submissions.count > 0 %>
 <div class="default-padding">
-  <h3><%= @pending_submissions.count %> content<% if @pending_submissions.count != 1 %>s<% end %> pending your moderation</h3>
+  <h3 class="header-with-icon"><i class="icon-header-pendingcontent"></i><%= @pending_submissions.count %> content<% if @pending_submissions.count != 1 %>s<% end %> pending your moderation</h3>
 </div>
 <ul class="list-grid">
   <% @pending_submissions.each do |submission| %>
@@ -109,7 +109,7 @@
 </div>
 <% else %>
 <div class="default-padding">
-  <h3><%= @approved_submissions.count %> active content<% if @approved_submissions.count != 1 %>s<% end %></h3>
+  <h3 class="header-with-icon"><i class="icon-header-activecontent"></i><%= @approved_submissions.count %> active content<% if @approved_submissions.count != 1 %>s<% end %></h3>
 </div>
 <ul class="list-grid">
   <% @approved_submissions.each do |submission| %>
