@@ -22,7 +22,7 @@
     <% @feed.ancestors.reverse.each do |ancestor_feed| %>
       <%= link_to ancestor_feed.name, feed_submissions_path(ancestor_feed), :remote => true %> &gt; 
     <% end %>
-    <%= @feed.name %>
+    <%= @feed.name %> (moderated by <%= link_to @feed.group.name, group_path(@feed.group) %>)
   </h1>
 </div>
 
