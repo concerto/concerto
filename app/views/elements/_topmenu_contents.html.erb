@@ -44,7 +44,7 @@
       <%= link_to t(:browse), feeds_path, :class => "btn #{ current_page?(feeds_path) || (controller.controller_name == 'submissions' && ['index', 'show'].include?(controller.action_name)) ? 'selected' : '' }" %>
       <%= link_to t(:add), new_content_path, :class => "btn #{ current_page?(new_content_path) ? 'selected' : '' }" if can? :create, Content %>
       <% if @pending_submissions_count %>
-        <%= link_to moderate_path, :class => "btn" do %>
+        <%= link_to moderate_path, :class => "btn #{ current_page?(moderate_path) ? 'selected' : '' }" do %>
           <%= t(:moderate) %>&nbsp;<span class="badge<% if @pending_submissions_count > 0 %> action<% end %>"><%= @pending_submissions_count %></span>
         <% end %>
       <% end %>

@@ -8,11 +8,21 @@ class SubmissionsController < ApplicationController
 
   def index
     @can_moderate_feed = can?(:update, @feed)
-    @approved_submissions = @feed.submissions.approved
+    
+    # active submissions are defined as submissions that are approved AND either active (i.e. date window has not passed to make them expired) OR future (i.e. date window has not even been met yet):
+    @active_submissions = @feed.submissions.approved.active + @feed.submissions.approved.future
+
     if @can_moderate_feed
-      @pending_submissions = @feed.submissions.pending
+      
+      # pending submissions are defined as submissions that are active (i.e. date window has not passed to make them expired) and flagged as pending via scope:
+      @pending_submissions = @feed.submissions.pending.active
+      
+      # denied submissions are defined as all submissions that are marked with moderation false (regardless of expired or active status):
       @denied_submissions = @feed.submissions.denied
-      @expired_submissions = @feed.submissions.expired
+      
+      # expired submissions include any pending or active submissions that have passed their date windows, but denied submissions are not included (i.e. they're ALWAYS in the "denied" list):
+      @expired_submissions = @feed.submissions.pending.expired + @feed.submissions.approved.expired
+    
     end
     #brzNote: did appears to result in a redirect when it is uncommented:
     #auth!
