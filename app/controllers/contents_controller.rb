@@ -12,18 +12,6 @@ class ContentsController < ApplicationController
     end
   end
 
-  # GET /contents/1
-  # GET /contents/1.xml
-  def show
-    @content = Content.find(params[:id])
-    auth!
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @content }
-    end
-  end
-
   # GET /contents/new
   # GET /contents/new.xml
   # Instantiate a new object of params[:type].

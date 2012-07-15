@@ -72,16 +72,16 @@ Concerto::Application.routes.draw do
     resources :submissions, :only => [:index, :show, :update]
   end
 
-  resources :contents, :except => [:index], :path => "content" do
+  resources :contents, :except => [:index, :show], :path => "content" do
     get :display, :on => :member
   end
 
   # TODO(bamnet): Figure out if these routes mean anything.
-  resources :graphics, :controller => :contents, :except => [:index], :path => "content" do
+  resources :graphics, :controller => :contents, :except => [:index, :show], :path => "content" do
     get :display, :on => :member
   end
 
-  resources :tickers, :controller => :contents, :except => [:index], :path => "content"
+  resources :tickers, :controller => :contents, :except => [:index, :show], :path => "content"
 
   #Set a non-restul route to the dashboard
   match 'dashboard/' => 'dashboard#index'
