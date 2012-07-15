@@ -45,7 +45,7 @@
       <%= link_to t(:add), new_content_path, :class => "btn #{ current_page?(new_content_path) ? 'selected' : '' }" if can? :create, Content %>
       <% if @pending_submissions_count %>
         <%= link_to moderate_path, :class => "btn" do %>
-          <%= t(:moderate) %>&nbsp;<span class="badge alert"><%= @pending_submissions_count %></span>
+          <%= t(:moderate) %>&nbsp;<span class="badge<% if @pending_submissions_count > 0 %> action<% end %>"><%= @pending_submissions_count %></span>
         <% end %>
       <% end %>
     </div>

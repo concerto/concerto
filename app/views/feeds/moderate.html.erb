@@ -11,21 +11,32 @@
     </div>
   </header>
   <div id="browse-body" class="viewblock-cont">
-    <div class="default-padding">
-      <h2><%= @feeds.count %> feeds with pending content</h2>
-    </div>
+    
+    <% if @feeds_with_pending.count > 0 %>
+      <div class="default-padding">
+        <h2><%= @feeds_with_pending.count %> feeds with pending content</h2>
+      </div>
 
-    <ul class="list-stacked">
-      <% @feeds.each do |pending_feed| %>
+      <ul class="list-stacked">
+        <% @feeds_with_pending.each do |pending_feed| %>
         <li>
           <h3>
             <%= link_to feed_submissions_path(pending_feed), :remote => true, :class => "link-hl" do %>
-              <span class="badge alert"><%= pending_feed.pending_contents.count %></span> <%= pending_feed.name %>
+            <span class="badge action"><%= pending_feed.pending_contents.count %></span> <%= pending_feed.name %>
             <% end %>
           </h3>
         </li>
-      <% end %>
-    </ul>
+        <% end %>
+      </ul>
+    <% else %>
+      <br />
+      <div class="default-padding">
+        <div class="alert alert-block alert-zero">
+          <p class="alert-heading">Nothing to Moderate</p>
+          <% if can? :create, Content %>All good for now! None of the feeds you moderate have any pending contents.<% end %>
+        </div>
+      </div>
+    <% end %>
 
     <div class="clear"></div>
   </div>
