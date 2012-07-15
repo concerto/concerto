@@ -11,7 +11,7 @@
     <div class="clearfix">
       <%= f.label :moderation_reason, "Reason" %>
       <div class="input">
-        <%= f.text_area :moderation_reason, :class => "span3" %>
+        <%= f.text_area :moderation_reason, :rows => 5, :style => "width: 90%;" %>
       </div>
     </div>
     <%= f.hidden_field :moderation_flag, { :value => false }%>
