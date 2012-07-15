@@ -1,8 +1,9 @@
 /*##########################################################################*/
-/*  View Blocks  */
+/*  Display Blocks  */
 /*##########################################################################*/
 
 
+// viewblock
 .viewblock {
 	@include box-shadow(0 3px 2px #ababab);
   display: block;
@@ -135,6 +136,22 @@
       
     }
     
+  }
+
+}
+
+
+// subblock
+.subblock {
+  margin-bottom: 24px;
+
+  &.bordered {
+    border: solid 1px $grayLight;
+    @include border-radius(6px);
+  }
+
+  &.with-padding {
+    padding: 18px;
   }
 
 }

@@ -11,7 +11,7 @@ p {
   margin-bottom: $baseline / 2;
   small {
     font-size: $basefont - 2;
-    color: $grayLight;
+    color: $gray;
   }
 }
 
@@ -113,9 +113,6 @@ h7 {
 }
 
 
-// COLORS
-// ------
-
 // Unordered and Ordered lists
 ul, ol {
   margin: 0 0 $baseline 25px;
@@ -179,6 +176,12 @@ em {
   color: $grayLight;
 }
 
+// uppercase
+.uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
 // Blockquotes
 blockquote {
   margin-bottom: $baseline;
@@ -196,13 +199,6 @@ blockquote {
       content: '\2014 \00A0';
     }
   }
-}
-
-// Addresses
-address {
-  display: block;
-  line-height: $baseline;
-  margin-bottom: $baseline;
 }
 
 // Inline and block code styles
