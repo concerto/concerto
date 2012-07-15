@@ -41,6 +41,10 @@
       @include vertical-gradient(#f7adab, #ee5f5b);
       border-color: #ee5f5b;
     }
+
+    &.active {
+      @include vertical-gradient(#ee5f5b, #bd362f);
+    }
   }
   // Success appears as green
   &.success {
@@ -50,6 +54,10 @@
     &:hover {
       @include vertical-gradient(#9bee9b, #62c462);
       border-color: #62c462;
+    }
+
+    &.active {
+      @include vertical-gradient(#62c462, #51a351);
     }
   }
   // Info appears as a neutral blue
