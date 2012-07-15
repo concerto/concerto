@@ -14,7 +14,7 @@
     
     <% if @feeds_with_pending.count > 0 %>
       <div class="default-padding">
-        <h2><%= @feeds_with_pending.count %> feeds with pending content</h2>
+        <h2><%= pluralize(@feeds_with_pending.count, "feed") %> with pending content</h2>
       </div>
 
       <ul class="list-stacked">
@@ -22,7 +22,7 @@
         <li>
           <h3>
             <%= link_to feed_submissions_path(pending_feed), :remote => true, :class => "link-hl" do %>
-            <span class="badge action"><%= pending_feed.pending_contents.count %></span> <%= pending_feed.name %>
+              <span class="badge action"><%= pending_feed.pending_contents.count %></span> <%= pending_feed.name %>
             <% end %>
           </h3>
         </li>
