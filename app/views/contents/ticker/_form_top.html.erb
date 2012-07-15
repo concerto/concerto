@@ -1,22 +1,22 @@
 <% content_for :js_ready do %>
 //Character count for ticker text
 $('.word_count').each(function(){
-    var length = $(this).val().length;
-    $("#char_count").html(length);
-    // bind on key up event
-    $(this).keyup(function(){
-        var new_length = $(this).val().length;
-        $("#char_count").html(new_length);
-    });
+var length = $(this).val().length;
+$("#char_count").html(length);
+// bind on key up event
+$(this).keyup(function(){
+var new_length = $(this).val().length;
+$("#char_count").html(new_length);
+});
 });
 <% end %>
 <fieldset>
-        <legend><span><%=t(:upload_ticker)%></span></legend>
-        <div class="clearfix">
-                <label><%=t(:ticker_text)%></label>
-                <div class="input">
-                  <%= form.text_area :data, :class => 'word_count' %>
-                  <div>Characters:<span id="char_count">0</span></div>
-                </div>
-        </div>
+  <legend><span><%=t(:upload_ticker)%></span></legend>
+  <div class="clearfix">
+    <label><%=t(:ticker_text)%></label>
+    <div class="input">
+      <%= form.text_area :data, :class => 'word_count' %>
+      <div>Characters:<span id="char_count">0</span></div>
+    </div>
+  </div>
 </fieldset>

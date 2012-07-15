@@ -1,19 +1,19 @@
 <fieldset>
-        <legend><span><%=t(:provide_details)%></span></legend>
-        <div class="clearfix">
-        <%= form.label :name %>
-        <div class="input">
-                        <%= form.text_field :name, :class => 'alert' %>
-                </div>
-        </div>
+  <legend><span><%=t(:provide_details)%></span></legend>
+  <div class="clearfix">
+    <%= form.label :name %>
+    <div class="input">
+      <%= form.text_field :name %>
+    </div>
+  </div>
 
-        <%= render :partial => 'contents/form_elements/duration', :locals => {:form => form, :min => 4, :max => 12} %>
-        <%= render :partial => 'contents/form_elements/dates', :locals => {:form => form} %>
+  <%= render :partial => 'contents/form_elements/duration', :locals => {:form => form, :min => 4, :max => 12} %>
+  <%= render :partial => 'contents/form_elements/dates', :locals => {:form => form} %>
 </fieldset>
 
 <fieldset>
-        <legend><span><%=t(:select_feed)%></span></legend>
-        <% if @content.new_record? %>
+  <legend><span><%=t(:select_feed)%></span></legend>
+  <% if @content.new_record? %>
   <%= render :partial => 'contents/form_elements/feeds' %>
-        <% end %>
+  <% end %>
 </fieldset>
