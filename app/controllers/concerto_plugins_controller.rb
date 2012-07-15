@@ -104,8 +104,10 @@ class ConcertoPluginsController < ApplicationController
         f << "\ngem " + gem_args.join(", ") +"\n"
       end
     }
-    if plugin.source == "git" || plugin.source == "path"
-      system("gem install #{plugin.gem_name}")
+    ConcertoPlugin.all.each do |plugin|
+      unless plugin.source == "git" || plugin.source == "path"
+        system("gem install #{plugin.gem_name}")
+      end
     end
     system("bundle update")
   end
