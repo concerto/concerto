@@ -96,7 +96,7 @@
 <div class="clear"></div>
 <% end %>
 
-<% if @approved_submissions.empty? %>
+<% if @active_submissions.empty? %>
 <br />
 <div class="default-padding">
   <div class="alert alert-block alert-zero">
@@ -106,10 +106,10 @@
 </div>
 <% else %>
 <div class="default-padding">
-  <h3 class="header-with-icon"><i class="icon-header-activecontent"></i><%= @approved_submissions.count %> active content<% if @approved_submissions.count != 1 %>s<% end %></h3>
+  <h3 class="header-with-icon"><i class="icon-header-activecontent"></i><%= @active_submissions.count %> active content<% if @active_submissions.count != 1 %>s<% end %></h3>
 </div>
 <ul class="list-grid">
-  <% @approved_submissions.each do |submission| %>
+  <% @active_submissions.each do |submission| %>
   <li>
     <div class="cont">
       <%= link_to [submission.feed, submission], :remote => true do %>
