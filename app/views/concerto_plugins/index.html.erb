@@ -27,7 +27,7 @@
     <td><%= concerto_plugin.installed %></td>
     <td><%= link_to 'Show', concerto_plugin %></td>
     <td><%= link_to 'Edit', edit_concerto_plugin_path(concerto_plugin) %></td>
-    <td><%= link_to 'Destroy', concerto_plugin, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= link_to 'Destroy', concerto_plugin, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
