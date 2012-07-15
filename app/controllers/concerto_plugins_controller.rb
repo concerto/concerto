@@ -85,10 +85,29 @@ class ConcertoPluginsController < ApplicationController
   
   def write_Gemfile
     open('Gemfile-plugins', 'w+') { |f|
-    ConcertoPlugin.all.each do |plugin|
-      f << "\ngem \"#{plugin.gem_name}\", \"#{plugin.gem_version}\"\n"
+      ConcertoPlugin.all.each do |plugin|
+         gem_args = Array.new
+         gem_args << "\"#{plugin.gem_name}\""
+  
+         unless plugin.gem_version.blank?
+            gem_args << "\"#{plugin.gem_version}\""
+         end
+  
+         if plugin.source == "git" and not plugin.source_url.blank?
+            gem_args << ":git => \"#{plugin.source_url}\""
+         end
+  
+         if plugin.source == "path" and not plugin.source_url.blank?
+            gem_args << ":path => \"#{plugin.source_url}\""
+         end
+  
+        f << "\ngem " + gem_args.join(", ") +"\n"
+      end
+    }
+    if plugin.source == "git" || plugin.source == "path"
+      system("gem install #{plugin.gem_name}")
     end
-  }
+    system("bundle update")
   end
   
 end
