@@ -54,7 +54,7 @@
       <%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
       <br />
       <p>
-        <%= link_to "Moderate", "#", :class => "dropdown-control dd-moderate", :title => "Moderate '#{ submission.content.name }'", :rel => "#moderate_#{ submission.id }" %>
+        <%= link_to "Moderate...", "#", :class => "btn small dropdown-control dd-moderate", :title => "Moderate '#{ submission.content.name }'", :rel => "#moderate_#{ submission.id }" %>
       </p>
 
 
@@ -340,7 +340,7 @@ $(document).ready(function() {
         },
 
         show: {
-          event: 'hover', // Show it on click...
+          event: 'click', // Show it on click...
           solo: true // ...and hide all other tooltips...
         },
 
