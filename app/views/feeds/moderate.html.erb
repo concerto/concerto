@@ -12,13 +12,13 @@
   </header>
   <div id="browse-body" class="viewblock-cont">
     
-    <% if @feeds_with_pending.count > 0 %>
+    <% if @feeds.count > 0 %>
       <div class="default-padding">
-        <h2><%= pluralize(@feeds_with_pending.count, "feed") %> with pending content</h2>
+        <h2><%= pluralize(@feeds.count, "feed") %> with pending content</h2>
       </div>
 
       <ul class="list-stacked">
-        <% @feeds_with_pending.each do |pending_feed| %>
+        <% @feeds.each do |pending_feed| %>
         <li>
           <h3>
             <%= link_to feed_submissions_path(pending_feed), :remote => true, :class => "link-hl" do %>

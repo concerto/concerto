@@ -25,4 +25,16 @@ class FeedsControllerTest < ActionController::TestCase
     assert_equal assigns(:pending_submissions_count), 1
   end
 
+  test "moderate index shows pending submissions" do
+    sign_in users(:katie)
+    get :moderate
+    assert assigns(:feeds)
+    assert_equal assigns(:feeds), [feeds(:service)]
+  end
+
+  test "moderate page not allowed without sign in" do
+    get :moderate
+    assert_login_failure
+  end
+
 end

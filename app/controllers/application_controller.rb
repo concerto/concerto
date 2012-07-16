@@ -69,7 +69,10 @@ class ApplicationController < ActionController::Base
     }
 
     test_action = (opts[:action] || action_map[action_name])
-    allow_empty = (opts[:allow_empty] || true)
+    allow_empty = true
+    if !opts[:allow_empty].nil?
+      allow_empty = opts[:allow_empty]
+    end
 
     var_name = controller_name
     if action_name != 'index'
