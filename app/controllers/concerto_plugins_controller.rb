@@ -3,7 +3,7 @@ class ConcertoPluginsController < ApplicationController
   # GET /concerto_plugins.json
   def index
     @concerto_plugins = ConcertoPlugin.all
-    auth!
+    auth!(:allow_empty => false)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @concerto_plugins }
