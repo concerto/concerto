@@ -3,7 +3,7 @@ class ConcertoPluginsController < ApplicationController
   # GET /concerto_plugins.json
   def index
     @concerto_plugins = ConcertoPlugin.all
-
+    auth!
     respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @concerto_plugins }
@@ -14,7 +14,7 @@ class ConcertoPluginsController < ApplicationController
   # GET /concerto_plugins/1.json
   def show
     @concerto_plugin = ConcertoPlugin.find(params[:id])
-
+    auth!
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @concerto_plugin }
@@ -25,7 +25,7 @@ class ConcertoPluginsController < ApplicationController
   # GET /concerto_plugins/new.json
   def new
     @concerto_plugin = ConcertoPlugin.new
-
+    auth!
     respond_to do |format|
       format.html # new.html.erb
       format.json { render :json => @concerto_plugin }
@@ -35,13 +35,14 @@ class ConcertoPluginsController < ApplicationController
   # GET /concerto_plugins/1/edit
   def edit
     @concerto_plugin = ConcertoPlugin.find(params[:id])
+    auth!    
   end
 
   # POST /concerto_plugins
   # POST /concerto_plugins.json
   def create
     @concerto_plugin = ConcertoPlugin.new(params[:concerto_plugin])
-
+    auth!
     respond_to do |format|
       if @concerto_plugin.save    
         write_Gemfile()
@@ -58,7 +59,7 @@ class ConcertoPluginsController < ApplicationController
   # PUT /concerto_plugins/1.json
   def update
     @concerto_plugin = ConcertoPlugin.find(params[:id])
-
+    auth!
     respond_to do |format|
       if @concerto_plugin.update_attributes(params[:concerto_plugin])
         write_Gemfile()
@@ -75,6 +76,7 @@ class ConcertoPluginsController < ApplicationController
   # DELETE /concerto_plugins/1.json
   def destroy
     @concerto_plugin = ConcertoPlugin.find(params[:id])
+    auth!
     @concerto_plugin.destroy
     write_Gemfile()
     respond_to do |format|
@@ -106,7 +108,7 @@ class ConcertoPluginsController < ApplicationController
     }
     ConcertoPlugin.all.each do |plugin|
       unless plugin.source == "git" || plugin.source == "path"
-        system("gem install #{plugin.gem_name}")
+        system("#{ConcertoConfig[:rubygem_executable]} install #{plugin.gem_name}")
       end
     end
     system("bundle update")
