@@ -19,10 +19,13 @@
     <%= f.label :module_name %><br />
     <%= f.text_field :module_name %>
   </div>
-  <div class="field">
-    <%= f.label :enabled %><br />
-    <%= f.check_box :enabled %>
-  </div>
+  <% if controller.action_name != 'new' %>
+    <div class="field">
+      <%= f.label :enabled %><br />
+      <%= f.check_box :enabled %>
+    </div>
+  <% end %>
+      
   <div class="field">
     <%= f.label :gem_name %><br />
     <%= f.text_field :gem_name %>
@@ -33,16 +36,18 @@
   </div>
   <div class="field">
     <%= f.label :source %><br />
-    <%= f.text_field :source %>
+    <select><%= options_for_select([['RubyGems', 'rubygems'], ['Git Repository', 'git'], ['Filesystem Path', 'path']]) %></select>
   </div>
   <div class="field">
     <%= f.label :source_url %><br />
     <%= f.text_field :source_url %>
   </div>
-  <div class="field">
-    <%= f.label :installed %><br />
-    <%= f.check_box :installed %>
-  </div>
+  <% if controller.action_name != 'new' %>
+    <div class="field">
+      <%= f.label :installed %><br />
+      <%= f.check_box :installed %>
+      </div>
+  <% end %>
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -43,6 +43,9 @@ class ConcertoPluginsController < ApplicationController
   def create
     @concerto_plugin = ConcertoPlugin.new(params[:concerto_plugin])
     auth!
+    #if we're creating the plugin, install and enabled it by default
+    @concerto_plugin.installed = true
+    @concerto_plugin.enabled = true
     respond_to do |format|
       if @concerto_plugin.save    
         write_Gemfile()
@@ -86,27 +89,32 @@ class ConcertoPluginsController < ApplicationController
   end
   
   def write_Gemfile
+    #open the supplemental Gemfile in write/append mode
     open('Gemfile-plugins', 'w+') { |f|
       ConcertoPlugin.all.each do |plugin|
-         gem_args = Array.new
-         gem_args << "\"#{plugin.gem_name}\""
+        if plugin.installed?
+          gem_args = Array.new
+          gem_args << "\"#{plugin.gem_name}\""
   
-         unless plugin.gem_version.blank?
+          unless plugin.gem_version.blank?
             gem_args << "\"#{plugin.gem_version}\""
-         end
+          end
   
-         if plugin.source == "git" and not plugin.source_url.blank?
+          if plugin.source == "git" and not plugin.source_url.blank?
             gem_args << ":git => \"#{plugin.source_url}\""
-         end
+          end
   
-         if plugin.source == "path" and not plugin.source_url.blank?
+          if plugin.source == "path" and not plugin.source_url.blank?
             gem_args << ":path => \"#{plugin.source_url}\""
-         end
-  
-        f << "\ngem " + gem_args.join(", ") +"\n"
+          end
+   
+         f << "\ngem " + gem_args.join(", ") +"\n"
       end
+        end
     }
     ConcertoPlugin.all.each do |plugin|
+      #for non git and filesystem sources, the gem install needs to be done first
+      #or else the Rails app will crash because it can't find the gem
       unless plugin.source == "git" || plugin.source == "path"
         system("#{ConcertoConfig[:rubygem_executable]} install #{plugin.gem_name}")
       end
