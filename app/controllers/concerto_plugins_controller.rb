@@ -106,7 +106,7 @@ class ConcertoPluginsController < ApplicationController
     }
     ConcertoPlugin.all.each do |plugin|
       unless plugin.source == "git" || plugin.source == "path"
-        system("gem install #{plugin.gem_name}")
+        system("#{ConcertoConfig[:rubygem_executable]} install #{plugin.gem_name}")
       end
     end
     system("bundle update")

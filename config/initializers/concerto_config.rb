@@ -11,6 +11,7 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
   ConcertoConfig.where(:key => 'setup_complete').first_or_create(:key => "setup_complete", :value => "false", :value_default => "true", :value_type => "boolean")
   ConcertoConfig.where(:key => 'allow_registration').first_or_create(:key => "allow_registration", :value => "true", :value_default => "true", :value_type => "boolean")
   ConcertoConfig.where(:key => 'allow_user_screen_creation').first_or_create(:key => "allow_user_screen_creation", :value => "false", :value_default => "false", :value_type => "boolean")
+  ConcertoConfig.where(:key => 'rubygem_executable').first_or_create(:key => "rubygem_executable", :value => "gem", :value_default => "gem", :value_type => "string")  
 end
 
 
