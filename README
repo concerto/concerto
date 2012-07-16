@@ -1,3 +1,13 @@
-This is Concerto 2.
+Concerto 2
 
-It is licensed under the Apache License, Version 2.0.
+Installation
+Execute the install script install.rb
+
+OR
+
+Clone Concerto from Git
+bundle install --path vendor/bundle; rake db:migrate; rake db:seed;
+Configure Webserver to point to the Concerto application
+Go the the Concerto URL to setup the initial admin user
+
+Concerto 2 is licensed under the Apache License, Version 2.0.
