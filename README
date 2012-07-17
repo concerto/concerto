@@ -1,13 +1,19 @@
-Concerto 2
+This is Concerto 2.
 
-Installation
+Automated Installation:
 curl get.concerto-signage.org | ruby
 
 OR
 
-Clone Concerto from Git
-bundle install --path vendor/bundle; rake db:migrate; rake db:seed;
-Configure Webserver to point to the Concerto application
-Go the the Concerto URL to setup the initial admin user
+Manual Installation:
+Run the following commands to get the source code (1 + 2), configure the database (3), install the necessary libraries (4), and setup the database (5).
+1. git clone https://github.com/concerto/concerto.git
+2. cd concerto
+3. cp config/database.yml.sample config/database.yml
+2. bundle install
+3. rake db:setup
+
+Configure your webserver to point to the Concerto application.
+Go the the Concerto URL to setup the initial admin user.
 
 Concerto 2 is licensed under the Apache License, Version 2.0.
