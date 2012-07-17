@@ -8,13 +8,18 @@
 def main
   parse_options()
   
+  if check_pkg_depends() != true
+    puts "Dependencies not met! Concerto requires the packages: imagemagick librmagick-ruby libmagickcore-dev libmagickwand-dev"
+  end
+  
   #Retrieve Concerto source/zip from Github 
   if command?("git")
     puts "Cloning Git repository..."
-    system("git clone git://github.com/concerto/concerto.git #{$concerto_location}")
+    system("git clone https://github.com/concerto/concerto.git #{$concerto_location}")
   else
-    puts "Git executable not found!"
-    exit
+    puts "Git executable not found -- downloading tarball..."
+    system("wget -O /tmp/concerto.tar.gz https://github.com/concerto/concerto/tarball/master")
+    system("tar -zxvf /tmp/concerto.tar.gz #{$concerto_location}")
   end
   
   Dir.chdir($concerto_location) do
@@ -29,7 +34,7 @@ def main
     
     #Migrate database and install seed data
     puts "Migrating Database and Installing Seed Data..."
-    system("rake db:migrate; rake db:seed")
+    system("rake db:setup")
   end
   
   #Create Apache VHost entry with interpolated values
@@ -67,6 +72,16 @@ end
 #Check for existence of a command for use (and send the output to the bitbucket)
 def command?(command)
   system("which #{ command} > /dev/null 2>&1")
+end
+
+def check_pkg_depends
+  pkg_depends = ['imagemagick', 'librmagick-ruby', 'libmagickcore-dev', 'libmagickwand-dev']
+  pkg_depends.each do |pkg|
+    if system("dpkg -s #{pkg} | grep Status") != true
+      return false
+    end
+  end
+  return true
 end
 
 main()
