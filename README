@@ -1,7 +1,7 @@
 Concerto 2
 
 Installation
-Execute the install script install.rb
+curl get.concerto-signage.org | ruby
 
 OR
 
