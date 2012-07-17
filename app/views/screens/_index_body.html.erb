@@ -1,14 +1,15 @@
 <div>
-  <% if @screens.size == 0 %>
+  <% if @screens.empty? %>
     <div class="default-padding">
       <h3>Oops - there are no screens to display.  <%= link_to "Why not add one?", new_screen_path %></h3>
     </div>
   <% else %>
+    <% if !@my_screens.empty? %>
     <div class="subnav clearfix">
       <h4>My Screens</h4>
     </div>
     <ul class="list-grid">
-      <% @screens.each do |screen| %>
+      <% @my_screens.each do |screen| %>
         <li>
           <div class="cont">
             <%= link_to screen do %>
@@ -22,12 +23,13 @@
       <% end %>
     </ul>
     <div class="clear"></div>
-
+    <% end %>
+    <% other_screens = @screens - @my_screens %>
     <div class="subnav clearfix">
       <h4>Other Screens</h4>
     </div>
     <ul class="list-grid">
-      <% @screens.each do |screen| %>
+      <% other_screens.each do |screen| %>
         <li>
           <div class="cont">
             <%= link_to screen do %>

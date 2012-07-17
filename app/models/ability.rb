@@ -101,7 +101,15 @@ class Ability
     can [:read, :update, :delete], Screen do |screen|
       screen.owner.is_a?(User) && screen.owner == user
     end
-    
+    # Users can read group screens
+    can :read, Screen do |screen|
+      screen.owner.is_a?(Group) && screen.owner.users.include?(user)
+    end
+    # Group leaders can create / delete their group screens
+    can [:update, :delete], Screen do |screen|
+      screen.owner.is_a?(Group) && screen.owner.leaders.include?(user)
+    end    
+
     #Subscriptions
     #Only the owning group or user can manage screen subscriptions
     can :manage, Subscription, :screen => { :owner_id => user.id, :owner_type => 'User'}
@@ -110,15 +118,6 @@ class Ability
       screen.owner.is_a?(Group) && screen.owner.leaders.include?(user)
     end
     
-    # Users can read group screens
-    can :read, Screen do |screen|
-      screen.owner.is_a?(Group) && screen.owner.users.include?(user)
-    end
-    # Group leaders can create / delete their group screens
-    can [:update, :delete], Screen do |screen|
-      screen.owner.is_a?(Group) && screen.owner.leaders.include?(user)
-    end
-
     ## Submissions
     # An authenticated user can create a submission if
     # the feed is submittable or they are a member of the group.

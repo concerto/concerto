@@ -3,6 +3,15 @@ class ScreensController < ApplicationController
   # GET /screens.xml
   def index
     @screens = Screen.all
+    @my_screens = []
+    if !current_user.nil?
+      my_group_screens = current_user.groups.collect{ |g| g.screens }.flatten
+      my_screens = current_user.screens
+      @my_screens = my_group_screens + my_screens
+    end
+    auth!
+
+
     @templates = Template.all
     auth!
 
