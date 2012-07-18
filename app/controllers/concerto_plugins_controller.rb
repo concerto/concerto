@@ -108,9 +108,9 @@ class ConcertoPluginsController < ApplicationController
         f << "\ngem " + gem_args.join(", ") +"\n"
       end
     }
-    #The exec command will replace the rails process with one running these commands, requiring a restart
-    #Neither backticks nor a system() call were able to accomodate Gem installation
-    exec("cat Gemfile-plugins.tmp > Gemfile-plugins;bundle update;rm Gemfile-plugins.tmp; touch tmp/restart.txt;")
+    fork do
+      system("cat Gemfile-plugins.tmp > Gemfile-plugins;bundle update;rm Gemfile-plugins.tmp;")
+    end
   end
   
 end
