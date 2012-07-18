@@ -44,8 +44,6 @@ class ConcertoPluginsController < ApplicationController
     @concerto_plugin = ConcertoPlugin.new(params[:concerto_plugin])
     auth!
     #if we're creating the plugin, install and enabled it by default
-    @concerto_plugin.installed = true
-    @concerto_plugin.enabled = true
     respond_to do |format|
       if @concerto_plugin.save    
         write_Gemfile()
@@ -110,7 +108,9 @@ class ConcertoPluginsController < ApplicationController
         f << "\ngem " + gem_args.join(", ") +"\n"
       end
     }
-    system("cat Gemfile-plugins.tmp > Gemfile-plugins;bundle update;rm Gemfile-plugins.tmp;")
+    #The exec command will replace the rails process with one running these commands, requiring a restart
+    #Neither backticks nor a system() call were able to accomodate Gem installation
+    exec("cat Gemfile-plugins.tmp > Gemfile-plugins;bundle update;rm Gemfile-plugins.tmp; touch tmp/restart.txt;")
   end
   
 end
