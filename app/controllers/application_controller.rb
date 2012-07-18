@@ -55,7 +55,9 @@ class ApplicationController < ActionController::Base
   # @param [Hash] opts The options to authenticate with.
   # @option opts [Symbol] action The CanCan action to test.
   # @option opts [Object] object The object we should be testing.
-  # @option opts [Boolean] allow_empty (true) If we should allow an empty array
+  # @option opts [Boolean] allow_empty (true) If we should allow an empty array.
+  # @option opts [Boolean] new_exception (true) Allow the user to the page if they can create
+  #   new objects, regardless of the empty status.
   # or raise if empty.
   def auth!(opts = {})
     action_map = {
@@ -74,6 +76,11 @@ class ApplicationController < ActionController::Base
       allow_empty = opts[:allow_empty]
     end
 
+    new_exception = true
+    if !opts[:new_exception].nil?
+      new_exception = opts[:new_exception]
+    end
+
     var_name = controller_name
     if action_name != 'index'
       var_name = controller_name.singularize
@@ -83,6 +90,10 @@ class ApplicationController < ActionController::Base
     unless object.nil?
       if ((object.is_a? Enumerable) || (object.is_a? ActiveRecord::Relation))
         object.delete_if {|o| cannot?(test_action, o)}
+        if new_exception && object.empty?
+          new_object = controller_name.singularize.classify.constantize.new
+          return true if can?(:create, new_object)
+        end
         if !allow_empty && object.empty?
           fake_cancan = Class.new.extend(CanCan::Ability)
           message ||= fake_cancan.unauthorized_message(test_action, object.class)

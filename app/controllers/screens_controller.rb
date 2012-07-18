@@ -11,9 +11,8 @@ class ScreensController < ApplicationController
     end
     auth!
 
-
     @templates = Template.all
-    auth!
+    auth!(:object => @templates)
 
     respond_to do |format|
       format.html # index.html.erb
