@@ -3,6 +3,10 @@ source 'http://rubygems.org'
 
 gem "rails", "3.2.3"
 
+group :concerto_plugins do
+  eval File.read('Gemfile-plugins')
+end
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -43,4 +47,3 @@ gem 'jquery-tools'
 # Test Coverage
 gem 'simplecov', :require => false, :group => :test
 
-eval File.read('Gemfile-plugins')
