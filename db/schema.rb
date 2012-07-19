@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120719025622) do
+ActiveRecord::Schema.define(:version => 20120719032933) do
 
   create_table "concerto_configs", :force => true do |t|
     t.string  "key"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(:version => 20120719025622) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "type"
+    t.integer  "parent_id"
   end
 
   create_table "delayed_jobs", :force => true do |t|
