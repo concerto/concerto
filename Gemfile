@@ -44,6 +44,9 @@ gem 'cancan'
 
 gem 'jquery-tools'
 
+# Process jobs in the background
+gem 'delayed_job_active_record'
+
 # Test Coverage
 gem 'simplecov', :require => false, :group => :test
 
