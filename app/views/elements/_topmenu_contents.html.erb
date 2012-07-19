@@ -56,17 +56,16 @@
   <!-- End Menu for CONTENT -->
 
   <!-- Begin Menu for NETWORK -->
-  <% if !(Group.joins(:screens, :users).where(:users => {:id => current_user.id}) + current_user.screens).empty? %>
-    <section>
-      <div class="top-menu-sectop">
-        <%= link_to t(:screens), screens_path, :class => "btn #{ controller.controller_name == 'screens' ? 'selected' : '' }" %>
-        <%= link_to t(:users_and_groups), groups_path, :class => "btn #{ controller.controller_name == 'groups' ? 'selected' : '' }" %>
-      </div>
-      <div class="top-menu-secbot">
-        <h1><%= t(:network) %></h1>
-      </div>
-    </section>
-  <% end %>
+  <section>
+    <div class="top-menu-sectop">
+      <%= link_to t(:screens), screens_path, :class => "btn #{ controller.controller_name == 'screens' ? 'selected' : '' }" %>
+      <%= link_to t(:users_and_groups), groups_path, :class => "btn #{ controller.controller_name == 'groups' ? 'selected' : '' }" %>
+    </div>
+    <div class="top-menu-secbot">
+      <h1><%= t(:network) %></h1>
+    </div>
+  </section>
+
   <!-- End Menu for NETWORK -->
 
   <!-- Begin Menu for ADMIN -->
