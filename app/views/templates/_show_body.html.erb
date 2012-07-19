@@ -1,25 +1,10 @@
+<%= link_to '[Edit]', edit_template_path(@template) %>
+
 <article><%= image_tag preview_template_path(@template), :style => "width: 100%", :alt => "#{@template.name} Preview" %></article>
 <aside>
-
-  <div>
-	<p>
-	  <b>Name:</b>
-	  <%= @template.name %>
-	</p>
-
-	<p>
+  <p>
 	  <b>Author:</b>
 	  <%= @template.author %>
 	</p>
-
-	<p>
-	  <b>Is hidden:</b>
-	  <%= @template.is_hidden %>
-	</p>
-	<%= link_to "Media", @template.media.original.first %> | 
-
-	<%= link_to 'Edit', edit_template_path(@template) %> |
-  </div>
-
 </aside>
 <div class="clear"></div>
