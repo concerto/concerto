@@ -185,7 +185,7 @@ class TemplatesController < ApplicationController
   #
   # TODO - This should be cleaned up, we should throw smarter errors too.
   def import
-    xml_file = params[:xml]
+    xml_file = params[:descriptor]
     image_file = params[:image]
     @template = Template.new
     if xml_file.nil? || image_file.nil?
