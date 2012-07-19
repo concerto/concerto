@@ -1,4 +1,12 @@
 class TemplatesController < ApplicationController
+  before_filter :get_type, :only => [:new, :create, :import]
+
+  # Grab the method of template
+  # creation we're working with.
+  def get_type
+    @type = params[:type] || 'import'
+  end
+
   # GET /templates
   # GET /templates.xml
   def index
@@ -31,7 +39,6 @@ class TemplatesController < ApplicationController
     @template = Template.new
     auth!
     @template.media.build
-    @type = params[:type] || 'import'
 
     respond_to do |format|
       format.html # new.html.erb
