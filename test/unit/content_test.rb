@@ -10,6 +10,13 @@ class ContentTest < ActiveSupport::TestCase
     assert content.errors[:user].any?
   end
 
+  test "content cannot be it's own parent" do
+    content = contents(:sample_ticker)
+    content.update_attribute(:parent_id, content.id)
+    assert content.invalid?
+    assert content.errors[:parent_id].any?
+  end
+
   # Content must be associated with a system kind.
   # This test is turned off because the associated validation is also disabled.
   # Need to fix.

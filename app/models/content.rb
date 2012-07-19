@@ -12,6 +12,16 @@ class Content < ActiveRecord::Base
   validates :name, :presence => true
   #validates :kind, :presence => true, :associated => true
   validates :user, :presence => true, :associated => true
+  validate :parent_id_cannot_be_this_content
+
+  def parent_id_cannot_be_this_content
+    if !parent_id.blank? and parent_id == id
+      errors.add(:parent_id, "can't be this content")
+    end
+  end
+
+  belongs_to :parent, :class_name => "Content"
+  has_many :children, :class_name => "Content", :foreign_key => "parent_id"
 
   #Easily query for active, expired, or future content
   scope :expired, where("end_time < :now", {:now => Time.now})
