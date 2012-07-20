@@ -6,7 +6,7 @@ module GroupsHelper
       concat " (leader) " if membership.level == Membership::LEVELS[:leader]
       if i == 9 && membership != orderedMemberships.last
         concat " and "
-        concat link_to "more", group
+        concat link_to "#{orderedMemberships.count - 10} more", group
         break
       elsif i != 9 && membership != orderedMemberships.last
       	concat ", "
