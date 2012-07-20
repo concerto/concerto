@@ -62,7 +62,10 @@
           <h1 class="default-padding"><%= t(:users) %></h1>
         </header>
         <div class="viewblock-cont">
-          &nbsp;
+          <% @users.each do |user| %>
+            <%= link_to user.name, user_path(user) %>
+            <br />
+          <% end %>
           <div class="clear"></div>
         </div>
       </section>

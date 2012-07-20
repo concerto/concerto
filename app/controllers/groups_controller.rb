@@ -4,6 +4,7 @@ class GroupsController < ApplicationController
   def index
     @groups = Group.all
     @my_groups = current_user.nil? ? [] : current_user.groups
+    @users = User.all
     auth!
 
     respond_to do |format|
