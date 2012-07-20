@@ -45,8 +45,8 @@
                     <% end %>
                   </h3>
                   <%= link_to "Join", group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></td>
-                  <p class="indented">Members: 
-                  List...
+                  <p class="indented">
+                    <% member_list(group) %>
                   </p>
                 </li>
               <% end %>
