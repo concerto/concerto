@@ -83,8 +83,8 @@
   <section class="right">
     <div class="top-menu-sectop">
       <div class="pull-left">
-        <% if current_user.is_admin? %><i class="icon-user-admin"></i><% end %>
-        <% if can? :update, Group %><i class="icon-user-leader"></i><% end %>
+        <% if current_user.is_admin? %><i class="icon-user-admin tooltip-basic" data-tooltip-text="You are a system-wide admin"></i><% end %>
+        <% if can? :update, Group %><i class="icon-user-leader tooltip-basic" data-tooltip-text="You are a leader of one or more groups"></i><% end %>
       </div>
       <div class="pull-right"><p><b><%= current_user.name %></b></p>
         <p><%= link_to t(:settings), edit_user_path(current_user) %>, <%= link_to t(:log_out), destroy_user_session_path %></p>

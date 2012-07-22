@@ -65,6 +65,27 @@ $(document).ready(function () {
     });
   }
 
+  // intitialization of qTip for basic tooltips:
+  $(".tooltip-basic").each(function() {
+    $(this).qtip({
+      content: {
+        text: $(this).attr('data-tooltip-text')
+      },
+      position: {
+        at: 'top center', // Position the tooltip below the link
+        my: 'bottom center',
+        viewport: $(window) // Keep the tooltip on-screen at all times
+      },
+      show: {
+        event: 'mouseenter', // Show it on focus...
+        delay: 300,
+        solo: false
+      },
+      hide: 'mouseleave',
+      style: 'ui-tooltip-dark ui-tooltip-rounded'
+    });
+  });
+
 });
 
 
