@@ -72,13 +72,13 @@ $(document).ready(function () {
         text: $(this).attr('data-tooltip-text')
       },
       position: {
-        at: 'top center', // Position the tooltip below the link
-        my: 'bottom center',
+        at: 'bottom center', // Position the tooltip below the link
+        my: 'top center',
         viewport: $(window) // Keep the tooltip on-screen at all times
       },
       show: {
         event: 'mouseenter', // Show it on focus...
-        delay: 300,
+        delay: 500,
         solo: false
       },
       hide: 'mouseleave',
