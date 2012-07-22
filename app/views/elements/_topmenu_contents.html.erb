@@ -81,13 +81,14 @@
 
   <!-- Begin User Login Area -->
   <section class="right">
-    <div class="top-menu-sectop">
+    <div id="top-menu-user" class="top-menu-sectop">
       <div class="pull-left">
         <% if current_user.is_admin? %><i class="icon-user-admin tooltip-basic" data-tooltip-text="You are a system-wide admin"></i><% end %>
         <% if can? :update, Group %><i class="icon-user-leader tooltip-basic" data-tooltip-text="You are a leader of one or more groups"></i><% end %>
       </div>
-      <div class="pull-right"><p><b><%= current_user.name %></b></p>
-        <p><%= link_to t(:settings), edit_user_path(current_user) %>, <%= link_to t(:log_out), destroy_user_session_path %></p>
+      <div class="pull-right">
+        <h2><%= current_user.name %></h2>
+        <p><%= link_to t(:settings), edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;<%= link_to t(:log_out), destroy_user_session_path %></p>
       </div>
       <div class="clear"></div>
     </div>
