@@ -1,112 +1,135 @@
-<article>
-  <div class="default-padding">
-    <% if !@user.memberships.empty? %>
-      <h2>Groups</h2>
+<div class="row-fluid">
+  <div class="span4">
+    <div class="default-padding">
 
-      <table>
-        <tr>
-          <th>Name</th>
-    			<th>Roles</th>
-    		</tr>
+      <div style="margin-bottom: 24px;">
+        <h2>
+          <%= @user.first_name %> <%= @user.last_name %>
+        </h2>
+        <p>
+          <%= mail_to @user.email, @user.email, :encode => "hex" %>
+        </p>
+      </div>
 
-        <% @user.memberships.each do |membership| %>
+      <div>
+        <h2>My Groups</h2>
+        <% if !@user.memberships.empty? %>
+
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Roles</th>
+          </tr>
+
+          <% @user.memberships.each do |membership| %>
           <tr>
             <td><%= link_to membership.group.name, membership.group%></td>
 
             <td>
               <%= form_for([membership.group, membership]) do |f| %>
-                <%= f.select :level, Membership::LEVELS %>
-                <%= f.submit %>
+                <%= f.select :level, Membership::LEVELS, { }, { :style => "width: 80px;" } %>
+                <%= submit_tag "Change", { :class => "btn" } %>
               <% end %>
             </td>
           </tr>
+          <% end %>
+        </table>
+
+        <br/><br/>
         <% end %>
-      </table>
 
-      <br/><br/>
-    <% end %>
+      </div>
 
-    <% if !@user.screens.empty? %>
-      <h2>Screens</h2>
-
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Location</th>
-          <th>Dimensions</th>
-        </tr>
-
-        <% @user.screens.each do |screen| %>
-          <tr>
-            <td><%= link_to screen.name, screen %></td>
-            <td><%= screen.location %></td>
-            <td><%= screen.width %> X <%= screen.height %></td>
-          </tr>
-        <% end %>
-      </table>
-
-      <br/><br/>
-    <% end %>
-
-    <% Group.joins(:screens, :users).where(:users => {:id => @user}).group('groups.id').each do |group| %>
-      <h2><%= link_to group.name, group %>'s Screens</h2>
-
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Location</th>
-          <th>Dimensions</th>
-        </tr>
-
-        <% group.screens.each do |screen| %>
-          <tr>
-            <td><%= link_to screen.name, screen %></td>
-            <td><%= screen.location %></td>
-            <td><%= screen.width %> X <%= screen.height %></td>
-          </tr>
-        <% end %>
-      </table>
-      <br/><br/>
-    <% end %>
-
-    <% if !@user.contents.empty? %>
-      <h2>Submissions</h2>
-
-      <table>
-        <tr>
-          <th>Name</th>
-    			<th>Type</th>
-    			<th>Airs</th>
-    		</tr>
-
-      <% @user.contents.each do |content| %>
-        <tr>
-          <td><%= link_to content.name, content %></td>
-          <td><%= content.type %></td>
-          <td><%= content.start_time.strftime("%B %d at %I:%M%p %Z") %> - <%= content.end_time.strftime("%B %d at %I:%M%p %Z") %></td>
-        </tr>
-        <% end %>
-      </table>
-      <br/><br/>
-    <% end %>
-
+    </div>
   </div>
 
-</article>
+  <div class="span4">
+    <div class="default-padding">
 
-<aside>
+      <div>
 
-  <div>
-    <p>
-      <b>Email:</b>
-      <%= @user.email %>
-    </p>
+        <h2>My Screens</h2>
 
-    <p>
-      <b>Language:</b>
-      <%= @user.locale %>
-    </p>
+        <table>
+          <tr>
+            <th>Details</th>
+            <th>Owner</th>
+          </tr>
+
+          <% @user.screens.each do |screen| %>
+          <tr>
+            <td>
+              <p>
+                <b><%= link_to screen.name, screen %></b>
+                <br />
+                <%= screen.location %>
+              </p>
+            </td>
+            <td>
+              <p>You</p>
+            </td>
+          </tr>
+          <% end %>
+
+          <% Group.joins(:screens, :users).where(:users => {:id => @user}).group('groups.id').each do |group| %>
+          <% group.screens.each do |screen| %>
+          <tr>
+            <td>
+              <p>
+                <b><%= link_to screen.name, screen %></b>
+                <br />
+                <%= screen.location %>
+              </p>
+            </td>
+            <td>
+              <p><%= link_to group.name, group %></p>
+            </td>
+          </tr>
+          <% end %>
+          <% end %>
+
+        </table>
+
+      </div>
+
+    </div>
   </div>
 
-</aside>
-<div class="clear"></div>
+  <div class="span4">
+    <div class="default-padding">
+
+      <div>
+        <h2>My Content</h2>
+
+        <% if !@user.contents.empty? %>
+
+        <ul class="list-grid">
+          <% @user.contents.each do |content| %>
+          <li>
+            <div class="cont">
+              <%= link_to content do %>
+                <%= render_content(content, {:type => 'grid'}) %>
+              <% end %>
+              <p>
+                <b><%= link_to content.name, content %></b>
+                <br />
+                <%= content.type %>
+                <br />
+                <%= content.start_time.strftime("%m/%d") %> to <%= content.end_time.strftime("%m/%d") %>
+              </p>
+
+            </div>
+          </li>
+          <% end %>
+        </ul>
+        <div class="clear"></div>
+
+        <% else %>
+
+        <% end %>
+
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -14,7 +14,7 @@ class SubmissionsController < ApplicationController
 
     if @can_moderate_feed
       
-      # pending submissions are defined as submissions that are active (i.e. date window has not passed to make them expired) OR future AND flagged as pending via scope:
+      # pending submissions are defined as submissions that are flagged as pending OR active (date window has not passed to make them expired) AND flagged as pending via scope:
       @pending_submissions = @feed.submissions.pending.active + @feed.submissions.pending.future
       
       # denied submissions are defined as all submissions that are marked with moderation false (regardless of expired or active status):
