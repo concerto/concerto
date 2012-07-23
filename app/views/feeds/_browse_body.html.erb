@@ -8,25 +8,24 @@
    <li>
     <h3>
       <%= link_to feed_submissions_path(feed), :remote => true, :class => "link-hl" do %>
-      <span class="badge"><%= feed.approved_contents.count %></span> <%= feed.name %>
+        <span class="badge"><%= feed.approved_contents.count %></span> <%= feed.name %>
       <% end %>
       <small>&nbsp;&nbsp;<%= feed.description %></small>
       <% if can? :update, feed %>
-      <small><%= link_to "[#{t(:edit)}]", edit_feed_path(feed) %></small>
+        <small><%= link_to "[#{t(:edit)}]", edit_feed_path(feed) %></small>
       <% end %>
-    </h3>
-    <% end %>
-    
+    </h3>    
     <% if feed.children.count > 0 %>
     <p class="indented">Sub-feeds: 
       <% feed.children.each do |sub_feed| %>
-      <%= link_to feed_submissions_path(sub_feed), :remote => true, :class => "link-hl" do %>
-      <%= sub_feed.name %>
-      <% end %>
+        <%= link_to feed_submissions_path(sub_feed), :remote => true, :class => "link-hl" do %>
+          <%= sub_feed.name %>
+        <% end %>
       <% end %>
     </p>
     <% end %>
   </li>
+  <% end %>
   <% end %>
 </ul>
 

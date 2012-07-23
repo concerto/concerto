@@ -37,4 +37,19 @@ class FeedsControllerTest < ActionController::TestCase
     assert_login_failure
   end
 
+  test "signed in top bar critical links" do
+    sign_in users(:katie)
+    get :index
+
+    key_text = ['Browse', 'Screens', 'User Groups']
+    key_text.each do |text|
+      assert_select 'nav>section>div>a', text
+    end
+
+    key_links = [feeds_path, screens_path, groups_path]
+    key_links.each do |link|
+      assert_select 'nav>section>div>a[href=?]', link
+    end
+  end
+
 end
