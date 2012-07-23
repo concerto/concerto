@@ -2,7 +2,7 @@
   <div class="span4">
     <div class="default-padding">
 
-      <div style="margin-bottom: 24px;">
+      <div class="subblock">
         <h2>
           <%= @user.first_name %> <%= @user.last_name %>
         </h2>
@@ -11,7 +11,7 @@
         </p>
       </div>
 
-      <div>
+      <div class="subblock">
         <h2>My Groups</h2>
         <% if !@user.memberships.empty? %>
 
@@ -46,7 +46,7 @@
   <div class="span4">
     <div class="default-padding">
 
-      <div>
+      <div class="subblock">
 
         <h2>My Screens</h2>
 
@@ -98,7 +98,7 @@
   <div class="span4">
     <div class="default-padding">
 
-      <div>
+      <div class="subblock">
         <h2>My Content</h2>
 
         <% if !@user.contents.empty? %>

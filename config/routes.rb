@@ -72,7 +72,7 @@ Concerto::Application.routes.draw do
     resources :submissions, :only => [:index, :show, :update]
   end
 
-  resources :contents, :except => [:index, :show], :path => "content" do
+  resources :contents, :except => [:index], :path => "content" do
     get :display, :on => :member
   end
 
