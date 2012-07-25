@@ -105,17 +105,20 @@ class Ability
     can :read, Screen do |screen|
       screen.owner.is_a?(Group) && screen.owner.users.include?(user)
     end
-    # Group leaders can create / delete their group screens
+    # Group leaders can create / delete their group screens.
+    # So can special supporters
     can [:update, :delete], Screen do |screen|
-      screen.owner.is_a?(Group) && screen.owner.leaders.include?(user)
-    end    
+      screen.owner.is_a?(Group) && (screen.owner.leaders.include?(user) ||
+        screen.owner.user_has_permissions?(user, :supporter, :screen, [:all])) 
+    end
 
     #Subscriptions
     #Only the owning group or user can manage screen subscriptions
     can :manage, Subscription, :screen => { :owner_id => user.id, :owner_type => 'User'}
     can :manage, Subscription do |subscription|
       screen = subscription.screen
-      screen.owner.is_a?(Group) && screen.owner.leaders.include?(user)
+      screen.owner.is_a?(Group) && (screen.owner.leaders.include?(user) ||
+        screen.owner.user_has_permissions?(user, :supporter, :screen, [:all, :subscribe]))
     end
     
     ## Submissions
@@ -127,7 +130,8 @@ class Ability
     can [:read,  :delete], Submission, :content => {:user => {:id => user.id }}
     # Submissions can be read and updated by moderators.
     can [:read, :update], Submission do |submission|
-      submission.feed.group.leaders.include?(user)
+      (submission.feed.group.leaders.include?(user) || 
+        submission.feed.group.user_has_permissions?(user, :supporter, :feed, [:all, :moderate]))
     end
     # Approved submissions can be read if they can read the feed.
     can :read, Submission do |s|
@@ -141,7 +145,8 @@ class Ability
     can :read, Feed, :group => {:id => user.group_ids }
     # Group leaders can update / date a feed they own
     can [:update, :delete], Feed do |feed|
-      feed.group.leaders.include?(user)
+      (feed.group.leaders.include?(user) || 
+         feed.group.user_has_permissions?(user, :supporter, :feed, [:all]))
     end
 
     ## Memberships
