@@ -31,6 +31,7 @@ class Membership < ActiveRecord::Base
   }
 
   after_initialize :expand_permissions
+  before_save :compact_permissions
 
   belongs_to :user
   belongs_to :group
@@ -43,6 +44,7 @@ class Membership < ActiveRecord::Base
   # Scoping shortcuts for leaders/regular
   scope :leader, where(:level => Membership::LEVELS[:leader])
   scope :regular, where(:level => Membership::LEVELS[:regular])
+  scope :supporter, where(:level => Membership::LEVELS[:supporter])
 
   # Scoping shortcuts for approved/pending
   scope :approved, where(":level > Membership::LEVELS[:pending]")
