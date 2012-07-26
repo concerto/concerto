@@ -53,7 +53,7 @@
       <br />
       <%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
       <% if submission.content.start_time < Time.now() %>
-        <%= link_to "Urgent", "#", :class => "dropdown-control dd-tooltip", :title => "Hey! This content has already passed its requested start date and you should moderate it." %>
+        <%= link_to "Urgent", "#", :class => "tooltip-basic", 'data-tooltip-text' => "Hey! This content has already passed its requested start date and you should moderate it." %>
       <% end -%>
       <br />
       <p>
@@ -120,7 +120,7 @@
       <br />
       <%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
       <% if submission.content.start_time > Time.now() %>
-        <p><%= link_to "Future", "#", :class => "dropdown-control dd-tooltip", :title => "This content has been approved and is scheduled to display on screens in the future" %></p>
+        <p><%= link_to "Future", "#", :class => "tooltip-basic", 'data-tooltip-text' => "This content has been approved and is scheduled to display on screens in the future" %></p>
       <% end -%>
       <br />
 
@@ -345,32 +345,6 @@ $(document).ready(function() {
 
         show: {
           event: 'click', // Show it on click...
-          solo: true // ...and hide all other tooltips...
-        },
-
-        hide: 'unfocus',
-        style: 'ui-tooltip-dark ui-tooltip-shadow ui-tooltip-rounded'
-
-      });
-
-  });
-
-  $('.dropdown-control.dd-tooltip').each(function() {
-
-    $(this).qtip( {
-
-      content: {
-        text: $( $(this).attr('title') ).html(),
-      },
-
-      position: {
-          at: 'bottom center', // Position the tooltip above the link
-          my: 'top left',
-          viewport: $(window) // Keep the tooltip on-screen at all times
-        },
-
-        show: {
-          event: 'mouseover', // Show it on click...
           solo: true // ...and hide all other tooltips...
         },
 
