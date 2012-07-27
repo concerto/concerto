@@ -66,7 +66,8 @@ $(document).ready(function () {
   }
 
   // intitialization of qTip for basic tooltips:
-  $(".tooltip-basic").each(function() {
+  // this means that tooltips can be used on any page for single-line messages
+  $("body").delegate(".tooltip-basic", "mouseover", function(event) {
     $(this).qtip({
       content: {
         text: $(this).attr('data-tooltip-text')
@@ -79,7 +80,8 @@ $(document).ready(function () {
       show: {
         event: 'mouseenter', // Show it on focus...
         delay: 500,
-        solo: false
+        solo: false,
+        ready: true
       },
       hide: 'mouseleave',
       style: 'ui-tooltip-dark ui-tooltip-rounded'
