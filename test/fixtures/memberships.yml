@@ -9,3 +9,9 @@ katie_rpitv:
   user: katie
   group: rpitv
   level: <%= Membership::LEVELS[:regular] %>
+
+karen_wtg:
+  user: karen
+  group: wtg
+  level: <%= Membership::LEVELS[:supporter] %>
+  permissions: 0

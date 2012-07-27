@@ -118,7 +118,7 @@ class Ability
     can :manage, Subscription do |subscription|
       screen = subscription.screen
       screen.owner.is_a?(Group) && (screen.owner.leaders.include?(user) ||
-        screen.owner.user_has_permissions?(user, :supporter, :screen, [:all, :subscribe]))
+        screen.owner.user_has_permissions?(user, :supporter, :screen, [:all, :subscriptions]))
     end
     
     ## Submissions
@@ -131,7 +131,7 @@ class Ability
     # Submissions can be read and updated by moderators.
     can [:read, :update], Submission do |submission|
       (submission.feed.group.leaders.include?(user) || 
-        submission.feed.group.user_has_permissions?(user, :supporter, :feed, [:all, :moderate]))
+        submission.feed.group.user_has_permissions?(user, :supporter, :feed, [:all, :submissions]))
     end
     # Approved submissions can be read if they can read the feed.
     can :read, Submission do |s|

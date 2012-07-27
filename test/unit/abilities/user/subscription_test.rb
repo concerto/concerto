@@ -40,6 +40,24 @@ class UserSubscriptionAbilityTest < ActiveSupport::TestCase
     abilities.each do |action|
       assert ability.cannot?(action, @subscription)
     end
+
+    membership = memberships(:karen_wtg)
+    membership.perms[:screen] = :none
+    membership.save
+    ability = Ability.new(users(:karen))
+    abilities.each do |action|
+      assert ability.cannot?(action, @subscription)
+    end
+
+    [:subscriptions, :all].each do |p|
+      membership.perms[:screen] = p
+      membership.save
+      ability = Ability.new(users(:karen))
+      abilities.each do |action|
+        assert ability.can?(action, @subscription)
+      end
+    end
+
   end
 end
 

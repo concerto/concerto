@@ -87,7 +87,11 @@ class Membership < ActiveRecord::Base
           p_value = local_perms[key][p_sym]
          end
         if index == 0
-          new_permissions = p_value
+          if !p_value.nil?
+            new_permissions = p_value
+          else
+            new_permissions = 0
+          end
         else
           new_permissions += p_value * (10**index)
         end
