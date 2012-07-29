@@ -8,6 +8,13 @@
 def main
   parse_options()
   
+  #Check that package dependencies are installed. If not, try some other detection strategies
+  if command?("apt-get")
+    check_deb_pkg_depends()
+  else
+    check_general_depends()
+  end  
+    
   #Retrieve Concerto source/zip from Github 
   if command?("git")
     puts "Cloning Git repository..."
@@ -17,14 +24,7 @@ def main
     system("wget -O /tmp/concerto.tar.gz https://github.com/concerto/concerto/tarball/master")
     system("tar -zxvf /tmp/concerto.tar.gz #{$concerto_location}")
   end
-  
-  #Check that package dependencies are installed. If not, try some other detection strategies
-  if command?("apt-get")
-    check_deb_pkg_depends()
-  else
-    check_general_depends()
-  end  
-  
+    
   Dir.chdir($concerto_location) do
     #Install gems
     puts "Installing Gems..."
@@ -133,18 +133,12 @@ def generate_password(len)
 end
 
 def check_general_depends
-  unmet_depends.new
+  unmet_depends = Array.new
   
   unless command?("convert")
     unmet_depends << "ImageMagick is not properly installed or is not in the PATH.\n"
   end
-  
-  Dir.chdir($concerto_location) do
-    unless system("bundle show | grep rmagick")
-      unmet_depends << "RMagick is not properly installed or is not in the PATH.\n"
-    end
-  end
-  
+   
   if $database_type == "mysql"
     unless command?("mysql")
       unmet_depends << "MySQL Client is not properly installed or is not in the PATH.\n"
@@ -152,11 +146,6 @@ def check_general_depends
     unless command?("mysqld")
       unmet_depends << "MySQL daemon is not properly installed or is not in the PATH.\n"
     end    
-    Dir.chdir($concerto_location) do
-      unless system("bundle show | grep mysql")
-        unmet_depends << "MySQL gem is not properly installed or is not in the PATH.\n"
-      end
-    end
   end
   
   #Warn the user about unmet dependencies
@@ -182,7 +171,7 @@ def check_deb_pkg_depends
     pkg_depends << "mysql-server" << "mysql-client" << "libmysql-ruby1.9.1"
   end
   #all unmet dependencies will be pushed onto this array
-  unmet_depends.new
+  unmet_depends = Array.new
   pkg_depends.each do |package_name|
     if package(package_name) != true
       unmet_depends << package_name
