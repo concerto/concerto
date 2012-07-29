@@ -8,9 +8,6 @@
 def main
   parse_options()
   
-  #Check that package dependencies are installed. If not, we're just going to tell the user (as they might not be using Debian et al.)
-  check_pkg_depends()
-  
   #Retrieve Concerto source/zip from Github 
   if command?("git")
     puts "Cloning Git repository..."
@@ -21,9 +18,21 @@ def main
     system("tar -zxvf /tmp/concerto.tar.gz #{$concerto_location}")
   end
   
+  #Check that package dependencies are installed. If not, try some other detection strategies
+  if command?("apt-get")
+    check_deb_pkg_depends()
+  else
+    check_general_depends()
+  end  
+  
   Dir.chdir($concerto_location) do
     #Install gems
     puts "Installing Gems..."
+    unless command?("bundle")
+      puts "Bundler is not installed. Please install the bundler gem with gem install bundler"
+      exit
+    end
+    
     system("bundle install --path vendor/bundle;")
     
     if $database_type.nil?
@@ -33,7 +42,15 @@ def main
     
     #Migrate database and install seed data
     puts "Migrating Database and Installing Seed Data..."
-    system("rake db:setup")
+    if command?("rake") != true
+      bundle_rake = system("bundle exec rake db:setup")
+      if bundle_rake != true
+        puts "The rake gem is not installed globally or in the local bundle. Run gem install rake"
+        exit
+      end
+    else
+      system("rake db:setup")
+    end 
   end
   
   #Create Apache VHost entry with interpolated values
@@ -115,6 +132,39 @@ def generate_password(len)
   return newpass
 end
 
+def check_general_depends
+  unmet_depends.new
+  
+  unless command?("convert")
+    unmet_depends << "ImageMagick is not properly installed or is not in the PATH.\n"
+  end
+  
+  Dir.chdir($concerto_location) do
+    unless system("bundle show | grep rmagick")
+      unmet_depends << "RMagick is not properly installed or is not in the PATH.\n"
+    end
+  end
+  
+  if $database_type == "mysql"
+    unless command?("mysql")
+      unmet_depends << "MySQL Client is not properly installed or is not in the PATH.\n"
+    end
+    unless command?("mysqld")
+      unmet_depends << "MySQL daemon is not properly installed or is not in the PATH.\n"
+    end    
+    Dir.chdir($concerto_location) do
+      unless system("bundle show | grep mysql")
+        unmet_depends << "MySQL gem is not properly installed or is not in the PATH.\n"
+      end
+    end
+  end
+  
+  #Warn the user about unmet dependencies
+  unless unmet_depends.empty?
+    unmet_depends.each {|d| print d}
+  end  
+end
+
 def package?(package_name)
   #grep through the output of dpkg -s to see if a package status is given. If so, we assume it's installed and working
   if system("dpkg -s #{pkg} | grep Status") != true
@@ -124,7 +174,7 @@ def package?(package_name)
   end
 end
 
-def check_pkg_depends
+def check_deb_pkg_depends
   #Concerto imagemagick package dependencies
   pkg_depends = ['imagemagick', 'librmagick-ruby', 'libmagickcore-dev', 'libmagickwand-dev']
   #Add additional MySQL package requirements (if -d mysql is invoked)
