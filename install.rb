@@ -9,6 +9,9 @@
 require 'open-uri'
 #used for platform-agnostic file copying
 require 'fileutils'
+#turn off SSL verification stuff due to known Ruby bug
+require 'openssl'
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
   
 def main
   parse_options()
@@ -36,10 +39,10 @@ def main
       download_file("https://github.com/concerto/concerto/zipball/master", "c:\\concerto.zip") 
       download_file("http://stahlworks.com/dev/unzip.exe", "c:\\unzip.exe")
       system("c:\\unzip.exe c:\\concerto.zip #{$concerto_location}")  
-      system("del c:\\unzip.exe c:\\concerto.zip")
+      #system("del c:\\unzip.exe c:\\concerto.zip")
     else
       #Virtually all *nix systems have tar
-      download_file("https://github.com/concerto/concertoo/tarball/master", "/tmp/concerto.tar.gz")
+      download_file("https://github.com/concerto/concerto/tarball/master", "/tmp/concerto.tar.gz")
       system("tar -zxvf /tmp/concerto.tar.gz #{$concerto_location}")
     end
   end
@@ -100,7 +103,7 @@ def parse_options
   #A sensible default for Concerto installation location
   if $concerto_location.nil?
     if Kernel.is_windows?
-      $concerto_location = "c:\\concerto"
+      $concerto_location = 'c:\concerto'
     else
       puts "Concerto is being installed to /var/www/concerto. To specify the location to deploy Concerto to, use the -l option"
       $concerto_location = "/var/www/concerto" 
