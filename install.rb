@@ -4,9 +4,19 @@
   #concerto_location
   #concerto_hostname
   #database_type
-
+  
+#used for platform-agnostic downloading of zip and tar files  
+require 'open-uri'
+#used for platform-agnostic file copying
+require 'fileutils'
+  
 def main
   parse_options()
+  
+  if $database_type.nil? && Kernel.is_windows?
+    puts "Non-sqlite database autoconfiguration is not available on Windows"
+    exit
+  end
   
   #Check that package dependencies are installed. If not, try some other detection strategies
   if command?("apt-get")
@@ -15,14 +25,21 @@ def main
     check_general_depends()
   end  
     
-  #Retrieve Concerto source/zip from Github 
+  #Retrieve Concerto source/tar/zip from Github 
   if command?("git")
     puts "Cloning Git repository..."
     system("git clone https://github.com/concerto/concerto.git #{$concerto_location}")
   else
-    puts "Git executable not found -- downloading tarball..."
-    system("wget -O /tmp/concerto.tar.gz https://github.com/concerto/concerto/tarball/master")
-    system("tar -zxvf /tmp/concerto.tar.gz #{$concerto_location}")
+    puts "Git executable not found -- downloading non-git file..."
+    #Zip files are a sensible default for Windows
+    if Kernel.is_windows?
+      download_file("https://github.com/concerto/concerto/zipball/master", "c:\\concerto.zip") 
+      system("unzip c:\concerto.zip #{$concerto_location}")  
+    else
+      #Virtually all *nix systems have tar
+      download_file("https://github.com/concerto/concertoo/tarball/master", "/tmp/concerto.tar.gz")
+      system("tar -zxvf /tmp/concerto.tar.gz #{$concerto_location}")
+    end
   end
     
   Dir.chdir($concerto_location) do
@@ -33,11 +50,11 @@ def main
       exit
     end
     
-    system("bundle install --path vendor/bundle;")
+    system("bundle install --path #{Pathname.new("/vendor/bundle").to_s}")
     
     if $database_type.nil?
       #Copy over default database.yml for dong default sqlite
-      system("cp config/database.yml.sample config/database.yml")
+      FileUtils.cp Pathname.new("/config/database.yml.sample").to_s, Pathname.new("/config/database.yml").to_s
     end
     
     #Migrate database and install seed data
@@ -80,14 +97,18 @@ def parse_options
   end
   #A sensible default for Concerto installation location
   if $concerto_location.nil?
-    puts "Concerto is being installed to /var/www/concerto. To specify the location to deploy Concerto to, use the -l option"
-    $concerto_location = "/var/www/concerto" 
+    if Kernel.is_windows?
+      $concerto_location = Pathname.new("/concerto").to_s
+    else
+      puts "Concerto is being installed to /var/www/concerto. To specify the location to deploy Concerto to, use the -l option"
+      $concerto_location = "/var/www/concerto" 
+    end
   end
 end
 
 def mysql_config
   #replace sqliite with mysql
-  system("sed -i 's/sqlite3/mysql2/g' /usr/share/concerto/Gemfile")
+  system("sed -i 's/sqlite3/mysql2/g' #{$concerto_location}/Gemfile")
   
   #turn of terminal echo so the password isn't seen
   `stty -echo`
@@ -120,9 +141,24 @@ host: localhost}
 
 end
 
-#Check for existence of a command for use (and send the output to the bitbucket)
+#Cross-platform way of finding an executable in the $PATH
+#which('ruby') #=> /usr/bin/ruby
+#Courtesy of Mislav Marohnic (via Stackoverflow)
+def which(cmd)
+  exts = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
+  ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
+    exts.each { |ext|
+      exe = "#{path}/#{cmd}#{ext}"
+      return exe if File.executable? exe
+    }
+  end
+  return nil
+end
+
+
+#Check for existence of a command for use
 def command?(command)
-  system("which #{ command} > /dev/null 2>&1")
+  which(command) ? return true : return false
 end
 
 def generate_password(len)
@@ -181,6 +217,22 @@ def check_deb_pkg_depends
   #Warn the user about unmet dependencies
   unless unmet_depends.empty?
     puts "Dependencies not met! Concerto requires the packages: #{unmet_depends.each {|d| print d, ", " } }"
+  end
+end
+
+# Returns true if we are running on a MS windows platform, false otherwise.
+def Kernel.is_windows?
+  processor, platform, *rest = RUBY_PLATFORM.split("-")
+  platform == 'mswin32'
+end
+
+#download given file to0 specified destination using open-uri
+def download_file(file_url, file_destination) 
+  File.open(file_destination, "wb") do |saved_file|
+    # the following "open" is provided by open-uri
+    open(file_url) do |read_file|
+      saved_file.write(read_file.read)
+    end
   end
 end
 
