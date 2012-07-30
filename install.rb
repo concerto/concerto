@@ -34,7 +34,9 @@ def main
     #Zip files are a sensible default for Windows
     if Kernel.is_windows?
       download_file("https://github.com/concerto/concerto/zipball/master", "c:\\concerto.zip") 
-      system("unzip c:\concerto.zip #{$concerto_location}")  
+      download_file("http://stahlworks.com/dev/unzip.exe", "c:\\unzip.exe")
+      system("c:\unzip.exe c:\concerto.zip #{$concerto_location}")  
+      system("del c:\unzip.exe c:\concerto.zip")
     else
       #Virtually all *nix systems have tar
       download_file("https://github.com/concerto/concertoo/tarball/master", "/tmp/concerto.tar.gz")
@@ -50,11 +52,11 @@ def main
       exit
     end
     
-    system("bundle install --path #{Pathname.new("/vendor/bundle").to_s}")
+    system("bundle install --path /vendor/bundle")
     
     if $database_type.nil?
       #Copy over default database.yml for dong default sqlite
-      FileUtils.cp Pathname.new("/config/database.yml.sample").to_s, Pathname.new("/config/database.yml").to_s
+      FileUtils.cp "/config/database.yml.sample", "/config/database.yml"
     end
     
     #Migrate database and install seed data
@@ -98,7 +100,7 @@ def parse_options
   #A sensible default for Concerto installation location
   if $concerto_location.nil?
     if Kernel.is_windows?
-      $concerto_location = Pathname.new("/concerto").to_s
+      $concerto_location = "c:\\concerto"
     else
       puts "Concerto is being installed to /var/www/concerto. To specify the location to deploy Concerto to, use the -l option"
       $concerto_location = "/var/www/concerto" 
