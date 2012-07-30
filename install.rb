@@ -160,7 +160,11 @@ end
 
 #Check for existence of a command for use
 def command?(command)
-  which(command) ? return true : return false
+  if which(command) != nil
+    return true
+  else
+    return false
+  end
 end
 
 def generate_password(len)
