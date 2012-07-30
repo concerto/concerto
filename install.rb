@@ -13,7 +13,7 @@ require 'fileutils'
 def main
   parse_options()
   
-  if $database_type.nil? && Kernel.is_windows?
+  if $database_type.nil == false && Kernel.is_windows?
     puts "Non-sqlite database autoconfiguration is not available on Windows"
     exit
   end
