@@ -13,7 +13,7 @@ require 'fileutils'
 def main
   parse_options()
   
-  if $database_type.nil == false && Kernel.is_windows?
+  if $database_type.nil? == false && Kernel.is_windows?
     puts "Non-sqlite database autoconfiguration is not available on Windows"
     exit
   end
@@ -35,8 +35,8 @@ def main
     if Kernel.is_windows?
       download_file("https://github.com/concerto/concerto/zipball/master", "c:\\concerto.zip") 
       download_file("http://stahlworks.com/dev/unzip.exe", "c:\\unzip.exe")
-      system("c:\unzip.exe c:\concerto.zip #{$concerto_location}")  
-      system("del c:\unzip.exe c:\concerto.zip")
+      system("c:\\unzip.exe c:\\concerto.zip #{$concerto_location}")  
+      system("del c:\\unzip.exe c:\\concerto.zip")
     else
       #Virtually all *nix systems have tar
       download_file("https://github.com/concerto/concertoo/tarball/master", "/tmp/concerto.tar.gz")
@@ -229,7 +229,7 @@ end
 # Returns true if we are running on a MS windows platform, false otherwise.
 def Kernel.is_windows?
   processor, platform, *rest = RUBY_PLATFORM.split("-")
-  platform == 'mswin32'
+  platform == 'mswin32' || platform == 'mingw32'
 end
 
 #download given file to0 specified destination using open-uri
