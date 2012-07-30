@@ -9,7 +9,7 @@
 require 'open-uri'
 #used for platform-agnostic file copying
 require 'fileutils'
-#turn off SSL verification stuff due to known Ruby bug
+#turn off SSL verification stuff due to Ruby bug (mostly a Windows issue)
 require 'openssl'
 OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
   
@@ -17,7 +17,7 @@ def main
   parse_options()
   
   if $database_type.nil? == false && Kernel.is_windows?
-    puts "Non-sqlite database autoconfiguration is not available on Windows"
+    puts "Only SQLite Database autoconfiguration is available on Windows"
     exit
   end
   
@@ -33,13 +33,24 @@ def main
     puts "Cloning Git repository..."
     system("git clone https://github.com/concerto/concerto.git #{$concerto_location}")
   else
-    puts "Git executable not found -- downloading non-git file..."
+    puts "Git executable not found -- downloading zip/tar file..."
     #Zip files are a sensible default for Windows
     if Kernel.is_windows?
-      download_file("https://github.com/concerto/concerto/zipball/master", "c:\\concerto.zip") 
-      download_file("http://stahlworks.com/dev/unzip.exe", "c:\\unzip.exe")
-      system("c:\\unzip.exe c:\\concerto.zip #{$concerto_location}")  
-      #system("del c:\\unzip.exe c:\\concerto.zip")
+      #get the full path to the user's temp directory and chop off the newline
+      user_tempdir = `echo %TEMP%`.chomp
+      #download the Github zipball (and do some acrobatics b/c Github doesn't know how to package a zip)
+      download_file("https://github.com/concerto/concerto/zipball/master", "#{user_tempdir}\\concerto.zip") 
+      #Windows has no unzip executable - so let's download a a nice standalone one
+      download_file("http://stahlworks.com/dev/unzip.exe", "#{user_tempdir}\\unzip.exe")
+      #unzip the concerto archive from Github into the temp directory
+      system("%temp%\\unzip.exe %temp%\\concerto.zip -d %temp%\\concerto")
+      #Now the tricky part: github packs a folder appended with the commit id into the root of the zip
+      #-which makes unarchiving tricky on a non-Debian system (Debian provides the pathname param to deal with this)
+      #Move the only directory in temp/concerto to c:\concerto (or whatever location)
+      system("for /D %j in (%temp%\\concerto\\*) do move %j #{windows_path($concerto_location)}")
+      #Be neat - clean up all temp files and folders used
+      `del /q /s %temp%\\unzip.exe %temp%\\concerto.zip`
+      `rmdir /q /s %temp%\\concerto`
     else
       #Virtually all *nix systems have tar
       download_file("https://github.com/concerto/concerto/tarball/master", "/tmp/concerto.tar.gz")
@@ -103,6 +114,7 @@ def parse_options
   #A sensible default for Concerto installation location
   if $concerto_location.nil?
     if Kernel.is_windows?
+      puts "Concerto is being installed to c:\concerto. To specify the location to deploy Concerto to, use the -l option"
       $concerto_location = 'c:\concerto'
     else
       puts "Concerto is being installed to /var/www/concerto. To specify the location to deploy Concerto to, use the -l option"
@@ -170,6 +182,11 @@ def command?(command)
   end
 end
 
+#take a normal *nix path and return a properly escaped Windows one
+def windows_path(nix_path)
+  nix_path.gsub('/', '\\')
+end
+
 def generate_password(len)
   chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
   newpass = ""
@@ -230,12 +247,13 @@ def check_deb_pkg_depends
 end
 
 # Returns true if we are running on a MS windows platform, false otherwise.
+#Don't know where the mingw32 signature came along - but it's needed
 def Kernel.is_windows?
   processor, platform, *rest = RUBY_PLATFORM.split("-")
   platform == 'mswin32' || platform == 'mingw32'
 end
 
-#download given file to0 specified destination using open-uri
+#download given file to specified destination using open-uri
 def download_file(file_url, file_destination) 
   File.open(file_destination, "wb") do |saved_file|
     # the following "open" is provided by open-uri
