@@ -1,68 +1,8 @@
-<div class="row-fluid">
-  <div class="span9">
-    <section class="viewblock">
-      <header class="viewblock-header" id="groups-header">
-        <%= render :partial => "groups/show_header" %>
-      </header>
-      <div id="groups-body" class="viewblock-cont">
-        <%= render :partial => "groups/show_body" %>
-      </div>
-    </section>
+<section class="viewblock">
+  <header class="viewblock-header" id="groups-header">
+    <%= render :partial => "groups/show_header" %>
+  </header>
+  <div id="groups-body" class="viewblock-cont">
+    <%= render :partial => "groups/show_body" %>
   </div>
-  <div class="span3">
-    <section class="viewblock">
-      <header class="viewblock-header">
-        <h1 class="default-padding">Screens <%= link_to 'New Screen', new_screen_path, :class => "btn" if can? :create, Screen %></h1>
-      </header>
-      <div class="viewblock-cont">
-        <ul class="list-grid">
-          <% @group.screens.each do |screen| %>
-            <li>
-              <div class="cont">
-                <%= link_to screen do %>
-                  <i class="icon-controller-screens"></i>
-                <% end %>
-                <p><b><%= link_to screen.name, screen %></b></p>
-                <p><%= screen.location %></p>
-                <p><%= screen.fields.count %> fields</p>
-              </div>
-            </li>
-          <% end %>
-        </ul>
-        <div class="clear"></div>
-      </div>
-    </section>
-  </div>
-  <div class="span3">
-    <section class="viewblock">
-      <header class="viewblock-header">
-        <h1 class="default-padding">Feeds <%= link_to 'New Feed', new_feed_path, :class => "btn" if can? :create, Feed %></h1>
-      </header>
-      <div class="viewblock-cont">
-        <ul class="list-stacked">
-          <% @group.feeds.each do |feed| %>
-            <li>
-              <h3>
-                <%= link_to feed_submissions_path(feed), :remote => true, :class => "link-hl" do %>
-                  <span class="badge"><%= feed.approved_contents.count %></span> <%= feed.name %>
-                <% end %>
-                <small>&nbsp;&nbsp;<%= feed.description %></small>
-                <% if can? :update, feed %>
-                  <small><%= link_to "[#{t(:edit)}]", edit_feed_path(feed) %></small>
-                <% end %>
-              </h3>
-              <% if feed.children.count > 0 %>
-                <p class="indented">Sub-feeds: 
-                  <% feed.children.each do |sub_feed| %>
-                    <%= link_to sub_feed.name, feed_submissions_path(sub_feed), :remote => true, :class => "link-hl" %>
-                  <% end %>
-                </p>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
-        <div class="clear"></div>
-      </div>
-    </section>
-  </div>
-</div>
+</section>

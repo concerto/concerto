@@ -1,105 +1,159 @@
 <div class="row-fluid">
-  <div class="span2">
+  <div class="span4">
     <div class="default-padding">
-      <% if @group.made_request?(current_user) %>
-        <% membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first %>
-        <p><b>You are currently a <%= membership.level_name %><%= " member" unless membership.level == Membership::LEVELS[:leader] %> of this group.</b></p>
-        <% if @group.has_member?(current_user) %>
-          <%= link_to("Leave Group", group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn") %>
-          <% if can? :edit, @group %>
-            <%= link_to 'Edit Group Details', edit_group_path(@group), :class => "btn" %>
+
+      <div class="subblock bordered">
+        <div class="default-padding">
+          <% if @group.made_request?(current_user) %>
+            <% membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first %>
+            <p><b>You are currently a <%= membership.level_name %><%= " member" unless membership.level == Membership::LEVELS[:leader] %> of this group.</b></p>
+            <% if @group.has_member?(current_user) %>
+              <%= link_to("Leave Group", group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn") %>
+              <% if can? :edit, @group %>
+                <%= link_to 'Edit Group Details', edit_group_path(@group), :class => "btn" %>
+              <% end %>
+            <% end %>
+          <% else %>
+            <p><b>You are not currently in this group.</b></p>
+            <%= link_to("Join Group", group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
           <% end %>
+        </div>
+      </div>
+
+      <div class="subblock">
+        <h2><%= @group.name %>'s Screens</h2>
+        <table>
+          <tr>
+            <th>Details</th>
+            <th>Owner</th>
+          </tr>
+          <% @group.screens.each do |screen| %>
+            <tr>
+              <td>
+                <p>
+                  <b><%= link_to screen.name, screen %></b>
+                  <br />
+                  <%= screen.location %>
+                </p>
+              </td>
+              <td>
+                <p>You</p>
+              </td>
+            </tr>
+          <% end %>
+        </table>
+
+      </div>
+
+      <div class="subblock">
+        <h2><%= @group.name %>'s Feeds</h2>
+
+        <% if !@group.feeds.empty? %>
+
+          <ul>
+            <% @group.feeds.each do |feed| %>
+              <li><%= link_to feed.name, feed %></li>
+            <% end %>
+          </ul>
+          <div class="clearfix">
+            <%= link_to "New Feed", new_feed_path, :class => "btn" if can? :create, Feed %>
+          </div>
+          <div class="clear"></div>
+
+        <% else %>
+
         <% end %>
-      <% else %>
-        <p><b>You are not currently in this group.</b></p>
-        <%= link_to("Join Group", group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
-      <% end %>
+
+      </div>
+
     </div>
   </div>
-  <div class="span10">
+  <div class="span8">
     <div class="default-padding">
-      <h2>Leaders</h2>
-
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Roles</th>
-        </tr>
-
-        <% @group.memberships.leader.each do |membership| %>
-        <tr>
-          <td><%= membership.user.name %></td>
-
-          <td>
-            <% if can? :edit, membership %>
-              <%= form_for([@group, membership]) do |f| %>
-                <%= f.select :level, Membership::LEVELS %>
-                <%= f.submit %>
-              <% end %>
-            <% end %>
-          </td>
-        </tr>
-        <% end %>
-      </table>
-
-      <br /><br />
-
-      <h2>Other Members</h2>
-
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Roles</th>
-        </tr>
-
-        <% @group.memberships.regular.each do |membership| %>
-        <tr>
-          <td><%= membership.user.name %></td>
-
-          <td>
-            <% if can? :edit, membership %>
-              <%= form_for([@group, membership]) do |f| %>
-                <%= f.select :level, Membership::LEVELS %>
-                <%= f.submit %>
-              <% end %>
-            <% end %>
-          </td>
-        </tr>
-        <% end %>
-
-      </table>
-
-      <% if can? :edit, @group %>
-        <b>Add Member</b>
-        <%= form_for([@group, @group.memberships.new]) do |f| %>
-          <%= f.collection_select :user_id, User.all - @group.all_users, :id, :name %>
-          <%= hidden_field_tag 'autoconfirm', true %>
-          <%= f.submit %>
-        <% end %>
-
-        <br /><br />
-
-        <h2>Pending Members</h2>
+      <div class="subblock">
+        <h2>Leaders</h2>
 
         <table>
           <tr>
             <th>Name</th>
-            <th>Actions</th>
+            <th>Roles</th>
           </tr>
 
-          <% @group.memberships.pending.each do |membership| %>
+          <% @group.memberships.leader.each do |membership| %>
           <tr>
             <td><%= membership.user.name %></td>
 
             <td>
-              <%= link_to "Approve", approve_group_membership_path(@group, membership), :data => { :confirm => 'Are you sure?' }, :method => :put, :class => "btn success" %>
-              <%= link_to "Deny", deny_group_membership_path(@group, membership), :data => { :confirm => 'Are you sure?' }, :method => :put, :class => "btn danger" %>
+              <% if can? :edit, membership %>
+                <%= form_for([@group, membership]) do |f| %>
+                  <%= f.select :level, Membership::LEVELS %>
+                  <%= f.submit %>
+                <% end %>
+              <% end %>
+            </td>
+          </tr>
+          <% end %>
+        </table>
+
+        <br /><br />
+
+        <h2>Other Members</h2>
+
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Roles</th>
+          </tr>
+
+          <% @group.memberships.regular.each do |membership| %>
+          <tr>
+            <td><%= membership.user.name %></td>
+
+            <td>
+              <% if can? :edit, membership %>
+                <%= form_for([@group, membership]) do |f| %>
+                  <%= f.select :level, Membership::LEVELS %>
+                  <%= f.submit %>
+                <% end %>
+              <% end %>
             </td>
           </tr>
           <% end %>
 
         </table>
-      <% end %>
+
+        <% if can? :edit, @group %>
+          <b>Add Member</b>
+          <%= form_for([@group, @group.memberships.new]) do |f| %>
+            <%= f.collection_select :user_id, User.all - @group.all_users, :id, :name %>
+            <%= hidden_field_tag 'autoconfirm', true %>
+            <%= f.submit %>
+          <% end %>
+
+          <br /><br />
+
+          <h2>Pending Members</h2>
+
+          <table>
+            <tr>
+              <th>Name</th>
+              <th>Actions</th>
+            </tr>
+
+            <% @group.memberships.pending.each do |membership| %>
+            <tr>
+              <td><%= membership.user.name %></td>
+
+              <td>
+                <%= link_to "Approve", approve_group_membership_path(@group, membership), :data => { :confirm => 'Are you sure?' }, :method => :put, :class => "btn success" %>
+                <%= link_to "Deny", deny_group_membership_path(@group, membership), :data => { :confirm => 'Are you sure?' }, :method => :put, :class => "btn danger" %>
+              </td>
+            </tr>
+            <% end %>
+
+          </table>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
