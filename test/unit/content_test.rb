@@ -12,7 +12,7 @@ class ContentTest < ActiveSupport::TestCase
 
   test "content cannot be it's own parent" do
     content = contents(:sample_ticker)
-    content.update_attribute(:parent_id, content.id)
+    content.update_column(:parent_id, content.id)
     assert content.invalid?
     assert content.errors[:parent_id].any?
   end

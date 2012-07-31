@@ -2,7 +2,7 @@
 	<header>
 		<%= back_button :back %>
 		<div class="viewblock-header_right">
-		  <%= link_to "Cancel Account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>
+		  <%= link_to "Cancel Account", registration_path(resource_name), :data => { :confirm => "Are you sure?"}, :method => :delete %>
 		</div>
 		<h1>Edit <%= resource_name.to_s.humanize %>'s Account</h1>
 	</header>

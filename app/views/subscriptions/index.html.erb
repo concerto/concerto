@@ -17,7 +17,7 @@
     <td><%= subscription.weight %></td>
     <td><%= link_to 'Show', screen_subscription_path(@screen, subscription) %></td>
     <td><%= link_to 'Edit', edit_screen_subscription_path(@screen, subscription) %></td>
-    <td><%= link_to 'Destroy', [@screen, subscription], :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Destroy', [@screen, subscription], :data => {:confirm => 'Are you sure?'}, :method => :delete %></td>
   </tr>
 <% end %>
 </table>

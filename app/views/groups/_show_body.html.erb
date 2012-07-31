@@ -92,8 +92,8 @@
             <td><%= membership.user.name %></td>
 
             <td>
-              <%= link_to "Approve", approve_group_membership_path(@group, membership), :confirm => 'Are you sure?', :method => :put, :class => "btn success" %>
-              <%= link_to "Deny", deny_group_membership_path(@group, membership), :confirm => 'Are you sure?', :method => :put, :class => "btn danger" %>
+              <%= link_to "Approve", approve_group_membership_path(@group, membership), :data => { :confirm => 'Are you sure?' }, :method => :put, :class => "btn success" %>
+              <%= link_to "Deny", deny_group_membership_path(@group, membership), :data => { :confirm => 'Are you sure?' }, :method => :put, :class => "btn danger" %>
             </td>
           </tr>
           <% end %>

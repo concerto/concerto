@@ -60,7 +60,7 @@ class FeedTest < ActiveSupport::TestCase
   # A feed cannot be it's own parent
   test "that a feed cannot be it's own parent" do
     feed = feeds(:boring_announcements)
-    feed.update_attribute(:parent_id, feed.id)
+    feed.update_column(:parent_id, feed.id)
     assert feed.invalid?
     assert feed.errors[:parent_id].any?
   end

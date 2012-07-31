@@ -1,7 +1,7 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'http://rubygems.org'
 
-gem "rails", "3.2.3"
+gem "rails", "3.2.7"
 
 group :concerto_plugins do
   eval File.read('Gemfile-plugins')

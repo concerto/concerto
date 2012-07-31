@@ -5,5 +5,5 @@
   <%= f.text_field :weight %>
   <%= f.hidden_field :field_id %>
   <%= f.submit %>
-  <%= link_to 'Destroy', [screen, subscription], :confirm => 'Are you sure?', :method => :delete unless subscription.new_record?%>
+  <%= link_to 'Destroy', [screen, subscription], :data => { :confirm => 'Are you sure?'}, :method => :delete unless subscription.new_record?%>
 <% end %>

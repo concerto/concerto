@@ -13,7 +13,7 @@
     <td><%= kind.name %></td>
     <td><%= link_to 'Show', kind %></td>
     <td><%= link_to 'Edit', edit_kind_path(kind) %></td>
-    <td><%= link_to 'Destroy', kind, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Destroy', kind, :data => {:confirm => 'Are you sure?'}, :method => :delete %></td>
   </tr>
 <% end %>
 </table>

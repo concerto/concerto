@@ -39,7 +39,7 @@ class ConcertoConfig < ActiveRecord::Base
   def self.set(key,value)
     #only set this if the config already exists
     setting = ConcertoConfig.where(:key => key).first # || ConcertoConfig.new(:key => key) 
-    setting.update_attribute(:value, value)
+    setting.update_column(:value, value)
   end  
 
   # Override self.method_missing to allow

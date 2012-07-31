@@ -23,7 +23,7 @@
     <td><%= position.field.name %></td>
     <td><%= link_to 'Show', template_position_path(@template, position) %></td>
     <td><%= link_to 'Edit', edit_template_position_path(@template, position) %></td>
-    <td><%= link_to 'Destroy', [@template, position], :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Destroy', [@template, position], :data => {:confirm => 'Are you sure?'}, :method => :delete %></td>
   </tr>
 <% end %>
 </table>
