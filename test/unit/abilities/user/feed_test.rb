@@ -38,6 +38,22 @@ class UserFeedAbilityTest < ActiveSupport::TestCase
     ability = Ability.new(User.new)
     assert ability.cannot?(:update, @service)
     assert ability.cannot?(:delete, @service)
+
+    membership = memberships(:karen_wtg)
+    membership.perms[:feed] = :all
+    membership.save
+    ability = Ability.new(users(:karen))
+    assert ability.can?(:update, @service)
+    assert ability.can?(:delete, @service)
+
+    [:none, :submissions].each do |p|
+      membership.perms[:feed] = p
+      membership.save
+      ability = Ability.new(users(:karen))
+      assert ability.cannot?(:update, @service)
+      assert ability.cannot?(:delete, @service)
+    end
   end
+
 end
 

@@ -90,6 +90,19 @@ class UserSubmissionAbilityTest < ActiveSupport::TestCase
     @submission.feed = feeds(:sleepy_announcements)
 
     assert ability.can?(:update, @submission)
+
+    membership = memberships(:karen_wtg)
+    membership.perms[:screen] = :none
+    membership.save
+    ability = Ability.new(users(:karen))
+    assert ability.cannot?(:update, @submission)
+
+    [:all, :submissions].each do |p|
+      membership.perms[:feed] = p
+      membership.save
+      ability = Ability.new(users(:karen))
+      assert ability.can?(:update, @submission)
+    end
   end
 
   test "Submissions cannot be deleted by moderator" do
@@ -99,6 +112,14 @@ class UserSubmissionAbilityTest < ActiveSupport::TestCase
     @submission.feed = feeds(:sleepy_announcements)
 
     assert ability.cannot?(:delete, @submission)
+
+    membership = memberships(:karen_wtg)
+    [:none, :submissions, :all].each do |p|
+      membership.perms[:feed] = p
+      membership.save
+      ability = Ability.new(users(:karen))
+      assert ability.cannot?(:delete, @submission)
+    end
   end
 
   test "Content owner can only read and delete submission" do
