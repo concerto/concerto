@@ -41,60 +41,13 @@
 <!-- note that we do not show an alert banner when there are no pending contents; we just hide it altogether -->
 <div class="default-padding">
   <h3 class="header-with-icon" style="color:#993333;"><i class="icon-header-pendingcontent"></i><%= pluralize(@pending_submissions.count, "content") %> pending your moderation</h3>
+  <br />
+  <ul class="list-grid">
+    <% @pending_submissions.each do |submission| %>
+    <%= render :partial => "submissions/submission_listgriditem", :locals => { :submission => submission } %>
+    <% end %>
+  </ul>
 </div>
-<ul class="list-grid">
-  <% @pending_submissions.each do |submission| %>
-  <li>
-    <div class="cont">
-      <%= link_to [submission.feed, submission], :remote => true do %>
-      <%= render_content(submission.content, {:type => 'grid'}) %>
-      <% end %>
-      <b><%= link_to submission.content.name, [submission.feed, submission], :remote => true %></b>
-      <br />
-      <%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
-      <% if submission.content.start_time < Time.now() %>
-        <%= link_to "Urgent", "#", :class => "tooltip-basic", 'data-tooltip-text' => "Hey! This content has already passed its requested start date and you should moderate it." %>
-      <% end -%>
-      <br />
-      <p>
-        <%= link_to "Moderate...", "#", :class => "btn small dropdown-control dd-moderate", :title => "Moderate '#{ submission.content.name }'", :rel => "#moderate_#{ submission.id }" %>
-      </p>
-
-
-      <div id="moderate_<%= submission.id %>" style="display:none;">
-        <% if submission.is_approved? %>
-        <p>Currently <b style="color: green;">Approved</b></p>
-        <p>Change to Denied</p>
-        <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => false } %>
-        <% elsif submission.is_denied? %>
-        <p>Currently <b style="color: red;">Denied</b></p>
-        <p>Change to Approved</p>
-        <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => true } %>
-        <% else %>
-        <p>Currently <b>Pending Moderation</b></p>
-        <div class="form-stacked">
-          <div class="moderate-select" class="btn-toolbar">
-            <div class="btn-group" data-toggle="buttons-radio">
-              <button class="btn approve">Approve</button>
-              <button class="btn deny">Deny</button>
-            </div>
-          </div>
-
-          <div class="moderate-true">
-            <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => true } %>
-          </div>
-          <div class="moderate-false">
-            <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => false } %>
-          </div>
-        </div>
-        <% end %>
-      </div>
-
-    </div>
-  </li>
-  <% end %>
-</ul>
-<div class="clear"></div>
 <% end %>
 
 <% if @active_submissions.empty? %>
@@ -108,175 +61,43 @@
 <% else %>
 <div class="default-padding">
   <h3 class="header-with-icon"><i class="icon-header-activecontent"></i><%= pluralize(@active_submissions.count, "active content") %></h3>
+  <br />
+  <ul class="list-grid">
+    <% @active_submissions.each do |submission| %>
+    <%= render :partial => "submissions/submission_listgriditem", :locals => { :submission => submission } %>
+    <% end %>
+  </ul>
 </div>
-<ul class="list-grid">
-  <% @active_submissions.each do |submission| %>
-  <li>
-    <div class="cont">
-      <%= link_to [submission.feed, submission], :remote => true do %>
-      <%= render_content(submission.content, {:type => 'grid'}) %>
-      <% end %>
-      <b><%= link_to submission.content.name, [submission.feed, submission], :remote => true %></b>
-      <br />
-      <%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
-      <% if submission.content.start_time > Time.now() %>
-        <p><%= link_to "Future", "#", :class => "tooltip-basic", 'data-tooltip-text' => "This content has been approved and is scheduled to display on screens in the future" %></p>
-      <% end -%>
-      <br />
-
-
-      <div id="moderate_<%= submission.id %>" style="display:none;">
-        <% if submission.is_approved? %>
-        <p>Currently <b style="color: green;">Approved</b></p>
-        <p>Change to Denied</p>
-        <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => false } %>
-        <% elsif submission.is_denied? %>
-        <p>Currently <b style="color: red;">Denied</b></p>
-        <p>Change to Approved</p>
-        <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => true } %>
-        <% else %>
-        <p>Currently <b>Pending Moderation</b></p>
-        <div class="form-stacked">
-          <h4>Moderate Content</h4>
-          <div class="moderate-select" class="btn-toolbar">
-            <div class="btn-group" data-toggle="buttons-radio">
-              <button class="btn approve">Approve</button>
-              <button class="btn deny">Deny</button>
-            </div>
-          </div>
-
-          <div class="moderate-true">
-            <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => true } %>
-          </div>
-          <div class="moderate-false">
-            <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => false } %>
-          </div>
-        </div>
-        <% end %>
-        <br />
-      </div>
-
-    </div>
-  </li>
-  <% end %>
-</ul>
-<div class="clear"></div>
 <% end %>
 
 <% if @can_moderate_feed and @denied_submissions.count > 0 %>
 <!-- note that we do not show an alert banner when there are no denied contents; we just hide it altogether -->
 <div class="default-padding">
   <h3 class="header-with-icon"><i class="icon-header-deniedcontent"></i><%= pluralize(@denied_submissions.count, "denied content") %></h3>
+  <br />
+  <ul class="list-grid">
+    <% @denied_submissions.each do |submission| %>
+   <%= render :partial => "submissions/submission_listgriditem", :locals => { :submission => submission } %>
+    <% end %>
+  </ul>
 </div>
-<ul class="list-grid">
-  <% @denied_submissions.each do |submission| %>
-  <li>
-    <div class="cont">
-      <%= link_to [submission.feed, submission], :remote => true do %>
-      <%= render_content(submission.content, {:type => 'grid'}) %>
-      <% end %>
-      <b><%= link_to submission.content.name, [submission.feed, submission], :remote => true %></b>
-      <br />
-      <%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
-      <br />
-
-
-      <div id="moderate_<%= submission.id %>" style="display:none;">
-        <% if submission.is_approved? %>
-        <p>Currently <b style="color: green;">Approved</b></p>
-        <p>Change to Denied</p>
-        <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => false } %>
-        <% elsif submission.is_denied? %>
-        <p>Currently <b style="color: red;">Denied</b></p>
-        <p>Change to Approved</p>
-        <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => true } %>
-        <% else %>
-        <p>Currently <b>Pending Moderation</b></p>
-        <div class="form-stacked">
-          <h4>Moderate Content</h4>
-          <div class="moderate-select" class="btn-toolbar">
-            <div class="btn-group" data-toggle="buttons-radio">
-              <button class="btn approve">Approve</button>
-              <button class="btn deny">Deny</button>
-            </div>
-          </div>
-
-          <div class="moderate-true">
-            <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => true } %>
-          </div>
-          <div class="moderate-false">
-            <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => false } %>
-          </div>
-        </div>
-        <% end %>
-        <br />
-      </div>
-
-    </div>
-  </li>
-  <% end %>
-</ul>
-<div class="clear"></div>
 <% end %>
 
 <% if @can_moderate_feed and @expired_submissions.count > 0 %>
 <!-- note that we do not show an alert banner when there are no expired contents; we just hide it altogether -->
 <div class="default-padding">
   <h3 class="header-with-icon"><i class="icon-header-expiredcontent"></i><%= @expired_submissions.count %> expired content<% if @expired_submissions.count != 1 %>s<% end %></h3>
+  <br />
+  <ul class="list-grid">
+    <% @expired_submissions.each do |submission| %>
+    <%= render :partial => "submissions/submission_listgriditem", :locals => { :submission => submission } %>
+    <% end %>
+  </ul>
 </div>
-<ul class="list-grid">
-  <% @expired_submissions.each do |submission| %>
-  <li>
-    <div class="cont">
-      <%= link_to [submission.feed, submission], :remote => true do %>
-      <%= render_content(submission.content, {:type => 'grid'}) %>
-      <% end %>
-      <b><%= link_to submission.content.name, [submission.feed, submission], :remote => true %></b>
-      <br />
-      <%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
-      <br />
-
-
-      <div id="moderate_<%= submission.id %>" style="display:none;">
-        <% if submission.is_approved? %>
-        <p>Currently <b style="color: green;">Approved</b></p>
-        <p>Change to Denied</p>
-        <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => false } %>
-        <% elsif submission.is_denied? %>
-        <p>Currently <b style="color: red;">Denied</b></p>
-        <p>Change to Approved</p>
-        <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => true } %>
-        <% else %>
-        <p>Currently <b>Pending Moderation</b></p>
-        <div class="form-stacked">
-          <h4>Moderate Content</h4>
-          <div class="moderate-select" class="btn-toolbar">
-            <div class="btn-group" data-toggle="buttons-radio">
-              <button class="btn approve">Approve</button>
-              <button class="btn deny">Deny</button>
-            </div>
-          </div>
-
-          <div class="moderate-true">
-            <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => true } %>
-          </div>
-          <div class="moderate-false">
-            <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => false } %>
-          </div>
-        </div>
-        <% end %>
-        <br />
-      </div>
-
-    </div>
-  </li>
-  <% end %>
-</ul>
-<div class="clear"></div>
 <% end %>
 
+<!-- TODO Move this out of here and into a better spot -->
 <script type="text/javascript">
-
 $(document).ready(function() {
   $(".moderate-true").hide();
   $(".moderate-false").hide();

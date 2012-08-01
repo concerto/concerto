@@ -44,6 +44,11 @@ class Content < ActiveRecord::Base
     (start_time.nil? || start_time < Time.now) && (end_time.nil? || end_time > Time.now)
   end
 
+  # Determine if content is expired based on its end time.
+  def is_expired?
+    (end_time < Time.now)
+  end
+
   # Setter for the start time.  If a hash is passed, convert that into a DateTime object and then a string.
   # Otherwise, just set it like normal.  This is a bit confusing due to the differences in how Ruby handles
   # times between 1.9.x and 1.8.x.
