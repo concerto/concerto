@@ -11,10 +11,12 @@
     <ul class="list-grid">
       <% @my_screens.each do |screen| %>
         <li>
-          <div class="cont">
+          <div class="cont thumb-icon">
             <%= link_to screen do %>
               <i class="icon-controller-screens"></i>
             <% end %>
+          </div>
+          <div class="cont">
             <p><b><%= link_to screen.name, screen %></b></p>
             <p><%= screen.location %></p>
             <p><%= screen.fields.count %> fields</p>
@@ -31,10 +33,12 @@
     <ul class="list-grid">
       <% other_screens.each do |screen| %>
         <li>
-          <div class="cont">
+          <div class="cont thumb-icon">
             <%= link_to screen do %>
               <i class="icon-controller-screens"></i>
             <% end %>
+          </div>
+          <div class="cont">
             <p><b><%= link_to screen.name, screen %></b></p>
             <p><%= screen.location %></p>
             <p><%= screen.fields.count %> fields</p>
