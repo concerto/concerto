@@ -8,24 +8,28 @@
 // (20% width apiece). This UL is used extensively on browse content grids of content.
 
 ul.list-grid {
-	//border-top:solid 1px $grayLight;
 	margin: 0px;
 	padding: 0px;
+  @include clearfix();
 	
   > li {
 	  list-style: none;
     float: left;
     min-width: 200px;
     width: 25%;
+    margin: 0px 12px 18px 0px;
     min-height:88px;
+    display: table;
 
     .cont {
-      padding: 12px;
-      //border-right: solid 1px $grayLight;
-      //border-bottom: solid 1px $grayLight;
+      display: table-cell;
+      vertical-align: top;
+      padding: 0px;
       min-height: 64px;
       text-decoration:none;
       
+      &.thumb-icon { width: 64px; }
+
       // these elements come along for the ride by bringing in gridlist-item mixin:
       b {
         color: $black;
@@ -47,7 +51,7 @@ ul.list-grid {
       }
       
       p {
-        margin-bottom: 3px;
+        margin-bottom: 0px;
       }
 
 
@@ -62,7 +66,6 @@ ul.list-grid {
     }
 
     i {
-      float: left;
       margin-bottom: 6px;
       margin-right: 10px;
     }

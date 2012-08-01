@@ -21,32 +21,27 @@
       </div>
 
       <div class="subblock">
-        <h2><%= @group.name %>'s Screens</h2>
-        <table>
-          <tr>
-            <th>Details</th>
-            <th>Owner</th>
-          </tr>
+        <h2>Group Screens</h2>
+        <ul class="list-grid">
           <% @group.screens.each do |screen| %>
-            <tr>
-              <td>
-                <p>
-                  <b><%= link_to screen.name, screen %></b>
-                  <br />
-                  <%= screen.location %>
-                </p>
-              </td>
-              <td>
-                <p>You</p>
-              </td>
-            </tr>
+          <li>
+            <div class="cont thumb-icon">
+              <%= link_to screen do %>
+              <i class="icon-controller-screens"></i>
+              <% end %>
+            </div>
+            <div class="cont">
+              <p><b><%= link_to screen.name, screen %></b></p>
+              <p><%= screen.location %></p>
+            </div>
+          </li>
           <% end %>
-        </table>
+        </ul>
 
       </div>
 
       <div class="subblock">
-        <h2><%= @group.name %>'s Feeds</h2>
+        <h2>Group Feeds</h2>
 
         <% if !@group.feeds.empty? %>
 

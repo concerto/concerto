@@ -39,6 +39,7 @@
       </header>
       <div class="viewblock-cont">
         <div class="default-padding">
+          <%= link_to "Urgent", "#", :class => "btn tooltip-basic", 'data-tooltip-text' => "Hey! This content has already passed its requested start date and you should moderate it." %>
           <div class="clearfix">
             <h2><%= @screens.count %> Screen<% if @screens.count > 1 %>s<% end %></h2>
             <p># active&nbsp;&nbsp;&nbsp;&nbsp;# offline</p>
