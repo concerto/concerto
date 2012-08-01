@@ -10,10 +10,9 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
   ConcertoConfig.make_concerto_config("setup_complete", "false", :value_type => "boolean", :value_default => "true")
   ConcertoConfig.make_concerto_config("allow_registration", "true", :value_type => "boolean")
   ConcertoConfig.make_concerto_config("allow_user_screen_creation", "false", :value_type => "boolean")
+  ConcertoConfig.make_concerto_config("allow_user_feed_creation", "true", :value_type => "boolean")
   ConcertoConfig.make_concerto_config("rubygem_executable", "gem")
 end
-
-
 
 
 
