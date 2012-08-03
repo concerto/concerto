@@ -126,6 +126,13 @@ class TemplatesController < ApplicationController
         @hide_fields = [true, "true", 1, "1"].include?(params[:hide_fields])
       end
 
+      # Hide the field names if the hide_text param is set,
+      # show them by default though.
+      @hide_text = false
+      if !params[:hide_text].nil?
+        @hide_text = [true, "true", 1, "1"].include?(params[:hide_text])
+      end
+
       height = image.rows
       width = image.columns
       
@@ -140,14 +147,16 @@ class TemplatesController < ApplicationController
             dw.fill_opacity(0.6)
             dw.rectangle(width*position.left, height*position.top, width*position.right, height*position.bottom)
             
-            #Layer the field name
-            dw.stroke("black")
-            dw.fill("black")
-            dw.text_anchor(Magick::MiddleAnchor)
-            dw.opacity(1)
-            font_size = [width, height].min / 10
-            dw.pointsize = font_size
-            dw.text((width*(position.left + position.right)/2),(height*(position.top + position.bottom)/2+0.4*font_size),position.field.name)      
+            if !@hide_text
+              #Layer the field name
+              dw.stroke("black")
+              dw.fill("black")
+              dw.text_anchor(Magick::MiddleAnchor)
+              dw.opacity(1)
+              font_size = [width, height].min / 10
+              dw.pointsize = font_size
+              dw.text((width*(position.left + position.right)/2),(height*(position.top + position.bottom)/2+0.4*font_size),position.field.name)
+            end
           end
           dw.draw(image)
         end      
