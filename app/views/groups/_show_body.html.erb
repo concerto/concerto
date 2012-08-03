@@ -66,6 +66,10 @@
   <div class="span8">
     <div class="default-padding">
       <div class="subblock">
+        <% if can? :edit, membership %>
+          <%= link_to "Edit Membership", edit_group_path(@group), :class => "btn" %>
+        <% end %>
+
         <h2>Leaders</h2>
 
         <table>

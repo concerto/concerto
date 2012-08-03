@@ -1,0 +1,27 @@
+<table class="hover-highlight">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Roles</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @group.memberships.each do |membership| %>
+    <tr>
+      <td>
+        <p><b><%= membership.user.name %></b></p>
+        <p><%= membership.level_name.titleize %></p>
+      </td>
+
+      <td>
+        <%= form_for([@group, membership]) do |f| %>
+          <%= f.select :level, Membership::LEVELS %>
+          <%= f.submit %>
+        <% end %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+
+</table>
