@@ -6,7 +6,7 @@
       </header>
       <div id="browse-body" class="viewblock-cont">
         <%= render :partial => "feeds/browse_body" %>
-        <div class="clear"></div>
+        
       </div>
     </section>
   </div>
@@ -28,7 +28,7 @@
             <%= link_to "New Feed", new_feed_path, :class => "btn" if can? :create, Feed %>
           </div>
         </div>
-        <div class="clear"></div>
+        
       </div>
     </section>
     <% end %>
@@ -50,7 +50,7 @@
             <h3># New Content Submitted Today</h3>
           </div>
         </div>
-        <div class="clear"></div>
+        
       </div>
     </section>
   </div>
