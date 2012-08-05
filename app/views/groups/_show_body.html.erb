@@ -8,20 +8,20 @@
             <% membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first %>
             <p><b>You are currently a <%= membership.level_name %><%= " member" unless membership.level == Membership::LEVELS[:leader] %> of this group.</b></p>
             <% if @group.has_member?(current_user) %>
-              <%= link_to("Leave Group", group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn") %>
+              <%= link_to( t(:leave_group), group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn") %>
               <% if can? :edit, @group %>
-                <%= link_to 'Edit Group Details', edit_group_path(@group), :class => "btn" %>
+                <%= link_to t(:edit_details), edit_group_path(@group), :class => "btn" %>
               <% end %>
             <% end %>
           <% else %>
-            <p><b>You are not currently in this group.</b></p>
-            <%= link_to("Join Group", group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
+            <p><b><%= t(:not_in_group) %></b></p>
+            <%= link_to( t(:join_group), group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
           <% end %>
         </div>
       </div>
 
       <div class="subblock">
-        <h2>Group Screens</h2>
+        <h2><%= t(:group_screens) %></h2>
         <ul class="list-grid">
           <% @group.screens.each do |screen| %>
           <li>
@@ -41,7 +41,7 @@
       </div>
 
       <div class="subblock">
-        <h2>Group Feeds</h2>
+        <h2><%= t(:group_feeds) %></h2>
 
         <% if !@group.feeds.empty? %>
 
@@ -51,9 +51,9 @@
             <% end %>
           </ul>
           <div class="clearfix">
-            <%= link_to "New Feed", new_feed_path, :class => "btn" if can? :create, Feed %>
+            <%= link_to t(:new_feed), new_feed_path, :class => "btn" if can? :create, Feed %>
           </div>
-          
+          <div class="clear"></div>
 
         <% else %>
 
@@ -70,12 +70,12 @@
           <%= link_to "Edit Membership", edit_group_path(@group), :class => "btn" %>
         <% end %>
 
-        <h2>Leaders</h2>
+        <h2><%= t(:leaders) %></h2>
 
         <table>
           <tr>
-            <th>Name</th>
-            <th>Roles</th>
+            <th><%= t(:name) %></th>
+            <th><%= t(:roles) %></th>
           </tr>
 
           <% @group.memberships.leader.each do |membership| %>
@@ -96,12 +96,12 @@
 
         <br /><br />
 
-        <h2>Other Members</h2>
+        <h2><%= t(:other_members) %></h2>
 
         <table>
           <tr>
-            <th>Name</th>
-            <th>Roles</th>
+            <th><%= t(:name) %></th>
+            <th><%= t(:roles) %></th>
           </tr>
 
           <% @group.memberships.regular.each do |membership| %>
@@ -122,7 +122,7 @@
         </table>
 
         <% if can? :edit, @group %>
-          <b>Add Member</b>
+          <b><%= t(:add_member) %></b>
           <%= form_for([@group, @group.memberships.new]) do |f| %>
             <%= f.collection_select :user_id, User.all - @group.all_users, :id, :name %>
             <%= hidden_field_tag 'autoconfirm', true %>
@@ -131,12 +131,12 @@
 
           <br /><br />
 
-          <h2>Pending Members</h2>
+          <h2><%= t(:pending_members) %></h2>
 
           <table>
             <tr>
-              <th>Name</th>
-              <th>Actions</th>
+              <th><%= t(:name) %></th>
+              <th><%= t(:actions) %></th>
             </tr>
 
             <% @group.memberships.pending.each do |membership| %>
@@ -144,8 +144,8 @@
               <td><%= membership.user.name %></td>
 
               <td>
-                <%= link_to "Approve", approve_group_membership_path(@group, membership), :data => { :confirm => 'Are you sure?' }, :method => :put, :class => "btn success" %>
-                <%= link_to "Deny", deny_group_membership_path(@group, membership), :data => { :confirm => 'Are you sure?' }, :method => :put, :class => "btn danger" %>
+                <%= link_to t(:approve), approve_group_membership_path(@group, membership), :data => { :confirm => 'Are you sure?' }, :method => :put, :class => "btn success" %>
+                <%= link_to t(:deny), deny_group_membership_path(@group, membership), :data => { :confirm => 'Are you sure?' }, :method => :put, :class => "btn danger" %>
               </td>
             </tr>
             <% end %>
