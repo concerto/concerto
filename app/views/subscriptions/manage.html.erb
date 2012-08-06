@@ -9,8 +9,11 @@
   <% @this_field.subscriptions.where(:screen_id => @screen.id).each do |subscription| %>
     <tr>
       <td><%= subscription.feed.name %></td>
-      <td>Select frequency</td>
-      <td><%= link_to "Remove", "#", :class => "btn danger" %></td>
+      <td><%= subscription.weight_name %></td>
+      <td>
+				<%= link_to "Edit", edit_screen_field_subscription_path(@screen,@this_field,subscription), :class => "btn success" %>
+				<%= link_to "Remove", screen_field_subscription_path(@screen,@this_field,subscription), :method => :delete, :class => "btn danger" %>
+			</td>
     </tr>
   <% end %>
 

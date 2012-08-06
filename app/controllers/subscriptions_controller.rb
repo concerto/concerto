@@ -72,7 +72,7 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       if @subscription.save
-        format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field, @subscription), :notice => t(:subscription_created)) }
+        format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t(:subscription_created)) }
         format.xml  { render :xml => @subscription, :status => :created, :location => @subscription }
       else
         format.html { render :action => "new" }
@@ -89,7 +89,7 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       if @subscription.update_attributes(params[:subscription])
-        format.html { redirect_to([@screen, @subscription], :notice => t(:subscription_updated)) }
+        format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t(:subscription_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -106,7 +106,7 @@ class SubscriptionsController < ApplicationController
     @subscription.destroy
 
     respond_to do |format|
-      format.html { redirect_to(screen_field_subscriptions_url(@screen, @field)) }
+      format.html { redirect_to(manage_screen_field_subscriptions_url(@screen, @field)) }
       format.xml  { head :ok }
     end
   end

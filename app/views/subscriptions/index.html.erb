@@ -15,9 +15,8 @@
     <td><%= subscription.feed.name unless subscription.feed.nil? %></td>
     <td><%= subscription.field.name  unless subscription.field.nil? %></td>
     <td><%= subscription.weight %></td>
-    <td><%= link_to 'Show', screen_subscription_path(@screen, subscription) %></td>
-    <td><%= link_to 'Edit', edit_screen_subscription_path(@screen, subscription) %></td>
-    <td><%= link_to 'Destroy', [@screen, subscription], :data => {:confirm => 'Are you sure?'}, :method => :delete %></td>
+    <td><%= link_to 'Edit', edit_screen_field_subscription_path(@screen, subscription.field, subscription) %></td>
+    <td><%= link_to 'Destroy', [@screen, subscription.field, subscription], :data => {:confirm => 'Are you sure?'}, :method => :delete %></td>
   </tr>
 <% end %>
 </table>

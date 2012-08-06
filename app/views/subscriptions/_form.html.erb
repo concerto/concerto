@@ -20,9 +20,9 @@
   </div>
   <div class="field">
     <%= f.label :weight %><br />
-    <%= f.text_field :weight %>
+    <%= f.select :weight, Subscription::WEIGHTS%>
   </div>
-  <div class="actions">
+  <div class="submit_bar actions">
     <%= f.submit %>
   </div>
 <% end %>
