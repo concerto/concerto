@@ -1,6 +1,6 @@
 #Initialize all core Concerto Config entries
 
-if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
+if ActiveRecord::Base.connection.table_exists? 'concerto_configs' && ConcertoConfig.columns_hash.has_key?("plugin_id")
   ConcertoConfig.make_concerto_config("default_upload_type", "graphic")
   ConcertoConfig.make_concerto_config("public_concerto", "true", :value_type => "boolean")
   ConcertoConfig.make_concerto_config("content_default_start_time", "12:00 am")
