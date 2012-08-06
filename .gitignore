@@ -11,5 +11,3 @@ doc/app/*
 public/assets/*
 vendor/bundle/
 doc/coverage/*
-
-Gemfile.lock
