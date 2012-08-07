@@ -4,7 +4,78 @@
 		<h1 class="default-padding">Edit User</h1>
 	</header>
 	<div class="viewblock-cont">
-		<%= render 'form' %>
+    <%= form_for(@user) do |f| %>
+    	<% if @user.errors.any? %>
+    	  <div id="error_explanation">
+    	    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+    
+    	    <ul>
+    	    <% @user.errors.full_messages.each do |msg| %>
+    	      <li><%= msg %></li>
+    	    <% end %>
+    	    </ul>
+    	  </div>
+    	<% end %>
+    
+    	<fieldset>
+    		<div class="clearfix">
+    			<label>Name (First, Last)</label>
+    			<div class="input">
+    				<div class="inline-inputs">
+    					<%= f.text_field :first_name, :class => "span3" %> <%= f.text_field :last_name, :class => "span3" %>
+    				</div>
+    			</div>
+    		</div>
+    
+    		<div class="clearfix">
+    			<%= f.label :email %>
+    			<div class="input">
+    				<%= f.text_field :email, :class => "span4" %>
+    			</div>
+    		</div>
+    
+    		<div class="clearfix">
+    			<%= f.label :locale %>
+    			<div class="input">
+    				<%= f.select :locale, options_for_select(I18n.available_locales, I18n.locale.to_sym) %>
+    			</div>
+    		</div>
+    
+    		<% if can? :manage, @user %>
+      		<div class="clearfix">
+      			<label>Admin Status</label>
+      			<div class="input">
+      				<ul class="inputs-list">
+      		      <li>
+      		        <%= f.check_box :is_admin %> <%= f.label :is_admin %>
+      		      </li>
+      		    </ul>
+      			</div>
+      		</div>
+    		<% end %>
+    	</fieldset>
+    
+    	<div class="submit_bar actions">
+    		<%= f.submit %>
+    	</div>
+    <% end %>
+    
+    
+    <h2>Change your password</h2>
+    
+    <%= form_for(@user) do |f| %>
+    
+      <%= f.hidden_field :reset_password_token %>
+    
+      <p><%= f.label :password, "New password" %><br />
+      <%= f.password_field :password %></p>
+    
+      <p><%= f.label :password_confirmation, "Confirm new password" %><br />
+      <%= f.password_field :password_confirmation %></p>
+    
+      <p><%= f.submit "Change my password" %></p>
+    <% end %>
+
 		
 	</div>
 </section>

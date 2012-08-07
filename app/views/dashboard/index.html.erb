@@ -2,7 +2,10 @@
   <header class="viewblock-header">
     <h1 class="default-padding"><%= t(:dashboard) %></h1>
   </header> 
+  
   <div class="viewblock-cont">
+    <%=link_to "Manage Users", users_path %>
+  
     <%= form_tag "/dashboard/update" do %>
       <% @configs = ConcertoConfig.all %>
 

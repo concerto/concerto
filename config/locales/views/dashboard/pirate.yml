@@ -10,3 +10,4 @@ pirate:
   setup_complete: "We're ready to set sail"
   allow_registration: "Let any scalawag aboard"
   allow_user_screen_creation: "Let any scalawag create a screen"
+  allow_user_feed_creation: "Allow user feed creation"
