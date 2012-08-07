@@ -15,7 +15,9 @@
             <% end %>
           <% else %>
             <p><b><%= t(:not_in_group) %></b></p>
-            <%= link_to( t(:join_group), group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
+            <% if current_user %>
+              <%= link_to( t(:join_group), group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
+            <% end %>
           <% end %>
         </div>
       </div>
