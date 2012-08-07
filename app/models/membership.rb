@@ -47,7 +47,7 @@ class Membership < ActiveRecord::Base
   scope :supporter, where(:level => Membership::LEVELS[:supporter])
 
   # Scoping shortcuts for approved/pending
-  scope :approved, where(":level > Membership::LEVELS[:pending]")
+  scope :approved, where("level > #{Membership::LEVELS[:pending]}")
   scope :pending, where(:level => Membership::LEVELS[:pending])
 
 

@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 
   has_many :contents
   has_many :submissions, :foreign_key => "moderator_id"
-  has_many :memberships, :dependent => :destroy, :conditions => ["memberships.level > ?", Membership::LEVELS[:pending]]
+  has_many :memberships, :dependent => :destroy
   has_many :groups, :through => :memberships
   has_many :screens, :as => :owner
 

@@ -32,7 +32,7 @@
             <% if user_signed_in? and current_user.is_admin? or current_user == @user %><th>Roles</th><% end %>
           </tr>
 
-          <% @user.memberships.each do |membership| %>
+          <% @user.memberships.approved.each do |membership| %>
           <tr>
             <td>
               <!-- TODO show leader icon if @user is a leader of the group that is listed here <%# if current_user.is_admin? %>
