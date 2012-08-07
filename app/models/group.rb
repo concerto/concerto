@@ -1,6 +1,6 @@
 class Group < ActiveRecord::Base
   has_many :feeds
-  has_many :memberships, :dependent => :destroy
+  has_many :memberships, :dependent => :destroy, :conditions => ["memberships.level > ?", Membership::LEVELS[:pending]]
   has_many :users, :through => :memberships, :conditions => ["memberships.level > ?", Membership::LEVELS[:pending]]
   has_many :screens, :as => :owner
 
