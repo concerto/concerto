@@ -1,8 +1,12 @@
 module GroupsHelper
-  def member_list( group = nil )
+  def member_list(group=nil)
     orderedMemberships = group.memberships.approved.order('level DESC').includes(:user).all
     orderedMemberships.each_with_index do |membership, i|
-      concat link_to membership.user.name, user_path(membership.user)
+      if can? :read, membership.user
+        concat link_to membership.user.name, user_path(membership.user)
+      else
+        concat membership.user.name
+      end
       concat " (leader) " if membership.level == Membership::LEVELS[:leader]
       if i == 9 && membership != orderedMemberships.last
         concat ", and "
