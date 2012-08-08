@@ -36,21 +36,7 @@ def main
     puts "Git executable not found -- downloading zip/tar file..."
     #Zip files are a sensible default for Windows
     if Kernel.is_windows?
-      #get the full path to the user's temp directory and chop off the newline
-      user_tempdir = `echo %TEMP%`.chomp
-      #download the Github zipball (and do some acrobatics b/c Github doesn't know how to package a zip)
-      download_file("https://github.com/concerto/concerto/zipball/master", "#{user_tempdir}\\concerto.zip") 
-      #Windows has no unzip executable - so let's download a a nice standalone one
-      download_file("http://stahlworks.com/dev/unzip.exe", "#{user_tempdir}\\unzip.exe")
-      #unzip the concerto archive from Github into the temp directory
-      system("%temp%\\unzip.exe %temp%\\concerto.zip -d %temp%\\concerto")
-      #Now the tricky part: github packs a folder appended with the commit id into the root of the zip
-      #-which makes unarchiving tricky on a non-Debian system (Debian provides the pathname param to deal with this)
-      #Move the only directory in temp/concerto to c:\concerto (or whatever location)
-      system("for /D %j in (%temp%\\concerto\\*) do move %j #{windows_path($concerto_location)}")
-      #Be neat - clean up all temp files and folders used
-      `del /q /s %temp%\\unzip.exe %temp%\\concerto.zip`
-      `rmdir /q /s %temp%\\concerto`
+      windows_install()
     else
       #Virtually all *nix systems have tar
       download_file("https://github.com/concerto/concerto/tarball/master", "/tmp/concerto.tar.gz")
@@ -71,19 +57,7 @@ def main
     if $database_type.nil?
       #Copy over default database.yml for dong default sqlite
       FileUtils.cp "/config/database.yml.sample", "/config/database.yml"
-    end
-    
-    #Migrate database and install seed data
-    puts "Migrating Database and Installing Seed Data..."
-    if command?("rake") != true
-      bundle_rake = system("bundle exec rake db:setup")
-      if bundle_rake != true
-        puts "The rake gem is not installed globally or in the local bundle. Run gem install rake"
-        exit
-      end
-    else
-      system("rake db:setup")
-    end 
+    end   
   end
   
   #Create Apache VHost entry with interpolated values
@@ -156,6 +130,24 @@ host: localhost}
   #write new YAML to database config file in concerto
   File.open("#{$concerto_location}/config/database.yml", 'w') {|f| f.write(database_yml) }
 
+end
+
+def windows_install
+  #get the full path to the user's temp directory and chop off the newline
+  user_tempdir = `echo %TEMP%`.chomp
+  #download the Github zipball (and do some acrobatics b/c Github doesn't know how to package a zip)
+  download_file("https://github.com/concerto/concerto/zipball/master", "#{user_tempdir}\\concerto.zip") 
+  #Windows has no unzip executable - so let's download a a nice standalone one
+  download_file("http://stahlworks.com/dev/unzip.exe", "#{user_tempdir}\\unzip.exe")
+  #unzip the concerto archive from Github into the temp directory
+  system("%temp%\\unzip.exe %temp%\\concerto.zip -d %temp%\\concerto")
+  #Now the tricky part: github packs a folder appended with the commit id into the root of the zip
+  #-which makes unarchiving tricky on a non-Debian system (Debian provides the pathname param to deal with this)
+  #Move the only directory in temp/concerto to c:\concerto (or whatever location)
+  system("for /D %j in (%temp%\\concerto\\*) do move %j #{windows_path($concerto_location)}")
+  #Be neat - clean up all temp files and folders used
+  `del /q /s %temp%\\unzip.exe %temp%\\concerto.zip`
+  `rmdir /q /s %temp%\\concerto`
 end
 
 #Cross-platform way of finding an executable in the $PATH
