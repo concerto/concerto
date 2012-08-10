@@ -9,9 +9,8 @@ Manual Installation:
 Run the following commands to get the source code (1 + 2), configure the database (3), install the necessary libraries (4), and setup the database (5).
 1. git clone https://github.com/concerto/concerto.git
 2. cd concerto
-3. cp config/database.yml.sample config/database.yml
-2. bundle install
-3. rake db:setup
+3. bundle install or bundle install --path vendor/bundle if you don't wish to install all of the Gem dependencies of Concerto/Rails globally (there are just over 115 of them).
+4. Set up the appropriate webserver configuration (VHosts and such) and start using Concerto
 
 Configure your webserver to point to the Concerto application.
 Go the the Concerto URL to setup the initial admin user.
