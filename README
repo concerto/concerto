@@ -6,7 +6,9 @@ Windows: Download http://get.concerto-signage.org/install.rb and run it
 OR
 
 Manual Installation:
-Run the following commands to get the source code (1 + 2), configure the database (3), install the necessary libraries (4), and setup the database (5).
+NB: Upon startup, Concerto will create and configure a SQLite database. If you wish to alter this, edit config/database.yml appropriately. 
+Upon it's next startup, Concerto will populate whatever database you've specified.
+
 1. git clone https://github.com/concerto/concerto.git
 2. cd concerto
 3. bundle install or bundle install --path vendor/bundle if you don't wish to install all of the Gem dependencies of Concerto/Rails globally (there are just over 115 of them).
