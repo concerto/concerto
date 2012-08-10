@@ -52,12 +52,7 @@ def main
       exit
     end
     
-    system("bundle install --path /vendor/bundle")
-    
-    if $database_type.nil?
-      #Copy over default database.yml for dong default sqlite
-      FileUtils.cp "/config/database.yml.sample", "/config/database.yml"
-    end   
+    system("bundle install --path /vendor/bundle") 
   end
   
   #Create Apache VHost entry with interpolated values
