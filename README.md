@@ -7,7 +7,7 @@ OR
 
 Manual Installation:
 NB: Upon startup, Concerto will create and configure a SQLite database. If you wish to alter this, edit config/database.yml appropriately. 
-Upon it's next startup, Concerto will populate whatever database you've specified.
+Upon its next startup, Concerto will populate whatever database you've specified.
 
 1. git clone https://github.com/concerto/concerto.git
 2. cd concerto
