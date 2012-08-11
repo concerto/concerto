@@ -36,7 +36,7 @@ def main
     puts "Git executable not found -- downloading zip/tar file..."
     #Zip files are a sensible default for Windows
     if Kernel.is_windows?
-      windows_install()
+      windows_download()
     else
       #Virtually all *nix systems have tar
       download_file("https://github.com/concerto/concerto/tarball/master", "/tmp/concerto.tar.gz")
@@ -92,10 +92,8 @@ def parse_options
   end
 end
 
-def mysql_config
-  #replace sqliite with mysql
-  system("sed -i 's/sqlite3/mysql2/g' #{$concerto_location}/Gemfile")
-  
+#This is a *nix-only method for getting MySQL configured for Concerto
+def mysql_config 
   #turn of terminal echo so the password isn't seen
   `stty -echo`
   print "Enter MySQL root password: "
@@ -127,7 +125,7 @@ host: localhost}
 
 end
 
-def windows_install
+def windows_download
   #get the full path to the user's temp directory and chop off the newline
   user_tempdir = `echo %TEMP%`.chomp
   #download the Github zipball (and do some acrobatics b/c Github doesn't know how to package a zip)
