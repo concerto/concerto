@@ -2,12 +2,12 @@
   <div class="span12">
     <section class="viewblock">
       <header class="viewblock-header">
-        <h1 class="default-padding">All Groups <%= link_to 'New Group', new_group_path, :class => "button" if user_signed_in? %></h1>
+        <h1 class="default-padding"><%= t(:all_groups) %> <%= link_to t(:new_group), new_group_path, :class => "button" if user_signed_in? %></h1>
       </header>
       <div class="viewblock-cont">
         <% if !@my_groups.empty? %>
           <div class="subnav clearfix">
-            <h4>My Groups</h4>
+            <h4><%= t(:my_groups) %></h4>
           </div>
           <ul class="list-stacked">
             <% @my_groups.each do |group| %>
@@ -15,10 +15,10 @@
                 <h3>
                   <%= link_to group.name, group, :class => "link-hl" %>
                   <% if can? :update, group %>
-                    <small><%= link_to "[#{t(:edit)}]", edit_group_path(group) %></small>
+                    <small><%= link_to t(:edit), edit_group_path(group) %></small>
                   <% end %>
                 </h3>
-                <%= link_to "Join", group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></td>
+                <%= link_to t(:join), group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></td>
                 <p class="indented">
                   <% member_list(group) %>
                 </p>
@@ -29,20 +29,18 @@
         <% other_groups = @groups - @my_groups %>
         <% if !other_groups.empty? %>
           <div class="subnav clearfix">
-            <h4>Other Groups</h4>
+            <h4><%= t(:other_groups) %></h4>
           </div>
           <ul class="list-stacked">
             <% other_groups.each do |group| %>
               <li>
                 <h3>
-                  <%= link_to group, :class => "link-hl" do %>
-                  <%= group.name %>
-                  <% end %>
+                  <%= link_to group.name, group, :class => "link-hl" %>
                   <% if can? :update, group %>
-                  <small><%= link_to "[#{t(:edit)}]", edit_group_path(group) %></small>
+                    <small><%= link_to t(:edit), edit_group_path(group) %></small>
                   <% end %>
                 </h3>
-                <%= link_to "Join", group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></td>
+                <%= link_to t(:join), group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></td>
                 <p class="indented">
                   <% member_list(group) %>
                 </p>

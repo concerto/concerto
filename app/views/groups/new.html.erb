@@ -1,12 +1,11 @@
 <section class="viewblock no">
-	<header class="viewblock-header">
-		<%= back_button groups_path %>
-		<h1 class="default-padding">New Group</h1>
-	</header>
-	<div class="viewblock-cont">
-		<article>
-			<%= render 'form' %>
-		</article>
-		
-	</div>
+  <header class="viewblock-header">
+    <%= back_button groups_path %>
+      <h1 class="default-padding"><%= t(:new_group) %></h1>
+    </header>
+    <div class="viewblock-cont">
+      <article>
+        <%= render 'form' %>
+      </article>
+    </div>
 </section>

@@ -2,8 +2,13 @@
 var date_settings = {
   format: 'mm/dd/yyyy',
 };
+var time_settings = {
+  minTime: '12:00am',
+  timeFormat: 'g:ia'
+};
 $("#start_time_date").dateinput(date_settings);
-$('#start_time_time').timepicker();
+$('#start_time_time').timepicker(time_settings);
+$('#start_time_time').timepicker('setTime', '12:00 am');
 $("#end_time_date").dateinput(date_settings);
 $("#end_time_time").timepicker();
 

@@ -11,3 +11,5 @@ en:
   allow_registration: "Allow open user registration"
   allow_user_screen_creation: "Allow user screen creation"
   allow_user_feed_creation: "Allow user feed creation"
+  save_settings: "Save Settings"
+  rubygem_executable: "Rubygem Executable"

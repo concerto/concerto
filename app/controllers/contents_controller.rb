@@ -16,6 +16,7 @@ class ContentsController < ApplicationController
   # GET /contents/1
   def show
     @content = Content.find(params[:id])
+    @user = User.find(@content.user_id)
     auth!
 
     respond_to do |format|

@@ -1,7 +1,7 @@
 <section class="viewblock">
   <header class="viewblock-header">
     <h1 class="default-padding" >
-      <%= link_to "#{ @content.user.name }'s Contents", @content.user %> &gt; 
+      <%= link_to @content.user.name + "'s " + t(:content).pluralize, @content.user %> &gt; 
       <%= @content.name %>
     </h1>
   </header> 
@@ -13,20 +13,19 @@
         <div class="default-padding">
 
           <div class="subblock">
-            <p class="uppercase" style="margin-bottom: 0px;"><small><b>Display From:</b></small></p>
+            <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t(:display_from) %></b></small></p>
             <p><%= @content.start_time.strftime("%a %b %d %G") %><br /><%= @content.start_time.strftime("%I:%M %P") %></p>
-            <p class="uppercase" style="margin-bottom: 0px;"><small><b>Display Until:</b></small></p>
+            <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t(:display_until) %></b></small></p>
             <p><%= @content.end_time.strftime("%a %b %d %G") %><br /><%= @content.end_time.strftime("%I:%M %P") %></p>
           </div>
           
           <div class="subblock">
-            <% user = User.find(@content.user_id) %>
-            Submitted by <%= link_to user.name, user %>
+            <%= t(:submitted_by) %> <%= link_to @user.name, @user %>
           </div>
 
           <div class="subblock">
             <% if @content.submissions.all.count > 0 %>
-              <h3>Appears on...</h3>
+              <h3><%= t(:appears_on) %></h3>
               <ul>
                 <% @content.submissions.all.each do |submission| %>
                   <li><%= link_to submission.feed.name, [submission.feed, submission] %></li>

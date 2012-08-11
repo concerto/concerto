@@ -1,7 +1,7 @@
 <section class="viewblock">
 	<header class="viewblock-header">
 		<%= back_button groups_path %>
-		<h1 class="default-padding">Edit Group</h1>
+		<h1 class="default-padding"><%= t(:edit_group) %></h1>
 	</header>
 	<div class="viewblock-cont clearfix">
 		<%= render 'form' %>
@@ -10,7 +10,7 @@
 
 <section class="viewblock no">
   <header class="viewblock-header">
-    <h1 class="default-padding">Change Group Memberships</h1>
+    <h1 class="default-padding"><%= t(:change_group_memberships) %></h1>
   </header>
   <div class="viewblock-cont">
     <%= render 'edit_memberships' %>

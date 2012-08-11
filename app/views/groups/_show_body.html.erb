@@ -73,7 +73,7 @@
     <div class="default-padding">
       <div class="subblock">
         <% if can? :edit, membership %>
-          <%= link_to "Edit Membership", edit_group_path(@group), :class => "btn" %>
+          <%= link_to t(:edit_membership), edit_group_path(@group), :class => "btn" %>
         <% end %>
 
         <h2><%= t(:leaders) %></h2>
