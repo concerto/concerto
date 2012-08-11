@@ -52,7 +52,7 @@ def main
       exit
     end
     
-    system("bundle install --path /vendor/bundle") 
+    system("bundle install --path vendor/bundle") 
   end
   
   #Create Apache VHost entry with interpolated values
