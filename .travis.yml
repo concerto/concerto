@@ -6,7 +6,6 @@ before_script:
   - cp config/database.yml.sample config/database.yml
   - git submodule init
   - git submodule update
-  - bundle exec rake db:migrate
 
 branches:
   only:
@@ -14,4 +13,8 @@ branches:
 
 notifications:
   irc: "irc.freenode.org#concerto-dev"
-  email: false
+  email:
+    recipients:
+      concerto-dev@googlegroups.com
+    on_success: change
+    on_failure: change
