@@ -36,6 +36,12 @@ concerto.frontend.Position = function(template, opt_div) {
    * @private
    */
   this.div_ = opt_div || this.createDiv_();
+
+  /**
+   * Styles for all content rendered in this position.
+   * @type {?Object}
+   */
+  this.contentStyles = {};
 };
 
 
@@ -58,7 +64,6 @@ concerto.frontend.Position.prototype.createDiv_ = function() {
   var properties = {'id': 'position_' + this.id, 'class': 'position'};
   var div = goog.dom.createDom('div', properties);
   goog.style.setStyle(div, 'position', 'absolute');
-  goog.style.setStyle(div, 'background-color', 'green');
   this.template.inject(div);
   return div;
 };
@@ -115,7 +120,6 @@ concerto.frontend.Position.prototype.load = function(data) {
   this.field_id = data.field_id;
 
   this.draw();
-  this.setProperties();
 
   /**
    * Field in this position.
@@ -123,6 +127,8 @@ concerto.frontend.Position.prototype.load = function(data) {
    */
   this.field = new concerto.frontend.Field(this, this.field_id,
       data.field_contents_path);
+
+  this.setProperties();
 };
 
 
@@ -186,19 +192,21 @@ concerto.frontend.Position.prototype.setProperties = function() {
   // Add the sanitized user styles on top of the default styles.
   // We clone the two different source styles on top of a new one to prevent
   // pulling in a reference to either of them.
-  var styles = {};
-  goog.object.extend(styles, concerto.frontend.Position.DEFAULT_STYLES);
-  goog.object.extend(styles, clean_styles);
-  // Apply the styles.
-  goog.style.setStyle(this.div_, styles);
+  var local_styles = {};
+  goog.object.extend(local_styles, concerto.frontend.Position.DEFAULT_STYLES);
+  goog.style.setStyle(this.div_, local_styles);
+
+  goog.object.extend(this.contentStyles, local_styles);
+  goog.object.extend(this.contentStyles, clean_styles);
 };
 
 
 /**
- * Styles the user may not overwrite.
+ * Styles the field may not overwrite.
  * Names should be in lower case.
  *
  * @type {Array.<string>} Style names.
+ * @const
  */
 concerto.frontend.Position.LOCKED_STYLES = [
   'overflow', 'width', 'height', 'top', 'left', 'bottom', 'right'

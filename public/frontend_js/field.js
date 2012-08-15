@@ -9,7 +9,6 @@ goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
 goog.require('goog.structs.Queue');
-goog.require('goog.style');
 
 
 
@@ -118,7 +117,7 @@ concerto.frontend.Field.prototype.createDiv = function() {
 
 
 /**
- * Inset a div into the field.
+ * Insert a div into the field.
  *
  * @param {Element} div The thing to insert into the field.
  */
@@ -170,6 +169,7 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
             this.autoAdvance, false, this);
         if (load_content_on_finish) {
           this.next_contents_.peek().startLoad();
+          next_content.applyStyles(this.position.contentStyles);
         }
       }, this));
 };

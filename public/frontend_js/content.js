@@ -31,6 +31,13 @@ concerto.frontend.Content = function(data) {
    * @type {number}
    */
   this.duration = data.duration || 10;
+
+  /**
+   * Div to hold this content.
+   * @type {Element}
+   * @private
+   */
+  this.div_ = goog.dom.createDom('div');
 };
 goog.inherits(concerto.frontend.Content, goog.events.EventTarget);
 
@@ -56,13 +63,6 @@ concerto.frontend.Content.prototype.startLoad = function() {
   this.logger_.info('Content ' + this.id + ' is starting to load.');
 
   /**
-   * Div to hold this content.
-   * @type {Element}
-   * @private
-   */
-  this.div_ = goog.dom.createDom('div');
-
-  /**
    * Time this content started loading.
    * @type {goog.date.DateTime}
    * @private
@@ -74,6 +74,16 @@ concerto.frontend.Content.prototype.startLoad = function() {
   this.dispatchEvent(concerto.frontend.Content.EventType.START_LOAD);
 
   this.load_();
+};
+
+
+/**
+ * Apply the sanitized position styles to the content div.
+ *
+ * @param {Object} styles The styles to be applied to this content.
+ */
+concerto.frontend.Content.prototype.applyStyles = function(styles) {
+  goog.style.setStyle(this.div_, styles);
 };
 
 
