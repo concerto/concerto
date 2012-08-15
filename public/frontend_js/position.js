@@ -184,9 +184,11 @@ concerto.frontend.Position.prototype.setProperties = function() {
         key.toLowerCase());
   });
   // Add the sanitized user styles on top of the default styles.
-  var styles = concerto.frontend.Position.DEFAULT_STYLES;
+  // We clone the two different source styles on top of a new one to prevent
+  // pulling in a reference to either of them.
+  var styles = {};
+  goog.object.extend(styles, concerto.frontend.Position.DEFAULT_STYLES);
   goog.object.extend(styles, clean_styles);
-
   // Apply the styles.
   goog.style.setStyle(this.div_, styles);
 };
@@ -207,6 +209,7 @@ concerto.frontend.Position.LOCKED_STYLES = [
  * Default styles.
  *
  * @type {Object.<string, (number|string)>} Default style-value mapping.
+ * @const
  */
 concerto.frontend.Position.DEFAULT_STYLES = {
   'overflow': 'hidden'

@@ -169,6 +169,7 @@ concerto.frontend.Content.prototype.finishTimer = function() {
  * The events fired by the content.
  *
  * @enum {string} The event types for the content.
+ * @const
  */
 concerto.frontend.Content.EventType = {
   /**
