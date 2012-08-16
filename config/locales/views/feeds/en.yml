@@ -1,20 +1,46 @@
 en:
   #_form
-  prohibited_feed_save: "prohibited this feed from being saved:"
-  name: "Name"
-  description: "Description"
-  parent: "Parent"
-  group: "Group"
-  submit: "Submit"
-  edit_feed: "Edit Feed"
-  show: "Show"
-  edit: "Edit"
-  back: "Back"
-  delete: "Delete"
-  new_feed: "New Feed"
-  are_you_sure: "Are you sure?"
-  child_feeds: "Child Feeds"
-  approved_content: "Approved Content"
-  denied_content: "Denied Content"
-  pending_content: "Pending Content"
-  moderate: "Moderate"
+  feed: 'feed'
+  edit: 'Edit'
+  sub_feeds: 'Sub-feeds:'
+  prohibited_feed_save: 'prohibited this feed from being saved:'
+  name: 'Name'
+  description: 'Description'
+  parent: 'Parent'
+  group: 'Group'
+  submit: 'Submit'
+  edit_feed: 'Edit Feed'
+  show: 'Show'
+  back: 'Back'
+  delete: 'Delete'
+  new_feed: 'New Feed'
+  are_you_sure: 'Are you sure?'
+  child_feeds: 'Child Feeds'
+  approved_content: 'Approved Content'
+  denied_content: 'Denied Content'
+  pending_content: 'Pending Content'
+  moderate: 'Moderate'
+  my_concerto: 'My Concerto'
+  other_options: 'Other Options'
+  belong_to_groups: 'You belong to these groups:'
+  network_vitals: 'Network Vitals'
+  active: 'Active'
+  offline: 'Offline'
+  view_screens_list: 'View Screens List'
+  new_content_today: 'New Content Submitted Today'
+  screen: 'Screen'
+  pending: 'PENDING'
+  contents_pending_moderation: 'Contents Pending Your Moderation'
+  with_pending_content: 'with pending content'
+  nothing_to_moderate: 'Nothing to Moderate'
+  no_pending_content: 'All good for now! None of the feeds you moderate have any pending contents.'
+
+  helpers:
+    label:
+      feed:
+        name: 'Name'
+        description: 'Description'
+        parent: 'Parent'
+        group: 'Group'
+        is_viewable: 'Is viewable'
+        is_submittable: 'Is submittable'

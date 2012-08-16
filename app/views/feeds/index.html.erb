@@ -14,18 +14,18 @@
     <% if user_signed_in? %>
     <section class="viewblock">
       <header class="viewblock-header">
-        <h1 class="default-padding">My Concerto</h1>
+        <h1 class="default-padding"><%= t(:my_concerto) %></h1>
       </header>
       <div class="viewblock-cont">
         <div class="default-padding">
-          <p>You belong to these groups:</p>
+          <p><%= t(:belong_to_groups) %></p>
           <ul>
           <% current_user.groups.each do |group| %>
             <li><%= link_to group.name, group %></li>
           <% end %>
           </ul>
           <div class="clearfix">
-            <%= link_to "New Feed", new_feed_path, :class => "btn" if can? :create, Feed %>
+            <%= link_to t(:new_feed), new_feed_path, :class => "btn" if can? :create, Feed %>
           </div>
         </div>
         
@@ -35,18 +35,18 @@
 
     <section class="viewblock">
       <header class="viewblock-header">
-        <h1 class="default-padding">Network Vitals</h1>
+        <h1 class="default-padding"><%= t(:network_vitals) %></h1>
       </header>
       <div class="viewblock-cont">
         <div class="default-padding">
           <div class="clearfix">
-            <h2><%= @screens.count %> Screen<% if @screens.count > 1 %>s<% end %></h2>
-            <p># active&nbsp;&nbsp;&nbsp;&nbsp;# offline</p>
-            <%= link_to "View Screens List", screens_path, :class => "btn" %>
+            <h2><%= @screens.count %> <%= t(:screen) %><% if @screens.count > 1 %>s<% end %></h2>
+            <p># <%= t(:active) %>&nbsp;&nbsp;&nbsp;&nbsp;# <%= t(:offline) %></p>
+            <%= link_to t(:view_screens_list), screens_path, :class => "btn" %>
           </div>
           <br /><br />
           <div class="clearfix">
-            <h3># New Content Submitted Today</h3>
+            <h3># <%= t(:new_content_today) %></h3>
           </div>
         </div>
         

@@ -2,19 +2,19 @@
   <header id="browse-header" class="viewblock-header">
     <div class="viewblock-header_right">
       <div class="status-block">
-        <label>PENDING</label>
+        <label><%= t(:pending) %></label>
         <span><%= @pending_submissions_count %></span>
       </div>
     </div>
     <div class="default-padding">
-      <h1>Contents Pending Your Moderation</h1>
+      <h1><%= t(:contents_pending_moderation) %></h1>
     </div>
   </header>
   <div id="browse-body" class="viewblock-cont">
     
     <% if @feeds.count > 0 %>
       <div class="default-padding">
-        <h2><%= pluralize(@feeds.count, "feed") %> with pending content</h2>
+        <h2><%= pluralize(@feeds.count, t(:feed)) %> <%= t(:with_pending_content) %></h2>
       </div>
 
       <ul class="list-stacked">
@@ -32,8 +32,8 @@
       <br />
       <div class="default-padding">
         <div class="alert alert-block alert-zero">
-          <p class="alert-heading">Nothing to Moderate</p>
-          <% if can? :create, Content %>All good for now! None of the feeds you moderate have any pending contents.<% end %>
+          <p class="alert-heading"><%= t(:nothing_to_moderate) %></p>
+          <% if can? :create, Content %><%= t(:no_pending_content) %><% end %>
         </div>
       </div>
     <% end %>

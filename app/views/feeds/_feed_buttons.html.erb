@@ -1,26 +1,30 @@
 <% if !@feed.children.empty? %>
-<ul class="feedbuttons">
-	<% feed.children.each do |child_feed| %>
-	<li><% link_to child_feed, :class => "button", :remote => true do %><span class="count"><%= child_feed.approved_contents.count %></span><span class="disclosure">&nbsp;</span><%= child_feed.name %><% end %></li>
-	<% end %>
-</ul>
+  <ul class="feedbuttons">
+    <% feed.children.each do |child_feed| %>
+      <li>
+        <% link_to child_feed, :class => "button", :remote => true do %>
+          <span class="count"><%= child_feed.approved_contents.count %></span><span class="disclosure">&nbsp;</span><%= child_feed.name %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
 <% else %>
-<ul class="feedbuttons">
-	<% if feed.parent %>
-		<% @feeds = feed.parent.children %>
-	<% else %>
-		<% @feeds = Feed.roots %>
-	<% end %>
-	<% @feeds.each do |other_feed| %>
-          <li<% if other_feed == feed %> class="selected"<% end %>>
-            <% link_to other_feed, :class => "button", :remote => true do %>
-              <span class="count"><%= other_feed.approved_contents.count %></span>
-              <% if other_feed != feed %>
-                <span class="disclosure">&nbsp;</span>
-              <% end %>
-              <%= other_feed.name %>
-            <% end %>
-          </li>
-	<% end %>
-</ul>
+  <ul class="feedbuttons">
+    <% if feed.parent %>
+      <% @feeds = feed.parent.children %>
+    <% else %>
+      <% @feeds = Feed.roots %>
+    <% end %>
+    <% @feeds.each do |other_feed| %>
+      <li<% if other_feed == feed %> class="selected"<% end %>>
+        <% link_to other_feed, :class => "button", :remote => true do %>
+          <span class="count"><%= other_feed.approved_contents.count %></span>
+          <% if other_feed != feed %>
+            <span class="disclosure">&nbsp;</span>
+          <% end %>
+          <%= other_feed.name %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
 <% end %>
