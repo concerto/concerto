@@ -169,7 +169,7 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
             this.autoAdvance, false, this);
         if (load_content_on_finish) {
           this.next_contents_.peek().startLoad();
-          next_content.applyStyles(this.position.contentStyles);
+          next_content.applyStyles(this.position.getContentStyles());
         }
       }, this));
 };

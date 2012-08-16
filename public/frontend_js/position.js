@@ -36,12 +36,6 @@ concerto.frontend.Position = function(template, opt_div) {
    * @private
    */
   this.div_ = opt_div || this.createDiv_();
-
-  /**
-   * Styles for all content rendered in this position.
-   * @type {?Object}
-   */
-  this.contentStyles = {};
 };
 
 
@@ -169,10 +163,7 @@ concerto.frontend.Position.prototype.inject = function(div) {
 
 
 /**
- * Apply the styles and properties to the position.
- * Strip out any LOCKED_STYLES, add in any
- * needed DEFAULT_STYLES, and then append to the
- * current styling information.
+ * Apply the default styles and properties to the position.
  */
 concerto.frontend.Position.prototype.setProperties = function() {
   // Set the ID and class.
@@ -182,6 +173,19 @@ concerto.frontend.Position.prototype.setProperties = function() {
   };
   goog.dom.setProperties(this.div_, properties);
 
+  goog.style.setStyle(this.div_, concerto.frontend.Position.DEFAULT_STYLES);
+};
+
+
+/**
+ * Generate the styles that should be applied to content.
+ * Strip out any LOCKED_STYLES, add in any
+ * needed DEFAULT_STYLES, and then append to the
+ * current styling information for this position.
+ *
+ * @return {Object} Styles to be applied to content.
+ */
+concerto.frontend.Position.prototype.getContentStyles = function() {
   // Load the styles into an map.
   var loaded_styles = goog.style.parseStyleAttribute(this.style_);
   // Filter out the locked properties.
@@ -192,12 +196,10 @@ concerto.frontend.Position.prototype.setProperties = function() {
   // Add the sanitized user styles on top of the default styles.
   // We clone the two different source styles on top of a new one to prevent
   // pulling in a reference to either of them.
-  var local_styles = {};
-  goog.object.extend(local_styles, concerto.frontend.Position.DEFAULT_STYLES);
-  goog.style.setStyle(this.div_, local_styles);
-
-  goog.object.extend(this.contentStyles, local_styles);
-  goog.object.extend(this.contentStyles, clean_styles);
+  var styles = {};
+  goog.object.extend(styles, concerto.frontend.Position.DEFAULT_STYLES);
+  goog.object.extend(styles, clean_styles);
+  return styles;
 };
 
 
