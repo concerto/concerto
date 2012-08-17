@@ -17,6 +17,7 @@ rescue
   Rake::Task["db:create"].invoke
   abort 'ERROR: Database has no schema version and is not empty' unless ActiveRecord::Base.connection.tables.blank?
   #Database doesn't exist - create it and migrate it
-  Rake::Task["db:setup"].invoke
+  Rake::Task["db:migrate"].invoke
+  Rake::Task["db:seed"].invoke  
   retry
 end
