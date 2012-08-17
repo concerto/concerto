@@ -20,6 +20,8 @@
   <script src="/frontend_js/position.js"></script>
   <script src="/frontend_js/template.js"></script>
   <script src="/frontend_js/screen.js"></script>
+  <% count = params[:count] || 1
+     count = count.to_i %>
   <style type="text/css">
     html, body {
       margin: 0;
@@ -29,27 +31,25 @@
     }
     .scr {
       border: 1px solid black;
-      width: 48%;
-      height: 45%;
+      width: <%= (100/count**0.5 - count) %>%;
+      height: <%= (100/count**0.5 - count*2) %>%;
       float: left;
       margin: 10px;
     }
   </style>
   <script type="text/javascript">
-    var s;
+    var s = [];
     function load(){
       goog.debug.Console.autoInstall();
-      s1 = new concerto.frontend.Screen(1, document.getElementById('scr1'));
-      s2 = new concerto.frontend.Screen(1, document.getElementById('scr2'));
-      s3 = new concerto.frontend.Screen(1, document.getElementById('scr3'));
-      s4 = new concerto.frontend.Screen(1, document.getElementById('scr4'));
+        <% for i in (1..count) %>
+          s[<%=i%>] = new concerto.frontend.Screen(1, document.getElementById('scr_<%=i%>'));
+        <% end %>
     }
   </script>
 </head>
 <body onload="load()">
-  <div id="scr1" class="scr"></div>
-  <div id="scr2" class="scr"></div>
-  <div id="scr3" class="scr"></div>
-  <div id="scr4" class="scr"></div>
+  <% for i in (1..count) %>
+    <div id="scr_<%=i%>" class="scr"></div>
+  <% end %>
 </body>
 </html>
