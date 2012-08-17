@@ -6,7 +6,9 @@ begin
   current_version = ActiveRecord::Migrator.current_version
   #Grab the timestamp from each migration filename, and run max() on the resulting array
   highest_version = Dir.glob("#{Rails.root.to_s}/db/migrate/*.rb").map { |f| f.match(/\d+/).to_s.to_i}.max
-  if current_version != highest_version
+  if current_version == 0
+    Rake::Task["db:setup"].invoke
+  elsif current_version != highest_version && current_version != nil
     require 'rake'
     Concerto::Application.load_tasks
     Rake::Task["db:migrate"].invoke
@@ -14,10 +16,6 @@ begin
 rescue
   require 'rake'
   Concerto::Application.load_tasks
-  Rake::Task["db:create"].invoke
-  abort 'ERROR: Database has no schema version and is not empty' unless ActiveRecord::Base.connection.tables.blank?
-  #Database doesn't exist - create it and migrate it
-  Rake::Task["db:migrate"].invoke
-  Rake::Task["db:seed"].invoke  
+  Rake::Task["db:setup"].invoke
   retry
 end
