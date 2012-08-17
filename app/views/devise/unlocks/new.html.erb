@@ -6,7 +6,7 @@
   <p><%= f.label :email %><br />
   <%= f.email_field :email %></p>
 
-  <p><%= f.submit "Resend unlock instructions" %></p>
+  <p><%= f.submit "Submit", :class => "btn primary" "Resend unlock instructions" %></p>
 <% end %>
 
 <%= render :partial => "devise/shared/links" %>

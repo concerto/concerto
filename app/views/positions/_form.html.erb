@@ -35,6 +35,6 @@
     <%= f.collection_select :field_id, Field.all, :id, :name %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Submit", :class => "btn primary" %>
   </div>
 <% end %>

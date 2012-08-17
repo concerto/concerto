@@ -17,7 +17,7 @@
       <td>
         <%= form_for([@group, membership]) do |f| %>
           <%= f.select :level, Membership::LEVELS %>
-          <%= f.submit %>
+          <%= f.submit "Submit", :class => "btn primary" %>
         <% end %>
       </td>
     </tr>

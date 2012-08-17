@@ -56,7 +56,7 @@
     	</fieldset>
     
     	<div class="submit_bar actions">
-    		<%= f.submit %>
+    		<%= f.submit "Submit", :class => "btn primary" %>
     	</div>
     <% end %>
     
@@ -73,7 +73,7 @@
       <p><%= f.label :password_confirmation, "Confirm new password" %><br />
       <%= f.password_field :password_confirmation %></p>
     
-      <p><%= f.submit "Change my password" %></p>
+      <p><%= f.submit "Submit", :class => "btn primary" "Change my password" %></p>
     <% end %>
 
 		
