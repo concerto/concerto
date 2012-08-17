@@ -4,6 +4,6 @@
   <%= f.collection_select :feed_id, feeds, :id, :name %>
   <%= f.select :weight,Subscription::WEIGHTS, :selected => 3 %>
 	<%= f.hidden_field :field_id %>
-  <%= f.submit %>
+  <%= f.submit "Submit", :class => "btn primary" %>
   <%= link_to 'Destroy', [screen, subscription], :data => { :confirm => 'Are you sure?'}, :method => :delete unless subscription.new_record?%>
 <% end %>

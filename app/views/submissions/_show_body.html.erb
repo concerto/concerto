@@ -104,9 +104,9 @@
 
       <div class="subblock">
         <p class="uppercase" style="margin-bottom: 0px;"><small><b>Display From:</b></small></p>
-        <p><%= @submission.content.start_time.strftime("%a %b %d %G") %><br /><%= @submission.content.start_time.strftime("%I:%M %P") %></p>
+        <p><%= @submission.content.start_time.strftime("%a %b %d %Y") %><br /><%= @submission.content.start_time.strftime("%I:%M %P") %></p>
         <p class="uppercase" style="margin-bottom: 0px;"><small><b>Display Until:</b></small></p>
-        <p><%= @submission.content.end_time.strftime("%a %b %d %G") %><br /><%= @submission.content.end_time.strftime("%I:%M %P") %></p>
+        <p><%= @submission.content.end_time.strftime("%a %b %d %Y") %><br /><%= @submission.content.end_time.strftime("%I:%M %P") %></p>
       </div>
       
       <div class="subblock">

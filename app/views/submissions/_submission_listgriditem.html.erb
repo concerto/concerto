@@ -8,12 +8,12 @@
       <p><b><%= link_to submission.content.name, [submission.feed, submission], :remote => true %></b></p>
       
       <p><%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
-        <% if submission.content.start_time < Time.now() %>
+        <% if submission.is_pending? && submission.content.is_active? %>
         <%= link_to "Urgent", "#", :class => "tooltip-basic", 'data-tooltip-text' => "Hey! This content has already passed its requested start date and you should moderate it." %>
         <% end -%>
       </p>
 
-      <% if submission.is_pending? and not submission.content.is_expired? %>
+      <% if submission.is_pending? and !submission.content.is_expired? %>
       <p>
         <%= link_to "Moderate...", "#", :class => "btn small dropdown-control dd-moderate", :title => "Moderate '#{ submission.content.name }'", :rel => "#moderate_#{ submission.id }" %>
       </p>

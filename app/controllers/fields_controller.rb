@@ -7,7 +7,7 @@ class FieldsController < ApplicationController
 
   # GET /kind/:kind_id/fields
   # GET /kind/:kind_id/fields.xml
-  def index
+  def index 
     @fields = @kind.fields
     auth!
 
