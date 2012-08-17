@@ -31,7 +31,7 @@ class FeedsController < ApplicationController
     auth!
 
     respond_to do |format|
-      format.html { } # show.html.erb
+      format.html { redirect_to(feed_submissions_path(@feed)) }
       format.xml  { render :xml => @feed }
       format.js { render :layout => false }
     end
