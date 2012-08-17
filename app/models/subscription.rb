@@ -24,6 +24,6 @@ class Subscription < ActiveRecord::Base
 
 	#Get weight name of a subscription
 	def weight_name
-		name = (Subscription::WEIGHTS.respond_to?(:key) ? Subscription::WEIGHTS.key(weight) :  Membership::WEIGHTS.index(weight)).to_s
+		name = (Subscription::WEIGHTS.respond_to?(:key) ? Subscription::WEIGHTS.key(weight) :  Subscription::WEIGHTS.index(weight)).to_s
 	end
 end
