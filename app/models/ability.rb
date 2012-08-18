@@ -148,6 +148,19 @@ class Ability
       (feed.group.leaders.include?(user) || 
          feed.group.user_has_permissions?(user, :supporter, :feed, [:all]))
     end
+    # A group leader or supporter can create feeds
+    if ConcertoConfig[:allow_user_feed_creation] == "true"
+      if user.leading_groups.any? || user.supporting_groups(:feed, [:all]).any?
+        can :create, Feed do |feed|
+          if !feed.group.nil?
+            (user.leading_groups.include?(feed.group) ||
+               user.supporting_groups(:feed, [:all]).include?(feed.group))
+          else
+            true
+          end
+        end
+      end
+    end
 
     ## Memberships
     # A group leader can manage all memberships
