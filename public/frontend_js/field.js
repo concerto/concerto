@@ -144,32 +144,40 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
       goog.bind(function(e) {
 
         var xhr = e.target;
-        //Currently only think about the first content.
-        var obj = xhr.getResponseJson()[0];
+
         var contents = {
           'Graphic': concerto.frontend.Content.Graphic,
           'Ticker': concerto.frontend.Content.Ticker
         };
 
-        obj.field = {
-          'size': this.position.getSize()
-        };
+        var contents_data = xhr.getResponseJson();
+        goog.array.forEach(contents_data, goog.bind(function(content_data) {
+          // Slip in some data about the field.  Content might want to know the
+          // current size of the position it is being rendered in.
+          content_data.field = {
+            'size': this.position.getSize()
+          };
+          if (content_data.type in contents) {
+            var content = new contents[content_data.type](content_data);
+            this.next_contents_.enqueue(content);
 
-        var next_content = new contents[obj.type](obj);
-        this.next_contents_.enqueue(next_content);
+            // When the content is loaded, we show it in the field,
+            goog.events.listen(content,
+                concerto.frontend.Content.EventType.FINISH_LOAD,
+                this.showContent, false, this);
 
-        // When the content is loaded, we show it in the field,
-        goog.events.listen(next_content,
-            concerto.frontend.Content.EventType.FINISH_LOAD,
-            this.showContent, false, this);
-
-        // When the content has been shown for too long try to load a new one.
-        goog.events.listen(next_content,
-            concerto.frontend.Content.EventType.DISPLAY_END,
-            this.autoAdvance, false, this);
-        if (load_content_on_finish) {
+            // When the content has been shown for too long
+            // try to load a new one.
+            goog.events.listen(content,
+                concerto.frontend.Content.EventType.DISPLAY_END,
+                this.autoAdvance, false, this);
+          } else {
+            this.logger_.warning('Unable to find ' + content_data.type +
+                                 ' renderer for content ' + content_data.id);
+          }
+        }, this));
+        if (load_content_on_finish && !this.next_contents_.isEmpty()) {
           this.next_contents_.peek().startLoad();
-          next_content.applyStyles(this.position.getContentStyles());
         }
       }, this));
 };
@@ -185,6 +193,7 @@ concerto.frontend.Field.prototype.showContent = function() {
   this.logger_.info('Field ' + this.id + ' is showing new content.');
   // Render the HTML for the div into content.div
   var content = this.next_contents_.dequeue();
+  content.applyStyles(this.position.getContentStyles());
   content.render();
 
   var transition = new this.transition_(
