@@ -18,7 +18,7 @@ class KindsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @kind }
+      format.xml  { render :xml => @kind.to_xml(:include => [:fields]) }
     end
   end
 
