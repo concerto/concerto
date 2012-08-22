@@ -15,7 +15,7 @@ class TemplatesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @templates }
+      format.xml  { render :xml => @template.to_xml(:include => [:positions]) }
       format.js { }
     end
   end
@@ -28,7 +28,7 @@ class TemplatesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @template }
+      format.xml  { render :xml => @template.to_xml(:include => [:positions]) }
       format.js { }
     end
   end
