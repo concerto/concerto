@@ -26,17 +26,17 @@ class Group < ActiveRecord::Base
   # Test if a user has a certain permission at a level within a group.
   # Sample usage: user_has_permissions?(user, :supporter, :screen, [:subscribe, :all])
   # will test if the `user` has either :all or :subscribe permissions as a supporter in
-  # the current group.
-  def user_has_permissions?(user, level, group, permissions)
+  # the screen permission type of the current group.
+  def user_has_permissions?(user, level, type, permissions)
     return false if user.nil?
 
     m = Membership.where(:user_id => user, :level => Membership::LEVELS[level]).first
     return false if m.nil?
-    return false unless m.perms.include?(group)
+    return false unless m.perms.include?(type)
 
     permissions = [permissions] if permissions.is_a? Symbol
     permissions.each do |p|
-      return true if m.perms[group] == p
+      return true if m.perms[type] == p
     end
     return false
   end

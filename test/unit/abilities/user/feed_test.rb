@@ -55,5 +55,31 @@ class UserFeedAbilityTest < ActiveSupport::TestCase
     end
   end
 
+  test "Group leaders and some supporters can create feeds" do
+    ability = Ability.new(users(:katie))
+    assert ability.can?(:create, Feed)
+    can_feed = Feed.new(:group_id => groups(:wtg).id)
+    assert ability.can?(:create, can_feed)
+    cannot_feed = Feed.new(:group_id => groups(:rpitv).id)
+    assert ability.cannot?(:create, cannot_feed)
+
+    membership = memberships(:karen_wtg)
+    membership.perms[:feed] = :all
+    membership.save
+    ability = Ability.new(users(:karen))
+    assert ability.can?(:create, Feed)
+    assert ability.can?(:create, can_feed)
+    assert ability.cannot?(:create, cannot_feed)
+
+    [:none, :submissions].each do |p|
+      membership.perms[:feed] = p
+      membership.save
+      ability = Ability.new(users(:karen))
+      assert ability.cannot?(:create, Feed)
+      assert ability.cannot?(:create, can_feed)
+      assert ability.cannot?(:create, cannot_feed)
+    end
+  end
+
 end
 

@@ -17,6 +17,18 @@
       <td>
         <%= form_for([@group, membership]) do |f| %>
           <%= f.select :level, Membership::LEVELS %>
+          <% if Membership::PERMISSIONS.include?(membership.level_name.to_sym) %>
+          <ul>
+            <% Membership::PERMISSIONS[membership.level_name.to_sym].each_pair do |perm, levels| %>
+              <li>
+                <b><%= perm.to_s %></b> - 
+                <% levels.keys.each do |level| %>
+                  <%= level.to_s %>: <%= radio_button_tag "membership[perms][#{perm.to_s}]", level.to_s, membership.perms[perm] == level %>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+          <% end %>
           <%= f.submit "Submit", :class => "btn primary" %>
         <% end %>
       </td>

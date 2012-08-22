@@ -9,9 +9,13 @@ class Frontend::ContentsController < ApplicationController
   end
 
   def index
-    @content = [Content.first(:offset => rand(Content.count))]
-    @content.each do |c|
-      c.pre_render(@screen, @field)
+    count = @field.kind.contents.count
+    @content = []
+    if count > 0
+      @content = [@field.kind.contents.first(:offset => rand(count))]
+      @content.each do |c|
+        c.pre_render(@screen, @field)
+      end
     end
     respond_to do |format|
       format.json {
