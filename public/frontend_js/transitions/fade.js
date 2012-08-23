@@ -3,7 +3,7 @@ goog.provide('concerto.frontend.Transition.Fade');
 goog.require('concerto.frontend.Content.EventType');
 goog.require('concerto.frontend.Transition');
 goog.require('goog.events');
-goog.require('goog.events.EventTarget');
+goog.require('goog.fx.Animation.EventType');
 goog.require('goog.fx.dom.FadeInAndShow');
 goog.require('goog.fx.dom.FadeOutAndHide');
 

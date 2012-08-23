@@ -4,6 +4,7 @@ goog.require('concerto.frontend.Content.ClientTime');
 goog.require('concerto.frontend.Content.Graphic');
 goog.require('concerto.frontend.Content.Ticker');
 goog.require('concerto.frontend.Transition.Fade');
+goog.require('goog.array');
 goog.require('goog.debug.Logger');
 goog.require('goog.dom');
 goog.require('goog.events');
@@ -83,7 +84,7 @@ concerto.frontend.Field = function(position, id, content_path, opt_transition) {
 
   /**
    * Alias to the XHR connection.
-   * @type {!goog.new.XhrManager}
+   * @type {!goog.net.XhrManager}
    * @private
    */
   this.connection_ = this.position.template.screen.connection;

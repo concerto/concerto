@@ -2,8 +2,11 @@ goog.provide('concerto.frontend.Content.Graphic');
 
 goog.require('concerto.frontend.Content');
 goog.require('goog.Uri');
+goog.require('goog.dom');
+goog.require('goog.events');
 goog.require('goog.events.EventType');
 goog.require('goog.net.ImageLoader');
+goog.require('goog.style');
 
 
 

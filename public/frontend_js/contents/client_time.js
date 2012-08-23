@@ -2,6 +2,7 @@ goog.provide('concerto.frontend.Content.ClientTime');
 
 goog.require('concerto.frontend.Content');
 goog.require('goog.date.DateTime');
+goog.require('goog.dom');
 goog.require('goog.i18n.DateTimeFormat');
 
 

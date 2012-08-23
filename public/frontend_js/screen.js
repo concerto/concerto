@@ -3,7 +3,6 @@ goog.provide('concerto.frontend.Screen');
 goog.require('concerto.frontend.Template');
 goog.require('goog.debug.Logger');
 goog.require('goog.dom');
-goog.require('goog.net.XhrIo');
 goog.require('goog.net.XhrManager');
 goog.require('goog.style');
 
@@ -20,7 +19,7 @@ goog.require('goog.style');
 concerto.frontend.Screen = function(screen_id, opt_div) {
   /**
    * Manages connections to the backend server.
-   * @type {!goog.new.XhrManager}
+   * @type {!goog.net.XhrManager}
    */
   this.connection = new goog.net.XhrManager(2, null, 0, 2);
 

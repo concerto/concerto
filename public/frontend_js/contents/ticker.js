@@ -1,6 +1,7 @@
 goog.provide('concerto.frontend.Content.Ticker');
 
 goog.require('concerto.frontend.Content');
+goog.require('goog.dom');
 
 
 
