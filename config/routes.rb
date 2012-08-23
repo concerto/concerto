@@ -35,7 +35,6 @@ Concerto::Application.routes.draw do
   resources :media, :only => [:show]
 
   resources :templates do
-    resources :positions
     member do
       get :preview
     end
@@ -64,9 +63,7 @@ Concerto::Application.routes.draw do
     end
   end
 
-  resources :kinds do
-    resources :fields
-  end
+  resources :kinds
 
   match "moderate/" => "feeds#moderate"
 
