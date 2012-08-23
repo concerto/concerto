@@ -25,13 +25,13 @@ concerto.frontend.Content = function(data) {
    * The Content ID.
    * @type {?number}
    */
-  this.id = data.id || null;
+  this.id = data['id'] || null;
 
   /**
    * The duration in seconds this content should be shown.
    * @type {number}
    */
-  this.duration = data.duration || 10;
+  this.duration = data['duration'] || 10;
 
   /**
    * Div to hold this content.

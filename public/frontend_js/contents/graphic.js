@@ -49,7 +49,7 @@ concerto.frontend.Content.Graphic = function(data) {
    */
   this.image = null;
 
-  var image_url = new goog.Uri(data.render_details.path);
+  var image_url = new goog.Uri(data['render_details']['path']);
   image_url.setParameterValue('height', this.field_height_);
   image_url.setParameterValue('width', this.field_width_);
 

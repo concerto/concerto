@@ -86,12 +86,12 @@ concerto.frontend.Screen.prototype.setup = function() {
   this.logger_.info('Requesting screen config from ' + url);
   this.connection.send('setup', url, 'GET', '', null, 1, goog.bind(function(e) {
     var xhr = e.target;
-    var obj = xhr.getResponseJson();
+    var data = xhr.getResponseJson();
 
-    this.name = obj.name;
-    if (goog.isDefAndNotNull(obj.template)) {
+    this.name = data['name'];
+    if (goog.isDefAndNotNull(data['template'])) {
       this.template = new concerto.frontend.Template(this);
-      this.template.load(obj.template);
+      this.template.load(data['template']);
     }
   }, this));
 };

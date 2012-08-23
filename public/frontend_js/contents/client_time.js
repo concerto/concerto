@@ -21,7 +21,7 @@ concerto.frontend.Content.ClientTime = function(data) {
    * The timezone.
    * @type {?goog.i18n.TimeZone}
    */
-  this.timezone = data.timezone;
+  this.timezone = data['timezone'];
 };
 goog.inherits(concerto.frontend.Content.ClientTime, concerto.frontend.Content);
 

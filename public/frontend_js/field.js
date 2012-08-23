@@ -158,8 +158,8 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
           content_data.field = {
             'size': this.position.getSize()
           };
-          if (content_data.type in contents) {
-            var content = new contents[content_data.type](content_data);
+          if (content_data['type'] in contents) {
+            var content = new contents[content_data['type']](content_data);
             this.next_contents_.enqueue(content);
 
             // When the content is loaded, we show it in the field,
@@ -173,8 +173,8 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
                 concerto.frontend.Content.EventType.DISPLAY_END,
                 this.autoAdvance, false, this);
           } else {
-            this.logger_.warning('Unable to find ' + content_data.type +
-                                 ' renderer for content ' + content_data.id);
+            this.logger_.warning('Unable to find ' + content_data['type'] +
+                                 ' renderer for content ' + content_data['id']);
           }
         }, this));
         if (load_content_on_finish && !this.next_contents_.isEmpty()) {

@@ -70,48 +70,48 @@ concerto.frontend.Position.prototype.createDiv_ = function() {
  * @param {!Object} data The position information.
  */
 concerto.frontend.Position.prototype.load = function(data) {
-  this.id = data.id;
+  this.id = data['id'];
 
   /**
    * Bottom %.
    * @type {number}
    * @private
    */
-  this.bottom_ = parseFloat(data.bottom);
+  this.bottom_ = parseFloat(data['bottom']);
 
   /**
    * Left %.
    * @type {number}
    * @private
    */
-  this.left_ = parseFloat(data.left);
+  this.left_ = parseFloat(data['left']);
 
   /**
    * Right %.
    * @type {number}
    * @private
    */
-  this.right_ = parseFloat(data.right);
+  this.right_ = parseFloat(data['right']);
 
   /**
    * Top %.
    * @type {number}
    * @private
    */
-  this.top_ = parseFloat(data.top);
+  this.top_ = parseFloat(data['top']);
 
   /**
    * CSS styling information.
    * @type {string}
    * @private
    */
-  this.style_ = data.style;
+  this.style_ = data['style'];
 
   /**
    * ID of the field for this position.
    * @type {number}
    */
-  this.field_id = data.field_id;
+  this.field_id = data['field_id'];
 
   this.draw();
 
@@ -120,7 +120,7 @@ concerto.frontend.Position.prototype.load = function(data) {
    * @type {concerto.frontend.Field}
    */
   this.field = new concerto.frontend.Field(this, this.field_id,
-      data.field_contents_path);
+      data['field_contents_path']);
 
   this.setProperties();
 };
