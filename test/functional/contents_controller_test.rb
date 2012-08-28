@@ -23,6 +23,7 @@ class ContentsControllerTest < ActionController::TestCase
     get(:new, {:type => "graphic"})
     assert_response :success
     assert_select(HTML::Selector.new "input[type=file]")
+    assert_select "li.active > a", {:text => "Graphic"}
   end
 
   test "should get new ticker" do
@@ -30,6 +31,7 @@ class ContentsControllerTest < ActionController::TestCase
     get(:new, {:type => "ticker"})
     assert_response :success
     assert_select("textarea")
+    assert_select "li.active > a", {:text => "Ticker Text"}
   end
 
   test "should fallback to generic" do

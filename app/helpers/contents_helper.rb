@@ -5,6 +5,15 @@ module ContentsHelper
     Concerto::Application.config.content_types
   end
 
+  # Display the name of the content type.
+  def display_name(klass)
+    if (klass).const_defined?("DISPLAY_NAME") && !klass::DISPLAY_NAME.nil?
+      klass::DISPLAY_NAME
+    else
+      klass.model_name.human
+    end
+  end
+
   # Render a piece of content.
   #
   # options[:type] controls what partial is used

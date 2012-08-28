@@ -3,8 +3,8 @@
     <ul class="nav nav-tabs nav-stacked nav-drawer-left">
       <li class="nav-header"><%= t(:content_type) %></li>
       <% content_types.each do |subclass| %>
-        <li <% if @content.class.to_s == subclass.model_name.human %> class="active"<% end %>>
-          <%= link_to subclass.model_name.human, new_content_path(:type => subclass.model_name.singular) %>
+        <li <% if @content.is_a?(subclass) %> class="active"<% end %>>
+          <%= link_to display_name(subclass), new_content_path(:type => subclass.model_name.singular) %>
         </li>
       <% end %>
     </ul>
@@ -13,7 +13,7 @@
     <section class="viewblock">
       <header class="viewblock-header">
         <div class="viewblock-header_right default-padding"><a class="button" href="#"><%=t(:design_graphic)%></a></div>
-        <h1 class="default-padding"><%= t(:add) + " " + @content.class.to_s + " " + t(:content) %></h1>
+        <h1 class="default-padding"><%= t(:add) + " " + display_name(@content.class) + " " + t(:content) %></h1>
       </header> 
       <div class="viewblock-cont">
         <%= render 'form' %>
