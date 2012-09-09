@@ -33,7 +33,7 @@
   </div>
   <div class="field">
     <%= f.label :source %><br />
-    <select><%= options_for_select([['RubyGems', 'rubygems'], ['Git Repository', 'git'], ['Filesystem Path', 'path']]) %></select>
+    <%= f.select(:source, [['RubyGems', 'rubygems'], ['Git Repository', 'git'], ['Filesystem Path', 'path']]) %>
   </div>
   <div class="field">
     <%= f.label :source_url %><br />
