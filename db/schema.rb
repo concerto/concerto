@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120724043853) do
+ActiveRecord::Schema.define(:version => 20120914043532) do
 
   create_table "concerto_configs", :force => true do |t|
     t.string  "key"
@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(:version => 20120724043853) do
     t.boolean "plugin_config"
     t.integer "plugin_id"
   end
+
+  add_index "concerto_configs", ["key"], :name => "index_concerto_configs_on_key", :unique => true
 
   create_table "concerto_plugins", :force => true do |t|
     t.string   "name"
