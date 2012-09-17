@@ -26,13 +26,9 @@ class ConcertoConfig < ActiveRecord::Base
   validates_uniqueness_of :key
 
   # Enable hash-like access to table for ease of use
-  # Returns false if key isn't found
+  # Shortcut for self.get(key)
   def self.[](key)
-    rec = self.find_by_key(key.to_s)
-    if rec.nil?
-      return false
-    end
-    rec.value
+    self.get(key.to_s)
   end
   
   #Make setting values from Rails nice and easy
@@ -42,15 +38,14 @@ class ConcertoConfig < ActiveRecord::Base
     setting.update_column(:value, value)
   end  
 
-  # Override self.method_missing to allow
-  # instance attribute type access to Configuration
-  # table. This helps with forms.
-  def self.method_missing(method, *args)
-    unless method.to_s.include?('find') # skip AR find methods
-      value = self[method]
-      return value unless value.nil?
+  # Make getting values from Rails nice and easy
+  # Returns false if key isn't found
+  def self.get(key)
+    setting = ConcertoConfig.where(:key => key).first
+    if setting.nil?
+      return false
     end
-    super
+    return setting.value
   end
   
   #Creates a Concerto Config entry by taking the key and value desired
@@ -63,7 +58,9 @@ class ConcertoConfig < ActiveRecord::Base
     }
     options = defaults.merge(options)
     #first_or_create check whether first returns nil or not; if it does return nil, create is called
-    ConcertoConfig.where(:key => config_key).first_or_create(:key => config_key, :value => config_value, :value_default => options[:value_default], :value_type => options[:value_type], :name => options[:name], :group => options[:group], :description => options[:description], :plugin_config => options[:plugin_config], :plugin_id => options[:plugin_id])
+    ConcertoConfig.where(:key => config_key).first_or_create(:key => config_key, :value => config_value,
+      :value_default => options[:value_default], :value_type => options[:value_type], :name => options[:name], :group => options[:group],
+      :description => options[:description], :plugin_config => options[:plugin_config], :plugin_id => options[:plugin_id])
   end  
     
 end
