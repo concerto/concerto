@@ -19,7 +19,6 @@ class User < ActiveRecord::Base
   #Validations
   validates :email, :presence => true, :uniqueness => true
   validates :first_name, :presence => true
-  validates :last_name, :presence => true
 
   # A simple name, combining the first and last name
   # We should probably expand this so it doesn't look stupid
