@@ -37,3 +37,15 @@
   </tbody>
 
 </table>
+
+<!-- The New Magical (TM) Form -->
+
+<%= form_for :groups, :html => { :method => :put }, :url => {:controller => "groups", :action => "bulk_update", }  do |f| %>
+  <% @group.memberships.each do |membership| %>
+    <%= fields_for "membership[level][]", membership do |fields| %>
+      <%= membership.user.name %>
+      <%= fields.select :level, Membership::LEVELS %>
+    <% end %>
+  <% end %>
+  <%= f.submit "Update", :class => "btn primary" %>
+<% end %>
