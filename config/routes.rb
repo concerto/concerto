@@ -54,15 +54,18 @@ Concerto::Application.routes.draw do
     end
   end
 
+
+  match "groups/bulk_update" => "groups#bulk_update"
+  
   resources :groups do
-    resources :memberships, :only => [:create, :update, :destroy] do
+    resources :memberships, :only => [:create, :update, :destroy] do     
       member do
         put :approve
         put :deny
       end
     end
   end
-
+  
   resources :kinds
 
   match "moderate/" => "feeds#moderate"
