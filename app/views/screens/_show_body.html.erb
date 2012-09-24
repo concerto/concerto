@@ -1,14 +1,14 @@
 <div class="fluid-row">
   <div class="span2">
-       <%= link_to 'Edit Screen Details', edit_screen_path(@screen), :class => "btn"  if can? :update, @screen %>
+       <%= link_to t('edit_screen_details'), edit_screen_path(@screen), :class => "btn"  if can? :update, @screen %>
     <br /><br />
 
-    <p><b>Location:</b> <%= @screen.location %></p>
+    <p><b><%= t('location') %></b> <%= @screen.location %></p>
 
-    <p><b>Owned by:</b> <%= @screen.owner ? @screen.owner.name : 'No Group' %></p>
+    <p><b><%= t('owned_by') %></b> <%= @screen.owner ? @screen.owner.name : t('no_group') %></p>
 
     <p>
-      <b>Current Subscriptions:</b>
+      <b><%= t('current_subscriptions') %></b>
 
       <ul>
         <% @screen.fields.each do |field| %>
@@ -26,13 +26,13 @@
   </div>
   <div class="span10">
     <div class="screen-model" style="width: 800px; height: 505px;">
-      <%= link_to "Change Screen Template", edit_screen_path(@screen, :anchor => "template_selection"),
+      <%= link_to t('change_screen_template'), edit_screen_path(@screen, :anchor => "template_selection"),
                   :class => "btn clear small", :style => "position: absolute; top: 6px; right: 25px;" if can? :update, @screen  %>
       <div class="inner" style="background: url(<%= preview_template_path(@screen.template, :width => 800, :height => 450, :format => :png) %>) center center no-repeat; width: 800px; height: 450px;">
         <% @screen.template.positions.each do |pos| %>
           <div class="pos" style="top: <%= pos.top * 100 %>%; left: <%= pos.left * 100 %>%; width: <%= (pos.right - pos.left) * 100 %>%; height: <%= (pos.bottom - pos.top) * 100 %>%; <%= pos.style %>">
             <%= pos.id %>
-            <%= link_to "Change Subscriptions", manage_screen_field_subscriptions_path(@screen, pos.field), :class => "btn info" %>
+            <%= link_to t('change_subscriptions'), manage_screen_field_subscriptions_path(@screen, pos.field), :class => "btn info" %>
           </div>
         <% end %>
       </div>
