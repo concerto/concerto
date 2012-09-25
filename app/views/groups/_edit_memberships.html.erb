@@ -40,25 +40,27 @@
 
 <!-- The New Magical (TM) Form -->
 
-<%= form_for :groups, :html => { :method => :put }, :url => {:controller => "groups", :action => "bulk_update", }  do |f| %>
-  <% @group.memberships.each do |membership| %>
-    <%= fields_for "membership[level][]", membership do |fields| %>
-      <%= membership.user.name %>
-      <%= fields.select :level, Membership::LEVELS %>
-      <% if Membership::PERMISSIONS.include?(membership.level_name.to_sym) %>
-          <ul>
-            <% Membership::PERMISSIONS[membership.level_name.to_sym].each_pair do |perm, levels| %>
-              <li>
-                <b><%= perm.to_s %></b> - 
-                <% levels.keys.each do |level| %>
-                  <%#= fields.radio_button(membership[perms][perm.to_s], level.to_s) %>
-                  <%= level.to_s %>: <%= radio_button_tag "membership[perms][#{perm.to_s}]", level.to_s, membership.perms[perm] == level %>
-                <% end %>
-              </li>
-            <% end %>
-          </ul>
+<%= form_for(@group) do |f| %>
+  <ul>
+  <%= f.fields_for :memberships do |m| %>
+    <li>
+      <%= m.object.user.name %>
+      <%= m.select :level, Membership::LEVELS %>
+      <% if Membership::PERMISSIONS.include?(m.object.level_name.to_sym) %>
+        <ul>
+          <% Membership::PERMISSIONS[m.object.level_name.to_sym].each_pair do |perm, levels| %>
+            <li>
+              <b><%= perm.to_s %></b> -
+              <% levels.keys.each do |level| %>
+                <%= level.to_s %>:
+                <%= radio_button_tag "#{m.object_name}[perms][#{perm.to_s}]", level.to_s, m.object.perms[perm] == level %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
       <% end %>
-    <% end %>
+    </li>
   <% end %>
+  </ul>
   <%= f.submit "Update", :class => "btn primary" %>
 <% end %>
