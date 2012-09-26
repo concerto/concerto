@@ -53,25 +53,33 @@
         <%= f.fields_for :memberships do |m| %>
           <% if Membership::PERMISSIONS.include?(m.object.level_name.to_sym) %>
           <tr>
-            <td><%= m.object.user.name %></td>
+            <td>
+              <p>
+                <b><%= m.object.user.name %></b><br />
+                <%= m.object.user.email %>
+              </p>
+            </td>
             <% Membership::PERMISSIONS[m.object.level_name.to_sym].each_pair do |perm, levels| %>
               <td>
                 <ul class="inputs-list">
                   <% levels.keys.each do |level| %>
                     <li>
                       <%= radio_button_tag "#{m.object_name}[perms][#{perm.to_s}]", level.to_s, m.object.perms[perm] == level %>
-                      <%= label_tag level.to_s %>
+                      <%= label_tag "#{m.object_name}[perms][#{perm.to_s}][#{level}]", level.to_s.titleize %>
                     </li>
                   <% end %>
                 </ul>
               </td>
             <% end %>
-            <td>&nbsp;</td>
+            <td>
+              <a href="#" class="btn small success">Promote to Leader</a>
+              <a href="#" class="btn small danger">Remove from Group</a>
+            </td>
           </tr>
           <% end %>
         <% end %>
         </ul>
-        <%= f.submit "Update", :class => "btn primary" %>
+        <%= f.submit "Save Updated Permissions", :class => "btn primary" %>
       <% end %>
     </tbody>
   </table>
@@ -104,7 +112,7 @@
             </p>
           </th>
           <th>
-            &nbsp;
+            <a href="#" class="btn small danger">Demote to Regular Member</a>
           </th>
         </tr>
       <% end %>
