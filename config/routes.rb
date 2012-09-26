@@ -53,9 +53,6 @@ Concerto::Application.routes.draw do
       end
     end
   end
-
-
-  match "groups/bulk_update" => "groups#bulk_update"
   
   resources :groups do
     resources :memberships, :only => [:create, :update, :destroy] do     

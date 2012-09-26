@@ -12,15 +12,6 @@ class GroupsController < ApplicationController
       format.xml  { render :xml => @groups }
     end
   end
-  
-  def bulk_update
-    memberships = params["membership"]["level"]
-    memberships.each do |membership_id,membership_attrs|
-      membership = Membership.find(membership_id)
-      membership.update_attributes(membership_attrs)
-    end
-    redirect_to(groups_url)
-  end
 
   # GET /groups/1
   # GET /groups/1.xml
