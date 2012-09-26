@@ -15,6 +15,15 @@ class Group < ActiveRecord::Base
   # Validations
   validates :name, :presence => true, :uniqueness => true
 
+  before_save :update_membership_perms
+
+  # Manually cascade the callbacks for membership permissions.
+  def update_membership_perms
+    self.memberships.each do |m|
+      m.run_callbacks(:save)
+    end
+  end
+
   # Test if a user is part of this group
   def has_member?(user)
     users.include?(user)
