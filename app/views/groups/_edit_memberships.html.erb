@@ -43,22 +43,35 @@
     <thead>
       <tr>
         <th><%= t(:name) %></th>
+        <th>Screen Perms</th>
+        <th>Feed Perms</th>
         <th>&nbsp;</th>
       </tr>
     </thead>
     <tbody>
-      <% @group.memberships.supporter.each do |supporter| %>
-        <tr>
-          <th>
-            <p>
-              <b><%= supporter.user.name %></b><br />
-              <%= supporter.user.email %>
-            </p>
-          </th>
-          <th>
-            &nbsp;
-          </th>
-        </tr>
+      <%= form_for(@group) do |f| %>
+        <%= f.fields_for :memberships do |m| %>
+          <% if Membership::PERMISSIONS.include?(m.object.level_name.to_sym) %>
+          <tr>
+            <td><%= m.object.user.name %></td>
+            <% Membership::PERMISSIONS[m.object.level_name.to_sym].each_pair do |perm, levels| %>
+              <td>
+                <ul class="inputs-list">
+                  <% levels.keys.each do |level| %>
+                    <li>
+                      <%= radio_button_tag "#{m.object_name}[perms][#{perm.to_s}]", level.to_s, m.object.perms[perm] == level %>
+                      <%= label_tag level.to_s %>
+                    </li>
+                  <% end %>
+                </ul>
+              </td>
+            <% end %>
+            <td>&nbsp;</td>
+          </tr>
+          <% end %>
+        <% end %>
+        </ul>
+        <%= f.submit "Update", :class => "btn primary" %>
       <% end %>
     </tbody>
   </table>
@@ -148,29 +161,3 @@
 </table>
 
 
-<!-- The New Magical (TM) Form -->
-
-<%= form_for(@group) do |f| %>
-  <ul>
-  <%= f.fields_for :memberships do |m| %>
-    <li>
-      <%= m.object.user.name %>
-      <%= m.select :level, Membership::LEVELS %>
-      <% if Membership::PERMISSIONS.include?(m.object.level_name.to_sym) %>
-        <ul>
-          <% Membership::PERMISSIONS[m.object.level_name.to_sym].each_pair do |perm, levels| %>
-            <li>
-              <b><%= perm.to_s %></b> -
-              <% levels.keys.each do |level| %>
-                <%= level.to_s %>:
-                <%= radio_button_tag "#{m.object_name}[perms][#{perm.to_s}]", level.to_s, m.object.perms[perm] == level %>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
-      <% end %>
-    </li>
-  <% end %>
-  </ul>
-  <%= f.submit "Update", :class => "btn primary" %>
-<% end %>
