@@ -46,10 +46,10 @@ class Membership < ActiveRecord::Base
   scope :regular, where(:level => Membership::LEVELS[:regular])
   scope :supporter, where(:level => Membership::LEVELS[:supporter])
 
-  # Scoping shortcuts for approved/pending
+  # Scoping shortcuts for workflow (approved/pending/denied)
   scope :approved, where("level > #{Membership::LEVELS[:pending]}")
   scope :pending, where(:level => Membership::LEVELS[:pending])
-
+  scope :denied, where(:level => Membership::LEVELS[:denied]) 
 
   attr_accessor :perms
   def expand_permissions

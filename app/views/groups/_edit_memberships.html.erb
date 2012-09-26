@@ -1,42 +1,152 @@
+<h3 class="default-padding">Approve Requests</h3>
+
+<% if @group.memberships.pending.size > 0 %>
+  <table class="hover-highlight">
+    <thead>
+      <tr>
+        <th><%= t(:name) %></th>
+        <th><%= t(:request_made_at) %></th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @group.memberships.pending.each do |pending_membership| %>
+        <tr>
+          <th>
+            <p>
+              <b><%= pending_membership.user.name %></b><br />
+              <%= pending_membership.user.email %>
+            </p>
+          </th>
+          <th><p><%= pending_membership.created_at.strftime("%d") %></p></th>
+          <th>
+            <a href="#" class="btn small success">Approve</a>
+            <a href="#" class="btn small danger">Deny</a>
+          </th>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="default-padding" style="padding-top: 0px;">
+    <div class="alert alert-block alert-zero">
+      <p class="alert-heading">No Pending Approvals!</p>
+    </div>
+  </div>
+<% end %>
+
+
+<h3 class="default-padding">Regular Members</h3>
+
+<% if @group.memberships.supporter.size > 0 %>
+  <table class="hover-highlight">
+    <thead>
+      <tr>
+        <th><%= t(:name) %></th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @group.memberships.supporter.each do |supporter| %>
+        <tr>
+          <th>
+            <p>
+              <b><%= supporter.user.name %></b><br />
+              <%= supporter.user.email %>
+            </p>
+          </th>
+          <th>
+            &nbsp;
+          </th>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="default-padding" style="padding-top: 0px;">
+    <div class="alert alert-block alert-zero">
+      <p class="alert-heading">This group currently has no regular members.</p>
+    </div>
+  </div>
+<% end %>
+
+
+<h3 class="default-padding">Group Leaders</h3>
+
+<% if @group.memberships.leader.size > 0 %>
+  <table class="hover-highlight">
+    <thead>
+      <tr>
+        <th><%= t(:name) %></th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @group.memberships.leader.each do |leader| %>
+        <tr>
+          <th>
+            <p>
+              <b><%= leader.user.name %></b><br />
+              <%= leader.user.email %>
+            </p>
+          </th>
+          <th>
+            &nbsp;
+          </th>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="default-padding" style="padding-top: 0px;">
+    <div class="alert alert-block alert-zero">
+      <p class="alert-heading">This group currently has no leaders.  You should promote a regular member in the table above.</p>
+    </div>
+  </div>
+<% end %>
+
+
+<!--
 <table class="hover-highlight">
   <thead>
     <tr>
-      <th><%= t(:name) %></th>
-      <th><%= t(:roles) %></th>
+      <th><%#= t(:name) %></th>
+      <th><%#= t(:roles) %></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @group.memberships.each do |membership| %>
+    <%# @group.memberships.each do |membership| %>
     <tr>
       <td>
-        <p><b><%= membership.user.name %></b></p>
-        <p><%= membership.level_name.titleize %></p>
+        <p><b><%#= membership.user.name %></b></p>
+        <p><%#= membership.level_name.titleize %></p>
       </td>
 
       <td>
-        <%= form_for([@group, membership]) do |f| %>
-          <%= f.select :level, Membership::LEVELS %>
-          <% if Membership::PERMISSIONS.include?(membership.level_name.to_sym) %>
+        <%#= form_for([@group, membership]) do |f| %>
+          <%#= f.select :level, Membership::LEVELS %>
+          <%# if Membership::PERMISSIONS.include?(membership.level_name.to_sym) %>
           <ul>
-            <% Membership::PERMISSIONS[membership.level_name.to_sym].each_pair do |perm, levels| %>
+            <%# Membership::PERMISSIONS[membership.level_name.to_sym].each_pair do |perm, levels| %>
               <li>
-                <b><%= perm.to_s %></b> - 
-                <% levels.keys.each do |level| %>
-                  <%= level.to_s %>: <%= radio_button_tag "membership[perms][#{perm.to_s}]", level.to_s, membership.perms[perm] == level %>
-                <% end %>
+                <b><%#= perm.to_s %></b> -
+                <%# levels.keys.each do |level| %>
+                  <%#= level.to_s %>: <%#= radio_button_tag "membership[perms][#{perm.to_s}]", level.to_s, membership.perms[perm] == level %>
+                <%# end %>
               </li>
-            <% end %>
+            <%# end %>
           </ul>
-          <% end %>
-          <%= f.submit "Submit", :class => "btn primary" %>
-        <% end %>
+          <%# end %>
+          <%#= f.submit "Submit", :class => "btn primary" %>
+        <%# end %>
       </td>
     </tr>
-    <% end %>
+    <%# end %>
   </tbody>
 
 </table>
+
 
 <!-- The New Magical (TM) Form -->
 

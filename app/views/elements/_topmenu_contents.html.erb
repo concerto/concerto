@@ -82,8 +82,8 @@
     <section class="right">
       <div id="top-menu-user" class="top-menu-sectop">
         <div class="pull-left">
-          <% if current_user.is_admin? %><i class="icon-user-admin tooltip-basic" data-tooltip-text="#{ t(:system_admin) }"></i><% end %>
-          <% if can? :update, Group %><i class="icon-user-leader tooltip-basic" data-tooltip-text="#{ t(:leader) }"></i><% end %>
+          <% if current_user.is_admin? %><i class="icon-user-admin tooltip-basic" data-tooltip-text="<%= t(:system_admin) %>"></i><% end %>
+          <% if can? :update, Group %><i class="icon-user-leader tooltip-basic" data-tooltip-text="<%= t(:leader) %>"></i><% end %>
         </div>
         <div class="pull-right">
           <h2><%= link_to current_user.name, current_user %></h2>

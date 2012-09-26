@@ -1,18 +1,28 @@
-<section class="viewblock">
-	<header class="viewblock-header">
-		<%= back_button groups_path %>
-		<h1 class="default-padding"><%= t(:edit_group) %></h1>
-	</header>
-	<div class="viewblock-cont clearfix">
-		<%= render 'form' %>
-	</div>
-</section>
+<div class="row-fluid">
+  <div class="span2">
 
-<section class="viewblock no">
-  <header class="viewblock-header">
-    <h1 class="default-padding"><%= t(:change_group_memberships) %></h1>
-  </header>
-  <div class="viewblock-cont">
-    <%= render 'edit_memberships' %>
+    <section class="viewblock">
+    	<header class="viewblock-header">
+    		<%= back_button groups_path %>
+    		<h1 class="default-padding"><%= t(:edit_group) %></h1>
+    	</header>
+    	<div class="viewblock-cont clearfix">
+    		<%= render 'form' %>
+    	</div>
+    </section>
+
   </div>
-</section>
+
+  <div class="span10">
+
+    <section class="viewblock no">
+      <header class="viewblock-header">
+        <h1 class="default-padding"><%= t(:change_group_memberships) %></h1>
+      </header>
+      <div class="viewblock-cont">
+        <%= render 'edit_memberships' %>
+      </div>
+    </section>
+
+  </div>
+</div>
