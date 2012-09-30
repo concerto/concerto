@@ -27,7 +27,13 @@ en:
   approve: "Approve"
   deny: "Deny"
   is_group_leader: "This user is a group leader"
+  error: 'error'
 
   #edit
   edit_group: "Edit Group"
   change_group_memberships: "Change Group Memberships"
+
+  helpers:
+    label:
+      group:
+        name: 'name'
