@@ -66,6 +66,18 @@ class MembershipsController < ApplicationController
       end
     end
   end
+
+# PUT /groups/:group_id/memberships/1/promote_to_leader
+  def promote_to_leader
+    membership = Membership.find(params[:id])
+    respond_to do |format|
+      if membership.promote_to_leader()
+        format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_approved)) }
+      else
+        format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_failed_approve)) }
+      end
+    end
+  end
   
   # PUT /groups/:group_id/memberships/1/deny
   def deny

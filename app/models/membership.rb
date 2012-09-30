@@ -134,6 +134,16 @@ class Membership < ActiveRecord::Base
        false
      end
   end
+  
+  #Make a regular member a group leader
+  def promote_to_leader
+     if update_attributes({:level => Membership::LEVELS[:leader]})
+       true
+     else
+       reload
+       false
+     end  
+  end
 
   # Deny a user in group
   def deny()

@@ -59,6 +59,7 @@ Concerto::Application.routes.draw do
       member do
         put :approve
         put :deny
+        put :promote_to_leader
       end
     end
   end
