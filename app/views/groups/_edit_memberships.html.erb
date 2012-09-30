@@ -18,7 +18,7 @@
               <%= pending_membership.user.email %>
             </p>
           </th>
-          <th><p><%= pending_membership.created_at.strftime("%b %e at %l:%M %p") %></p></th>
+          <th><p><%= pending_membership.created_at.strftime("%I:%M %p on %D") %></p></th>
           <th>
             <%= link_to "Approve", approve_group_membership_path(@group,pending_membership), :method=> :put, :class => "btn small success" %>
             <%= link_to "Deny", deny_group_membership_path(@group,pending_membership), :method=> :put, :class => "btn small danger" %>
@@ -36,7 +36,7 @@
 <% end %>
 
 
-<h3 class="default-padding">Regular Members</h3>
+<h3 class="default-padding">Supporter Members</h3>
 
 <% if @group.memberships.supporter.size > 0 %>
   <table class="hover-highlight">
@@ -86,7 +86,7 @@
 <% else %>
   <div class="default-padding" style="padding-top: 0px;">
     <div class="alert alert-block alert-zero">
-      <p class="alert-heading">This group currently has no regular members.</p>
+      <p class="alert-heading">This group currently has no supporter members.</p>
     </div>
   </div>
 <% end %>
@@ -112,7 +112,7 @@
             </p>
           </th>
           <th>
-            <%= link_to "Demote to Regular Member", approve_group_membership_path(@group,leader), :method=> :put, :class => "btn small danger" %>
+            <%= link_to "Demote to Supporter", approve_group_membership_path(@group,leader), :method=> :put, :class => "btn small danger" %>
           </th>
         </tr>
       <% end %>

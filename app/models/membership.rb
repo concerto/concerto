@@ -127,7 +127,7 @@ class Membership < ActiveRecord::Base
 
   # Approve a user in group
   def approve()
-     if update_attributes({:level => Membership::LEVELS[:regular]})
+     if update_attributes({:level => Membership::LEVELS[:supporter]})
        true
      else
        reload
