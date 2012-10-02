@@ -22,7 +22,7 @@ def save_mapping(object, mapping, filename='mapping.csv')
 end
 
 namespace :import do
-  desc 'Import V1 Concerto database.'
+  desc 'Import V1 Users.'
   task :users => :environment do
     require 'legacy_schema'
     mapping = {}
@@ -40,7 +40,7 @@ namespace :import do
         )
         if new_user.save
           mapping[u.id] = new_user.id
-          puts "Created User - #{new_user.name} (#{new_user.id})"
+          #puts "Created User - #{new_user.name} (#{new_user.id})"
         else
           puts "Error with User #{new_user.name}\n #{new_user.errors.to_yaml}"
         end
@@ -60,7 +60,7 @@ namespace :import do
         )
         if new_group.save
           mapping[g.id] = new_group.id
-          puts "Greated Group - #{new_group.name} (#{new_group.id})"
+          #puts "Created Group - #{new_group.name} (#{new_group.id})"
         else
           puts "Error with Group #{new_group.name}\n #{new_group.errors.to_yaml}"
         end
@@ -83,7 +83,7 @@ namespace :import do
             :level => Membership::LEVELS[:leader]
           )
           if new_membership.save
-            puts "Linked user with group."
+            #puts "Linked user with group."
           else
             puts "Error with Membership #{new_membership.errors.to_yaml}"
           end
@@ -99,14 +99,29 @@ namespace :import do
     groups = load_mapping('group')
     ActiveRecord::Base.transaction do
       V1Feed.all.each do |f|
+        f_type = f.read_attribute_before_type_cast('type').to_i
+        if (f_type == 1 || f_type == 4)
+          puts "Skipping #{f.name} - Dynamic looking feed."
+          next
+        end
+        submit = true
+        subscribe = true
+        if f_type == 2
+          submit = false
+        elsif f_type == 3
+          submit = false
+          subscribe = false
+        end
         new_feed = Feed.new(
           :name => f.name,
           :description => f.description,
           :group_id => groups[f.group.id],
+          :is_viewable => subscribe,
+          :is_submittable => submit
         )
         if new_feed.save
           mapping[f.id] = new_feed.id
-          puts "Created feed #{new_feed.name} (#{new_feed.id})"
+          #puts "Created feed #{new_feed.name} (#{new_feed.id})"
         else
           puts "Error with Feed #{new_feed.name}\n #{new_feed.errors.to_yaml}"
         end
@@ -162,7 +177,7 @@ namespace :import do
             end
             new_content.save
             save_mapping('content', {c.id => new_content.id})
-            puts new_content.to_yaml
+            #puts new_content.to_yaml
           else
             puts "Unable to find Content Class for #{c.id} - #{c.name}."
           end
