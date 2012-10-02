@@ -18,10 +18,10 @@
               <%= pending_membership.user.email %>
             </p>
           </th>
-          <th><p><%= pending_membership.created_at.strftime("%d") %></p></th>
+          <th><p><%= pending_membership.created_at.strftime("%I:%M %p on %D") %></p></th>
           <th>
-            <a href="#" class="btn small success">Approve</a>
-            <a href="#" class="btn small danger">Deny</a>
+            <%= link_to "Approve", approve_group_membership_path(@group,pending_membership), :method=> :put, :class => "btn small success" %>
+            <%= link_to "Deny", deny_group_membership_path(@group,pending_membership), :method=> :put, :class => "btn small danger" %>
           </th>
         </tr>
       <% end %>
@@ -36,15 +36,15 @@
 <% end %>
 
 
-<h3 class="default-padding">Regular Members</h3>
+<h3 class="default-padding">Supporter Members</h3>
 
 <% if @group.memberships.supporter.size > 0 %>
   <table class="hover-highlight">
     <thead>
       <tr>
         <th><%= t(:name) %></th>
-        <th>Screen Perms</th>
-        <th>Feed Perms</th>
+        <th>Screen Permission</th>
+        <th>Feed Permission</th>
         <th>&nbsp;</th>
       </tr>
     </thead>
@@ -72,8 +72,8 @@
               </td>
             <% end %>
             <td>
-              <a href="#" class="btn small success">Promote to Leader</a>
-              <a href="#" class="btn small danger">Remove from Group</a>
+              <%= link_to "Promote to Leader", promote_to_leader_group_membership_path(@group,m.object), :method=> :put, :class => "btn small success" %>
+              <%= link_to "Remove from Group", group_membership_path(@group,m.object), :method=> :delete, :class => "btn small danger" %>
             </td>
           </tr>
           <% end %>
@@ -86,7 +86,7 @@
 <% else %>
   <div class="default-padding" style="padding-top: 0px;">
     <div class="alert alert-block alert-zero">
-      <p class="alert-heading">This group currently has no regular members.</p>
+      <p class="alert-heading">This group currently has no supporter members.</p>
     </div>
   </div>
 <% end %>
@@ -112,7 +112,7 @@
             </p>
           </th>
           <th>
-            <a href="#" class="btn small danger">Demote to Regular Member</a>
+            <%= link_to "Demote to Supporter", approve_group_membership_path(@group,leader), :method=> :put, :class => "btn small danger" %>
           </th>
         </tr>
       <% end %>

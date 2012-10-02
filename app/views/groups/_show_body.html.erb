@@ -1,164 +1,139 @@
+<% if @group.narrative.size > 0 %>
+<div class="row-fluid">
+  <div class="span12">
+    <div class="default-padding">
+      <p><%= @group.narrative %></p>
+      <hr />
+    </div>
+  </div>
+</div>
+<% end %>
+
 <div class="row-fluid">
   <div class="span4">
     <div class="default-padding">
-      <%
-        can_join = can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending])
-        already_member = @group.made_request?(current_user)
-      %>
+
+      <% can_join = can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending])
+         already_member = @group.made_request?(current_user) %>
       <% if can_join || already_member %>
       <div class="subblock bordered">
         <div class="default-padding">
           <% if already_member %>
-            <% membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first %>
-            <p><b>You are currently a <%= membership.level_name %><%= " member" unless membership.level == Membership::LEVELS[:leader] %> of this group.</b></p>
-            <% if @group.has_member?(current_user) %>
-              <%= link_to( t(:leave_group), group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn") %>
-              <% if can? :edit, @group %>
-                <%= link_to t(:edit_details), edit_group_path(@group), :class => "btn" %>
-              <% end %>
-            <% end %>
+          <% membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first %>
+          <p><b>You are currently a <%= membership.level_name %><%= " member" unless membership.level == Membership::LEVELS[:leader] %> of this group.</b></p>
+          <% if @group.has_member?(current_user) %>
+          <%= link_to( t(:leave_group), group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn") %>
+          <% if can? :edit, @group %>
+          <%= link_to t(:edit_details), edit_group_path(@group), :class => "btn" %>
+          <% end %>
+          <% end %>
           <% elsif can_join %>
-            <p><b><%= t(:not_in_group) %></b></p>
-            <% if can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>
-              <%= link_to( t(:join_group), group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
-            <% end %>
+          <p><b><%= t(:not_in_group) %></b></p>
+          <% if can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>
+          <%= link_to( t(:join_group), group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
+          <% end %>
           <% end %>
         </div>
       </div>
-     <% end %>
-      <div class="subblock">
-        <h2><%= t(:group_screens) %></h2>
-        <ul class="list-grid">
-          <% @group.screens.each do |screen| %>
-          <li>
-            <div class="cont thumb-icon">
-              <%= link_to screen do %>
-              <i class="icon-controller-screens"></i>
-              <% end %>
-            </div>
-            <div class="cont">
-              <p><b><%= link_to screen.name, screen %></b></p>
-              <p><%= screen.location %></p>
-            </div>
-          </li>
+      <% end %>
+
+      <br />
+      <h2><%= t(:group_members) %></h2>
+      <br />
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 1px;">&nbsp;</th>
+            <th><%= t(:name) %></th>
+            <th><%= t(:email) %></th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <% @group.memberships.leader.each do |membership| %>
+          <tr>
+            <td>
+              <i class="icon-user-leader tooltip-basic" data-tooltip-text="<%= t(:is_group_leader) %>"></i>
+            </td>
+
+            <td>
+              <%= membership.user.name %><br />
+              <b>Leader</b>
+            </td>
+
+            <td>
+              <%= mail_to membership.user.email, membership.user.email, :encode => "hex" %>
+            </td>
+          </tr>
           <% end %>
-        </ul>
 
-      </div>
+          <% @group.memberships.supporter.each do |membership| %>
+          <tr>
+            <td>
+              &nbsp;
+            </td>
 
-      <div class="subblock">
-        <h2><%= t(:group_feeds) %></h2>
+            <td>
+              <%= membership.user.name %>
+            </td>
 
-        <% if !@group.feeds.empty? %>
+            <td>
+              <%= mail_to membership.user.email, membership.user.email, :encode => "hex" %>
+            </td>
+          </tr>
+          <% end %>
 
-          <ul>
-            <% @group.feeds.each do |feed| %>
-              <li><%= link_to feed.name, feed %></li>
-            <% end %>
-          </ul>
-          <div class="clearfix">
-            <%= link_to t(:new_feed), new_feed_path, :class => "btn" if can? :create, Feed %>
-          </div>
-          <div class="clear"></div>
+        </tbody>
 
-        <% else %>
-
-        <% end %>
-
-      </div>
+      </table>
 
     </div>
   </div>
   <div class="span8">
     <div class="default-padding">
-      <div class="subblock">
-        <% if can? :edit, membership %>
-          <%= link_to t(:edit_membership), edit_group_path(@group), :class => "btn" %>
-        <% end %>
 
-        <h2><%= t(:leaders) %></h2>
+     <div class="subblock">
+       <h2><%= t(:group_screens) %></h2>
+       <ul class="list-grid">
+         <% @group.screens.each do |screen| %>
+         <li>
+           <div class="cont thumb-icon">
+             <%= link_to screen do %>
+             <i class="icon-controller-screens"></i>
+             <% end %>
+           </div>
+           <div class="cont">
+             <p><b><%= link_to screen.name, screen %></b></p>
+             <p><%= screen.location %></p>
+           </div>
+         </li>
+         <% end %>
+       </ul>
 
-        <table>
-          <tr>
-            <th><%= t(:name) %></th>
-            <th><%= t(:roles) %></th>
-          </tr>
+     </div>
 
-          <% @group.memberships.leader.each do |membership| %>
-          <tr>
-            <td><%= membership.user.name %></td>
+     <div class="subblock">
+       <h2><%= t(:group_feeds) %></h2>
 
-            <td>
-              <% if can? :edit, membership %>
-                <%= form_for([@group, membership]) do |f| %>
-                  <%= f.select :level, Membership::LEVELS %>
-                  <%= f.submit "Submit", :class => "btn primary" %>
-                <% end %>
-              <% end %>
-            </td>
-          </tr>
-          <% end %>
-        </table>
+       <% if !@group.feeds.empty? %>
 
-        <br /><br />
+         <ul>
+           <% @group.feeds.each do |feed| %>
+           <li><%= link_to feed.name, feed %></li>
+           <% end %>
+         </ul>
+         <div class="clearfix">
+           <%= link_to t(:new_feed), new_feed_path, :class => "btn" if can? :create, Feed %>
+         </div>
+         <div class="clear"></div>
 
-        <h2><%= t(:other_members) %></h2>
+       <% end %>
 
-        <table>
-          <tr>
-            <th><%= t(:name) %></th>
-            <th><%= t(:roles) %></th>
-          </tr>
+     </div>
 
-          <% @group.memberships.regular.each do |membership| %>
-          <tr>
-            <td><%= membership.user.name %></td>
-
-            <td>
-              <% if can? :edit, membership %>
-                <%= form_for([@group, membership]) do |f| %>
-                  <%= f.select :level, Membership::LEVELS %>
-                  <%= f.submit "Submit", :class => "btn primary" %>
-                <% end %>
-              <% end %>
-            </td>
-          </tr>
-          <% end %>
-
-        </table>
-
-        <% if can? :edit, @group %>
-          <b><%= t(:add_member) %></b>
-          <%= form_for([@group, @group.memberships.new]) do |f| %>
-            <%= f.collection_select :user_id, User.all - @group.all_users, :id, :name %>
-            <%= hidden_field_tag 'autoconfirm', true %>
-            <%= f.submit "Submit", :class => "btn primary" %>
-          <% end %>
-
-          <br /><br />
-
-          <h2><%= t(:pending_members) %></h2>
-
-          <table>
-            <tr>
-              <th><%= t(:name) %></th>
-              <th><%= t(:actions) %></th>
-            </tr>
-
-            <% @group.memberships.pending.each do |membership| %>
-            <tr>
-              <td><%= membership.user.name %></td>
-
-              <td>
-                <%= link_to t(:approve), approve_group_membership_path(@group, membership), :data => { :confirm => 'Are you sure?' }, :method => :put, :class => "btn success" %>
-                <%= link_to t(:deny), deny_group_membership_path(@group, membership), :data => { :confirm => 'Are you sure?' }, :method => :put, :class => "btn danger" %>
-              </td>
-            </tr>
-            <% end %>
-
-          </table>
-        <% end %>
-      </div>
-    </div>
-  </div>
+   </div>
+ </div>
+</div>
 </div>
