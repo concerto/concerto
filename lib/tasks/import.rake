@@ -102,7 +102,7 @@ namespace :import do
         new_feed = Feed.new(
           :name => f.name,
           :description => f.description,
-          :group_id => groups[f.group.id],
+          :group_id => groups[f.group.id]
         )
         if new_feed.save
           mapping[f.id] = new_feed.id
