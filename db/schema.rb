@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120930023945) do
+ActiveRecord::Schema.define(:version => 20121003041206) do
 
   create_table "concerto_configs", :force => true do |t|
     t.string  "key"
@@ -112,6 +112,8 @@ ActiveRecord::Schema.define(:version => 20120930023945) do
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
   end
+
+  add_index "media", ["attachable_id", "attachable_type"], :name => "index_media_on_attachable_id_and_attachable_type"
 
   create_table "memberships", :force => true do |t|
     t.integer  "user_id"
