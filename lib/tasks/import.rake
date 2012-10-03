@@ -192,8 +192,8 @@ namespace :import do
     users = load_mapping('user')
     content = load_mapping('content')
     feeds = load_mapping('feed')
-    ActiveRecord::Base.transaction do
-      V1Submission.all.each do |s|
+    V1Submission.all.each do |s|
+      ActiveRecord::Base.transaction do
         if !content.include?(s.content_id) || content[s.content_id] == 0
           #puts "Content missing or invalid."
           next
