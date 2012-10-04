@@ -117,9 +117,7 @@ $(document).ready(function() {
   $('.dropdown-control').click(function(event) { event.preventDefault(); });
 
   $('.dropdown-control.dd-jumpto').each(function() {
-
     $(this).qtip( {
-
       content: {
         text: $( $(this).attr('rel') ).html(),
         title: {
@@ -127,29 +125,22 @@ $(document).ready(function() {
           button: true
         }
       },
-
       position: {
           at: 'bottom center', // Position the tooltip above the link
           my: 'top left',
           viewport: $(window) // Keep the tooltip on-screen at all times
         },
-
         show: {
           event: 'click', // Show it on click...
           solo: true // ...and hide all other tooltips...
         },
-
         hide: 'unfocus',
         style: 'ui-tooltip-light ui-tooltip-shadow ui-tooltip-rounded'
-
       });
-
   });
 
   $('.dropdown-control.dd-moderate').each(function() {
-
     $(this).qtip( {
-
       content: {
         text: $( $(this).attr('rel') ).html(),
         title: {
@@ -157,28 +148,20 @@ $(document).ready(function() {
           button: true
         }
       },
-
       position: {
           at: 'bottom center', // Position the tooltip above the link
           my: 'top left',
           viewport: $(window) // Keep the tooltip on-screen at all times
         },
-
         show: {
           event: 'click', // Show it on click...
           solo: true // ...and hide all other tooltips...
         },
-
         hide: 'unfocus',
         style: 'ui-tooltip-dark ui-tooltip-shadow ui-tooltip-rounded'
-
       });
-
   });
-
     // feed filtering
     $('#filter_feeds').listFilter();
-
-
   });
 </script>
