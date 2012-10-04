@@ -8,15 +8,13 @@ class Membership < ActiveRecord::Base
     :pending => 1,
     # A regular member is a member of the group with full read permission.
     :regular => 2,
-    # A supporting member has limited write access to a group.
-    :supporter => 5,
     # A leader controls the group.
     :leader => 9,
   }
 
   # Membership Permissions
   PERMISSIONS = {
-    :supporter => {
+    :regular => {
       :screen => {
         :none => 0, # No screen write privledges
         :subscriptions => 3, # Can update subscriptions
@@ -44,7 +42,6 @@ class Membership < ActiveRecord::Base
   # Scoping shortcuts for leaders/regular
   scope :leader, where(:level => Membership::LEVELS[:leader])
   scope :regular, where(:level => Membership::LEVELS[:regular])
-  scope :supporter, where(:level => Membership::LEVELS[:supporter])
 
   # Scoping shortcuts for workflow (approved/pending/denied)
   scope :approved, where("level > #{Membership::LEVELS[:pending]}")
@@ -127,7 +124,7 @@ class Membership < ActiveRecord::Base
 
   # Approve a user in group
   def approve()
-     if update_attributes({:level => Membership::LEVELS[:supporter]})
+     if update_attributes({:level => Membership::LEVELS[:regular]})
        true
      else
        reload

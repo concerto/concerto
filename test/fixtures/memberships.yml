@@ -13,5 +13,5 @@ katie_rpitv:
 karen_wtg:
   user: karen
   group: wtg
-  level: <%= Membership::LEVELS[:supporter] %>
+  level: <%= Membership::LEVELS[:regular] %>
   permissions: 0

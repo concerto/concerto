@@ -37,9 +37,9 @@ class User < ActiveRecord::Base
     leading_groups.collect{|g| g.feeds}.flatten
   end
   
-  # Return an array of all the groups a user has a certain supporter permission for.
+  # Return an array of all the groups a user has a certain regular permission for.
   def supporting_groups(type, permissions)
-    supporting_groups =  groups.select{|g| g.user_has_permissions?(self, :supporter, type, permissions)}
+    supporting_groups =  groups.select{|g| g.user_has_permissions?(self, :regular, type, permissions)}
     return supporting_groups
   end
 

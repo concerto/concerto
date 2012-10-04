@@ -36,9 +36,9 @@
 <% end %>
 
 
-<h3 class="default-padding">Supporter Members</h3>
+<h3 class="default-padding">Regular Members</h3>
 
-<% if @group.memberships.supporter.size > 0 %>
+<% if @group.memberships.regular.size > 0 %>
   <table class="hover-highlight">
     <thead>
       <tr>
@@ -86,7 +86,7 @@
 <% else %>
   <div class="default-padding" style="padding-top: 0px;">
     <div class="alert alert-block alert-zero">
-      <p class="alert-heading">This group currently has no supporter members.</p>
+      <p class="alert-heading">This group currently has no regular members.</p>
     </div>
   </div>
 <% end %>
@@ -112,7 +112,7 @@
             </p>
           </th>
           <th>
-            <%= link_to "Demote to Supporter", approve_group_membership_path(@group,leader), :method=> :put, :class => "btn small danger" %>
+            <%= link_to "Demote to Regular", approve_group_membership_path(@group,leader), :method=> :put, :class => "btn small danger" %>
           </th>
         </tr>
       <% end %>

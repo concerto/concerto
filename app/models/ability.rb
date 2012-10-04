@@ -109,7 +109,7 @@ class Ability
     # So can special supporters
     can [:update, :delete], Screen do |screen|
       screen.owner.is_a?(Group) && (screen.owner.leaders.include?(user) ||
-        screen.owner.user_has_permissions?(user, :supporter, :screen, [:all])) 
+        screen.owner.user_has_permissions?(user, :regular, :screen, [:all])) 
     end
 
     #Subscriptions
@@ -118,7 +118,7 @@ class Ability
     can :manage, Subscription do |subscription|
       screen = subscription.screen
       screen.owner.is_a?(Group) && (screen.owner.leaders.include?(user) ||
-        screen.owner.user_has_permissions?(user, :supporter, :screen, [:all, :subscriptions]))
+        screen.owner.user_has_permissions?(user, :regular, :screen, [:all, :subscriptions]))
     end
     
     ## Submissions
@@ -131,7 +131,7 @@ class Ability
     # Submissions can be read and updated by moderators.
     can [:read, :update], Submission do |submission|
       (submission.feed.group.leaders.include?(user) || 
-        submission.feed.group.user_has_permissions?(user, :supporter, :feed, [:all, :submissions]))
+        submission.feed.group.user_has_permissions?(user, :regular, :feed, [:all, :submissions]))
     end
     # Approved submissions can be read if they can read the feed.
     can :read, Submission do |s|
@@ -146,7 +146,7 @@ class Ability
     # Group leaders can update / date a feed they own
     can [:update, :delete], Feed do |feed|
       (feed.group.leaders.include?(user) || 
-         feed.group.user_has_permissions?(user, :supporter, :feed, [:all]))
+         feed.group.user_has_permissions?(user, :regular, :feed, [:all]))
     end
     # A group leader or supporter can create feeds
     if ConcertoConfig[:allow_user_feed_creation] == "true"

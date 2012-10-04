@@ -28,9 +28,9 @@ class GroupTest < ActiveSupport::TestCase
       membership.perms[:feed] = level
       membership.save
 
-      assert g.user_has_permissions?(u, :supporter, :feed, [level])
-      assert g.user_has_permissions?(u, :supporter, :feed, [:all, level])
+      assert g.user_has_permissions?(u, :regular, :feed, [level])
+      assert g.user_has_permissions?(u, :regular, :feed, [:all, level])
     end
-    assert !g.user_has_permissions?(u, :supporter, :screen, [:all, :subscriptions])
+    assert !g.user_has_permissions?(u, :regular, :screen, [:all, :subscriptions])
   end
 end
