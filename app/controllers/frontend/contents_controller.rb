@@ -12,9 +12,13 @@ class Frontend::ContentsController < ApplicationController
     count = @field.kind.contents.count
     @content = []
     if count > 0
-      @content = [@field.kind.contents.first(:offset => rand(count))]
-      @content.each do |c|
-        c.pre_render(@screen, @field)
+      begin
+        @content = [@field.kind.contents.first(:offset => rand(count))]
+        @content.each do |c|
+          c.pre_render(@screen, @field)
+        end
+      rescue Exception => e
+        logger.warn e.message
       end
     end
     respond_to do |format|
