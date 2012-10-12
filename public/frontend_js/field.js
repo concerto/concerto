@@ -111,6 +111,7 @@ concerto.frontend.Field.prototype.createDiv = function() {
   if (!goog.isDefAndNotNull(this.div_)) {
     var properties = {'id': 'field_' + this.id, 'class': 'field'};
     var div = goog.dom.createDom('div', properties);
+    goog.style.setSize(div, '100%', '100%');
     this.position.inject(div);
     this.div_ = div;
   }

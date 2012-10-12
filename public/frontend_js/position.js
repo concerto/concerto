@@ -180,7 +180,7 @@ concerto.frontend.Position.prototype.setProperties = function() {
 /**
  * Generate the styles that should be applied to content.
  * Strip out any LOCKED_STYLES, add in any
- * needed DEFAULT_STYLES, and then append to the
+ * needed DEFAULT_CONTENT_STYLES, and then append to the
  * current styling information for this position.
  *
  * @return {Object} Styles to be applied to content.
@@ -197,7 +197,7 @@ concerto.frontend.Position.prototype.getContentStyles = function() {
   // We clone the two different source styles on top of a new one to prevent
   // pulling in a reference to either of them.
   var styles = {};
-  goog.object.extend(styles, concerto.frontend.Position.DEFAULT_STYLES);
+  goog.object.extend(styles, concerto.frontend.Position.DEFAULT_CONTENT_STYLES);
   goog.object.extend(styles, clean_styles);
   return styles;
 };
@@ -224,3 +224,12 @@ concerto.frontend.Position.LOCKED_STYLES = [
 concerto.frontend.Position.DEFAULT_STYLES = {
   'overflow': 'hidden'
 };
+
+
+/**
+ * Default content styles.
+ *
+ * @type {Object.<string, (number|string)>} Default style-value mapping.
+ * @const
+ */
+concerto.frontend.Position.DEFAULT_CONTENT_STYLES = {};
