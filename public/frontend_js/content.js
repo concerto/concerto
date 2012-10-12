@@ -21,6 +21,8 @@ goog.require('goog.style');
 concerto.frontend.Content = function(data) {
   goog.events.EventTarget.call(this);
 
+  data = data || {};
+
   /**
    * The Content ID.
    * @type {?number}
