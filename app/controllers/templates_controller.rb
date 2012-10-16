@@ -196,7 +196,8 @@ class TemplatesController < ApplicationController
   def import
     xml_file = params[:descriptor]
     image_file = params[:image]
-    @template = Template.new
+    @template = Template.new(params[:template])
+    auth!
     if xml_file.nil? || image_file.nil?
       respond_to do |format|
         format.html { render :action => "new" }
