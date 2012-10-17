@@ -58,7 +58,7 @@ class TemplateTest < ActiveSupport::TestCase
     file = fixture_file_upload("/files/concerto_background.jpg", 'image/jpeg')
     media = t.media.build(:file => file, :key => 'original')
     media.save
-    img = t.preview_image
+    img = t.preview_image(false, true)
 
     golden = fixture_file_upload("/files/golden_template_preview.jpg", 'image/jpeg')
     expected_img = Magick::Image.from_blob(golden.read)[0]
