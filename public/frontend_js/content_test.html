@@ -31,6 +31,16 @@ function testDefaults() {
               _trueTypeOf(content.duration));
 }
 
+function testInit() {
+  var content = new concerto.frontend.Content({
+    id: 123,
+    duration: 5
+  });
+
+  assertEquals(123, content.id);
+  assertEquals(5, content.duration);
+};
+
 function testLoadEvents() {
   var start = 0;
   goog.events.listen(content, concerto.frontend.Content.EventType.START_LOAD,
