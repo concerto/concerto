@@ -66,4 +66,41 @@ class Template < ActiveRecord::Base
     timestamps.append(latest_media.updated_at)
     return timestamps.max
   end
+
+  # Generate a preview image of a template.
+  # Hide the fields all together, or just hide the field text.
+  def preview_image(hide_fields=false, hide_text=false)
+    template_media = self.media.original.first
+    image = Magick::Image.from_blob(template_media.file_contents).first
+
+    height = image.rows
+    width = image.columns
+
+    if !hide_fields && !self.positions.empty?
+      dw = Magick::Draw.new
+      self.positions.each do |position|
+        #Draw the rectangle
+        dw.fill("grey")
+        dw.stroke_opacity(0)
+        dw.fill_opacity(0.6)
+        dw.rectangle(width*position.left, height*position.top,
+                     width*position.right, height*position.bottom)
+
+        if !hide_text
+          #Layer the field name
+          dw.stroke("black")
+          dw.fill("black")
+          dw.text_anchor(Magick::MiddleAnchor)
+          dw.opacity(1)
+          font_size = [width, height].min / 10
+          dw.pointsize = font_size
+          dw.text((width*(position.left + position.right)/2),
+                  (height*(position.top + position.bottom)/2+0.4*font_size),
+                  position.field.name)
+        end
+      end
+      dw.draw(image)
+    end
+    return image
+  end
 end

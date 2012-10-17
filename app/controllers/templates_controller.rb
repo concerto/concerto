@@ -116,9 +116,6 @@ class TemplatesController < ApplicationController
     auth!(:action => :read)
 
     if stale?(:last_modified => @template.last_modified.utc, :etag => @template, :public => true)
-      @media = @template.media.original.first
-      image = Magick::Image.from_blob(@media.file_contents).first
-
       # Hide the fields if the hide_fields param is set,
       # show them by default though.
       @hide_fields = false
@@ -132,34 +129,10 @@ class TemplatesController < ApplicationController
       if !params[:hide_text].nil?
         @hide_text = [true, "true", 1, "1"].include?(params[:hide_text])
       end
-
-      height = image.rows
-      width = image.columns
       
       jpg =  Mime::Type.lookup_by_extension(:jpg)  #JPG is getting defined elsewhere.
       if([jpg, Mime::PNG, Mime::HTML].include?(request.format))
-        if !@hide_fields && !@template.positions.empty?
-          dw = Magick::Draw.new
-          @template.positions.each do |position|
-            #Draw the rectangle
-            dw.fill("grey")
-            dw.stroke_opacity(0)
-            dw.fill_opacity(0.6)
-            dw.rectangle(width*position.left, height*position.top, width*position.right, height*position.bottom)
-            
-            if !@hide_text
-              #Layer the field name
-              dw.stroke("black")
-              dw.fill("black")
-              dw.text_anchor(Magick::MiddleAnchor)
-              dw.opacity(1)
-              font_size = [width, height].min / 10
-              dw.pointsize = font_size
-              dw.text((width*(position.left + position.right)/2),(height*(position.top + position.bottom)/2+0.4*font_size),position.field.name)
-            end
-          end
-          dw.draw(image)
-        end      
+        image = @template.preview_image(@hide_fields, @hide_text)
 
         # Resize the image if needed.
         # We do this post-field drawing because RMagick seems to struggle with small font sizes.
