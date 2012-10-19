@@ -1,16 +1,30 @@
+<%
+  # Hide the template are from non-logged in users.
+  # This is purely for aesthetics, we're not concerned
+  # about the templates but annonymous users don't need them.
+  screen_span = 9
+  template_span = 3
+  if !user_signed_in?
+    screen_span = 12
+    template_span = 0
+  end
+%>
 <div class="row-fluid">
-  <div class="span9">
+  <div class="span<%= screen_span %>">
     <section class="viewblock">
       <header class="viewblock-header" id="screens-header">
-        <h1 class="default-padding"><%= t('all_screens') %> <%= link_to t('new_screen'), new_screen_path, :class => "btn" if can? :create, Screen %></h1>
+        <h1 class="default-padding">
+          <%= t('all_screens') %>
+          <%= link_to t('new_screen'), new_screen_path, :class => "btn" if can? :create, Screen %>
+        </h1>
       </header>
       <div id="screens-body" class="viewblock-cont">
         <%= render :partial => "screens/index_body" %>
-        
       </div>
     </section>
   </div>
-  <div class="span3">
+  <% if template_span > 0 %>
+  <div class="span<%= template_span %>">
     <section class="viewblock">
       <header class="viewblock-header">
         <h1 class="default-padding"><%= t('templates') %> <%= link_to t('new_template'), new_template_path, :class => "btn" if can? :create, Template %></h1>
@@ -21,4 +35,5 @@
       </div>
     </section>
   </div>
+  <% end %>
 </div>
