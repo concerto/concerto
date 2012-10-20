@@ -44,7 +44,7 @@ Concerto::Application.routes.draw do
   end
 
   resources :screens do
-    resources :fields do
+    resources :fields, :only => [] do
       resources :subscriptions do
         collection do
           get :manage
