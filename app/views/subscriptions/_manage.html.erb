@@ -1,9 +1,20 @@
 <%= form_for([screen, field, subscription]) do |f| %>
   <% feeds ||= Feed.subscribable(screen, subscription.field) # Use feeds if it is passed, otherwise build list %>
   <% feeds.push(subscription.feed) unless subscription.feed.nil? # Always show the selected value %>
-  <%= f.collection_select :feed_id, feeds, :id, :name %>
-  <%= f.select :weight,Subscription::WEIGHTS, :selected => 3 %>
-	<%= f.hidden_field :field_id %>
+	<input type="search" id="filter_subscriptions" placeholder="Type here to filter"/>
+		<ul class="filterable">
+    	<% feeds.each_with_index do |feed, i| %>
+      	<li data-filter="<%= feed.name %>">
+					<%= check_box_tag "subscription_feed[#{i}]", feed.id, false %>
+      		<%= "-" * feed.depth %> <%= feed.name %>
+  				<%= select "subscription_weight", i , Subscription::WEIGHTS, :selected => 3 %>
+				</li>
+		<%end%>
   <%= f.submit "Submit", :class => "btn primary" %>
   <%= link_to 'Destroy', [screen, subscription], :data => { :confirm => 'Are you sure?'}, :method => :delete unless subscription.new_record?%>
 <% end %>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('#filter_subscriptions').listFilter();
+});
+</script>
