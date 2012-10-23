@@ -2,28 +2,11 @@
 var date_settings = {
   format: 'mm/dd/yyyy',
 };
-var time_settings = {
-  minTime: '12:00am',
-  timeFormat: 'g:ia'
-};
 $("#start_time_date").dateinput(date_settings);
-$('#start_time_time').timepicker(time_settings);
-$('#start_time_time').timepicker('setTime', '12:00 am');
 $("#end_time_date").dateinput(date_settings);
-$("#end_time_time").timepicker();
 
 var end_date_api = $("#end_time_date").data("dateinput");
 var start_date_api = $("#start_time_date").data("dateinput");
-
-$('#time_start').click(function() {
-  $('#start_time_time').trigger("focus");
-  });
-
-
-$('#time_end').click(function() {
-  $('#end_time_time').trigger("focus");
-  });
-
 
 $('#date_start').click(function(event) {
   window.setTimeout(function() {
@@ -36,6 +19,23 @@ $('#date_end').click(function(event) {
     end_date_api.show();
     }, 1);
   });
+
+
+// Setup the time pickers
+$('#start_time_time').timepicker();
+$("#end_time_time").timepicker();
+
+$('#time_start').click(function(e) {
+  e.stopPropagation();
+  $('#start_time_time').timepicker('show');
+});
+
+
+$('#time_end').click(function(e) {
+  e.stopPropagation();
+  $('#end_time_time').timepicker('show');
+});
+
 <% end %>
 
 <div class="clearfix datetime">

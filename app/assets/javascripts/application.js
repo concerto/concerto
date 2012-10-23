@@ -16,6 +16,7 @@
 //= require jquery.qtip.min
 //= require jquery-tools/dateinput/dateinput
 //= require jquery-tools/rangeinput/rangeinput
+//= require timepicker/jquery.timepicker
 //= require_tree .
 
 $(document).ready(function () {

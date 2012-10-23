@@ -1,3 +1,6 @@
 [submodule "vendor/tools/closure"]
 	path = vendor/tools/closure
 	url = https://github.com/jarib/google-closure-library
+[submodule "vendor/assets/javascripts/timepicker"]
+	path = vendor/assets/javascripts/timepicker
+	url = https://github.com/jonthornton/jquery-timepicker.git
