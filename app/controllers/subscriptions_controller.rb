@@ -65,21 +65,40 @@ class SubscriptionsController < ApplicationController
   # POST /screen/:screen_id/subscriptions
   # POST /screen/:screen_id/subscriptions.xml
   def create
-    @subscription = Subscription.new(params[:subscription])
-    @subscription.screen = @screen
-    @subscription.field = @field
-    auth!
+    @feed_ids = Array.new
+		@weights = Array.new
+		@errnos = Array.new
+		@subscriptions = Array.new
+    
+		if params.has_key?("subscription_feed")
+      @feed_ids = params[:subscription_feed].values
+    end
+		if params.has_key?("subscription_weight")
+			@weights = params[:subscription_weight].values
+		end
+
+		@feed_ids.each_with_index do |feed_id, i|
+			@subscriptions[i] = Subscription.new
+			@subscriptions[i].screen = @screen
+			@subscriptions[i].field = @field
+			@subscriptions[i].feed_id = feed_id
+			@subscriptions[i].weight = @weights[i]
+			auth!
+			@errnos[i] = !@subscriptions[i].save
+		end
+
 
     respond_to do |format|
-      if @subscription.save
-        format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t(:subscription_created)) }
-        format.xml  { render :xml => @subscription, :status => :created, :location => @subscription }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @subscription.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
+			@errnos.each_with_index do |errno, i|
+				if errno
+					format.html { render :action => "new" }
+					format.xml  { render :xml => @subscriptions[i].errors, :status => :unprocessable_entity }
+				end
+			end
+			format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t(:subscriptions_created)) }
+			format.xml  { render :xml => @subscriptions, :status => :created, :location => @subscriptions }
+		end
+	end
 
   # PUT /screen/:screen_id/subscriptions/1
   # PUT /screen/:screen_id/subscriptions/1.xml
