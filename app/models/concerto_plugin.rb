@@ -10,6 +10,7 @@ class ConcertoPlugin < ActiveRecord::Base
   # set up hooks, and request routing if needed.
   def self.initialize_plugins
     method_name = "initialize_plugin"
+    logger.info "ConcertoPlugin: Initializing Plugins"
     ConcertoPlugin.all.each do |plugin|
       if plugin.enabled?
         if Object.const_defined?(plugin.module_name) 
@@ -17,13 +18,14 @@ class ConcertoPlugin < ActiveRecord::Base
           if mod.respond_to? method_name
             mod.method(method_name).call(plugin)
           else 
-            logger.warn("Concerto Plugin #{plugin.name} does not respond to "+
-                        initialize_plugin + ", skipping initialization.")
+            logger.warn(
+              "ConcertoPlugin: Plugin #{plugin.name} does not respond to " +
+              method_name + ", skipping initialization.")
           end
         else
-          logger.warn("Concerto Plugin #{plugin.name} module (" +
-                      plugin.module_name + 
-                      ") not found. Skipping initialization.")
+          logger.warn(
+            "ConcertoPlugin: Plugin #{plugin.name} module (" +
+            plugin.module_name + ") not found. Skipping initialization.")
         end
       end
     end
@@ -44,5 +46,33 @@ class ConcertoPlugin < ActiveRecord::Base
   def request_route(url_string, rack_app)
     self.apps_to_mount = self.apps_to_mount || []
     self.apps_to_mount << {:url_string => url_string, :rack_app => rack_app}
+  end
+
+  def self.install_callbacks(controller)
+    method_name = "get_callbacks"
+    callbacks = []
+    ConcertoPlugin.all.each do |plugin|
+      if plugin.enabled?
+        if Object.const_defined?(plugin.module_name) 
+          mod = plugin.module_name.constantize
+          if mod.respond_to? method_name
+            controller_callbacks = mod.method(method_name).call(controller.name)
+            if controller_callbacks.is_a? Array
+              callbacks += controller_callbacks
+            end
+          else 
+            logger.warn("ConcertoPlugin: #{plugin.name} does not respond to "+
+                        method_name + ", skipping callbacks.")
+          end
+        else
+          logger.warn("ConcertoPlugin: #{plugin.name} module (" +
+                      plugin.module_name + 
+                      ") not found. Skipping callbacks.")
+        end
+      end
+    end
+    callbacks.each do |callback|
+        controller.set_callback(callback[:name], callback[:filter_list], callback[:block])
+    end
   end
 end

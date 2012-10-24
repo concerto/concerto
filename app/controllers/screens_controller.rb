@@ -1,4 +1,8 @@
 class ScreensController < ApplicationController
+  # Define integration hooks for Concerto Plugins
+  define_callbacks :show # controller callback for 'show' action
+  ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
+
   # GET /screens
   # GET /screens.xml
   def index
@@ -24,6 +28,7 @@ class ScreensController < ApplicationController
   # GET /screens/1.xml
   def show
     @screen = Screen.find(params[:id])
+    run_callbacks :show # Run plugin hooks
     auth!
 
     respond_to do |format|
