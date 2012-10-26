@@ -1,24 +1,19 @@
 <% content_for :js_ready do %>
-var date_settings = {
-  format: 'mm/dd/yyyy',
-};
-$("#start_time_date").dateinput(date_settings);
-$("#end_time_date").dateinput(date_settings);
-
-var end_date_api = $("#end_time_date").data("dateinput");
-var start_date_api = $("#start_time_date").data("dateinput");
+// Setup the date pickers
+$("#start_time_date").datepicker();
+$("#end_time_date").datepicker();
 
 $('#date_start').click(function(event) {
-  window.setTimeout(function() {
-    start_date_api.show();
-    }, 1);
-  });
+  event.stopPropagation();
+  var visible = $('#ui-datepicker-div').is(':hidden');
+  $("#start_time_date").datepicker(visible ? 'show' : 'hide');
+});
 
 $('#date_end').click(function(event) {
-  window.setTimeout(function() { 
-    end_date_api.show();
-    }, 1);
-  });
+  event.stopPropagation();
+  var visible = $('#ui-datepicker-div').is(':hidden');
+  $("#start_time_date").datepicker(visible ? 'show' : 'hide');
+});
 
 
 // Setup the time pickers
@@ -30,12 +25,10 @@ $('#time_start').click(function(e) {
   $('#start_time_time').timepicker('show');
 });
 
-
 $('#time_end').click(function(e) {
   e.stopPropagation();
   $('#end_time_time').timepicker('show');
 });
-
 <% end %>
 
 <div class="clearfix datetime">

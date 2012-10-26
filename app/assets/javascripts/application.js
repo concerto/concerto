@@ -12,9 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
 //= require html5_shiv/html5
 //= require jquery.qtip.min
-//= require jquery-tools/dateinput/dateinput
 //= require jquery-tools/rangeinput/rangeinput
 //= require timepicker/jquery.timepicker
 //= require_tree .
