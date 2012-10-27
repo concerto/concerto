@@ -2,8 +2,11 @@ goog.provide('concerto.frontend.Content.Graphic');
 
 goog.require('concerto.frontend.Content');
 goog.require('goog.Uri');
+goog.require('goog.dom');
+goog.require('goog.events');
 goog.require('goog.events.EventType');
 goog.require('goog.net.ImageLoader');
+goog.require('goog.style');
 
 
 
@@ -46,7 +49,7 @@ concerto.frontend.Content.Graphic = function(data) {
    */
   this.image = null;
 
-  var image_url = new goog.Uri(data.render_details.path);
+  var image_url = new goog.Uri(data['render_details']['path']);
   image_url.setParameterValue('height', this.field_height_);
   image_url.setParameterValue('width', this.field_width_);
 
@@ -78,7 +81,20 @@ concerto.frontend.Content.Graphic.prototype.loaderFinish_ = function(e) {
   var top_margin = (this.field_height_ - this.image.height) / 2;
   goog.style.setStyle(this.div_, 'margin',
       top_margin + 'px ' + side_margin + 'px');
+  goog.style.setSize(this.image, '100%', '100%');
   this.finishLoad();
+};
+
+
+/**
+ * Override the default style application.
+ * We need to take into account a potential border before sizing the div.
+ * @override
+ */
+concerto.frontend.Content.Graphic.prototype.applyStyles = function(styles) {
+  concerto.frontend.Content.Graphic.superClass_.applyStyles.call(this, styles);
+  goog.style.setBorderBoxSize(this.div_,
+      {width: this.image.width, height: this.image.height});
 };
 
 

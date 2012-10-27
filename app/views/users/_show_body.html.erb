@@ -1,0 +1,150 @@
+<div class="row-fluid">
+  <div class="span4">
+    <div class="default-padding">
+
+      <div class="subblock bordered">
+        <div class="default-padding">
+          <h2>
+            <%= @user.first_name %> <%= @user.last_name %>
+          </h2>
+          
+          <p>
+            <%= mail_to @user.email, @user.email, :encode => "hex" %>
+          </p>
+
+          <% if current_user.is_admin? %>
+            <p><b><i class="icon-user-admin-blk tooltip-basic" data-tooltip-text="This user is a system-wide admin"></i> Admin</b></p>
+          <% end %>
+
+          <% if user_signed_in? and current_user == @user %>
+            <p style="margin-bottom: 0px;"><b>This is you.</b></p>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="subblock">
+        <h2><% if current_user == @user %>My<% else %><%= @user.first_name %>'s<% end %> Groups</h2>
+        <% if !@user.memberships.empty? %>
+
+        <table>
+          <tr>
+            <th>Name</th>
+            <% if user_signed_in? and current_user.is_admin? or current_user == @user %><th>Roles</th><% end %>
+          </tr>
+
+          <% @user.memberships.approved.each do |membership| %>
+          <tr>
+            <td>
+              <!-- TODO show leader icon if @user is a leader of the group that is listed here <%# if current_user.is_admin? %>
+                <i class="icon-user-leader-blk tooltip-basic" data-tooltip-text="This user is a leader of this group"></i>
+              <%# end %>
+              -->
+              <%= link_to membership.group.name, membership.group %>
+            </td>
+
+            <% if user_signed_in? and current_user.is_admin? or current_user == @user %>
+              <td>
+                <%= form_for([membership.group, membership]) do |f| %>
+                  <%= f.select :level, Membership::LEVELS, { }, { :style => "width: 80px;" } %>
+                  <%= submit_tag "Change", { :class => "btn" } %>
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+          <% end %>
+        </table>
+
+        <br/><br/>
+        <% end %>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="span4">
+    <div class="default-padding">
+
+      <div class="subblock">
+
+        <h2><% if user_signed_in? and current_user == @user %>My<% else %><%= @user.first_name %>'s<% end %> Screens</h2>
+
+        <ul class="list-grid">
+          
+          <% @user.screens.each do |screen| %>
+            <li>
+              <div class="cont thumb-icon">
+                <%= link_to screen do %>
+                  <i class="icon-controller-screens"></i>
+                <% end %>
+              </div>
+              <div class="cont">
+                <p><b><%= link_to screen.name, screen %></b></p>
+                <p>This is your screen.</p>
+              </div>
+            </li>
+          <% end %>
+
+          <% Group.joins(:screens, :users).where(:users => {:id => @user}).group('groups.id').each do |group| %>
+            <% group.screens.each do |screen| %>
+              <li>
+                <div class="cont thumb-icon">
+                  <%= link_to screen do %>
+                    <i class="icon-controller-screens"></i>
+                  <% end %>
+                </div>
+                <div class="cont">
+                  <p><b><%= link_to screen.name, screen %></b></p>
+                  <p><%= screen.location %></p>
+                  <p><%= link_to group.name, group %></p>
+                </div>
+              </li>
+            <% end %>
+          <% end %>
+
+        </ul>
+
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="span4">
+    <div class="default-padding">
+
+      <div class="subblock">
+        <h2><% if current_user == @user %>My<% else %><%= @user.first_name %>'s<% end %> Content</h2>
+
+        <% if !@user.contents.empty? %>
+
+        <ul class="list-grid">
+          <% @user.contents.each do |content| %>
+          <li>
+            <div class="cont thumb-icon">
+              <%= link_to content do %>
+            <%= render_content(content, {:type => 'grid'}) %>
+              <% end %>
+            </div>
+            <div class="cont">
+              <p>
+                <b><%= link_to content.name, content %></b>
+              </p>
+              <p><%= content.type %></p>
+              <p>
+                <%= content.start_time.strftime("%m/%d") %> to <%= content.end_time.strftime("%m/%d") %>
+              </p>
+            </div>
+          </li>
+          <% end %>
+        </ul>
+
+        <% else %>
+
+        <% end %>
+
+      </div>
+
+    </div>
+  </div>
+</div>

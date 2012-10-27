@@ -1,12 +1,64 @@
-<section class="C no">
-	<header>
+<section class="viewblock">
+	<header class="viewblock-header">
 		<%= back_button users_path %>
-		<h1>New User</h1>
+		<h1 class="default-padding">New User</h1>
 	</header>
-	<div class="C-cont">
-		<article>
-			<%= render 'form' %>
-		</article>
-		<div class="clear"></div>
+	<div class="viewblock-cont">
+    <%= form_for(@user) do |f| %>
+    	<% if @user.errors.any? %>
+    	  <div id="error_explanation">
+    	    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+    
+    	    <ul>
+    	    <% @user.errors.full_messages.each do |msg| %>
+    	      <li><%= msg %></li>
+    	    <% end %>
+    	    </ul>
+    	  </div>
+    	<% end %>
+    
+    	<fieldset>
+    		<div class="clearfix">
+    			<label>Name (First, Last)</label>
+    			<div class="input">
+    				<div class="inline-inputs">
+    					<%= f.text_field :first_name, :class => "span3" %> <%= f.text_field :last_name, :class => "span3" %>
+    				</div>
+    			</div>
+    		</div>
+    
+    		<div class="clearfix">
+    			<%= f.label :email %>
+    			<div class="input">
+    				<%= f.text_field :email, :class => "span4" %>
+    			</div>
+    		</div>
+    
+    		<div class="clearfix">
+          <%= f.label :password, "Password" %>
+          <div class="input">
+            <%= f.password_field :password %>
+          </div>
+    		</div>
+    
+    		<% if can? :manage, @user %>
+      		<div class="clearfix">
+      			<label>Admin Status</label>
+      			<div class="input">
+      				<ul class="inputs-list">
+      		      <li>
+      		        <%= f.check_box :is_admin %> <%= f.label :is_admin %>
+      		      </li>
+      		    </ul>
+      			</div>
+      		</div>
+    		<% end %>
+    	</fieldset>
+    
+    	<div class="submit_bar actions">
+    		<%= f.submit "Submit", :class => "btn primary" %>
+    	</div>
+    <% end %>
+
 	</div>
 </section>

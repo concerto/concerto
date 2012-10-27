@@ -4,7 +4,7 @@
 pirate:
   is_viewable: "see for yourself!"
   is_submittable: "Yer can send it here"
-  membership_approved: "Welcome aboard"
+  membership_approved: "Welcome aboard me matey"
   membersip_denied: "Walk the plank!"
 
   signin_login_spiel: "to access yer buried treasure."

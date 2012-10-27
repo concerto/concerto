@@ -1,4 +1,4 @@
-<h1 id="contentlist">
+<h1 class="default-padding" id="contentlist">
   <%= link_to "All Feeds", feeds_path, :remote => true %> &gt; 
   <% @submission.feed.ancestors.reverse.each do |ancestor_feed| %>
   <%= link_to ancestor_feed.name, feed_submissions_path(ancestor_feed), :remote => true %> &gt; 

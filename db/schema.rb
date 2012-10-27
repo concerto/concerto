@@ -11,13 +11,33 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120423022536) do
+ActiveRecord::Schema.define(:version => 20121003041206) do
 
   create_table "concerto_configs", :force => true do |t|
-    t.string "key"
-    t.string "value"
-    t.string "value_type"
-    t.string "value_default"
+    t.string  "key"
+    t.string  "value"
+    t.string  "value_type"
+    t.string  "value_default"
+    t.string  "name"
+    t.string  "group"
+    t.text    "description"
+    t.boolean "plugin_config"
+    t.integer "plugin_id"
+  end
+
+  add_index "concerto_configs", ["key"], :name => "index_concerto_configs_on_key", :unique => true
+
+  create_table "concerto_plugins", :force => true do |t|
+    t.string   "name"
+    t.string   "module_name"
+    t.boolean  "enabled"
+    t.string   "gem_name"
+    t.string   "gem_version"
+    t.string   "source"
+    t.string   "source_url"
+    t.boolean  "installed"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "contents", :force => true do |t|
@@ -31,7 +51,24 @@ ActiveRecord::Schema.define(:version => 20120423022536) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.string   "type"
+    t.integer  "parent_id"
   end
+
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
   create_table "feeds", :force => true do |t|
     t.string   "name"
@@ -55,6 +92,7 @@ ActiveRecord::Schema.define(:version => 20120423022536) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.text     "narrative"
   end
 
   create_table "kinds", :force => true do |t|
@@ -70,17 +108,20 @@ ActiveRecord::Schema.define(:version => 20120423022536) do
     t.string   "file_name"
     t.string   "file_type"
     t.integer  "file_size"
-    t.binary   "file_data",       :limit => 10485760
+    t.binary   "file_data",       :limit => 16777215
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
   end
 
+  add_index "media", ["attachable_id", "attachable_type"], :name => "index_media_on_attachable_id_and_attachable_type"
+
   create_table "memberships", :force => true do |t|
     t.integer  "user_id"
     t.integer  "group_id"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
-    t.integer  "level",      :default => 1
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+    t.integer  "level",       :default => 1
+    t.integer  "permissions"
   end
 
   create_table "positions", :force => true do |t|
@@ -131,9 +172,9 @@ ActiveRecord::Schema.define(:version => 20120423022536) do
   create_table "templates", :force => true do |t|
     t.string   "name"
     t.string   "author"
-    t.boolean  "is_hidden"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.boolean  "is_hidden",       :default => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
     t.integer  "original_width"
     t.integer  "original_height"
   end

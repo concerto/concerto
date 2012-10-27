@@ -1,17 +1,22 @@
-<h2>Sign in</h2>
-
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <p><%= f.label :email %><br />
-  <%= f.email_field :email %></p>
-
-  <p><%= f.label :password %><br />
-  <%= f.password_field :password %></p>
-
-  <% if devise_mapping.rememberable? -%>
-    <p><%= f.check_box :remember_me %> <%= f.label :remember_me %></p>
-  <% end -%>
-
-  <p><%= f.submit "Sign in" %></p>
+<% if params[:no_content_cell] %>
+  <div class="form-stacked">
+    <%= render 'form' %>
+  </div>
+<% else %>
+  <% if flash[:alert] %>
+    <p class="alert"><%= alert %></p>
+  <% end %>
+  <section class="viewblock no">
+  	<header>
+  		<%= back_button :back %>
+  		<h1>Sign In</h1>
+  	</header>
+  	<div class="viewblock-cont">
+  		<article>
+  			<%= render 'form' %>
+  		</article>
+  		
+  	</div>
+  </section>
 <% end %>
 
-<%= render :partial => "devise/shared/links" %>

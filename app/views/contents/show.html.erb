@@ -1,70 +1,49 @@
-<p>
-  <b>Name:</b>
-  <%= @content.name %>
-</p>
+<section class="viewblock">
+  <header class="viewblock-header">
+    <h1 class="default-padding" >
+      <%= link_to @content.user.name + "'s " + t(:content).pluralize, @content.user %> &gt; 
+      <%= @content.name %>
+    </h1>
+  </header> 
+  <div class="viewblock-cont">
 
-<p>
-  <b>Duration:</b>
-  <%= @content.duration %>
-</p>
+    <div class="row-fluid">
+      <div class="span2">
 
-<p>
-  <b>Start time:</b>
-  <%= @content.start_time %>
-</p>
+        <div class="default-padding">
 
-<p>
-  <b>End time:</b>
-  <%= @content.end_time %>
-</p>
+          <div class="subblock">
+            <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t(:display_from) %></b></small></p>
+            <p><%= @content.start_time.strftime("%a %b %d %Y") %><br /><%= @content.start_time.strftime("%I:%M %P") %></p>
+            <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t(:display_until) %></b></small></p>
+            <p><%= @content.end_time.strftime("%a %b %d %Y") %><br /><%= @content.end_time.strftime("%I:%M %P") %></p>
+          </div>
+          
+          <div class="subblock">
+            <%= t(:submitted_by) %> <%= link_to @user.name, @user %>
+          </div>
 
-<p>
-  <b>User:</b>
-  <%= @content.user.name unless @content.user.nil? %>
-</p>
+          <div class="subblock">
+            <% if @content.submissions.all.count > 0 %>
+              <h3><%= t(:appears_on) %></h3>
+              <ul>
+                <% @content.submissions.all.each do |submission| %>
+                  <li><%= link_to submission.feed.name, [submission.feed, submission] %></li>
+                <% end %> 
+              </ul>
+            <% end %>
+          </div>
 
-<p>
-  <b>Kind:</b>
-  <%= @content.kind.name unless @content.kind.nil? %>
-</p>
+        </div>
 
-<p>
-  <b>Type:</b>
-  <%= @content.type unless @content.type.nil? %>
-</p>
+      </div>
+      <div class="span10">
+        <div class="default-padding">
+          <%= render_content(@content) %>
+        </div>
+      </div>
 
-<div class="rendered">
-  <%= render_content(@content) %>
-</div>
-
-<p>
-  <b>Approved Feeds:</b>
-  <ul>
-  <% @content.approved_feeds.each do |feed| %>
-    <li><%= link_to feed.name, feed %></li>
-  <% end %>
-  </ul>
-</p>
-
-<p>
-  <b>Pending Feeds:</b>
-  <ul>
-  <% @content.pending_feeds.each do |feed| %>
-    <li><%= link_to feed.name, feed %></li>
-  <% end %>
-  </ul>
-</p>
-
-<p>
-  <b>Denied Feeds:</b>
-  <ul>
-  <% @content.denied_feeds.each do |feed| %>
-    <li><%= link_to feed.name, feed %></li>
-  <% end %>
-  </ul>
-</p>
-
-
-<%= link_to "Media", @content.media.original.first unless @content.media.empty? || @content.media.original.empty? %>
-<%= link_to 'Edit', edit_content_path(@content) %> |
-<%= link_to 'Back', feeds_path %>
+    </div>
+    
+  </div>
+</section>

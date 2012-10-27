@@ -1,6 +1,7 @@
 goog.provide('concerto.frontend.Content.RandomText');
 
 goog.require('concerto.frontend.Content');
+goog.require('goog.dom');
 goog.require('goog.text.LoremIpsum');
 
 

@@ -1,4 +1,6 @@
 class Ticker < Content
+
+  DISPLAY_NAME = 'Ticker Text'
  
   after_initialize :set_kind
 

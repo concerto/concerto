@@ -58,7 +58,6 @@ concerto.frontend.Position.prototype.createDiv_ = function() {
   var properties = {'id': 'position_' + this.id, 'class': 'position'};
   var div = goog.dom.createDom('div', properties);
   goog.style.setStyle(div, 'position', 'absolute');
-  goog.style.setStyle(div, 'background-color', 'green');
   this.template.inject(div);
   return div;
 };
@@ -71,58 +70,59 @@ concerto.frontend.Position.prototype.createDiv_ = function() {
  * @param {!Object} data The position information.
  */
 concerto.frontend.Position.prototype.load = function(data) {
-  this.id = data.id;
+  this.id = data['id'];
 
   /**
    * Bottom %.
    * @type {number}
    * @private
    */
-  this.bottom_ = parseFloat(data.bottom);
+  this.bottom_ = parseFloat(data['bottom']);
 
   /**
    * Left %.
    * @type {number}
    * @private
    */
-  this.left_ = parseFloat(data.left);
+  this.left_ = parseFloat(data['left']);
 
   /**
    * Right %.
    * @type {number}
    * @private
    */
-  this.right_ = parseFloat(data.right);
+  this.right_ = parseFloat(data['right']);
 
   /**
    * Top %.
    * @type {number}
    * @private
    */
-  this.top_ = parseFloat(data.top);
+  this.top_ = parseFloat(data['top']);
 
   /**
    * CSS styling information.
    * @type {string}
    * @private
    */
-  this.style_ = data.style;
+  this.style_ = data['style'];
 
   /**
    * ID of the field for this position.
    * @type {number}
    */
-  this.field_id = data.field_id;
+  this.field_id = data['field_id'];
 
   this.draw();
-  this.setProperties();
 
   /**
    * Field in this position.
    * @type {concerto.frontend.Field}
    */
   this.field = new concerto.frontend.Field(this, this.field_id,
-      data.field_contents_path);
+      data['field_contents_path']);
+
+  this.setProperties();
 };
 
 
@@ -163,10 +163,7 @@ concerto.frontend.Position.prototype.inject = function(div) {
 
 
 /**
- * Apply the styles and properties to the position.
- * Strip out any LOCKED_STYLES, add in any
- * needed DEFAULT_STYLES, and then append to the
- * current styling information.
+ * Apply the default styles and properties to the position.
  */
 concerto.frontend.Position.prototype.setProperties = function() {
   // Set the ID and class.
@@ -176,6 +173,19 @@ concerto.frontend.Position.prototype.setProperties = function() {
   };
   goog.dom.setProperties(this.div_, properties);
 
+  goog.style.setStyle(this.div_, concerto.frontend.Position.DEFAULT_STYLES);
+};
+
+
+/**
+ * Generate the styles that should be applied to content.
+ * Strip out any LOCKED_STYLES, add in any
+ * needed DEFAULT_CONTENT_STYLES, and then append to the
+ * current styling information for this position.
+ *
+ * @return {Object} Styles to be applied to content.
+ */
+concerto.frontend.Position.prototype.getContentStyles = function() {
   // Load the styles into an map.
   var loaded_styles = goog.style.parseStyleAttribute(this.style_);
   // Filter out the locked properties.
@@ -184,19 +194,21 @@ concerto.frontend.Position.prototype.setProperties = function() {
         key.toLowerCase());
   });
   // Add the sanitized user styles on top of the default styles.
-  var styles = concerto.frontend.Position.DEFAULT_STYLES;
+  // We clone the two different source styles on top of a new one to prevent
+  // pulling in a reference to either of them.
+  var styles = {};
+  goog.object.extend(styles, concerto.frontend.Position.DEFAULT_CONTENT_STYLES);
   goog.object.extend(styles, clean_styles);
-
-  // Apply the styles.
-  goog.style.setStyle(this.div_, styles);
+  return styles;
 };
 
 
 /**
- * Styles the user may not overwrite.
+ * Styles the field may not overwrite.
  * Names should be in lower case.
  *
  * @type {Array.<string>} Style names.
+ * @const
  */
 concerto.frontend.Position.LOCKED_STYLES = [
   'overflow', 'width', 'height', 'top', 'left', 'bottom', 'right'
@@ -207,7 +219,17 @@ concerto.frontend.Position.LOCKED_STYLES = [
  * Default styles.
  *
  * @type {Object.<string, (number|string)>} Default style-value mapping.
+ * @const
  */
 concerto.frontend.Position.DEFAULT_STYLES = {
   'overflow': 'hidden'
 };
+
+
+/**
+ * Default content styles.
+ *
+ * @type {Object.<string, (number|string)>} Default style-value mapping.
+ * @const
+ */
+concerto.frontend.Position.DEFAULT_CONTENT_STYLES = {};

@@ -1,5 +1,75 @@
 // alerts-badges.scss.erb
 
+// ALERT STYLES
+// ------------
+
+// Base alert styles
+.alert {
+  padding: 8px 35px 8px 14px;
+  margin-bottom: $baseLineHeight;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  background-color: $warningBackground;
+  border: 1px solid $warningBorder;
+  @include border-radius(4px);
+  color: $warningText;
+}
+.alert-heading {
+  color: inherit;
+}
+
+// Adjust close link position
+.alert .close {
+  position: relative;
+  top: -2px;
+  right: -21px;
+  line-height: 18px;
+}
+
+// Alternate styles
+// ----------------
+
+.alert-success {
+  background-color: $successBackground;
+  border-color: $successBorder;
+  color: $successText;
+}
+.alert-danger, .alert-error {
+  background-color: $errorBackground;
+  border-color: $errorBorder;
+  color: $errorText;
+}
+.alert-info {
+  background-color: $infoBackground;
+  border-color: $infoBorder;
+  color: $infoText;
+}
+// Zero State Banner
+// Appears when there is nothing to show in a list or other part of the interface
+.alert-zero {
+  background-color: $zeroBackground;
+  border-color: $zeroBorder;
+  color: $zeroText;
+  @include box-shadow(inset 0px 3px 3px $zeroBorder);
+}
+
+
+// Block alerts
+// ------------------------
+.alert-block {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+.alert-block > p, .alert-block > ul {
+  margin-bottom: 0;
+}
+.alert-block p + p {
+  margin-top: 5px;
+}
+.alert-block p.alert-heading {
+  font-weight: bold;
+}
+
+
 .badge {
   @include border-radius(2px);
   background: $concerto-blue-4;
@@ -9,10 +79,43 @@
   font-size: 10px;
   font-weight: bold;
   padding: 1px 4px;
+
+  &.action {
+    background-color: $red;
+  }
 }
 
 .link-hl .badge {
   position: relative;
   bottom: 2px;
   margin-right: 3px;
+}
+
+// Flash Notice Banner
+// Only appears for a short time to show flash[:notice] text 
+// Appears to "slide" from behind the top menu, then slide back up
+#flash-banner {
+  background: $black;
+  opacity: 0.8;
+  padding: 4px 12px;
+  
+  // initial state: is rendered at top of screen behind the topbar
+  position: absolute;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+  
+  p {
+    opacity: 1.0;
+    color: $white;
+    margin-bottom: 0px;
+  }
+}
+
+
+// Zero State Well
+// Appears when there is nothing to show in a list
+.zero-well {
+
 }

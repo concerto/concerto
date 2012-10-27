@@ -62,6 +62,21 @@ class UserScreenAbilityTest < ActiveSupport::TestCase
     ability = Ability.new(users(:kristen))
     assert ability.cannot?(:update, @sgs)
     assert ability.cannot?(:delete, @sgs)
+
+    membership = memberships(:karen_wtg)
+    membership.perms[:screen] = :all
+    membership.save
+    ability = Ability.new(users(:karen))
+    assert ability.can?(:update, @sgs)
+    assert ability.can?(:delete, @sgs)
+
+    [:none, :subscriptions].each do |p|
+      membership.perms[:screen] = p
+      membership.save
+      ability = Ability.new(users(:karen))
+      assert ability.cannot?(:update, @sgs)
+      assert ability.cannot?(:delete, @sgs)
+    end
   end
 
   test "Regular group  members cannot update or delete a screen" do

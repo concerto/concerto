@@ -1,8 +1,56 @@
-<section class="C no">
-  <header id="browse-header">
-    <%= render :partial => "feeds/browse_header" %>
-  </header>
-  <div id="browse-body" class="C-cont">
-    <%= render :partial => "feeds/browse_body" %>
+<div class="row-fluid">
+  <div class="span9">
+    <section class="viewblock">
+      <header class="viewblock-header" id="browse-header">
+        <%= render :partial => "feeds/browse_header" %>
+      </header>
+      <div id="browse-body" class="viewblock-cont">
+        <%= render :partial => "feeds/browse_body" %>
+        
+      </div>
+    </section>
   </div>
-</section>
+  <div class="span3">
+    <% if user_signed_in? %>
+    <section class="viewblock">
+      <header class="viewblock-header">
+        <h1 class="default-padding"><%= t(:my_concerto) %></h1>
+      </header>
+      <div class="viewblock-cont">
+        <div class="default-padding">
+          <p><%= t(:belong_to_groups) %></p>
+          <ul>
+          <% current_user.groups.each do |group| %>
+            <li><%= link_to group.name, group %></li>
+          <% end %>
+          </ul>
+          <div class="clearfix">
+            <%= link_to t(:new_feed), new_feed_path, :class => "btn" if can? :create, Feed %>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+    <% end %>
+
+    <section class="viewblock">
+      <header class="viewblock-header">
+        <h1 class="default-padding"><%= t(:network_vitals) %></h1>
+      </header>
+      <div class="viewblock-cont">
+        <div class="default-padding">
+          <div class="clearfix">
+            <h2><%= @screens.count %> <%= t(:screen) %><% if @screens.count > 1 %>s<% end %></h2>
+            <p># <%= t(:active) %>&nbsp;&nbsp;&nbsp;&nbsp;# <%= t(:offline) %></p>
+            <%= link_to t(:view_screens_list), screens_path, :class => "btn" %>
+          </div>
+          <br /><br />
+          <div class="clearfix">
+            <h3># <%= t(:new_content_today) %></h3>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+  </div>
+</div>

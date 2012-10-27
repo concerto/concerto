@@ -15,14 +15,13 @@
     <td><%= subscription.feed.name unless subscription.feed.nil? %></td>
     <td><%= subscription.field.name  unless subscription.field.nil? %></td>
     <td><%= subscription.weight %></td>
-    <td><%= link_to 'Show', screen_subscription_path(@screen, subscription) %></td>
-    <td><%= link_to 'Edit', edit_screen_subscription_path(@screen, subscription) %></td>
-    <td><%= link_to 'Destroy', [@screen, subscription], :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Edit', edit_screen_field_subscription_path(@screen, subscription.field, subscription) %></td>
+    <td><%= link_to 'Destroy', [@screen, subscription.field, subscription], :data => {:confirm => 'Are you sure?'}, :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New subscription', new_screen_subscription_path(@screen) %> |
-<%= link_to 'Manage subscriptions', manage_screen_subscriptions_path(@screen) %>
+<%= link_to 'New subscription', new_screen_field_subscription_path(@screen, @field) %> |
+<%= link_to 'Manage subscriptions', manage_screen_field_subscriptions_path(@screen, @field) %>

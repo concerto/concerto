@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Concerto Frontend Unit Tests - concerto.frontend.Content</title>
+<script src='closure-library/closure/goog/base.js'></script>
+<script src='deps.js'></script>
+<script>
+  goog.require('concerto.frontend.Content');
+  goog.require('concerto.frontend.Content.EventType');
+	
+  goog.require('goog.testing.jsunit');
+  goog.require('goog.testing.MockClock');
+</script>
+</head>
+<body>
+<script>
+var content;
+var mockClock;
+function setUp() {
+  content = new concerto.frontend.Content();
+  mockClock = new goog.testing.MockClock(true);
+}
+
+function tearDown() {
+  mockClock.dispose();
+}
+
+function testDefaults() {
+  assertEquals('Duration must be number', 'Number',
+              _trueTypeOf(content.duration));
+}
+
+function testInit() {
+  var content = new concerto.frontend.Content({
+    id: 123,
+    duration: 5
+  });
+
+  assertEquals(123, content.id);
+  assertEquals(5, content.duration);
+};
+
+function testLoadEvents() {
+  var start = 0;
+  goog.events.listen(content, concerto.frontend.Content.EventType.START_LOAD,
+      function(){
+        start++;
+      }, true);
+
+  var finished = 0;
+  goog.events.listen(content, concerto.frontend.Content.EventType.START_LOAD,
+      function(){
+        finished++;
+      }, true);
+
+  content.startLoad();
+
+  assertEquals(1, start);
+  assertEquals(1, finished);
+}
+
+function testDurationTimer() {
+  content.duration = 5;
+  // Load the content first to setup everything.
+  content.startLoad();
+
+  var display_end = 0;
+  goog.events.listen(content, concerto.frontend.Content.EventType.DISPLAY_END,
+    function(){
+      display_end++;
+    }, true);
+
+  content.dispatchEvent(concerto.frontend.Content.EventType.COMPLETE_RENDER);
+  mockClock.tick(1000);
+  assertEquals('Event fired too soon.', 0, display_end);
+  mockClock.tick(4000);
+  assertEquals('Event did not fire after time expired.', 1, display_end);
+}
+</script>
+</body>
+</html>

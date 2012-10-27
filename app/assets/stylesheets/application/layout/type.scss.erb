@@ -11,7 +11,7 @@ p {
   margin-bottom: $baseline / 2;
   small {
     font-size: $basefont - 2;
-    color: $grayLight;
+    color: $gray;
   }
 }
 
@@ -100,9 +100,18 @@ h7 {
 	@include header-base;
 }
 
+.header-with-icon {
+  padding-top: 10px; 
+  border-bottom: solid 1px #eee;
 
-// COLORS
-// ------
+  [class^="icon-header-"], [class*=" icon-header-"] {
+    background-color: $white;
+    margin-top: -10px; 
+    margin-bottom: -10px; 
+    margin-right: 12px;
+  }
+}
+
 
 // Unordered and Ordered lists
 ul, ol {
@@ -167,6 +176,12 @@ em {
   color: $grayLight;
 }
 
+// uppercase
+.uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
 // Blockquotes
 blockquote {
   margin-bottom: $baseline;
@@ -184,13 +199,6 @@ blockquote {
       content: '\2014 \00A0';
     }
   }
-}
-
-// Addresses
-address {
-  display: block;
-  line-height: $baseline;
-  margin-bottom: $baseline;
 }
 
 // Inline and block code styles

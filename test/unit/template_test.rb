@@ -12,6 +12,7 @@ class TemplateTest < ActiveSupport::TestCase
     assert_equal 0.026, actual.top
     assert_equal 0.592, actual.right
     assert_equal 0.796, actual.bottom
+    assert_equal false, t.is_hidden
   end
 
   test "importing a template with multiple positions" do
@@ -49,5 +50,20 @@ class TemplateTest < ActiveSupport::TestCase
     assert t.update_original_sizes
     assert_equal t.original_width, 1920
     assert_equal t.original_height, 1200
+  end
+
+  # Previewing templates works with a golden file
+  test "preview template" do
+    t = templates(:one)
+    file = fixture_file_upload("/files/concerto_background.jpg", 'image/jpeg')
+    media = t.media.build(:file => file, :key => 'original')
+    media.save
+    img = t.preview_image(false, true)
+
+    golden = fixture_file_upload("/files/golden_template_preview.jpg", 'image/jpeg')
+    expected_img = Magick::Image.from_blob(golden.read)[0]
+
+    #(mean_error, n_mean_error, n_max_error) = img.difference(expected_img)
+    #assert_operator mean_error, :<, 1
   end
 end

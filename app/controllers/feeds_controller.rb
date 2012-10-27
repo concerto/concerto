@@ -1,9 +1,10 @@
 class FeedsController < ApplicationController
-  load_and_authorize_resource :except => [:index, :show]
   # GET /feeds
   # GET /feeds.xml
   def index
     @feeds = Feed.roots
+    @screens = Screen.all
+    auth!
 
     respond_to do |format|
       format.html { } # index.html.erb
@@ -12,13 +13,25 @@ class FeedsController < ApplicationController
     end
   end
 
+  def moderate
+    @feeds = Feed.all
+    auth!(:object => @feeds, :action => :update, :allow_empty => false)
+    @feeds.reject!{|f| not f.pending_contents.count > 0}
+    
+    respond_to do |format|
+      format.js { }
+      format.html { }
+    end
+  end
+
   # GET /feeds/1
   # GET /feeds/1.xml
   def show
     @feed = Feed.find(params[:id])
+    auth!
 
     respond_to do |format|
-      format.html { } # show.html.erb
+      format.html { redirect_to(feed_submissions_path(@feed)) }
       format.xml  { render :xml => @feed }
       format.js { render :layout => false }
     end
@@ -28,6 +41,7 @@ class FeedsController < ApplicationController
   # GET /feeds/new.xml
   def new
     @feed = Feed.new
+    auth!
 
     respond_to do |format|
       format.html # new.html.erb
@@ -38,16 +52,18 @@ class FeedsController < ApplicationController
   # GET /feeds/1/edit
   def edit
     @feed = Feed.find(params[:id])
+    auth!
   end
 
   # POST /feeds
   # POST /feeds.xml
   def create
     @feed = Feed.new(params[:feed])
+    auth!
 
     respond_to do |format|
       if @feed.save
-        format.html { redirect_to(@feed, :notice => t(:feed_created)) }
+        format.html { redirect_to(:action => :index, :notice => t(:feed_created)) }
         format.xml  { render :xml => @feed, :status => :created, :location => @feed }
       else
         format.html { render :action => "new" }
@@ -60,6 +76,7 @@ class FeedsController < ApplicationController
   # PUT /feeds/1.xml
   def update
     @feed = Feed.find(params[:id])
+    auth!
 
     respond_to do |format|
       if @feed.update_attributes(params[:feed])
@@ -76,6 +93,7 @@ class FeedsController < ApplicationController
   # DELETE /feeds/1.xml
   def destroy
     @feed = Feed.find(params[:id])
+    auth!
     @feed.destroy
 
     respond_to do |format|

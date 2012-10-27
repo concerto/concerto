@@ -1,5 +1,10 @@
-<h1>Editing template</h1>
-
-<%= render 'form', :locals => { :template => @template } %>
-
-<%= render 'form_import' %>
+<section class="viewblock">
+	<header class="viewblock-header" id="template-header">
+		<%= back_button template_path(@template), :back %>
+		<h1 class="default-padding">Editing template</h1>
+	</header> 
+	<div class="viewblock-cont">
+		<%= render 'form', :locals => { :template => @template } %>
+		
+	</div>
+</section>

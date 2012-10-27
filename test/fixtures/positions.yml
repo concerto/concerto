@@ -2,18 +2,18 @@
 
 one:
   style: MyText
-  top: 9.99
-  left: 9.99
-  bottom: 9.99
-  right: 9.99
+  top: 0.026
+  left: 0.025
+  bottom: 0.796
+  right: 0.592
   field: one
   template: one
 
 two:
   style: MyText
-  top: 9.99
-  left: 9.99
-  bottom: 9.99
-  right: 9.99
+  top: 0.85
+  left: 0.025
+  bottom: 0.98
+  right: 0.750
   field: two
   template: one

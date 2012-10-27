@@ -1,10 +1,9 @@
 goog.provide('concerto.frontend.Transition');
 
 goog.require('concerto.frontend.Content.EventType');
+goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
-goog.require('goog.fx.dom.FadeInAndShow');
-goog.require('goog.fx.dom.FadeOutAndHide');
 
 
 

@@ -1,9 +1,26 @@
-<section class="C no">
-  <header id="browse-header">
-    <%= back_button :back %>
-    <h1>New Template</h1>
-  </header>
-  <div id="browse-body" class="C-cont">
-    <%= render 'form' %>
+<div class="row-fluid">
+  <div class="span2 collapse-right">
+    <ul class="nav nav-tabs nav-stacked nav-drawer-left">
+      <li class="nav-header">Template method:</li>
+      <li<% if @type == "create" %> class="active"<% end %>><%= link_to "Create from Scratch", new_template_path(:type=> "create") %></li>
+      <li<% if @type == "import" %> class="active"<% end %>><%= link_to "Import Existing", new_template_path(:type=> "import") %></li>
+    </ul>
   </div>
-</section>
+  <div class="span10">
+    <section class="viewblock">
+    	<header class="viewblock-header" id="template-header">
+    		<h1 class="default-padding"><%= @type.capitalize + " Template" %></h1>
+    	</header>
+    	<div class="viewblock-cont">
+  			<% if @type == "create" %>
+  			  <%= render 'create_form' %>
+  			<% else %>
+  			  <%= render 'import_form' %>
+  			<% end %>
+    		
+    	</div>
+    </section>
+  </div>
+</div>
+
+

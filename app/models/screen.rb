@@ -17,6 +17,12 @@ class Screen < ActiveRecord::Base
   #something like if owner_type.is_class (however that would work)
   validates :owner, :presence => true, :associated => true, :if => Proc.new { ["User", "Group"].include?(owner_type) }
  
+  # Scopes
+  # THESE ARE MOCK INTERFACES.  PRETEND THEY MAKE SENSE.
+  # TODO(bamnet): Make these real.
+  scope :online, where(:is_public => true)
+  scope :offline, where(:is_public => false)
+
   #types of entities that may "own" a screen
   SCREEN_OWNER_TYPES = ["User", "Group"]
   

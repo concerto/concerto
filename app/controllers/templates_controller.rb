@@ -1,13 +1,21 @@
 class TemplatesController < ApplicationController
-  load_and_authorize_resource
+  before_filter :get_type, :only => [:new, :create, :import]
+
+  # Grab the method of template
+  # creation we're working with.
+  def get_type
+    @type = params[:type] || 'import'
+  end
+
   # GET /templates
   # GET /templates.xml
   def index
     @templates = Template.all
+    auth!
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @templates }
+      format.xml  { render :xml => @template }
       format.js { }
     end
   end
@@ -16,10 +24,11 @@ class TemplatesController < ApplicationController
   # GET /templates/1.xml
   def show
     @template = Template.find(params[:id])
+    auth!
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @template }
+      format.xml  { render :xml => @template.to_xml(:include => [:positions]) }
       format.js { }
     end
   end
@@ -28,6 +37,7 @@ class TemplatesController < ApplicationController
   # GET /templates/new.xml
   def new
     @template = Template.new
+    auth!
     @template.media.build
 
     respond_to do |format|
@@ -39,6 +49,7 @@ class TemplatesController < ApplicationController
   # GET /templates/1/edit
   def edit
     @template = Template.find(params[:id])
+    auth!
     if(@template.media.empty?)
       @template.media.build
     end
@@ -48,6 +59,7 @@ class TemplatesController < ApplicationController
   # POST /templates.xml
   def create
     @template = Template.new(params[:template])
+    auth!
     @template.media.each do |media|
       media.key = "original"
     end
@@ -68,6 +80,7 @@ class TemplatesController < ApplicationController
   # PUT /templates/1.xml
   def update
     @template = Template.find(params[:id])
+    auth!
     @template.media.each do |media|
       media.key = "original"
     end
@@ -87,6 +100,7 @@ class TemplatesController < ApplicationController
   # DELETE /templates/1.xml
   def destroy
     @template = Template.find(params[:id])
+    auth!
     @template.destroy
 
     respond_to do |format|
@@ -99,10 +113,9 @@ class TemplatesController < ApplicationController
   # Generate a preview of the template based on the request format.
   def preview
     @template = Template.find(params[:id])
-    if stale?(:last_modified => @template.last_modified.utc, :etag => @template, :public => true)
-      @media = @template.media.original.first
-      image = Magick::Image.from_blob(@media.file_contents).first
+    auth!(:action => :read)
 
+    if stale?(:last_modified => @template.last_modified.utc, :etag => @template, :public => true)
       # Hide the fields if the hide_fields param is set,
       # show them by default though.
       @hide_fields = false
@@ -110,31 +123,16 @@ class TemplatesController < ApplicationController
         @hide_fields = [true, "true", 1, "1"].include?(params[:hide_fields])
       end
 
-      height = image.rows
-      width = image.columns
+      # Hide the field names if the hide_text param is set,
+      # show them by default though.
+      @hide_text = false
+      if !params[:hide_text].nil?
+        @hide_text = [true, "true", 1, "1"].include?(params[:hide_text])
+      end
       
       jpg =  Mime::Type.lookup_by_extension(:jpg)  #JPG is getting defined elsewhere.
       if([jpg, Mime::PNG, Mime::HTML].include?(request.format))
-        if !@hide_fields && !@template.positions.empty?
-          dw = Magick::Draw.new
-          @template.positions.each do |position|
-            #Draw the rectangle
-            dw.fill("grey")
-            dw.stroke_opacity(0)
-            dw.fill_opacity(0.6)
-            dw.rectangle(width*position.left, height*position.top, width*position.right, height*position.bottom)
-            
-            #Layer the field name
-            dw.stroke("black")
-            dw.fill("black")
-            dw.text_anchor(Magick::MiddleAnchor)
-            dw.opacity(1)
-            font_size = [width, height].min / 10
-            dw.pointsize = font_size
-            dw.text((width*(position.left + position.right)/2),(height*(position.top + position.bottom)/2+0.4*font_size),position.field.name)      
-          end
-          dw.draw(image)
-        end      
+        image = @template.preview_image(@hide_fields, @hide_text)
 
         # Resize the image if needed.
         # We do this post-field drawing because RMagick seems to struggle with small font sizes.
@@ -169,9 +167,10 @@ class TemplatesController < ApplicationController
   #
   # TODO - This should be cleaned up, we should throw smarter errors too.
   def import
-    xml_file = params[:xml]
+    xml_file = params[:descriptor]
     image_file = params[:image]
-    @template = Template.new
+    @template = Template.new(params[:template])
+    auth!
     if xml_file.nil? || image_file.nil?
       respond_to do |format|
         format.html { render :action => "new" }

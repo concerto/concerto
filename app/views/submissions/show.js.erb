@@ -8,7 +8,7 @@ $(document).on("click", "#moderate-select button.approve", function(event) {
     .slideUp("fast", function() {
       $(this)
         .empty()
-        .append("<%= escape_javascript(render :partial => 'submissions/approve_form', :locals => { :submission => @submission } ) %>")
+        .append("<%= escape_javascript(render :partial => 'submissions/moderate_form', :locals => { :submission => @submission, :moderate => true } ) %>")
         .slideDown("fast");
     });
 });
@@ -19,7 +19,7 @@ $(document).on("click", "#moderate-select button.deny", function(event) {
     .slideUp("fast", function() {
       $(this)
         .empty()
-        .append("<%= escape_javascript(render :partial => 'submissions/deny_form', :locals => { :submission => @submission } ) %>")
+        .append("<%= escape_javascript(render :partial => 'submissions/moderate_form', :locals => { :submission => @submission, :moderate => false } ) %>")
         .slideDown("fast");
     });
 });

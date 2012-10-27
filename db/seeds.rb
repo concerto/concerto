@@ -26,17 +26,6 @@ Field.find_or_create_by_name({:name => 'Time', :kind => Kind.where(:name => 'Tex
 #Create an initial group
 Group.find_or_create_by_name(:name => "Concerto Admins")
 
-#Put in default configuration parameters
-ConcertoConfig.find_or_create_by_key(:key => "default_upload_type", :value => "graphic", :value_default => "graphic", :value_type => "string")
-ConcertoConfig.find_or_create_by_key(:key => "public_concerto", :value => "true", :value_default => "true", :value_type => "boolean")
-ConcertoConfig.find_or_create_by_key(:key => "content_default_start_time", :value => "12:00 am", :value_default => "12:00 am", :value_type => "string")
-ConcertoConfig.find_or_create_by_key(:key => "content_default_end_time", :value => "11:59 pm", :value_default => "11:59 pm", :value_type => "string")
-ConcertoConfig.find_or_create_by_key(:key => "start_date_offset", :value => "0", :value_default => "0", :value_type => "integer")
-ConcertoConfig.find_or_create_by_key(:key => "default_content_run_time", :value => "7", :value_default => "7", :value_type => "integer")
-ConcertoConfig.find_or_create_by_key(:key => "setup_complete", :value => "false", :value_default => "true", :value_type => "boolean")
-ConcertoConfig.find_or_create_by_key(:key => "allow_registration", :value => "true", :value_default => "true", :value_type => "boolean")
-ConcertoConfig.find_or_create_by_key(:key => "allow_user_screen_creation", :value => "false", :value_default => "false", :value_type => "boolean")
-
 #Create an initial feed
 Feed.find_or_create_by_name(:name => "Concerto", :description => "Initial Concerto Feed", :group_id => 1, :is_viewable => 1, :is_submittable => 1)
 
@@ -51,7 +40,7 @@ end
 
 #Associate each field with a position in the template
 concerto_template = Template.where(:name => "Default Template").first.id
-Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Graphics").first.id,concerto_template, :top => ".026", :left => ".025", :bottom => ".77", :right => ".567", :style => "border:solid 2px #ccc;")
-Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Ticker").first.id,concerto_template, :top => ".885", :left => ".221", :bottom => ".1", :right => ".754", :style => "color:#FFF !important; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important;")
-Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Text").first.id,concerto_template, :top => ".011", :left => ".68", :bottom => ".796", :right => ".3", :style =>"color:#FFF !important; font-family:Frobisher, Arial, sans-serif;")
-Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Time").first.id,concerto_template, :top => ".885", :left => ".024", :bottom => ".089", :right => ".156", :style => "color:#ccc !important; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important; letter-spacing:.12em !important;")
+Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Graphics").first.id,concerto_template, :top => ".026", :left => ".025", :bottom => ".796", :right => ".592", :style => "border:solid 2px #ccc;")
+Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Ticker").first.id,concerto_template, :top => ".885", :left => ".221", :bottom => ".985", :right => ".975", :style => "color:#FFF; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important;")
+Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Text").first.id,concerto_template, :top => ".015", :left => ".68", :bottom => ".811", :right => ".98", :style =>"color:#FFF; font-family:Frobisher, Arial, sans-serif;")
+Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Time").first.id,concerto_template, :top => ".885", :left => ".024", :bottom => ".974", :right => ".18", :style => "color:#ccc; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important; letter-spacing:.12em !important;")

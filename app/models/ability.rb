@@ -20,9 +20,9 @@ class Ability
   
       ## Content
       # Content approved on public feeds is publcally accessible.
-      can [:read,:display], Content, :submissions => {:feed => {:is_viewable => true}, :moderation_flag => true}
+      can :read, Content, :submissions => {:feed => {:is_viewable => true}, :moderation_flag => true}
       # If any of the submissions can be read the content can be read too.
-      can [:read,:display], Content do |content|
+      can :read, Content do |content|
         content.submissions.any?{|s| can?(:read, s)}
       end
   
@@ -50,7 +50,7 @@ class Ability
       ## Templates
       # Oddly enough, templates store a hidden flag instead of public
       # like everything else.
-      can :read, Template, :is_hidden => false
+      can [:read, :preview], Template, :is_hidden => false
     end
      
     # Load abilities based on the type of object.
@@ -101,20 +101,26 @@ class Ability
     can [:read, :update, :delete], Screen do |screen|
       screen.owner.is_a?(User) && screen.owner == user
     end
-    
-    #Subscriptions
-    #Only the owning group or user can manage screen subscriptions
-    can :manage, Subscription, :screen => { :owner_id => user.id}
-    
     # Users can read group screens
     can :read, Screen do |screen|
       screen.owner.is_a?(Group) && screen.owner.users.include?(user)
     end
-    # Group leaders can create / delete their group screens
+    # Group leaders can create / delete their group screens.
+    # So can special supporters
     can [:update, :delete], Screen do |screen|
-      screen.owner.is_a?(Group) && screen.owner.leaders.include?(user)
+      screen.owner.is_a?(Group) && (screen.owner.leaders.include?(user) ||
+        screen.owner.user_has_permissions?(user, :regular, :screen, [:all])) 
     end
 
+    #Subscriptions
+    #Only the owning group or user can manage screen subscriptions
+    can :manage, Subscription, :screen => { :owner_id => user.id, :owner_type => 'User'}
+    can :manage, Subscription do |subscription|
+      screen = subscription.screen
+      screen.owner.is_a?(Group) && (screen.owner.leaders.include?(user) ||
+        screen.owner.user_has_permissions?(user, :regular, :screen, [:all, :subscriptions]))
+    end
+    
     ## Submissions
     # An authenticated user can create a submission if
     # the feed is submittable or they are a member of the group.
@@ -124,7 +130,8 @@ class Ability
     can [:read,  :delete], Submission, :content => {:user => {:id => user.id }}
     # Submissions can be read and updated by moderators.
     can [:read, :update], Submission do |submission|
-      submission.feed.group.leaders.include?(user)
+      (submission.feed.group.leaders.include?(user) || 
+        submission.feed.group.user_has_permissions?(user, :regular, :feed, [:all, :submissions]))
     end
     # Approved submissions can be read if they can read the feed.
     can :read, Submission do |s|
@@ -138,7 +145,21 @@ class Ability
     can :read, Feed, :group => {:id => user.group_ids }
     # Group leaders can update / date a feed they own
     can [:update, :delete], Feed do |feed|
-      feed.group.leaders.include?(user)
+      (feed.group.leaders.include?(user) || 
+         feed.group.user_has_permissions?(user, :regular, :feed, [:all]))
+    end
+    # A group leader or supporter can create feeds
+    if ConcertoConfig[:allow_user_feed_creation] == "true"
+      if user.leading_groups.any? || user.supporting_groups(:feed, [:all]).any?
+        can :create, Feed do |feed|
+          if !feed.group.nil?
+            (user.leading_groups.include?(feed.group) ||
+               user.supporting_groups(:feed, [:all]).include?(feed.group))
+          else
+            true
+          end
+        end
+      end
     end
 
     ## Memberships
@@ -148,9 +169,7 @@ class Ability
       membership.group.leaders.include?(user)
     end
     # Regular users can only create pending memberships.
-    can :create, Membership do |membership|
-      user.persisted? && membership.level == Membership::LEVELS[:pending]
-    end
+    can :create, Membership, :level => Membership::LEVELS[:pending] if user.persisted?
     # Users can delete their own memberships.
     can :destroy, Membership, :user => user
     # Group members can read all other memberships

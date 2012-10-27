@@ -1,3 +1,5 @@
+$('#main .row-fluid > div.span3').remove();
+$('#main .row-fluid > div').removeClass('span9').addClass('span12');
 $('#browse-header').html("<%= escape_javascript(render :partial => 'submissions/index_header') %>");
 $('section.C').addClass('no');
 $('#browse-body').html("<%= escape_javascript(render :partial => 'submissions/index_body') %>");

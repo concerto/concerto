@@ -1,65 +1,64 @@
 <%= form_for(@feed) do |f| %>
-	<% if @feed.errors.any? %>
-	<div id="errorExplanation">
-	  <h2><%= pluralize(@feed.errors.count, "error") %> <%= t(:prohibited_feed_save) %></h2>
-	  <ul>
-	    <% @feed.errors.full_messages.each do |msg| %>
-	      <li><%= msg %></li>
-	    <% end %>
-	  </ul>
-	</div>
-	<% end %>
+  <% if @feed.errors.any? %>
+    <div id="errorExplanation">
+      <h2><%= pluralize(@feed.errors.count, "error") %> <%= t(:prohibited_feed_save) %></h2>
+      <ul>
+        <% @feed.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-	<fieldset>
-		<div class="clearfix">
-			<%= f.label :name %>
-			<div class="input">
-				<%= f.text_field :name, :class => "span6" %>
-			</div>
-		</div>
-		
-		<div class="clearfix">
-			<%= f.label t(:description) %>
-		  <div class="input">
-				<%= f.text_area :description, :rows => 6, :class => "span6" %>
-			</div>
-		</div>
-		<%
-                  parent_feeds = dfs_tree(Feed.roots, @feed)
-                  unless parent_feeds.empty?
-                %>
-		<div class="clearfix">
-			<%= f.label t(:parent) %>
-	  	<div class="input">
-				<%= f.select :parent_id, parent_feeds.collect{|c| [("&nbsp; &nbsp;"*c.depth).html_safe + c.name, c.id ]}, {:include_blank => true }, :class => "span6" %>
-			</div>
-		</div>
-		<% end %>
-		<div class="clearfix">
-			<%= f.label t(:group) %>
-	  	<div class="input">
-				<%= f.collection_select :group_id, Group.all, :id, :name, :class => "span6" %>
-			</div>
-		</div>
-		
-		<div class="clearfix">
-			<label>Other Options</label>
-			<div class="input">
-				<ul class="inputs-list">
-		      <li>
-		        <%= f.check_box :is_viewable %> <%= f.label :is_viewable %>
-		      </li>
-		      <li>
-		        <%= f.check_box :is_submittable %> <%= f.label :is_submittable %>
-		      </li>
-		    </ul>
-			</div>
-		</div>
-		
-	</fieldset>
-	
-	<div class="submit_bar actions">
-		<%= f.submit %>
-	</div>
+  <fieldset>
+    <div class="clearfix">
+      <%= f.label :name	%>
+      <div class="input">
+        <%= f.text_field :name, :class => "span6" %>
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <%= f.label :description %>
+      <div class="input">
+        <%= f.text_area :description, :rows => 6, :class => "span6" %>
+      </div>
+    </div>
+    <%
+      parent_feeds = dfs_tree(Feed.roots, @feed)
+      unless parent_feeds.empty?
+     %>
+    <div class="clearfix">
+      <%= f.label :parent %>
+      <div class="input">
+        <%= f.select :parent_id, parent_feeds.collect{|c| [("&nbsp; &nbsp;"*c.depth).html_safe + c.name, c.id ]}, {:include_blank => true }, :class => "span6" %>
+      </div>
+    </div>
+    <% end %>
+    <div class="clearfix">
+      <%= f.label :group %>
+      <div class="input">
+        <%= f.collection_select :group_id, Group.all, :id, :name, :class => "span6" %>
+      </div>
+    </div>
+    
+    <div class="clearfix">
+      <label><%= t(:other_options) %></label>
+      <div class="input">
+        <ul class="inputs-list">
+          <li>
+            <%= f.check_box :is_viewable %> <%= f.label :is_viewable %>
+          </li>
+          <li>
+            <%= f.check_box :is_submittable %> <%= f.label :is_submittable %>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+  </fieldset>
+  
+  <div class="submit_bar actions">
+    <%= f.submit "Submit", :class => "btn primary" "Submit", :class => "btn primary" %>
+  </div>
 <% end %>
-

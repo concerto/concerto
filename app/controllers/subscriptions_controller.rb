@@ -1,15 +1,19 @@
 class SubscriptionsController < ApplicationController
-  load_and_authorize_resource
-  before_filter :get_screen
+  before_filter :get_screen, :get_field
   
   def get_screen
     @screen = Screen.find(params[:screen_id])
+  end
+
+  def get_field
+    @field = Field.find(params[:field_id])
   end
 
   # GET /screen/:screen_id/subscriptions
   # GET /screen/:screen_id/subscriptions.xml
   def index
     @subscriptions = @screen.subscriptions.all
+    auth!
 
     respond_to do |format|
       format.html # index.html.erb
@@ -31,6 +35,7 @@ class SubscriptionsController < ApplicationController
   # GET /screen/:screen_id/subscriptions/1.xml
   def show
     @subscription = Subscription.find(params[:id])
+    auth!
 
     respond_to do |format|
       format.html # show.html.erb
@@ -44,7 +49,7 @@ class SubscriptionsController < ApplicationController
     @subscription = Subscription.new
     @subscription.screen = @screen
     @subscription.field = @field
-
+    auth!
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @subscription }
@@ -54,34 +59,56 @@ class SubscriptionsController < ApplicationController
   # GET /screen/:screen_id/subscriptions/1/edit
   def edit
     @subscription = Subscription.find(params[:id])
+    auth!
   end
 
   # POST /screen/:screen_id/subscriptions
   # POST /screen/:screen_id/subscriptions.xml
   def create
-    @subscription = Subscription.new(params[:subscription])
-    @subscription.screen = @screen
-    @subscription.field = @field
+    @feed_ids = Array.new
+		@weights = Array.new
+		@errnos = Array.new
+		@subscriptions = Array.new
+    
+		if params.has_key?("subscription_feed")
+      @feed_ids = params[:subscription_feed].values
+    end
+		if params.has_key?("subscription_weight")
+			@weights = params[:subscription_weight].values
+		end
+
+		@feed_ids.each_with_index do |feed_id, i|
+			@subscriptions[i] = Subscription.new
+			@subscriptions[i].screen = @screen
+			@subscriptions[i].field = @field
+			@subscriptions[i].feed_id = feed_id
+			@subscriptions[i].weight = @weights[i]
+			auth!
+			@errnos[i] = !@subscriptions[i].save
+		end
+
 
     respond_to do |format|
-      if @subscription.save
-        format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field, @subscription), :notice => t(:subscription_created)) }
-        format.xml  { render :xml => @subscription, :status => :created, :location => @subscription }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @subscription.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
+			@errnos.each_with_index do |errno, i|
+				if errno
+					format.html { render :action => "new" }
+					format.xml  { render :xml => @subscriptions[i].errors, :status => :unprocessable_entity }
+				end
+			end
+			format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t(:subscriptions_created)) }
+			format.xml  { render :xml => @subscriptions, :status => :created, :location => @subscriptions }
+		end
+	end
 
   # PUT /screen/:screen_id/subscriptions/1
   # PUT /screen/:screen_id/subscriptions/1.xml
   def update
     @subscription = Subscription.find(params[:id])
+    auth!
 
     respond_to do |format|
       if @subscription.update_attributes(params[:subscription])
-        format.html { redirect_to([@screen, @subscription], :notice => t(:subscription_updated)) }
+        format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t(:subscription_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -94,10 +121,11 @@ class SubscriptionsController < ApplicationController
   # DELETE /screen/:screen_id/subscriptions/1.xml
   def destroy
     @subscription = Subscription.find(params[:id])
+    auth!
     @subscription.destroy
 
     respond_to do |format|
-      format.html { redirect_to(screen_subscriptions_url(@screen)) }
+      format.html { redirect_to(manage_screen_field_subscriptions_url(@screen, @field)) }
       format.xml  { head :ok }
     end
   end

@@ -1,6 +1,5 @@
 <ul class="iconlist">
-	<% feed.approved_contents.each do |content| %>
-		<%= render :partial => 'contents/content', :locals => { :content => content } %>
-	<% end %>
+  <% feed.approved_contents.each do |content| %>
+    <%= render :partial => 'contents/content', :locals => { :content => content } %>
+  <% end %>
 </ul>
-<div class="clear"></div>

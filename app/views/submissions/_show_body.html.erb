@@ -1,29 +1,140 @@
-<article>
-  <div class="content-holder">
-		<%= render_content(@submission.content) %>
-	</div>
-</article>
-<aside>
-  <% if can? :update, @submission %>
-  <div class="form-stacked">
-    <h4>Moderate Content</h4>
-    <div id="moderate-select" class="btn-toolbar">
-      <div class="btn-group" data-toggle="buttons-radio">
-        <button class="btn approve">Approve</button>
-        <button class="btn deny">Deny</button>
+<div class="row-fluid">
+  <div class="span2">
+
+    <div class="default-padding">
+      
+      <div class="subblock">
+        <h3>
+          <% case @submission.moderation_flag %>
+          <% when true %>
+            <b>Approved</b>
+          <% when false %>
+            <b>Denied</b>
+          <% when nil %>
+            <b>Pending Moderation</b>
+          <% end %>
+        </h3>
+
+        <% if can? :update, @submission %>
+
+          <script type="text/javascript">
+
+            $(document).ready(function() {
+              $(".moderate-true").hide();
+              $(".moderate-false").hide();
+
+              $(document).on("click", ".moderate-select button.approve", function(event) {
+                event.preventDefault();
+                $(".moderate-false").hide();
+                $(".moderate-true").show();
+              });
+
+              $(document).on("click", ".moderate-select button.deny", function(event) {
+                event.preventDefault();
+                $(".moderate-true").hide()
+                $(".moderate-false").show();
+              });
+
+
+              $('.dropdown-control').click(function(event) { event.preventDefault(); });
+
+
+              $('.dropdown-control.dd-moderate').each(function() {
+
+                $(this).qtip( {
+
+                  content: {
+                    text: $( $(this).attr('rel') ).html(),
+                    title: {
+                      text: $(this).attr('title'),
+                      button: true
+                    }
+                  },
+
+                  position: {
+                      at: 'bottom center', // Position the tooltip above the link
+                      my: 'top left',
+                      viewport: $(window) // Keep the tooltip on-screen at all times
+                    },
+
+                    show: {
+                      event: 'click', // Show it on click...
+                      solo: true // ...and hide all other tooltips...
+                    },
+
+                    hide: 'unfocus',
+                    style: 'ui-tooltip-dark ui-tooltip-shadow ui-tooltip-rounded'
+
+                  });
+
+              });
+
+
+            });
+
+          </script>
+
+
+          <p>
+            <%= link_to "#{ @submission.moderation_flag.nil? ? 'Moderate...' : 'Change Moderation'}", "#", :class => "btn small dropdown-control dd-moderate", :title => "Moderate '#{ @submission.content.name }'", :rel => "#moderate_#{ @submission.id }" %>
+          </p>
+
+          <div id="moderate_<%= @submission.id %>" style="display:none;">
+            
+            <div class="form-stacked">
+              <div class="moderate-select" class="btn-toolbar">
+                <div class="btn-group" data-toggle="buttons-radio">
+                  <button class="btn approve">Approve</button>
+                  <button class="btn deny">Deny</button>
+                </div>
+              </div>
+
+              <div class="moderate-true">
+                <%= render :partial => "submissions/moderate_form", :locals => { :submission => @submission, :moderate => true } %>
+              </div>
+              <div class="moderate-false">
+                <%= render :partial => "submissions/moderate_form", :locals => { :submission => @submission, :moderate => false } %>
+              </div>
+            </div>
+
+          </div>
+        <% end %>
+
       </div>
+
+      <div class="subblock">
+        <p class="uppercase" style="margin-bottom: 0px;"><small><b>Display From:</b></small></p>
+        <p><%= @submission.content.start_time.strftime("%a %b %d %Y") %><br /><%= @submission.content.start_time.strftime("%I:%M %P") %></p>
+        <p class="uppercase" style="margin-bottom: 0px;"><small><b>Display Until:</b></small></p>
+        <p><%= @submission.content.end_time.strftime("%a %b %d %Y") %><br /><%= @submission.content.end_time.strftime("%I:%M %P") %></p>
+      </div>
+      
+      <div class="subblock">
+        <% user = User.find(@submission.content.user_id) %>
+        Submitted by <%= link_to user.name, user %>
+      </div>
+
+      <div class="subblock">
+        <% if @other_submissions.count > 0 %>
+          <h3>Also appears on...</h3>
+          <ul>
+            <% @other_submissions.each do |submission| %>
+              <li><%= link_to submission.feed.name, [submission.feed, submission] %></li>
+            <% end %> 
+          </ul>
+        <% end %>
+      </div>
+
     </div>
 
-    <div id="moderate-include"></div>
   </div>
-  <% end %> 
+  <div class="span10">
+    <div class="default-padding">
+      <%= render_content(@submission.content) %>
+    </div>
+  </div>
+</div>
 
-	<br />
-	<b>Approved?:</b>
-  <%= @submission.moderation_flag %>
-	<br />
-	<b>Feed:</b>
-  <%= @submission.feed.name unless @submission.feed.nil? %>
-			
-</aside>
-<div class="clear"></div>
+
+
+

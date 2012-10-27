@@ -1,7 +1,11 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'http://rubygems.org'
 
-gem "rails", "3.2.3"
+gem "rails", "3.2.8"
+
+group :concerto_plugins do
+  eval File.read('Gemfile-plugins')
+end
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -17,8 +21,11 @@ end
 
 gem 'jquery-rails'
 
-# ActiveRecord requires a database adapter.
-gem 'sqlite3'
+# In production we prefer MySQL over sqlite3.  If you are only
+# interested in development and don't want to bother with production,
+# run `bundle install --without production` to ignore MySQL.
+gem "sqlite3", :group => [:development, :test]
+gem "mysql2", :group => [:production]
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -36,3 +43,10 @@ gem 'devise'
 gem 'cancan'
 
 gem 'jquery-tools'
+
+# Process jobs in the background
+gem 'delayed_job_active_record'
+
+# Test Coverage
+gem 'simplecov', :require => false, :group => :test
+

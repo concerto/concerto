@@ -1,6 +1,8 @@
 goog.provide('concerto.frontend.Content.SampleImage');
 
 goog.require('concerto.frontend.Content');
+goog.require('goog.dom');
+goog.require('goog.events');
 goog.require('goog.events.EventType');
 goog.require('goog.net.ImageLoader');
 

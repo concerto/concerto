@@ -72,7 +72,6 @@ concerto.frontend.Template.prototype.logger_ = goog.debug.Logger.getLogger(
 concerto.frontend.Template.prototype.createDiv_ = function() {
   var div = goog.dom.createDom('div', {'id': 'template', 'class': 'template'});
   goog.style.setSize(div, '100%', '100%');
-  goog.style.setStyle(div, 'background-color', 'blue');
   this.screen.inject(div);
   return div;
 };
@@ -86,14 +85,14 @@ concerto.frontend.Template.prototype.createDiv_ = function() {
  * @param {!Object} data The template data.
  */
 concerto.frontend.Template.prototype.load = function(data) {
-  this.id = data.id;
-  this.path_ = data.path;
+  this.id = data['id'];
+  this.path_ = data['path'];
   goog.dom.setProperties(this.div_, {'id': 'template_' + this.id});
 
   this.render_();
 
-  if (goog.isDefAndNotNull(data.positions)) {
-    goog.array.forEach(data.positions, goog.bind(function(position_data) {
+  if (goog.isDefAndNotNull(data['positions'])) {
+    goog.array.forEach(data['positions'], goog.bind(function(position_data) {
       var position = new concerto.frontend.Position(this);
       position.load(position_data);
       goog.array.insert(this.positions, position);

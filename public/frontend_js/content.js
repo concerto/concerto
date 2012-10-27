@@ -4,9 +4,10 @@ goog.provide('concerto.frontend.Content.EventType');
 goog.require('goog.async.Delay');
 goog.require('goog.date.DateTime');
 goog.require('goog.debug.Logger');
+goog.require('goog.dom');
 goog.require('goog.events');
-goog.require('goog.events.Event');
 goog.require('goog.events.EventTarget');
+goog.require('goog.style');
 
 
 
@@ -20,17 +21,26 @@ goog.require('goog.events.EventTarget');
 concerto.frontend.Content = function(data) {
   goog.events.EventTarget.call(this);
 
+  data = data || {};
+
   /**
    * The Content ID.
    * @type {?number}
    */
-  this.id = data.id || null;
+  this.id = data['id'] || null;
 
   /**
    * The duration in seconds this content should be shown.
    * @type {number}
    */
-  this.duration = data.duration || 10;
+  this.duration = data['duration'] || 10;
+
+  /**
+   * Div to hold this content.
+   * @type {Element}
+   * @private
+   */
+  this.div_ = goog.dom.createDom('div');
 };
 goog.inherits(concerto.frontend.Content, goog.events.EventTarget);
 
@@ -56,13 +66,6 @@ concerto.frontend.Content.prototype.startLoad = function() {
   this.logger_.info('Content ' + this.id + ' is starting to load.');
 
   /**
-   * Div to hold this content.
-   * @type {Element}
-   * @private
-   */
-  this.div_ = goog.dom.createDom('div');
-
-  /**
    * Time this content started loading.
    * @type {goog.date.DateTime}
    * @private
@@ -74,6 +77,16 @@ concerto.frontend.Content.prototype.startLoad = function() {
   this.dispatchEvent(concerto.frontend.Content.EventType.START_LOAD);
 
   this.load_();
+};
+
+
+/**
+ * Apply the sanitized position styles to the content div.
+ *
+ * @param {Object} styles The styles to be applied to this content.
+ */
+concerto.frontend.Content.prototype.applyStyles = function(styles) {
+  goog.style.setStyle(this.div_, styles);
 };
 
 
@@ -169,6 +182,7 @@ concerto.frontend.Content.prototype.finishTimer = function() {
  * The events fired by the content.
  *
  * @enum {string} The event types for the content.
+ * @const
  */
 concerto.frontend.Content.EventType = {
   /**

@@ -1,6 +1,7 @@
 goog.provide('concerto.frontend.Content.Ticker');
 
 goog.require('concerto.frontend.Content');
+goog.require('goog.dom');
 
 
 
@@ -18,7 +19,7 @@ concerto.frontend.Content.Ticker = function(data) {
    * The text.
    * @type {string}
    */
-  this.text = data.render_details.data;
+  this.text = data['render_details']['data'];
 
 };
 goog.inherits(concerto.frontend.Content.Ticker, concerto.frontend.Content);

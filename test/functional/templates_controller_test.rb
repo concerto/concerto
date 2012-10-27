@@ -8,6 +8,11 @@ class TemplatesControllerTest < ActionController::TestCase
     request.env["devise.mapping"] = Devise.mappings[:user]
   end
 
+  test "must sign in before new" do
+    get :new
+    assert_login_failure
+  end
+
   test "should create template" do
     sign_in users(:admin)
     assert_difference('Template.count', 1) do
@@ -25,7 +30,7 @@ class TemplatesControllerTest < ActionController::TestCase
     file = fixture_file_upload("/files/simple_template.xml", 'text/xml')
     image = fixture_file_upload("/files/simple_template.xml", 'image')
     assert_difference('Template.count', 1) do
-      put :import, {:xml => file, :image => image}
+      put :import, {:descriptor => file, :image => image}
     end
     actual = assigns(:template).positions.first
     assert_equal 0.025, actual.left

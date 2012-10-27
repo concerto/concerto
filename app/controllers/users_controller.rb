@@ -22,7 +22,16 @@ class UsersController < ApplicationController
   # POST /users
   def create
     @user = User.new(params[:user])
-    respond_with(@user, :location => users_url)
+
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to(@user, :notice => 'User was successfully created.') }
+        format.xml  { render :xml => @user, :status => :created, :location => @user }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+      end
+    end
   end
   
   # GET /users/1/edit

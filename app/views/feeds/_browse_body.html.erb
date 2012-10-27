@@ -1,32 +1,35 @@
-<article>
-<ul class="SL">
+<div class="default-padding">
+  <h1><%= pluralize(@feeds.count, t(:feed).capitalize) %></h1>
+</div>
+
+<ul class="list-stacked">
   <% @feeds.each do |feed| %>
-    <li>
-    <h3>
-      <%= link_to feed_submissions_path(feed), :remote => true, :class => "link-hl" do %>
-        <span class="badge"><%= feed.approved_contents.count %></span> <%= feed.name %>
+    <% if feed.approved_contents.size != 0 || (feed.pending_contents.size != 0 && feed.group.has_member?(current_user) ) %>
+      <li>
+        <h3>
+          <%= link_to feed_submissions_path(feed), :remote => true, :class => "link-hl" do %>
+            <span class="badge"><%= feed.approved_contents.count %></span> <%= feed.name %>
+          <% end %>
+          <small>&nbsp;&nbsp;<%= feed.description %></small>
+          <% if can? :update, feed %>
+            <small><%= link_to t(:edit), edit_feed_path(feed) %></small>
+          <% end %>
+        </h3>    
+        <% if feed.children.count > 0 %>
+          <p class="indented">
+            <%= t(:sub_feeds) %>
+            <% feed.children.each do |sub_feed| %>
+              <%= link_to sub_feed.name, feed_submissions_path(sub_feed), :remote => true, :class => "link-hl" %>
+            <% end %>
+          </p>
+        <% end %>
+      </li>
     <% end %>
-    <small>&nbsp;&nbsp;<%= feed.description %></small>
-    <% if can? :update, feed %>
-      <small><%= link_to "[#{t(:edit)}]", edit_feed_path(feed) %></small>
-    <% end %>
-  </h3>
-  <% if feed.children.count > 0 %>
-    <p class="indented">Sub-feeds: 
-    <% feed.children.each do |sub_feed| %>
-      <%= link_to feed_submissions_path(sub_feed), :remote => true, :class => "link-hl" do %>
-        <%= sub_feed.name %>
-      <% end %>
-    <% end %>
-    </p>
   <% end %>
-  </li>
-<% end %>
+</ul>
+
 <% if can? :create, Feed %>
-  <li>
-    <h3><%= link_to "+ #{t(:new_feed)}", new_feed_path %></h3>
-  </li>
+  <div class="default-padding">
+    <%= link_to t(:new_feed), new_feed_path, :class => "btn" %>
+  </div>
 <% end %>
-    </ul>
-    </article>
-    <div class="clear"></div>

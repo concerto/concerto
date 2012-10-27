@@ -17,4 +17,20 @@ class GroupTest < ActiveSupport::TestCase
     assert g.has_member?(users(:katie)), "Katie is in WTG"
     assert !g.has_member?(users(:kristen)), "Kristen is not in the WTG"
   end
+
+  test "user has permission" do
+    g = groups(:wtg)
+    u = users(:karen)
+    feed_levels = [:all, :submissions, :none]
+
+    membership = memberships(:karen_wtg)
+    feed_levels.each do |level|
+      membership.perms[:feed] = level
+      membership.save
+
+      assert g.user_has_permissions?(u, :regular, :feed, [level])
+      assert g.user_has_permissions?(u, :regular, :feed, [:all, level])
+    end
+    assert !g.user_has_permissions?(u, :regular, :screen, [:all, :subscriptions])
+  end
 end

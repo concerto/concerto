@@ -13,10 +13,12 @@ class User < ActiveRecord::Base
   has_many :groups, :through => :memberships
   has_many :screens, :as => :owner
 
+  has_many :groups, :through => :memberships, :conditions => ["memberships.level > ?", Membership::LEVELS[:pending]]
+  has_many :leading_groups, :through => :memberships, :source => :group, :conditions => {"memberships.level" => Membership::LEVELS[:leader]}
+
   #Validations
   validates :email, :presence => true, :uniqueness => true
   validates :first_name, :presence => true
-  validates :last_name, :presence => true
 
   # A simple name, combining the first and last name
   # We should probably expand this so it doesn't look stupid
@@ -29,5 +31,16 @@ class User < ActiveRecord::Base
   def in_group?(group)
     groups.include?(group)
   end
+
+  # Return an array of all the feeds a user owns.
+  def owned_feeds
+    leading_groups.collect{|g| g.feeds}.flatten
+  end
   
+  # Return an array of all the groups a user has a certain regular permission for.
+  def supporting_groups(type, permissions)
+    supporting_groups =  groups.select{|g| g.user_has_permissions?(self, :regular, type, permissions)}
+    return supporting_groups
+  end
+
 end

@@ -1,171 +1,167 @@
-<article>
 <div class="subnav clearfix">
-  <div class="pull-left" style="width:120px">
+  <div class="pull-left" style="padding: 3px 0px; width:100px">
     <%= link_to "Jump to Feed...", "#", :title => "Click on a feed to jump", :class => "btn small info dropdown-toggle dropdown-control dd-jumpto", :rel => "#jump_to" %>
 
     <div id="jump_to" style="display: none;">
       <% feeds = dfs_tree(Feed.roots) %>
       <% if feeds.empty? %>
-        <p><%= t(:no_feeds) %></p>
+      <p><%= t(:no_feeds) %></p>
       <% else %>
-        <input type="search" id="filter_feeds" placeholder="Type here to filter"/>
-        <ul class="filterable">
-          <% feeds.each_with_index do |feed, i| %>
-            <li data-filter="<%= feed.name %>">
-            <%= link_to feed_submissions_path(feed), :remote => true, :class => "link-hl" do %>
-              <%= feed.name %> <span class="badge"><%= feed.approved_contents.count %></span>
-            <% end %>
-            </li>
+      <input type="search" id="filter_feeds" placeholder="Type here to filter"/>
+      <ul class="filterable">
+        <% feeds.each_with_index do |feed, i| %>
+        <li data-filter="<%= feed.name %>">
+          <%= link_to feed_submissions_path(feed), :remote => true, :class => "link-hl" do %>
+          <%= ("&nbsp;"*feed.depth).html_safe %> <%= feed.name %> <span class="badge"><%= feed.approved_contents.count %></span>
           <% end %>
-        </ul>
+        </li>
+        <% end %>
+      </ul>
       <% end %>
     </div>
 
   </div>
 
-  <ul class="tabs">
+  <ul class="nav nav-pills">
     <% if @feed.children.empty? %>
-      <li class="legend">No Sub-feeds</li>
+    <li class="legend">No Sub-feeds</li>
     <% else %>
-      <li class="legend">Sub-feeds:</li>
+    <li class="legend">Sub-feeds:</li>
     <% end %>
     <% @feed.children.each do |feed| %>
-      <li>
-        <%= link_to feed_submissions_path(feed), :remote => true do %><span class="badge"><%= feed.approved_contents.count %></span> <%= feed.name %><% end %>
-      </li>
+    <li>
+      <%= link_to feed_submissions_path(feed), :remote => true do %><span class="badge"><%= feed.approved_contents.count %></span> <%= feed.name %><% end %>
+    </li>
     <% end %>
   </ul>
 
 </div>
-<div id="content_holder">
 
-  <% if @submissions.empty? %>
-    <div class="default-padding">
-      <h3>Oops - there's no content inside this feed.</h3>
-    </div>
-  <% else %>
-    <ul class="GL">
-      <% @submissions.each do |submission| %>
-        <li>
-        <div class="cont">
-          <%= link_to [submission.feed, submission], :remote => true do %>
-            <%= render_content(submission.content, {:type => 'grid'}) %>
-          <% end %>
-          <b><%= link_to submission.content.name, [submission.feed, submission], :remote => true %></b>
-          <br />
-          <%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
-          <br />
-          <% if @can_moderate_feed %>
-          <p>
-            <%= link_to "#", :class => "dropdown-control dd-moderate", :title => "Moderate '#{ submission.content.name }'", :rel => "#moderate_#{ submission.id }" do %>
-              <% if submission.is_approved? %>
-                Approved
-              <% elsif submission.is_denied? %>
-                Denied
-              <% else %>
-                Pending Moderation
-              <% end %>
-            <% end %>
-          </p>
-
-
-          <div id="moderate_<%= submission.id %>" style="display:none;">
-            <% if submission.is_approved? %>
-              <p>Currently <b style="color: green;">Approved</b></p>
-              <%= link_to "Change to Denied", feed_submission_path(submission, submission.feed), :class => "btn danger" %>
-              <br />
-            <% elsif submission.is_denied? %>
-              <p>Currently <b style="color: red;">Denied</b></p>
-              <%= link_to "Change to Approved", feed_submission_path(submission, submission.feed), :class => "btn success" %>
-              <br />
-            <% else %>
-              <p>Currently <b>Pending Moderation</b></p>
-              <div class="btn-group">
-                <%= link_to "Approve", feed_submission_path(submission, submission.feed), :class => "btn success" %>
-                <%= link_to "Deny", feed_submission_path(submission, submission.feed), :class => "btn danger" %>
-              </div>
-            <% end %>
-            <br />
-          </div>
-          <% end %>
-
-        </div>
-        </li>
-      <% end %>
-    </ul>
-  <% end %>
-
+<% if @can_moderate_feed and @pending_submissions.count > 0 %>
+<!-- note that we do not show an alert banner when there are no pending contents; we just hide it altogether -->
+<div class="default-padding">
+  <h3 class="header-with-icon" style="color:#993333;"><i class="icon-header-pendingcontent"></i><%= pluralize(@pending_submissions.count, "content") %> pending your moderation</h3>
+  <br />
+  <ul class="list-grid">
+    <% @pending_submissions.each do |submission| %>
+    <%= render :partial => "submissions/submission_listgriditem", :locals => { :submission => submission } %>
+    <% end %>
+  </ul>
 </div>
-</article>
-<div class="clear"></div>
+<% end %>
 
+<% if @active_submissions.empty? %>
+<br />
+<div class="default-padding">
+  <div class="alert alert-block alert-zero">
+    <p class="alert-heading">No Active Content</p>
+    <% if can? :create, Content %>Would you kindly <%= link_to "submit something", new_content_path %> to make this feed a happier place?<% end %>
+  </div>
+</div>
+<% else %>
+<div class="default-padding">
+  <h3 class="header-with-icon"><i class="icon-header-activecontent"></i><%= pluralize(@active_submissions.count, "active content") %></h3>
+  <br />
+  <ul class="list-grid">
+    <% @active_submissions.each do |submission| %>
+    <%= render :partial => "submissions/submission_listgriditem", :locals => { :submission => submission } %>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<% if @can_moderate_feed and @denied_submissions.count > 0 %>
+<!-- note that we do not show an alert banner when there are no denied contents; we just hide it altogether -->
+<div class="default-padding">
+  <h3 class="header-with-icon"><i class="icon-header-deniedcontent"></i><%= pluralize(@denied_submissions.count, "denied content") %></h3>
+  <br />
+  <ul class="list-grid">
+    <% @denied_submissions.each do |submission| %>
+   <%= render :partial => "submissions/submission_listgriditem", :locals => { :submission => submission } %>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<% if @can_moderate_feed and @expired_submissions.count > 0 %>
+<!-- note that we do not show an alert banner when there are no expired contents; we just hide it altogether -->
+<div class="default-padding">
+  <h3 class="header-with-icon"><i class="icon-header-expiredcontent"></i><%= @expired_submissions.count %> expired content<% if @expired_submissions.count != 1 %>s<% end %></h3>
+  <br />
+  <ul class="list-grid">
+    <% @expired_submissions.each do |submission| %>
+    <%= render :partial => "submissions/submission_listgriditem", :locals => { :submission => submission } %>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<!-- TODO Move this out of here and into a better spot -->
 <script type="text/javascript">
+$(document).ready(function() {
+  $(".moderate-true").hide();
+  $(".moderate-false").hide();
 
-  $(document).ready(function() {
-    $('.dropdown-control').click(function(event) { event.preventDefault(); });
+  $(document).on("click", ".moderate-select button.approve", function(event) {
+    event.preventDefault();
+    $(".moderate-false").hide();
+    $(".moderate-true").show();
+  });
 
-    $('.dropdown-control.dd-jumpto').each(function() {
+  $(document).on("click", ".moderate-select button.deny", function(event) {
+    event.preventDefault();
+    $(".moderate-true").hide()
+    $(".moderate-false").show();
+  });
 
-      $(this).qtip( {
+  $('.dropdown-control').click(function(event) { event.preventDefault(); });
 
-        content: {
-          text: $( $(this).attr('rel') ).html(),
-          title: {
-            text: $(this).attr('title'),
-            button: true
-          }
-        },
-
-        position: {
+  $('.dropdown-control.dd-jumpto').each(function() {
+    $(this).qtip( {
+      content: {
+        text: $( $(this).attr('rel') ).html(),
+        title: {
+          text: $(this).attr('title'),
+          button: true
+        }
+      },
+      position: {
           at: 'bottom center', // Position the tooltip above the link
           my: 'top left',
           viewport: $(window) // Keep the tooltip on-screen at all times
         },
-
         show: {
           event: 'click', // Show it on click...
           solo: true // ...and hide all other tooltips...
         },
-
         hide: 'unfocus',
         style: 'ui-tooltip-light ui-tooltip-shadow ui-tooltip-rounded'
-
       });
+  });
 
-    });
-
-    $('.dropdown-control.dd-moderate').each(function() {
-
-      $(this).qtip( {
-
-        content: {
-          text: $( $(this).attr('rel') ).html(),
-          title: {
-            text: $(this).attr('title'),
-            button: true
-          }
-        },
-
-        position: {
+  $('.dropdown-control.dd-moderate').each(function() {
+    $(this).qtip( {
+      content: {
+        text: $( $(this).attr('rel') ).html(),
+        title: {
+          text: $(this).attr('title'),
+          button: true
+        }
+      },
+      position: {
           at: 'bottom center', // Position the tooltip above the link
           my: 'top left',
           viewport: $(window) // Keep the tooltip on-screen at all times
         },
-
         show: {
-          event: 'hover', // Show it on click...
+          event: 'click', // Show it on click...
           solo: true // ...and hide all other tooltips...
         },
-
         hide: 'unfocus',
         style: 'ui-tooltip-dark ui-tooltip-shadow ui-tooltip-rounded'
-
       });
-
-    });
-
+  });
     // feed filtering
     $('#filter_feeds').listFilter();
-
   });
 </script>

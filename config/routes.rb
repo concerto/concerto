@@ -1,4 +1,6 @@
 Concerto::Application.routes.draw do
+  resources :concerto_plugins
+
   #Custom route for the screen creation/admin form JS
   #TODO(bamnet): Clean this up
   match "update_owners" => "screens#update_owners"
@@ -21,13 +23,18 @@ Concerto::Application.routes.draw do
   # End really dangerous routes.
 
 
-  devise_for :users, :controllers => {:registrations => 'concerto_devise/registrations'}
-  resources :users
+  devise_for :users, 
+    :controllers => {
+      :registrations => 'concerto_devise/registrations', 
+      :sessions => 'concerto_devise/sessions' }
+  
+  scope "/manage" do
+    resources :users
+  end
 
   resources :media, :only => [:show]
 
   resources :templates do
-    resources :positions
     member do
       get :preview
     end
@@ -37,7 +44,7 @@ Concerto::Application.routes.draw do
   end
 
   resources :screens do
-    resources :fields do
+    resources :fields, :only => [] do
       resources :subscriptions do
         collection do
           get :manage
@@ -46,19 +53,20 @@ Concerto::Application.routes.draw do
       end
     end
   end
-
+  
   resources :groups do
-    resources :memberships, :only => [:create, :update, :destroy] do
+    resources :memberships, :only => [:create, :update, :destroy] do     
       member do
         put :approve
         put :deny
+        put :promote_to_leader
       end
     end
   end
+  
+  resources :kinds
 
-  resources :kinds do
-    resources :fields
-  end
+  match "moderate/" => "feeds#moderate"
 
   resources :feeds do
     resources :submissions, :only => [:index, :show, :update]
@@ -69,11 +77,11 @@ Concerto::Application.routes.draw do
   end
 
   # TODO(bamnet): Figure out if these routes mean anything.
-  resources :graphics, :controller => :contents, :except => [:index], :path => "content" do
+  resources :graphics, :controller => :contents, :except => [:index, :show], :path => "content" do
     get :display, :on => :member
   end
 
-  resources :tickers, :controller => :contents, :except => [:index], :path => "content"
+  resources :tickers, :controller => :contents, :except => [:index, :show], :path => "content"
 
   #Set a non-restul route to the dashboard
   match 'dashboard/' => 'dashboard#index'
@@ -125,14 +133,13 @@ Concerto::Application.routes.draw do
   #     resources :products
   #   end
 
-  # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
-  root :to => "feeds#index"
-
   # This is the catch-all path we use for people who type /content when they
   # are semantically looking for all the feeds to show the content.  We put it
   # here at the bottom to avoid capturing any of the restful content paths.
   match 'content/' => 'feeds#index'
+  match 'browse/' => 'feeds#index'
+
+  root :to => 'feeds#index'
 
   # See how all your routes lay out with "rake routes"
 

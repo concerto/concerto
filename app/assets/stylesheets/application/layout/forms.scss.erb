@@ -24,6 +24,15 @@ fieldset {
 		}
 		
   }
+  
+  .field, .clearfix {
+    > label {
+      padding-top: 6px;
+      float: left;
+      width: 130px;
+      text-align: right;
+    }
+  }
 }
   
 
@@ -43,12 +52,8 @@ textarea {
 
 // Float labels left
 label {
-  padding-top: 6px;
   font-size: $basefont;
   line-height: $baseline;
-  float: left;
-  width: 130px;
-  text-align: right;
   color: $grayDark;
 }
 
@@ -281,6 +286,8 @@ textarea {
   &.span16    { @include formColumns(16); }
 }
 
+.fillWidth { width: 98%; }
+
 // Disabled and read-only inputs
 input[disabled],
 select[disabled],
@@ -444,15 +451,21 @@ textarea[readonly] {
     padding-left: 0px;
   }
 
-  label {
-    display: block;
-    float: none;
-    width: auto;
-    text-align: left;
+  fieldset {
+    padding-left: 20px;
+    padding-right: 20px;  
   }
-
+  
   .clearfix {
     margin-bottom: $baseline / 2;
+    
+    > label {
+      display: block;
+      float: none !important;
+      width: auto !important;
+      text-align: left !important;
+    }
+    
     div.input {
       margin-left: 0;
     }
@@ -475,20 +488,8 @@ textarea[readonly] {
     margin-top: 0;
     margin-left: -10px;
   }
+  
   .actions {
-    margin-left: -20px;
     padding-left: 20px;
   }
-}
-
-
-
-// Forms in Boxes
-//------------------
-// Entire <form> elements or <fieldset>'s can be inserted into bordered boxes
-// This is commonly done with groups of related inputs in the sidebar (submissions#show, for instance)
-
-.form-box {
-  @include border-radius(6px);
-  border:solid 1px $grayLight;
 }

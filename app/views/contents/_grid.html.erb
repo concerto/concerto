@@ -1,19 +1,19 @@
 <% @contents.each do |content| %>
-<ul class="iconlist"> 
-  	<li> 
-  		<a href=""> 
-  			<div class="iconlist_padding"> 
-      			<div class="ins"> 
-        				<div class="type-folder"><%= render_content(content, :type =>'grid') %></div>
-      			</div> 
-      			<h2>
-					<%= content.name %>
-					<br />
-					<%= content.start_time %> - <%= content.end_time %>
-				</h2> 
-    			</div> 
-  		</a> 
-  	</li>
-</ul>
+  <ul class="iconlist"> 
+    <li> 
+      <a href=""> 
+        <div class="iconlist_padding"> 
+          <div class="ins"> 
+            <div class="type-folder"><%= render_content(content, :type =>'grid') %></div>
+          </div> 
+          <h2>
+            <%= content.name %>
+            <br />
+            <%= content.start_time %> - <%= content.end_time %>
+          </h2> 
+        </div> 
+      </a> 
+    </li>
+  </ul>
 <% end %>
 <div style="clear:both;"></div>

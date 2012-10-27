@@ -38,8 +38,7 @@ class MembershipTest < ActiveSupport::TestCase
     m = memberships(:katie_rpitv)
     regular = Membership.regular.all
     assert !m.is_leader?, "Membership is not leader"
-    assert_equal regular.length, 1, "Only 1 regular"
-    assert_equal regular.first, m, "Membership matches regular"
+    assert_equal regular.length, 2, "Only 2 regular"
   end
 
   # Pending users don't count for membership
@@ -52,4 +51,28 @@ class MembershipTest < ActiveSupport::TestCase
     end
     @m.destroy
   end
+
+  test "membership permission compression" do
+    m = Membership.new(:level => Membership::LEVELS[:regular])
+    assert_equal m.perms, {}
+
+    Membership::PERMISSIONS[:regular][:screen].each do |screen, screen_v|
+      Membership::PERMISSIONS[:regular][:feed].each do |feed, feed_v|
+        m.perms[:screen] = screen
+        m.perms[:feed] = feed
+        m.compact_permissions
+
+        permission_string = "0#{m.permissions}"
+        assert permission_string.include?(screen_v.to_s), "#{m.permissions} does not have #{screen_v}"
+        assert permission_string.include?(feed_v.to_s), "#{m.permissions} does not have #{feed_v}"
+
+        m.perms = {}
+        m.expand_permissions
+
+        assert_equal m.perms[:screen], screen
+        assert_equal m.perms[:feed], feed
+      end
+    end   
+  end
+
 end

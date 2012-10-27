@@ -2,6 +2,7 @@ goog.provide('concerto.frontend.Content.ClientTime');
 
 goog.require('concerto.frontend.Content');
 goog.require('goog.date.DateTime');
+goog.require('goog.dom');
 goog.require('goog.i18n.DateTimeFormat');
 
 
@@ -20,7 +21,7 @@ concerto.frontend.Content.ClientTime = function(data) {
    * The timezone.
    * @type {?goog.i18n.TimeZone}
    */
-  this.timezone = data.timezone;
+  this.timezone = data['timezone'];
 };
 goog.inherits(concerto.frontend.Content.ClientTime, concerto.frontend.Content);
 

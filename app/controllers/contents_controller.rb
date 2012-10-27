@@ -1,6 +1,5 @@
 class ContentsController < ApplicationController
   before_filter :get_content_const, :only => [:new, :create]
-  load_and_authorize_resource :except => [:show]
 
   # Grab the constent object for the type of
   # content we're working with.  Probably needs
@@ -14,13 +13,15 @@ class ContentsController < ApplicationController
   end
 
   # GET /contents/1
-  # GET /contents/1.xml
+  # GET /contents/1
   def show
     @content = Content.find(params[:id])
+    @user = User.find(@content.user_id)
+    auth!
 
     respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @content }
+      format.html #show.html.erb
+      format.xml { render :xml => @content }
     end
   end
 
@@ -45,8 +46,8 @@ class ContentsController < ApplicationController
     if @content_const.nil? || @content_const.superclass != Content
       render :text => "Unrecognized content type.", :status => 400
     else
-
       @content = @content_const.new()
+      auth!
 
       respond_to do |format|
         format.html { } # new.html.erb
@@ -58,7 +59,7 @@ class ContentsController < ApplicationController
   # GET /contents/1/edit
   def edit
     @content = Content.find(params[:id])
-    authorize! :update, @content
+    auth!
   end
 
   # POST /contents
@@ -66,6 +67,7 @@ class ContentsController < ApplicationController
   def create
     @content =  @content_const.new(params[@content_const.model_name.singular])
     @content.user = current_user
+    auth!
 
     @feed_ids = []
     if params.has_key?("feed_id")
@@ -94,7 +96,7 @@ class ContentsController < ApplicationController
   # PUT /contents/1.xml
   def update
     @content = Content.find(params[:id])
-    authorize! :update, @content
+    auth!
 
     respond_to do |format|
       if @content.update_attributes(params[:content])
@@ -115,7 +117,7 @@ class ContentsController < ApplicationController
   # DELETE /contents/1.xml
   def destroy
     @content = Content.find(params[:id])
-    authorize! :delete, @content
+    auth!
 
     @content.destroy
 
@@ -130,6 +132,7 @@ class ContentsController < ApplicationController
   # along for processing.  Should send an inline result of the processing.
   def display
     @content = Content.find(params[:id])
+    auth!(:action => :read)
     if stale?(:etag => params, :last_modified => @content.updated_at.utc, :public => true)
       @file = @content.render(params)
       send_data @file.file_contents, :filename => @file.file_name, :type => @file.file_type, :disposition => 'inline'

@@ -1,12 +1,9 @@
-<section class="C no">
-	<header>
-		<%= back_button feeds_path %>
-		<h1><%= t(:edit_feed)%></h1>
-	</header>
-	<div class="C-cont">
-		<article>
-			<%= render 'form' %>
-		</article>
-		<div class="clear"></div>
-	</div>
+<section class="viewblock">
+  <header class="viewblock-header">
+    <%= back_button feeds_path %>
+    <h1 class="default-padding"><%= t(:edit_feed)%></h1>
+  </header>
+  <div class="viewblock-cont">
+    <%= render 'form' %>
+  </div>
 </section>

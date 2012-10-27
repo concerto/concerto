@@ -9,8 +9,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "blank and regular user cannot list all users" do
     get :index
-    assert_response :redirect
-    assert !assigns(:users)
+    assert_login_failure
 
     sign_in users(:katie)
     get :index

@@ -1,12 +1,17 @@
-module ContentsHelper
+module ContentsHelper  
 
-  CONTENT_TYPES = [Graphic, Ticker]
-  
   # Expose the available content subclasses.
-  # Plugins will want to add their subclass to
-  # this list.
   def content_types
-    CONTENT_TYPES
+    Concerto::Application.config.content_types
+  end
+
+  # Display the name of the content type.
+  def display_name(klass)
+    if (klass).const_defined?("DISPLAY_NAME") && !klass::DISPLAY_NAME.nil?
+      klass::DISPLAY_NAME
+    else
+      klass.model_name.human
+    end
   end
 
   # Render a piece of content.

@@ -3,7 +3,6 @@ goog.provide('concerto.frontend.Screen');
 goog.require('concerto.frontend.Template');
 goog.require('goog.debug.Logger');
 goog.require('goog.dom');
-goog.require('goog.net.XhrIo');
 goog.require('goog.net.XhrManager');
 goog.require('goog.style');
 
@@ -20,7 +19,7 @@ goog.require('goog.style');
 concerto.frontend.Screen = function(screen_id, opt_div) {
   /**
    * Manages connections to the backend server.
-   * @type {!goog.new.XhrManager}
+   * @type {!goog.net.XhrManager}
    */
   this.connection = new goog.net.XhrManager(2, null, 0, 2);
 
@@ -87,12 +86,12 @@ concerto.frontend.Screen.prototype.setup = function() {
   this.logger_.info('Requesting screen config from ' + url);
   this.connection.send('setup', url, 'GET', '', null, 1, goog.bind(function(e) {
     var xhr = e.target;
-    var obj = xhr.getResponseJson();
+    var data = xhr.getResponseJson();
 
-    this.name = obj.name;
-    if (goog.isDefAndNotNull(obj.template)) {
+    this.name = data['name'];
+    if (goog.isDefAndNotNull(data['template'])) {
       this.template = new concerto.frontend.Template(this);
-      this.template.load(obj.template);
+      this.template.load(data['template']);
     }
   }, this));
 };

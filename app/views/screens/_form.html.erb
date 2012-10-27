@@ -27,7 +27,7 @@
 		</div>
 		
 		<div class="clearfix">
-			<label>Dimensions</label>
+			<label><%= t('dimensions') %></label>
 			<div class="input">
 				<div class="inline-inputs">
 					<%= f.text_field :width, :class => "span2" %> (W) x <%= f.text_field :height, :class => "span2" %> (H)
@@ -45,7 +45,7 @@
 		</div>
 		
 		<div class="clearfix">
-			<label>Visibility</label>
+			<label><%= t('visibility') %></label>
 			<div class="input">
 				<ul class="inputs-list">
 		      <li>
@@ -63,7 +63,7 @@
     <div class="clearfix">
 
       <div class="input">
-        <%= link_to "Add New Template", new_template_path, :class => "btn info", :target => "_blank" %>
+        <%= link_to t('add_new_template'), new_template_path, :class => "btn info", :target => "_blank" %>
       </div>
     </div>
 
@@ -71,7 +71,7 @@
       <label><%= t(:best_fit_templates) %></label>
       <div class="input">
         
-        <ul class="GL inset-selection small">
+        <ul class="list-grid inset-selection small">
           <% @templates.each do |template| %>
           <li>
             <%= link_to "#", :class => "dropdown-control", :rel => "#preview_#{ template.id }" do %>
@@ -89,7 +89,7 @@
                 <p><b><%= template.name %></b></p>
                 <p>by <%= template.author %></p>
               </div>
-              <div class="clear"></div>
+              
             <% end %>
           </li>
           <% end %>
@@ -100,7 +100,7 @@
   </fieldset>
 
 	<div class="submit_bar actions">
-		<%= f.submit %>
+		<%= f.submit t('submit'), :class => "btn primary" %>
 	</div>
 <% end %>
 

@@ -193,7 +193,7 @@
 .ui-tooltip-dark {
   
   .ui-tooltip-titlebar+.ui-tooltip-content {
-    @include border-radius-corners(0px, 0px, 5px, 5px);
+    @include border-radius(0px 0px 5px 5px);
   }
 
   @include box-shadow(0 0 3px #333);
@@ -246,14 +246,23 @@
 }
 
 .ui-tooltip-rounded .ui-tooltip-titlebar, .ui-tooltip-tipsy .ui-tooltip-titlebar, .ui-tooltip-youtube .ui-tooltip-titlebar {
-  @include border-radius-corners(5px, 5px, 0px, 0px);
+  @include border-radius(5px 5px 0px 0px);
 }
 
 .ui-tooltip-rounded .ui-tooltip-titlebar+.ui-tooltip-content, .ui-tooltip-tipsy .ui-tooltip-titlebar+.ui-tooltip-content {
-  @include border-radius-corners(0px, 0px, 5px, 5px);
+  @include border-radius(0px 0px 5px 5px);
 }
 
+/* Class applied to remove inner box padding for tooltip */
+.ui-tooltip-nopadding .ui-tooltip-content {
+  padding: 0px !important;
+}
 
+/* Class applied to make width auto for tooltip content (use sparingly and test!) */
+.ui-tooltip-autowidth {
+  width: auto !important;
+  max-width: none !important;
+}
 
 .ui-tooltip:not(.ie9haxors) div {
   &.ui-tooltip-content, &.ui-tooltip-titlebar {
