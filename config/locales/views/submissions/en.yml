@@ -1,3 +1,33 @@
 en:
-  browse_submissions: "Browse Submissions"
-  moderate: "Moderate"
+  browse_submissions: 'Browse Submissions'
+
+  #_index_header
+  moderated_by: 'moderated by'
+  expired: 'expired'
+
+  #_moderate_form
+  reason: Reason
+
+  #_show_body
+  change_moderation: 'Change Moderation'
+  submitted_by: 'Submitted By'
+  also_appears_on: 'Also appears on...'
+
+  #_show_header
+  all_feeds: 'All Feeds'
+
+  #_submission_listgriditem
+  date_range: '%{start} to %{end}'
+  urgent: 'Urgent'
+  urgent_tooltip: 'Hey! This content has already passed its requested start date and you should moderate it.'
+  moderate: 'Moderate...'
+  moderate_title: 'moderate %{name}!'
+  currently: 'currently'
+  approved: 'Approved'
+  denied: 'Denied'
+  change_to_denied: 'Change to Denied'
+  change_to_approved: 'Change to Approved'
+  pending_moderation: 'Pending Moderation'
+  approve: 'approve'
+  deny: 'deny'
+  

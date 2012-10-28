@@ -48,3 +48,12 @@ en:
   display_until: "Display Until:"
   submitted_by: "Submitted by"
   appears_on: "Appears on..."
+
+  helpers:
+    label:
+      graphic:
+        name: 'Name'
+        submit: 'Submit'
+        duration: 'Duration'
+        start_time: 'Start Time'
+        end_time: 'End Time'

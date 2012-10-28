@@ -7,11 +7,11 @@
         <h3>
           <% case @submission.moderation_flag %>
           <% when true %>
-            <b>Approved</b>
+            <b><%= t(:approved) %></b>
           <% when false %>
-            <b>Denied</b>
+            <b><%= t(:denied) %></b>
           <% when nil %>
-            <b>Pending Moderation</b>
+            <b><%= t(:pending_moderation) %></b>
           <% end %>
         </h3>
 
@@ -76,7 +76,7 @@
 
 
           <p>
-            <%= link_to "#{ @submission.moderation_flag.nil? ? 'Moderate...' : 'Change Moderation'}", "#", :class => "btn small dropdown-control dd-moderate", :title => "Moderate '#{ @submission.content.name }'", :rel => "#moderate_#{ @submission.id }" %>
+            <%= link_to "#{ @submission.moderation_flag.nil? ? t(:moderate) : (:change_moderation)}", "#", :class => "btn small dropdown-control dd-moderate", :title => t(:moderate_title, :name => @submission.content.name), :rel => "#moderate_#{ @submission.id }" %>
           </p>
 
           <div id="moderate_<%= @submission.id %>" style="display:none;">
@@ -111,12 +111,12 @@
       
       <div class="subblock">
         <% user = User.find(@submission.content.user_id) %>
-        Submitted by <%= link_to user.name, user %>
+        <%= t(:submitted_by) %> <%= link_to user.name, user %>
       </div>
 
       <div class="subblock">
         <% if @other_submissions.count > 0 %>
-          <h3>Also appears on...</h3>
+          <h3><%= t(:also_appears_on) %></h3>
           <ul>
             <% @other_submissions.each do |submission| %>
               <li><%= link_to submission.feed.name, [submission.feed, submission] %></li>

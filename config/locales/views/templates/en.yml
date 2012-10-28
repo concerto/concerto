@@ -1,1 +1,22 @@
 en:
+  #_create_form
+  background_image: 'Background Image'
+
+  #_show_body
+  edit: '[Edit]'
+  preview_alt: '%{name} Preview'
+  author: 'Author'
+
+  #_show_header
+  all_templates: 'All Templates'
+
+  #edit
+  editing_template: 'Editing template'
+
+  helpers:
+    label:
+      template:
+        name: 'Name'
+        author: 'Author'
+        media: 'Background Image'
+        is_hidden: 'Hide this template from being shown in lists'

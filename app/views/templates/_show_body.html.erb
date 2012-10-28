@@ -1,11 +1,11 @@
-<%= link_to '[Edit]', edit_template_path(@template) %>
+<%= link_to t(:edit), edit_template_path(@template) %>
 
 <article>
-  <%= image_tag preview_template_path(@template, :width=> 600, :format => :png), :style => "width: 100%", :alt => "#{@template.name} Preview" %>
+  <%= image_tag preview_template_path(@template, :width=> 600, :format => :png), :style => "width: 100%", :alt => t(:preview, :name => @template.name) %>
 </article>
 <aside>
   <p>
-	  <b>Author:</b>
+	  <b><%= t(:author) %></b>
 	  <%= @template.author %>
 	</p>
 </aside>
