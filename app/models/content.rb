@@ -23,6 +23,11 @@ class Content < ActiveRecord::Base
   belongs_to :parent, :class_name => "Content"
   has_many :children, :class_name => "Content", :foreign_key => "parent_id"
 
+  # By default, only find known content types.
+  # This allows everything to keep working if a content type goes missing
+  # or (more likely) gets removed.
+  default_scope { where(:type => Content.subclasses.collect { |s| s.name }) }
+
   #Easily query for active, expired, or future content
   scope :expired, where("end_time < :now", {:now => Time.now})
   scope :future, where("start_time > :now", {:now => Time.now})
