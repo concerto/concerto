@@ -22,7 +22,10 @@ class Graphic < Content
     # about the resizing, but this is a good first pass.
     if options.key?(:width) || options.key?(:height)
       require 'image_utility'
-      image = Magick::Image.from_blob(original_media.file_contents).first
+      image = nil
+      Graphic.benchmark("Image#from_blob") do
+        image = Magick::Image.from_blob(original_media.file_contents).first
+      end
 
       # Resize the image to a height and width if they are both being set.
       # Round these numbers up to ensure the image will at least fill
@@ -30,7 +33,9 @@ class Graphic < Content
       height = options[:height].nil? ? nil : options[:height].to_f.ceil
       width = options[:width].nil? ? nil : options[:width].to_f.ceil
 
-      image = ImageUtility.resize(image, width, height, true)
+      Graphic.benchmark("ImageUtility#resize") do
+        image = ImageUtility.resize(image, width, height, true)
+      end
 
       file = Media.new(
         :attachable => self,
