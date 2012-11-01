@@ -22,11 +22,11 @@
             <% elsif c.value_type == "boolean" %>
               <label></label>
               <div class="input">
-								<%=hidden_field_tag "concerto_config[#{c.key}]", '0'%>
+								<%= hidden_field_tag "concerto_config[#{c.key}]", '0' %>
                 <% if ConcertoConfig[c.key.to_sym] == "true" %>
                   <%= check_box_tag "concerto_config[#{c.key}]", true, :checked => true %>
 								<% else %>
-                  <%= check_box_tag "concerto_config[#{c.key}]", true%> 
+                  <%= check_box_tag "concerto_config[#{c.key}]", true %> 
                 <% end %>
                 <%= label "concerto_config[#{c.key}]", t(c.key.to_sym) %>
               </div>
