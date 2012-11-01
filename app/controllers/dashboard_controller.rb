@@ -6,7 +6,7 @@ class DashboardController < ApplicationController
     @concerto_configs = ConcertoConfig.all
   end
 
-  #get a hash of concerto_config keysand values and update them using the ConcertoConfig setter
+  #get a hash of concerto_config keys and values and update them using the ConcertoConfig setter
   def update
     authorize! :update, @concerto_config
     params[:concerto_config].each  do |k,v|
