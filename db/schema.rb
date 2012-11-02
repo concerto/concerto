@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121003041206) do
+ActiveRecord::Schema.define(:version => 20121102035608) do
 
   create_table "concerto_configs", :force => true do |t|
     t.string  "key"
@@ -81,6 +81,8 @@ ActiveRecord::Schema.define(:version => 20121003041206) do
     t.boolean  "is_submittable", :default => true
   end
 
+  add_index "feeds", ["parent_id"], :name => "index_feeds_on_parent_id"
+
   create_table "fields", :force => true do |t|
     t.string   "name"
     t.integer  "kind_id"
@@ -108,7 +110,7 @@ ActiveRecord::Schema.define(:version => 20121003041206) do
     t.string   "file_name"
     t.string   "file_type"
     t.integer  "file_size"
-    t.binary   "file_data",       :limit => 16777215
+    t.binary   "file_data",       :limit => 10485760
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
   end
