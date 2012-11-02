@@ -1,24 +1,23 @@
 <div class="row-fluid">
   <div class="span2 collapse-right">
     <ul class="nav nav-tabs nav-stacked nav-drawer-left">
-      <li class="nav-header">Template method:</li>
-      <li<% if @type == "create" %> class="active"<% end %>><%= link_to "Create from Scratch", new_template_path(:type=> "create") %></li>
-      <li<% if @type == "import" %> class="active"<% end %>><%= link_to "Import Existing", new_template_path(:type=> "import") %></li>
+      <li class="nav-header"><%= t(:template_method) %></li>
+      <li<% if @type == "create" %> class="active"<% end %>><%= link_to t(:from_scratch), new_template_path(:type=> "create") %></li>
+      <li<% if @type == "import" %> class="active"<% end %>><%= link_to t(:import_existing), new_template_path(:type=> "import") %></li>
     </ul>
   </div>
   <div class="span10">
     <section class="viewblock">
-    	<header class="viewblock-header" id="template-header">
-    		<h1 class="default-padding"><%= @type.capitalize + " Template" %></h1>
-    	</header>
-    	<div class="viewblock-cont">
-  			<% if @type == "create" %>
-  			  <%= render 'create_form' %>
-  			<% else %>
-  			  <%= render 'import_form' %>
-  			<% end %>
-    		
-    	</div>
+      <header class="viewblock-header" id="template-header">
+        <h1 class="default-padding"><%= t(:template_type , :type => @type.capitalize) %></h1>
+      </header>
+      <div class="viewblock-cont">
+        <% if @type == "create" %>
+          <%= render 'create_form' %>
+        <% else %>
+          <%= render 'import_form' %>
+        <% end %>
+      </div>
     </section>
   </div>
 </div>

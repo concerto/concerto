@@ -1,7 +1,7 @@
 <%= form_for(@template, :html => { :multipart => true }) do |f| %>
   <% if @template.errors.any? %>
   <div id="errorExplanation">
-    <h2><%= pluralize(@template.errors.count, "error") %> prohibited this template from being saved:</h2>
+    <h2><%= pluralize(@template.errors.count, t(:error)) + t(:prohibited_save, :model => 'template') %></h2>
     <ul>
       <% @template.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -26,9 +26,8 @@
     </div>
 
     <div class="clearfix">
-      <%= f.label :is_hidden, "Hide Template" %>
       <div class="input">
-        <%= f.check_box :is_hidden %>
+        <%= f.check_box :is_hidden %> <%= f.label :is_hidden %>
       </div>
     </div>
   </fieldset>
