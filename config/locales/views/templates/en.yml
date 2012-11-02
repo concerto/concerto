@@ -5,9 +5,9 @@ en:
   background_image: 'Background Image'
 
   #_import_form
-  package: 'Package2'
-  image: 'Image2'
-  descriptor: 'Descriptor file2'
+  package: 'Package'
+  image: 'Image'
+  descriptor: 'Descriptor file'
 
   #_show_body
   edit: '[Edit]'
@@ -30,10 +30,10 @@ en:
   helpers:
     label:
       template:
-        name: 'Name2'
-        author: 'Author2'
-        media: '2Background Image'
-        is_hidden: 'Hide this2 template from being shown in lists'
+        name: 'Name'
+        author: 'Author'
+        media: 'Background Image'
+        is_hidden: 'Hide this template from being shown in lists'
     submit:
       create: "Create %{model}"
       update: "Update %{model}"
