@@ -82,4 +82,15 @@ class ContentTest < ActiveSupport::TestCase
     assert_equal c.end_time.strftime('%Y-%m-%d %H:%M:%S'), "2011-01-01 00:00:00"
   end
 
+  test "content type scope works" do
+    assert_no_difference 'Content.count', 'Unknown types does not change count'  do
+      c = Content.new(:name => "Sample Ticker",
+                      :kind_id => kinds(:ticker).id,
+                      :duration => 10,
+                      :user => users(:katie))
+      c.type = 'UnknownType'
+      assert c.save
+    end
+  end
+
 end

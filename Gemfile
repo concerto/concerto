@@ -3,6 +3,9 @@ source 'http://rubygems.org'
 
 gem "rails", "3.2.8"
 
+# Load the gems used for remote reporting.
+eval File.read('Gemfile-reporting')
+
 group :concerto_plugins do
   eval File.read('Gemfile-plugins')
 end

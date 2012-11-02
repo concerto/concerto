@@ -132,7 +132,10 @@ class TemplatesController < ApplicationController
       
       jpg =  Mime::Type.lookup_by_extension(:jpg)  #JPG is getting defined elsewhere.
       if([jpg, Mime::PNG, Mime::HTML].include?(request.format))
-        image = @template.preview_image(@hide_fields, @hide_text)
+        image = nil
+        benchmark("Template#preview_image") do
+          image = @template.preview_image(@hide_fields, @hide_text)
+        end
 
         # Resize the image if needed.
         # We do this post-field drawing because RMagick seems to struggle with small font sizes.
@@ -140,7 +143,9 @@ class TemplatesController < ApplicationController
         width = params[:width].nil? ? nil :  params[:width].to_f.ceil
         if height || width
           require 'image_utility'
-          image = ImageUtility::resize(image, width, height)
+          benchmark("ImageUtility#resize") do
+            image = ImageUtility::resize(image, width, height)
+          end
         end
 
         case request.format
@@ -150,7 +155,12 @@ class TemplatesController < ApplicationController
           image.format = "PNG"
         end
 
-        send_data image.to_blob,
+        data = nil
+        benchmark ("Image#to_blob") do
+          data = image.to_blob
+        end
+
+        send_data data,
                   :filename => "#{@template.name.underscore}.#{image.format.downcase}_preview",
                   :type => image.mime_type, :disposition => 'inline'
       else
