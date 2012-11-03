@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(:version => 20121102035608) do
     t.string   "file_name"
     t.string   "file_type"
     t.integer  "file_size"
-    t.binary   "file_data",       :limit => 10485760
+    t.binary   "file_data",       :limit => 16777215
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
   end
