@@ -49,6 +49,7 @@ gem 'jquery-tools'
 
 # Process jobs in the background
 gem 'delayed_job_active_record'
+gem "daemons"
 
 # Test Coverage
 gem 'simplecov', :require => false, :group => :test
