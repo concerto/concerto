@@ -1,8 +1,19 @@
 class DashboardController < ApplicationController
+  #includes for system status functions
+  require 'sys/proctable'
+  include Sys  
   
   # GET /dashboard
   def index
     authorize! :read, ConcertoConfig
+
+    @delayed_job_running = false
+    ProcTable.ps do |process|
+      if process.cmdline.strip == "delayed_job" && process.state.strip == "run"
+        @delayed_job_running = true
+      end
+    end
+      
     @concerto_configs = ConcertoConfig.all
   end
 

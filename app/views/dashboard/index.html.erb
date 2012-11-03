@@ -5,6 +5,8 @@
   
   <div class="viewblock-cont">
     <%=link_to "Manage Users", users_path %>
+    <br />
+    Delayed Job Status: <% if @delayed_job_running %>Running<% else %> NOT Running <% end %>
   
     <%= form_tag "/dashboard/update" do %>
       <% @configs = ConcertoConfig.all %>
