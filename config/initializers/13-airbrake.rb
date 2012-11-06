@@ -1,12 +1,12 @@
 if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
   if ConcertoConfig.columns_hash.has_key?("plugin_id")
-    ConcertoConfig.make_concerto_config("allow_remote_error_reporting", "true", :value_type => "boolean")
+    ConcertoConfig.make_concerto_config("send_errors", "true", :value_type => "boolean")
   end
 end
 
 Airbrake.configure do |config|
   def config.api_key
-    if ConcertoConfig[:allow_remote_error_reporting] == "true"
+    if ConcertoConfig[:send_errors] == "true"
       return '52adf2979c2ab87c634612bef9deaaf2'
     else 
       return nil
