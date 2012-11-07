@@ -4,9 +4,6 @@ en:
   browse_content_by_feed: "Browse Content by Feed"
   browse_content_by_screen: "Find Content on a Particular Screen"
 
-  #_form
-  submit: "Submit"
-
   #_table
   title: "Title"
   link: "Link"
@@ -57,3 +54,6 @@ en:
         duration: 'Duration'
         start_time: 'Start Time'
         end_time: 'End Time'
+    submit:
+      create: "Create %{model}"
+      update: "Update %{model}"
