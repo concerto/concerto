@@ -5,9 +5,10 @@
 @import "controls/sprites";
 @import "controls/buttons";
 @import "controls/button-groups";
-@import "controls/datetime";
+@import "controls/jquery.timepicker";
 @import "controls/sliders";
 @import "controls/jquery.qtip";
+@import "controls/jquery-ui.redmond";
 
 @import "layout/scaffolding";
 @import "layout/type";
@@ -19,6 +20,7 @@
 @import "layout/topmenu";
 @import "layout/alerts-badges";
 @import "layout/screenmodel";
+@import "layout/datetime";
 
 @import "layout/responsive-utilities";
 @import "layout/responsive-767px-max";

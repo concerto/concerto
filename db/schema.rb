@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121003041206) do
+ActiveRecord::Schema.define(:version => 20121102035608) do
 
   create_table "concerto_configs", :force => true do |t|
     t.string  "key"
@@ -80,6 +80,8 @@ ActiveRecord::Schema.define(:version => 20121003041206) do
     t.boolean  "is_viewable",    :default => true
     t.boolean  "is_submittable", :default => true
   end
+
+  add_index "feeds", ["parent_id"], :name => "index_feeds_on_parent_id"
 
   create_table "fields", :force => true do |t|
     t.string   "name"

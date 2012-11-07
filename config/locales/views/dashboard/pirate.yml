@@ -11,3 +11,6 @@ pirate:
   allow_registration: "Let any scalawag aboard"
   allow_user_screen_creation: "Let any scalawag create a screen"
   allow_user_feed_creation: "Allow user feed creation"
+  save_settings: "Save Settings"
+  rubygem_executable: "Rubygem Executable"
+  send_errors: "Send errors"

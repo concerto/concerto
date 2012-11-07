@@ -1,0 +1,28 @@
+/*
+ * CSS to control the layout of date & time fields
+ */
+
+.timefield {
+  width: 100px !important;
+}
+
+/* the input field */
+.datefield, .timefield {
+  border:1px solid #ccc;
+  font-size:18px;
+  padding:4px;
+  text-align:center;
+  width:194px;
+  
+  -moz-box-shadow:0 0 10px #eee inset;
+  -webkit-box-shadow:0 0 10px #eee inset;
+}
+
+// change width of jquery-ui datepicker calendar widget
+.ui-datepicker { width: 194px !important}
+
+/* Overide some defaults to better match the input style. */		
+.ui-timepicker-list {
+  width: 100px;
+  text-align: center;		
+}
