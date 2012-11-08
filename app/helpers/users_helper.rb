@@ -1,6 +1,6 @@
 module UsersHelper
   def possessive( name )
-    name + ('s' == name[-1,1] ? '’' : '’' + "s" )
+    name + ('s' == name[-1,1] ? "'" : "'s" )
   end
 
   def user_title( user, model)
