@@ -26,4 +26,9 @@ class Subscription < ActiveRecord::Base
   def weight_name
     name = (Subscription::WEIGHTS.respond_to?(:key) ? Subscription::WEIGHTS.key(weight) :  Subscription::WEIGHTS.index(weight)).to_s
   end
+
+  # Get an array of all the approved active content to be shown in a screen's field.
+  def contents
+    self.feed.approved_contents.active.where(:kind_id => self.field.kind.id)
+  end
 end
