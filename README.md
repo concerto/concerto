@@ -20,4 +20,8 @@ Upon its next startup, Concerto will populate whatever database you've specified
 4. Set up the appropriate webserver configuration (VHosts and such) and start using Concerto
 5. Go the the Concerto URL to setup the initial admin user.
 
+##
+Installation Notes:
+When running Concerto in production mode, be sure to compile your assets with: bundle exec rake assets:precompile or Sprockets will be used a a fallback with performance consequences.
+
 Concerto 2 is licensed under the Apache License, Version 2.0.
