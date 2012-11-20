@@ -1,7 +1,7 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'http://rubygems.org'
 
-gem "rails", "3.2.8"
+gem "rails", "3.2.9"
 
 # Load the gems used for remote reporting.
 eval File.read('Gemfile-reporting') if File.exists?('Gemfile-reporting')
