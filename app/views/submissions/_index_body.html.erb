@@ -7,7 +7,7 @@
       <% if feeds.empty? %>
       <p><%= t(:no_feeds) %></p>
       <% else %>
-      <input type="search" id="filter_feeds" placeholder="Type here to filter"/>
+      <input type="search" class="feed_filter" placeholder="Type here to filter"/>
       <ul class="filterable">
         <% feeds.each_with_index do |feed, i| %>
         <li data-filter="<%= feed.name %>">
@@ -161,7 +161,5 @@ $(document).ready(function() {
         style: 'ui-tooltip-dark ui-tooltip-shadow ui-tooltip-rounded'
       });
   });
-    // feed filtering
-    $('#filter_feeds').listFilter();
   });
 </script>

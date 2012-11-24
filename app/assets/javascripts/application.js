@@ -102,3 +102,12 @@ jQuery(function($) {
     });
   });
 });
+
+
+function initFeedFilters() {
+  $('.feed_filter').each(function(i){
+    $(this).listFilter();
+  });
+}
+
+$(document).ready(initFeedFilters);
