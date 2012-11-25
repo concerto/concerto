@@ -21,7 +21,7 @@
         <% @feeds.each do |pending_feed| %>
         <li>
           <h3>
-            <%= link_to feed_submissions_path(pending_feed), :remote => true, :class => "link-hl" do %>
+            <%= link_to feed_submissions_path(pending_feed), :class => "link-hl" do %>
               <span class="badge action"><%= pending_feed.pending_contents.count %></span> <%= pending_feed.name %>
             <% end %>
           </h3>

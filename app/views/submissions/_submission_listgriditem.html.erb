@@ -1,11 +1,11 @@
    <li>
     <div class="cont thumb-icon">
-      <%= link_to [submission.feed, submission], :remote => true do %>
+      <%= link_to [submission.feed, submission] do %>
       <%= render_content(submission.content, {:type => 'grid'}) %>
       <% end %>
     </div>
     <div class="cont">
-      <p><b><%= link_to submission.content.name, [submission.feed, submission], :remote => true %></b></p>
+      <p><b><%= link_to submission.content.name, [submission.feed, submission] %></b></p>
       
       <p><%= t(:date_range, :start => submission.content.start_time.strftime("%m/%d"), :end => submission.content.end_time.strftime("%m/%d")) %>
         <% if submission.is_pending? && submission.content.is_active? %>

@@ -16,65 +16,6 @@
         </h3>
 
         <% if can? :update, @submission %>
-
-          <script type="text/javascript">
-
-            $(document).ready(function() {
-              $(".moderate-true").hide();
-              $(".moderate-false").hide();
-
-              $(document).on("click", ".moderate-select button.approve", function(event) {
-                event.preventDefault();
-                $(".moderate-false").hide();
-                $(".moderate-true").show();
-              });
-
-              $(document).on("click", ".moderate-select button.deny", function(event) {
-                event.preventDefault();
-                $(".moderate-true").hide()
-                $(".moderate-false").show();
-              });
-
-
-              $('.dropdown-control').click(function(event) { event.preventDefault(); });
-
-
-              $('.dropdown-control.dd-moderate').each(function() {
-
-                $(this).qtip( {
-
-                  content: {
-                    text: $( $(this).attr('rel') ).html(),
-                    title: {
-                      text: $(this).attr('title'),
-                      button: true
-                    }
-                  },
-
-                  position: {
-                      at: 'bottom center', // Position the tooltip above the link
-                      my: 'top left',
-                      viewport: $(window) // Keep the tooltip on-screen at all times
-                    },
-
-                    show: {
-                      event: 'click', // Show it on click...
-                      solo: true // ...and hide all other tooltips...
-                    },
-
-                    hide: 'unfocus',
-                    style: 'ui-tooltip-dark ui-tooltip-shadow ui-tooltip-rounded'
-
-                  });
-
-              });
-
-
-            });
-
-          </script>
-
-
           <p>
             <%= link_to "#{ @submission.moderation_flag.nil? ? t(:moderate) : (:change_moderation)}", "#", :class => "btn small dropdown-control dd-moderate", :title => t(:moderate_title, :name => @submission.content.name), :rel => "#moderate_#{ @submission.id }" %>
           </p>

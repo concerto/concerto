@@ -1,8 +1,8 @@
 <h1 class="default-padding" id="contentlist">
-  <%= link_to t(:all_feeds), feeds_path, :remote => true %> &gt; 
+  <%= link_to t(:all_feeds), feeds_path %> &gt; 
   <% @submission.feed.ancestors.reverse.each do |ancestor_feed| %>
-  <%= link_to ancestor_feed.name, feed_submissions_path(ancestor_feed), :remote => true %> &gt; 
+  <%= link_to ancestor_feed.name, feed_submissions_path(ancestor_feed) %> &gt; 
   <% end %>
-  <%= link_to @submission.feed.name, feed_submissions_path(@submission.feed), :remote => true %> &gt; 
+  <%= link_to @submission.feed.name, feed_submissions_path(@submission.feed) %> &gt; 
   <%= @submission.content.name %>
 </h1>
