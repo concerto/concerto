@@ -74,7 +74,7 @@
         <ul class="list-grid inset-selection small">
           <% @templates.each do |template| %>
           <li>
-            <%= link_to "#", :class => "dropdown-control", :rel => "#preview_#{ template.id }" do %>
+            <%= link_to "#", :class => "template-selector dropdown-control", :rel => "#preview_#{ template.id }" do %>
               <div class="inp">
                 <%= f.radio_button :template_id, template.id %>
               </div>
@@ -103,37 +103,3 @@
 		<%= f.submit t('submit'), :class => "btn primary" %>
 	</div>
 <% end %>
-
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $('.dropdown-control').click(function(event) { event.preventDefault(); });
-      $('.dropdown-control').each(function() {
-    
-        $(this).qtip( {
-          content: {
-            text: $( $(this).attr('rel') ).html(),
-            title: {
-              text: 'Larger Preview',
-              button: true
-            }
-          },
-
-          position: {
-            at: 'bottom center', // Position the tooltip above the link
-            my: 'top center',
-            viewport: $(window) // Keep the tooltip on-screen at all times
-          },
-        
-          show: {
-            delay: 500,
-            event: 'hover', // Show it on click...
-            solo: true // ...and hide all other tooltips...
-          },
-      
-          hide: 'unfocus',
-          style: 'ui-tooltip-dark ui-tooltip-bigenough ui-tooltip-shadow ui-tooltip-rounded'
-        });
-      });
-    });
-  </script>
-
