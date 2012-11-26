@@ -58,7 +58,7 @@ class UsersController < ApplicationController
 
 private
   def assign_parameters
-    if current_user.is_admin?
+    if current_user.is_admin? or !ConcertoConfig[:setup_complete]
       return true if @user.assign_attributes(params[:user], :as => :admin)
     else
       return true if @user.assign_attributes(params[:user])
