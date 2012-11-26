@@ -21,7 +21,8 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    @user = User.new(params[:user])
+    @user = User.new
+    assign_parameters()
 
     respond_to do |format|
       if @user.save
@@ -33,7 +34,7 @@ class UsersController < ApplicationController
       end
     end
   end
-  
+
   # GET /users/1/edit
   def edit
     respond_with(@user = User.find(params[:id]))  
@@ -42,7 +43,7 @@ class UsersController < ApplicationController
   # PUT /users/1
   def update
     @user = User.find(params[:id])
-    if @user.update_attributes(params[:user])
+    if assign_parameters
       flash[:notice] = t(:user_updated)
     end
     respond_with(@user)
@@ -54,5 +55,13 @@ class UsersController < ApplicationController
     @user.destroy
     respond_with(@user)
   end
-  
+
+private
+  def assign_parameters
+    if current_user.is_admin?
+      return true if @user.assign_attributes(params[:user], :as => :admin)
+    else
+      return true if @user.assign_attributes(params[:user])
+    end
+  end
 end
