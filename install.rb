@@ -203,7 +203,7 @@ end
 
 def package?(package_name)
   #grep through the output of dpkg -s to see if a package status is given. If so, we assume it's installed and working
-  if system("dpkg -s #{pkg} | grep Status") != true
+  if system("dpkg -s #{package_name} | grep Status") != true
     return false
   else
     return true
@@ -220,7 +220,7 @@ def check_deb_pkg_depends
   #all unmet dependencies will be pushed onto this array
   unmet_depends = Array.new
   pkg_depends.each do |package_name|
-    if package(package_name) != true
+    if package?(package_name) != true
       unmet_depends << package_name
     end
   end
