@@ -13,7 +13,7 @@
         <% end -%>
       </p>
 
-      <% unless submission.content.is_expired? %>
+      <% if can?(:update, submission) && !submission.content.is_expired? %>
       <p>
         <%= link_to t(:moderate), "#", :class => "btn small dropdown-control dd-moderate", :title => t(:moderate_title, :name => submission.content.name), :rel => "#moderate_#{ submission.id }" %>
       </p>
