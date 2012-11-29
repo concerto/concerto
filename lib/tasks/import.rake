@@ -221,5 +221,43 @@ namespace :import do
       end
     end
   end
+
+  desc 'Import V1 Templates.'
+  task :templates => :environment do
+    require 'legacy_schema'
+    ActiveRecord::Base.transaction do
+      V1Template.all.each do |t|
+        new_template = Template.new(
+          :name => t.name,
+          :author => t.creator,
+          :updated_at => t.modified,
+          :original_width => t.width,
+          :original_height => t.height,
+          :is_hidden => t.hidden
+        )
+        t.fields.each do |f|
+          position = new_template.positions.build
+          position.style = f.style
+          position.top = f.top
+          position.left = f.left
+          position.width = f.width
+          position.height = f.height
+          position.field = Field.where(:name => f.type.name).first
+        end
+        filename = "import_templates/#{t.filename}"
+        if !File.exists?(filename)
+          puts "Missing file: #{filename} for template #{t.id}"
+          next
+        end
+        file = File.new(filename, 'r')
+        new_template.media.build(:key => 'original', :file => file, :file_type => 'image/jpeg')
+        if new_template.save
+          #puts "Created template."
+        else
+          puts "Error with Template #{new_template.errors.to_yaml}"
+        end
+      end
+    end
+  end
 end
 

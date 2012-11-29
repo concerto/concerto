@@ -34,3 +34,16 @@ class V1Submission < ActiveRecord::Base
   self.table_name = 'feed_content'
   establish_connection :legacy  
 end
+
+class V1Template < ActiveRecord::Base
+  self.table_name = 'template'
+  establish_connection :legacy
+  has_many :fields, :class_name => 'V1Field', :foreign_key => 'template_id'
+end
+
+class V1Field < ActiveRecord::Base
+  self.table_name = 'field'
+  belongs_to :template, :class_name => 'V1Template', :foreign_key => 'template_id'
+  belongs_to :type, :class_name => 'V1Type', :foreign_key => 'type_id'
+  establish_connection :legacy
+end
