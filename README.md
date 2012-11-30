@@ -3,6 +3,7 @@
 ##Automated Installation:
 APT(Debian/Ubuntu) Package:
 Add Concerto repository using: curl get.concerto-signage.org/add_repo.sh | sh
+
 Install Concerto via APT: sudo apt-get install concerto
 
 Generic Linux/Mac: curl get.concerto-signage.org | ruby
