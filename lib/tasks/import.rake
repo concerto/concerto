@@ -222,9 +222,12 @@ namespace :import do
     end
   end
 
-  desc 'Import V1 Templates.'
+  desc 'Import Templates.'
   task :templates => :environment do
     require 'legacy_schema'
+    template_mapping = {}
+    position_mapping = {}
+    temp_position_mapping = {}
     ActiveRecord::Base.transaction do
       V1Template.all.each do |t|
         new_template = Template.new(
@@ -243,8 +246,9 @@ namespace :import do
           position.width = f.width
           position.height = f.height
           position.field = Field.where(:name => f.type.name).first
+          temp_position_mapping[f.id] = position
         end
-        filename = "import_templates/#{t.filename}"
+        filename = "/tmp/concerto_20120919/concerto_20120919/content/templates/#{t.filename}"
         if !File.exists?(filename)
           puts "Missing file: #{filename} for template #{t.id}"
           next
@@ -252,11 +256,44 @@ namespace :import do
         file = File.new(filename, 'r')
         new_template.media.build(:key => 'original', :file => file, :file_type => 'image/jpeg')
         if new_template.save
+          template_mapping[t.id] = new_template.id
+          temp_position_mapping.each do |id, pos|
+            position_mapping[id] = pos.id
+          end
+          temp_position_mapping = {}
           #puts "Created template."
         else
           puts "Error with Template #{new_template.errors.to_yaml}"
         end
       end
+      save_mapping('template', template_mapping)
+      save_mapping('position', position_mapping)
+    end
+  end
+
+  desc 'Import V1 Screens.'
+  task :screens => :environment do
+    require 'legacy_schema'
+    mapping = {}
+    groups = load_mapping('group')
+    templates = load_mapping('template')
+    ActiveRecord::Base.transaction do
+      V1Screen.all.each do |s|
+        new_screen = Screen.new(
+          :name => s.name,
+          :location => s.location,
+          :is_public => !s.type?,
+          :template_id => templates[s.template_id]
+        )
+        new_screen.owner = Group.find(groups[s.group_id])
+        if new_screen.save
+          mapping[s.id] = new_screen.id
+          #puts "Created Screen - #{new_screen.name} (#{new_screen.id})"
+        else
+          puts "Error with Screen #{new_screen.name}\n #{new_screen.errors.to_yaml}"
+        end
+      end
+      save_mapping('screen', mapping)
     end
   end
 end
