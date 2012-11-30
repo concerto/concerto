@@ -19,4 +19,8 @@ class ActiveSupport::TestCase
     assert flash[:notice].include? 'not authorized'
   end
 
+  def assert_small_delta(expected, actual)
+    assert_in_delta(expected, actual, 0.00001)
+  end
+
 end
