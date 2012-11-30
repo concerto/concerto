@@ -167,7 +167,7 @@ namespace :import do
               new_content.data = c.content
             end
             if content_type == Graphic
-              filename = "import_images/#{c.content}"
+              filename = "#{ENV['CONTENT_DIR']}/#{c.content}"
               if !File.exists?(filename)
                 puts "Missing file: #{filename} for content #{c.id}"
                 next
@@ -248,7 +248,7 @@ namespace :import do
           position.field = Field.where(:name => f.type.name).first
           temp_position_mapping[f.id] = position
         end
-        filename = "/tmp/concerto_20120919/concerto_20120919/content/templates/#{t.filename}"
+        filename = "#{ENV['TEMPLATE_DIR']}/#{t.filename}"
         if !File.exists?(filename)
           puts "Missing file: #{filename} for template #{t.id}"
           next
