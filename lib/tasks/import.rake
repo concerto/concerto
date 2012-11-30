@@ -296,5 +296,43 @@ namespace :import do
       save_mapping('screen', mapping)
     end
   end
+
+  desc 'Import V1 Subscriptions.'
+  task :subscriptions => :environment do
+    require 'legacy_schema'
+    mapping = {}
+    screens = load_mapping('screen')
+    position_mapping = load_mapping('position')
+    feeds = load_mapping('feed')
+    ActiveRecord::Base.transaction do
+      V1Screen.all.each do |s|
+        s.template.fields.each do |v1_field|
+          positions = V1Subscription.where(:field_id => v1_field.id, :screen_id => s.id)
+          positions.each do |p|
+            new_subscription = Subscription.new(
+              :screen_id => screens[s.id],
+              :weight => p.weight
+            )
+            if !position_mapping.include?(p.field_id)
+              puts "Unable to find position for this subscription.  Skipping"
+              next
+            end
+            if !feeds.include?(p.feed_id)
+              puts "Unable to find feed #{p.feed.name} for this subscription.  Skipping"
+              next
+            end
+            new_position = Position.find(position_mapping[p.field_id])
+            new_subscription.field_id = new_position.field.id
+            new_subscription.feed_id = feeds[p.feed_id]
+            if new_subscription.save
+              #puts "Created subscription."
+            else
+              puts "Error with subscription #{new_subscription.errors.to_yaml}"
+            end
+          end
+        end
+      end
+    end
+  end
 end
 
