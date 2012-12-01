@@ -20,36 +20,6 @@
 //= require_tree .
 
 $(document).ready(function () {
-	//Content grid/table switching
-	$('a.update_holder').live('click', function(event){
-		event.preventDefault();
-		target_url = $(this).attr('href');
-		$.ajax({
-			url: target_url,
-			dataType: "html",
-			cache: false,
-			success: function(data) {
-				$("#content_holder").fadeOut(100, function(){
-					$("#content_holder").html("").html(data).fadeIn('slow');
-				});
-			}
-		});
-	});
-	
-	// enable history
-	if (history && history.pushState) {
-    $(function () {
-      $('a[data-remote=true]').live('click', function (e) {
-        $.getScript(this.href);
-        history.pushState(null, document.title, this.href);
-        e.preventDefault();
-      });
-    
-      $(window).bind("popstate", function () {
-        $.getScript(location.href);
-      });
-    });
-  }
   
   // flash-banner display animation:
   if ( $("#flash-banner").html() !== "" ) {
@@ -102,3 +72,12 @@ jQuery(function($) {
     });
   });
 });
+
+
+function initFeedFilters() {
+  $('.feed_filter').each(function(i){
+    $(this).listFilter();
+  });
+}
+
+$(document).ready(initFeedFilters);

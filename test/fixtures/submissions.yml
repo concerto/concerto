@@ -20,3 +20,10 @@ denied_ticker:
   moderation_flag: false
   moderator: kristen
   duration: 1
+
+active_approved_ticker:
+  content: active_ticker
+  feed: service
+  moderation_flag: true
+  moderator: katie
+  duration: 1

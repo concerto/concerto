@@ -1,0 +1,2 @@
+# Airbrake is used to remotely log exceptions.
+gem 'airbrake'

@@ -8,7 +8,6 @@ en:
   description: 'Description'
   parent: 'Parent'
   group: 'Group'
-  submit: 'Submit'
   edit_feed: 'Edit Feed'
   show: 'Show'
   back: 'Back'
@@ -34,6 +33,10 @@ en:
   with_pending_content: 'with pending content'
   nothing_to_moderate: 'Nothing to Moderate'
   no_pending_content: 'All good for now! None of the feeds you moderate have any pending contents.'
+  submit:
+    create: "Create %{model}"
+    update: "Update %{model}"
+
 
   helpers:
     label:

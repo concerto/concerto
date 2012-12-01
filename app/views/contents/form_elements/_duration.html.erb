@@ -1,23 +1,4 @@
-<% content_for :js_ready do %>
-  $("input#<%= @content.type.downcase %>_duration").rangeinput();
-  var api = $(":range").data("rangeinput");
-  seconds = api.getValue();
-  seconds = seconds+"s";
-  $(".handle").html(seconds);
-  $(":range").bind({onSlide:function () {
-    seconds = api.getValue();
-    seconds = seconds+"s";
-    $(".handle").html(seconds);
-  }});
-  $(":range").change(function() {
-    seconds = api.getValue();
-    seconds = seconds+"s";
-    $(".handle").html(seconds);
-  });
-  $(".duration_range").hide();
-<% end %>
-
-<div class="clearfix">
+<div class="clearfix duration">
 	<%= form.label :duration %>
 	<div class="input">
 		<div class="leftseconds"><%= min %>s</div>

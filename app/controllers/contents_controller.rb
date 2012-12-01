@@ -134,8 +134,13 @@ class ContentsController < ApplicationController
     @content = Content.find(params[:id])
     auth!(:action => :read)
     if stale?(:etag => params, :last_modified => @content.updated_at.utc, :public => true)
-      @file = @content.render(params)
-      send_data @file.file_contents, :filename => @file.file_name, :type => @file.file_type, :disposition => 'inline'
+      @file = nil
+      data = nil
+      benchmark("Content#render") do
+        @file = @content.render(params)
+        data = @file.file_contents
+      end
+      send_data data, :filename => @file.file_name, :type => @file.file_type, :disposition => 'inline'
     end
   end
 

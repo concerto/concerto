@@ -1,25 +1,25 @@
 <section class="viewblock">
-	<header class="viewblock-header">
-		<h1 class="default-padding">All Users <%= link_to 'New User', new_user_path, :class => "button" %></h1>
-	</header>
-	<div class="viewblock-cont">
-		<table>
-		  <tr>
-		    <th>First name</th>
-		    <th>Last name</th>
-		    <th>Email</th>
-				<th>Actions</th>
-		  </tr>
+  <header class="viewblock-header">
+    <h1 class="default-padding"><%= t(:all_users) %> <%= link_to t(:new_user), new_user_path, :class => "button" %></h1>
+  </header>
+  <div class="viewblock-cont">
+    <table>
+      <tr>
+        <th><%= t(:first_name) %></th>
+        <th><%= t(:last_name) %></th>
+        <th><%= t(:email) %></th>
+        <th><%= t(:actions) %></th>
+      </tr>
 
-			<% @users.each do |user| %>
-		  <tr>
-		    <td><%= user.first_name %></td>
-		    <td><%= user.last_name %></td>
-		    <td><%= user.email %></td>
-		    <td><%= link_to 'Show', user %> <%= link_to 'Edit', edit_user_path(user) %> <%= link_to 'Destroy', user, :data => { :confirm => 'Are you sure?'}, :method => :delete %></td>
-			</tr>
-		<% end %>
-		</table>
-		
-	</div>
+      <% @users.each do |user| %>
+          <tr>
+            <td><%= user.first_name %></td>
+            <td><%= user.last_name %></td>
+            <td><%= user.email %></td>
+            <td><%= link_to t(:show), user %> <%= link_to t(:edit), edit_user_path(user) %> <%= link_to t(:destroy), user, :data => { :confirm => 'Are you sure?'}, :method => :delete %></td>
+          </tr>
+      <% end %>
+    </table>
+
+  </div>
 </section>

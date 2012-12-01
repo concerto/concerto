@@ -1,7 +1,10 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'http://rubygems.org'
 
-gem "rails", "3.2.8"
+gem "rails", "3.2.9"
+
+# Load the gems used for remote reporting.
+eval File.read('Gemfile-reporting') if File.exists?('Gemfile-reporting')
 
 group :concerto_plugins do
   eval File.read('Gemfile-plugins')
@@ -46,7 +49,10 @@ gem 'jquery-tools'
 
 # Process jobs in the background
 gem 'delayed_job_active_record'
+gem "daemons"
 
 # Test Coverage
 gem 'simplecov', :require => false, :group => :test
 
+#Cross-platform monitoring of processes
+gem 'sys-proctable'

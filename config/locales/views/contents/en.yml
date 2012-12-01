@@ -4,9 +4,6 @@ en:
   browse_content_by_feed: "Browse Content by Feed"
   browse_content_by_screen: "Find Content on a Particular Screen"
 
-  #_form
-  submit: "Submit"
-
   #_table
   title: "Title"
   link: "Link"
@@ -23,7 +20,7 @@ en:
   no_feeds: "There are no feeds in the system that you can submit content to.  Please contact your system administrator for more information."
 
   #content/form
-  prohibited_save: "prohibited this content from being saved:"
+  prohibited_save: "prohibited this %{model} from being saved:"
   provide_details: "Provide Basic Details"
   select_feed: "Select Feed"
   select_content_type: "Select Content Type to Add"
@@ -48,3 +45,15 @@ en:
   display_until: "Display Until:"
   submitted_by: "Submitted by"
   appears_on: "Appears on..."
+
+  helpers:
+    label:
+      graphic:
+        name: 'Name'
+        submit: 'Submit'
+        duration: 'Duration'
+        start_time: 'Start Time'
+        end_time: 'End Time'
+    submit:
+      create: "Create %{model}"
+      update: "Update %{model}"

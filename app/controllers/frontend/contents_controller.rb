@@ -6,14 +6,16 @@ class Frontend::ContentsController < ApplicationController
   def scope_setup
     @screen = Screen.find(params[:screen_id])
     @field = Field.find(params[:field_id])
+    @subscriptions = @screen.subscriptions.where(:field_id => @field.id)
   end
 
   def index
-    count = @field.kind.contents.count
+    content = @subscriptions.collect{|s| s.contents * s.weight}.flatten.shuffle!
+    count = content.count
     @content = []
     if count > 0
       begin
-        @content = [@field.kind.contents.first(:offset => rand(count))]
+        @content = [content[rand(count)]]
         @content.each do |c|
           c.pre_render(@screen, @field)
         end

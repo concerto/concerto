@@ -7,11 +7,11 @@
       <% if feeds.empty? %>
       <p><%= t(:no_feeds) %></p>
       <% else %>
-      <input type="search" id="filter_feeds" placeholder="Type here to filter"/>
+      <input type="search" class="feed_filter" placeholder="Type here to filter"/>
       <ul class="filterable">
         <% feeds.each_with_index do |feed, i| %>
         <li data-filter="<%= feed.name %>">
-          <%= link_to feed_submissions_path(feed), :remote => true, :class => "link-hl" do %>
+          <%= link_to feed_submissions_path(feed), :class => "link-hl" do %>
           <%= ("&nbsp;"*feed.depth).html_safe %> <%= feed.name %> <span class="badge"><%= feed.approved_contents.count %></span>
           <% end %>
         </li>
@@ -30,7 +30,7 @@
     <% end %>
     <% @feed.children.each do |feed| %>
     <li>
-      <%= link_to feed_submissions_path(feed), :remote => true do %><span class="badge"><%= feed.approved_contents.count %></span> <%= feed.name %><% end %>
+      <%= link_to feed_submissions_path(feed) do %><span class="badge"><%= feed.approved_contents.count %></span> <%= feed.name %><% end %>
     </li>
     <% end %>
   </ul>
@@ -95,73 +95,3 @@
   </ul>
 </div>
 <% end %>
-
-<!-- TODO Move this out of here and into a better spot -->
-<script type="text/javascript">
-$(document).ready(function() {
-  $(".moderate-true").hide();
-  $(".moderate-false").hide();
-
-  $(document).on("click", ".moderate-select button.approve", function(event) {
-    event.preventDefault();
-    $(".moderate-false").hide();
-    $(".moderate-true").show();
-  });
-
-  $(document).on("click", ".moderate-select button.deny", function(event) {
-    event.preventDefault();
-    $(".moderate-true").hide()
-    $(".moderate-false").show();
-  });
-
-  $('.dropdown-control').click(function(event) { event.preventDefault(); });
-
-  $('.dropdown-control.dd-jumpto').each(function() {
-    $(this).qtip( {
-      content: {
-        text: $( $(this).attr('rel') ).html(),
-        title: {
-          text: $(this).attr('title'),
-          button: true
-        }
-      },
-      position: {
-          at: 'bottom center', // Position the tooltip above the link
-          my: 'top left',
-          viewport: $(window) // Keep the tooltip on-screen at all times
-        },
-        show: {
-          event: 'click', // Show it on click...
-          solo: true // ...and hide all other tooltips...
-        },
-        hide: 'unfocus',
-        style: 'ui-tooltip-light ui-tooltip-shadow ui-tooltip-rounded'
-      });
-  });
-
-  $('.dropdown-control.dd-moderate').each(function() {
-    $(this).qtip( {
-      content: {
-        text: $( $(this).attr('rel') ).html(),
-        title: {
-          text: $(this).attr('title'),
-          button: true
-        }
-      },
-      position: {
-          at: 'bottom center', // Position the tooltip above the link
-          my: 'top left',
-          viewport: $(window) // Keep the tooltip on-screen at all times
-        },
-        show: {
-          event: 'click', // Show it on click...
-          solo: true // ...and hide all other tooltips...
-        },
-        hide: 'unfocus',
-        style: 'ui-tooltip-dark ui-tooltip-shadow ui-tooltip-rounded'
-      });
-  });
-    // feed filtering
-    $('#filter_feeds').listFilter();
-  });
-</script>

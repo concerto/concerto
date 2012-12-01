@@ -3,7 +3,7 @@
   <% if feeds.empty? %>
     <p><%= t(:no_feeds)%></p>
   <% else %>
-    <input type="search" id="feed_filter" placeholder="Type here to filter"/>
+    <input type="search" class="feed_filter" placeholder="Type here to filter"/>
     <br />
     <ol class='filterable'>
     <% feeds.each_with_index do |feed, i| %>
@@ -13,8 +13,3 @@
     </ol>
   <% end %>
 </div>
-<script type="text/javascript">
-$(document).ready(function() {
-  $('#feed_filter').listFilter();
-});
-</script>

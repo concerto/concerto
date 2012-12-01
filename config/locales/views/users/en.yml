@@ -1,1 +1,37 @@
 en:
+  #_show_header
+  all_users: 'All Users'
+
+  #_show_body
+  system_wide_admin: 'This user is a system-wide admin'
+  you: 'This is you.'
+  my: 'My'
+  change: 'change'
+  your_screen: 'This is your screen.'
+  to: 'to'
+  contents: 'Contents'
+
+  #edit
+  change_password: 'Change your password'
+
+  #index
+  new_user: 'New User'
+  first_name: 'First Name'
+  last_name: 'Last Name'
+  actions: 'actions'
+  destroy: 'destroy'
+  edit: 'edit'
+
+  helpers:
+    label:
+      user:
+        first_name: 'Name (First, Last)'
+        email: 'Email'
+        locale: 'Locale'
+        is_admin: 'Admin Status'
+        password: 'Password'
+        new_password: 'New Password'
+        password_confirmation: 'Confirm New Password'
+    submit:
+      create: 'Create'
+      update: 'Update'

@@ -1,7 +1,7 @@
 <%= form_for(@template, :url => import_templates_path, :html => { :multipart => true }) do |f| %>
   <% if @template.errors.any? %>
   <div id="errorExplanation">
-    <h2><%= pluralize(@template.errors.count, "error") %> prohibited this template from being saved:</h2>
+    <h2><%= pluralize(@template.errors.count, t(:error)) + t(:prohibited_save, :model => 'template') %></h2>
     <ul>
       <% @template.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -12,7 +12,7 @@
 
   <fieldset>
     <div class="clearfix">
-      <%= label_tag :package %>
+      <%= label_tag :package, t(:package) %>
       <div class="input">
         <%= file_field_tag :package, :disabled => true %>
       </div>
@@ -20,14 +20,14 @@
     <hr />
 
     <div class="clearfix">
-      <%= label_tag :image %>
+      <%= label_tag :image, t(:image) %>
       <div class="input">
         <%= file_field_tag :image %>
       </div>
     </div>
 
     <div class="clearfix">
-      <%= label_tag :descriptor %>
+      <%= label_tag :descriptor, t(:descriptor) %>
       <div class="input">
         <%= file_field_tag :descriptor %>
       </div>
@@ -36,7 +36,7 @@
 
     <div class="clearfix">
       <div class="input">
-        <%= f.check_box :is_hidden %> <%= f.label :is_hidden, "Hide this template from being shown in lists" %>
+        <%= f.check_box :is_hidden %> <%= f.label :is_hidden, t("helpers.label.template.is_hidden") %>
       </div>
     </div>
 
@@ -44,6 +44,6 @@
 
 
   <div class="submit_bar actions">
-    <%= f.submit "Submit", :class => "btn primary" %>
+    <%= f.submit t(:submit), :class => "btn primary" %>
   </div>
 <% end %>

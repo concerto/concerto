@@ -5,4 +5,36 @@ $(document).ready(function() {
     e.preventDefault();
     $(this).find(".inp input").prop("checked", true);
   });
+
+  initTemplateSelector();
 });
+
+function initTemplateSelector() {
+  $('.template-selector.dropdown-control').click(function(event) { event.preventDefault(); });
+  $('.template-selector.dropdown-control').each(function() {
+    $(this).qtip( {
+      content: {
+        text: $( $(this).attr('rel') ).html(),
+        title: {
+          text: 'Larger Preview',
+          button: true
+        }
+      },
+
+      position: {
+        at: 'bottom center', // Position the tooltip above the link
+        my: 'top center',
+        viewport: $(window) // Keep the tooltip on-screen at all times
+      },
+
+      show: {
+        delay: 500,
+        event: 'hover', // Show it on click...
+        solo: true // ...and hide all other tooltips...
+      },
+
+      hide: 'unfocus',
+      style: 'ui-tooltip-dark ui-tooltip-bigenough ui-tooltip-shadow ui-tooltip-rounded'
+    });
+  });
+}

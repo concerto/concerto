@@ -1,9 +1,14 @@
 #Concerto 2 Digital Signage System
 
 ##Automated Installation:
-Linux/Mac: curl get.concerto-signage.org | ruby
+APT(Debian/Ubuntu) Package:
+Add Concerto repository using: curl get.concerto-signage.org/add_repo.sh | sh
 
-Linux/Mac with MySQL: Download http://get.concerto-signage.org/install.rb and run it like this: "ruby install.rb -d mysql"
+Install Concerto via APT: sudo apt-get install concerto
+
+Generic Linux/Mac: curl get.concerto-signage.org | ruby
+
+Generic Linux/Mac with MySQL: Download http://get.concerto-signage.org/install.rb and run it like this: "ruby install.rb -d mysql"
 
 Windows: Download http://get.concerto-signage.org/install.rb and run it
 
@@ -19,5 +24,9 @@ Upon its next startup, Concerto will populate whatever database you've specified
 3. bundle install or bundle install --path vendor/bundle if you don't wish to install all of the Gem dependencies of Concerto/Rails globally (there are just over 115 of them).
 4. Set up the appropriate webserver configuration (VHosts and such) and start using Concerto
 5. Go the the Concerto URL to setup the initial admin user.
+
+##
+Installation Notes:
+When running Concerto in production mode, be sure to compile your assets with: bundle exec rake assets:precompile or Sprockets will be used a a fallback with performance consequences.
 
 Concerto 2 is licensed under the Apache License, Version 2.0.

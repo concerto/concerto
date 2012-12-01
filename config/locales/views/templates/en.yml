@@ -1,1 +1,39 @@
 en:
+  all_templates: 'All Templates'
+
+  #_create_form
+  background_image: 'Background Image'
+
+  #_import_form
+  package: 'Package'
+  image: 'Image'
+  descriptor: 'Descriptor file'
+
+  #_show_body
+  edit: '[Edit]'
+  preview_alt: '%{name} Preview'
+  author: 'Author'
+
+  #_index_body
+  no_templates_html: "Oops - there are no templates yet.  Why don't you %{href}?"
+  add_one: 'add one'
+
+  #edit
+  editing_template: 'Editing template'
+
+  #new
+  template_type: "%{type} Template"
+  template_method: 'Template method:'
+  from_scratch: 'Create from Scratch'
+  import_existing: 'Import Existing'
+
+  helpers:
+    label:
+      template:
+        name: 'Name'
+        author: 'Author'
+        media: 'Background Image'
+        is_hidden: 'Hide this template from being shown in lists'
+    submit:
+      create: "Create %{model}"
+      update: "Update %{model}"

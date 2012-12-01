@@ -1,7 +1,7 @@
 <%= form_for(@template, :html => { :multipart => true }) do |f| %>
   <% if @template.errors.any? %>
   <div id="errorExplanation">
-    <h2><%= pluralize(@template.errors.count, "error") %> prohibited this template from being saved:</h2>
+    <h2><%= pluralize(@template.errors.count, t(:error)) + t(:prohibited_save, :model => 'template') %></h2>
     <ul>
       <% @template.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -26,7 +26,7 @@
     </div>
 
     <div class="clearfix">
-      <%= f.label "Background Image" %>
+      <%= f.label :media %>
       <div class="input">
         <%= f.fields_for :media do |media| %>
           <%= media.file_field :file %>
@@ -36,7 +36,7 @@
     
     <div class="clearfix">
       <div class="input">
-        <%= f.check_box :is_hidden %> <%= f.label :is_hidden, "Hide this template from being shown in lists" %>
+        <%= f.check_box :is_hidden %> <%= f.label :is_hidden %>
       </div>
     </div>
 
@@ -44,6 +44,6 @@
 
 
   <div class="submit_bar actions">
-    <%= f.submit "Submit", :class => "btn primary" %>
+    <%= f.submit t(:submit), :class => "btn primary" %>
   </div>
 <% end %>

@@ -1,28 +1,28 @@
 <div class="viewblock-header_right">
   <div class="status-block">
-    <label>ACTIVE</label>
+    <label><%= t(:active).upcase %></label>
     <span><%= @approved_submissions ? @approved_submissions.count : 0 %></span>
   </div>
   <div class="status-block">
-    <label>PENDING</label>
+    <label><%= t(:pending).upcase %></label>
     <span><%= @pending_submissions ? @pending_submissions.count : 0 %></span>
   </div>
   <div class="status-block">
-    <label>EXPIRED</label>
+    <label><%= t(:expired).upcase %></label>
     <span><%= @expired_submissions ? @expired_submissions.count : 0 %></span>
   </div>
   <div class="status-block">
-    <label>DENIED</label>
+    <label><%= t(:denied).upcase %></label>
     <span><%= @denied_submissions ? @denied_submissions.count : 0 %></span>
   </div>
 </div>
 <div class="default-padding">
   <h1 id="contentlist">
-    <%= link_to "All Feeds", feeds_path, :remote => true %> &gt; 
+    <%= link_to t(:all_feeds), feeds_path %> &gt; 
     <% @feed.ancestors.reverse.each do |ancestor_feed| %>
-      <%= link_to ancestor_feed.name, feed_submissions_path(ancestor_feed), :remote => true %> &gt; 
+      <%= link_to ancestor_feed.name, feed_submissions_path(ancestor_feed) %> &gt; 
     <% end %>
-    <%= @feed.name %> (moderated by <%= link_to @feed.group.name, group_path(@feed.group) %>)
+    <%= @feed.name %> (<%= t(:moderated_by) %> <%= link_to @feed.group.name, group_path(@feed.group) %>)
   </h1>
 </div>
 

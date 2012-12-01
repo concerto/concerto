@@ -4,9 +4,9 @@ if @content.media.empty?
 end
 %>
 <fieldset>
-  <legend><span><%=t(:upload_graphic)%></span></legend>
+  <legend><span><%= t(:upload_graphic) %></span></legend>
   <div class="clearfix">
-    <label><%=t(:specify_file)%></label>
+    <label><%= t(:specify_file) %></label>
     <div class="input">
       <%= form.fields_for :media do |media| %>
       <%= media.file_field :file %>

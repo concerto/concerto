@@ -1,39 +1,39 @@
    <li>
     <div class="cont thumb-icon">
-      <%= link_to [submission.feed, submission], :remote => true do %>
+      <%= link_to [submission.feed, submission] do %>
       <%= render_content(submission.content, {:type => 'grid'}) %>
       <% end %>
     </div>
     <div class="cont">
-      <p><b><%= link_to submission.content.name, [submission.feed, submission], :remote => true %></b></p>
+      <p><b><%= link_to submission.content.name, [submission.feed, submission] %></b></p>
       
-      <p><%= submission.content.start_time.strftime("%m/%d") %> to <%= submission.content.end_time.strftime("%m/%d") %>
+      <p><%= t(:date_range, :start => submission.content.start_time.strftime("%m/%d"), :end => submission.content.end_time.strftime("%m/%d")) %>
         <% if submission.is_pending? && submission.content.is_active? %>
-        <%= link_to "Urgent", "#", :class => "tooltip-basic", 'data-tooltip-text' => "Hey! This content has already passed its requested start date and you should moderate it." %>
+        <%= link_to t(:urgent), "#", :class => "tooltip-basic", 'data-tooltip-text' => t(:urgent_tooltip) %>
         <% end -%>
       </p>
 
-      <% if submission.is_pending? and !submission.content.is_expired? %>
+      <% if can?(:update, submission) && !submission.content.is_expired? %>
       <p>
-        <%= link_to "Moderate...", "#", :class => "btn small dropdown-control dd-moderate", :title => "Moderate '#{ submission.content.name }'", :rel => "#moderate_#{ submission.id }" %>
+        <%= link_to t(:moderate), "#", :class => "btn small dropdown-control dd-moderate", :title => t(:moderate_title, :name => submission.content.name), :rel => "#moderate_#{ submission.id }" %>
       </p>
 
       <div id="moderate_<%= submission.id %>" style="display:none;">
         <% if submission.is_approved? %>
-        <p>Currently <b style="color: green;">Approved</b></p>
-        <p>Change to Denied</p>
+        <p><%= t(:currently) %> <b style="color: green;"><%= t(:approved) %></b></p>
+        <p><%= t(:change_to_denied) %></p>
         <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => false } %>
         <% elsif submission.is_denied? %>
-        <p>Currently <b style="color: red;">Denied</b></p>
-        <p>Change to Approved</p>
+        <p><%= t(:currently) %> <b style="color: red;"><%= t(:denied) %></b></p>
+        <p><%= t(:change_to_approved) %></p>
         <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => true } %>
         <% else %>
-        <p>Currently <b>Pending Moderation</b></p>
+        <p><%= t(:currently) %> <b><%= t(:pending_moderation) %></b></p>
         <div class="form-stacked">
           <div class="moderate-select" class="btn-toolbar">
             <div class="btn-group" data-toggle="buttons-radio">
-              <button class="btn approve">Approve</button>
-              <button class="btn deny">Deny</button>
+              <button class="btn approve"><%= t(:approve) %></button>
+              <button class="btn deny"><%= t(:deny) %></button>
             </div>
           </div>
 
