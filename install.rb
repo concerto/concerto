@@ -32,6 +32,7 @@ def main
   if command?("git")
     puts "Cloning Git repository..."
     system("git clone https://github.com/concerto/concerto.git #{$concerto_location}")
+    system("git checkout #{get_tag()}")
   else
     puts "Git executable not found -- downloading zip/tar file..."
     #Zip files are a sensible default for Windows
@@ -39,7 +40,7 @@ def main
       windows_download()
     else
       #Virtually all *nix systems have tar
-      download_file("https://github.com/concerto/concerto/tarball/master", "/tmp/concerto.tar.gz")
+      download_file("https://github.com/concerto/concerto/archive/#{get_tag()}.tar.gz", "/tmp/concerto.tar.gz")
       system("tar -zxvf /tmp/concerto.tar.gz #{$concerto_location}")
     end
   end
@@ -68,6 +69,30 @@ def main
   puts "Please add the following to your Apache configuration file and restart Apache...\n\n"
   puts vhost_entry
 
+end
+
+def get_tag()
+  require 'net/https'
+  require 'uri'
+  require 'json'
+  
+  uri = URI.parse('https://api.github.com/repos/concerto/concerto/git/refs/tags')
+  http = Net::HTTP.new(uri.host, uri.port)
+  if uri.scheme == "https" # enable SSL/TLS
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+    http.ca_file = File.join("cacert.pem")
+  end
+  http.start {
+    http.request_get(uri.path) {|res|
+      @versions = Array.new
+      JSON.parse(res.body).each do |tag|
+        @versions << tag['ref'].gsub(/refs\/tags\//,'')
+      end
+      @versions.sort! {|x,y| y <=> x }
+      return @versions[0]
+    }
+  }
 end
 
 #Parse command line options with some Ruby magicks
@@ -129,7 +154,7 @@ def windows_download
   #get the full path to the user's temp directory and chop off the newline
   user_tempdir = `echo %TEMP%`.chomp
   #download the Github zipball (and do some acrobatics b/c Github doesn't know how to package a zip)
-  download_file("https://github.com/concerto/concerto/zipball/master", "#{user_tempdir}\\concerto.zip") 
+  download_file("https://github.com/concerto/concerto/archive/#{get_tag()}.zip", "#{user_tempdir}\\concerto.zip") 
   #Windows has no unzip executable - so let's download a a nice standalone one
   download_file("http://stahlworks.com/dev/unzip.exe", "#{user_tempdir}\\unzip.exe")
   #unzip the concerto archive from Github into the temp directory
