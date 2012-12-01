@@ -33,11 +33,11 @@ class MembershipsController < ApplicationController
     @membership = Membership.find(params[:id])
 
     respond_to do |format|
-      if @membership.update_attributes(params[:membership])
+      if (@membership.can_resign_leadership?) && (@membership.update_attributes(params[:membership]))
         format.html { redirect_to(@group, :notice => t(:membership_updated)) }
         format.xml  { head :ok }
       else
-        format.html { redirect_to @group }
+        format.html { redirect_to @group , :notice => @group.errors}
         format.xml  { render :xml => @membership.errors, :status => :unprocessable_entity }
       end
     end
@@ -47,13 +47,17 @@ class MembershipsController < ApplicationController
   # DELETE /groups/1.xml
   def destroy
     @membership = Membership.find(params[:id])
-    @membership.destroy
 
     respond_to do |format|
-      format.html { redirect_to(@group, :notice => t(:member_removed)) }
-      format.xml  { head :ok }
-    end
-  end
+			if (@membership.can_resign_leadership?) && (@membership.destroy)
+				format.html { redirect_to(@group, :notice => t(:member_removed)) }
+				format.xml  { head :ok }
+			else
+				format.html { redirect_to @group, :notice => t(:membership_denied) }
+				format.xml  { render :xml => @membership.errors, :status => :unprocessable_entity }
+			end
+		end
+	end
 
 # PUT /groups/:group_id/memberships/1/approve
   def approve
@@ -62,7 +66,7 @@ class MembershipsController < ApplicationController
       if membership.approve()
         format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_approved)) }
       else
-        format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_failed_approve)) }
+        format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_denied)) }
       end
     end
   end
@@ -74,7 +78,7 @@ class MembershipsController < ApplicationController
       if membership.promote_to_leader()
         format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_approved)) }
       else
-        format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_failed_approve)) }
+        format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_denied)) }
       end
     end
   end

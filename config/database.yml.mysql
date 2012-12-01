@@ -16,3 +16,13 @@ production:
   host: localhost
   port: 3306
 
+
+##
+## For use importing from a V1 Concerto installation.
+##
+#legacy:
+#  adapter: mysql2
+#  database: concerto_1
+#  username: concerto_1_user
+#  password: concerto_1_password
+#  host: localhost

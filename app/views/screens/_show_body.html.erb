@@ -14,10 +14,11 @@
 
       <ul>
         <% @screen.fields.each do |field| %>
+          <% subscriptions = @screen.subscriptions.where(:field_id => field.id) %>
           <li><%= field.name %></li>
-          <% if !field.subscriptions.empty? %>
+          <% if !subscriptions.empty? %>
             <ul>
-              <% field.subscriptions.each do |subscription| %>
+              <% subscriptions.each do |subscription| %>
                 <li><%= link_to subscription.feed.name, subscription.feed %><%= " - #{subscription.weight}" unless subscription.weight.blank?%></li>
               <% end %>
             </ul>
