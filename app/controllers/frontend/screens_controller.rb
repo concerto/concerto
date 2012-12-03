@@ -2,8 +2,14 @@ class Frontend::ScreensController < ApplicationController
   layout 'frontend'
 
   def show
-    respond_to do |format|
-      format.html
+    begin
+      @screen = Screen.find(params[:id])
+    rescue ActiveRecord::ActiveRecordError
+      render :text => "Screen not found.", :status => 404
+    else
+      respond_to do |format|
+        format.html
+      end
     end
   end
 
