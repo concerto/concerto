@@ -7,6 +7,13 @@ class Frontend::ScreensController < ApplicationController
     rescue ActiveRecord::ActiveRecordError
       render :text => "Screen not found.", :status => 404
     else
+      @js_files = ['frontend.js']
+      if params[:debug]
+        @js_files = ['frontend_debug.js']
+      end
+      if params[:files]
+        @js_files = params[:files].split(",")
+      end
       respond_to do |format|
         format.html
       end
