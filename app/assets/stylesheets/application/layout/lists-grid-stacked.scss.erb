@@ -7,6 +7,78 @@
 // This UL aligns 1..n items in a visual grid. Each item is floated left and fills up available space 
 // (20% width apiece). This UL is used extensively on browse content grids of content.
 
+$griditem-width: 240px;
+$griditem-height: 180px;
+
+ul.new-grid {
+  @include clearfix();
+  margin: 0px;
+  padding: 0px;
+
+  li {
+    list-style: none;
+    float: left;
+    margin: 1px;
+    position: relative;
+
+    a {
+      display: block;
+      width: $griditem-width;
+      height: $griditem-height;
+      background: $white;
+
+      &:hover {
+        text-decoration: none;
+
+        .content {
+          background: darken($grayLight, 6%);
+        
+          img { opacity: 1; }
+        }
+
+        .info {
+          opacity: 1;
+        }
+
+      }
+
+      @include transition(all .1s linear);
+    }
+
+    .content {
+      display: block;
+      z-index: 1;
+      background: $grayLight;
+      height: $griditem-height;
+
+      img {
+        max-width: 100%;
+        opacity: 0.8;
+      }
+
+      p {
+        padding: 12px;
+        font-size: 1.6em;
+        line-height: normal;
+      }
+    }
+
+    .info {
+      z-index: 2;
+      background: $black;
+      opacity: 0.5;
+      display: block;
+      color: $white;
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      width: 100%;
+      @include transition(all .1s linear);
+    }
+
+  }
+}
+
 ul.list-grid {
 	margin: 0px;
 	padding: 0px;

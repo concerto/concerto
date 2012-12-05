@@ -167,7 +167,7 @@ namespace :import do
               new_content.data = c.content
             end
             if content_type == Graphic
-              filename = "import_images/#{c.content}"
+              filename = "#{ENV['CONTENT_DIR']}/#{c.content}"
               if !File.exists?(filename)
                 puts "Missing file: #{filename} for content #{c.id}"
                 next
@@ -217,6 +217,119 @@ namespace :import do
           #puts "Content #{submission.content_id} + Feed #{submission.feed_id}."
         else
           puts submission.errors.to_yaml
+        end
+      end
+    end
+  end
+
+  desc 'Import Templates.'
+  task :templates => :environment do
+    require 'legacy_schema'
+    template_mapping = {}
+    position_mapping = {}
+    temp_position_mapping = {}
+    ActiveRecord::Base.transaction do
+      V1Template.all.each do |t|
+        new_template = Template.new(
+          :name => t.name,
+          :author => t.creator,
+          :updated_at => t.modified,
+          :original_width => t.width,
+          :original_height => t.height,
+          :is_hidden => t.hidden
+        )
+        t.fields.each do |f|
+          position = new_template.positions.build
+          position.style = f.style
+          position.top = f.top
+          position.left = f.left
+          position.width = f.width
+          position.height = f.height
+          position.field = Field.where(:name => f.type.name).first
+          temp_position_mapping[f.id] = position
+        end
+        filename = "#{ENV['TEMPLATE_DIR']}/#{t.filename}"
+        if !File.exists?(filename)
+          puts "Missing file: #{filename} for template #{t.id}"
+          next
+        end
+        file = File.new(filename, 'r')
+        new_template.media.build(:key => 'original', :file => file, :file_type => 'image/jpeg')
+        if new_template.save
+          template_mapping[t.id] = new_template.id
+          temp_position_mapping.each do |id, pos|
+            position_mapping[id] = pos.id
+          end
+          temp_position_mapping = {}
+          #puts "Created template."
+        else
+          puts "Error with Template #{new_template.errors.to_yaml}"
+        end
+      end
+      save_mapping('template', template_mapping)
+      save_mapping('position', position_mapping)
+    end
+  end
+
+  desc 'Import V1 Screens.'
+  task :screens => :environment do
+    require 'legacy_schema'
+    mapping = {}
+    groups = load_mapping('group')
+    templates = load_mapping('template')
+    ActiveRecord::Base.transaction do
+      V1Screen.all.each do |s|
+        new_screen = Screen.new(
+          :name => s.name,
+          :location => s.location,
+          :is_public => !s.type?,
+          :template_id => templates[s.template_id]
+        )
+        new_screen.owner = Group.find(groups[s.group_id])
+        if new_screen.save
+          mapping[s.id] = new_screen.id
+          #puts "Created Screen - #{new_screen.name} (#{new_screen.id})"
+        else
+          puts "Error with Screen #{new_screen.name}\n #{new_screen.errors.to_yaml}"
+        end
+      end
+      save_mapping('screen', mapping)
+    end
+  end
+
+  desc 'Import V1 Subscriptions.'
+  task :subscriptions => :environment do
+    require 'legacy_schema'
+    mapping = {}
+    screens = load_mapping('screen')
+    position_mapping = load_mapping('position')
+    feeds = load_mapping('feed')
+    ActiveRecord::Base.transaction do
+      V1Screen.all.each do |s|
+        s.template.fields.each do |v1_field|
+          positions = V1Subscription.where(:field_id => v1_field.id, :screen_id => s.id)
+          positions.each do |p|
+            new_subscription = Subscription.new(
+              :screen_id => screens[s.id],
+              :weight => p.weight
+            )
+            if !position_mapping.include?(p.field_id)
+              puts "Unable to find position for this subscription.  Skipping"
+              next
+            end
+            if !feeds.include?(p.feed_id)
+              puts "Unable to find feed #{p.feed.name} for this subscription.  Skipping"
+              next
+            end
+            new_position = Position.find(position_mapping[p.field_id])
+            new_subscription.field_id = new_position.field.id
+            new_subscription.feed_id = feeds[p.feed_id]
+            if new_subscription.save
+              #puts "Created subscription."
+            else
+              puts "Error with subscription #{new_subscription.errors.to_yaml}"
+            end
+          end
         end
       end
     end

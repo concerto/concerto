@@ -1,9 +1,14 @@
 #Concerto 2 Digital Signage System
 
 ##Automated Installation:
-Linux/Mac: curl get.concerto-signage.org | ruby
+APT(Debian/Ubuntu) Package:
+Add Concerto repository using: curl get.concerto-signage.org/add_repo.sh | sh
 
-Linux/Mac with MySQL: Download http://get.concerto-signage.org/install.rb and run it like this: "ruby install.rb -d mysql"
+Install Concerto via APT: sudo apt-get install concerto
+
+Generic Linux/Mac: curl get.concerto-signage.org | ruby
+
+Generic Linux/Mac with MySQL: Download http://get.concerto-signage.org/install.rb and run it like this: "ruby install.rb -d mysql"
 
 Windows: Download http://get.concerto-signage.org/install.rb and run it
 

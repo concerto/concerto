@@ -1,55 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Concerto - Open Source Digital Signage</title>
+  <title>Concerto - <%= content_for?(:title) ? yield(:title) : "Open Source Digital Signage" %></title>
+  <%= stylesheet_link_tag 'frontend/application' %>  
   <%= csrf_meta_tag %>
-  <script src="/frontend_js/closure-library/closure/goog/base.js"></script>
-  <script type="text/javascript">
-    goog.require('goog.events.EventTarget');
-    goog.require('goog.events.Event');
-    goog.require('goog.debug.Logger');
-    goog.require('goog.debug.Console');
-  </script>
-  <script src="/frontend_js/content.js"></script>
-  <script src="/frontend_js/contents/client_time.js"></script>
-  <script src="/frontend_js/contents/graphic.js"></script>
-  <script src="/frontend_js/contents/ticker.js"></script>
-  <script src="/frontend_js/transition.js"></script>
-  <script src="/frontend_js/transitions/fade.js"></script>
-  <script src="/frontend_js/field.js"></script>
-  <script src="/frontend_js/position.js"></script>
-  <script src="/frontend_js/template.js"></script>
-  <script src="/frontend_js/screen.js"></script>
-  <% count = params[:count] || 1
-     count = count.to_i %>
-  <style type="text/css">
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background-color: black;
-    }
-    .scr {
-      border: 1px solid black;
-      width: <%= (100/count**0.5 - count) %>%;
-      height: <%= (100/count**0.5 - count*2) %>%;
-      float: left;
-      margin: 10px;
-    }
-  </style>
-  <script type="text/javascript">
-    var s = [];
-    function load(){
-      goog.debug.Console.autoInstall();
-        <% for i in (1..count) %>
-          s[<%=i%>] = new concerto.frontend.Screen(1, document.getElementById('scr_<%=i%>'));
-        <% end %>
-    }
-  </script>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="format-detection" content="telephone=no" />
+  <%= content_for(:head) -%>
 </head>
-<body onload="load()">
-  <% for i in (1..count) %>
-    <div id="scr_<%=i%>" class="scr"></div>
-  <% end %>
+<body>
+  <%= yield %>
 </body>
 </html>

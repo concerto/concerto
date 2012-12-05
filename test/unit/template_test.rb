@@ -8,10 +8,10 @@ class TemplateTest < ActiveSupport::TestCase
     file = fixture_file_upload("/files/simple_template.xml", 'text/xml')
     assert t.import_xml(file.read)
     actual = t.positions.first
-    assert_equal 0.025, actual.left
-    assert_equal 0.026, actual.top
-    assert_equal 0.592, actual.right
-    assert_equal 0.796, actual.bottom
+    assert_small_delta 0.025, actual.left
+    assert_small_delta 0.026, actual.top
+    assert_small_delta 0.592, actual.right
+    assert_small_delta 0.796, actual.bottom
     assert_equal false, t.is_hidden
   end
 
@@ -21,15 +21,15 @@ class TemplateTest < ActiveSupport::TestCase
     assert t.import_xml(file.read)
     actual = t.positions
     # first position
-    assert_equal 0.025, actual.first.left
-    assert_equal 0.026, actual.first.top
-    assert_equal 0.592, actual.first.right
-    assert_equal 0.796, actual.first.bottom
+    assert_small_delta 0.025, actual.first.left
+    assert_small_delta 0.026, actual.first.top
+    assert_small_delta 0.592, actual.first.right
+    assert_small_delta 0.796, actual.first.bottom
     # second position
-    assert_equal 0.025, actual.last.left
-    assert_equal 0.796, actual.last.top
-    assert_equal 0.592, actual.last.right
-    assert_equal 1.000, actual.last.bottom
+    assert_small_delta 0.025, actual.last.left
+    assert_small_delta 0.796, actual.last.top
+    assert_small_delta 0.592, actual.last.right
+    assert_small_delta 1.000, actual.last.bottom
     
   end
   
