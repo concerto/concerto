@@ -40,7 +40,7 @@
       <div class="viewblock-cont">
         <div class="default-padding">
           <div class="clearfix">
-            <h2><%= @screens.count %> <%= t(:screen) %><% if @screens.count > 1 %>s<% end %></h2>
+            <h2><%= pluralize @screens.count, t(:screen) %></h2>
             <p># <%= t(:active) %>&nbsp;&nbsp;&nbsp;&nbsp;# <%= t(:offline) %></p>
             <%= link_to t(:view_screens_list), screens_path, :class => "btn" %>
           </div>

@@ -46,4 +46,4 @@ en:
 
   #Users controller
   user_created: "User was successfully created."
-  user_updated: "User was successfully updated."     
+  user_updated: "User was successfully updated."
