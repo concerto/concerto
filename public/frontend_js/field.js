@@ -142,7 +142,7 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
   var load_content_on_finish = start_load || null;
 
   this.logger_.info('Field ' + this.id + ' is looking for new content.');
-  this.connection_.send(this.id, this.content_url, 'GET', '', null, 1,
+  this.connection_.send('field' + this.id, this.content_url, 'GET', '', null, 1,
       goog.bind(function(e) {
 
         var xhr = e.target;
