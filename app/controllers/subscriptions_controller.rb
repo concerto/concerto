@@ -49,9 +49,19 @@ class SubscriptionsController < ApplicationController
     @subscription = Subscription.new
     @subscription.screen = @screen
     @subscription.field = @field
+    @subscription.feed_id = params[:feed_id]
+    @subscription.weight = 3   #default weight to 3 (neutral)
     auth!
+    @errno = !@subscription.save
+
+    if @errno
+      format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => "Subscription was not successfully added") } # new.html.erb
+      format.xml  { render :xml => @subscription.errors, :status => :unprocessable_entity }
+    end
+
     respond_to do |format|
-      format.html # new.html.erb
+      format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => "New subscription added") } # new.html.erb
+      format.js { render :layout => false }
       format.xml  { render :xml => @subscription }
     end
   end
@@ -62,43 +72,64 @@ class SubscriptionsController < ApplicationController
     auth!
   end
 
-  # POST /screen/:screen_id/subscriptions
-  # POST /screen/:screen_id/subscriptions.xml
   def create
-    @feed_ids = Array.new
-		@weights = Array.new
-		@errnos = Array.new
-		@subscriptions = Array.new
-    
-		if params.has_key?("subscription_feed")
-      @feed_ids = params[:subscription_feed].values
-    end
-		if params.has_key?("subscription_weight")
-			@weights = params[:subscription_weight].values
-		end
-
-		@feed_ids.each_with_index do |feed_id, i|
-			@subscriptions[i] = Subscription.new
-			@subscriptions[i].screen = @screen
-			@subscriptions[i].field = @field
-			@subscriptions[i].feed_id = feed_id
-			@subscriptions[i].weight = @weights[i]
-			auth!
-			@errnos[i] = !@subscriptions[i].save
-		end
-
+    @subscription = Subscription.new
+    @subscription.screen = @screen
+    @subscription.field = @field
+    @subscription.feed_id = params[:feed_id]
+    @subscription.weight = 3   #default weight to 3 (neutral)
+    auth!
+    @errno = !@subscription.save
 
     respond_to do |format|
-			@errnos.each_with_index do |errno, i|
-				if errno
-					format.html { render :action => "new" }
-					format.xml  { render :xml => @subscriptions[i].errors, :status => :unprocessable_entity }
-				end
-			end
-			format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t(:subscriptions_created)) }
-			format.xml  { render :xml => @subscriptions, :status => :created, :location => @subscriptions }
-		end
-	end
+      if @errno
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @subscription.errors, :status => :unprocessable_entity }
+      end
+      
+      format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t(:subscriptions_created)) }
+      format.js { }
+      format.xml  { render :xml => @subscriptions, :status => :created, :location => @subscriptions }
+    end
+  end
+
+ #  # POST /screen/:screen_id/subscriptions
+ #  # POST /screen/:screen_id/subscriptions.xml
+ #  def create
+ #    @feed_ids = Array.new
+	# 	@weights = Array.new
+	# 	@errnos = Array.new
+	# 	@subscriptions = Array.new
+    
+	# 	if params.has_key?("subscription_feed")
+ #      @feed_ids = params[:subscription_feed].values
+ #    end
+	# 	if params.has_key?("subscription_weight")
+	# 		@weights = params[:subscription_weight].values
+	# 	end
+
+	# 	@feed_ids.each_with_index do |feed_id, i|
+	# 		@subscriptions[i] = Subscription.new
+	# 		@subscriptions[i].screen = @screen
+	# 		@subscriptions[i].field = @field
+	# 		@subscriptions[i].feed_id = feed_id
+	# 		@subscriptions[i].weight = @weights[i]
+	# 		auth!
+	# 		@errnos[i] = !@subscriptions[i].save
+	# 	end
+
+
+ #    respond_to do |format|
+	# 		@errnos.each_with_index do |errno, i|
+	# 			if errno
+	# 				format.html { render :action => "new" }
+	# 				format.xml  { render :xml => @subscriptions[i].errors, :status => :unprocessable_entity }
+	# 			end
+	# 		end
+	# 		format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t(:subscriptions_created)) }
+	# 		format.xml  { render :xml => @subscriptions, :status => :created, :location => @subscriptions }
+	# 	end
+	# end
 
   # PUT /screen/:screen_id/subscriptions/1
   # PUT /screen/:screen_id/subscriptions/1.xml

@@ -5,9 +5,9 @@ class Subscription < ActiveRecord::Base
     :"very frequent" => 5,
     # A frequent chance of content showing up.
     :frequent => 4,
-    # Neither a frequent, nor a infrequence chance of
+    # Neither a frequent, nor an infrequent chance of
     # content showing up.
-    :netural => 3,
+    :neutral => 3,
     # An infrequent chance of content showing up.
     :infrequent => 2,
     # A very infrequent chance of content showing up.

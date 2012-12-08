@@ -1,23 +1,42 @@
-<h1><%= @this_field.name %></h1>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Frequency</th>
-    <th>Actions</th>
-  </tr>
+<div class="row-fluid">
+  <div class="span2 collapse-right">
+    <ul class="nav nav-tabs nav-stacked nav-drawer-left">
+      <li class="nav-header">Graphics</li>
+    </ul>
+  </div>
+  <div class="span10">
+    <section class="viewblock">
+      <header class="viewblock-header">
+        <h1 class="default-padding">
+          Manage Subscriptions for Field <%= @this_field.name %>
+        </h1>
+      </header> 
+      <div class="viewblock-cont">
 
-  <% @this_field.subscriptions.where(:screen_id => @screen.id).each do |subscription| %>
-    <tr>
-      <td><%= subscription.feed.name %></td>
-      <td><%= subscription.weight_name %></td>
-      <td>
-				<%= link_to "Edit", edit_screen_field_subscription_path(@screen,@this_field,subscription), :class => "btn success" %>
-				<%= link_to "Remove", screen_field_subscription_path(@screen,@this_field,subscription), :method => :delete, :class => "btn danger" %>
-			</td>
-    </tr>
-  <% end %>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>Frequency</th>
+            <th>Actions</th>
+          </tr>
 
-</table>
+          <% @this_field.subscriptions.where(:screen_id => @screen.id).each do |subscription| %>
+            <tr>
+              <td><%= subscription.feed.name %></td>
+              <td><%= subscription.weight_name %></td>
+              <td>
+                <%= link_to "Edit", edit_screen_field_subscription_path(@screen,@this_field,subscription), :class => "btn success" %>
+                <%= link_to "Remove", screen_field_subscription_path(@screen,@this_field,subscription), :method => :delete, :class => "btn danger" %>
+              </td>
+            </tr>
+          <% end %>
 
-<% feeds = Feed.subscribable(@screen, @this_field) %>
-<%= render :partial => 'manage', :locals => {:screen => @screen, :field => @this_field, :subscription => Subscription.new, :feeds => feeds} unless feeds.empty? %>
+        </table>
+
+        <% feeds = Feed.subscribable(@screen, @this_field) %>
+        <%= render :partial => 'manage', :locals => {:screen => @screen, :field => @this_field, :subscription => Subscription.new, :feeds => feeds} unless feeds.empty? %>
+
+      </div>
+    </section>
+  </div>
+</div>

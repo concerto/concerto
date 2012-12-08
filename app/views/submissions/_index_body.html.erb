@@ -1,6 +1,8 @@
 <div class="subnav clearfix">
   <div class="pull-left" style="padding: 3px 0px; width:100px">
-    <%= link_to "Jump to Feed...", "#", :title => "Click on a feed to jump", :class => "btn small info dropdown-toggle dropdown-control dd-jumpto", :rel => "#jump_to" %>
+    <%= link_to "#", :title => "Click on a feed to jump", :class => "btn small info dropdown-toggle dropdown-control dd-jumpto", :rel => "#jump_to" do %>
+      <i class="icon-bolt"></i> Jump to Feed...
+    <% end %>
 
     <div id="jump_to" style="display: none;">
       <% feeds = dfs_tree(Feed.roots) %>
@@ -37,7 +39,93 @@
 
 </div>
 
+<div>
+  <ul class="new-grid">
+    <li>
+      <%= link_to "#" do %>
+        <span class="content">
+          <p>Eat burgers at Bob's Big Boy tonight at 6 pm.</p>
+        </span>
+        <span class="info">
+          <p>Bob's Ticker Notice</p>
+        </span>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to "#" do %>
+        <span class="content">
+          <p>Eat burgers at Bob's Big Boy tonight at 6 pm.</p>
+        </span>
+        <span class="info">
+          <p>Bob's Ticker Notice</p>
+        </span>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to "#" do %>
+        <span class="content">
+          <p>Eat burgers at Bob's Big Boy tonight at 6 pm.</p>
+        </span>
+        <span class="info">
+          <p>Bob's Ticker Notice</p>
+        </span>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to "#" do %>
+        <span class="content">
+          <p>Eat burgers at Bob's Big Boy tonight at 6 pm.</p>
+        </span>
+        <span class="info">
+          <p>Bob's Ticker Notice</p>
+        </span>
+      <% end %>
+    </li>
+  </ul>
 
+  <ul class="new-grid">
+    <li class="visual">
+      <%= link_to "#" do %>
+        <span class="content">
+          <%= image_tag("ph/7001.jpg", :alt => "") %>
+        </span>
+        <span class="info">
+          <p>Bob's Ticker Notice</p>
+        </span>
+      <% end %>
+    </li>
+    <li class="visual">
+      <%= link_to "#" do %>
+        <span class="content">
+          <%= image_tag("ph/7001.jpg", :alt => "") %>
+        </span>
+        <span class="info">
+          <p>Bob's Ticker Notice</p>
+        </span>
+      <% end %>
+    </li>
+    <li class="visual">
+      <%= link_to "#" do %>
+        <span class="content">
+          <%= image_tag("ph/7001.jpg", :alt => "") %>
+        </span>
+        <span class="info">
+          <p>Bob's Ticker Notice</p>
+        </span>
+      <% end %>
+    </li>
+    <li class="visual">
+      <%= link_to "#" do %>
+        <span class="content">
+          <%= image_tag("ph/7001.jpg", :alt => "") %>
+        </span>
+        <span class="info">
+          <p>Bob's Ticker Notice</p>
+        </span>
+      <% end %>
+    </li>
+  </ul>
+</div>
 
 <% if @can_moderate_feed and @pending_submissions.count > 0 %>
 <!-- note that we do not show an alert banner when there are no pending contents; we just hide it altogether -->

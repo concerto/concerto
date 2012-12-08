@@ -13,3 +13,29 @@
   <%= f.submit "Submit", :class => "btn primary" %>
   <%= link_to 'Destroy', [screen, subscription], :data => { :confirm => 'Are you sure?'}, :method => :delete unless subscription.new_record?%>
 <% end %>
+
+<br />
+<br />
+
+<%= link_to "#", :title => "Search and Find a Feed to Add", :class => "btn small info dropdown-toggle dropdown-control dd-addSub", :rel => "#addSub" do %>
+  <i class="icon-add"></i> Add a New Feed...
+<% end %>
+
+<div id="addSub" style="display: none;">
+  <% feeds = dfs_tree(Feed.roots) %>
+  <% if feeds.empty? %>
+    <p><%= t(:no_feeds) %></p>
+  <% else %>
+
+  <input type="search" class="feed_filter" placeholder="Type here to filter"/>
+  <ul class="filterable">
+    <% feeds.each_with_index do |feed, i| %>
+    <li data-filter="<%= feed.name %>">
+      <%= link_to new_screen_field_subscription_path(@screen, @field, :feed_id => feed.id), :class => "link-hl" do %>
+        <%= ("&nbsp;"*feed.depth).html_safe %> <%= feed.name %> <span class="badge"><%= feed.approved_contents.count %></span>
+      <% end %>
+    </li>
+    <% end %>
+  </ul>
+  <% end %>
+</div>
