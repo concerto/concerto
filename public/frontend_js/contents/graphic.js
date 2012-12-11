@@ -1,6 +1,7 @@
 goog.provide('concerto.frontend.Content.Graphic');
 
 goog.require('concerto.frontend.Content');
+goog.require('concerto.frontend.ContentTypeRegistry');
 goog.require('goog.Uri');
 goog.require('goog.dom');
 goog.require('goog.events');
@@ -56,6 +57,10 @@ concerto.frontend.Content.Graphic = function(data) {
   this.loader_.addImage('graphic', image_url.toString());
 };
 goog.inherits(concerto.frontend.Content.Graphic, concerto.frontend.Content);
+
+// Register the content type.
+concerto.frontend.ContentTypeRegistry['Graphic'] =
+    concerto.frontend.Content.Graphic;
 
 
 /**

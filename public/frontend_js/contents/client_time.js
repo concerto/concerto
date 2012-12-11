@@ -1,6 +1,7 @@
 goog.provide('concerto.frontend.Content.ClientTime');
 
 goog.require('concerto.frontend.Content');
+goog.require('concerto.frontend.ContentTypeRegistry');
 goog.require('goog.date.DateTime');
 goog.require('goog.dom');
 goog.require('goog.i18n.DateTimeFormat');
@@ -24,6 +25,10 @@ concerto.frontend.Content.ClientTime = function(data) {
   this.timezone = data['timezone'];
 };
 goog.inherits(concerto.frontend.Content.ClientTime, concerto.frontend.Content);
+
+// Register the content type.
+concerto.frontend.ContentTypeRegistry['Time'] =
+    concerto.frontend.Content.ClientTime;
 
 
 /**

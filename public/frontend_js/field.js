@@ -1,8 +1,7 @@
 goog.provide('concerto.frontend.Field');
 
-goog.require('concerto.frontend.Content.ClientTime');
-goog.require('concerto.frontend.Content.Graphic');
-goog.require('concerto.frontend.Content.Ticker');
+goog.require('concerto.frontend.ContentTypeRegistry');
+goog.require('concerto.frontend.ContentTypes');
 goog.require('concerto.frontend.Transition.Fade');
 goog.require('goog.array');
 goog.require('goog.debug.Logger');
@@ -147,11 +146,6 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
 
         var xhr = e.target;
 
-        var contents = {
-          'Graphic': concerto.frontend.Content.Graphic,
-          'Ticker': concerto.frontend.Content.Ticker
-        };
-
         var contents_data = xhr.getResponseJson();
         goog.array.forEach(contents_data, goog.bind(function(content_data) {
           // Slip in some data about the field.  Content might want to know the
@@ -159,8 +153,9 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
           content_data.field = {
             'size': this.position.getSize()
           };
-          if (content_data['type'] in contents) {
-            var content = new contents[content_data['type']](content_data);
+          if (content_data['type'] in concerto.frontend.ContentTypeRegistry) {
+            var content = new concerto.frontend.ContentTypeRegistry[
+                    content_data['type']](content_data);
             this.next_contents_.enqueue(content);
 
             // When the content is loaded, we show it in the field,
