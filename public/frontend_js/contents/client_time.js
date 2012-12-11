@@ -27,7 +27,7 @@ concerto.frontend.Content.ClientTime = function(data) {
 goog.inherits(concerto.frontend.Content.ClientTime, concerto.frontend.Content);
 
 // Register the content type.
-concerto.frontend.ContentTypeRegistry['Time'] =
+concerto.frontend.ContentTypeRegistry['TimeDisplay'] =
     concerto.frontend.Content.ClientTime;
 
 
