@@ -8,10 +8,10 @@
 					<%= check_box_tag "subscription_feed[#{i}]", feed.id, false %>
       		<%= "-" * feed.depth %> <%= feed.name %>
   				
-          <div class="clearfix duration">
+          <div class="clearfix frequency">
             <div class="input">
               <div class="leftseconds"><%= Subscription::WEIGHTS[0] %></div>
-              <%= range_field :subscription_weight, i, { :min => 1, :max => Subscription::WEIGHTS.size, :class => "duration_range" } %>
+              <%= range_field :subscription_weight, i, { :min => 1, :max => Subscription::WEIGHTS.size, :step => 1, :class => "frequency_range" } %>
               <div class="rightseconds"><%= Subscription::WEIGHTS[-1] %></div>
             </div>
           </div>

@@ -25,6 +25,30 @@ function addSubscriptionsUi(){
     });
   });
 
+  $("form .frequency").each(function() {
+    var frequency_elem = $(this).find(".frequency_range");
+    $(frequency_elem).rangeinput();
+
+    var range_elem = $(this).find(":range");
+    var handle_elem = $(this).find(".handle");
+    
+    var api = $(range_elem).data("rangeinput");
+    console.log(api);
+    var seconds = api.getValue();
+    seconds = seconds+"s";
+    $(handle_elem).html(seconds);
+    $(range_elem).bind({onSlide:function () {
+      seconds = api.getValue();
+      seconds = seconds+"s";
+      $(handle_elem).html(seconds);
+    }});
+    $(range_elem).change(function() {
+      seconds = api.getValue();
+      seconds = seconds+"s";
+      $(handle_elem).html(seconds);
+    });
+  });
+
 }
 
 function initSubscriptions() {
