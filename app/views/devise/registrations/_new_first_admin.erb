@@ -37,9 +37,23 @@
           </div>
         </div>
       </fieldset>
+      
+      <p>Concerto sends error reports back to the Concerto developers for troubleshooting and development purposes. The reports may 
+         contain some information (content titles, IP addresses) specific to your installation, but an effort will be made to automatically
+         filter out any identifying information from the error reports. <b>To disable remote error reporting, uncheck the box below</b></p>
+      <%= fields_for @concerto_config do |c| %>
+        <fieldset>
+          <div class="clearfix">
+            <%= c.label :send_errors %>
+            <div class="input">
+              <%= check_box 'concerto_config[send_errors]', 'value', {}, 'true', 'false' %>
+            </div>
+          </div>
+        </fieldset>
+      <% end %>
 
       <div class="submit_bar actions">
-        <%= f.submit "Submit", :class => "btn primary" "Register Account" %>
+        <%= f.submit "Register Account", :class => "btn primary" "Register Account" %>
       </div>
 
     <% end %>

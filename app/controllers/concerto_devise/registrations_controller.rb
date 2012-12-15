@@ -6,8 +6,16 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
     authorize! :create, User
   end
 
+  # GET /resource/sign_up
+  def new
+    resource = build_resource({})
+    @concerto_config = ConcertoConfig.new
+    respond_with resource
+  end
+
   def create
     build_resource
+    ConcertoConfig.set("send_errors", params[:concerto_config][:send_errors][:value])
     #If there are no users, the first one created will be an admin
     if User.all.empty?
       first_user_setup = true
