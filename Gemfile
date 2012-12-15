@@ -46,6 +46,8 @@ gem 'devise'
 gem 'cancan'
 
 gem 'jquery-tools'
+# for some reason this doesn't appear to work (results in error), but this version is necessary to make the onSlide functionality work for the jquery tools slider:
+#, :git => 'https://github.com/wtg/jquerytools.git'
 
 gem 'json'
 

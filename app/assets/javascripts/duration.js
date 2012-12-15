@@ -1,24 +1,34 @@
 function addDurationUi() {
-  $(".duration_range").rangeinput();
-  var api = $(":range").data("rangeinput");
-  seconds = api.getValue();
-  seconds = seconds+"s";
-  $(".handle").html(seconds);
-  $(":range").bind({onSlide:function () {
+
+  $("form .duration").each(function() {
+    var duration_elem = $(this).find(".duration_range");
+    
+    $(duration_elem).rangeinput().hide();
+    var range_elem = $(this).find(":range");
+    var handle_elem = $(this).find(".handle");
+    var api = $(range_elem).data("rangeinput");
+
     seconds = api.getValue();
     seconds = seconds+"s";
-    $(".handle").html(seconds);
-  }});
-  $(":range").change(function() {
-    seconds = api.getValue();
-    seconds = seconds+"s";
-    $(".handle").html(seconds);
+    $(handle_elem).html(seconds);
+
+    $(range_elem).change(function() {
+      seconds = api.getValue();
+      seconds = seconds+"s";
+      $(handle_elem).html(seconds);
+    });
+    $(range_elem).bind('onSlide', function() {
+      seconds = api.getValue();
+      seconds = seconds+"s";
+      $(handle_elem).html(seconds);
+    });
+    
   });
-  $(".duration_range").hide();
+  
 }
 
 function initDuration(){
-  if($('.duration').length > 0){
+  if($('form .duration').length > 0){
     addDurationUi();
   }
 }
