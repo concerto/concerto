@@ -7,7 +7,15 @@
       	<li data-filter="<%= feed.name %>">
 					<%= check_box_tag "subscription_feed[#{i}]", feed.id, false %>
       		<%= "-" * feed.depth %> <%= feed.name %>
-  				<%= select "subscription_weight", i , Subscription::WEIGHTS, :selected => 3 %>
+  				
+          <div class="clearfix duration">
+            <div class="input">
+              <div class="leftseconds"><%= Subscription::WEIGHTS[0] %></div>
+              <%= range_field :subscription_weight, i, { :min => 1, :max => Subscription::WEIGHTS.size, :class => "duration_range" } %>
+              <div class="rightseconds"><%= Subscription::WEIGHTS[-1] %></div>
+            </div>
+          </div>
+
 				</li>
 		<%end%>
   <%= f.submit "Submit", :class => "btn primary" %>
