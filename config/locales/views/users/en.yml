@@ -25,7 +25,7 @@ en:
   helpers:
     label:
       user:
-        first_name: 'Name (First, Last)'
+        first_name: 'First Name'
         email: 'Email'
         locale: 'Locale'
         is_admin: 'Admin Status'
