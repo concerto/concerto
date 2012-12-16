@@ -58,7 +58,6 @@
           <div class="default-padding">
             <% feeds = Feed.subscribable(@screen, @this_field) %>
             <%= render :partial => 'add_subscription' unless feeds.empty? %>
-            <%#= render :partial => 'manage', :locals => {:feeds => feeds, :screen => @screen, :field => @this_field, :subscription => Subscription.new} unless feeds.empty? %>
 
             <br /><hr /><br />
 
