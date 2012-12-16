@@ -107,6 +107,7 @@ class SubscriptionsController < ApplicationController
     #Create parallel arrays to store feeds and their weights for each subscription
     @feed_ids = Array.new
     @weights = Array.new
+    @errnos = Array.new
     
     #Populate instance var with all subscription id's submitted
     if params.has_key?("subscription_id")
@@ -123,33 +124,38 @@ class SubscriptionsController < ApplicationController
       @weights = params[:subscription_weight].values
     end
     
-    #Iterate through all subscription ID's the user has submitted (using an iterator i)
-    @subscription_ids.each_with_index do |subscription_id, i|
-      #Check for an existing subscription corresponding the the ID the user submitted
-      @this_subscription = Subscription.where(:id => subscription_id).first
-      if @this_subscription.nil?
-        #Create a shiny new object if we don't come up with it
-        @this_subscription = Subscription.new
-      end
-      
-      #Do some fun auth stuff before we actually do anything dangerous
-      auth!
-      
-      @errnos = Array.new
-      #Update attributes of all subscriptions present in form and populate array with any errors encountered
-      @errnos[i] = !@this_subscription.update_attributes(:screen => @screen, :field => @field, :feed_id => @feed_ids[i], :weight => @weights[i])
-      
-      #Get a hold of all the subscriptions ID's that aren't in the form and destroy them (as the user deleted them in the form)
-      @all_screen_subs = @screen.subscriptions.map(&:id)
-      #Use the subtraction operator to get the difference between the arrays
+    #Get a hold of all the subscriptions ID's that aren't in the form and destroy them (as the user deleted them in the form)
+    @all_screen_subs = @screen.subscriptions.map(&:id)
+    #Use the subtraction operator to get the difference between the arrays
+    unless @subscription_ids.nil?
       @subs_to_delete = @all_screen_subs - @subscription_ids.map! { |i| i.to_i }
 
       unless @subs_to_delete.empty?
         #Search and destroy removed subscriptions
         @subs_to_delete.each do |d|
-          s = Subscription.find(d)
-          s.destroy
+          Subscription.find(d).destroy
         end
+      end    
+    end
+    
+    if @feed_ids.nil?
+      #If the feed_ids array is empty, the user has removed all the subscriptions - NUKE IT FROM ORBIT
+      @screen.subscriptions.destroy_all
+    else
+      #Iterate through all feed ID's the user has submitted (using an iterator i)
+      @feed_ids.each_with_index do |feed_id, i|
+        #Check for an existing subscription corresponding the the ID the user submitted
+        @this_subscription = Subscription.where(:feed_id => feed_id).first
+        if @this_subscription.nil?
+          #Create a shiny new object if we don't come up with it
+          @this_subscription = Subscription.new
+        end
+        
+        #Do some fun auth stuff before we actually do anything dangerous
+        auth!
+        
+        #Update attributes of all subscriptions present in form and populate array with any errors encountered
+        @errnos[i] = !@this_subscription.update_attributes(:screen => @screen, :field => @field, :feed_id => @feed_ids[i], :weight => @weights[i])
       end
     end
 
