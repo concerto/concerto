@@ -56,11 +56,15 @@ function getNewSubscriptionIndex() {
   return Math.max.apply(Math, indexArray);
 }
 
+
 function initSubscriptions() {
   //if($('form .frequency').length > 0){
     addSubscriptionsUi();
   //}
+
+  $("#new_subscription").formSavior();
   //console.log($('.dd-addSub').length);
 }
+
 
 $(document).ready(initSubscriptions);

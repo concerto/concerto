@@ -30,7 +30,6 @@
 
                 <tr>
                   <td>
-                    <%= Time.now.strftime("%s").to_i / 10000 %>
                     <h3><b><%= subscription.feed.name %></b></h3>
                     <h4><%= subscription.feed.approved_contents.size %> approved content<%= subscription.feed.approved_contents.size == 1 ? '' : 's' %></h4>
                     <%= hidden_field_tag "subscription_id[#{i}]", subscription.id %>
