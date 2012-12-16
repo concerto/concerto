@@ -5,21 +5,27 @@
     <% end %>
 
     <div id="jump_to" style="display: none;">
-      <% feeds = dfs_tree(Feed.roots) %>
-      <% if feeds.empty? %>
-      <p><%= t(:no_feeds) %></p>
-      <% else %>
-      <input type="search" class="feed_filter" placeholder="Type here to filter"/>
-      <ul class="filterable">
-        <% feeds.each_with_index do |feed, i| %>
-        <li data-filter="<%= feed.name %>">
-          <%= link_to feed_submissions_path(feed), :class => "link-hl" do %>
-          <%= ("&nbsp;"*feed.depth).html_safe %> <%= feed.name %> <span class="badge"><%= feed.approved_contents.count %></span>
+      <div id="add-sub-content" class="tooltip-scrollY">
+        <% feeds = dfs_tree(Feed.roots) %>
+        <% if feeds.empty? %>
+          <p><%= t(:no_feeds) %></p>
+        <% else %>
+
+        <div class="filter-bar">
+          <input type="text" class="feed_filter" placeholder="Type here to filter"/>
+        </div>
+        <ul class="filterable selector-list">
+          <% feeds.each_with_index do |feed, i| %>
+          <li data-filter="<%= feed.name %>">
+            <%= link_to feed_submissions_path(feed), :class => "link-hl" do %>
+              <%= ("&nbsp;" * feed.depth).html_safe %>
+              <b><%= feed.name %></b>
+            <% end %>
+          </li>
           <% end %>
-        </li>
+        </ul>
         <% end %>
-      </ul>
-      <% end %>
+      </div>
     </div>
 
   </div>

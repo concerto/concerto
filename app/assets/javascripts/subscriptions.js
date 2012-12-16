@@ -1,8 +1,10 @@
 function addSubscriptionsUi(){
   
-  $('.dropdown-control').click(function(event) { event.preventDefault(); });
+  $('.dropdown-control.dd-add-sub').click(function(event) {
+    event.preventDefault();
+  });
 
-  $('.dropdown-control.dd-addSub').each(function() {
+  $('.dropdown-control.dd-add-sub').each(function() {
     $(this).qtip( {
       content: {
         text: $( $(this).attr('rel') ).html(),
@@ -16,13 +18,23 @@ function addSubscriptionsUi(){
         my: 'top left',
         viewport: $(window) // Keep the tooltip on-screen at all times
       },
+      events: {
+        // this is used to highlight the first input in the box when it is shown...
+        show: function() {
+          setTimeout(function() {
+            $('.ui-tooltip-content input:first').focus(); }, 50);
+            initFeedFilters();
+          }
+      },
       show: {
         event: 'click', // Show it on click...
         solo: true // ...and hide all other tooltips...
       },
       hide: 'unfocus',
-      style: 'ui-tooltip-light ui-tooltip-shadow ui-tooltip-rounded'
+      style: 'ui-tooltip-light ui-tooltip-shadow ui-tooltip-rounded ui-tooltip-minheight'
     });
+  }).click(function(e) {
+    e.preventDefault();
   });
 
   initializeFrequencySliders();
@@ -45,15 +57,6 @@ function initializeFrequencySliders() {
     $(handle_elem).html('&nbsp;');
     
   });
-}
-
-function getNewSubscriptionIndex() {
-  var indexArray = [];
-  $("form .frequency").each(function() {
-    indexArray.push( $(this).attr("data-sub-index") );
-  });
-
-  return Math.max.apply(Math, indexArray);
 }
 
 
