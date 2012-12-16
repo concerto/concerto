@@ -142,9 +142,15 @@ class SubscriptionsController < ApplicationController
       #Get a hold of all the subscriptions ID's that aren't in the form and destroy them (as the user deleted them in the form)
       @all_screen_subs = @screen.subscriptions.map(&:id)
       #Use the subtraction operator to get the difference between the arrays
-      @subs_to_delete = @all_screen_subs - @subscription_ids
-      #Map and destroy in one fell swoop
-      @subs_to_delete.map(&:destroy)
+      @subs_to_delete = @all_screen_subs - @subscription_ids.map! { |i| i.to_i }
+
+      unless @subs_to_delete.empty?
+        #Search and destroy removed subscriptions
+        @subs_to_delete.each do |d|
+          s = Subscription.find(d)
+          s.destroy
+        end
+      end
     end
 
     respond_to do |format|
