@@ -17,7 +17,7 @@
 
         <% if can? :update, @submission %>
           <p>
-            <%= link_to "#{ @submission.moderation_flag.nil? ? t(:moderate) : (:change_moderation)}", "#", :class => "btn small dropdown-control dd-moderate", :title => t(:moderate_title, :name => @submission.content.name), :rel => "#moderate_#{ @submission.id }" %>
+            <%= link_to "#{ @submission.moderation_flag.nil? ? t(:moderate) : t(:change_moderation)}", "#", :class => "btn small dropdown-control dd-moderate", :title => t(:moderate_title, :name => @submission.content.name), :rel => "#moderate_#{ @submission.id }" %>
           </p>
 
           <div id="moderate_<%= @submission.id %>" style="display:none;">
