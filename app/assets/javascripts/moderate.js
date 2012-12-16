@@ -34,6 +34,14 @@ function addModerateUi(){
           event: 'click', // Show it on click...
           solo: true // ...and hide all other tooltips...
         },
+        events: {
+          // this is used to highlight the first input in the box when it is shown...
+          show: function() {
+            setTimeout(function() {
+              $('.ui-tooltip-content input:first').focus(); }, 50);
+              initFeedFilters();
+            }
+        },
         hide: 'unfocus',
         style: 'ui-tooltip-light ui-tooltip-shadow ui-tooltip-rounded'
       });
