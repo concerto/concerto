@@ -155,7 +155,7 @@ class SubscriptionsController < ApplicationController
         auth!
         
         #Update attributes of all subscriptions present in form and populate array with any errors encountered
-        @errnos[i] = !@this_subscription.update_attributes(:screen => @screen, :field => @field, :feed_id => @feed_ids[i], :weight => @weights[i])
+        @errnos[i] = !@this_subscription.update_attributes(:screen => @screen, :field => @field, :feed_id => feed_id, :weight => @weights[i])
       end
     end
 
