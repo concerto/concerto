@@ -26,3 +26,30 @@
     <%= f.submit "Submit", :class => "btn primary" %>
   </div>
 <% end %>
+
+<!--
+  Temporarily moved here, since we'll need to use this approach for non-JS users
+<%#= form_for([screen, field, subscription]) do |f| %>
+  <%# feeds ||= Feed.subscribable(screen, subscription.field) # Use feeds if it is passed, otherwise build list %>
+  <%# feeds.push(subscription.feed) unless subscription.feed.nil? # Always show the selected value %>
+  <input type="search" class="feed_filter" id="filter_subscriptions" placeholder="Type here to filter"/>
+    <ul class="filterable">
+      <%# feeds.each_with_index do |feed, i| %>
+        <li data-filter="<%#= feed.name %>">
+          <%#= check_box_tag "subscription_feed[#{i}]", feed.id, false %>
+          <%#= "-" * feed.depth %> <%#= feed.name %>
+          
+          <div class="clearfix frequency">
+            <div class="input">
+              <div class="leftseconds"><%#= Subscription::WEIGHTS[0] %></div>
+              <%#= range_field :subscription_weight, i, { :min => 1, :max => Subscription::WEIGHTS.size, :step => 1, :class => "frequency_range thin" } %>
+              <div class="rightseconds"><%#= Subscription::WEIGHTS[-1] %></div>
+            </div>
+          </div>
+
+        </li>
+    <%#end%>
+  <%#= f.submit "Submit", :class => "btn primary" %>
+  <%#= link_to 'Destroy', [screen, subscription], :data => { :confirm => 'Are you sure?'}, :method => :delete unless subscription.new_record?%>
+<%# end %>
+-->
