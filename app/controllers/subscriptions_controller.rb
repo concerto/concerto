@@ -25,6 +25,7 @@ class SubscriptionsController < ApplicationController
   def manage
     @this_field = Field.find(params[:field_id])
     @fields = @screen.template.positions.collect{|p| p.field}
+    @subscription = Subscription.new
 
     respond_to do |format|
       format.html # manage.html.erb
@@ -46,24 +47,7 @@ class SubscriptionsController < ApplicationController
   # GET /screen/:screen_id/subscriptions/new
   # GET /screen/:screen_id/subscriptions/new.xml
   def new
-    @subscription = Subscription.new
-    @subscription.screen = @screen
-    @subscription.field = @field
-    @subscription.feed_id = params[:feed_id]
-    @subscription.weight = 3   #default weight to 3 (neutral)
-    auth!
-    @errno = !@subscription.save
 
-    if @errno
-      format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => "Subscription was not successfully added") } # new.htmll.erb
-      format.xml  { render :xml => @subscription.errors, :status => :unprocessable_entity }
-    end
-
-    respond_to do |format|
-      format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => "New subscription added") } # new.html.erb
-      format.js { render :layout => false }
-      format.xml  { render :xml => @subscription }
-    end
   end
 
   # GET /screen/:screen_id/subscriptions/1/edit
@@ -94,7 +78,9 @@ class SubscriptionsController < ApplicationController
 			@subscriptions[i].feed_id = feed_id
 			@subscriptions[i].weight = @weights[i]
 			auth!
+
 			@errnos[i] = !@subscriptions[i].save
+      raise "error: #{ @subscriptions}"
 		end
 
 
@@ -112,18 +98,40 @@ class SubscriptionsController < ApplicationController
 
   # PUT /screen/:screen_id/subscriptions/1
   # PUT /screen/:screen_id/subscriptions/1.xml
-  def update
-    @subscription = Subscription.find(params[:id])
-    auth!
+  def save_all
+    @feed_ids = Array.new
+    @weights = Array.new
+    @errnos = Array.new
+    
+    if params.has_key?("subscription_id")
+      @subscription_ids = params[:subscription_id].values
+    end
+    if params.has_key?("subscription_feed")
+      @feed_ids = params[:subscription_feed].values
+    end
+    if params.has_key?("subscription_weight")
+      @weights = params[:subscription_weight].values
+    end
+
+    @subscription_ids.each_with_index do |subscription_id, i|
+      @this_subscription = Subscription.find(subscription_id)
+      if !@this_subscription
+        @this_subscription = Subscription.new
+      end
+      auth!
+
+      @errnos[i] = !@this_subscription.update_attributes(:screen => @screen, :field => @field, :feed_id => @feed_ids[i], :weight => @weights[i])
+    end
 
     respond_to do |format|
-      if @subscription.update_attributes(params[:subscription])
-        format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t(:subscription_updated)) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @subscription.errors, :status => :unprocessable_entity }
+      @errnos.each_with_index do |errno, i|
+        if errno
+          format.html { render :action => "new", :notice => "Failed to update subscriptions for this screen position" }
+          format.xml  { render :xml => @subscriptions[i].errors, :status => :unprocessable_entity }
+        end
       end
+      format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t(:subscriptions_created)) }
+      format.xml  { render :xml => @subscriptions, :status => :created, :location => @subscriptions }
     end
   end
 

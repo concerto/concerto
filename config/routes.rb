@@ -48,7 +48,7 @@ Concerto::Application.routes.draw do
       resources :subscriptions do
         collection do
           get :manage
-          put :save
+          put :save_all
         end
       end
     end

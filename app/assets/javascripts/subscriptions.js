@@ -44,10 +44,10 @@ function addSubscriptionsUi(){
 }
 
 function initSubscriptions() {
-  if($('.dd-addSub').length > 0){
+  if($('form .frequency').length > 0){
     addSubscriptionsUi();
   }
-  console.log($('.dd-addSub').length);
+  //console.log($('.dd-addSub').length);
 }
 
 $(document).ready(initSubscriptions);

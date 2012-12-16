@@ -2,16 +2,16 @@ class Subscription < ActiveRecord::Base
   # Weight Levels
   WEIGHTS = {
     # A very frequent chance of content showing up.
-    :"very frequent" => 5,
+    :"very frequently" => 5,
     # A frequent chance of content showing up.
-    :frequent => 4,
+    :frequently => 4,
     # Neither a frequent, nor an infrequent chance of
     # content showing up.
-    :neutral => 3,
+    :"no preference" => 3,
     # An infrequent chance of content showing up.
-    :infrequent => 2,
+    :rarely => 2,
     # A very infrequent chance of content showing up.
-    :"very infrequent" => 1,
+    :"very rarely" => 1,
   }
   # Associations
   belongs_to :feed
