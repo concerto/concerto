@@ -13,25 +13,51 @@
       </header> 
       <div class="viewblock-cont">
 
-        <table>
-          <tr>
-            <th>Name</th>
-            <th>Frequency</th>
-            <th>Actions</th>
-          </tr>
-
-          <% @this_field.subscriptions.where(:screen_id => @screen.id).each do |subscription| %>
+        <%= form_for([@screen, @this_field, @subscription], :url => save_all_screen_field_subscriptions_path(@screen, @this_field), :method => :put) do |f| %>
+        
+          <table>
             <tr>
-              <td><%= subscription.feed.name %></td>
-              <td><%= subscription.weight_name %></td>
+              <th>Name</th>
+              <th>Frequency</th>
+              <th>Actions</th>
+            </tr>
+
+            <% @this_field.subscriptions.where(:screen_id => @screen.id).each_with_index do |subscription, i| %>
+
+              <tr>
+                <td>
+                  <h3>
+                    <%= subscription.feed.name %>
+                  </h3>
+                  <%= hidden_field_tag "subscription_id[#{i}]", subscription.id %>
+                  <%= hidden_field_tag "subscription_feed[#{i}]", subscription.feed.id %>
+                </td>
+                <td>
+                  <div class="clearfix frequency">
+                    <div class="leftseconds" style="width: 50px;">Rarely shown</div>
+                    <%= range_field :subscription_weight, i, { :value => subscription.weight, :min => 1, :max => Subscription::WEIGHTS.size, :step => 1, :class => "frequency_range thin" } %>
+                    <div class="rightseconds" style="width: 50px;">Frequently shown</div>
+                  </div>
+
+                  
+                </td>
+                <td>
+                  <%#= link_to "Edit", edit_screen_field_subscription_path(@screen,@this_field,subscription), :class => "btn success" %>
+                  <%= link_to "Remove", screen_field_subscription_path(@screen,@this_field,subscription), :method => :delete, :class => "btn danger" %>
+                </td>
+              </tr>
+
+            <% end %>
+
+            <tr>
               <td>
-                <%= link_to "Edit", edit_screen_field_subscription_path(@screen,@this_field,subscription), :class => "btn success" %>
-                <%= link_to "Remove", screen_field_subscription_path(@screen,@this_field,subscription), :method => :delete, :class => "btn danger" %>
+                <%= f.submit "Submit", :class => "btn primary" %>
               </td>
             </tr>
-          <% end %>
 
-        </table>
+          </table>
+
+        <% end %>
 
         <% feeds = Feed.subscribable(@screen, @this_field) %>
         <%= render :partial => 'manage', :locals => {:screen => @screen, :field => @this_field, :subscription => Subscription.new, :feeds => feeds} unless feeds.empty? %>

@@ -11,7 +11,7 @@
           <div class="clearfix frequency">
             <div class="input">
               <div class="leftseconds"><%= Subscription::WEIGHTS[0] %></div>
-              <%= range_field :subscription_weight, i, { :min => 1, :max => Subscription::WEIGHTS.size, :step => 1, :class => "frequency_range" } %>
+              <%= range_field :subscription_weight, i, { :min => 1, :max => Subscription::WEIGHTS.size, :step => 1, :class => "frequency_range thin" } %>
               <div class="rightseconds"><%= Subscription::WEIGHTS[-1] %></div>
             </div>
           </div>
