@@ -45,9 +45,8 @@ gem 'attachable', '>= 0.0.5'
 gem 'devise'
 gem 'cancan'
 
-gem 'jquery-tools'
-# for some reason this doesn't appear to work (results in error), but this version is necessary to make the onSlide functionality work for the jquery tools slider:
-#, :git => 'https://github.com/wtg/jquerytools.git'
+# TEMPORARY WORKAROUND: the fork on github/wtg includes a fix for rangeinput:
+gem 'jquery-tools', :git => 'git://github.com/wtg/jquery-tools.git'
 
 gem 'json'
 
