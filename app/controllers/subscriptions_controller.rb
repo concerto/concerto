@@ -104,46 +104,48 @@ class SubscriptionsController < ApplicationController
   # PUT /screen/:screen_id/subscriptions/1
   # PUT /screen/:screen_id/subscriptions/1.xml
   def save_all
+    #Create parallel arrays to store feeds and their weights for each subscription
     @feed_ids = Array.new
     @weights = Array.new
-    @errnos = Array.new
     
+    #Populate instance var with all subscription id's submitted
     if params.has_key?("subscription_id")
       @subscription_ids = params[:subscription_id].values
     end
+    
+    #Correspondingly populate the feed_ids array with the value of subscription 
     if params.has_key?("subscription_feed")
       @feed_ids = params[:subscription_feed].values
     end
+    
+    #Have the weights of those subsciptions in yet annother corresponding array
     if params.has_key?("subscription_weight")
       @weights = params[:subscription_weight].values
     end
-
+    
+    #Iterate through all subscription ID's the user has submitted (using an iterator i)
     @subscription_ids.each_with_index do |subscription_id, i|
-      #@this_subscription = Subscription.where(:id => subscription_id)
-      #if @this_subscription.empty?
-      #  @this_subscription = Subscription.new
-      #end
-      #@this_subscription = Subscription.find(subscription_id)
+      #Check for an existing subscription corresponding the the ID the user submitted
       @this_subscription = Subscription.where(:id => subscription_id).first
       if @this_subscription.nil?
+        #Create a shiny new object if we don't come up with it
         @this_subscription = Subscription.new
       end
+      
+      #Do some fun auth stuff before we actually do anything dangerous
       auth!
-
+      
+      @errnos = Array.new
+      #Update attributes of all subscriptions present in form and populate array with any errors encountered
       @errnos[i] = !@this_subscription.update_attributes(:screen => @screen, :field => @field, :feed_id => @feed_ids[i], :weight => @weights[i])
+      
+      #Get a hold of all the subscriptions ID's that aren't in the form and destroy them (as the user deleted them in the form)
+      @all_screen_subs = @screen.subscriptions.map(&:id)
+      #Use the subtraction operator to get the difference between the arrays
+      @subs_to_delete = @all_screen_subs - @subscription_ids
+      #Map and destroy in one fell swoop
+      @subs_to_delete.map(&:destroy)
     end
-
-    # @subscription_ids.each_with_index do |subscription_id, i|
-    #   @this_subscription = Subscription.where(:id => subscription_id)
-    #   if @this_subscription.empty?
-    #     @this_subscription = Subscription.new
-    #   end
-    #   #raise "i: #{@feed_ids[i]}"
-    #   #raise "this_subscription: #{@this_subscription.to_yaml}"
-    #   auth!
-
-    #   @errnos[i] = !@this_subscription.update_attributes(:screen => @screen, :field => @field, :feed_id => @feed_ids[i], :weight => @weights[i])
-    # end
 
     respond_to do |format|
       @errnos.each_with_index do |errno, i|
