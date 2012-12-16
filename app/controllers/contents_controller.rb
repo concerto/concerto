@@ -78,9 +78,13 @@ class ContentsController < ApplicationController
       if @content.save
         # Copy over the duration to each submission instance
         @feed_ids.each do |feed_id|
-          @content.submissions << Submission.new({:feed_id => feed_id, :duration => @content.duration})
-          #If you are the moderator,
-          #then we might auto approve the submission here
+          @feed = Feed.find(feed_id)
+          #If a user can moderate the feed in question or is an admin - the content is automatically approved with their imprimatur
+          if can?(:update, @feed) || user.is_admin?
+            @content.submissions << Submission.new({:feed_id => feed_id, :duration => @content.duration, :moderation_flag => true, :moderator_id => current_user.id})
+          else
+            @content.submissions << Submission.new({:feed_id => feed_id, :duration => @content.duration})
+          end
         end
         @content.save #This second save adds the submissions
         format.html { redirect_to(@content, :notice => t(:content_created)) }
