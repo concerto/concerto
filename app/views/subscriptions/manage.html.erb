@@ -1,11 +1,14 @@
 <div class="row-fluid">
   <div class="span2 collapse-right">
     <ul class="nav nav-tabs nav-stacked nav-drawer-left">
-      <% @fields.each do |f| %>
-        <li class="nav-header">
-          <%= link_to f.kind.name, manage_screen_field_subscriptions_path(@screen, f) %>
-          <%= link_to image_tag(preview_template_path(@screen.template, :width => 200, :height => 112, :format => :png), :border => 0), manage_screen_field_subscriptions_path(@screen, f) %>         
-          <%= f.id %>
+      <li class="nav-header"><%= t(:switch_to_screen_position) %>:</li>
+      <% @fields.each do |field| %>
+        <li<% if field.id == @this_field.id %> class="active"<% end %>>
+          <%= link_to manage_screen_field_subscriptions_path(@screen, field) do %>
+            <%= field.kind.name %>
+            <br />
+            <%= image_tag(preview_template_path(@screen.template, :height => 60, :format => :png), :border => 0) %>
+          <% end %>
         </li>
       <% end %>
     </ul>
@@ -14,7 +17,7 @@
     <section class="viewblock">
       <header class="viewblock-header">
         <h1 class="default-padding">
-          Manage Subscriptions for Field <%= @this_field.name %>
+          Manage Subscriptions for <%= @this_field.name %> Field
         </h1>
       </header> 
       <div class="viewblock-cont">
