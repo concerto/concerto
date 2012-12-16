@@ -21,52 +21,49 @@
 
         <%= form_for([@screen, @this_field, @subscription], :url => save_all_screen_field_subscriptions_path(@screen, @this_field), :method => :put) do |f| %>
         
-          <table>
-            <tr>
-              <th>Name</th>
-              <th>Frequency</th>
-              <th>Actions</th>
-            </tr>
+          <%= hidden_field_tag "new-subscription-index", @this_field.subscriptions.where(:screen_id => @screen.id).size %>
 
-            <% @this_field.subscriptions.where(:screen_id => @screen.id).each_with_index do |subscription, i| %>
+          <table id="subscriptions-list">
 
-              <tr>
-                <td>
-                  <h3>
-                    <%= subscription.feed.name %>
-                  </h3>
-                  <%= hidden_field_tag "subscription_id[#{i}]", subscription.id %>
-                  <%= hidden_field_tag "subscription_feed[#{i}]", subscription.feed.id %>
-                </td>
-                <td>
-                  <div class="clearfix frequency">
-                    <div class="leftseconds" style="width: 50px;">Rarely shown</div>
-                    <%= range_field :subscription_weight, i, { :value => subscription.weight, :min => 1, :max => Subscription::WEIGHTS.size, :step => 1, :class => "frequency_range thin" } %>
-                    <div class="rightseconds" style="width: 50px;">Frequently shown</div>
-                  </div>
+            <tbody>
+              <% @this_field.subscriptions.where(:screen_id => @screen.id).each_with_index do |subscription, i| %>
 
-                  
-                </td>
-                <td>
-                  <%#= link_to "Edit", edit_screen_field_subscription_path(@screen,@this_field,subscription), :class => "btn success" %>
-                  <%= link_to "Remove", screen_field_subscription_path(@screen,@this_field,subscription), :method => :delete, :class => "btn danger" %>
-                </td>
-              </tr>
+                <tr>
+                  <td>
+                    <%= Time.now.strftime("%s").to_i / 10000 %>
+                    <h3><b><%= subscription.feed.name %></b></h3>
+                    <h4><%= subscription.feed.approved_contents.size %> approved content<%= subscription.feed.approved_contents.size == 1 ? '' : 's' %></h4>
+                    <%= hidden_field_tag "subscription_id[#{i}]", subscription.id %>
+                    <%= hidden_field_tag "subscription_feed[#{i}]", subscription.feed.id %>
+                  </td>
+                  <td>
+                    <div class="clearfix frequency" data-sub-index="<%= i %>">
+                      <div class="leftseconds" style="width: 50px;">Rarely shown</div>
+                      <%= range_field :subscription_weight, i, { :value => subscription.weight, :min => 1, :max => Subscription::WEIGHTS.size, :step => 1, :class => "frequency_range thin" } %>
+                      <div class="rightseconds" style="width: 50px;">Frequently shown</div>
+                    </div>
+                  </td>
+                  <td>
+                    <%= link_to "Remove", screen_field_subscription_path(@screen,@this_field,subscription), :method => :delete, :class => "btn danger" %>
+                  </td>
+                </tr>
 
-            <% end %>
-
-            <tr>
-              <td>
-                <%= f.submit "Submit", :class => "btn primary" %>
-              </td>
-            </tr>
+              <% end %>
+            </tbody>
 
           </table>
 
-        <% end %>
+          <div class="default-padding">
+            <% feeds = Feed.subscribable(@screen, @this_field) %>
+            <%= render :partial => 'add_subscription' unless feeds.empty? %>
+            <%#= render :partial => 'manage', :locals => {:feeds => feeds, :screen => @screen, :field => @this_field, :subscription => Subscription.new} unless feeds.empty? %>
 
-        <% feeds = Feed.subscribable(@screen, @this_field) %>
-        <%= render :partial => 'manage', :locals => {:screen => @screen, :field => @this_field, :subscription => Subscription.new, :feeds => feeds} unless feeds.empty? %>
+            <br /><hr /><br />
+
+            <%= f.submit "Save changes to subscriptions", :class => "btn primary" %>
+          </div>
+
+        <% end %>
 
       </div>
     </section>

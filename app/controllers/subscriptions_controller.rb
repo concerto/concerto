@@ -47,7 +47,12 @@ class SubscriptionsController < ApplicationController
   # GET /screen/:screen_id/subscriptions/new
   # GET /screen/:screen_id/subscriptions/new.xml
   def new
+    @feed = Feed.find(params[:feed_id])
 
+    respond_to do |format|
+      format.html # show.html.erb
+      format.js  { render :layout => false }
+    end
   end
 
   # GET /screen/:screen_id/subscriptions/1/edit
@@ -114,14 +119,31 @@ class SubscriptionsController < ApplicationController
     end
 
     @subscription_ids.each_with_index do |subscription_id, i|
-      @this_subscription = Subscription.find(subscription_id)
-      if !@this_subscription
+      #@this_subscription = Subscription.where(:id => subscription_id)
+      #if @this_subscription.empty?
+      #  @this_subscription = Subscription.new
+      #end
+      #@this_subscription = Subscription.find(subscription_id)
+      @this_subscription = Subscription.where(:id => subscription_id).first
+      if @this_subscription.nil?
         @this_subscription = Subscription.new
       end
       auth!
 
       @errnos[i] = !@this_subscription.update_attributes(:screen => @screen, :field => @field, :feed_id => @feed_ids[i], :weight => @weights[i])
     end
+
+    # @subscription_ids.each_with_index do |subscription_id, i|
+    #   @this_subscription = Subscription.where(:id => subscription_id)
+    #   if @this_subscription.empty?
+    #     @this_subscription = Subscription.new
+    #   end
+    #   #raise "i: #{@feed_ids[i]}"
+    #   #raise "this_subscription: #{@this_subscription.to_yaml}"
+    #   auth!
+
+    #   @errnos[i] = !@this_subscription.update_attributes(:screen => @screen, :field => @field, :feed_id => @feed_ids[i], :weight => @weights[i])
+    # end
 
     respond_to do |format|
       @errnos.each_with_index do |errno, i|

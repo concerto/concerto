@@ -25,6 +25,11 @@ function addSubscriptionsUi(){
     });
   });
 
+  initializeFrequencySliders();
+
+}
+
+function initializeFrequencySliders() {
   $("form .frequency").each(function() {
     var frequency_elem = $(this).find(".frequency_range");
     
@@ -40,13 +45,21 @@ function addSubscriptionsUi(){
     $(handle_elem).html('&nbsp;');
     
   });
+}
 
+function getNewSubscriptionIndex() {
+  var indexArray = [];
+  $("form .frequency").each(function() {
+    indexArray.push( $(this).attr("data-sub-index") );
+  });
+
+  return Math.max.apply(Math, indexArray);
 }
 
 function initSubscriptions() {
-  if($('form .frequency').length > 0){
+  //if($('form .frequency').length > 0){
     addSubscriptionsUi();
-  }
+  //}
   //console.log($('.dd-addSub').length);
 }
 

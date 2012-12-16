@@ -1,0 +1,5 @@
+var maxIndex = $("#new-subscription-index").val();
+console.log(maxIndex);
+$("#subscriptions-list").append("<%= escape_javascript(render :partial => 'subscriptions/new_subscription_tr', :locals => { :feed => @feed, :i => Time.now.strftime('%s').to_i }) %>");
+
+initializeFrequencySliders();

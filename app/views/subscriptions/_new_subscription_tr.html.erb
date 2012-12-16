@@ -1,0 +1,18 @@
+<tr>
+  <td>
+    <h3><b><%= feed.name %></b></h3>
+    <h4><%= feed.approved_contents.size %> approved content<%= feed.approved_contents.size == 1 ? '' : 's' %></h4>
+    <%= hidden_field_tag "subscription_id[#{i}]", "" %>
+    <%= hidden_field_tag "subscription_feed[#{i}]", feed.id %>
+  </td>
+  <td>
+    <div class="clearfix frequency" id="sub-freq-<%= i %>">
+      <div class="leftseconds" style="width: 50px;">Rarely shown</div>
+      <%= range_field :subscription_weight, i, { :min => 1, :max => Subscription::WEIGHTS.size, :step => 1, :class => "frequency_range thin" } %>
+      <div class="rightseconds" style="width: 50px;">Frequently shown</div>
+    </div>
+  </td>
+  <td>
+    <%= link_to "Remove", "#", :class => "btn danger btnRemove" %>
+  </td>
+</tr>
