@@ -138,7 +138,8 @@ class SubscriptionsController < ApplicationController
       end    
     end
     
-    if @feed_ids.nil?
+    #raise "feed_ids: #{@feed_ids}"
+    if @feed_ids.empty?
       #If the feed_ids array is empty, the user has removed all the subscriptions - NUKE IT FROM ORBIT
       @screen.subscriptions.destroy_all
     else

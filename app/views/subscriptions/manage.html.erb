@@ -20,7 +20,7 @@
           Manage Subscriptions for <%= @this_field.name %> Field
         </h1>
       </header> 
-      <div class="viewblock-cont">
+      <div class="viewblock-cont" style="min-height: 600px;">
 
         <%= form_for([@screen, @this_field, @subscription], :url => save_all_screen_field_subscriptions_path(@screen, @this_field), :method => :put) do |f| %>
         
@@ -33,8 +33,8 @@
 
                 <tr>
                   <td>
-                    <h3><b><%= subscription.feed.name %></b></h3>
-                    <h4><%= subscription.feed.approved_contents.size %> approved content<%= subscription.feed.approved_contents.size == 1 ? '' : 's' %></h4>
+                    <h2><%= subscription.feed.name %></h2>
+                    <h4 class="color-gray"><%= subscription.feed.approved_contents.size %> approved content<%= subscription.feed.approved_contents.size == 1 ? '' : 's' %></h4>
                     <%= hidden_field_tag "subscription_id[#{i}]", subscription.id %>
                     <%= hidden_field_tag "subscription_feed[#{i}]", subscription.feed.id %>
                   </td>
@@ -46,7 +46,9 @@
                     </div>
                   </td>
                   <td>
-                    <%= link_to "Remove", screen_field_subscription_path(@screen,@this_field,subscription), :method => :delete, :class => "btn btnRemoveSubscription" %>
+                    <%= link_to screen_field_subscription_path(@screen,@this_field,subscription), :method => :delete, :class => "btn btnRemoveSubscription" do %>
+                      <i class="ficon-remove"></i> Remove
+                    <% end %>
                   </td>
                 </tr>
 

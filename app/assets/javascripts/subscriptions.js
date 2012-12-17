@@ -39,6 +39,7 @@ function addSubscriptionsUi(){
 
   // bind click handler to all remove buttons, now and in the future, on subscription UI
   $("body").on("click", "a.btnRemoveSubscription", function(e) {
+    $(this).parents("tbody").append("<tr><td></td></tr>");
     $(this).parents("tr").remove();
     return false;
   });
