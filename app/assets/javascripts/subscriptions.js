@@ -37,6 +37,12 @@ function addSubscriptionsUi(){
     e.preventDefault();
   });
 
+  // bind click handler to all remove buttons, now and in the future, on subscription UI
+  $("body").on("click", "a.btnRemoveSubscription", function(e) {
+    $(this).parents("tr").remove();
+    return false;
+  });
+
   initializeFrequencySliders();
 
 }
