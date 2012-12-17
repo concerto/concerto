@@ -34,6 +34,8 @@ function addSubscriptionsUi(){
             initFeedListState(tooltip_content);
 
             $('.ui-tooltip-content input:first').focus(); }, 50);
+
+            
           }
       },
       show: {
