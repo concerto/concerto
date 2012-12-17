@@ -146,7 +146,7 @@ class SubscriptionsController < ApplicationController
       #Iterate through all feed ID's the user has submitted (using an iterator i)
       @feed_ids.each_with_index do |feed_id, i|
         #Check for an existing subscription corresponding the the ID the user submitted
-        @this_subscription = Subscription.where(:feed_id => feed_id).first
+        @this_subscription = Subscription.where(:field_id => @field.id, :feed_id => feed_id).first
         if @this_subscription.nil?
           #Create a shiny new object if we don't come up with it
           @this_subscription = Subscription.new

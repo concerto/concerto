@@ -68,12 +68,10 @@ function initializeFrequencySliders() {
 
 
 function initSubscriptions() {
-  //if($('form .frequency').length > 0){
+  if($('#new_subscription').length > 0){
     addSubscriptionsUi();
-  //}
-
-  $("#new_subscription").formSavior();
-  //console.log($('.dd-addSub').length);
+    $("#new_subscription").formSavior();
+  }
 }
 
 
