@@ -10,7 +10,7 @@ function addModerateUi(){
 
   $(document).on("click", ".moderate-select button.deny", function(event) {
     event.preventDefault();
-    $(".moderate-true").hide()
+    $(".moderate-true").hide();
     $(".moderate-false").show();
   });
 
