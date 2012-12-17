@@ -24,9 +24,9 @@
 
         <%= form_for([@screen, @this_field, @subscription], :url => save_all_screen_field_subscriptions_path(@screen, @this_field), :method => :put) do |f| %>
         
-          <div id="save-subscriptions-alert" style="display: none;" class="alert alert-block alert-removeborder alert-info">
-            <%= f.submit "Save changes to subscriptions", :class => "btn large primary pull-left", :style => "margin-right: 12px;" %>
-            <p><b>You have made changes to the subscriptions for this field.</b><br />Please click this button to commit your changes, or exit this page to cancel.</p>
+          <div id="save-subscriptions-alert" class="alert alert-block alert-removeborder alert-zero">
+            <%= f.submit "Save changes to subscriptions", :class => "btn large pull-left", :style => "margin-right: 12px;" %>
+            <p class="save-msg">Please make some changes below in order to save new subscriptions.<br />&nbsp;</p>
           </div>
           <br />
 

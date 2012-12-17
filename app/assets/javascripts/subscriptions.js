@@ -59,12 +59,22 @@ function addSubscriptionsUi(){
     showSaveSubsAlert();
   });
 
+  $("#save-subscriptions-alert").find("input").attr("disabled", true);
+
   initializeFrequencySliders();
 
 }
 
 function showSaveSubsAlert() {
-  $("#save-subscriptions-alert").slideDown("medium");
+  $("#save-subscriptions-alert")
+    .removeClass("alert-zero")
+    .addClass("alert-info")
+    .find("input")
+      .addClass("primary")
+      .attr("disabled", false)
+      .end()
+    .find(".save-msg")
+      .html("<b>You have made changes to the subscriptions for this field.</b><br />Please click this button to commit your changes, or exit this page to cancel.");
 }
 
 function initializeFrequencySliders() {
