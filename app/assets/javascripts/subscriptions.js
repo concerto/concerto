@@ -6,8 +6,8 @@ function addSubscriptionsUi(){
 
   $('.dropdown-control.dd-add-sub').each(function() {
     $(this).qtip( {
+      id: 'add-sub',
       content: {
-        text: $( $(this).attr('rel') ).html(),
         title: {
           text: $(this).attr('title'),
           button: true
@@ -20,10 +20,20 @@ function addSubscriptionsUi(){
       },
       events: {
         // this is used to highlight the first input in the box when it is shown...
-        show: function() {
+        show: function(event, api) {
           setTimeout(function() {
+            
+            // Update the content of the tooltip on each show
+            var target = $(event.originalEvent.target);
+            
+            if(target.length) {
+              api.set('content.text', $("#add-sub").html() );
+            }
+            
+            var tooltip_content = api.elements.content;
+            initFeedListState(tooltip_content);
+
             $('.ui-tooltip-content input:first').focus(); }, 50);
-            initFeedFilters();
           }
       },
       show: {
@@ -63,6 +73,30 @@ function initializeFrequencySliders() {
 
     $(handle_elem).html('&nbsp;');
     
+  });
+}
+
+function generateFeedIdArray() {
+  var feedIdArray = $("#new_subscription .marker-sub-feed").map(function(){
+    return $(this).val();
+  }).get();
+
+  return feedIdArray;
+}
+
+function initFeedListState(api_content) {
+  var feedIdArray = generateFeedIdArray();
+  $(api_content).find("a").parents("li").removeClass("checked");
+  
+  $.each(feedIdArray, function(i, feed_id) {
+    $(api_content).find("a[data-feed-id='"+feed_id+"']")
+      .parents("li").addClass("checked")
+      .end()
+      .contents().unwrap();
+  });
+
+  $(api_content).find(".feed_filter").each(function() {
+    $(this).listFilter();
   });
 }
 

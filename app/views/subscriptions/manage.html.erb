@@ -36,7 +36,7 @@
                     <h2><%= subscription.feed.name %></h2>
                     <h4 class="color-gray"><%= subscription.feed.approved_contents.size %> approved content<%= subscription.feed.approved_contents.size == 1 ? '' : 's' %></h4>
                     <%= hidden_field_tag "subscription_id[#{i}]", subscription.id %>
-                    <%= hidden_field_tag "subscription_feed[#{i}]", subscription.feed.id %>
+                    <%= hidden_field_tag "subscription_feed[#{i}]", subscription.feed.id, :class => "marker-sub-feed" %>
                   </td>
                   <td>
                     <div class="clearfix frequency" data-sub-index="<%= i %>">

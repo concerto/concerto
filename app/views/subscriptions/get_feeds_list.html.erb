@@ -1,0 +1,22 @@
+<div class="tooltip-scrollY">
+  <% feeds = dfs_tree(Feed.roots) %>
+  <% if feeds.empty? %>
+    <p><%= t(:no_feeds) %></p>
+  <% else %>
+
+  <div class="filter-bar">
+    <input type="text" class="feed_filter" placeholder="Type here to filter"/>
+  </div>
+  <ul class="filterable selector-list">
+    <% feeds.each_with_index do |feed, i| %>
+    <li data-filter="<%= feed.name %>">
+      <%= link_to new_screen_field_subscription_path(@screen, @field, :feed_id => feed.id), :remote => true, :class => "link-hl", "data-feed-id" => feed.id do %>
+        <%= ("&nbsp;" * feed.depth).html_safe %>
+        <i class="ficon-ok-sign"></i>
+        <b><%= feed.name %></b>
+      <% end %>
+    </li>
+    <% end %>
+  </ul>
+  <% end %>
+</div>

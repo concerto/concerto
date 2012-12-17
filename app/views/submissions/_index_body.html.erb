@@ -5,7 +5,7 @@
     <% end %>
 
     <div id="jump_to" style="display: none;">
-      <div id="add-sub-content" class="tooltip-scrollY">
+      <div class="tooltip-scrollY">
         <% feeds = dfs_tree(Feed.roots) %>
         <% if feeds.empty? %>
           <p><%= t(:no_feeds) %></p>
