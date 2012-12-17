@@ -141,7 +141,7 @@ class SubscriptionsController < ApplicationController
     #raise "feed_ids: #{@feed_ids}"
     if @feed_ids.empty?
       #If the feed_ids array is empty, the user has removed all the subscriptions - NUKE IT FROM ORBIT
-      @screen.subscriptions.destroy_all
+      @screen.subscriptions.where(:field_id => @field.id).destroy_all
     else
       #Iterate through all feed ID's the user has submitted (using an iterator i)
       @feed_ids.each_with_index do |feed_id, i|
