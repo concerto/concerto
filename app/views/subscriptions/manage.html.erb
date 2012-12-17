@@ -23,12 +23,6 @@
       <div class="viewblock-cont" style="min-height: 600px;">
 
         <%= form_for([@screen, @this_field, @subscription], :url => save_all_screen_field_subscriptions_path(@screen, @this_field), :method => :put) do |f| %>
-        
-          <div id="save-subscriptions-alert" class="alert alert-block alert-removeborder alert-zero">
-            <%= f.submit "Save changes to subscriptions", :class => "btn large pull-left", :style => "margin-right: 12px;" %>
-            <p class="save-msg">Please make some changes below in order to save new subscriptions.<br />&nbsp;</p>
-          </div>
-          <br />
 
           <%= hidden_field_tag "new-subscription-index", @this_field.subscriptions.where(:screen_id => @screen.id).size %>
 
@@ -66,6 +60,15 @@
           <div class="default-padding">
             <% feeds = Feed.subscribable(@screen, @this_field) %>
             <%= render :partial => 'add_subscription' unless feeds.empty? %>
+          </div>
+
+          <br />
+
+          <div id="save-subscriptions-alert" class="alert alert-block alert-removeborder alert-zero" style="text-align: right;">
+            <span class="save-msg" style="display: inline-block;">
+              Please make some changes below in order to save new subscriptions.<br />&nbsp;
+            </span>
+            <%= f.submit "Save changes to subscriptions", :class => "btn large pull-right", :style => "margin-left: 12px;" %>
           </div>
 
         <% end %>
