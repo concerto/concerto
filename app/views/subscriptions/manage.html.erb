@@ -24,6 +24,12 @@
 
         <%= form_for([@screen, @this_field, @subscription], :url => save_all_screen_field_subscriptions_path(@screen, @this_field), :method => :put) do |f| %>
         
+          <div id="save-subscriptions-alert" style="display: none;" class="alert alert-block alert-removeborder alert-info">
+            <%= f.submit "Save changes to subscriptions", :class => "btn large primary pull-left", :style => "margin-right: 12px;" %>
+            <p><b>You have made changes to the subscriptions for this field.</b><br />Please click this button to commit your changes, or exit this page to cancel.</p>
+          </div>
+          <br />
+
           <%= hidden_field_tag "new-subscription-index", @this_field.subscriptions.where(:screen_id => @screen.id).size %>
 
           <table id="subscriptions-list">
@@ -47,7 +53,7 @@
                   </td>
                   <td>
                     <%= link_to screen_field_subscription_path(@screen,@this_field,subscription), :method => :delete, :class => "btn btnRemoveSubscription" do %>
-                      <i class="ficon-remove"></i> Remove
+                      <i class="ficon-remove"></i> <%= t(:remove) %>
                     <% end %>
                   </td>
                 </tr>
@@ -60,10 +66,6 @@
           <div class="default-padding">
             <% feeds = Feed.subscribable(@screen, @this_field) %>
             <%= render :partial => 'add_subscription' unless feeds.empty? %>
-
-            <br /><hr /><br />
-
-            <%= f.submit "Save changes to subscriptions", :class => "btn large primary" %>
           </div>
 
         <% end %>

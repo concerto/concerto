@@ -51,11 +51,20 @@ function addSubscriptionsUi(){
   $("body").on("click", "a.btnRemoveSubscription", function(e) {
     $(this).parents("tbody").append("<tr><td></td></tr>");
     $(this).parents("tr").remove();
+    showSaveSubsAlert();
     return false;
+  });
+
+  $("body").on("click", "form .frequency_range").change(function(e) {
+    showSaveSubsAlert();
   });
 
   initializeFrequencySliders();
 
+}
+
+function showSaveSubsAlert() {
+  $("#save-subscriptions-alert").slideDown("medium");
 }
 
 function initializeFrequencySliders() {
