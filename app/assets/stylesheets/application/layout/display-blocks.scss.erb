@@ -12,18 +12,23 @@
 
 	.viewblock-header {
    	@include border-radius(8px 8px 0px 0px);
-    background: #FFF image-url('layout/viewblock/header_bg.png') bottom left repeat-x;
+    @include vertical-gradient( darken($grayLighter, 3%), darken($grayLight, 8%) );
+    //background: #FFF image-url('layout/viewblock/header_bg.png') bottom left repeat-x;
     display: block;
     padding: 0px;
     border: solid 1px #ababab;
    	border-bottom: 0px;
 
    	h1 {
-   		color: darken($gray, 10%);
+   		color: darken($gray, 20%);
    		font-size: 1.4em;
    		letter-spacing: 0.05em;
-   		text-shadow: 0 1px #eee;
+   		text-shadow: 0 1px $grayLighter;
 		}
+
+    a { 
+      color: #003366;
+    }
 
     .default-padding {
       padding: 8px 14px 5px 14px;

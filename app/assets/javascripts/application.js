@@ -55,7 +55,7 @@ $(document).ready(function () {
         ready: true
       },
       hide: 'mouseleave',
-      style: 'ui-tooltip-dark ui-tooltip-rounded'
+      style: 'ui-tooltip-dark ui-tooltip-rounded ui-tooltip-oneline'
     });
   });
 
