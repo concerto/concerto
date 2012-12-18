@@ -32,7 +32,6 @@
         <div class="default-padding">
           <h5>User Stats:</h5>
           <h1><%= User.all.size %> <i class="ficon-user"></i> <small style="font-size: 0.4em; padding-left: 16px;"><%= link_to "Manage Users", users_path, :style => "text-decoration: underline;" %></small></h1>
-          
         </div>
       </div>
     </div>
@@ -41,45 +40,63 @@
 
 </section>
     
-<section class="viewblock">
-  <header class="viewblock-header">
-    <h1 class="default-padding"><%= t(:admin_dashboard) %></h1>
-  </header>
+<div class="row-fluid">
+  <div class="span2 collapse-right">
+    <ul class="nav nav-tabs nav-stacked nav-drawer-left">
+      <li class="active">
+        <%= link_to dashboard_path do %>
+          <i class="ficon-cog"></i> Global Prefs
+        <% end %>
+      </li>
+      <li>
+        <%= link_to dashboard_path do %>
+          <i class="ficon-bolt"></i> Manage Plugins
+        <% end %>
+      </li>
+    </ul>
+  </div>
+  <div class="span10">
+    <section class="viewblock">
+      <header class="viewblock-header">
+        <h1 class="default-padding">
+          Edit Global Prefs
+        </h1>
+      </header> 
+      <div class="viewblock-cont" style="min-height: 600px;">
 
-  <div class="viewblock-cont">
+        <%= form_tag "/dashboard/update" do %>
 
-    <%= form_tag "/dashboard/update" do %>
-
-      <fieldset>
-        <legend><span><%= t(:admin) %></span></legend>
-
-        <% for c in @concerto_configs %>
-          <div class="clearfix">
-            <% if c.value_type == "string" || c.value_type == "integer" %>
-              <label><%= t(c.key.to_sym) %></label>
-              <div class="input">
-                <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym] %>
-              </div>
-            <% elsif c.value_type == "boolean" %>
-              <label></label>
-              <div class="input">
-								<%= hidden_field_tag "concerto_config[#{c.key}]", '0' %>
-                <% if ConcertoConfig[c.key.to_sym] == "true" %>
-                  <%= check_box_tag "concerto_config[#{c.key}]", true, :checked => true %>
-								<% else %>
-                  <%= check_box_tag "concerto_config[#{c.key}]", true %> 
+          <fieldset>
+            
+            <% for c in @concerto_configs %>
+              <div class="clearfix">
+                <% if c.value_type == "string" || c.value_type == "integer" %>
+                  <label><%= t(c.key.to_sym) %></label>
+                  <div class="input">
+                    <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym] %>
+                  </div>
+                <% elsif c.value_type == "boolean" %>
+                  <label></label>
+                  <div class="input">
+    								<%= hidden_field_tag "concerto_config[#{c.key}]", '0' %>
+                    <% if ConcertoConfig[c.key.to_sym] == "true" %>
+                      <%= check_box_tag "concerto_config[#{c.key}]", true, :checked => true %>
+    								<% else %>
+                      <%= check_box_tag "concerto_config[#{c.key}]", true %> 
+                    <% end %>
+                    <%= label "concerto_config[#{c.key}]", t(c.key.to_sym) %>
+                  </div>
                 <% end %>
-                <%= label "concerto_config[#{c.key}]", t(c.key.to_sym) %>
               </div>
             <% end %>
+          </fieldset>
+          
+          <div class="submit_bar actions">
+            <%= submit_tag t(:save_settings) %>
           </div>
         <% end %>
-      </fieldset>
-      
-      <div class="submit_bar actions">
-        <%= submit_tag t(:save_settings) %>
+
       </div>
-    <% end %>
-    
+    </section>
   </div>
-</section>
+</div>
