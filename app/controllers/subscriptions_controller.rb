@@ -23,10 +23,14 @@ class SubscriptionsController < ApplicationController
 
   # GET /screen/:screen_id/subscriptions/manage
   def manage
+    @subscription = Subscription.new 
+    #stub out the screen ID so that CanCan can find an owner to auth
+    @subscription.screen_id = @screen.id
+    auth! 
+    
     @this_field = Field.find(params[:field_id])
     @fields = @screen.template.positions.collect{|p| p.field}
-    @subscription = Subscription.new
-
+    
     respond_to do |format|
       format.html # manage.html.erb
     end
@@ -124,6 +128,9 @@ class SubscriptionsController < ApplicationController
       @weights = params[:subscription_weight].values
     end
     
+    #Do some fun auth stuff before we actually do anything dangerous
+    auth!   
+    
     #Get a hold of all the subscriptions ID's that aren't in the form and destroy them (as the user deleted them in the form)
     @all_screen_subs = @screen.subscriptions.where(:field_id => @field.id).map(&:id)
     #Use the subtraction operator to get the difference between the arrays
@@ -151,9 +158,6 @@ class SubscriptionsController < ApplicationController
           #Create a shiny new object if we don't come up with it
           @this_subscription = Subscription.new
         end
-        
-        #Do some fun auth stuff before we actually do anything dangerous
-        auth!
         
         #Update attributes of all subscriptions present in form and populate array with any errors encountered
         @errnos[i] = !@this_subscription.update_attributes(:screen => @screen, :field => @field, :feed_id => feed_id, :weight => @weights[i])
