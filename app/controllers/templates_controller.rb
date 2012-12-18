@@ -129,12 +129,17 @@ class TemplatesController < ApplicationController
       if !params[:hide_text].nil?
         @hide_text = [true, "true", 1, "1"].include?(params[:hide_text])
       end
+
+      @only_fields = []
+      if !params[:fields].nil?
+        @only_fields = params[:fields].split(',').map{|i| i.to_i}
+      end
       
       jpg =  Mime::Type.lookup_by_extension(:jpg)  #JPG is getting defined elsewhere.
       if([jpg, Mime::PNG, Mime::HTML].include?(request.format))
         image = nil
         benchmark("Template#preview_image") do
-          image = @template.preview_image(@hide_fields, @hide_text)
+          image = @template.preview_image(@hide_fields, @hide_text, @only_fields)
         end
 
         # Resize the image if needed.

@@ -69,7 +69,8 @@ class Template < ActiveRecord::Base
 
   # Generate a preview image of a template.
   # Hide the fields all together, or just hide the field text.
-  def preview_image(hide_fields=false, hide_text=false)
+  # Or just show certain fields
+  def preview_image(hide_fields=false, hide_text=false, only_fields=[])
     template_media = self.media.original.first
     image = Magick::Image.from_blob(template_media.file_contents).first
 
@@ -79,6 +80,11 @@ class Template < ActiveRecord::Base
     if !hide_fields && !self.positions.empty?
       dw = Magick::Draw.new
       self.positions.each do |position|
+        Rails.logger.debug(only_fields)
+        Rails.logger.debug(position.field_id)
+        if !only_fields.empty? && !only_fields.include?(position.field_id)
+          next
+        end
         #Draw the rectangle
         dw.fill("grey")
         dw.stroke_opacity(0)
