@@ -13,12 +13,11 @@
       Concerto Version: Current (<%=Concerto::VERSION::STRING%>)
     <% end %>
     <%= form_tag "/dashboard/update" do %>
-      <% @configs = ConcertoConfig.all %>
 
       <fieldset>
         <legend><span><%= t(:admin) %></span></legend>
 
-        <% for c in @configs %>
+        <% for c in @concerto_configs %>
           <div class="clearfix">
             <% if c.value_type == "string" || c.value_type == "integer" %>
               <label><%= t(c.key.to_sym) %></label>

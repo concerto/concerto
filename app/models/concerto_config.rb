@@ -60,7 +60,7 @@ class ConcertoConfig < ActiveRecord::Base
     #first_or_create check whether first returns nil or not; if it does return nil, create is called
     ConcertoConfig.where(:key => config_key).first_or_create(:key => config_key, :value => config_value,
       :value_default => options[:value_default], :value_type => options[:value_type], :name => options[:name], :group => options[:group],
-      :description => options[:description], :plugin_config => options[:plugin_config], :plugin_id => options[:plugin_id])
+      :description => options[:description], :plugin_config => options[:plugin_config], :plugin_id => options[:plugin_id], :hidden => options[:hidden])
   end  
     
 end

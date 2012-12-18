@@ -14,7 +14,7 @@ class DashboardController < ApplicationController
       end
     end
       
-    @concerto_configs = ConcertoConfig.all
+    @concerto_configs = ConcertoConfig.where("hidden IS NULL")
   end
 
   #get a hash of concerto_config keys and values and update them using the ConcertoConfig setter
