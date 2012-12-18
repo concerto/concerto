@@ -7,11 +7,11 @@
     
     <div class="row-fluid">
       <div class="span4">
-        <div class="default-padding<% if latest_version() > Concerto::VERSION::STRING %> alert alert-block alert-removeborder<% end %>">
+        <div class="default-padding<% if @latest_version > Concerto::VERSION::STRING %> alert alert-block alert-removeborder<% end %>">
           <h5>Concerto Version:</h5>
           <h1><%= Concerto::VERSION::STRING %></h1>
-          <% if latest_version() > Concerto::VERSION::STRING %>
-            <i class="ficon-exclamation-sign" style="font-size: 1.4em;"></i> <b>A new version (<%= latest_version() %>) is now available.</b>
+          <% if @latest_version > Concerto::VERSION::STRING %>
+            <i class="ficon-exclamation-sign" style="font-size: 1.4em;"></i> <b>A new version (<%= @latest_version %>) is now available.</b>
           <% end %>
         </div>
       </div>
