@@ -1,6 +1,6 @@
 <%= devise_error_messages! %>
 <section class="viewblock no">
-  <% if ConcertoConfig[:setup_complete] == "false" && User.all.empty? %>
+  <% if @show_first_admin_page %>
     <%= render :partial => 'new_first_admin' %>
   <% else %>
     <%= render :partial => 'new_user' %>

@@ -19,6 +19,10 @@
     border: solid 1px #ababab;
    	border-bottom: 0px;
 
+    &.light-version {
+      @include vertical-gradient( $grayLightest, $grayLighter );
+    }
+
    	h1 {
    		color: darken($gray, 20%);
    		font-size: 1.4em;

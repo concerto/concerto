@@ -8,9 +8,18 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   def new
+    @show_first_admin_page = ConcertoConfig[:setup_complete] == "false"
+
     resource = build_resource({})
     @concerto_config = ConcertoConfig.new
-    respond_with resource
+    
+    if @show_first_admin_page
+      respond_with resource do |format|
+        format.html { render :layout => "no-topmenu" }
+      end
+    else 
+      respond_with resource
+    end
   end
 
   def create
