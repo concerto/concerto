@@ -239,6 +239,17 @@ ul.selector-list {
 
   li {
     border-bottom: solid 1px $grayLightest;
+    
+
+    i { display: none; }
+
+    &.checked {
+      background: lighten($green, 50%);
+      padding: 8px 10px;
+
+      i { display: inline; }
+    }
+
     a {
       padding: 8px 10px;
       display: block;
