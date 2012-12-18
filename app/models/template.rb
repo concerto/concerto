@@ -86,7 +86,7 @@ class Template < ActiveRecord::Base
           next
         end
         #Draw the rectangle
-        dw.fill("grey")
+        dw.fill("black")
         dw.stroke_opacity(0)
         dw.fill_opacity(0.6)
         dw.rectangle(width*position.left, height*position.top,
@@ -94,11 +94,11 @@ class Template < ActiveRecord::Base
 
         if !hide_text
           #Layer the field name
-          dw.stroke("black")
-          dw.fill("black")
+          dw.stroke("white")
+          dw.fill("white")
           dw.text_anchor(Magick::MiddleAnchor)
           dw.opacity(1)
-          font_size = [width, height].min / 10
+          font_size = [width, height].min / 8
           dw.pointsize = font_size
           dw.text((width*(position.left + position.right)/2),
                   (height*(position.top + position.bottom)/2+0.4*font_size),

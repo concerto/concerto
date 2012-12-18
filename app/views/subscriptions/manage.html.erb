@@ -7,7 +7,7 @@
           <%= link_to manage_screen_field_subscriptions_path(@screen, field) do %>
             <%= field.kind.name %>
             <br />
-            <%= image_tag(preview_template_path(@screen.template, :height => 60, :format => :png, :fields => field), :border => 0) %>
+            <%= image_tag(preview_template_path(@screen.template, :height => 80, :format => :png, :fields => field), :border => 0) %>
           <% end %>
         </li>
       <% end %>
