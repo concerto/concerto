@@ -24,7 +24,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
 
   def create
     build_resource
-    ConcertoConfig.set("send_errors", params[:concerto_config][:send_errors][:value])
+    ConcertoConfig.set("send_errors", params[:concerto_config][:send_errors])
     #If there are no users, the first one created will be an admin
     if User.all.empty?
       first_user_setup = true
@@ -51,7 +51,8 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
       end
     else
       clean_up_passwords resource
-      respond_with resource
+      redirect_to new_user_registration_path
+      #respond_with resource
     end
   end
 
