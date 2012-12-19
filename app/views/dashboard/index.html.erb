@@ -1,3 +1,4 @@
+
 <section class="viewblock">
   <header class="viewblock-header">
     <h1 class="default-padding"><%= t(:admin_dashboard) %></h1>
@@ -13,6 +14,7 @@
           <% if @latest_version > Concerto::VERSION::STRING %>
             <i class="ficon-exclamation-sign" style="font-size: 1.4em;"></i> <b>A new version (<%= @latest_version %>) is now available.</b>
           <% end %>
+          <%= link_to t(:backup), :action => "run_backup" %>
         </div>
       </div>
       <div class="span4">

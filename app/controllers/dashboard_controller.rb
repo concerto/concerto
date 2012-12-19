@@ -2,7 +2,7 @@ class DashboardController < ApplicationController
   #includes for system status functions
   require 'sys/proctable'
   include Sys  
-  
+      require 'rake'
   # GET /dashboard
   def index
     authorize! :read, ConcertoConfig
@@ -31,6 +31,10 @@ class DashboardController < ApplicationController
       ConcertoConfig.set(k,v) #only set this if the config already exists
     end
     render :action => :index
+  end
+  
+  def run_backup
+    #Add rake site:backup to the Delayed Jobs queue for processing
   end
   
   def latest_version

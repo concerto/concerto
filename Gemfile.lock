@@ -92,6 +92,8 @@ GEM
       activesupport (= 3.2.9)
       bundler (~> 1.0)
       railties (= 3.2.9)
+    rails-backup-migrate (0.0.12)
+      activerecord (>= 2.3)
     railties (3.2.9)
       actionpack (= 3.2.9)
       activesupport (= 3.2.9)
@@ -149,6 +151,7 @@ DEPENDENCIES
   json
   mysql2
   rails (= 3.2.9)
+  rails-backup-migrate
   rmagick (>= 2.12.2)
   sass-rails (~> 3.2.3)
   simplecov
