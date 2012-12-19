@@ -45,9 +45,6 @@ gem 'attachable', '>= 0.0.5'
 gem 'devise'
 gem 'cancan'
 
-# TEMPORARY WORKAROUND: the fork on github/wtg includes a fix for rangeinput:
-gem 'jquery-tools', :git => 'git://github.com/wtg/jquery-tools.git'
-
 gem 'json'
 
 # Process jobs in the background
