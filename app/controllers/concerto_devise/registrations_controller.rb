@@ -24,7 +24,8 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
 
   def create
     build_resource
-    ConcertoConfig.set("send_errors", params[:concerto_config][:send_errors])
+    ConcertoConfig.set("send_errors", params[:send_errors])
+
     #If there are no users, the first one created will be an admin
     if User.all.empty?
       first_user_setup = true
