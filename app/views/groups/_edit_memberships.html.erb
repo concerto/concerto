@@ -91,6 +91,16 @@
   </div>
 <% end %>
 
+<% users_not_in_group = @group.users_not_in_group %>
+<% unless users_not_in_group.empty? %>
+  <h3 class="default-padding">Add Users to Group</h3>
+  <%= form_for([@group, Membership.new]) do |f| %>
+    <%= f.label :name %><br />
+    <%= f.collection_select(:user_id, users_not_in_group, :id, :name) %>
+    <%= hidden_field_tag 'autoconfirm' %>
+    <%= f.submit "Add Member", :class => "btn primary" %>
+  <% end %>
+<% end %>
 
 <h3 class="default-padding">Group Leaders</h3>
 

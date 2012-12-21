@@ -24,6 +24,16 @@ class Group < ActiveRecord::Base
     end
   end
 
+  #Deliver a list of only users not currently in the group
+  #Used for adding new users to a group and avoiding duplication
+  def users_not_in_group
+    users = User.all
+    self.memberships.each do |m|
+      users.delete_if {|key,value| key.id == m.user_id}
+    end
+    return users
+  end
+
   # Test if a user is part of this group
   def has_member?(user)
     users.include?(user)

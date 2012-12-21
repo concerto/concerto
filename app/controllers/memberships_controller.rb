@@ -18,7 +18,7 @@ class MembershipsController < ApplicationController
 
     respond_to do |format|
       if @membership.save
-        format.html { redirect_to(@group, :notice => t(:membership_created)) }
+        format.html { redirect_to({:controller => :groups, :action => :edit, :id => @group}, :notice => t(:membership_created)) }
         format.xml  { render :xml => @group, :status => :created, :location => @group }
       else
         format.html { redirect_to @group }
@@ -34,7 +34,7 @@ class MembershipsController < ApplicationController
 
     respond_to do |format|
       if (@membership.can_resign_leadership?) && (@membership.update_attributes(params[:membership]))
-        format.html { redirect_to(@group, :notice => t(:membership_updated)) }
+        format.html { redirect_to({:controller => :groups, :action => :edit, :id => @group}, :notice => t(:membership_updated)) }
         format.xml  { head :ok }
       else
         format.html { redirect_to @group , :notice => @group.errors}
@@ -50,7 +50,7 @@ class MembershipsController < ApplicationController
 
     respond_to do |format|
 			if (@membership.can_resign_leadership?) && (@membership.destroy)
-				format.html { redirect_to(@group, :notice => t(:member_removed)) }
+				format.html { redirect_to({:controller => :groups, :action => :edit, :id => @group}, :notice => t(:member_removed)) }
 				format.xml  { head :ok }
 			else
 				format.html { redirect_to @group, :notice => t(:membership_denied) }
@@ -64,9 +64,9 @@ class MembershipsController < ApplicationController
     membership = Membership.find(params[:id])
     respond_to do |format|
       if membership.approve()
-        format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_approved)) }
+        format.html { redirect_to(edit_group_path(params[:group_id]), :notice => t(:membership_approved)) }
       else
-        format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_denied)) }
+        format.html { redirect_to(edit_group_path(params[:group_id]), :notice => t(:membership_denied)) }
       end
     end
   end
