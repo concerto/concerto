@@ -16,7 +16,7 @@ ConcertoPlugin.initialize_plugins
 Rails.application.routes.append do
   if ConcertoPlugin.apps_to_mount.is_a? Array 
     ConcertoPlugin.apps_to_mount.each do |app|
-      mount app[:rack_app] => "/" + app[:url_string]
+      mount app[:rack_app] => "/" + app[:url_string], :as => app[:url_string]
       # e.g. mount ConcertoHardware::Engine => "/hardware"
     end
   end
