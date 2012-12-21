@@ -64,7 +64,7 @@ concerto.frontend.Screen.prototype.logger_ = goog.debug.Logger.getLogger(
  * @return {string} Screen setup URL.
  */
 concerto.frontend.Screen.prototype.configUrl = function() {
-  var url = ['/frontend/', this.id, '/setup.json'];
+  var url = ['../../frontend/', this.id, '/setup.json'];
   return url.join('');
 };
 
