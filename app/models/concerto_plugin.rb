@@ -12,54 +12,10 @@
 class ConcertoPlugin < ActiveRecord::Base
   attr_accessible :enabled, :gem_name, :gem_version, :installed, :module_name, :name, :source, :source_url
 
-  mattr_accessor :apps_to_mount
+  scope :enabled, where(:enabled => true)
 
-  # Method to be called exactly once at app boot
-  # Will iterate over all the enabled plugins, and attempt to
-  # run their initialization code. This is a hook for plugins
-  # to take care of their proper installation, set up configs,
-  # set up hooks, and request routing if needed.
-  def self.initialize_plugins
-    method_name = "initialize_plugin"
-    logger.info "ConcertoPlugin: Initializing Plugins"
-    ConcertoPlugin.all.each do |plugin|
-      if plugin.enabled?
-        if Object.const_defined?(plugin.module_name) 
-          mod = plugin.module_name.constantize
-          if mod.respond_to? method_name
-            mod.method(method_name).call(plugin)
-          else 
-            logger.warn(
-              "ConcertoPlugin: Plugin #{plugin.name} does not respond to " +
-              method_name + ", skipping initialization.")
-          end
-        else
-          logger.warn(
-            "ConcertoPlugin: Plugin #{plugin.name} module (" +
-            plugin.module_name + ") not found. Skipping initialization.")
-        end
-      end
-    end
-  end
-
-  # Used by the plugin initializer to register its own information
-  # Options hash takes the same arguments as ConcertoConfig.make_concerto_config
-  # except for the plugin_id field.
-  def make_plugin_config(config_key, config_value, options={})
-    options[:plugin_id] = id
-    ConcertoConfig.make_concerto_config(config_key, config_value, options)
-  end
-
-  # Requests that the plugin be mounted as a rack app at
-  #   Rails.root/url_string
-  # The plugin is responsible for setting its own engine name.
-  # Should only be called by the plugin during initialization.
-  def request_route(url_string, rack_app)
-    self.apps_to_mount = self.apps_to_mount || []
-    self.apps_to_mount << {:url_string => url_string, :rack_app => rack_app}
-  end
-  
-  def self.get_engine(plugin_name)
+  private
+  def get_engine_from_module(plugin_name)
     if Object.const_defined?(plugin_name) 
       mod = plugin_name.constantize
       if mod.const_defined?("Engine")
@@ -71,58 +27,116 @@ class ConcertoPlugin < ActiveRecord::Base
         return false
       end
     else
-      logger.warn("ConcertoPlugin: #{plugin+name} module (" +
+      logger.warn("ConcertoPlugin: #{plugin_name} module (" +
                     plugin_name + ") not found.")
       return false
     end
   end
 
+  public
+
+  # Looks for the Engine in the module associated with this plugin.
+  def engine
+    @engine ||= get_engine_from_module(module_name)
+  end
+
+  # Returns the instance of PluginInfo provided by the engine
+  # Note for simplicity we're not caching this info.
+  def plugin_info
+    info = nil
+    if engine.respond_to? "plugin_info"
+      info = engine.plugin_info(Concerto::PluginInfo)
+    end
+    info
+  end
+
+  # Method to be called exactly once at app boot.
+  # Will iterate over all the enabled plugins, and run any
+  # initialization code they have specified.
+  def self.initialize_plugins
+    method_name = "initialize_plugin"
+    ConcertoPlugin.enabled.each do |plugin|
+      if info = plugin.plugin_info
+        if info.init_block.is_a? Proc
+          info.init_block.call
+        end
+      end
+    end
+  end
+
+  # Uses ConcertoConfig to initialize any configuration objects
+  # requested by enabled plugins. Called by initializer at boot.
+  def self.make_plugin_configs
+    configs = []
+    ConcertoPlugin.enabled.each do |plugin|
+      if info = plugin.plugin_info
+        (info.configs || []).each do |c|
+          c[:options][:plugin_id] = plugin.id
+          ConcertoConfig.make_concerto_config(
+            c[:config_key], c[:config_value], c[:options]
+          )
+        end
+      end
+    end
+  end
+
+  # Finds all the requested engine mount points and associated
+  # info, and returns the corressponding array of hashes.
+  def self.get_mount_points
+    mount_points = []
+    ConcertoPlugin.enabled.each do |plugin|
+      if info = plugin.plugin_info
+        if info.mount_points.is_a? Array
+          mount_points += info.mount_points
+        end
+      end
+    end
+    mount_points
+  end
+
+  # Given the view's rendering context, renders all the requests for
+  # the given hook from enabled plugins, and returns the resulting
+  # string.
   # This is very inefficient, especially for multiple hooks in one view.
   # However, the API is implementation-agnostic.
   def self.render_view_hook(context, hook_name)
     result = ""
     controller_name = context.controller.controller_name
-    ConcertoPlugin.all.each do |plugin|
-      if plugin.enabled?
-        if engine = get_engine(plugin.module_name)
-          engine.get_view_hooks(controller_name, hook_name).each do |hook|
-            if hook[:type] == :partial
-              result += context.render :partial => hook[:hook]
-            elsif hook[:type] == :text
-              result += hook[:hook]
-            elsif hook[:type] == :proc
-              result += context.instance_eval(&hook[:hook])
-            end
-            result += "\n"
+    ConcertoPlugin.enabled.each do |plugin|
+      if info = plugin.plugin_info
+        info.get_view_hooks(controller_name, hook_name).each do |hook|
+          if hook[:type] == :partial
+            result += context.render :partial => hook[:hook]
+          elsif hook[:type] == :text
+            result += hook[:hook]
+          elsif hook[:type] == :proc
+            result += context.instance_eval(&hook[:hook])
           end
-        else
-          logger.warn("ConcertoPlugin: Failed to check view hooks for "+
-                      "#{plugin.name}")
+          result += "\n"
         end
+      else
+        logger.warn("ConcertoPlugin: Failed to check view hooks for "+
+                    "#{plugin.name}")
       end
     end
     return result.html_safe
   end
 
+  # Installs all the code requested by enabled plugins for hooks
+  # in the given controller as callbacks which can then be triggered
+  # by code in the controller.
   def self.install_callbacks(controller)
     method_name = "get_controller_hooks"
     callbacks = []
-    ConcertoPlugin.all.each do |plugin|
-      if plugin.enabled?
-        if engine = get_engine(plugin.module_name)
-          if engine.respond_to? method_name
-            controller_callbacks = engine.instance.method(method_name).call(controller.name)
-            if controller_callbacks.is_a? Array
-              callbacks += controller_callbacks
-            end
-          else 
-            logger.warn("ConcertoPlugin: #{plugin.name} does not respond to "+
-                        method_name + ", skipping callbacks.")
-          end
-        else
-          logger.warn("ConcertoPlugin: failed to check #{plugin.name}" +
-                      " for callbacks")
+    ConcertoPlugin.enabled.each do |plugin|
+      if info = plugin.plugin_info
+        controller_callbacks = info.get_controller_hooks(controller.name)
+        if controller_callbacks.is_a? Array
+          callbacks += controller_callbacks
         end
+      else
+        logger.warn("ConcertoPlugin: failed to check #{plugin.name}" +
+                    " for callbacks")
       end
     end
     logger.info "ConcertoPlugin: Callbacks for this controller listed below:"
