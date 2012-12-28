@@ -5,6 +5,30 @@ class ApplicationController < ActionController::Base
   before_filter :set_version
   before_filter :compute_pending_moderation
 
+  # Current Ability for CanCan authorization
+  # This matches CanCan's code but is here to be explicit,
+  # since we modify @current_ability below for plugins.
+  def current_ability
+    @current_ability ||= ::Ability.new(current_user)
+  end
+
+  # Allow views in the main application to do authorization
+  # checks for plugins. This will be needed for plugin code
+  # that is included via UI hooks.
+  def use_plugin_ability(mod, &block)
+    @main_app_ability = @current_ability
+    @plugin_abilities = @plugin_abilities || {}
+    mod_sym = mod.name.to_sym
+    if @plugin_abilities[mod_sym].nil?
+      ability = (mod.name+"::Ability").constantize
+      @current_ability = 
+      @plugin_abilities[mod_sym] ||= ability.new(current_user)
+    end
+    @current_ability = @plugin_abilities[mod_sym]
+    yield
+    @current_ability = @main_app_ability
+  end
+
   # Expose a instance variable counting the number of pending submissions
   # a user can moderate.  0 indicates no pending submissions.
   # @pending_submissions_count
@@ -43,7 +67,7 @@ class ApplicationController < ActionController::Base
   
   #Don't break for CanCan exceptions; send the user to the front page with a Flash error message
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :flash => { :notice => exception.message }
+    redirect_to main_app.root_url, :flash => { :notice => exception.message }
   end
 
   # Authenticate using the current action and instance variables.
