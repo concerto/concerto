@@ -13,20 +13,47 @@ class ApplicationController < ActionController::Base
   end
 
   # Allow views in the main application to do authorization
-  # checks for plugins. This will be needed for plugin code
-  # that is included via UI hooks.
+  # checks for plugins.
   def use_plugin_ability(mod, &block)
+    switch_to_plugin_ability(mod)
+    yield
+    switch_to_main_app_ability
+  end
+
+  # Store the current ability (if defined) and switch to the ability
+  # class for the specified plugin, if it has one.
+  # Always call switch_to_main_app_ability when done.
+  # Used by ConcertoPlugin for rendering hooks, and by use_plugin_ability
+  # block above.
+  def switch_to_plugin_ability(mod)
     @main_app_ability = @current_ability
     @plugin_abilities = @plugin_abilities || {}
     mod_sym = mod.name.to_sym
     if @plugin_abilities[mod_sym].nil?
-      ability = (mod.name+"::Ability").constantize
-      @current_ability = 
-      @plugin_abilities[mod_sym] ||= ability.new(current_user)
+      begin
+        ability = (mod.name+"::Ability").constantize
+      rescue
+        ability = nil
+      end
+      if ability.nil?
+        # Presumably this plugin doesn't define its own rules, no biggie
+        logger.warn "ConcertoPlugin: use_plugin_ability: "+
+          "No Ability found for "+mod.name
+      else
+        @plugin_abilities[mod_sym] ||= ability.new(current_user)
+        @current_ability = @plugin_abilities[mod_sym]
+      end
+    else
+      @current_ability = @plugin_abilities[mod_sym]
     end
-    @current_ability = @plugin_abilities[mod_sym]
-    yield
-    @current_ability = @main_app_ability
+  end
+
+  # Revert to the main app ability after using a plugin ability
+  # (if it was defined).
+  # Used by ConcertoPlugin for rendering hooks, and by use_plugin_ability
+  # block above.
+  def switch_to_main_app_ability
+    @current_ability = @main_app_ability # it is okay if this is nil
   end
 
   # Expose a instance variable counting the number of pending submissions

@@ -3,10 +3,10 @@
 #
 # It also includes the code that allows the rest of the application
 # to interface to individual plugins, including initialization tasks
-# as well as controller and view hooks.
+# and controller/view hooks.
 #
-# This code interfaces closely with lib/concerto/plugin_library.rb,
-# which can be included into engines to enable use of the Concerto
+# This code interfaces closely with lib/concerto/plugin_info.rb,
+# which gets instantiated in engines to enable use of the Concerto
 # Plugin interface.
 
 class ConcertoPlugin < ActiveRecord::Base
@@ -38,6 +38,11 @@ class ConcertoPlugin < ActiveRecord::Base
   # Looks for the Engine in the module associated with this plugin.
   def engine
     @engine ||= get_engine_from_module(module_name)
+  end
+
+  # Quick way to get the module constant
+  def mod
+    module_name.constantize
   end
 
   # Returns the instance of PluginInfo provided by the engine
@@ -105,6 +110,8 @@ class ConcertoPlugin < ActiveRecord::Base
     ConcertoPlugin.enabled.each do |plugin|
       if info = plugin.plugin_info
         info.get_view_hooks(controller_name, hook_name).each do |hook|
+          # Make the authorization rules from the plugin available
+          context.controller.switch_to_plugin_ability(plugin.mod)
           if hook[:type] == :partial
             result += context.render :partial => hook[:hook]
           elsif hook[:type] == :text
@@ -112,6 +119,8 @@ class ConcertoPlugin < ActiveRecord::Base
           elsif hook[:type] == :proc
             result += context.instance_eval(&hook[:hook])
           end
+          # Cleanup
+          context.controller.switch_to_main_app_ability
           result += "\n"
         end
       else
@@ -139,11 +148,8 @@ class ConcertoPlugin < ActiveRecord::Base
                     " for callbacks")
       end
     end
-    logger.info "ConcertoPlugin: Callbacks for this controller listed below:"
-    logger.info callbacks.to_yaml
     callbacks.each do |callback|
       controller.set_callback(callback[:name], callback[:filter_list], callback[:block])
     end
-    logger.info "Concerto_Plugin: Done with callbacks"
   end
 end
