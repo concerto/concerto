@@ -86,4 +86,9 @@ class Content < ActiveRecord::Base
     {:data => self.data}
   end
 
+  # A quick test to see if a content has any children
+  def has_children?
+    !self.children.empty?
+  end
+
 end

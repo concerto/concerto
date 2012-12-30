@@ -3,6 +3,8 @@ class Submission < ActiveRecord::Base
   belongs_to :feed
   belongs_to :moderator, :class_name => "User"
 
+  after_save :update_children_moderation_flag
+
   #Validations
   validates :feed, :presence => true, :associated => true
   validates :content, :presence => true, :associated => true
@@ -36,5 +38,19 @@ class Submission < ActiveRecord::Base
   # (moderation flag is nil)
   def is_pending?
     moderation_flag.nil?
+  end
+
+  # Cascade moderation to children submissions as well.
+  # Child content submitted to the same feed will recieve the same moderation
+  # as a parent content.
+  def update_children_moderation_flag
+    if self.changed.include?('moderation_flag') and self.content.has_children?
+      self.content.children.each do |child|
+        similiar_submissions = Submission.where(:content_id => child.id, :feed_id => self.feed_id)
+        similiar_submissions.each do |child_submission|
+          child_submission.update_attributes({:moderation_flag => self.moderation_flag, :moderator_id => self.moderator_id})
+        end
+      end
+    end
   end
 end
