@@ -46,7 +46,7 @@ class Submission < ActiveRecord::Base
   def update_children_moderation_flag
     if self.changed.include?('moderation_flag') and self.content.has_children?
       self.content.children.each do |child|
-        similiar_submissions = Submission.where(:content_id => child.id, :feed_id => self.feed_id)
+        similiar_submissions = Submission.where(:content_id => child.id, :feed_id => self.feed_id, :moderation_flag => self.moderation_flag_was)
         similiar_submissions.each do |child_submission|
           child_submission.update_attributes({:moderation_flag => self.moderation_flag, :moderator_id => self.moderator_id})
         end
