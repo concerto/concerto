@@ -9,7 +9,7 @@ class Group < ActiveRecord::Base
   # Scoped relation for members and pending members
   has_many :all_users, :through => :memberships, :source => :user, :conditions => ["memberships.level != ?", Membership::LEVELS[:denied]]
 
-  # Scoped relations for leaders
+  # Scoped relation for leaders
   has_many :leaders, :through => :memberships, :source => :user, :conditions => {"memberships.level" => Membership::LEVELS[:leader]}  
 
   # Validations
@@ -24,8 +24,8 @@ class Group < ActiveRecord::Base
     end
   end
 
-  #Deliver a list of only users not currently in the group
-  #Used for adding new users to a group and avoiding duplication
+  # Deliver a list of only users not currently in the group
+  # Used for adding new users to a group and avoiding duplication
   def users_not_in_group
     users = User.all
     self.memberships.each do |m|

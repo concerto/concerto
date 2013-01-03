@@ -5,7 +5,7 @@ class Screen < ActiveRecord::Base
   has_many :positions, :through => :template
   has_many :fields, :through => :positions
 
-  #Validations
+  # Validations
   validates :name, :presence => true
   validates :template, :presence => true, :associated => true
   #These two validations are used to solve problems with the polymorphic 
@@ -23,7 +23,7 @@ class Screen < ActiveRecord::Base
   scope :online, where(:is_public => true)
   scope :offline, where(:is_public => false)
 
-  #types of entities that may "own" a screen
+  # types of entities that may "own" a screen
   SCREEN_OWNER_TYPES = ["User", "Group"]
   
   # Determine the screen's aspect ratio.  If it doesn't exist, calculate it

@@ -8,7 +8,7 @@ class Content < ActiveRecord::Base
   accepts_nested_attributes_for :media
   accepts_nested_attributes_for :submissions
 
-  #Validations
+  # Validations
   validates :name, :presence => true
   #validates :kind, :presence => true, :associated => true
   validates :user, :presence => true, :associated => true
@@ -28,17 +28,17 @@ class Content < ActiveRecord::Base
   # or (more likely) gets removed.
   default_scope { where(:type => Content.subclasses.collect { |s| s.name }) unless Rails.env.development? }
 
-  #Easily query for active, expired, or future content
+  # Easily query for active, expired, or future content
   scope :expired, where("end_time < :now", {:now => Clock.time})
   scope :future, where("start_time > :now", {:now => Clock.time})
   scope :active, where("(start_time IS NULL OR start_time < :now) AND (end_time IS NULL OR end_time > :now)", {:now => Clock.time})
   
-  #Scoped relations for feed approval states
+  # Scoped relations for feed approval states
   has_many :approved_feeds, :through => :submissions, :source => :feed, :conditions => {"submissions.moderation_flag" => true}
   has_many :pending_feeds, :through => :submissions, :source => :feed, :conditions => "submissions.moderation_flag IS NULL"
   has_many :denied_feeds, :through => :submissions, :source => :feed, :conditions => {"submissions.moderation_flag" => false}
 
-  #Magic to let us generate routes
+  # Magic to let us generate routes
   delegate :url_helpers, :to => 'Rails.application.routes'
 
   # Determine if content is active based on its start and end times.

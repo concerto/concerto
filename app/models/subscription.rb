@@ -13,16 +13,17 @@ class Subscription < ActiveRecord::Base
     # A very infrequent chance of content showing up.
     :"very rarely" => 1,
   }
+
   # Associations
   belongs_to :feed
   belongs_to :field
   belongs_to :screen
   
-  #Validations
+  # Validations
   validates :feed, :presence => true, :associated => true
   validates_uniqueness_of :feed_id, :scope => [:screen_id, :field_id]
 
-  #Get weight name of a subscription
+  # Get weight name of a subscription
   def weight_name
     name = (Subscription::WEIGHTS.respond_to?(:key) ? Subscription::WEIGHTS.key(weight) :  Subscription::WEIGHTS.index(weight)).to_s
   end

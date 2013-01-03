@@ -4,7 +4,7 @@ class Position < ActiveRecord::Base
 
   before_save :clean_styles
   
-  #Validations
+  # Validations
   validates :field, :presence => true, :associated => true
   validates :right, :numericality => {:greater_than_or_equal_to => -1, :less_than_or_equal_to => 1}
   validates :left, :numericality => {:greater_than_or_equal_to => -1, :less_than_or_equal_to => 1}

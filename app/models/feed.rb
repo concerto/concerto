@@ -4,12 +4,12 @@ class Feed < ActiveRecord::Base
   has_many :contents, :through => :submissions
   has_many :subscriptions, :dependent => :destroy
 
-  #Scoped relations for content approval states
+  # Scoped relations for content approval states
   has_many :approved_contents, :through => :submissions, :source => :content, :conditions => {"submissions.moderation_flag" => true}
   has_many :pending_contents, :through => :submissions, :source => :content, :conditions => "submissions.moderation_flag IS NULL"
   has_many :denied_contents, :through => :submissions, :source => :content, :conditions => {"submissions.moderation_flag" => false}
 
-  #Validations
+  # Validations
   validates :name, :presence => true, :uniqueness => true
   validates :group, :presence => true, :associated => true
   validate :parent_id_cannot_be_this_feed
@@ -20,7 +20,7 @@ class Feed < ActiveRecord::Base
     end
   end
 
-  #Feed Hierachy
+  # Feed Hierarchy
   belongs_to :parent, :class_name => "Feed"
   has_many :children, :class_name => "Feed", :foreign_key => "parent_id"
   scope :roots, where(:parent_id => nil)

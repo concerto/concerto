@@ -3,6 +3,6 @@ class Field < ActiveRecord::Base
   has_many :subscriptions, :dependent => :destroy
   has_many :positions
   
-  #Validations
+  # Validations
   validates :name, :presence => true
 end
