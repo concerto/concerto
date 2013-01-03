@@ -10,7 +10,7 @@ class Ability
     # Anything real can read a user
     can :read, User if accessor.persisted?
     
-    #Only define these permissive settings if concerto is set to be public
+    # Only define these permissive settings if concerto is set to be public
     if ConcertoConfig[:public_concerto] == "true"     
       ## Feeds
       # Anything can read a viewable feed
@@ -112,8 +112,8 @@ class Ability
         screen.owner.user_has_permissions?(user, :regular, :screen, [:all])) 
     end
 
-    #Subscriptions
-    #Only the owning group or user can manage screen subscriptions
+    ## Subscriptions
+    # Only the owning group or user can manage screen subscriptions
     can :manage, Subscription, :screen => { :owner_id => user.id, :owner_type => 'User'}
     can :manage, Subscription do |subscription|
       screen = subscription.screen

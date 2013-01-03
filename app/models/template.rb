@@ -5,7 +5,7 @@ class Template < ActiveRecord::Base
   
   accepts_nested_attributes_for :media
 
-  #Validations
+  # Validations
   validates :name, :presence => true
 
   #Placeholder attributes

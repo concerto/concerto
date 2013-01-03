@@ -4,7 +4,7 @@ class TimeDisplay < Content
  
   after_initialize :set_kind
 
-  #Validations
+  # Validations
   validates :duration, :numericality => { :greater_than => 0 }
   
   # Automatically set the kind for the content
