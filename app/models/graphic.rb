@@ -1,3 +1,13 @@
+class GraphicValidator < ActiveModel::Validator
+  # Validator for Media associated with a Graphic.
+  def validate(record)
+    graphic_types = ["image/gif", "image/jpeg", "image/pjpeg", "image/png", "image/svg+xml", "image/tiff"]
+    if !graphic_types.include? record.media[0].file_type
+      record.errors[:base] << "File is not a graphic."
+    end
+  end
+end
+
 class Graphic < Content
 
   after_initialize :set_kind
@@ -5,6 +15,7 @@ class Graphic < Content
   #Validations
   validates :duration, :numericality => { :greater_than => 0 }
   validates :media, :length => { :minimum => 1, :too_short => "At least 1 file is required." }
+  validates_with GraphicValidator
   
   # Automatically set the kind for the content
   # if it is new.
@@ -65,3 +76,4 @@ class Graphic < Content
   end
 
 end
+
