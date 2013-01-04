@@ -31,4 +31,17 @@ class GraphicTest < ActiveSupport::TestCase
     assert graphic.valid?
     assert graphic.save
   end
+
+  # Only a subset of files are valid graphics.
+  test "graphics must be images" do
+        graphic = Graphic.new(:name => "Sample Graphic",
+                          :duration => 15,
+                          :user => users(:katie))
+    file = fixture_file_upload("/files/concerto_background.jpg", 'text/plain', :binary)
+    graphic.media.build({:key => "original"})
+    graphic.media.first.file = file
+
+    assert graphic.invalid?
+    assert graphic.errors[:media].any?
+  end
 end
