@@ -8,7 +8,7 @@
 # but I don't have a solid grasp on the system-wide reprecussions of that
 # change at the moment.
 
-["Graphics", "Ticker", "Text"].each do |kind|
+["Graphics", "Ticker", "Text", "Dynamic"].each do |kind|
   Kind.find_or_create_by_name kind
 end
 
