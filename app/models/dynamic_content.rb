@@ -65,5 +65,14 @@ class DynamicContent < Content
   def refresh_content
     true
   end
+  
+  # Remove stale dynamic content by expiring all child content.
+  # Sets the end_time of children to the current time.
+  def expire_children
+    self.children.each do |child|
+      child.end_time = DateTime.current
+      child.save
+    end
+  end
 
 end
