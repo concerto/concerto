@@ -34,4 +34,15 @@ class DynamicContentTest < ActiveSupport::TestCase
     assert_equal fresh.config['var'], 'foo'
     assert_equal fresh.config['other'], 123
   end
+  
+  test "Expire children is called" do
+    dynamic = DynamicContent.where("name = 'Sample Dynamic Content Feed'").first
+    child = Ticker.where("name = 'Concerto TV Google Play'").first
+    
+    assert !child.is_expired?
+    dynamic.expire_children
+    
+    child.reload
+    assert child.is_expired?
+  end
 end
