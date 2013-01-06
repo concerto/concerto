@@ -1,3 +1,7 @@
+# DynamicContent serves as the base class for all Dynamic Content and is
+# responsible for saving the final content entries generated.  Also provided
+# are a handful of default behaviors for refreshing content and managing a
+# configuration datastore (JSON encoded).
 class DynamicContent < Content
   after_initialize :set_kind, :create_config
 
@@ -14,28 +18,36 @@ class DynamicContent < Content
     self.kind = Kind.where(:name => 'Dynamic').first
   end
 
-  # Create a new configuration hash if necessary.
+  # Create a new configuration hash if one does not already exist.
+  # Called during `after_initialize`, where a config may or may not exist.
   def create_config
     self.config = self.config || {}
   end
 
-  # Load a configuration hash back from the database to attribute.
+  # Load a configuration hash.
+  # Converts the JSON data stored for the content into the configuration.
+  # Called during `after_find`.
   def load_config
     self.config = JSON.load(self.data)
   end
 
   # Prepare the configuration to be saved.
+  # Compress the config hash back into JSON to be stored in the database.
+  # Called during `before_valication`.
   def save_config
     self.data = JSON.dump(self.config)
   end
 
-  # Refresh this dynamic content if necessary.
+  # Refresh this dynamic content if necessary, as determined by
+  # {#refresh_needed?}.
   def refresh
     refresh! if refresh_needed?
   end
 
-  # Refresh this dynamic content regardless of if we should or not.
+  # Refresh this dynamic content.
   # Update the timing information based on how well the refresh goes.
+  # If a refresh succeeds, `last_ok_refresh` will have the time the refresh
+  # finished.  If it fails, `last_bad_refresh` will store the time.
   def refresh!
     self.config['last_refresh_attempt'] = Time.now.to_i
     refresh_status = refresh_content()
@@ -49,9 +61,9 @@ class DynamicContent < Content
   end
 
   # Should we refresh?
-  # If an 'interval' config option is set, see if that many seconds have
-  # passed since the last refresh attempt.
-  # If an 'interval' config option is not set, assume a refresh is not needed.
+  # If an `interval` config option is set, see if that many seconds have passed
+  # since the last refresh attempt. If an `interval` config option is not set,
+  # assume a refresh is not needed.
   def refresh_needed?
     if self.config.include? 'interval'
       return Time.now.to_i > (self.config['interval'] + self.config['last_refresh_attempt'])
@@ -60,14 +72,15 @@ class DynamicContent < Content
     end
   end
 
-  # Actually do the thinking here.
-  # Return a boolean indicating if things worked or not.
+  # Actually do the refreshing of content entries.
+  #
+  # @return [Boolean] indicating if the content was sucessfully updated.
   def refresh_content
     true
   end
   
   # Remove stale dynamic content by expiring all child content.
-  # Sets the end_time of children to the current time.
+  # Sets the `end_time` of children to the current time.
   def expire_children
     self.children.each do |child|
       child.end_time = DateTime.current
