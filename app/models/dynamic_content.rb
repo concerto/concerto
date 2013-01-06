@@ -49,12 +49,12 @@ class DynamicContent < Content
   # If a refresh succeeds, `last_ok_refresh` will have the time the refresh
   # finished.  If it fails, `last_bad_refresh` will store the time.
   def refresh!
-    self.config['last_refresh_attempt'] = Time.now.to_i
+    self.config['last_refresh_attempt'] = Clock.time.to_i
     refresh_status = refresh_content()
     if refresh_status
-      self.config['last_ok_refresh'] = Time.now.to_i
+      self.config['last_ok_refresh'] = Clock.time.to_i
     else
-      self.config['last_bad_refresh'] = Time.now.to_i
+      self.config['last_bad_refresh'] = Clock.time.to_i
       Rails.logger.error("Trouble refreshing dynamic content")
     end
     self.save
@@ -66,7 +66,7 @@ class DynamicContent < Content
   # assume a refresh is not needed.
   def refresh_needed?
     if self.config.include? 'interval'
-      return Time.now.to_i > (self.config['interval'] + self.config['last_refresh_attempt'])
+      return Clock.time.to_i > (self.config['interval'] + self.config['last_refresh_attempt'])
     else
       return false
     end
@@ -83,7 +83,7 @@ class DynamicContent < Content
   # Sets the `end_time` of children to the current time.
   def expire_children
     self.children.each do |child|
-      child.end_time = DateTime.current
+      child.end_time = Clock.time
       child.save
     end
   end
