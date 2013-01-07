@@ -41,12 +41,11 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
         group = Group.find_or_create_by_name(:name => "Concerto Admins")
         #create the membership only after we have the user
         Membership.create(:user_id => resource.id, :group_id => group.id, :level => Membership::LEVELS[:leader])
-      end     
+      end
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
         sign_in(resource_name, resource)
-        #respond_with resource, :location => after_sign_up_path_for(resource)
-        redirect_to "/dashboard"
+        respond_with resource, :location => after_sign_up_path_for(resource)
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_navigational_format?
         expire_session_data_after_sign_in!
@@ -59,4 +58,12 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  # Where to redirect the user after registration
+  def after_sign_up_path_for(resource)
+    if resource.is_a?(User) && resource.is_admin?
+      dashboard_path
+    else
+      root_url
+    end
+  end
 end 
