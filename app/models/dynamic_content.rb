@@ -73,19 +73,76 @@ class DynamicContent < Content
   end
 
   # Actually do the refreshing of content entries.
+  # Calls {#build_content} to return an array of new partial content objects,
+  # then copies over the defaults if necessary such as `user`, `duration`,
+  # `start_time` (now), and `end_time` (now + 1 day).
+  #
+  # All Submissions that this piece of DynamicContent has are copied to the
+  # child content too, including any moderation status.
+  #
+  # After all the child content are sucessfully saved with submissions we
+  # expire the old set of child content with {#expire_children}.
   #
   # @return [Boolean] indicating if the content was sucessfully updated.
   def refresh_content
-    true
+    # Capture the existing children.
+    old_content = self.children.all
+    # Build the new ones
+    new_content = build_content()
+    if !new_content
+      return false  # A nil or false build_content result is bad.
+    end
+    # Copy over base properties to all the new children if needed
+    new_content.each do |content|
+      content.transaction do
+        content.parent = self
+        content.user ||= self.user
+        content.duration ||= self.duration
+        content.start_time ||= Clock.time
+        content.end_time ||= Clock.time + 1.day
+        if content.save
+          self.submissions.each do |model_submission|
+            submission = model_submission.dup
+            submission.content = content
+            submission.save
+          end
+        else
+          raise ActiveRecord::Rollback
+          return false
+        end
+      end
+    end
+
+    # Now we'll expire all the old content.
+    expire_children(old_content)
+
+    return true
+  end
+
+  # Build all the new child content.
+  # This is where you usually want to do the heavy thinking.
+  #
+  # @return [Array, nil, false] array of displayable content items or
+  #    nil / false indicating a problem occured.
+  def build_content
+    []
   end
   
   # Remove stale dynamic content by expiring all child content.
   # Sets the `end_time` of children to the current time.
-  def expire_children
-    self.children.each do |child|
+  def expire_children(opt_children=nil)
+    children_to_expire = opt_children || self.children
+    children_to_expire.each do |child|
       child.end_time = Clock.time
       child.save
     end
   end
 
+  # Destroy all dynamic content children.
+  # You probably never want to do this, but it's useful if things are broken.
+  def destroy_children!
+    self.children.each do |child|
+      child.destroy
+    end
+  end
 end
