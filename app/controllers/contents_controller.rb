@@ -32,7 +32,8 @@ class ContentsController < ApplicationController
   # child of Content (Feed) a 400 error is thrown.
   def new
     # We might already have a content type, 
-    if @content_const.nil? || @content_const.superclass != Content
+    if @content_const.nil? || !@content_const.ancestors.include?(Content)
+      Rails.logger.debug "Content type #{@content_const} found not OK, trying default."
       default_upload_type = ConcertoConfig[:default_upload_type]
       if !default_upload_type
         raise "Missing Default Content Type"
@@ -43,7 +44,7 @@ class ContentsController < ApplicationController
 
     # We don't recognize the requested content type, or
     # its not a child of Content so we'll return a 400.
-    if @content_const.nil? || @content_const.superclass != Content
+    if @content_const.nil? || !@content_const.ancestors.include?(Content)
       render :text => "Unrecognized content type.", :status => 400
     else
       @content = @content_const.new()
