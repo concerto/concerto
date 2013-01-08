@@ -21,7 +21,18 @@ class DynamicContent < Content
   # Create a new configuration hash if one does not already exist.
   # Called during `after_initialize`, where a config may or may not exist.
   def create_config
-    self.config = self.config || {}
+    self.config = {} if !self.config
+    self.config = default_config().merge(self.config)
+  end
+
+  # Specify the default configuration hash.
+  # This will be used if a configuration doesn't exist.
+  #
+  # @return [Hash{String => String, Number}] configution hash.
+  def default_config
+    {
+      'interval' => 300,
+    }
   end
 
   # Load a configuration hash.
@@ -66,7 +77,11 @@ class DynamicContent < Content
   # assume a refresh is not needed.
   def refresh_needed?
     if self.config.include? 'interval'
-      return Clock.time.to_i > (self.config['interval'] + self.config['last_refresh_attempt'])
+      if self.config.include? 'last_refresh_attempt'
+        return Clock.time.to_i > (self.config['interval'] + self.config['last_refresh_attempt'])
+      else
+        return true
+      end
     else
       return false
     end
@@ -163,4 +178,5 @@ class DynamicContent < Content
     end
     Rails.logger.info "Dynamic content updates finished."
   end
+
 end
