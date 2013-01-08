@@ -145,4 +145,22 @@ class DynamicContent < Content
       child.destroy
     end
   end
+
+  # Update all the DynamicContent.
+  # Find all the DynamicContent classes, find all the active content they have,
+  # and then #{refresh} them.  Primarily invoked by our rake task.
+  def self.refresh
+    dynamic_types = Concerto::Application.config.content_types.select do |t|
+      t.ancestors.include?(DynamicContent)
+    end
+    dynamic_types.each do |content_type|
+      Rails.logger.info "Updating #{content_type.name}."
+      contents = content_type.active.all
+      contents.each do |content|
+        Rails.logger.info "Thinking about updating #{content.id} - #{content.name}."
+        content.refresh
+      end
+    end
+    Rails.logger.info "Dynamic content updates finished."
+  end
 end
