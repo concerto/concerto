@@ -10,7 +10,10 @@ class Group < ActiveRecord::Base
   has_many :all_users, :through => :memberships, :source => :user, :conditions => ["memberships.level != ?", Membership::LEVELS[:denied]]
 
   # Scoped relation for leaders
-  has_many :leaders, :through => :memberships, :source => :user, :conditions => {"memberships.level" => Membership::LEVELS[:leader]}  
+  has_many :leaders, :through => :memberships, :source => :user, :conditions => {"memberships.level" => Membership::LEVELS[:leader]}
+
+  # Setup accessible attributes for your model
+  attr_accessible :name, :narrative, :memberships_attributes
 
   # Validations
   validates :name, :presence => true, :uniqueness => true

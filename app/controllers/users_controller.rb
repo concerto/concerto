@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   load_and_authorize_resource :except => [:index]
+  before_filter :remove_admin, :only => [:create,:update]
   respond_to :html, :json
-   
+
   # GET /users
   def index
     authorize! :list, User
@@ -22,7 +23,6 @@ class UsersController < ApplicationController
   # POST /users
   def create
     @user = User.new
-    assign_parameters()
 
     respond_to do |format|
       if @user.save
@@ -43,7 +43,7 @@ class UsersController < ApplicationController
   # PUT /users/1
   def update
     @user = User.find(params[:id])
-    if assign_parameters
+    if @user.update_attributes(params[:user])
       flash[:notice] = t(:user_updated)
     end
     respond_with(@user)
@@ -57,11 +57,8 @@ class UsersController < ApplicationController
   end
 
 private
-  def assign_parameters
-    if current_user.is_admin? or !ConcertoConfig[:setup_complete]
-      return true if @user.assign_attributes(params[:user], :as => :admin)
-    else
-      return true if @user.assign_attributes(params[:user])
-    end
+  def remove_admin
+    params.delete 'is_admin'
   end
+
 end

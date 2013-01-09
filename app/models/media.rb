@@ -2,7 +2,10 @@ class Media < ActiveRecord::Base
   belongs_to :attachable, :polymorphic => true
   
   attachable
-  
+
+  # Setup accessible attributes for your model
+  attr_accessible :key, :file
+
   # Validations
   validates :file_type, :presence => true
   validates :file_size, :numericality => { :greater_than_or_equal_to => 0 }

@@ -34,6 +34,9 @@ class Membership < ActiveRecord::Base
   belongs_to :user
   belongs_to :group
 
+  # Setup accessible attributes for your model
+  attr_accessible :group, :level, :user
+
   # Validations
   validates :user, :presence => true, :associated => true
   validates :group, :presence => true, :associated => true

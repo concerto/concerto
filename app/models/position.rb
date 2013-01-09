@@ -3,7 +3,10 @@ class Position < ActiveRecord::Base
   belongs_to :template
 
   before_save :clean_styles
-  
+
+  # Setup accessible attributes for your model
+  attr_accessible :top, :left, :bottom, :right, :field_id
+
   # Validations
   validates :field, :presence => true, :associated => true
   validates :right, :numericality => {:greater_than_or_equal_to => -1, :less_than_or_equal_to => 1}
