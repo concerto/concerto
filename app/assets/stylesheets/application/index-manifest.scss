@@ -1,6 +1,7 @@
 @import "common/variables";
 @import "common/mixins";
 @import "common/reset";
+@import "common/font-awesome";
 
 @import "controls/sprites";
 @import "controls/buttons";
@@ -8,7 +9,6 @@
 @import "controls/jquery.timepicker";
 @import "controls/sliders";
 @import "controls/jquery.qtip";
-@import "controls/jquery-ui.redmond";
 
 @import "layout/scaffolding";
 @import "layout/type";
@@ -26,4 +26,3 @@
 @import "layout/responsive-767px-max";
 @import "layout/responsive-768px-979px";
 @import "layout/responsive-1200px-min";
-

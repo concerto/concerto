@@ -27,6 +27,6 @@ Upon its next startup, Concerto will populate whatever database you've specified
 
 ##
 Installation Notes:
-When running Concerto in production mode, be sure to compile your assets with: bundle exec rake assets:precompile or Sprockets will be used a a fallback with performance consequences.
+When running Concerto in production mode, be sure to compile your assets with: bundle exec rake assets:precompile or Sprockets will be used as a fallback, with performance consequences.
 
 Concerto 2 is licensed under the Apache License, Version 2.0.

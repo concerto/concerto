@@ -1,13 +1,22 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'http://rubygems.org'
 
-gem "rails", "3.2.9"
+gem "rails", "3.2.11"
+
+# Get the absolute path of this Gemfile so the includes below still work
+# when the current directory for a bundler command isn't the application's
+# root directory.
+basedir = File.dirname(__FILE__)
 
 # Load the gems used for remote reporting.
-eval File.read('Gemfile-reporting') if File.exists?('Gemfile-reporting')
+if File.exists?(basedir+'/Gemfile-reporting')
+  eval File.read(basedir+'/Gemfile-reporting')
+end
 
+# The Gemfile-plugins gem list is managed by Concerto itself,
+# through the ConcertoPlugins controller.
 group :concerto_plugins do
-  eval File.read('Gemfile-plugins')
+  eval File.read(basedir+'/Gemfile-plugins')
 end
 
 # Gems used only for assets and not required
@@ -45,7 +54,7 @@ gem 'attachable', '>= 0.0.5'
 gem 'devise'
 gem 'cancan'
 
-gem 'jquery-tools'
+gem 'json'
 
 # Process jobs in the background
 gem 'delayed_job_active_record'
@@ -56,3 +65,5 @@ gem 'simplecov', :require => false, :group => :test
 
 #Cross-platform monitoring of processes
 gem 'sys-proctable'
+
+gem 'rails-backup-migrate'

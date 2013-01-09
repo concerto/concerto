@@ -22,13 +22,13 @@ function initTemplateSelector() {
       },
 
       position: {
-        at: 'bottom center', // Position the tooltip above the link
-        my: 'top center',
+        at: 'top center', // Position the tooltip above the link
+        my: 'bottom center',
         viewport: $(window) // Keep the tooltip on-screen at all times
       },
 
       show: {
-        delay: 500,
+        delay: 1000,
         event: 'hover', // Show it on click...
         solo: true // ...and hide all other tooltips...
       },

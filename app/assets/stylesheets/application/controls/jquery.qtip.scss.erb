@@ -30,22 +30,22 @@
 
 .ui-tooltip-content {
   position: relative;
-  padding: 5px 9px;
+  padding: 0px;
   overflow: hidden;
   border: 1px solid #000001;
   text-align: left;
   word-wrap: break-word;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .ui-tooltip-titlebar {
   position: relative;
-  min-height: 14px;
-  padding: 5px 35px 5px 10px;
+  padding: 8px 35px 8px 8px;
   overflow: hidden;
   border: 1px solid #000001;
   border-width: 1px 1px 0;
-  font-weight: bold; 
+  font-weight: bold;
+  font-size: 1.2em;
 }
 
 .ui-tooltip-titlebar+.ui-tooltip-content {
@@ -258,6 +258,10 @@
   padding: 0px !important;
 }
 
+.ui-tooltip-oneline .ui-tooltip-content {
+  padding: 6px;
+}
+
 /* Class applied to make width auto for tooltip content (use sparingly and test!) */
 .ui-tooltip-autowidth {
   width: auto !important;
@@ -269,4 +273,25 @@
     filter: none;
     -ms-filter: none; 
   } 
+}
+
+
+// ELEMENTS INSIDE TOOLTIP BOX
+// ---------
+
+// filter box: for cases where there's a filter box inside the tooltip
+.ui-tooltip-content {
+  .filter-bar {
+    padding: 4px 8px;
+    background: $grayLightest;
+
+    input { width: 90%; }
+  }
+
+  .tooltip-scrollY {
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 400px;
+    height: 250px;
+  }
 }

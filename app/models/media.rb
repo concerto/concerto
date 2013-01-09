@@ -3,7 +3,7 @@ class Media < ActiveRecord::Base
   
   attachable
   
-  #Validations
+  # Validations
   validates :file_type, :presence => true
   validates :file_size, :numericality => { :greater_than_or_equal_to => 0 }
   

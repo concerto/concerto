@@ -82,7 +82,7 @@
               <%= image_tag preview_template_path(template, :height => 60, :format => :png), :style => "margin: 0px;" %>
               
               <div id="preview_<%= template.id %>" class="dd" style="display:none;">
-                <%= image_tag preview_template_path(template, :width => 540, :height => 310, :aspect_ratio => true, :format => :png), :style => "margin: 0px;" %>
+                <%= image_tag preview_template_path(template, :width => 540, :height => 310, :aspect_ratio => true, :format => :png), :style => "margin: 0px;", :class => "default-padding" %>
               </div>
               
               <div class="cont">

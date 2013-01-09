@@ -24,6 +24,10 @@ concerto.frontend.Content.Ticker = function(data) {
 };
 goog.inherits(concerto.frontend.Content.Ticker, concerto.frontend.Content);
 
+// Register the content type.
+concerto.frontend.ContentTypeRegistry['Ticker'] =
+    concerto.frontend.Content.Ticker;
+
 
 /**
  * Load the text.

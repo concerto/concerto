@@ -239,14 +239,27 @@ namespace :import do
           :is_hidden => t.hidden
         )
         t.fields.each do |f|
+          new_field = Field.where(:name => f.name.split().last).first
+          if new_field.nil?
+            new_field = Field.where(:name => f.name.split().first).first
+          end
+          if new_field.nil?
+            new_field = Field.where(:name => f.name.split().last.pluralize).first
+          end
           position = new_template.positions.build
           position.style = f.style
           position.top = f.top
           position.left = f.left
           position.width = f.width
           position.height = f.height
-          position.field = Field.where(:name => f.type.name).first
+          position.field = new_field
           temp_position_mapping[f.id] = position
+          if !position.valid?
+            puts "Invalid position, skipping."
+            puts position.to_yaml
+            puts f.to_yaml
+            position.destroy
+          end
         end
         filename = "#{ENV['TEMPLATE_DIR']}/#{t.filename}"
         if !File.exists?(filename)
@@ -258,7 +271,7 @@ namespace :import do
         if new_template.save
           template_mapping[t.id] = new_template.id
           temp_position_mapping.each do |id, pos|
-            position_mapping[id] = pos.id
+            position_mapping[id] = pos.id unless pos.id.nil?
           end
           temp_position_mapping = {}
           #puts "Created template."

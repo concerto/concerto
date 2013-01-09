@@ -8,7 +8,7 @@ class Content < ActiveRecord::Base
   accepts_nested_attributes_for :media
   accepts_nested_attributes_for :submissions
 
-  #Validations
+  # Validations
   validates :name, :presence => true
   #validates :kind, :presence => true, :associated => true
   validates :user, :presence => true, :associated => true
@@ -28,17 +28,17 @@ class Content < ActiveRecord::Base
   # or (more likely) gets removed.
   default_scope { where(:type => Content.subclasses.collect { |s| s.name }) unless Rails.env.development? }
 
-  #Easily query for active, expired, or future content
-  scope :expired, where("end_time < :now", {:now => Time.now})
-  scope :future, where("start_time > :now", {:now => Time.now})
-  scope :active, where("(start_time IS NULL OR start_time < :now) AND (end_time IS NULL OR end_time > :now)", {:now => Time.now})
+  # Easily query for active, expired, or future content
+  scope :expired, where("end_time < :now", {:now => Clock.time})
+  scope :future, where("start_time > :now", {:now => Clock.time})
+  scope :active, where("(start_time IS NULL OR start_time < :now) AND (end_time IS NULL OR end_time > :now)", {:now => Clock.time})
   
-  #Scoped relations for feed approval states
+  # Scoped relations for feed approval states
   has_many :approved_feeds, :through => :submissions, :source => :feed, :conditions => {"submissions.moderation_flag" => true}
   has_many :pending_feeds, :through => :submissions, :source => :feed, :conditions => "submissions.moderation_flag IS NULL"
   has_many :denied_feeds, :through => :submissions, :source => :feed, :conditions => {"submissions.moderation_flag" => false}
 
-  #Magic to let us generate routes
+  # Magic to let us generate routes
   delegate :url_helpers, :to => 'Rails.application.routes'
 
   # Determine if content is active based on its start and end times.
@@ -46,12 +46,12 @@ class Content < ActiveRecord::Base
   # 1. Start date is before now, or nil.
   # 2. End date is after now, or nil.
   def is_active?
-    (start_time.nil? || start_time < Time.now) && (end_time.nil? || end_time > Time.now)
+    (start_time.nil? || start_time < Clock.time) && (end_time.nil? || end_time > Clock.time)
   end
 
   # Determine if content is expired based on its end time.
   def is_expired?
-    (end_time < Time.now)
+    (end_time < Clock.time)
   end
 
   # Setter for the start time.  If a hash is passed, convert that into a DateTime object and then a string.
@@ -84,6 +84,11 @@ class Content < ActiveRecord::Base
   # The additional data required when rendering this content.
   def render_details
     {:data => self.data}
+  end
+
+  # A quick test to see if a content has any children
+  def has_children?
+    !self.children.empty?
   end
 
 end

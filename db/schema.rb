@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121102035608) do
+ActiveRecord::Schema.define(:version => 20121218004820) do
 
   create_table "concerto_configs", :force => true do |t|
     t.string  "key"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20121102035608) do
     t.text    "description"
     t.boolean "plugin_config"
     t.integer "plugin_id"
+    t.boolean "hidden"
   end
 
   add_index "concerto_configs", ["key"], :name => "index_concerto_configs_on_key", :unique => true
@@ -110,7 +111,7 @@ ActiveRecord::Schema.define(:version => 20121102035608) do
     t.string   "file_name"
     t.string   "file_type"
     t.integer  "file_size"
-    t.binary   "file_data",       :limit => 16777215
+    t.binary   "file_data",       :limit => 10485760
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
   end

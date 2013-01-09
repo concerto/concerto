@@ -68,7 +68,10 @@
 .alert-block p.alert-heading {
   font-weight: bold;
 }
-
+.alert-removeborder {
+  @include border-radius(0px);
+  margin-bottom: 0px;
+}
 
 .badge {
   @include border-radius(2px);
@@ -97,7 +100,6 @@
 #flash-banner {
   background: $black;
   opacity: 0.8;
-  padding: 4px 12px;
   
   // initial state: is rendered at top of screen behind the topbar
   position: absolute;
@@ -107,6 +109,7 @@
   z-index: 1;
   
   p {
+    padding: 4px 12px;
     opacity: 1.0;
     color: $white;
     margin-bottom: 0px;

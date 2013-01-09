@@ -32,7 +32,8 @@ class ContentsController < ApplicationController
   # child of Content (Feed) a 400 error is thrown.
   def new
     # We might already have a content type, 
-    if @content_const.nil? || @content_const.superclass != Content
+    if @content_const.nil? || !@content_const.ancestors.include?(Content)
+      Rails.logger.debug "Content type #{@content_const} found not OK, trying default."
       default_upload_type = ConcertoConfig[:default_upload_type]
       if !default_upload_type
         raise "Missing Default Content Type"
@@ -43,7 +44,7 @@ class ContentsController < ApplicationController
 
     # We don't recognize the requested content type, or
     # its not a child of Content so we'll return a 400.
-    if @content_const.nil? || @content_const.superclass != Content
+    if @content_const.nil? || !@content_const.ancestors.include?(Content)
       render :text => "Unrecognized content type.", :status => 400
     else
       @content = @content_const.new()
@@ -78,9 +79,13 @@ class ContentsController < ApplicationController
       if @content.save
         # Copy over the duration to each submission instance
         @feed_ids.each do |feed_id|
-          @content.submissions << Submission.new({:feed_id => feed_id, :duration => @content.duration})
-          #If you are the moderator,
-          #then we might auto approve the submission here
+          @feed = Feed.find(feed_id)
+          #If a user can moderate the feed in question or is an admin - the content is automatically approved with their imprimatur
+          if can?(:update, @feed) || user.is_admin?
+            @content.submissions << Submission.new({:feed_id => feed_id, :duration => @content.duration, :moderation_flag => true, :moderator_id => current_user.id})
+          else
+            @content.submissions << Submission.new({:feed_id => feed_id, :duration => @content.duration})
+          end
         end
         @content.save #This second save adds the submissions
         format.html { redirect_to(@content, :notice => t(:content_created)) }

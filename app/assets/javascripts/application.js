@@ -15,7 +15,6 @@
 //= require jquery-ui
 //= require html5_shiv/html5
 //= require jquery.qtip.min
-//= require jquery-tools/rangeinput/rangeinput
 //= require timepicker/jquery.timepicker
 //= require_tree .
 
@@ -55,7 +54,7 @@ $(document).ready(function () {
         ready: true
       },
       hide: 'mouseleave',
-      style: 'ui-tooltip-dark ui-tooltip-rounded'
+      style: 'ui-tooltip-dark ui-tooltip-rounded ui-tooltip-oneline'
     });
   });
 

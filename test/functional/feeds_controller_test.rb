@@ -22,7 +22,7 @@ class FeedsControllerTest < ActionController::TestCase
     sign_in users(:katie)
     get :index
     assert assigns(:pending_submissions_count)
-    assert_equal assigns(:pending_submissions_count), 1
+    assert_equal assigns(:pending_submissions_count), 3
   end
 
   test "moderate index shows pending submissions" do

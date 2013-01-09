@@ -4,7 +4,7 @@ class Ticker < Content
  
   after_initialize :set_kind
 
-  #Validations
+  # Validations
   validates :duration, :numericality => { :greater_than => 0 }
   validates :data, :presence => true
   

@@ -198,7 +198,7 @@
   }
 }
 .nav-drawer-left > li.active > a {
-  @include at2x('layout/vert-tabs_arrowbg', 42px, 56px, '.png');
+  @include at2x('layout/vert-tabs_arrowbg', 42px, 200px, '.png');
   background-position: center right;
   background-repeat: no-repeat;
   background-color: $gray;
@@ -207,6 +207,10 @@
   &:hover {
     background-color: $gray;
     color: $white;
+  }
+
+  img { 
+    border: solid 2px $grayLighter;
   }
 }
 .nav-drawer-left > li:first-child > a {
@@ -225,6 +229,33 @@
   margin-bottom: 1px; // decrease margin to match sizing of stacked tabs
 }
 
+
+// SELECTOR LISTS
+// ---------
+ul.selector-list {
+  padding: 0px;
+  margin: 0px;
+  list-style-type: none;
+
+  li {
+    border-bottom: solid 1px $grayLightest;
+    
+
+    i { display: none; }
+
+    &.checked {
+      background: lighten($green, 50%);
+      padding: 8px 10px;
+
+      i { display: inline; }
+    }
+
+    a {
+      padding: 8px 10px;
+      display: block;
+    }
+  }
+}
 
 
 // DROPDOWNS

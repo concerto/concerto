@@ -1,8 +1,10 @@
 class Position < ActiveRecord::Base
   belongs_to :field
   belongs_to :template
+
+  before_save :clean_styles
   
-  #Validations
+  # Validations
   validates :field, :presence => true, :associated => true
   validates :right, :numericality => {:greater_than_or_equal_to => -1, :less_than_or_equal_to => 1}
   validates :left, :numericality => {:greater_than_or_equal_to => -1, :less_than_or_equal_to => 1}
@@ -68,4 +70,10 @@ class Position < ActiveRecord::Base
       self.send("#{key}=".to_sym, value) if self.respond_to?("#{key}=".to_sym)
     end
   end
+
+  # Remove any traces of important! from the styles. It breaks the frontend.
+  def clean_styles
+    self.style.gsub!('!important', '')
+  end
+
 end

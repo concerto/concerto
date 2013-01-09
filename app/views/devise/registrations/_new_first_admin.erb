@@ -1,0 +1,100 @@
+<section class="viewblock">
+  <header class="viewblock-header light-version">
+    <div class="default-padding" style="padding: 40px 12px; text-align: center;">
+      <%= image_tag("elements/logomark.png", :height => 175, :alt => "") %>
+      <br /><br />
+      <h1 style="font-size: 5em; letter-spacing: -0.025em;">Welcome to Concerto.</h1>
+      <h3>Setting up your new installation is fast and simple! Just follow the instructions below to get started.</h3>
+    </div>
+  </header>
+
+  <div class="viewblock-cont" style="min-height: 600px;">
+    <div class="default-padding">
+
+      <div class="row-fluid">
+        <div class="span2">
+          &nbsp;
+        </div>
+        <div class="span8">
+
+          <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+            
+            <br /><br />
+            <h1 class="header-with-icon">1. Register First Admin Account</h1>
+            <br />
+            <h3>Your initial administrator account will allow you to set up groups and manage what happens on your new Concerto network.</h3>
+            <br />
+
+            <fieldset style="padding-left: 20px; padding-top: 0px;">
+              <div class="clearfix">
+                <%= f.label :first_name %>
+                <div class="input">
+                  <%= f.text_field :first_name, :class => "xlarge" %>
+                </div>
+              </div>
+              <div class="clearfix">
+                <%= f.label :last_name %>
+                <div class="input">
+                  <%= f.text_field :last_name, :class => "xlarge" %>
+                </div>
+              </div>
+              <div class="clearfix">
+                <%= f.label :email %>
+                <div class="input">
+                  <%= f.email_field :email, :class => "xlarge" %>
+                </div>
+              </div>
+              <div class="clearfix">
+                <%= f.label :password %>
+                <div class="input">
+                  <%= f.password_field :password, :class => "xlarge" %>
+                </div>
+              </div>
+              <div class="clearfix">
+                <%= f.label :password_confirmation, "Confirm Password" %>
+                <div class="input">
+                  <%= f.password_field :password_confirmation, :class => "xlarge" %>
+                </div>
+              </div>
+            </fieldset>
+
+            <br /><br />
+            <h1 class="header-with-icon">2. Configure Error Reporting</h1>
+            <br />
+            <h3>Concerto sends error reports to the Concerto team for troubleshooting and development purposes. You can disable this from happening at any time.</h3>
+            <br />
+            <p>The reports may contain some information (content titles, IP addresses) specific to your installation, but an effort will be made to automatically filter out any identifying information from the error reports.</p>
+            <br />
+            <h3><b>To disable remote error reporting, uncheck the box below.</b></h3>
+            
+            <%= fields_for @concerto_config do |c| %>
+              <fieldset style="padding-left: 40px; padding-top: 0px;">
+                
+                <ul class="inputs-list">
+                  <li style="font-size: 1.4em;">
+                    <%= check_box_tag 'concerto_config[send_errors]', 'true', true %> <%= c.label 'send_errors_value', "Send error reports to the Concerto team", :style => "font-size: 1.1em;" %>
+                  </li>
+                </ul>
+
+              </fieldset>
+            <% end %>
+
+            <br />
+            <hr />
+
+            <div style="text-align: center;">
+              <%= f.submit "Let's Get Started!", :class => "btn large primary", :style => "font-size: 1.5em;" %>
+            </div>
+            <br /><br />
+
+          <% end %>
+
+        </div>
+        <div class="span2">
+          &nbsp;
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

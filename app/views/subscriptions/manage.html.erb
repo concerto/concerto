@@ -1,23 +1,77 @@
-<h1><%= @this_field.name %></h1>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Frequency</th>
-    <th>Actions</th>
-  </tr>
+<div class="row-fluid">
+  <div class="span2 collapse-right">
+    <ul class="nav nav-tabs nav-stacked nav-drawer-left">
+      <li class="nav-header"><%= t(:switch_position) %>:</li>
+      <% @fields.each do |field| %>
+        <li<% if field.id == @this_field.id %> class="active"<% end %>>
+          <%= link_to manage_screen_field_subscriptions_path(@screen, field) do %>
+            <%= field.kind.name %>
+            <br />
+            <%= image_tag(preview_template_path(@screen.template, :height => 80, :format => :png, :fields => field), :border => 0) %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="span10">
+    <section class="viewblock">
+      <header class="viewblock-header">
+        <h1 class="default-padding"><%= t :manage_subscriptions, :name => @this_field.name %></h1>
+      </header> 
+      <div class="viewblock-cont" style="min-height: 600px;">
 
-  <% @this_field.subscriptions.where(:screen_id => @screen.id).each do |subscription| %>
-    <tr>
-      <td><%= subscription.feed.name %></td>
-      <td><%= subscription.weight_name %></td>
-      <td>
-				<%= link_to "Edit", edit_screen_field_subscription_path(@screen,@this_field,subscription), :class => "btn success" %>
-				<%= link_to "Remove", screen_field_subscription_path(@screen,@this_field,subscription), :method => :delete, :class => "btn danger" %>
-			</td>
-    </tr>
-  <% end %>
+        <%= form_for([@screen, @this_field, @subscription], :url => save_all_screen_field_subscriptions_path(@screen, @this_field), :method => :put) do |f| %>
 
-</table>
+          <%= hidden_field_tag "new-subscription-index", @this_field.subscriptions.where(:screen_id => @screen.id).size %>
 
-<% feeds = Feed.subscribable(@screen, @this_field) %>
-<%= render :partial => 'manage', :locals => {:screen => @screen, :field => @this_field, :subscription => Subscription.new, :feeds => feeds} unless feeds.empty? %>
+          <table id="subscriptions-list">
+
+            <tbody>
+              <% @this_field.subscriptions.where(:screen_id => @screen.id).each_with_index do |subscription, i| %>
+
+                <tr>
+                  <td>
+                    <h2><%= subscription.feed.name %></h2>
+                    <h4 class="color-gray"><%= pluralize subscription.feed.approved_contents.size, t(:approved_content) %></h4>
+                    <%= hidden_field_tag "subscription_id[#{i}]", subscription.id %>
+                    <%= hidden_field_tag "subscription_feed[#{i}]", subscription.feed.id, :class => "marker-sub-feed" %>
+                  </td>
+                  <td>
+                    <div class="clearfix frequency" data-sub-index="<%= i %>">
+                      <div class="leftseconds" style="width: 50px;"><%= t(:rare) %></div>
+                      <%= range_field :subscription_weight, i, { :value => subscription.weight, :min => 1, :max => Subscription::WEIGHTS.size, :step => 1, :class => "frequency_range thin" } %>
+                      <div class="rightseconds" style="width: 50px;"><%= t(:frequent) %></div>
+                    </div>
+                  </td>
+                  <td>
+                    <%= link_to screen_field_subscription_path(@screen,@this_field,subscription), :method => :delete, :class => "btn btnRemoveSubscription" do %>
+                      <i class="ficon-remove"></i> <%= t(:remove) %>
+                    <% end %>
+                  </td>
+                </tr>
+
+              <% end %>
+            </tbody>
+
+          </table>
+
+          <div class="default-padding">
+            <% feeds = Feed.subscribable(@screen, @this_field) %>
+            <%= render :partial => 'add_subscription' unless feeds.empty? %>
+          </div>
+
+          <br />
+
+          <div id="save-subscriptions-alert" class="alert alert-block alert-removeborder alert-zero" style="display: table; text-align: right;">
+            <span class="save-msg" style="display:table-cell; vertical-align:middle; width: 100%;">
+              <%= t(:make_changes) %>
+            </span>
+            <%= f.submit "Save changes to subscriptions", :class => "btn large pull-right", :style => "margin-left: 12px;" %>
+          </div>
+
+        <% end %>
+
+      </div>
+    </section>
+  </div>
+</div>

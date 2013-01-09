@@ -53,4 +53,11 @@ class PositionTest < ActiveSupport::TestCase
     assert_equal p.style, "style"
     assert p.valid?
   end
+
+  test "strip nasty styles" do
+    p = positions(:one)
+    p.style = 'color: #FFF !important; font-weight: boldest !important; foo: bar'
+    p.save
+    assert_equal p.style, 'color: #FFF ; font-weight: boldest ; foo: bar'
+  end
 end

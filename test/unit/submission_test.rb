@@ -63,4 +63,26 @@ class SubmissionTest < ActiveSupport::TestCase
     assert !submissions(:denied_ticker).is_pending?
     assert submissions(:pending_ticker).is_pending?
   end
+
+  test "parent propogates moderation" do
+    parent = submissions(:pending_parent)
+    child = submissions(:pending_child)
+    bad_child = submissions(:bad_child)
+    distant = submissions(:distant_child)
+
+    assert parent.is_pending?
+    parent.moderation_flag = true
+    parent.moderator = users(:katie)
+    parent.save
+
+    child.reload
+    distant.reload
+    bad_child.reload
+
+    assert parent.is_approved?
+    assert child.is_approved?
+    assert_equal submissions(:pending_child).moderator, users(:katie)
+    assert submissions(:distant_child).is_denied?
+    assert submissions(:bad_child).is_denied?
+  end
 end

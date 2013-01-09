@@ -5,6 +5,57 @@ class ApplicationController < ActionController::Base
   before_filter :set_version
   before_filter :compute_pending_moderation
 
+  # Current Ability for CanCan authorization
+  # This matches CanCan's code but is here to be explicit,
+  # since we modify @current_ability below for plugins.
+  def current_ability
+    @current_ability ||= ::Ability.new(current_user)
+  end
+
+  # Allow views in the main application to do authorization
+  # checks for plugins.
+  def use_plugin_ability(mod, &block)
+    switch_to_plugin_ability(mod)
+    yield
+    switch_to_main_app_ability
+  end
+
+  # Store the current ability (if defined) and switch to the ability
+  # class for the specified plugin, if it has one.
+  # Always call switch_to_main_app_ability when done.
+  # Used by ConcertoPlugin for rendering hooks, and by use_plugin_ability
+  # block above.
+  def switch_to_plugin_ability(mod)
+    @main_app_ability = @current_ability
+    @plugin_abilities = @plugin_abilities || {}
+    mod_sym = mod.name.to_sym
+    if @plugin_abilities[mod_sym].nil?
+      begin
+        ability = (mod.name+"::Ability").constantize
+      rescue
+        ability = nil
+      end
+      if ability.nil?
+        # Presumably this plugin doesn't define its own rules, no biggie
+        logger.warn "ConcertoPlugin: use_plugin_ability: "+
+          "No Ability found for "+mod.name
+      else
+        @plugin_abilities[mod_sym] ||= ability.new(current_user)
+        @current_ability = @plugin_abilities[mod_sym]
+      end
+    else
+      @current_ability = @plugin_abilities[mod_sym]
+    end
+  end
+
+  # Revert to the main app ability after using a plugin ability
+  # (if it was defined).
+  # Used by ConcertoPlugin for rendering hooks, and by use_plugin_ability
+  # block above.
+  def switch_to_main_app_ability
+    @current_ability = @main_app_ability # it is okay if this is nil
+  end
+
   # Expose a instance variable counting the number of pending submissions
   # a user can moderate.  0 indicates no pending submissions.
   # @pending_submissions_count
@@ -43,7 +94,7 @@ class ApplicationController < ActionController::Base
   
   #Don't break for CanCan exceptions; send the user to the front page with a Flash error message
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :flash => { :notice => exception.message }
+    redirect_to main_app.root_url, :flash => { :notice => exception.message }
   end
 
   # Authenticate using the current action and instance variables.
@@ -91,7 +142,10 @@ class ApplicationController < ActionController::Base
       if ((object.is_a? Enumerable) || (object.is_a? ActiveRecord::Relation))
         object.delete_if {|o| cannot?(test_action, o)}
         if new_exception && object.empty?
-          new_object = controller_name.singularize.classify.constantize.new
+          # Parent will be Object for Concerto, or the module for Plugins.
+          new_parent = self.class.parent.name
+          new_class = new_parent + '::' + controller_name.singularize.classify
+          new_object = new_class.constantize.new
           return true if can?(:create, new_object)
         end
         if !allow_empty && object.empty?

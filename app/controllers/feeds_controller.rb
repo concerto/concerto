@@ -4,6 +4,7 @@ class FeedsController < ApplicationController
   def index
     @feeds = Feed.roots
     @screens = Screen.all
+    auth!(:object => @screens)
     auth!
 
     respond_to do |format|

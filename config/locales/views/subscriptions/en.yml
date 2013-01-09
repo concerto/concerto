@@ -1,1 +1,12 @@
 en:
+  subscriptions_created: 'Subscriptions created'
+  subscriptions_updated: 'Subscriptions have been saved for this field on your screen.'
+  
+  #_manage
+  add_a_new_feed:  'add a new feed'
+  manage_subscriptions: 'Manage Subscriptions for %{name} Field'
+  switch_position: 'switch to screen position'
+  approved_content: 'approved content'
+  rare: 'Rarely shown'
+  frequent: 'Frequently shown'
+  make_changes: 'Please make some changes above in order to save new subscriptions.'

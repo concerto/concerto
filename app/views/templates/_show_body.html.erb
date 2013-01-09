@@ -1,7 +1,7 @@
 <%= link_to t(:edit), edit_template_path(@template) %>
 
 <article>
-  <%= image_tag preview_template_path(@template, :width=> 600, :format => :jpg), :style => "width: 100%", :alt => t(:preview, :name => @template.name) %>
+  <%= image_tag preview_template_path(@template, :width=> 600, :format => :jpg), :style => "width: 100%", :alt => t(:preview_alt, :name => @template.name) %>
 </article>
 <aside>
   <p>
@@ -9,4 +9,3 @@
     <%= @template.author %>
   </p>
 </aside>
-

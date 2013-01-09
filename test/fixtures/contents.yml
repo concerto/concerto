@@ -39,3 +39,66 @@ active_ticker:
   user: katie
   kind: ticker
   type: Ticker
+
+parent_content:
+  name: Parent Ticker
+  duration: 5
+  start_time: 2000-02-19 21:13:35
+  end_time: 2100-02-19 21:13:35
+  data: Welcome to Concerto Digital Signage!
+  user: katie
+  kind: ticker
+  type: Ticker
+
+child_content:
+  name: Child Ticker
+  duration: 5
+  start_time: 2000-02-19 21:13:35
+  end_time: 2100-02-19 21:13:35
+  data: Welcome to Concerto Digital Signage!
+  user: katie
+  kind: ticker
+  type: Ticker
+  parent: parent_content
+
+bad_child_content:
+  name: Bad Child Ticker
+  duration: 5
+  start_time: 2000-02-19 21:13:35
+  end_time: 2100-02-19 21:13:35
+  data: Welcome to Carousel!
+  user: katie
+  kind: ticker
+  type: Ticker
+  parent: parent_content
+
+distant_child_content:
+  name: Distant Child Ticker
+  duration: 5
+  start_time: 2000-02-19 21:13:35
+  end_time: 2100-02-19 21:13:35
+  data: Welcome to Concerto Digital Signage!
+  user: katie
+  kind: ticker
+  type: Ticker
+  parent: parent_content
+
+sample_dynamic_content:
+  name: Sample Dynamic Content Feed
+  duration: 5
+  start_time: 2000-02-19 21:13:35
+  end_time: 2100-02-19 21:13:35
+  user: katie
+  kind: dynamic
+  type: DynamicContent
+
+dynamic_child_content:
+  name: Concerto TV Google Play
+  duration: 5
+  start_time: 2000-02-19 21:13:35
+  end_time: 2100-02-19 21:13:35
+  data: Concerto TV now available in the Google Play Store!
+  user: katie
+  kind: ticker
+  type: Ticker
+  parent: sample_dynamic_content

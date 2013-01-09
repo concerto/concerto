@@ -1,24 +1,34 @@
+<% # Important note on linking from the topmenu:
+   #
+   #   The application layout and this topmenu will be included into
+   #   view for plugins, where the Concerto controller's routing
+   #   helpers will not be in scope. Therefore, we refer to these links
+   #   using the "main_app" object.
+   #   
+   #   For example: main_app.feeds_path yields the path to the normal
+   #  feeds controller, and works both from Concerto and plugins.
+%>
 <nav id="top-menu">
   <% if not user_signed_in? %>
-    <%= link_to "Concerto", root_url, :id => "top-menu-logobutton" %>
+    <%= link_to "Concerto", main_app.root_url, :id => "top-menu-logobutton" %>
     <p id="top-menu-logintext">
-      <%= link_to t(:sign_in), new_user_session_path, :id => "login-dropdown" %> <%=t(:signin_login_spiel) %>
+      <%= link_to t(:sign_in), main_app.new_user_session_path, :id => "login-dropdown" %> <%=t(:signin_login_spiel) %>
       <% if can? :create, User %>
-        <%= t(:no_account) %> <%= link_to t(:sign_up), new_user_registration_path %> <%= t(:now) %>
+        <%= t(:no_account) %> <%= link_to t(:sign_up), main_app.new_user_registration_path %> <%= t(:now) %>
       <% end %>
     </p>
   <% else %>
-    <%= link_to root_url, :id => "top-menu-logobutton", :class => "full" do %>
+    <%= link_to main_app.root_url, :id => "top-menu-logobutton", :class => "full" do %>
       <i class="icon-logobutton"></i>
     <% end %>
 
     <!-- Begin Menu for CONTENT -->
     <section>
       <div class="top-menu-sectop">
-        <%= link_to t(:browse), feeds_path, :class => "btn #{ current_page?(feeds_path) || current_page?(root_path) ? 'selected' : '' }" %>
-        <%= link_to t(:add), new_content_path, :class => "btn #{ current_page?(new_content_path) ? 'selected' : '' }" if can? :create, Content %>
+        <%= link_to t(:browse), main_app.feeds_path, :class => "btn #{ current_page?(main_app.feeds_path) || current_page?(main_app.root_path) ? 'selected' : '' }" %>
+        <%= link_to t(:add), main_app.new_content_path, :class => "btn #{ current_page?(main_app.new_content_path) ? 'selected' : '' }" if can? :create, Content %>
         <% if @pending_submissions_count %>
-          <%= link_to moderate_path, :class => "tooltip-basic btn #{ current_page?(moderate_path) ? 'selected' : '' }", 'data-tooltip-text' => "You have #{ @pending_submissions_count } submissions to moderate" do %>
+          <%= link_to main_app.moderate_path, :class => "tooltip-basic btn #{ current_page?(main_app.moderate_path) ? 'selected' : '' }", 'data-tooltip-text' => "You have #{ @pending_submissions_count } submissions to moderate" do %>
             <%= t(:moderate) %>&nbsp;<span class="badge<% if @pending_submissions_count > 0 %> action<% end %>"><%= @pending_submissions_count %></span>
           <% end %>
         <% end %>
@@ -32,8 +42,8 @@
     <!-- Begin Menu for NETWORK -->
     <section>
       <div class="top-menu-sectop">
-        <%= link_to t(:screens), screens_path, :class => "btn #{ controller.controller_name == 'screens' ? 'selected' : '' }" %>
-        <%= link_to t(:users_and_groups), groups_path, :class => "btn #{ controller.controller_name == 'groups' ? 'selected' : '' }" %>
+        <%= link_to t(:screens), main_app.screens_path, :class => "btn #{ controller.controller_name == 'screens' ? 'selected' : '' }" %>
+        <%= link_to t(:users_and_groups), main_app.groups_path, :class => "btn #{ controller.controller_name == 'groups' ? 'selected' : '' }" %>
       </div>
       <div class="top-menu-secbot">
         <h1><%= t(:network) %></h1>
@@ -44,7 +54,7 @@
     <!-- Begin Menu for ADMIN -->
     <section>
       <div class="top-menu-sectop">
-        <%= link_to t(:dashboard), dashboard_path, :class => "btn #{ controller.controller_name == 'dashboard' ? 'selected' : '' }" %>
+        <%= link_to t(:dashboard), main_app.dashboard_path, :class => "btn #{ controller.controller_name == 'dashboard' ? 'selected' : '' }" %>
       </div>
       <div class="top-menu-secbot">
         <h1><%= t(:admin) %></h1>
@@ -60,8 +70,8 @@
           <% if can? :update, Group %><i class="icon-user-leader tooltip-basic" data-tooltip-text="<%= t(:leader) %>"></i><% end %>
         </div>
         <div class="pull-right">
-          <h2><%= link_to current_user.name, current_user %></h2>
-          <p><%= link_to t(:settings), edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;<%= link_to t(:log_out), destroy_user_session_path %></p>
+          <h2><%= link_to current_user.name, [main_app, current_user] %></h2>
+          <p><%= link_to t(:settings), main_app.edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;<%= link_to t(:log_out), main_app.destroy_user_session_path %></p>
         </div>
 
       </div>

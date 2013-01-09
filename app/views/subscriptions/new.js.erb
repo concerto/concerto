@@ -1,0 +1,6 @@
+$("#subscriptions-list").append("<%= escape_javascript(render :partial => 'subscriptions/new_subscription_tr', :locals => { :feed => @feed, :i => Time.now.nsec.to_i }) %>");
+
+initializeFrequencySliders();
+showSaveSubsAlert();
+
+$('#ui-tooltip-add-sub').qtip('hide');

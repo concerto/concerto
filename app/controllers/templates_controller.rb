@@ -1,12 +1,6 @@
 class TemplatesController < ApplicationController
   before_filter :get_type, :only => [:new, :create, :import]
 
-  # Grab the method of template
-  # creation we're working with.
-  def get_type
-    @type = params[:type] || 'import'
-  end
-
   # GET /templates
   # GET /templates.xml
   def index
@@ -70,7 +64,7 @@ class TemplatesController < ApplicationController
         format.html { redirect_to(@template, :notice => t(:template_created)) }
         format.xml  { render :xml => @template, :status => :created, :location => @template }
       else
-        format.html { render :action => "new" }
+        format.html { redirect_to new_template_path(@template, :type => 'create'), :locals => {:template => @template} }
         format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
       end
     end
@@ -129,12 +123,17 @@ class TemplatesController < ApplicationController
       if !params[:hide_text].nil?
         @hide_text = [true, "true", 1, "1"].include?(params[:hide_text])
       end
+
+      @only_fields = []
+      if !params[:fields].nil?
+        @only_fields = params[:fields].split(',').map{|i| i.to_i}
+      end
       
       jpg =  Mime::Type.lookup_by_extension(:jpg)  #JPG is getting defined elsewhere.
       if([jpg, Mime::PNG, Mime::HTML].include?(request.format))
         image = nil
         benchmark("Template#preview_image") do
-          image = @template.preview_image(@hide_fields, @hide_text)
+          image = @template.preview_image(@hide_fields, @hide_text, @only_fields)
         end
 
         # Resize the image if needed.
@@ -202,5 +201,13 @@ class TemplatesController < ApplicationController
         end
       end
     end
+  end
+
+private
+
+  # Grab the method of template
+  # creation we're working with.
+  def get_type
+    @type = params[:type] || 'import'
   end
 end

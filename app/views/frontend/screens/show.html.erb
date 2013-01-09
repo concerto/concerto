@@ -1,0 +1,15 @@
+<% content_for(:title, @screen.name) %>
+<% content_for(:head) do %>
+  <% @js_files.each do |js_file| %>
+    <script src="<%= frontend_js_path js_file %>" type="text/javascript"></script>
+  <% end %>
+  <script type="text/javascript">
+    var screen;
+    function init() {
+      var div = document.getElementsByClassName('screen')[0];
+      screen = new concerto.frontend.Screen(div.getAttribute('data-screen'), div);
+    }
+    window.addEventListener('load', init, false);
+  </script>
+<% end %>
+<%= tag('div', :class => 'screen', :data => {:screen => @screen.id }) -%>

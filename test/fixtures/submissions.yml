@@ -27,3 +27,31 @@ active_approved_ticker:
   moderation_flag: true
   moderator: katie
   duration: 1
+
+pending_parent:
+  content: parent_content
+  feed: service
+  moderation_flag:
+  moderator:
+  duration: 5
+
+pending_child:
+  content: child_content
+  feed: service
+  moderation_flag:
+  moderator:
+  duration: 5
+
+bad_child:
+  content: bad_child_content
+  feed: service
+  moderation_flag: false
+  moderator: kristen
+  duration: 5
+
+distant_child:
+  content: distant_child_content
+  feed: announcements
+  moderation_flag: false
+  moderator: kristen
+  duration: 5

@@ -49,6 +49,7 @@ class Membership < ActiveRecord::Base
   scope :denied, where(:level => Membership::LEVELS[:denied]) 
 
   attr_accessor :perms
+
   def expand_permissions
     self.perms =  {}
     level_sym = level_name.to_sym
@@ -132,7 +133,7 @@ class Membership < ActiveRecord::Base
      end
   end
   
-  #Make a regular member a group leader
+  # Make a regular member a group leader
   def promote_to_leader
      if update_attributes({:level => Membership::LEVELS[:leader]})
        true

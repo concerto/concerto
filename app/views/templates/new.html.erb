@@ -2,8 +2,8 @@
   <div class="span2 collapse-right">
     <ul class="nav nav-tabs nav-stacked nav-drawer-left">
       <li class="nav-header"><%= t(:template_method) %></li>
-      <li<% if @type == "create" %> class="active"<% end %>><%= link_to t(:from_scratch), new_template_path(:type=> "create") %></li>
       <li<% if @type == "import" %> class="active"<% end %>><%= link_to t(:import_existing), new_template_path(:type=> "import") %></li>
+      <li<% if @type == "create" %> class="active"<% end %>><%= link_to t(:from_scratch), new_template_path(:type=> "create") %></li>
     </ul>
   </div>
   <div class="span10">
