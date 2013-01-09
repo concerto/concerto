@@ -11,3 +11,5 @@ doc/app/*
 public/assets/*
 vendor/bundle/
 doc/coverage/*
+.rvmrc
+.idea/
