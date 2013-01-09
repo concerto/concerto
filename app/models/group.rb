@@ -58,7 +58,7 @@ class Group < ActiveRecord::Base
   def user_has_permissions?(user, level, type, permissions)
     return false if user.nil?
 
-    m = Membership.where(:user_id => user, :level => Membership::LEVELS[level]).first
+    m = memberships.where(:user_id => user, :level => Membership::LEVELS[level]).first
     return false if m.nil?
     return false unless m.perms.include?(type)
 
