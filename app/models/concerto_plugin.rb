@@ -10,8 +10,6 @@
 # Plugin interface.
 
 class ConcertoPlugin < ActiveRecord::Base
-
-  # Setup accessible attributes for your model
   attr_accessible :enabled, :gem_name, :gem_version, :installed, :module_name, :name, :source, :source_url
 
   scope :enabled, where(:enabled => true)

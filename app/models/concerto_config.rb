@@ -22,10 +22,6 @@ class ConcertoConfig < ActiveRecord::Base
   TRUE  = "t"
   FALSE = "f"
 
-  # Setup accessible attributes for your model
-  attr_accessible :key, :value, :value_default, :value_type, :name, :group, :description, :plugin_config, :plugin_id, :hidden
-
-  # Validations
   validates_presence_of   :key
   validates_uniqueness_of :key
 

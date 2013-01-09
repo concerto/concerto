@@ -1,8 +1,7 @@
 class UsersController < ApplicationController
   load_and_authorize_resource :except => [:index]
-  before_filter :remove_admin, :only => [:create,:update]
   respond_to :html, :json
-
+   
   # GET /users
   def index
     authorize! :list, User
@@ -22,7 +21,7 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    @user = User.new
+    @user = User.new(params[:user])
 
     respond_to do |format|
       if @user.save
@@ -34,7 +33,7 @@ class UsersController < ApplicationController
       end
     end
   end
-
+  
   # GET /users/1/edit
   def edit
     respond_with(@user = User.find(params[:id]))  
@@ -55,10 +54,5 @@ class UsersController < ApplicationController
     @user.destroy
     respond_with(@user)
   end
-
-private
-  def remove_admin
-    params.delete 'is_admin'
-  end
-
+  
 end

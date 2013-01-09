@@ -16,9 +16,6 @@ class User < ActiveRecord::Base
   has_many :groups, :through => :memberships, :conditions => ["memberships.level > ?", Membership::LEVELS[:pending]]
   has_many :leading_groups, :through => :memberships, :source => :group, :conditions => {"memberships.level" => Membership::LEVELS[:leader]}
 
-  # Setup accessible attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :locale, :is_admin
-
   # Validations
   validates :email, :presence => true, :uniqueness => true
   validates :first_name, :presence => true

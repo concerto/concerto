@@ -5,9 +5,6 @@ class Template < ActiveRecord::Base
   
   accepts_nested_attributes_for :media
 
-  # Setup accessible attributes for your model
-  attr_accessible :name, :author, :media_attributes, :is_hidden
-
   # Validations
   validates :name, :presence => true
 
