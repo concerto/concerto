@@ -9,7 +9,7 @@ class Content < ActiveRecord::Base
   accepts_nested_attributes_for :submissions
 
   # Setup accessible attributes for your model
-  attr_accessible :data, :duration, :end_time, :name, :start_time, :media_attributes
+  attr_accessible :data, :duration, :end_time, :name, :start_time, :media_attributes, :kind_id, :user, :content
 
   # Validations
   validates :name, :presence => true

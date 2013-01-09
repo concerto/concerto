@@ -6,7 +6,7 @@ class Screen < ActiveRecord::Base
   has_many :fields, :through => :positions
 
   # Setup accessible attributes for your model
-  attr_accessible :name, :location, :width, :height, :is_public, :template_id
+  attr_accessible :name, :location, :width, :height, :is_public, :template_id, :id, :owner_id, :owner_type, :created_at, :updated_at
 
   # Validations
   validates :name, :presence => true

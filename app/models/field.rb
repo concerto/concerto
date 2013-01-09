@@ -4,7 +4,7 @@ class Field < ActiveRecord::Base
   has_many :positions
 
   # Setup accessible attributes for your model
-  attr_accessible :name, :kind_id
+  attr_accessible :name, :kind
 
   # Validations
   validates :name, :presence => true

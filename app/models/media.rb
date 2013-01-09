@@ -4,7 +4,7 @@ class Media < ActiveRecord::Base
   attachable
 
   # Setup accessible attributes for your model
-  attr_accessible :key, :file
+  attr_accessible :key, :file, :file_type
 
   # Validations
   validates :file_type, :presence => true

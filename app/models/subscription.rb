@@ -20,7 +20,7 @@ class Subscription < ActiveRecord::Base
   belongs_to :screen
 
   # Setup accessible attributes for your model
-  attr_accessible :field_id, :screen_id, :weight
+  attr_accessible :field_id, :screen_id, :weight, :feed
 
   # Validations
   validates :feed, :presence => true, :associated => true

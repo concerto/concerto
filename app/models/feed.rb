@@ -10,7 +10,7 @@ class Feed < ActiveRecord::Base
   has_many :denied_contents, :through => :submissions, :source => :content, :conditions => {"submissions.moderation_flag" => false}
 
   # Setup accessible attributes for your model
-  attr_accessible :name, :description, :parent_id, :group_id, :is_viewable, :is_submittable
+  attr_accessible :name, :description, :parent_id, :group_id, :is_viewable, :is_submittable, :group
 
   # Validations
   validates :name, :presence => true, :uniqueness => true

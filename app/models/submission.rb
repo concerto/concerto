@@ -6,7 +6,7 @@ class Submission < ActiveRecord::Base
   after_save :update_children_moderation_flag
 
   # Setup accessible attributes for your model
-  attr_accessible :duration, :feed_id, :moderation_flag, :moderator_id
+  attr_accessible :duration, :feed, :moderation_flag, :moderator_id, :content
 
 
   # Validations

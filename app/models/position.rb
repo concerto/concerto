@@ -5,7 +5,7 @@ class Position < ActiveRecord::Base
   before_save :clean_styles
 
   # Setup accessible attributes for your model
-  attr_accessible :top, :left, :bottom, :right, :field_id
+  attr_accessible :top, :left, :bottom, :right, :field, :style, :template
 
   # Validations
   validates :field, :presence => true, :associated => true
@@ -14,7 +14,8 @@ class Position < ActiveRecord::Base
   validates :top, :numericality => {:greater_than_or_equal_to => -1, :less_than_or_equal_to => 1}
   validates :bottom, :numericality => {:greater_than_or_equal_to => -1, :less_than_or_equal_to => 1}
 
-  attr_accessor :field_contents_path
+  # Setup accessible attributes for your model
+  attr_accessor :field_contents_path, :template, :field
 
   # Compute the width of the position block.
   # A Concerto-1 style attribute, figuring out
