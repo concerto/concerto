@@ -59,7 +59,7 @@ class FeedsController < ApplicationController
   # POST /feeds
   # POST /feeds.xml
   def create
-    @feed = Feed.new(params[:feed])
+    @feed = Feed.new(feed_params)
     auth!
 
     respond_to do |format|
@@ -80,7 +80,7 @@ class FeedsController < ApplicationController
     auth!
 
     respond_to do |format|
-      if @feed.update_attributes(params[:feed])
+      if @feed.update_attributes(feed_params)
         format.html { redirect_to(@feed, :notice => t(:feed_updated)) }
         format.xml  { head :ok }
       else
@@ -102,4 +102,11 @@ class FeedsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  private
+
+  def feed_params
+    params.require(:feed).permit(:name, :description, :parent_id, :group_id, :is_viewable, :is_submittable)
+  end
+
 end

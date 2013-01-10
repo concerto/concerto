@@ -1,4 +1,6 @@
 class Feed < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   belongs_to :group
   has_many :submissions
   has_many :contents, :through => :submissions
