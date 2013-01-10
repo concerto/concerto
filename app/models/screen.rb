@@ -1,4 +1,6 @@
 class Screen < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   belongs_to :owner, :polymorphic => true
   belongs_to :template
   has_many :subscriptions, :dependent => :destroy

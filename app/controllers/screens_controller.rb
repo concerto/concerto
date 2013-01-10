@@ -67,7 +67,7 @@ class ScreensController < ApplicationController
   # POST /screens
   # POST /screens.xml
   def create
-    @screen = Screen.new(params[:screen])
+    @screen = Screen.new(screen_params)
     auth!
     @templates = Template.all
     @users = User.all
@@ -109,7 +109,7 @@ class ScreensController < ApplicationController
     end
 
     respond_to do |format|
-      if @screen.update_attributes(params[:screen])
+      if @screen.update_attributes(screen_params)
         format.html { redirect_to(@screen, :notice => t(:screen_updated)) }
         format.xml  { head :ok }
       else
@@ -140,5 +140,11 @@ class ScreensController < ApplicationController
    end
    render :layout => false
  end
+
+  private
+
+  def screen_params
+    params.require(:screen).permit(:name, :location, :owner, :width, :height, :template_id, :is_public)
+  end
  
 end
