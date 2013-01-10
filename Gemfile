@@ -67,3 +67,5 @@ gem 'simplecov', :require => false, :group => :test
 gem 'sys-proctable'
 
 gem 'rails-backup-migrate'
+
+gem 'strong_parameters'

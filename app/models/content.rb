@@ -1,4 +1,6 @@
 class Content < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   belongs_to :user
   belongs_to :kind
   has_many :submissions, :dependent => :destroy

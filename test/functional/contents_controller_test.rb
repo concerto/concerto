@@ -53,7 +53,7 @@ class ContentsControllerTest < ActionController::TestCase
 
   test "should demoderate submissions on edit" do
     sign_in users(:admin)
-    put :update, :id => contents(:sample_ticker).id, :duration => "7"
+    put :update, :id => contents(:sample_ticker).id, :content => { :duration => "7" }
     related_submissions = contents(:sample_ticker).submissions
     related_submissions.each do |submission|
       assert_nil(submission.moderation_flag)

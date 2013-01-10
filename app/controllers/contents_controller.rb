@@ -66,7 +66,7 @@ class ContentsController < ApplicationController
   # POST /contents
   # POST /contents.xml
   def create
-    @content =  @content_const.new(params[@content_const.model_name.singular])
+    @content =  @content_const.new(content_params)
     @content.user = current_user
     auth!
 
@@ -104,7 +104,7 @@ class ContentsController < ApplicationController
     auth!
 
     respond_to do |format|
-      if @content.update_attributes(params[:content])
+      if @content.update_attributes(content_params)
         submissions = @content.submissions
         submissions.each do |submission|
           submission.update_attributes(:moderation_flag => nil)
@@ -147,6 +147,16 @@ class ContentsController < ApplicationController
       end
       send_data data, :filename => @file.file_name, :type => @file.file_type, :disposition => 'inline'
     end
+  end
+
+  private
+
+  def content_params
+    content_sym = :content
+    if !@content_const.nil?
+      content_sym = @content_const.model_name.singular.to_sym
+    end
+    params.require(content_sym).permit(:name, :duration, :data, :start_time => [:time, :date], :end_time => [:time, :date], :media_attributes => [:file, :key])
   end
 
 end
