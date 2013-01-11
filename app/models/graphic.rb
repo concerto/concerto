@@ -75,5 +75,11 @@ class Graphic < Content
     {:path => url_helpers.frontend_screen_field_content_path(self.screen, self.field, self)}
   end
 
+  # Graphics also accept media attributes for the uploaded file.
+  def self.form_attributes
+    attributes = super()
+    attributes.concat([:media_attributes => [:file, :key]])
+  end
+
 end
 

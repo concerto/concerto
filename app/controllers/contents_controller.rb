@@ -151,12 +151,17 @@ class ContentsController < ApplicationController
 
   private
 
+  # Restrict the allowed parameters to a select set defined in the model.
   def content_params
+    # First we need to figure out the model name.
     content_sym = :content
+    attributes = Content.form_attributes
     if !@content_const.nil?
       content_sym = @content_const.model_name.singular.to_sym
+      attributes = @content_const.form_attributes
     end
-    params.require(content_sym).permit(:name, :duration, :data, :start_time => [:time, :date], :end_time => [:time, :date], :media_attributes => [:file, :key])
+    # Reach into the model and grab the attributes to accept.
+    params.require(content_sym).permit(*attributes)
   end
 
 end
