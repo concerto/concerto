@@ -97,7 +97,7 @@ class Content < ActiveRecord::Base
   # We define a common set of attribtues here, expecting child content types to
   # supplement this list with additional attributes that they require.
   def self.form_attributes
-    attributes = [:name, :duration, :data, :start_time => [:time, :date], :end_time => [:time, :date]]
+    attributes = [:name, :duration, :data, {:start_time => [:time, :date]}, {:end_time => [:time, :date]}]
   end
 
 end

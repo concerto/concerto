@@ -78,7 +78,7 @@ class Graphic < Content
   # Graphics also accept media attributes for the uploaded file.
   def self.form_attributes
     attributes = super()
-    attributes.concat([:media_attributes => [:file, :key]])
+    attributes.concat([{:media_attributes => [:file, :key]}])
   end
 
 end
