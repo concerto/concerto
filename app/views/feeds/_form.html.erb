@@ -56,6 +56,12 @@
       </div>
     </div>
     
+    <%= f.fields_for :content_types do |c| %>
+      <% Concerto::Application.config.content_types.each do |t,v| %>
+        <%= t %><%= c.check_box t, checked: (v == "1" ? "checked" : "") %>
+      <% end %>
+    <% end %>
+    
   </fieldset>
   
   <div class="submit_bar actions">

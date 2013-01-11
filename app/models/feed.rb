@@ -5,6 +5,7 @@ class Feed < ActiveRecord::Base
   has_many :submissions
   has_many :contents, :through => :submissions
   has_many :subscriptions, :dependent => :destroy
+  serialize :content_types, Hash
 
   # Scoped relations for content approval states
   has_many :approved_contents, :through => :submissions, :source => :content, :conditions => {"submissions.moderation_flag" => true}
