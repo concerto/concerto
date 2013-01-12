@@ -19,3 +19,28 @@ en:
       all: "You're not authorized to update %{subject}."      
     delete:
       all: "You're not authorized to delete %{subject}."
+
+  activerecord:
+    attributes:
+      concerto_config:
+        default_upload_type: "Default content upload type"
+        #submit: "Submit"
+        #duration: "Duration"
+        #start_time: "Start Time"
+        #end_time: "End Time"
+        public_concerto: "Public Concerto access"
+        content_default_start_time: "Default start time for content"
+        content_default_end_time: "Default end time for content"
+        #content_default_duration: "Default duration for content (in days)"
+        start_date_offset: "Time between submission and content start"
+        default_content_run_time: "Default content run time (in days)"
+        setup_complete: "Concerto setup complete"
+        allow_registration: "Allow open user registration"
+        allow_remote_error_reporting: "Allow remote error reporting"
+        allow_user_screen_creation: "Allow user screen creation"
+        allow_user_feed_creation: "Allow user feed creation"
+        #save_settings: "Save Settings"
+        rubygem_executable: "Rubygem Executable"
+        send_errors: "Send errors"
+        autostart_delayed_job: "Automatically start Delayed Job Daemon"
+
