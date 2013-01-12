@@ -106,7 +106,8 @@ class FeedsController < ApplicationController
   private
 
   def feed_params
-    params.require(:feed).permit(:name, :description, :parent_id, :group_id, :is_viewable, :is_submittable)
+    types = Concerto::Application.config.content_types.map{|t| t.name.to_sym}
+    params.require(:feed).permit(:name, :description, :parent_id, :group_id, :is_viewable, :is_submittable, :content_types => types)
   end
 
 end
