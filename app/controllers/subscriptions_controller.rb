@@ -9,8 +9,8 @@ class SubscriptionsController < ApplicationController
     @field = Field.find(params[:field_id])
   end
 
-  # GET /screen/:screen_id/subscriptions
-  # GET /screen/:screen_id/subscriptions.xml
+  # GET /screens/:screen_id/fields/:field_id/subscriptions
+  # GET /screens/:screen_id/fields/:field_id/subscriptions.xml
   def index
     @subscriptions = @screen.subscriptions.all
     auth!
@@ -21,7 +21,7 @@ class SubscriptionsController < ApplicationController
     end
   end
 
-  # GET /screen/:screen_id/subscriptions/manage
+  # GET /screens/:screen_id/fields/:field_id/subscriptions/manage
   def manage
     @subscription = Subscription.new 
     #stub out the screen ID so that CanCan can find an owner to auth
@@ -36,8 +36,8 @@ class SubscriptionsController < ApplicationController
     end
   end
 
-  # GET /screen/:screen_id/subscriptions/1
-  # GET /screen/:screen_id/subscriptions/1.xml
+  # GET /screens/:screen_id/fields/:field_id/subscriptions/1
+  # GET /screens/:screen_id/fields/:field_id/subscriptions/1.xml
   def show
     @subscription = Subscription.find(params[:id])
     auth!
@@ -48,8 +48,8 @@ class SubscriptionsController < ApplicationController
     end
   end
 
-  # GET /screen/:screen_id/subscriptions/new
-  # GET /screen/:screen_id/subscriptions/new.xml
+  # GET /screens/:screen_id/fields/:field_id/subscriptions/new
+  # GET /screens/:screen_id/fields/:field_id/subscriptions/new.js
   def new
     @feed = Feed.find(params[:feed_id])
 
@@ -59,14 +59,14 @@ class SubscriptionsController < ApplicationController
     end
   end
 
-  # GET /screen/:screen_id/subscriptions/1/edit
+  # GET /screens/:screen_id/fields/:field_id/subscriptions/1/edit
   def edit
     @subscription = Subscription.find(params[:id])
     auth!
   end
 
-  # POST /screen/:screen_id/subscriptions
-  # POST /screen/:screen_id/subscriptions.xml
+  # POST /screens/:screen_id/fields/:field_id/subscriptions
+  # POST /screens/:screen_id/fields/:field_id/subscriptions.xml
   def create
     @feed_ids = Array.new
 		@weights = Array.new
@@ -105,8 +105,8 @@ class SubscriptionsController < ApplicationController
 		end
 	end
 
-  # PUT /screen/:screen_id/subscriptions/1
-  # PUT /screen/:screen_id/subscriptions/1.xml
+  # PUT /screens/:screen_id/fields/:field_id/subscriptions/1
+  # PUT /screens/:screen_id/fields/:field_id/subscriptions/1.xml
   def save_all
     #Create parallel arrays to store feeds and their weights for each subscription
     @feed_ids = Array.new
@@ -176,8 +176,8 @@ class SubscriptionsController < ApplicationController
     end
   end
 
-  # DELETE /screen/:screen_id/subscriptions/1
-  # DELETE /screen/:screen_id/subscriptions/1.xml
+  # DELETE /screens/:screen_id/fields/:field_id/subscriptions/1
+  # DELETE /screens/:screen_id/fields/:field_id/subscriptions/1.xml
   def destroy
     @subscription = Subscription.find(params[:id])
     auth!

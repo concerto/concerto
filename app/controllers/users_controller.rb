@@ -20,6 +20,7 @@ class UsersController < ApplicationController
   end
 
   # POST /users
+  # POST /users.xml
   def create
     @user = User.new(params[:user])
 

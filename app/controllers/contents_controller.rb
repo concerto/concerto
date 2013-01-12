@@ -1,7 +1,7 @@
 class ContentsController < ApplicationController
   before_filter :get_content_const, :only => [:new, :create]
 
-  # Grab the constent object for the type of
+  # Grab the constant object for the type of
   # content we're working with.  Probably needs
   # additional error checking.
   def get_content_const
@@ -13,7 +13,7 @@ class ContentsController < ApplicationController
   end
 
   # GET /contents/1
-  # GET /contents/1
+  # GET /contents/1.xml
   def show
     @content = Content.find(params[:id])
     @user = User.find(@content.user_id)
@@ -149,7 +149,7 @@ class ContentsController < ApplicationController
     end
   end
 
-  private
+private
 
   # Restrict the allowed parameters to a select set defined in the model.
   def content_params

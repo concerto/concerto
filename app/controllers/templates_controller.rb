@@ -3,6 +3,7 @@ class TemplatesController < ApplicationController
 
   # GET /templates
   # GET /templates.xml
+  # GET /templates.js
   def index
     @templates = Template.all
     auth!
@@ -16,6 +17,7 @@ class TemplatesController < ApplicationController
 
   # GET /templates/1
   # GET /templates/1.xml
+  # GET /templates/1.js
   def show
     @template = Template.find(params[:id])
     auth!
@@ -171,6 +173,7 @@ class TemplatesController < ApplicationController
   end
 
   # PUT /templates/import
+  # PUT /templates/import.xml
   # Import a template from an XML description and convert it to an actual
   # template model.
   #

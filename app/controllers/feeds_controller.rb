@@ -1,6 +1,7 @@
 class FeedsController < ApplicationController
   # GET /feeds
   # GET /feeds.xml
+  # GET /feeds.js
   def index
     @feeds = Feed.roots
     @screens = Screen.all
@@ -14,19 +15,22 @@ class FeedsController < ApplicationController
     end
   end
 
+  # GET /moderate
+  # GET /moderate.js
   def moderate
     @feeds = Feed.all
     auth!(:object => @feeds, :action => :update, :allow_empty => false)
     @feeds.reject!{|f| not f.pending_contents.count > 0}
     
     respond_to do |format|
-      format.js { }
       format.html { }
+      format.js { }
     end
   end
 
   # GET /feeds/1
   # GET /feeds/1.xml
+  # GET /feeds/1.js
   def show
     @feed = Feed.find(params[:id])
     auth!
@@ -103,7 +107,7 @@ class FeedsController < ApplicationController
     end
   end
 
-  private
+private
 
   def feed_params
     types = Concerto::Application.config.content_types.map{|t| t.name.to_sym}

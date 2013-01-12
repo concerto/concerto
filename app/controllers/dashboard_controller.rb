@@ -1,8 +1,9 @@
 class DashboardController < ApplicationController
-  #includes for system status functions
+  # includes for system status functions
   require 'sys/proctable'
-  include Sys  
-      require 'rake'
+  require 'rake'
+  include Sys
+
   # GET /dashboard
   def index
     authorize! :read, ConcertoConfig
@@ -24,7 +25,8 @@ class DashboardController < ApplicationController
     @concerto_configs = ConcertoConfig.where("hidden IS NULL")
   end
 
-  #get a hash of concerto_config keys and values and update them using the ConcertoConfig setter
+  # get a hash of concerto_config keys and values and update them using the ConcertoConfig setter
+  # POST /dashboard/update
   def update
     authorize! :update, @concerto_config
     params[:concerto_config].each  do |k,v|
@@ -32,9 +34,10 @@ class DashboardController < ApplicationController
     end
     redirect_to :action => :index
   end
-  
+
+  # GET /dashboard/run_backup
   def run_backup
-    #Add rake site:backup to the Delayed Jobs queue for processing
+    # Add rake site:backup to the Delayed Jobs queue for processing
   end
   
   def latest_version

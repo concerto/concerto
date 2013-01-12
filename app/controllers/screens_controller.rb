@@ -141,7 +141,7 @@ class ScreensController < ApplicationController
    render :layout => false
  end
 
-  private
+private
 
   def screen_params
     params.require(:screen).permit(:name, :location, :owner, :width, :height, :template_id, :is_public)

@@ -6,6 +6,8 @@ class SubmissionsController < ApplicationController
     @feed = Feed.find(params[:feed_id])
   end
 
+  # GET /feeds/:feed_id/submissions
+  # GET /feeds/:feed_id/submissions.js
   def index
     @can_moderate_feed = can?(:update, @feed)
     
@@ -28,11 +30,13 @@ class SubmissionsController < ApplicationController
     #auth!
 
     respond_to do |format|
-      format.js { }
       format.html { }
+      format.js { }
     end
   end
 
+  # GET /feeds/:feed_id/submissions/1
+  # GET /feeds/:feed_id/submissions/1.js
   def show
     @submission = Submission.find(params[:id])
     
@@ -49,8 +53,8 @@ class SubmissionsController < ApplicationController
     auth!
 
     respond_to do |format|
-      format.js { }
       format.html { }
+      format.js { }
     end
   end
 
