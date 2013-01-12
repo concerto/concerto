@@ -14,27 +14,6 @@ class ConcertoPlugin < ActiveRecord::Base
 
   scope :enabled, where(:enabled => true)
 
-  private
-  def get_engine_from_module(plugin_name)
-    if Object.const_defined?(plugin_name) 
-      mod = plugin_name.constantize
-      if mod.const_defined?("Engine")
-        engine = mod.const_get("Engine")
-        return engine
-      else
-        logger.warn("ConcertoPlugin: #{plugin_name} Engine Class " +
-                    plugin.module_name + " not found.")
-        return false
-      end
-    else
-      logger.warn("ConcertoPlugin: #{plugin_name} module (" +
-                    plugin_name + ") not found.")
-      return false
-    end
-  end
-
-  public
-
   # Looks for the Engine in the module associated with this plugin.
   def engine
     @engine ||= get_engine_from_module(module_name)
@@ -152,4 +131,25 @@ class ConcertoPlugin < ActiveRecord::Base
       controller.set_callback(callback[:name], callback[:filter_list], callback[:block])
     end
   end
+
+private
+
+  def get_engine_from_module(plugin_name)
+    if Object.const_defined?(plugin_name)
+      mod = plugin_name.constantize
+      if mod.const_defined?("Engine")
+        engine = mod.const_get("Engine")
+        return engine
+      else
+        logger.warn("ConcertoPlugin: #{plugin_name} Engine Class " +
+                        plugin.module_name + " not found.")
+        return false
+      end
+    else
+      logger.warn("ConcertoPlugin: #{plugin_name} module (" +
+                      plugin_name + ") not found.")
+      return false
+    end
+  end
+
 end
