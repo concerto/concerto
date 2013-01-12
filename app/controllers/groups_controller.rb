@@ -46,7 +46,7 @@ class GroupsController < ApplicationController
   # POST /groups
   # POST /groups.xml
   def create
-    @group = Group.new(params[:group])
+    @group = Group.new(group_params)
     auth!
 
     respond_to do |format|
@@ -69,7 +69,7 @@ class GroupsController < ApplicationController
     auth!
 
     respond_to do |format|
-      if @group.update_attributes(params[:group])
+      if @group.update_attributes(group_params)
         format.html { redirect_to(@group, :notice => t(:group_updated)) }
         format.xml  { head :ok }
       else
@@ -90,5 +90,12 @@ class GroupsController < ApplicationController
       format.html { redirect_to(groups_url) }
       format.xml  { head :ok }
     end
+  end
+
+private
+
+  # Restrict the allowed parameters to a select set defined in the model.
+  def group_params
+    params.require(:group).permit(:name, :narrative)
   end
 end

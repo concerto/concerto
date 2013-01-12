@@ -1,4 +1,6 @@
 class Group < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   has_many :feeds
   has_many :memberships, :dependent => :destroy
   accepts_nested_attributes_for :memberships
