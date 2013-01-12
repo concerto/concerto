@@ -77,6 +77,6 @@ class DashboardController < ApplicationController
         return @versions[0]
       }
     }
-  end  
-  
+  end
+
 end

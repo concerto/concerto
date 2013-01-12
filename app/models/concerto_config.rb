@@ -18,7 +18,8 @@
   # and modified by calling ConcertoConfig.set(public_concerto,true)
 
 class ConcertoConfig < ActiveRecord::Base
-  
+  include ActiveModel::ForbiddenAttributesProtection
+
   TRUE  = "t"
   FALSE = "f"
 
