@@ -26,7 +26,7 @@ boring_announcements:
   parent: announcements
   group: wtg
   content_types:
-    "Graphic": "1"
+    "Graphic": "0"
     "Ticker": "1"
   
 important_announcements:
