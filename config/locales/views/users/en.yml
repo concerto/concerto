@@ -18,7 +18,6 @@ en:
   new_user: 'New User'
   first_name: 'First Name'
   last_name: 'Last Name'
-  actions: 'actions'
   destroy: 'destroy'
   edit: 'edit'
 
