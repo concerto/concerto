@@ -7,18 +7,27 @@ service:
   group: wtg
   is_submittable: true
   is_viewable: true
+  content_types:
+    "Graphic": "1"
+    "Ticker": "1"
 
 announcements:
   name: Announcements
   description: Important Organizational Announcements
   parent_id:
   group: wtg
+  content_types:
+    "Graphic": "1"
+    "Ticker": "1"
 
 boring_announcements:
   name: Boring Announcements
   description: Not so exciting organizational announcements
   parent: announcements
   group: wtg
+  content_types:
+    "Graphic": "1"
+    "Ticker": "1"
   
 important_announcements:
   name: Important Announcements
