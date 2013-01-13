@@ -58,7 +58,11 @@
     
     <%= f.fields_for :content_types do |content_types| %>
       <% Concerto::Application.config.content_types.each do |type| %>
-        <%= type %> <%= content_types.check_box type, {:checked => (@feed.content_types["#{type.name}"] == "1")} %>
+        <% if @feed.content_types.empty? %>
+          <%= type %> <%= content_types.check_box type, {:checked => true } %>
+        <% else %>  
+          <%= type %> <%= content_types.check_box type, {:checked => (@feed.content_types["#{type.name}"] == "1")} %>
+        <% end %>
       <% end %>
     <% end %>
     
