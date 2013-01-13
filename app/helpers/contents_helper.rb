@@ -14,6 +14,13 @@ module ContentsHelper
     end
   end
 
+  # All the content types that are allowed on a group of feeds.
+  # @param [Array<Feed>] feeds Array of feeds to find the content types from.
+  # @return [Array<String>] A list of content type class names, like ["Graphic", "Ticker"].
+  def allowed_content_types(feeds)
+    feeds.map {|f| f.content_types.reject{|k, value| value != "1"}.keys}.flatten.uniq
+  end
+
   # Render a piece of content.
   #
   # options[:type] controls what partial is used

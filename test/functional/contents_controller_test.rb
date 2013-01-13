@@ -60,4 +60,11 @@ class ContentsControllerTest < ActionController::TestCase
     end
   end
 
+  test "some feeds do not want graphics" do
+    sign_in users(:katie)
+    get(:new, {:type => "graphic"})
+    assert_response :success
+    assert_select 'input[type="checkbox"][disabled="disabled"]', 4
+  end
+
 end
