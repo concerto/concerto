@@ -19,10 +19,10 @@ class MembershipsController < ApplicationController
     respond_to do |format|
       if @membership.save
         format.html { redirect_to(edit_group_path(@group), :notice => t(:membership_created)) }
-        format.xml  { render :xml => @group, :status => :created, :location => @group }
+        format.xml { render :xml => @group, :status => :created, :location => @group }
       else
         format.html { redirect_to @group }
-        format.xml  { render :xml => @membership.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @membership.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -33,12 +33,12 @@ class MembershipsController < ApplicationController
     @membership = Membership.find(params[:id])
 
     respond_to do |format|
-      if (@membership.can_resign_leadership?) && (@membership.update_attributes(params[:membership]))
+      if (@membership.can_resign_leadership?) && (@membership.update_attributes(membership_params))
         format.html { redirect_to(edit_group_path(@group), :notice => t(:membership_updated)) }
-        format.xml  { head :ok }
+        format.xml { head :ok }
       else
-        format.html { redirect_to @group , :notice => @group.errors}
-        format.xml  { render :xml => @membership.errors, :status => :unprocessable_entity }
+        format.html { redirect_to @group, :notice => @group.errors }
+        format.xml { render :xml => @membership.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -49,15 +49,15 @@ class MembershipsController < ApplicationController
     @membership = Membership.find(params[:id])
 
     respond_to do |format|
-			if (@membership.can_resign_leadership?) && (@membership.destroy)
-				format.html { redirect_to({:controller => :groups, :action => :edit, :id => @group}, :notice => t(:member_removed)) }
-				format.xml  { head :ok }
-			else
-				format.html { redirect_to @group, :notice => t(:membership_denied) }
-				format.xml  { render :xml => @membership.errors, :status => :unprocessable_entity }
-			end
-		end
-	end
+      if (@membership.can_resign_leadership?) && (@membership.destroy)
+        format.html { redirect_to({:controller => :groups, :action => :edit, :id => @group}, :notice => t(:member_removed)) }
+        format.xml { head :ok }
+      else
+        format.html { redirect_to @group, :notice => t(:membership_denied) }
+        format.xml { render :xml => @membership.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
 
 # PUT /groups/:group_id/memberships/1/approve
   def approve
@@ -82,7 +82,7 @@ class MembershipsController < ApplicationController
       end
     end
   end
-  
+
   # PUT /groups/:group_id/memberships/1/deny
   def deny
     membership = Membership.find(params[:id])
@@ -94,5 +94,11 @@ class MembershipsController < ApplicationController
         format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_failed_deny)) }
       end
     end
+  end
+
+  private
+
+  def membership_params
+    params.require(:membership).permit(:user_id, :group_id, :created_at, :level, :permissions)
   end
 end

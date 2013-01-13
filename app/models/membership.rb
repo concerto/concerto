@@ -1,31 +1,33 @@
 class Membership < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   # Membership levels
   LEVELS = {
-    # A denied member is not a member of the group.
-    :denied => 0,
-    # A pending member has not yet been accepted into a group.
-    # We need to update authorization to reflect this.
-    :pending => 1,
-    # A regular member is a member of the group with full read permission.
-    :regular => 2,
-    # A leader controls the group.
-    :leader => 9,
+      # A denied member is not a member of the group.
+      :denied => 0,
+      # A pending member has not yet been accepted into a group.
+      # We need to update authorization to reflect this.
+      :pending => 1,
+      # A regular member is a member of the group with full read permission.
+      :regular => 2,
+      # A leader controls the group.
+      :leader => 9,
   }
 
   # Membership Permissions
   PERMISSIONS = {
-    :regular => {
-      :screen => {
-        :none => 0, # No screen write privledges
-        :subscriptions => 3, # Can update subscriptions
-        :all => 9, # Full write privledges
-      },
-      :feed => {
-        :none => 0, # No feed write privledges
-        :submissions => 3, # Can update submissions (moderate)
-        :all => 9 # Full write privledges
-      },
-    }
+      :regular => {
+          :screen => {
+              :none => 0, # No screen write privledges
+              :subscriptions => 3, # Can update subscriptions
+              :all => 9, # Full write privledges
+          },
+          :feed => {
+              :none => 0, # No feed write privledges
+              :submissions => 3, # Can update submissions (moderate)
+              :all => 9 # Full write privledges
+          },
+      }
   }
 
   after_initialize :expand_permissions
@@ -46,12 +48,12 @@ class Membership < ActiveRecord::Base
   # Scoping shortcuts for workflow (approved/pending/denied)
   scope :approved, where("level > #{Membership::LEVELS[:pending]}")
   scope :pending, where(:level => Membership::LEVELS[:pending])
-  scope :denied, where(:level => Membership::LEVELS[:denied]) 
+  scope :denied, where(:level => Membership::LEVELS[:denied])
 
   attr_accessor :perms
 
   def expand_permissions
-    self.perms =  {}
+    self.perms = {}
     level_sym = level_name.to_sym
     if PERMISSIONS.include?(level_sym) && !permissions.nil?
       local_perms = PERMISSIONS[level_sym]
@@ -83,7 +85,7 @@ class Membership < ActiveRecord::Base
         if perms.include?(key)
           p_sym = perms[key].to_sym
           p_value = local_perms[key][p_sym]
-         end
+        end
         if index == 0
           if !p_value.nil?
             new_permissions = p_value
@@ -100,7 +102,7 @@ class Membership < ActiveRecord::Base
 
   # Get level name of a membership
   def level_name
-    name = (Membership::LEVELS.respond_to?(:key) ?  Membership::LEVELS.key(level) :  Membership::LEVELS.index(level)).to_s
+    name = (Membership::LEVELS.respond_to?(:key) ? Membership::LEVELS.key(level) : Membership::LEVELS.index(level)).to_s
   end
 
   # Test if the membership has been approved.
@@ -125,22 +127,22 @@ class Membership < ActiveRecord::Base
 
   # Approve a user in group
   def approve()
-     if self.can_resign_leadership? && update_attributes({:level => Membership::LEVELS[:regular]})
-       true
-     else
-       reload
-       false
-     end
+    if self.can_resign_leadership? && update_attributes({:level => Membership::LEVELS[:regular]})
+      true
+    else
+      reload
+      false
+    end
   end
-  
+
   # Make a regular member a group leader
   def promote_to_leader
-     if update_attributes({:level => Membership::LEVELS[:leader]})
-       true
-     else
-       reload
-       false
-     end  
+    if update_attributes({:level => Membership::LEVELS[:leader]})
+      true
+    else
+      reload
+      false
+    end
   end
 
   # Deny a user in group
@@ -153,8 +155,8 @@ class Membership < ActiveRecord::Base
     end
   end
 
-	# Can a group leader resign his commission?
-	def can_resign_leadership?
-		return self.group.leaders.count > 1 || !self.is_leader?
-	end
+  # Can a group leader resign his commission?
+  def can_resign_leadership?
+    return self.group.leaders.count > 1 || !self.is_leader?
+  end
 end
