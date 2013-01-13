@@ -1,5 +1,6 @@
 <div class="clearfix">
   <% feeds = dfs_tree(Feed.roots) %>
+  <% feeds.reject!{|f| !@feeds.include?(f) } %>
   <% if feeds.empty? %>
     <p><%= t(:no_feeds)%></p>
   <% else %>
@@ -7,7 +8,8 @@
     <br />
     <ol class='filterable'>
     <% feeds.each_with_index do |feed, i| %>
-      <li data-filter="<%= feed.name %>"><%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed) %>
+      <% allowed_type = (feed.content_types[@content.class.name] == "1") %>
+      <li data-filter="<%= feed.name %>"><%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed), :disabled => !allowed_type %>
       <%= "-" * feed.depth %> <%= feed.name %></li>
     <% end %>
     </ol>

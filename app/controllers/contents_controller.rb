@@ -50,6 +50,9 @@ class ContentsController < ApplicationController
       @content = @content_const.new()
       auth!
 
+      # TODO: Remove the fields the user does not have submission access to.
+      @feeds = Feed.all
+
       respond_to do |format|
         format.html { } # new.html.erb
         format.xml  { render :xml => @content }
