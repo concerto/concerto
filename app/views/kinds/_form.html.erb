@@ -1,20 +1,27 @@
 <%= form_for(@kind) do |f| %>
-  <% if @kind.errors.any? %>
-  <div id="errorExplanation">
-    <h2><%= pluralize(@kind.errors.count, "error") %> prohibited this kind from being saved:</h2>
-    <ul>
-      <% @kind.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
-  <% end %>
+    <% if @kind.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@kind.errors.count, t(:error)) + t(:prohibited_save, :model => 'kind') %></h2>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="actions">
-    <%= f.submit "Submit", :class => "btn primary" %>
-  </div>
+          <ul>
+            <% @kind.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <fieldset>
+      <div class="clearfix">
+        <%= f.label :name %>
+        <div class="input">
+          <div class="inline-inputs">
+            <%= f.text_field :name %>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="submit_bar actions">
+      <%= f.submit t(:submit), :class => "btn primary" %>
+    </div>
 <% end %>

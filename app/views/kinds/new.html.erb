@@ -1,5 +1,9 @@
-<h1>New kind</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Back', kinds_path %>
+<section class="viewblock">
+  <header class="viewblock-header">
+    <%= back_button kinds_path %>
+    <h1 class="default-padding"<%= t(:new_kind) %></h1>
+  </header>
+  <div class="viewblock-cont">
+    <%= render 'form' %>
+  </div>
+</section>

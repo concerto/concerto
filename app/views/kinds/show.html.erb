@@ -1,17 +1,24 @@
-<p>
-  <b>Name:</b>
-  <%= @kind.name %>
-</p>
-<p>
-  <b>Fields:</b>
-  <ul>
-  <% @kind.fields.each do |field| %>
-    <li><%= link_to field.name, [@kind, field] %></li>
-  <% end %>
-    <li><%= link_to "New Field", new_kind_field_path(@kind) %></li>
-  </ul>
-</p>
+<section class="viewblock">
+  <header class="viewblock-header" id="kinds-header">
+    <h1 class="default-padding">
+      <%= link_to t(:all_kinds), kinds_path %> &gt;
+      <%= @kind.name %>
+    </h1>
+  </header>
+  <div class="viewblock-cont">
+    <table>
+      <tr>
+        <th><%= t(:name) %></th>
+      </tr>
 
+      <% @kind.fields.each do |field| %>
+          <tr>
+            <td><%= link_to field.name, [@kind, field] %></td>
+          </tr>
+      <% end %>
+    </table>
+  </div>
+</section>
 
 <%= link_to 'Edit', edit_kind_path(@kind) %> |
 <%= link_to 'Back', kinds_path %>

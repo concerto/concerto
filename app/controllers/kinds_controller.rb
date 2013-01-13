@@ -6,7 +6,7 @@ class KindsController < ApplicationController
     auth!(:allow_empty => false)
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @kinds }
+      format.xml { render :xml => @kinds }
     end
   end
 
@@ -18,7 +18,7 @@ class KindsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @kind.to_xml(:include => [:fields]) }
+      format.xml { render :xml => @kind.to_xml(:include => [:fields]) }
     end
   end
 
@@ -30,7 +30,7 @@ class KindsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @kind }
+      format.xml { render :xml => @kind }
     end
   end
 
@@ -43,16 +43,16 @@ class KindsController < ApplicationController
   # POST /kinds
   # POST /kinds.xml
   def create
-    @kind = Kind.new(params[:kind])
+    @kind = Kind.new(kind_params)
     auth!
 
     respond_to do |format|
       if @kind.save
         format.html { redirect_to(@kind, :notice => 'Kind was successfully created.') }
-        format.xml  { render :xml => @kind, :status => :created, :location => @kind }
+        format.xml { render :xml => @kind, :status => :created, :location => @kind }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @kind.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @kind.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -64,12 +64,12 @@ class KindsController < ApplicationController
     auth!
 
     respond_to do |format|
-      if @kind.update_attributes(params[:kind])
+      if @kind.update_attributes(kind_params)
         format.html { redirect_to(@kind, :notice => 'Kind was successfully updated.') }
-        format.xml  { head :ok }
+        format.xml { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @kind.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @kind.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -83,7 +83,15 @@ class KindsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(kinds_url) }
-      format.xml  { head :ok }
+      format.xml { head :ok }
     end
   end
+
+  private
+
+  # Restrict the allowed parameters to a select set defined in the model.
+  def kind_params
+    params.require(:kind).permit(:name)
+  end
+
 end
