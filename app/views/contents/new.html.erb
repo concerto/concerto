@@ -5,7 +5,7 @@
       <% allowed_types = allowed_content_types(@feeds) %>
       <% content_types.each do |subclass| %>
         <% if allowed_types.include?(subclass.name) %>
-          <li <% if @content.is_a?(subclass) %> class="active"<% end %>>
+          <li <% if @content.class.name == subclass.name %> class="active"<% end %>>
             <%= link_to display_name(subclass), new_content_path(:type => subclass.model_name.singular) %>
           </li>
         <% end %>
