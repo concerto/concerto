@@ -50,8 +50,9 @@ class ContentsController < ApplicationController
       @content = @content_const.new()
       auth!
 
-      # TODO: Remove the fields the user does not have submission access to.
+      # Remove the feeds that would not take a submission.
       @feeds = Feed.all
+      @feeds.reject!{ |f| !can?(:create, Submission.new(:content => @content, :feed => f))}
 
       respond_to do |format|
         format.html { } # new.html.erb

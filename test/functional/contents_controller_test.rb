@@ -67,4 +67,11 @@ class ContentsControllerTest < ActionController::TestCase
     assert_select 'input[type="checkbox"][disabled="disabled"]', 4
   end
 
+  test "user cannot submit to all feeds" do
+    sign_in users(:kristen)
+    get(:new, {:type => "graphic"})
+    assert_response :success
+    assert_equal assigns(:feeds).length, 4
+  end
+
 end
