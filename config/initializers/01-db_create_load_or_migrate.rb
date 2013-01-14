@@ -36,7 +36,7 @@ end
 begin
   current_version = ActiveRecord::Migrator.current_version
   #Grab the timestamp from each migration filename, and run max() on the resulting array
-  highest_version = Dir.glob("#{Rails.root.to_s}/db/migrate/*.rb").map { |f| f.match(/\d+/).to_s.to_i}.max
+  highest_version = Dir.glob("#{Rails.root.to_s}/db/migrate/*.rb").map { |f| File.basename(f).match(/\d+/).to_s.to_i}.max
 
   if current_version == 0
     require 'rake'
