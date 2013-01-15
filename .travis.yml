@@ -6,6 +6,7 @@ before_script:
   - cp config/database.yml.sample config/database.yml
   - git submodule init
   - git submodule update
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
   - bundle exec rake db:test:prepare
 
 branches:
