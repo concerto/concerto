@@ -163,4 +163,10 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def allow_cors_prelude
+    if (true) # Enable cross-origin resource sharing for Concerto Prelude if configured.
+      headers['Access-Control-Allow-Origin'] = 'http://prelude.concerto-signage.org'
+      headers['Access-Control-Allow-Methods'] = 'GET'
+    end
+  end
 end
