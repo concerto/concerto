@@ -12,6 +12,13 @@ class ApplicationController < ActionController::Base
     @current_ability ||= ::Ability.new(current_user)
   end
 
+  def precompile_error_catch
+    unless File.directory? 'public/assets'
+      system("bundle exec rake assets:precompile")
+      File.open("tmp/restart.txt", "w") {}
+     end
+  end
+
   # Allow views in the main application to do authorization
   # checks for plugins.
   def use_plugin_ability(mod, &block)

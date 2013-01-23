@@ -1,4 +1,6 @@
 class FeedsController < ApplicationController
+  rescue_from ActionView::Template::Error, :with => :precompile_error_catch
+  
   # GET /feeds
   # GET /feeds.xml
   # GET /feeds.js
