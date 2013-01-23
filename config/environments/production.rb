@@ -1,6 +1,4 @@
 #To deploy in production:
-  #rake db:migrate RAILS_ENV="production"
-  #rake db:seed RAILS_ENV="production"
   #bundle exec rake assets:precompile
 
 Concerto::Application.configure do
@@ -20,7 +18,7 @@ Concerto::Application.configure do
   config.assets.compress = true
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = true
+  config.assets.compile = false
 
   # Generate digests for assets URLs
   config.assets.digest = true

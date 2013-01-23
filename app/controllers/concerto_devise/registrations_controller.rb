@@ -1,6 +1,15 @@
 #Overriding the Devise Registrations controller for fun and profit
 class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
+  rescue_from ActionView::Template::Error, :with => :precompile_error_catch
   before_filter :check_permissions, :only=>[:new, :create]
+
+  def precompile_error_catch
+    unless $precompile_start == true
+      $precompile_start = true
+      system("bundle exec rake assets:precompile &")
+      File.open("tmp/restart.txt", "w") {}
+     end
+  end
 
   def check_permissions
     authorize! :create, User
