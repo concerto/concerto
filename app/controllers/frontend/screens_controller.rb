@@ -1,6 +1,6 @@
 class Frontend::ScreensController < ApplicationController
-  # Allow cross-origin resource sharing for screens#show from Concerto Prelude
-  before_filter :allow_cors_prelude, :only => [:show]
+  # Allow cross-origin resource sharing for screens#show.
+  before_filter :allow_cors, :only => [:show]
   
   layout 'frontend'
 
