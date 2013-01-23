@@ -2,31 +2,43 @@
  * screenmodel.scss.erb
  * ------------------------------------------------------------------------------------------- */
 
-
 .screen-model {
-  background: $black;
-  @include border-radius(3px);
-  border: solid 3px #6b7f77;
-  z-index: 1;
   position: relative;
-  padding: 25px 25px 0px 25px;
+  padding: 25px 25px 40px 25px;
+  background: #000;
+  border: solid 2px #a6a6a6;
+  border-bottom: solid 20px #a6a6a6;
+  @include border-radius(4px);
+  @include box-shadow(0px 2px 6px #999);
 
-  .inner {
-    @include box-shadow(inset 0px -2px 0px #7b7d80);
-    @include vertical-gradient(#292929, #383839);
-    border: solid 1px $grayDark;
+  .inset {
+    height: 100%;
+    position: relative;
+    border: solid 1px #666;
+    border-bottom: solid 2px #666;
   }
 
-  .bevel {
-    background: image-url('miniscreen/bevel_bg.png') center center repeat-x;
-    text-align: center;
-    height: 55px;
-    margin-left: -25px;
-    margin-right: -25px;
-  }
-  
   .pos {
     z-index: 99;
     position: absolute;
+  }
+
+  .bottom {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+
+    .brand {
+      color: $gray;
+      padding: 8px 40px;
+      width: 40%;
+      text-transform: uppercase;
+      text-align: center;
+      background: #000;
+      font-size: 2em;
+      border-radius: 5000px;
+    }
   }
 }

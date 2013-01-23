@@ -29,21 +29,23 @@
     <%= ConcertoPlugin.render_view_hook self, :screen_details %>
   </div>
   <div class="span10">
-    <div class="screen-model" style="width: 800px; height: 505px;">
-      <%= link_to t('change_screen_template'), edit_screen_path(@screen, :anchor => "template_selection"),
-                  :class => "btn clear small", :style => "position: absolute; top: 6px; right: 25px;" if can? :update, @screen  %>
-      <div class="inner" style="background: url(<%= preview_template_path(@screen.template, :width => 800, :height => 450, :format => :png) %>) center center no-repeat; width: 800px; height: 450px;">
-        <% @screen.template.positions.each do |pos| %>
-          <div class="pos" style="top: <%= pos.top * 100 %>%; left: <%= pos.left * 100 %>%; width: <%= (pos.right - pos.left) * 100 %>%; height: <%= (pos.bottom - pos.top) * 100 %>%;">
-            <%= pos.id %>
-            <%= link_to t('change_subscriptions'), manage_screen_field_subscriptions_path(@screen, pos.field), :class => "btn info" %>
-          </div>
-        <% end %>
+
+    <div class="default-padding">
+
+      <div class="screen-model" style="width: 800px; height: 450px;">
+        <div class="bottom"><span class="brand">Concerto</span></div>
+        <div class="inset" style="background: url(<%= preview_template_path(@screen.template, :width => 800, :height => 450, :format => :png) %>) center center no-repeat;">
+          <% @screen.template.positions.each do |pos| %>
+            <div class="pos" style="top: <%= pos.top * 100 %>%; left: <%= pos.left * 100 %>%; width: <%= (pos.right - pos.left) * 100 %>%; height: <%= (pos.bottom - pos.top) * 100 %>%;">
+              <%= pos.id %>
+              <%= link_to t('change_subscriptions'), manage_screen_field_subscriptions_path(@screen, pos.field), :class => "btn info" %>
+            </div>
+          <% end %>
+        </div>
       </div>
-      <div class="bevel">
-        <%= image_tag("miniscreen/bevel_logo.png", :alt => "Concerto" ) %>
-      </div>
+
     </div>
+
   </div>
 
   
