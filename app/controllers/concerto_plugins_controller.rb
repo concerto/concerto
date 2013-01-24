@@ -87,29 +87,37 @@ class ConcertoPluginsController < ApplicationController
   end
   
   def write_Gemfile
-    #open the supplemental Gemfile in write/append mode
-    open('Gemfile-plugins.tmp', 'w+') { |f|
-      ConcertoPlugin.all.each do |plugin|
-        gem_args = Array.new
-        gem_args << "\"#{plugin.gem_name}\""
+    #start a big string to put the Gemfile contents in until it's written to the filesystem
+    gemfile_content = ""
+    ConcertoPlugin.all.each do |plugin|
+      gem_args = Array.new
+      gem_args << "\"#{plugin.gem_name}\""
 
-        unless plugin.gem_version.blank?
-          gem_args << "\"#{plugin.gem_version}\""
-        end
-
-        if plugin.source == "git" and not plugin.source_url.blank?
-          gem_args << ":git => \"#{plugin.source_url}\""
-        end
-
-        if plugin.source == "path" and not plugin.source_url.blank?
-          gem_args << ":path => \"#{plugin.source_url}\""
-        end
- 
-        f << "\ngem " + gem_args.join(", ") +"\n"
+      unless plugin.gem_version.blank?
+        gem_args << "\"#{plugin.gem_version}\""
       end
-    }
-    fork do
-      system("cat Gemfile-plugins.tmp > Gemfile-plugins;bundle update;rm Gemfile-plugins.tmp;")
+
+      if plugin.source == "git" and not plugin.source_url.blank?
+        gem_args << ":git => \"#{plugin.source_url}\""
+      end
+
+      if plugin.source == "path" and not plugin.source_url.blank?
+        gem_args << ":path => \"#{plugin.source_url}\""
+      end
+
+      gemfile_content = gemfile_content + "\ngem " + gem_args.join(", ") + "\n"
+    end
+
+    File.open(Gemfile-plugins, 'w') {|f| f.write(gemfile_content) }
+
+    #Going to try a synchronous bundle update - though this could get ugly and slow
+    #The alternative is to use spawn with a timout protection (using the timeout Ruby module
+    #Fork may not be used here as it's not cross-platform implemented
+    bundle_status = system('bundle update')
+    if bundle_status?
+      File.open("tmp/restart.txt", "w") {}
+    else
+      raise "An error occurred while running bundle update."
     end
   end
   
