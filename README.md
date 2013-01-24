@@ -2,15 +2,15 @@
 
 ##Automated Installation:
 APT(Debian/Ubuntu) Package:
-Add Concerto repository using: curl get.concerto-signage.org/add_repo.sh | sh
+Add Concerto repository using: curl https://get.concerto-signage.org/add_repo.sh | sh
 
 Install Concerto via APT: sudo apt-get install concerto
 
-Generic Linux/Mac: curl get.concerto-signage.org | ruby
+Generic Linux/Mac: curl https://get.concerto-signage.org | ruby
 
-Generic Linux/Mac with MySQL: Download http://get.concerto-signage.org/install.rb and run it like this: "ruby install.rb -d mysql"
+Generic Linux/Mac with MySQL: Download https://get.concerto-signage.org/install.rb and run it like this: "ruby install.rb -d mysql"
 
-Windows: Download http://get.concerto-signage.org/install.rb and run it
+Windows: Download https://get.concerto-signage.org/install.rb and run it
 
 OR
 
