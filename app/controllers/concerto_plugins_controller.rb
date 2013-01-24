@@ -114,7 +114,7 @@ class ConcertoPluginsController < ApplicationController
     #The alternative is to use spawn with a timout protection (using the timeout Ruby module
     #Fork may not be used here as it's not cross-platform implemented
     bundle_status = system('bundle update')
-    if bundle_status?
+    if bundle_status == true
       File.open("tmp/restart.txt", "w") {}
     else
       raise "An error occurred while running bundle update."

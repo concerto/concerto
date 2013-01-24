@@ -13,10 +13,14 @@ class ApplicationController < ActionController::Base
   end
 
   def precompile_error_catch
-    unless File.directory? 'public/assets'
-      system("bundle exec rake assets:precompile")
-      File.open("tmp/restart.txt", "w") {}
-     end
+    if File.exist?('public/assets/manifest.yml') == false && Rails.env.production?
+      precompile_status = system("bundle exec rake assets:precompile")
+      if precompile_status == true
+        File.open("tmp/restart.txt", "w") {}
+      else
+        raise "Asset precompilation failed. Please make sure the command rake assets:precompile works."
+      end
+    end
   end
 
   # Allow views in the main application to do authorization
