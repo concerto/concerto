@@ -179,4 +179,22 @@ class DynamicContent < Content
     Rails.logger.info "Dynamic content updates finished."
   end
 
+  # Use a pid to ensure that only one dynamic content refresher is running.
+  # If the pid doesn't exist, call #{self.refresh}.
+  def self.pid_locked_refresh
+    FileUtils.mkdir_p(Rails.root.join('tmp', 'pids'))
+    pid_name = Rails.root.join('tmp', 'pids', 'dynamic_content_refresh')
+    if File.exists?(pid_name)
+      Rails.logger.info "Not updating dynamic content, pid exists"
+    end
+    
+    File.open(pid_name, 'w') {}
+    begin
+      DynamicContent.refresh
+      sleep(60)
+    ensure
+      File.delete(pid_name)
+    end
+  end
+
 end
