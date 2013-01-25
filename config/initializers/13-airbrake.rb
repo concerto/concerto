@@ -1,7 +1,8 @@
+require 'yaml'
+concerto_base_config = YAML.load_file("./config/concerto.yml")
+
 if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
-  if ConcertoConfig.columns_hash.has_key?("plugin_id")
-    ConcertoConfig.make_concerto_config("send_errors", "true", :value_type => "boolean")
-  end
+  ConcertoConfig.make_concerto_config("send_errors", "#{concerto_base_config['airbrake_enabled_initially'].to_s}", :value_type => "boolean")
 end
 
 if defined?(Airbrake)

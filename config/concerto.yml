@@ -1,0 +1,4 @@
+automatic_bundle_installation: false
+automatic_database_installation: true
+compile_production_assets: true
+airbrake_enabled_initially: true

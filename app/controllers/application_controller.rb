@@ -13,12 +13,16 @@ class ApplicationController < ActionController::Base
   end
 
   def precompile_error_catch
-    if File.exist?('public/assets/manifest.yml') == false && Rails.env.production?
-      precompile_status = system("bundle exec rake assets:precompile")
-      if precompile_status == true
-        File.open("tmp/restart.txt", "w") {}
-      else
-        raise "Asset precompilation failed. Please make sure the command rake assets:precompile works."
+    require 'yaml'
+    concerto_base_config = YAML.load_file("./config/concerto.yml")
+    if concerto_base_config['compile_production_assets'] == true  
+      if File.exist?('public/assets/manifest.yml') == false && Rails.env.production?
+        precompile_status = system("bundle exec rake assets:precompile")
+        if precompile_status == true
+          File.open("tmp/restart.txt", "w") {}
+        else
+          raise "Asset precompilation failed. Please make sure the command rake assets:precompile works."
+        end
       end
     end
   end
