@@ -1,0 +1,231 @@
+/*##########################################################################*/
+/*  Tooltips, by qTip2 Plugin (http://craigsworks.com/projects/qtip2)  */
+/*##########################################################################*/
+
+
+//////////////////
+
+/* Core qTip styles */
+.qtip, .qtip{
+  position: absolute;
+  left: -28000px;
+  top: -28000px;
+  display: none;
+
+  max-width: 280px;
+  min-width: 50px;
+  
+  font-size: 10.5px;
+  line-height: 12px;
+
+  direction: ltr;
+}
+
+  .qtip-content{
+    position: relative;
+    padding: 5px 9px;
+    overflow: hidden;
+
+    text-align: left;
+    word-wrap: break-word;
+  }
+
+  .qtip-titlebar{
+    position: relative;
+    padding: 5px 35px 5px 10px;
+    overflow: hidden;
+
+    border-width: 0 0 1px;
+    font-weight: bold;
+  }
+
+  .qtip-titlebar + .qtip-content{ border-top-width: 0 !important; }
+
+  /* Default close button class */
+  .qtip-close{
+    position: absolute;
+    right: -9px; top: -9px;
+
+    cursor: pointer;
+    outline: medium none;
+
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+  }
+
+    .qtip-titlebar .qtip-close{
+      right: 4px; top: 50%;
+      margin-top: -9px;
+    }
+  
+    * html .qtip-titlebar .qtip-close{ top: 16px; } /* IE fix */
+
+    .qtip-titlebar .ui-icon,
+    .qtip-icon .ui-icon{
+      display: block;
+      text-indent: -1000em;
+      direction: ltr;
+      vertical-align: middle;
+    }
+
+    .qtip-icon, .qtip-icon .ui-icon{
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+      text-decoration: none;
+    }
+
+      .qtip-icon .ui-icon{
+        width: 18px;
+        height: 14px;
+
+        text-align: center;
+        text-indent: 0;
+        font: normal bold 10px/13px Tahoma,sans-serif;
+
+        color: inherit;
+        background: transparent none no-repeat -100em -100em;
+      }
+
+
+/* Applied to 'focused' tooltips e.g. most recently displayed/interacted with */
+.qtip-focus{}
+
+/* Applied on hover of tooltips i.e. added/removed on mouseenter/mouseleave respectively */
+.qtip-hover{}
+
+/* Default tooltip style */
+.qtip-default{
+  border-width: 1px;
+  border-style: solid;
+  background-color: $grayDarker;
+  border-color: #303030;
+  color: #f3f3f3;
+}
+.qtip-default .qtip-titlebar{
+  background-color: #404040;
+}
+.qtip-default .qtip-icon{
+  border-color: #444;
+  background: #F1F1F1;
+  color: #777;
+}
+.qtip-default .qtip-titlebar .qtip-close{
+  border-color: #AAA;
+  color: #111;
+}
+.qtip-default .qtip-titlebar .ui-state-hover{
+  border-color: #303030;
+}
+
+
+/*! Light tooltip style */
+.qtip-light{
+  background-color: white;
+  border-color: #E2E2E2;
+  color: #454545;
+}
+.qtip-light .qtip-titlebar{
+  background-color: #f1f1f1;
+}
+
+
+/* Add shadows to your tooltips in: FF3+, Chrome 2+, Opera 10.6+, IE9+, Safari 2+ */
+.qtip-shadow{
+  -webkit-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+}
+
+/* Add rounded corners to your tooltips in: FF3+, Chrome 2+, Opera 10.6+, IE9+, Safari 2+ */
+.qtip-rounded,
+.qtip-tipsy,
+.qtip-bootstrap{
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.qtip-rounded .qtip-titlebar{
+  -moz-border-radius: 5px 5px 0 0;
+  -webkit-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
+}
+
+
+/* Class applied to remove inner box padding for tooltip */
+.qtip-nopadding .qtip-content {
+  padding: 0px !important;
+}
+
+.qtip-oneline .qtip-content {
+  padding: 6px;
+}
+
+/* Class applied to make width auto for tooltip content (use sparingly and test!) */
+.qtip-autowidth {
+  width: auto !important;
+  max-width: none !important;
+}
+
+
+/* IE9 fix - removes all filters */
+.qtip:not(.ie9haxors) div.qtip-content,
+.qtip:not(.ie9haxors) div.qtip-titlebar{
+  filter: none;
+  -ms-filter: none;
+}
+
+
+/* Tips plugin */
+.qtip .qtip-tip{
+  margin: 0 auto;
+  overflow: hidden;
+  z-index: 10;
+}
+
+  .qtip .qtip-tip,
+  .qtip .qtip-tip .qtip-vml{
+    position: absolute;
+
+    color: #123456;
+    background: transparent;
+    border: 0 dashed transparent;
+  }
+  
+  .qtip .qtip-tip canvas{ top: 0; left: 0; }
+
+  .qtip .qtip-tip .qtip-vml{
+    behavior: url(#default#VML);
+    display: inline-block;
+    visibility: visible;
+  }
+/* Modal plugin */
+#qtip-overlay{
+  position: fixed;
+  left: -10000em;
+  top: -10000em;
+}
+
+  /* Applied to modals with show.modal.blur set to true */
+  #qtip-overlay.blurs{ cursor: pointer; }
+
+  /* Change opacity of overlay here */
+  #qtip-overlay div{
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+
+    background-color: black;
+
+    opacity: 0.7;
+    filter:alpha(opacity=70);
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+  }
+
+
+/* IE6 Modal plugin fix */
+.qtipmodal-ie6fix{
+  position: absolute !important;
+}

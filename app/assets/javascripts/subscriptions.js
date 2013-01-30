@@ -33,7 +33,7 @@ function addSubscriptionsUi(){
             var tooltip_content = api.elements.content;
             initFeedListState(tooltip_content);
 
-            $('.ui-tooltip-content input:first').focus(); }, 50);
+            $('.qtip-content input:first').focus(); }, 50);
 
             
           }
@@ -43,7 +43,7 @@ function addSubscriptionsUi(){
         solo: true // ...and hide all other tooltips...
       },
       hide: 'unfocus',
-      style: 'ui-tooltip-light ui-tooltip-shadow ui-tooltip-rounded ui-tooltip-minheight'
+      style: 'qtip-light qtip-shadow qtip-rounded qtip-nopadding qtip-minheight'
     });
   }).click(function(e) {
     e.preventDefault();

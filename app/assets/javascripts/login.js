@@ -25,7 +25,7 @@ function initLogin() {
           }
       },
       hide: 'unfocus',
-      style: 'ui-tooltip-light ui-tooltip-shadow ui-tooltip-rounded ui-tooltip-nopadding ui-tooltip-autowidth'
+      style: 'qtip-light qtip-shadow qtip-rounded qtip-nopadding qtip-autowidth'
     });
   }).click(function(e) {
     e.preventDefault();
