@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/concerto/c2_simplerss.git
-  revision: bcc318e39c8cb1e89f7e5687726ec057e8cafa97
+  revision: d6ad1c50fe6b9b43c0f995d3272a5facc57c8784
   specs:
     c2_simple_rss (0.0.1)
       rails (~> 3.2.11)
