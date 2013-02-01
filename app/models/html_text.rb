@@ -11,7 +11,7 @@ class HtmlText < Content
   # Automatically set the kind for the content
   # if it is new.
   def set_kind
-    return unless new_record?
+    return unless (new_record? && self.kind.nil?)
     self.kind = Kind.where(:name => 'Text').first
   end
 end
