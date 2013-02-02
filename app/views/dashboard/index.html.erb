@@ -46,62 +46,59 @@
 
 </section>
 
-<div class="row-fluid">
-  <div class="span2 collapse-right">
-    <ul class="nav nav-tabs nav-stacked nav-drawer-left">
-      <li class="active">
-        <%= link_to dashboard_path do %>
-          <i class="ficon-cog"></i><%= t :global_preferences %>
-        <% end %>
-      </li>
-      <li>
-        <%= link_to dashboard_path do %>
-          <i class="ficon-bolt"></i><%= t :manage_plugins %>
-        <% end %>
-      </li>
-    </ul>
+<section class="viewblock">
+  <header class="viewblock-header">
+    <h1 class="default-padding">
+      <%= t :edit_preferences %>
+    </h1>
+  </header>
+  <div class="viewblock-cont" style="min-height: 600px;">
+
+    <div class="subnav clearfix">
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <%= link_to dashboard_path do %>
+            <i class="ficon-cog"></i><%= t :global_preferences %>
+          <% end %>
+        </li>
+        <li>
+          <%= link_to dashboard_path do %>
+            <i class="ficon-bolt"></i><%= t :manage_plugins %>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+
+    <%= form_tag "/dashboard/update" do %>
+
+        <fieldset>
+
+          <% for c in @concerto_configs %>
+              <div class="clearfix">
+                <% if c.value_type == "string" || c.value_type == "integer" %>
+                    <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>
+                    <div class="input">
+                      <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym] %>
+                    </div>
+                <% elsif c.value_type == "boolean" %>
+                    <div class="input">
+                      <%= hidden_field_tag "concerto_config[#{c.key}]", '0' %>
+                      <% if ConcertoConfig[c.key.to_sym] == "true" %>
+                          <%= check_box_tag "concerto_config[#{c.key}]", true, :checked => true %>
+                      <% else %>
+                          <%= check_box_tag "concerto_config[#{c.key}]", true %>
+                      <% end %>
+                      <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>
+                    </div>
+                <% end %>
+              </div>
+          <% end %>
+        </fieldset>
+
+        <div class="submit_bar actions">
+          <%= submit_tag t(:save_settings), :class => "btn primary" %>
+        </div>
+    <% end %>
+
   </div>
-  <div class="span10">
-    <section class="viewblock">
-      <header class="viewblock-header">
-        <h1 class="default-padding">
-          <%= t :edit_preferences %>
-        </h1>
-      </header>
-      <div class="viewblock-cont" style="min-height: 600px;">
-
-        <%= form_tag "/dashboard/update" do %>
-
-            <fieldset>
-
-              <% for c in @concerto_configs %>
-                  <div class="clearfix">
-                    <% if c.value_type == "string" || c.value_type == "integer" %>
-                        <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>
-                        <div class="input">
-                          <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym] %>
-                        </div>
-                    <% elsif c.value_type == "boolean" %>
-                        <div class="input">
-                          <%= hidden_field_tag "concerto_config[#{c.key}]", '0' %>
-                          <% if ConcertoConfig[c.key.to_sym] == "true" %>
-                              <%= check_box_tag "concerto_config[#{c.key}]", true, :checked => true %>
-                          <% else %>
-                              <%= check_box_tag "concerto_config[#{c.key}]", true %>
-                          <% end %>
-                          <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>
-                        </div>
-                    <% end %>
-                  </div>
-              <% end %>
-            </fieldset>
-
-            <div class="submit_bar actions">
-              <%= submit_tag t(:save_settings), :class => "btn primary" %>
-            </div>
-        <% end %>
-
-      </div>
-    </section>
-  </div>
-</div>
+  </section>
