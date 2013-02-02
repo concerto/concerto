@@ -92,9 +92,8 @@
   // .subnav is a light blue bar that appears below the content header
   .subnav {
     background: $concerto-blue-5;
-    padding:2px;
-    padding-left: 12px;
-    height: 25px;
+    padding:2px 12px;
+    border-bottom: 1px solid $concerto-blue-4;
 
     h4 {
       text-transform: uppercase;
@@ -144,6 +143,34 @@
         padding: 3px 3px 0px 3px;
       }
       
+    }
+
+    // Give the tabs something to sit on
+    .nav-tabs {
+      border-bottom: 0px; //1px solid #ddd;
+    }
+    // Make the list-items overlay the bottom border
+    .nav-tabs > li {
+      margin-bottom: -3px;
+    }
+    // Actual tabs (as links)
+    .nav-tabs > li > a {
+      padding-top: 8px;
+      padding-bottom: 8px;
+      line-height: $baseLineHeight;
+      border: 1px solid transparent;
+      @include border-radius(6px 6px 0 0);
+      &:hover {
+        background: lighten($concerto-blue-4, 15%);
+      }
+    }
+    // Active state, and it's :hover to override normal :hover
+    .nav-tabs > .active > a, .nav-tabs > .active > a:hover {
+      color: $black;
+      font-weight: bold;
+      border: 1px solid $concerto-blue-4;
+      border-bottom-color: transparent;
+      cursor: default;
     }
     
   }

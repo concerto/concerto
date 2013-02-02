@@ -3,26 +3,25 @@
 @import "common/reset";
 @import "common/font-awesome";
 
-@import "controls/sprites";
-@import "controls/buttons";
-@import "controls/button-groups";
-@import "controls/jquery.timepicker";
-@import "controls/sliders";
-@import "controls/jquery.qtip2";
+@import "components/scaffolding";
+@import "components/type";
+@import "components/forms";
+@import "components/tables";
+@import "components/navs";
+@import "components/sprites";
+@import "components/buttons";
+@import "components/button-groups";
+@import "components/jquery.timepicker";
+@import "components/sliders";
+@import "components/jquery.qtip2";
+@import "components/display-blocks";
+@import "components/lists-grid-stacked";
+@import "components/topmenu";
+@import "components/alerts-badges";
+@import "components/screenmodel";
+@import "components/datetime";
 
-@import "layout/scaffolding";
-@import "layout/type";
-@import "layout/forms";
-@import "layout/tables";
-@import "layout/navs";
-@import "layout/display-blocks";
-@import "layout/lists-grid-stacked";
-@import "layout/topmenu";
-@import "layout/alerts-badges";
-@import "layout/screenmodel";
-@import "layout/datetime";
-
-@import "layout/responsive-utilities";
-@import "layout/responsive-767px-max";
-@import "layout/responsive-768px-979px";
-@import "layout/responsive-1200px-min";
+@import "responsive/responsive-utilities";
+@import "responsive/responsive-767px-max";
+@import "responsive/responsive-768px-979px";
+@import "responsive/responsive-1200px-min";

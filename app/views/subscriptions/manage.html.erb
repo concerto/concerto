@@ -1,24 +1,25 @@
 <div class="row-fluid">
-  <div class="span2 collapse-right">
-    <ul class="nav nav-tabs nav-stacked nav-drawer-left">
-      <li class="nav-header"><%= t(:switch_position) %>:</li>
-      <% @fields.each do |field| %>
-        <li<% if field.id == @this_field.id %> class="active"<% end %>>
-          <%= link_to manage_screen_field_subscriptions_path(@screen, field) do %>
-            <%= field.kind.name %>
-            <br />
-            <%= image_tag(preview_template_path(@screen.template, :height => 80, :format => :png, :fields => field), :border => 0) %>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-  <div class="span10">
+  <div class="span12">
     <section class="viewblock">
       <header class="viewblock-header">
         <h1 class="default-padding"><%= t :manage_subscriptions, :name => @this_field.name %></h1>
       </header> 
       <div class="viewblock-cont" style="min-height: 600px;">
+
+        <div class="subnav clearfix">
+          <ul class="nav nav-tabs">
+            <% @fields.each do |field| %>
+              <li<% if field.id == @this_field.id %> class="active"<% end %>>
+                <%= link_to manage_screen_field_subscriptions_path(@screen, field) do %>
+                  <%= image_tag(preview_template_path(@screen.template, :height => 80, :format => :png, :fields => field), :border => 0) %>
+                  <p class="caption"><%= field.kind.name %> Field</p>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        <br /><br />
 
         <%= form_for([@screen, @this_field, @subscription], :url => save_all_screen_field_subscriptions_path(@screen, @this_field), :method => :put) do |f| %>
 
