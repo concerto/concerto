@@ -28,7 +28,7 @@ class Content < ActiveRecord::Base
   # By default, only find known content types.
   # This allows everything to keep working if a content type goes missing
   # or (more likely) gets removed.
-  default_scope { where(:type => Content.subclasses.collect { |s| s.name }) unless Rails.env.development? }
+  default_scope { where(:type => Content.all_subclasses.collect { |s| s.name }) unless Rails.env.development? }
 
   # Easily query for active, expired, or future content
   scope :expired, where("end_time < :now", {:now => Clock.time})
@@ -98,6 +98,19 @@ class Content < ActiveRecord::Base
   # supplement this list with additional attributes that they require.
   def self.form_attributes
     attributes = [:name, :duration, :data, {:start_time => [:time, :date]}, {:end_time => [:time, :date]}]
+  end
+
+  # All the subclasses of Content.
+  # Conduct a DFS walk of the Content class tree and return the results.
+  # This is important because DynamicContent is always 1 step removed
+  # from cotent (Content > DynamicContent > Rss).
+  def self.all_subclasses
+    sub = []
+    sub.concat(self.subclasses)
+    self.subclasses.each do |subklass|
+      sub.concat(subklass.all_subclasses)
+    end
+    return sub
   end
 
 end

@@ -93,4 +93,13 @@ class ContentTest < ActiveSupport::TestCase
     end
   end
 
+  test "content subclasses all the way" do
+    class TestContent < DynamicContent
+    end
+    subclasses = Content.all_subclasses
+    assert subclasses.include?(Graphic)
+    assert subclasses.include?(DynamicContent)
+    assert subclasses.include?(TestContent)
+    assert !subclasses.include?(Content)
+  end
 end
