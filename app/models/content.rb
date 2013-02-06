@@ -28,7 +28,7 @@ class Content < ActiveRecord::Base
   # By default, only find known content types.
   # This allows everything to keep working if a content type goes missing
   # or (more likely) gets removed.
-  default_scope { where(:type => Content.all_subclasses.collect { |s| s.name }) unless Rails.env.development? || self.class != Content}
+  default_scope { where(:type => Content.all_subclasses.collect { |s| s.name }) unless Rails.env.development? }
 
   # Easily query for active, expired, or future content
   scope :expired, where("end_time < :now", {:now => Clock.time})
