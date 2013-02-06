@@ -16,7 +16,7 @@ The more lightweight Concerto package will make relatively few assumptions about
 
 ##Virtual Server Image (VirtualBox, VMWare, et. al.)
 The virtual server image contains a full-stack installation of the Concerto webserver with all components pre-configured.
-* Download http://dl.concerto.signage.org/concerto_server.ova
+* Download http://dl.concerto-signage.org/concerto_server.ova
 * Load it into your VM tool of choice
 * Login using the credentials in the OVA file comments and follow the initial configuration scripts - which will set a proper root password and proper database credentials for Concerto (using randomized passwords).
 * Make any network-specific changes to /etc/apache2/sites-available/concerto and restart Apache if needed
