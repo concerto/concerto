@@ -93,6 +93,13 @@ class ContentTest < ActiveSupport::TestCase
     end
   end
 
+  test "content scope does not propogate" do
+    graphics = Graphic.active.all
+    graphics.each do |g|
+      assert_equal g.class.name, "Graphic"
+    end
+  end
+
   test "content subclasses all the way" do
     class TestContent < DynamicContent
     end

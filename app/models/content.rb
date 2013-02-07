@@ -31,9 +31,17 @@ class Content < ActiveRecord::Base
   default_scope { where(:type => Content.all_subclasses.collect { |s| s.name }) unless Rails.env.development? }
 
   # Easily query for active, expired, or future content
-  scope :expired, where("end_time < :now", {:now => Clock.time})
-  scope :future, where("start_time > :now", {:now => Clock.time})
-  scope :active, where("(start_time IS NULL OR start_time < :now) AND (end_time IS NULL OR end_time > :now)", {:now => Clock.time})
+  # The scopes are defined as class methods to delay their resolution, defining them as proper scopes
+  # will break lots of things, see https://github.com/concerto/concerto/issues/288.
+  def self.expired
+    where("end_time < :now", {:now => Clock.time})
+  end
+  def self.future
+    where("start_time > :now", {:now => Clock.time})
+  end
+  def self.active
+    where("(start_time IS NULL OR start_time < :now) AND (end_time IS NULL OR end_time > :now)", {:now => Clock.time})
+  end
   
   # Scoped relations for feed approval states
   has_many :approved_feeds, :through => :submissions, :source => :feed, :conditions => {"submissions.moderation_flag" => true}
