@@ -82,6 +82,7 @@ Concerto::Application.routes.draw do
   end
 
   resources :tickers, :controller => :contents, :except => [:index, :show], :path => "content"
+  resources :html_texts, :controller => :contents, :except => [:index, :show], :path => "content"
 
   #Set a non-restful route to the dashboard
   match 'dashboard/' => 'dashboard#index'
