@@ -92,6 +92,9 @@ class DynamicContent < Content
   # then copies over the defaults if necessary such as `user`, `duration`,
   # `start_time` (now), and `end_time` (now + 1 day).
   #
+  # Existing child content for this entry are re-purposed if possible to avoid
+  # flooding the database with new content / submissions.
+  #
   # All Submissions that this piece of DynamicContent has are copied to the
   # child content too, including any moderation status.
   #
@@ -107,19 +110,53 @@ class DynamicContent < Content
     if !new_content
       return false  # A nil or false build_content result is bad.
     end
+
+    new_children = []
+    old_reuse_count = [old_content.count, new_content.count].min
+    new_count = [0, new_content.count - old_content.count].max
+    leftover_count = [0, old_content.count - new_content.count].max
+
+    Rails.logger.debug("Reusing #{old_reuse_count}, Making #{new_count}, Trashing #{leftover_count}.")
+
+    new_children.concat(old_content.slice(0, old_reuse_count))
+    # Here we add a bunch of empty new contents.  We can't do the traditional Content.new * N because it will
+    # create N copies of the same object, not N new objects.
+    (1..new_count).each do |unused_i|
+      new_children << Content.new
+    end
+    old_children = old_content.slice(old_content.count - leftover_count, leftover_count)
+
     # Copy over base properties to all the new children if needed
-    new_content.each do |content|
+    new_content.each_with_index do |content, index|
       content.transaction do
         content.parent = self
         content.user ||= self.user
         content.duration ||= self.duration
         content.start_time ||= Clock.time
         content.end_time ||= Clock.time + 1.day
-        if content.save
+
+        new_children[index].becomes(content.class)
+        new_attributes = content.attributes
+        new_attributes.delete('id')
+        new_children[index].assign_attributes(new_attributes, :without_protection => true)
+
+        if new_children[index].save
+          # After saving process the submissions.
           self.submissions.each do |model_submission|
-            submission = model_submission.dup
-            submission.content = content
-            submission.save
+            submission = new_children[index].submissions.where(:feed_id => model_submission.feed_id).first
+            if submission.nil?
+              # The child content doesn't have this submission, create one.
+              submission = model_submission.dup
+              submission.content = new_children[index]
+              submission.save
+            else
+              # The child content has a similiar submission, update it to match the content.
+              submission.moderation_flag = model_submission.moderation_flag
+              submission.moderator_id = model_submission.moderator_id
+              submission.duration = model_submission.duration
+              submission.moderation_reason = model_submission.moderation_reason
+              submission.save
+            end
           end
         else
           raise ActiveRecord::Rollback
@@ -129,7 +166,7 @@ class DynamicContent < Content
     end
 
     # Now we'll expire all the old content.
-    expire_children(old_content)
+    expire_children(old_children)
 
     return true
   end
@@ -144,9 +181,11 @@ class DynamicContent < Content
   end
   
   # Remove stale dynamic content by expiring all child content.
-  # Sets the `end_time` of children to the current time.
+  # Sets the `end_time` of children to the current time if it's
+  # not already expired.
   def expire_children(opt_children=nil)
     children_to_expire = opt_children || self.children
+    children_to_expire.reject!{ |child| child.is_expired? }
     children_to_expire.each do |child|
       child.end_time = Clock.time
       child.save
