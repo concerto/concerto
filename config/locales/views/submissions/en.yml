@@ -5,6 +5,9 @@ en:
   moderated_by: 'moderated by'
   expired: 'expired'
 
+  #_index_body
+  jump_to_feed: "Jump to Feed..."
+
   #_moderate_form
   reason: Reason
 
@@ -30,4 +33,4 @@ en:
   pending_moderation: 'Pending Moderation'
   approve: 'approve'
   deny: 'deny'
-  
+
