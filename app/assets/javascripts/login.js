@@ -21,7 +21,9 @@ function initLogin() {
         // this is used to highlight the first input in the box when it is shown...
         show: function() {
           setTimeout(function() {
-            $('.ui-tooltip-content input:first', api.elements.content).focus(); }, 50);
+            var api = $("#login-dropdown").qtip('api');
+            $(api.elements.content).find(":input:not([type=hidden])").first().focus();
+            }, 50);
           }
       },
       hide: 'unfocus',
