@@ -1,2 +1,5 @@
 # Airbrake is used to remotely log exceptions.
 gem 'airbrake'
+
+#Girl Friday makes Airbrake async.
+gem 'girl_friday'
