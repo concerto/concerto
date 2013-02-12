@@ -1,27 +1,23 @@
-<div class="row-fluid">
-  <div class="span12">
-    <section class="viewblock">
-      <header class="viewblock-header">
-        <div class="viewblock-header_right default-padding"><a class="button" href="#"><%=t(:design_graphic)%></a></div>
-        <h1 class="default-padding"><%= t(:add) + " " + display_name(@content.class) + " " + t(:content) %></h1>
-      </header>
-      <div class="viewblock-cont">
+<section class="viewblock">
+  <header class="viewblock-header">
+    <div class="viewblock-header_right default-padding"><a class="button" href="#"><%=t(:design_graphic)%></a></div>
+    <h1 class="default-padding"><%= t(:add) + " " + display_name(@content.class) + " " + t(:content) %></h1>
+  </header>
+  <div class="viewblock-cont">
 
-        <div class="subnav clearfix">
-          <ul class="nav nav-tabs">
-            <% allowed_types = allowed_content_types(@feeds) %>
-            <% content_types.each do |subclass| %>
-              <% if allowed_types.include?(subclass.name) %>
-                <li <% if @content.class.name == subclass.name %> class="active"<% end %>>
-                  <%= link_to display_name(subclass), new_content_path(:type => subclass.model_name.singular) %>
-                </li>
-              <% end %>
-            <% end %>
-          </ul>
-        </div>
-        
-        <%= render 'form' %>
-      </div>
-    </section>
+    <div class="subnav clearfix">
+      <ul class="nav nav-tabs">
+        <% allowed_types = allowed_content_types(@feeds) %>
+        <% content_types.each do |subclass| %>
+          <% if allowed_types.include?(subclass.name) %>
+            <li <% if @content.class.name == subclass.name %> class="active"<% end %>>
+              <%= link_to display_name(subclass), new_content_path(:type => subclass.model_name.singular) %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+
+    <%= render 'form' %>
   </div>
-</div>
+</section>

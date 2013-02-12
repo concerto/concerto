@@ -52,7 +52,7 @@
 <div class="default-padding">
   <h3 class="header-with-icon" style="color:#993333;"><i class="icon-header-pendingcontent"></i><%= pluralize(@pending_submissions.count, "content") %> pending your moderation</h3>
   <br />
-  <ul class="list-grid">
+  <ul class="new-grid">
     <% @pending_submissions.each do |submission| %>
     <%= render :partial => "submissions/submission_listgriditem", :locals => { :submission => submission } %>
     <% end %>
@@ -72,7 +72,7 @@
 <div class="default-padding">
   <h3 class="header-with-icon"><i class="icon-header-activecontent"></i><%= pluralize(@active_submissions.count, "active content") %></h3>
   <br />
-  <ul class="list-grid">
+  <ul class="new-grid">
     <% @active_submissions.each do |submission| %>
     <%= render :partial => "submissions/submission_listgriditem", :locals => { :submission => submission } %>
     <% end %>
@@ -85,7 +85,7 @@
 <div class="default-padding">
   <h3 class="header-with-icon"><i class="icon-header-deniedcontent"></i><%= pluralize(@denied_submissions.count, "denied content") %></h3>
   <br />
-  <ul class="list-grid">
+  <ul class="new-grid">
     <% @denied_submissions.each do |submission| %>
    <%= render :partial => "submissions/submission_listgriditem", :locals => { :submission => submission } %>
     <% end %>
@@ -98,10 +98,8 @@
 <div class="default-padding">
   <h3 class="header-with-icon"><i class="icon-header-expiredcontent"></i><%= @expired_submissions.count %> expired content<% if @expired_submissions.count != 1 %>s<% end %></h3>
   <br />
-  <ul class="list-grid">
-    <% @expired_submissions.each do |submission| %>
-    <%= render :partial => "submissions/submission_listgriditem", :locals => { :submission => submission } %>
-    <% end %>
-  </ul>
+  <% @expired_submissions.each do |submission| %>
+  <%= render :partial => "submissions/submission_tile", :locals => { :submission => submission } %>
+  <% end %>
 </div>
 <% end %>
