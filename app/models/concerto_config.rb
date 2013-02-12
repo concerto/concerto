@@ -40,13 +40,17 @@ class ConcertoConfig < ActiveRecord::Base
   end  
 
   # Make getting values from Rails nice and easy
-  # Returns false if key isn't found
+  # Returns false if key isn't found or the config is broken.
   def self.get(key)
-    setting = ConcertoConfig.where(:key => key).first
-    if setting.nil?
+    begin
+      setting = ConcertoConfig.where(:key => key).first
+      if setting.nil?
+        return false
+      end
+      return setting.value
+    rescue
       return false
     end
-    return setting.value
   end
   
   # Creates a Concerto Config entry by taking the key and value desired
