@@ -1,11 +1,12 @@
 a > .tile {
   border: solid 3px $white;
-  @include transition(0.1s all linear);
+  
+  &, * { @include transition(0.1s all linear); }
 }
 
 a:hover > .tile {
   background: lighten($concerto-blue-5, 5%);
-  border-color: $concerto-blue-5;
+  border-color: $concerto-blue-4;
 
   * {
     @include opacity(90);
