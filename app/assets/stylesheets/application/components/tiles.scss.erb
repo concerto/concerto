@@ -1,7 +1,7 @@
 .tile {
   display: block;
   float: left;
-  background-color: $grayDark;
+  background-color: $grayLighter;
   width: 200px;
   height: 200px;
   cursor: pointer;
@@ -10,9 +10,10 @@
   color: $white;
   margin: 0 10px 10px 0;
   overflow: hidden;
+  position: relative;
 
   * {
-      color: $white;
+      color: $black;
   }
 
   .tile-content {
@@ -26,7 +27,7 @@
       text-overflow: ellipsis;
       position: relative;
 
-      color: $white;
+      color: $black;
       line-height: 16px;
 
       &:hover {
@@ -88,7 +89,7 @@
           & > img {
               width: 100%;
               height : auto;
-              min-height: 100%;
+              //min-height: 100%;
               max-width: 100%;
           }
       }
@@ -117,4 +118,78 @@
           height: 100%;
       }
   }
+
+  .brand, .tile-status {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      min-height: 30px;
+      background-color: transparent;
+      @include clearfix();
+
+      & > .count {
+          background: $black;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          margin-bottom: 0;
+          color: $white;
+          width: 34px;
+          height: 28px;
+          text-align: center;
+          padding-top: 3px;
+      }
+
+      & > .name {
+          margin-bottom: 5px;
+          margin-left: 15px;
+          
+          color: $white;
+          &:hover {
+              color: $white;
+          }
+
+          & > [class*=icon-] {
+              font-size: 24px;
+          }
+
+      }
+
+      & > .icon {
+          margin: 5px 15px;
+          width: 32px;
+          height: 32px;
+
+          & > [class*=icon-] {
+              font-size: 32px;
+          }
+
+          & > img {
+              width: 100%;
+              height: 100%;
+          }
+      }
+
+      & > img ~ .text {
+          position: absolute;
+          left: 60px;
+          width: auto;
+      }
+
+      & > .text {
+          position: relative;
+          left: 8px;
+          top: 5px;
+          right: 50px;
+          color: $white;
+          line-height: 14px;
+          width: 60%;
+
+          &:hover {
+              color: $white;
+          }
+      }
+  }
+
 }

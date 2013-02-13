@@ -1,7 +1,12 @@
+<%= link_to [submission.feed, submission] do %>
 <div class="tile image">
   <div class="tile-content">
-    <%= link_to [submission.feed, submission] do %>
     <%= render_content(submission.content) %>
+  </div>
+  <div class="brand">
+    <% if not submission.content.children.empty? %>
+      <div class="count">x 2</div>
     <% end %>
   </div>
 </div>
+<% end %>
