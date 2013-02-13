@@ -18,10 +18,4 @@ class SubmissionsControllerTest < ActionController::TestCase
     assert_select "button", 0
   end
 
-  test "feed moderator sees moderation" do
-    sign_in users(:katie)
-    get :index, :feed_id => feeds(:service).id
-    assert_select ".dd-moderate", feeds(:service).submissions.active.count
-  end
-
 end
