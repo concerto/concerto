@@ -1,7 +1,7 @@
 <%= link_to [submission.feed, submission] do %>
 <div class="tile">
   <div class="tile-content">
-    <%= render_content(submission.content) %>
+    <%= render_content(submission.content, {:type => 'tile'}) %>
   </div>
   <div class="brand">
     <% if not submission.content.children.empty? %>

@@ -13,12 +13,13 @@ module ApplicationHelper
   end
 
   # Render the partial at the specified path if it exists within
-  # the lookup_context, otherwise render the partial specified in default.
+  # the lookup_context, otherwise render the partial specified in default
+  # if it exists.
   # Locals are passed along accordingly.
   def render_partial_if(partial, default=nil, locals={})
     if lookup_context.exists?(partial, [], true)
       render :partial => partial, :locals => locals
-    elsif !default.blank?
+    elsif !default.blank? && lookup_context.exists?(default, [], true)
       render :partial => default, :locals => locals
     end
   end
