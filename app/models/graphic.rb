@@ -31,6 +31,9 @@ class Graphic < Content
     original_media = self.media.original.first
     # In theory, there should be more code in here to look for a cached image and be smarter
     # about the resizing, but this is a good first pass.
+
+    options[:crop] ||= false
+
     if options.key?(:width) || options.key?(:height)
       require 'image_utility'
       image = nil
@@ -45,7 +48,12 @@ class Graphic < Content
       width = options[:width].nil? ? nil : options[:width].to_f.ceil
 
       Graphic.benchmark("ImageUtility#resize") do
-        image = ImageUtility.resize(image, width, height, true)
+        image = ImageUtility.resize(image, width, height, true, options[:crop])
+      end
+      if options[:crop]
+        Graphic.benchmark("ImageUtility#crop") do
+          image = ImageUtility.crop(image, width, height)
+        end
       end
 
       file = Media.new(
