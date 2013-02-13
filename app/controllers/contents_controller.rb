@@ -84,8 +84,8 @@ class ContentsController < ApplicationController
         # Copy over the duration to each submission instance
         @feed_ids.each do |feed_id|
           @feed = Feed.find(feed_id)
-          #If a user can moderate the feed in question or is an admin - the content is automatically approved with their imprimatur
-          if can?(:update, @feed) || user.is_admin?
+          #If a user can moderate the feed in question the content is automatically approved with their imprimatur
+          if can?(:update, @feed)
             @content.submissions << Submission.new({:feed_id => feed_id, :duration => @content.duration, :moderation_flag => true, :moderator_id => current_user.id})
           else
             @content.submissions << Submission.new({:feed_id => feed_id, :duration => @content.duration})
