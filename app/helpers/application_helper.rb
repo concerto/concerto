@@ -19,7 +19,7 @@ module ApplicationHelper
   def render_partial_if(partial, default=nil, locals={})
     if lookup_context.exists?(partial, [], true)
       render :partial => partial, :locals => locals
-    elsif !default.blank? && lookup_context.exists?(default, [], true)
+    elsif !default.blank?
       render :partial => default, :locals => locals
     end
   end
