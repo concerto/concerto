@@ -18,6 +18,9 @@
 //= require timepicker/jquery.timepicker
 //= require_tree .
 
+// require turbolinks
+// require jquery.turbolinks
+
 $(document).ready(function () {
   
   // flash-banner display animation:
@@ -35,29 +38,29 @@ $(document).ready(function () {
     });
   }
 
-  // intitialization of qTip for basic tooltips:
-  // this means that tooltips can be used on any page for single-line messages
-  $("body").delegate(".tooltip-basic", "mouseover", function(event) {
-    $(this).qtip({
-      content: {
-        text: $(this).attr('data-tooltip-text')
-      },
-      position: {
-        at: 'bottom center', // Position the tooltip below the link
-        my: 'top center',
-        viewport: $(window) // Keep the tooltip on-screen at all times
-      },
-      show: {
-        event: 'mouseenter', // Show it on focus...
-        delay: 500,
-        solo: false,
-        ready: true
-      },
-      hide: 'mouseleave',
-      style: 'qtip-rounded'
-    });
-  });
+});
 
+// intitialization of qTip for basic tooltips:
+// this means that tooltips can be used on any page for single-line messages
+$(document).delegate(".tooltip-basic", "mouseover", function(event) {
+  $(this).qtip({
+    content: {
+      text: $(this).attr('data-tooltip-text')
+    },
+    position: {
+      at: 'bottom center', // Position the tooltip below the link
+      my: 'top center',
+      viewport: $(window) // Keep the tooltip on-screen at all times
+    },
+    show: {
+      event: 'mouseenter', // Show it on focus...
+      delay: 500,
+      solo: false,
+      ready: true
+    },
+    hide: 'mouseleave',
+    style: 'qtip-rounded'
+  });
 });
 
 

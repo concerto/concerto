@@ -4,14 +4,17 @@
   <% if feeds.empty? %>
     <p><%= t(:no_feeds)%></p>
   <% else %>
-    <input type="text" class="feed_filter" placeholder="Type here to filter"/>
-    <br />
-    <ol class='filterable'>
-    <% feeds.each_with_index do |feed, i| %>
+    <input type="text" class="input-xlarge feed_filter" placeholder="Type here to filter"/>
+    <br /><br />
+    <ul class="filterable selector-list">
+      <% feeds.each_with_index do |feed, i| %>
       <% allowed_type = (feed.content_types[@content.class.name] == "1") %>
-      <li data-filter="<%= feed.name %>"><%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed), :disabled => !allowed_type %>
-      <%= "-" * feed.depth %> <%= feed.name %></li>
-    <% end %>
-    </ol>
+      <li class="with-padding" data-filter="<%= feed.name %>">
+        <%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed), :disabled => !allowed_type %>
+          <%= "-" * feed.depth %> <%= feed.name %>
+      </li>
+      <% end %>
+    </ul>
+
   <% end %>
 </div>
