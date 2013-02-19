@@ -15,7 +15,7 @@
 //= require jquery-ui
 //= require html5_shiv/html5
 //= require jquery.qtip.min
-//= require timepicker/jquery.timepicker
+//= require jquery.timepicker.js
 //= require_tree .
 
 // require turbolinks
