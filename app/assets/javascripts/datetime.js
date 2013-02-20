@@ -31,9 +31,13 @@ function addDateTimeUi() {
 }
 
 function initDateTime() {
-  if($('.datetime').length > 0) {
+  if($('.datefield').length > 0) {
     addDateTimeUi();
-  };
+  }
 }
 
 $(document).ready(initDateTime);
+$(document).on('page:change', initDateTime);
+$(document).on('page:change', function() {
+  $.datepicker.initialized = false;
+});

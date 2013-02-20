@@ -131,3 +131,4 @@ function initSubscriptions() {
 
 
 $(document).ready(initSubscriptions);
+$(document).on('page:change', initSubscriptions);

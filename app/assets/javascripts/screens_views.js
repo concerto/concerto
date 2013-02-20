@@ -1,14 +1,3 @@
-$(document).ready(function() {
-  // inset-selection gridlist: when a user clicks on an item in this
-  // type of gridlist, auto-select the input that's inside of the item
-  $("ul.list-grid.inset-selection li > a").click(function(e) {
-    e.preventDefault();
-    $(this).find(".inp input").prop("checked", true);
-  });
-
-  initTemplateSelector();
-});
-
 function initTemplateSelector() {
   $('.template-selector.dropdown-control').click(function(event) { event.preventDefault(); });
   $('.template-selector.dropdown-control').each(function() {
@@ -38,3 +27,24 @@ function initTemplateSelector() {
     });
   });
 }
+
+function initScreensViews() {
+  // inset-selection gridlist: when a user clicks on an item in this
+  // type of gridlist, auto-select the input that's inside of the item
+  $("ul.list-grid.inset-selection li > a").click(function(e) {
+    e.preventDefault();
+    $(this).find(".inp input").prop("checked", true);
+  });
+
+  $("#screen_owner_type").change(function() {
+    // make a POST call and replace the content
+    $.post("/update_owners", {owner: $('select#screen_owner_type :selected').val()}, function(data) {
+      $("#owner_div").html(data);
+    });
+  });
+
+  initTemplateSelector();
+}
+
+$(document).ready(initScreensViews);
+$(document).on('page:change', initScreensViews);

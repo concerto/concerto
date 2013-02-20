@@ -30,6 +30,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'turbolinks'
 gem 'jquery-timepicker-rails'
 
 # In production we prefer MySQL over sqlite3.  If you are only

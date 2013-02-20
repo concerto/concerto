@@ -35,5 +35,6 @@ function initLogin() {
 }
 
 $(document).ready(initLogin);
+$(document).on('page:change', initLogin);
 
 

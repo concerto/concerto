@@ -34,3 +34,4 @@ function initDuration(){
 }
 
 $(document).ready(initDuration);
+$(document).on('page:change', initDuration);
