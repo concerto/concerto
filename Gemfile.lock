@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/Nerian/bootstrap-datepicker-rails.git
+  revision: 4ea02449857e74b5f234a61b228f395513fd33dc
+  specs:
+    bootstrap-datepicker-rails (0.6.42)
+      railties (>= 3.0)
+
+GIT
   remote: git://github.com/concerto/c2_simplerss.git
   revision: d6ad1c50fe6b9b43c0f995d3272a5facc57c8784
   specs:
@@ -163,6 +170,7 @@ PLATFORMS
 DEPENDENCIES
   airbrake
   attachable (>= 0.0.5)
+  bootstrap-datepicker-rails!
   c2_simple_rss!
   cancan
   coffee-rails (~> 3.2.1)

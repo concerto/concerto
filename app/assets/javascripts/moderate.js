@@ -75,7 +75,6 @@ function initModerate() {
   if($('.dd-moderate').length > 0){
     addModerateUi();
   }
-  console.log($('.dd-moderate').length);
 }
 
 $(document).ready(initModerate);
