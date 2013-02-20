@@ -54,8 +54,15 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
       end
     else
       clean_up_passwords resource
-      redirect_to new_user_registration_path
-      #respond_with resource
+      @show_first_admin_page = ConcertoConfig[:setup_complete] == "false"
+      @concerto_config = ConcertoConfig.new
+      if @show_first_admin_page
+        respond_with resource do |format|
+          format.html { render :layout => "no-topmenu" }
+        end
+      else 
+        respond_with resource
+      end
     end
   end
 
