@@ -16,6 +16,3 @@ function initDateTime() {
 
 $(document).ready(initDateTime);
 $(document).on('page:change', initDateTime);
-// $(document).on('page:change', function() {
-//   $.datepicker.initialized = false;
-// });
