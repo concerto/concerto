@@ -1,8 +1,4 @@
 function addSubscriptionsUi(){
-  
-  $('.dropdown-control.dd-add-sub').click(function(event) {
-    event.preventDefault();
-  });
 
   $('.dropdown-control.dd-add-sub').each(function() {
     $(this).qtip( {
