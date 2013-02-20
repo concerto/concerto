@@ -14,4 +14,8 @@ class TickerTest < ActiveSupport::TestCase
     ticker = Ticker.new
     assert_equal ticker.kind, Kind.where(:name => "Ticker").first
   end
+
+  test "ticker class has display name" do
+    assert_equal Ticker.display_name, "Ticker Text"
+  end
 end

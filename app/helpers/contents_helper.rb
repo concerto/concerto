@@ -1,17 +1,8 @@
-module ContentsHelper  
+module ContentsHelper
 
-  # Expose the available content subclasses.
+  # Expose a copy of the available content subclasses.
   def content_types
-    Concerto::Application.config.content_types
-  end
-
-  # Display the name of the content type.
-  def display_name(klass)
-    if (klass).const_defined?("DISPLAY_NAME") && !klass::DISPLAY_NAME.nil?
-      klass::DISPLAY_NAME
-    else
-      klass.model_name.human
-    end
+    Concerto::Application.config.content_types.dup
   end
 
   # All the content types that are allowed on a group of feeds.

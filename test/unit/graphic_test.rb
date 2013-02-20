@@ -44,4 +44,8 @@ class GraphicTest < ActiveSupport::TestCase
     assert graphic.invalid?
     assert graphic.errors[:media].any?
   end
+
+  test "graphic class has display name" do
+    assert_equal Graphic.display_name, "Graphic"
+  end
 end

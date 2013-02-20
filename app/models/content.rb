@@ -121,4 +121,13 @@ class Content < ActiveRecord::Base
     return sub
   end
 
+  # Display the pretty name of the content type.
+  def self.display_name
+    if self.const_defined?("DISPLAY_NAME") && !self::DISPLAY_NAME.nil?
+      self::DISPLAY_NAME
+    else
+      self.model_name.human
+    end
+  end
+
 end
