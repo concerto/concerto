@@ -76,7 +76,7 @@
   </div>
   <% if !@submission.content.children.empty? %>
   <div class="span10">
-    <% @submission.content.children.each do |child| %>
+    <% @submission.content.children.active.each do |child| %>
       <% child_submissions = child.submissions.where(:feed_id => @submission.feed_id) %>
       <% child_submissions.each do |child_submission| %>
         <%= render :partial => "submissions/submission_tile", :locals => { :submission => child_submission } %>

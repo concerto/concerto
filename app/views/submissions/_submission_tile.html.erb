@@ -5,7 +5,7 @@
   </div>
   <div class="brand">
     <% if not submission.content.children.empty? %>
-      <div class="count">x <%= submission.content.children.size %></div>
+      <div class="count">x <%= submission.content.children.active.size %></div>
     <% end %>
   </div>
 </div>
