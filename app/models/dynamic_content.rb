@@ -137,7 +137,10 @@ class DynamicContent < Content
 
         new_children[index].becomes(content.class)
         new_attributes = content.attributes
-        new_attributes.delete('id')
+        locked_attributes = ['id', 'created_at', 'updated_at']
+        locked_attributes.each do |attr|
+          new_attributes.delete(attr)
+        end
         new_children[index].assign_attributes(new_attributes, :without_protection => true)
 
         if new_children[index].save
