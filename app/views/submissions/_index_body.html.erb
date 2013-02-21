@@ -70,7 +70,7 @@
 <div class="clearfix default-padding">
   <h3 class="header-with-icon"><i class="icon-header-activecontent"></i><%= pluralize(@active_submissions.count, "active content") %></h3>
   <br />
-  <% @active_submissions.each do |submission| %>
+  <% @active_submissions.select{|s| s.content.parent.nil?}.each do |submission| %>
     <%= render :partial => "submissions/submission_tile", :locals => { :submission => submission } %>
   <% end %>
 </div>
