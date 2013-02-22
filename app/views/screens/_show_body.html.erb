@@ -1,7 +1,11 @@
 <div class="fluid-row">
   <div class="span2">
+    <br />
     <%= link_to t('edit_screen_details'), edit_screen_path(@screen), :class => "btn" if can? :update, @screen %>
-    <br /><br />
+    <br />
+    <%= link_to 'Preview Screen', frontend_screen_path(@screen), :class => "btn", :data => {'no-turbolink' => true} if can? :update, @screen %>
+    <br />
+    <br />
 
     <% unless @screen.location.blank? %>
       <p><b><%= t('location') %></b> <%= @screen.location %></p>
