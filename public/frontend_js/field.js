@@ -8,6 +8,7 @@ goog.require('goog.debug.Logger');
 goog.require('goog.dom');
 goog.require('goog.events');
 goog.require('goog.events.EventTarget');
+goog.require('goog.math');
 goog.require('goog.structs.Queue');
 
 
@@ -146,7 +147,22 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
 
         var xhr = e.target;
 
+        if (!xhr.isSuccess()) {
+          // Error fetching content.
+          this.logger_.warning('Unable to fetch content. ' +
+              xhr.getLastError());
+          return setTimeout(
+              goog.bind(function() {this.nextContent(true)}, this), 10);
+        }
         var contents_data = xhr.getResponseJson();
+
+        if (!contents_data.length) {
+          // No content for this field.
+          this.logger_.info('No content to display here.');
+          return setTimeout(
+              goog.bind(function() {this.nextContent(true)}, this), 10);
+        }
+
         goog.array.forEach(contents_data, goog.bind(function(content_data) {
           // Slip in some data about the field.  Content might want to know the
           // current size of the position it is being rendered in.
@@ -204,14 +220,25 @@ concerto.frontend.Field.prototype.showContent = function() {
 
 /**
  * Advance content.
+ *
+ * @param {Boolean} in_error_state If the frontend is having trouble
+ *    fetching content we might act differently.
  */
-concerto.frontend.Field.prototype.nextContent = function() {
-  this.logger_.info('Field ' + this.id +
-      ' would like a new piece of content.');
+concerto.frontend.Field.prototype.nextContent = function(in_error_state) {
+  in_error_state = in_error_state || false;
+  this.logger_.info('Field ' + this.id + ' would like a new piece of content' +
+      ' (error state: ' + in_error_state + ' ).');
   // If a piece of content is already in the queue, use that.
   if (this.next_contents_.isEmpty()) {
     this.logger_.info('Field ' + this.id + ' needs to look for more content.');
-    this.loadContent(true);
+    if (in_error_state) {
+      var delay = concerto.frontend.Field.ERROR_DELAY;
+      this.logger_.info('In error state, sleeping for ' + delay + ' seconds.');
+      setTimeout(
+          goog.bind(function() {this.loadContent(true);}, this), delay * 1000);
+    } else {
+      this.loadContent(true);
+    }
   } else {
     this.next_contents_.peek().startLoad();
   }
@@ -229,3 +256,14 @@ concerto.frontend.Field.prototype.autoAdvance = function() {
     this.logger_.info('Field ' + this.id + ' is not advancing.');
   }
 };
+
+
+/**
+ * Delay between retries.
+ *
+ * If there is no content or the backend is NOK we randomize our delays
+ * to try and distribute the spikes slightly.
+ *
+ * @return {Number} Number of seconds to delay.
+ */
+concerto.frontend.Field.ERROR_DELAY = goog.math.uniformRandom(10, 60);
