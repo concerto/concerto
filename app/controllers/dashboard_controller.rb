@@ -1,26 +1,10 @@
 class DashboardController < ApplicationController
-  # includes for system status functions
-  require 'sys/proctable'
-  require 'rake'
-  include Sys
+  before_filter :latest_version, :only => :index
+  before_filter :delayed_job_running, :only => :index
 
   # GET /dashboard
   def index
     authorize! :read, ConcertoConfig
-
-    @delayed_job_running = false
-    ProcTable.ps do |process|
-      if process.cmdline.strip == "delayed_job" && process.state.strip == "run"
-        @delayed_job_running = true
-      end
-    end
-    
-    version_query = latest_version()
-    if version_query == -1
-      @latest_version = "999"
-    else
-      @latest_version = version_query
-    end
     
     @concerto_configs = ConcertoConfig.where("hidden IS NULL")
   end
@@ -39,17 +23,6 @@ class DashboardController < ApplicationController
   def run_backup
     # Add rake site:backup to the Delayed Jobs queue for processing
   end
-  
-  def latest_version
-    require 'open-uri'
-    begin
-      file = open('http://dl.concerto-signage.org/version.txt')
-      version = file.read.chomp!
-    rescue OpenURI::HTTPError
-      version = gh_latest_version()
-    end   
-    return version
-  end  
     
   def gh_latest_version
     require 'net/https'

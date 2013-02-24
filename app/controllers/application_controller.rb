@@ -112,6 +112,36 @@ class ApplicationController < ActionController::Base
     redirect_to main_app.root_url, :flash => { :notice => exception.message }
   end
 
+  def latest_version
+    require 'open-uri'
+    begin
+      file = open('http://dl.concerto-signage.org/version.txt')
+      version = file.read.chomp!
+    rescue OpenURI::HTTPError
+      version = gh_latest_version()
+    end
+
+    if version == -1
+      @latest_version = "999"
+    else
+      @latest_version = version
+    end
+  end
+
+  include Sys
+
+  def delayed_job_running
+    require 'sys/proctable'
+    require 'rake'
+
+    @delayed_job_running = false
+    ProcTable.ps do |process|
+      if process.cmdline.strip == "delayed_job" && process.state.strip == "run"
+        @delayed_job_running = true
+      end
+    end
+  end
+
   # Authenticate using the current action and instance variables.
   # If the instance variable is an {Enumerable} or {ActiveRecord::Relation}
   # we remove anything that we cannot? from the array.
