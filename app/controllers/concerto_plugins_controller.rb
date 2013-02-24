@@ -1,4 +1,7 @@
 class ConcertoPluginsController < ApplicationController
+  before_filter :latest_version, :only => [:index, :show, :new, :edit]
+  before_filter :delayed_job_running, :only => [:index, :show, :new, :edit]
+
   # GET /concerto_plugins
   # GET /concerto_plugins.json
   def index
@@ -108,16 +111,16 @@ class ConcertoPluginsController < ApplicationController
       gemfile_content = gemfile_content + "\ngem " + gem_args.join(", ") + "\n"
     end
 
-    File.open(Gemfile-plugins, 'w') {|f| f.write(gemfile_content) }
+    File.open("Gemfile-plugins", 'w') {|f| f.write(gemfile_content) }
 
-    #Going to try a synchronous bundle update - though this could get ugly and slow
+    #Going to try a synchronous bundle install - though this could get ugly and slow
     #The alternative is to use spawn with a timout protection (using the timeout Ruby module
     #Fork may not be used here as it's not cross-platform implemented
-    bundle_status = system('bundle update')
+    bundle_status = system("bundle install")
     if bundle_status == true
       File.open("tmp/restart.txt", "w") {}
     else
-      raise "An error occurred while running bundle update."
+      raise "An error occurred while running bundle install."
     end
   end
   

@@ -1,0 +1,7 @@
+en:
+  #index
+  new_plugin: 'New Concerto plugin'
+  concerto_plugins: 'Manage Concerto plugins'
+  edit_plugins: "Edit Concerto plugins"
+  enabled: "enabled"
+  disabled: "disabled"

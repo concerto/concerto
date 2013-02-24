@@ -1,6 +1,18 @@
-<h1>Editing concerto_plugin</h1>
+<%= render :partial => 'dashboard/admin_stats' %>
 
-<%= render 'form' %>
+<section class="viewblock">
+  <header class="viewblock-header">
+    <h1 class="default-padding">
+      <%= t :manage_plugins %>
+    </h1>
+  </header>
+  <div class="viewblock-cont" style="min-height: 600px;">
 
-<%= link_to 'Show', @concerto_plugin %> |
-<%= link_to 'Back', concerto_plugins_path %>
+    <%= render :partial => 'plugins_navigation' %>
+
+    <%= link_to t(:concerto_plugins), concerto_plugins_path %> > <%= link_to @concerto_plugin.name, @concerto_plugin %> > <%= t(:edit) %>
+
+    <%= render 'form' %>
+
+  </div>
+</section>

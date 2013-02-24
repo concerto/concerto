@@ -1,45 +1,49 @@
-<p id="notice"><%= notice %></p>
+<%= render :partial => 'dashboard/admin_stats' %>
 
-<p>
-  <b>Name:</b>
-  <%= @concerto_plugin.name %>
-</p>
+<section class="viewblock">
+  <header class="viewblock-header">
+    <h1 class="default-padding">
+      <%= t :concerto_plugins %>
+    </h1>
+  </header>
+  <div class="viewblock-cont" style="min-height: 600px;">
 
-<p>
-  <b>Module name:</b>
-  <%= @concerto_plugin.module_name %>
-</p>
+    <%= render :partial => 'plugins_navigation' %>
+    <%= link_to t(:concerto_plugins), concerto_plugins_path %> > <%= @concerto_plugin.name %>
 
-<p>
-  <b>Enabled:</b>
-  <%= @concerto_plugin.enabled %>
-</p>
+    <p>
+      <b>Module name:</b>
+      <%= @concerto_plugin.module_name %>
+    </p>
 
-<p>
-  <b>Gem name:</b>
-  <%= @concerto_plugin.gem_name %>
-</p>
+    <p>
+      <b>Enabled:</b>
+      <%= @concerto_plugin.enabled %>
+    </p>
 
-<p>
-  <b>Gem version:</b>
-  <%= @concerto_plugin.gem_version %>
-</p>
+    <p>
+      <b>Gem name:</b>
+      <%= @concerto_plugin.gem_name %>
+    </p>
 
-<p>
-  <b>Source:</b>
-  <%= @concerto_plugin.source %>
-</p>
+    <p>
+      <b>Gem version:</b>
+      <%= @concerto_plugin.gem_version %>
+    </p>
 
-<p>
-  <b>Source url:</b>
-  <%= @concerto_plugin.source_url %>
-</p>
+    <p>
+      <b>Source:</b>
+      <%= @concerto_plugin.source %>
+    </p>
 
-<p>
-  <b>Installed:</b>
-  <%= @concerto_plugin.installed %>
-</p>
+    <p>
+      <b>Source url:</b>
+      <%= @concerto_plugin.source_url %>
+    </p>
 
-
-<%= link_to 'Edit', edit_concerto_plugin_path(@concerto_plugin) %> |
-<%= link_to 'Back', concerto_plugins_path %>
+    <p>
+      <b>Installed:</b>
+      <%= @concerto_plugin.installed %>
+    </p>
+  </div>
+</section>

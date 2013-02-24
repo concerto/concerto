@@ -1,5 +1,16 @@
-<h1>Install New Concerto Plugin</h1>
+<%= render :partial => 'dashboard/admin_stats' %>
 
-<%= render 'form' %>
+<section class="viewblock">
+  <header class="viewblock-header">
+    <h1 class="default-padding">
+      <%= t :new_plugin %>
+    </h1>
+  </header>
+  <div class="viewblock-cont" style="min-height: 600px;">
 
-<%= link_to 'Back', concerto_plugins_path %>
+    <%= render :partial => 'plugins_navigation' %>
+
+    <%= render 'form' %>
+
+  </div>
+</section>
