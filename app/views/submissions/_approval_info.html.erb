@@ -1,6 +1,6 @@
 <div class="row-fluid approval-info">
   <div class="span3">
-    <% user = User.find(submission.content.user_id) %>
+    <% user = submission.content.user %>
     <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t(:submitted_by) %>:</b></small></p>
     <p><%= link_to user.name, user %></p>
   </div>
