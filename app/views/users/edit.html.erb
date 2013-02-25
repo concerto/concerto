@@ -41,6 +41,12 @@
             </div>
           </div>
 
+          <div class="clearfix">
+            <div class="input">
+              <%= f.check_box :receive_moderation_notifications %> <%= f.label :receive_moderation_notifications %>
+            </div>
+          </div>
+        
           <% if can? :manage, @user %>
               <div class="clearfix">
                 <div class="input">

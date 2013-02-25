@@ -46,6 +46,7 @@
                         <td>
                           <%= form_for([membership.group, membership]) do |f| %>
                               <%= f.select :level, Membership::LEVELS, { }, :style => "width: 80px;" %>
+                              <%= f.select :receive_emails, {"Receive Emails" => true, "Don't Receive Emails" => false}%>
                               <%= f.submit t(:submit), :class => "btn" %>
                           <% end %>
                         </td>

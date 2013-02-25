@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130111213722) do
+ActiveRecord::Schema.define(:version => 20130225214830) do
 
   create_table "concerto_configs", :force => true do |t|
     t.string  "key"
@@ -112,7 +112,7 @@ ActiveRecord::Schema.define(:version => 20130111213722) do
     t.string   "file_name"
     t.string   "file_type"
     t.integer  "file_size"
-    t.binary   "file_data",       :limit => 16777215
+    t.binary   "file_data",       :limit => 10485760
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
   end
@@ -122,11 +122,14 @@ ActiveRecord::Schema.define(:version => 20130111213722) do
   create_table "memberships", :force => true do |t|
     t.integer  "user_id"
     t.integer  "group_id"
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
-    t.integer  "level",       :default => 1
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.integer  "level",          :default => 1
     t.integer  "permissions"
+    t.boolean  "receive_emails"
   end
+
+  add_index "memberships", ["receive_emails"], :name => "index_memberships_on_receive_emails"
 
   create_table "positions", :force => true do |t|
     t.text     "style"
@@ -184,17 +187,18 @@ ActiveRecord::Schema.define(:version => 20130111213722) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                  :default => "",    :null => false
-    t.string   "encrypted_password",     :default => "",    :null => false
+    t.string   "email",                            :default => "",    :null => false
+    t.string   "encrypted_password",               :default => "",    :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.datetime "created_at",                                          :null => false
+    t.datetime "updated_at",                                          :null => false
     t.string   "first_name"
     t.string   "last_name"
     t.string   "locale"
-    t.boolean  "is_admin",               :default => false
+    t.boolean  "is_admin",                         :default => false
+    t.boolean  "receive_moderation_notifications"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
