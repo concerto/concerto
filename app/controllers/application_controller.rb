@@ -128,14 +128,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  include Sys
-
   def delayed_job_running
     require 'sys/proctable'
-    require 'rake'
 
     @delayed_job_running = false
-    ProcTable.ps do |process|
+    Sys::ProcTable.ps do |process|
       if process.cmdline.strip == "delayed_job" && process.state.strip == "run"
         @delayed_job_running = true
       end
