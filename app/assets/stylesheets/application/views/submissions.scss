@@ -7,3 +7,31 @@
   width: 800px !important;
   margin: 0 auto;
 }
+
+.content-ticker {
+  background: $grayLightest;
+  border: solid 1px $grayLight;
+  text-align: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  @include border-radius(6px);
+  position: relative;
+
+  p {
+    font-size: 3em;
+    line-height: normal;
+  }
+
+  .quotemarks-top, .quotemarks-bottom {
+    position: absolute;
+    @include serif-font(bold, 30px, normal);
+  }
+  .quotemarks-top {
+    top: 15px;
+    left: 15px;
+  }
+  .quotemarks-bottom {
+    bottom: 0px;
+    right: 15px;
+  }
+}
