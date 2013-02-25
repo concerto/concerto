@@ -1,11 +1,11 @@
 a > .tile {
-  border: solid 3px $white;
+  border: solid 1px darken($grayLighter, 5%);
   
   &, * { @include transition(0.1s all linear); }
 }
 
 a:hover > .tile {
-  background: lighten($concerto-blue-5, 5%);
+  background: $concerto-blue-5;
   border-color: $concerto-blue-4;
 
   * {
@@ -23,9 +23,10 @@ a:hover > .tile {
   box-shadow: inset 0px 0px 1px #FFFFCC;
   text-decoration: none;
   color: $white;
-  margin: 0 7px 7px 0;
-  overflow: hidden;
+  margin: 0 10px 10px 0;
+  //overflow: hidden;
   position: relative;
+  box-sizing: border-box;
 
   // * {
   //     color: $black;
@@ -208,4 +209,29 @@ a:hover > .tile {
       }
   }
 
+}
+
+.tile-stack::before,
+.tile-stack::after {
+  box-sizing: border-box;
+  
+  position: absolute;
+  content: '';
+  
+  border: 1px solid darken($grayLighter, 5%);
+  background: $grayLightest;
+  
+  height: 4px;
+}
+.tile-stack::before {
+  width: 196px;
+  
+  left: 1px;
+  bottom: -4px;
+}
+.tile-stack::after {
+  width: 192px;
+  
+  left: 3px;
+  bottom: -7px;
 }

@@ -52,7 +52,7 @@
 <div class="clearfix default-padding">
   <h3 class="header-with-icon" style="color:#993333;"><i class="icon-header-pendingcontent"></i><%= pluralize(@pending_submissions.count, "content") %> pending your moderation</h3>
   <br />
-  <% @pending_submissions.each do |submission| %>
+  <% @pending_submissions.select{|s| s.content.parent.nil?}.each do |submission| %>
     <%= render :partial => "submissions/submission_tile", :locals => { :submission => submission } %>
   <% end %>
 </div>
@@ -81,7 +81,7 @@
 <div class="clearfix default-padding">
   <h3 class="header-with-icon"><i class="icon-header-deniedcontent"></i><%= pluralize(@denied_submissions.count, "denied content") %></h3>
   <br />
-  <% @denied_submissions.each do |submission| %>
+  <% @denied_submissions.select{|s| s.content.parent.nil?}.each do |submission| %>
    <%= render :partial => "submissions/submission_tile", :locals => { :submission => submission } %>
   <% end %>
 </div>
@@ -92,7 +92,7 @@
 <div class="clearfix default-padding">
   <h3 class="header-with-icon"><i class="icon-header-expiredcontent"></i><%= @expired_submissions.count %> expired content<% if @expired_submissions.count != 1 %>s<% end %></h3>
   <br />
-  <% @expired_submissions.each do |submission| %>
+  <% @expired_submissions.select{|s| s.content.parent.nil?}.each do |submission| %>
     <%= render :partial => "submissions/submission_tile", :locals => { :submission => submission } %>
   <% end %>
 </div>

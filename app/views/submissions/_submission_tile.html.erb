@@ -1,11 +1,11 @@
 <%= link_to [submission.feed, submission] do %>
-<div class="tile">
+<div class="tile <% if not submission.content.children.empty? %>tile-stack<% end %>">
   <div class="tile-content">
     <%= render_content(submission.content, {:type => 'tile'}) %>
   </div>
   <div class="brand">
     <% if not submission.content.children.empty? %>
-      <div class="count">x <%= submission.content.children.active.size %></div>
+      <div class="count">x <%= submission.content.children.size %></div>
     <% end %>
   </div>
 </div>
