@@ -1,19 +1,4 @@
 function addModerateUi(){
-  $(".moderate-true").hide();
-  $(".moderate-false").hide();
-
-  $(document).on("click", ".moderate-select button.approve", function(event) {
-    event.preventDefault();
-    $(".moderate-false").hide();
-    $(".moderate-true").show();
-  });
-
-  $(document).on("click", ".moderate-select button.deny", function(event) {
-    event.preventDefault();
-    $(".moderate-true").hide();
-    $(".moderate-false").show();
-  });
-
   $('.dropdown-control').click(function(event) { event.preventDefault(); });
 
   $('.dropdown-control.dd-jumpto').each(function() {
@@ -43,7 +28,7 @@ function addModerateUi(){
             }
         },
         hide: 'unfocus',
-        style: 'ui-tooltip-light ui-tooltip-shadow ui-tooltip-rounded'
+        style: 'qtip-light qtip-shadow qtip-rounded'
       });
   });
 
@@ -58,7 +43,7 @@ function addModerateUi(){
       },
       position: {
           at: 'bottom center', // Position the tooltip above the link
-          my: 'top left',
+          my: 'top center',
           viewport: $(window) // Keep the tooltip on-screen at all times
         },
         show: {
@@ -66,7 +51,7 @@ function addModerateUi(){
           solo: true // ...and hide all other tooltips...
         },
         hide: 'unfocus',
-        style: 'ui-tooltip-dark ui-tooltip-shadow ui-tooltip-rounded'
+        style: 'qtip-dark qtip-shadow qtip-rounded'
       });
   });
 }

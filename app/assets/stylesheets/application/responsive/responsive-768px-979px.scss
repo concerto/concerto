@@ -13,4 +13,9 @@
   @include gridInput($gridColumnWidthTablet, $gridGutterWidthTablet);
 
   // No need to reset .thumbnails here since it's the same $gridGutterWidth
+
+  .approval-info {
+    width: auto !important;
+    margin: 0 auto;
+  }
 }
