@@ -65,6 +65,8 @@ gem 'rails-backup-migrate'
 
 gem 'strong_parameters'
 
+gem 'kaminari'  # Pagination
+
 # Default plugins.
 # We should move these to gems when we're releasing, but for now we'll develop with git repos.
 gem 'c2_simple_rss', :git => 'git://github.com/concerto/c2_simplerss.git'
