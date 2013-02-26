@@ -25,10 +25,10 @@
 
           <div class="subblock">
             <% if @content.submissions.all.count > 0 %>
-              <h3><%= t(:appears_on) %></h3>
+              <h3><%= t(:feeds_moderation_status) %></h3>
               <ul>
                 <% @content.submissions.all.each do |submission| %>
-                  <li><%= link_to submission.feed.name, [submission.feed, submission] %></li>
+                  <li><%= link_to submission.feed.name, [submission.feed, submission] %> - <%= submission.moderation_text %></li>
                 <% end %> 
               </ul>
             <% end %>

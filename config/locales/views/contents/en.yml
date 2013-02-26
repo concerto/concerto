@@ -44,7 +44,7 @@ en:
   display_from: "Display From:"
   display_until: "Display Until:"
   submitted_by: "Submitted by"
-  appears_on: "Appears on..."
+  feeds_moderation_status: "Submission Status"
 
   helpers:
     label:
