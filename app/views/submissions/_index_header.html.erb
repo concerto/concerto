@@ -1,20 +1,26 @@
 <div class="viewblock-header_right">
   <div class="status-block">
     <label><%= t(:active).upcase %></label>
-    <span><%= @approved_submissions ? @approved_submissions.count : 0 %></span>
+    <span><%= @feed.submissions.approved.active.count %></span>
   </div>
   <div class="status-block">
-    <label><%= t(:pending).upcase %></label>
-    <span><%= @pending_submissions ? @pending_submissions.count : 0 %></span>
+    <label><%= t(:future).upcase %></label>
+    <span><%= @feed.submissions.approved.future.count %></span>
   </div>
   <div class="status-block">
     <label><%= t(:expired).upcase %></label>
-    <span><%= @expired_submissions ? @expired_submissions.count : 0 %></span>
+    <span><%= @feed.submissions.approved.expired.count %></span>
+  </div>
+  <% if @can_moderate_feed %>
+  <div class="status-block">
+    <label><%= t(:pending).upcase %></label>
+    <span><%= @feed.submissions.pending.count %></span>
   </div>
   <div class="status-block">
     <label><%= t(:denied).upcase %></label>
-    <span><%= @denied_submissions ? @denied_submissions.count : 0 %></span>
+    <span><%= @feed.submissions.denied.count %></span>
   </div>
+  <% end %>
 </div>
 <div class="default-padding">
   <h1 id="contentlist">
