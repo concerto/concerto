@@ -28,6 +28,7 @@ en:
         email: 'Email'
         locale: 'Locale'
         is_admin: 'Admin Status'
+        receive_moderation_notifications: 'Receive Moderation Notifications'
         password: 'Password'
         new_password: 'New Password'
         password_confirmation: 'Confirm New Password'

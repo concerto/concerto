@@ -22,6 +22,17 @@ class Submission < ActiveRecord::Base
   scope :expired, joins(:content).merge(Content.expired)
   scope :future, joins(:content).merge(Content.future)
 
+  def moderation_text
+    case self.moderation_flag
+      when true
+        return "Approved"
+      when false
+        return "Rejected"
+      when nil
+        return "Pending"                
+      end  
+  end
+
   # Test if the submission has been approved.
   # (moderation flag is true)
   def is_approved?
