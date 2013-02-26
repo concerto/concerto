@@ -8,7 +8,7 @@
       <li>
         <h3>
           <%= link_to feed_submissions_path(feed), :class => "link-hl" do %>
-            <span class="badge"><%= feed.approved_contents.count %></span> <%= feed.name %>
+            <span class="badge"><%= feed.approved_contents.active.count %></span> <%= feed.name %>
           <% end %>
           <small>&nbsp;&nbsp;<%= feed.description %></small>
           <% if can? :update, feed %>

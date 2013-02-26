@@ -38,7 +38,7 @@
     <% end %>
     <% @feed.children.each do |feed| %>
     <li>
-      <%= link_to feed_submissions_path(feed) do %><span class="badge"><%= feed.approved_contents.count %></span> <%= feed.name %><% end %>
+      <%= link_to feed_submissions_path(feed) do %><span class="badge"><%= feed.approved_contents.active.count %></span> <%= feed.name %><% end %>
     </li>
     <% end %>
   </ul>
