@@ -127,7 +127,7 @@ class Membership < ActiveRecord::Base
 
   # Approve a user in group
   def approve()
-    if self.can_resign_leadership? && update_attributes({:level => Membership::LEVELS[:regular]})
+    if can_resign_leadership?(Membership::LEVELS[:regular]) && update_attributes({:level => Membership::LEVELS[:regular]})
       true
     else
       reload
@@ -155,8 +155,15 @@ class Membership < ActiveRecord::Base
     end
   end
 
-  # Can a group leader resign his commission?
-  def can_resign_leadership?
-    return self.group.leaders.count > 1 || !self.is_leader?
+  #Returns whether a particular member object can resign leadership
+  #The new_level param is the membership level the user is changing to (from the one they presently hold)
+  def can_resign_leadership?(new_level)
+    #if no leadership level change is being done, just return true
+    if self.level == Membership::LEVELS[:leader] && new_level.to_i != Membership::LEVELS[:leader]
+      #make sure that if the current user is the leader, there are other leaders left
+      return self.group.leaders.count > 1 || !self.is_leader?
+    else
+      return true
+    end
   end
 end

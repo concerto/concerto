@@ -19,6 +19,7 @@ en:
   membership_created: "Membership was successfully created."
   membership_updated: "Membership was successfully updated."
   member_removed: "Member removed"
+  membership_denied: "Membership denied."
 
   #Positions controller
   position_created: "Position was successfully created."

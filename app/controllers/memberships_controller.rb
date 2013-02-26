@@ -33,7 +33,7 @@ class MembershipsController < ApplicationController
     @membership = Membership.find(params[:id])
 
     respond_to do |format|
-      if (@membership.can_resign_leadership?) && (@membership.update_attributes(membership_params))
+      if (@membership.can_resign_leadership?(membership_params['level'])) && (@membership.update_attributes(membership_params))
         format.html { redirect_to(edit_group_path(@group), :notice => t(:membership_updated)) }
         format.xml { head :ok }
       else
@@ -49,7 +49,8 @@ class MembershipsController < ApplicationController
     @membership = Membership.find(params[:id])
 
     respond_to do |format|
-      if (@membership.can_resign_leadership?) && (@membership.destroy)
+      #throw a negative one at a function expecting a membership level to indicate deletion
+      if (@membership.can_resign_leadership?(-1)) && (@membership.destroy)
         format.html { redirect_to({:controller => :groups, :action => :edit, :id => @group}, :notice => t(:member_removed)) }
         format.xml { head :ok }
       else
@@ -99,6 +100,6 @@ class MembershipsController < ApplicationController
   private
 
   def membership_params
-    params.require(:membership).permit(:user_id, :group_id, :created_at, :level, :permissions)
+    params.require(:membership).permit(:user_id, :group_id, :created_at, :level, :permissions, :receive_emails)
   end
 end
