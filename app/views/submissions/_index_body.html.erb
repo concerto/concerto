@@ -47,52 +47,30 @@
 
 
 
-<% if @can_moderate_feed and @pending_submissions.count > 0 %>
+<% if @can_moderate_feed and @feed.submissions.pending.count > 0 %>
 <!-- note that we do not show an alert banner when there are no pending contents; we just hide it altogether -->
 <div class="clearfix default-padding">
-  <h3 class="header-with-icon" style="color:#993333;"><i class="icon-header-pendingcontent"></i><%= pluralize(@pending_submissions.count, "content") %> pending your moderation</h3>
+  <h3 class="header-with-icon" style="color:#993333;"><i class="icon-header-pendingcontent"></i><%= pluralize(@feed.submissions.pending.count, "content") %> pending your moderation</h3>
   <br />
-  <% @pending_submissions.select{|s| s.content.parent.nil?}.each do |submission| %>
+  <% @feed.submissions.pending.select{|s| s.content.parent.nil?}.each do |submission| %>
     <%= render :partial => "submissions/submission_tile", :locals => { :submission => submission } %>
   <% end %>
 </div>
 <% end %>
 
-<% if @active_submissions.empty? %>
+<% if @paginated_submissions.empty? %>
 <br />
 <div class="clearfix default-padding">
   <div class="alert alert-block alert-zero">
-    <p class="alert-heading">No Active Content</p>
-    <% if can? :create, Content %>Would you kindly <%= link_to "submit something", new_content_path %> to make this feed a happier place?<% end %>
+    <p class="alert-heading">No <%= @state.capitalize %> Content</p>
+    <% if can? :create, Content && @state == 'active' %>Would you kindly <%= link_to "submit something", new_content_path %> to make this feed a happier place?<% end %>
   </div>
 </div>
 <% else %>
 <div class="clearfix default-padding">
-  <h3 class="header-with-icon"><i class="icon-header-activecontent"></i><%= pluralize(@active_submissions.count, "active content") %></h3>
+  <h3 class="header-with-icon"><i class="icon-header-<%= @state %>content"></i><%= pluralize(@submissions.count, "#{@state} content") %></h3>
   <br />
-  <% @active_submissions.select{|s| s.content.parent.nil?}.each do |submission| %>
-    <%= render :partial => "submissions/submission_tile", :locals => { :submission => submission } %>
-  <% end %>
-</div>
-<% end %>
-
-<% if @can_moderate_feed and @denied_submissions.count > 0 %>
-<!-- note that we do not show an alert banner when there are no denied contents; we just hide it altogether -->
-<div class="clearfix default-padding">
-  <h3 class="header-with-icon"><i class="icon-header-deniedcontent"></i><%= pluralize(@denied_submissions.count, "denied content") %></h3>
-  <br />
-  <% @denied_submissions.select{|s| s.content.parent.nil?}.each do |submission| %>
-   <%= render :partial => "submissions/submission_tile", :locals => { :submission => submission } %>
-  <% end %>
-</div>
-<% end %>
-
-<% if @can_moderate_feed and @expired_submissions.count > 0 %>
-<!-- note that we do not show an alert banner when there are no expired contents; we just hide it altogether -->
-<div class="clearfix default-padding">
-  <h3 class="header-with-icon"><i class="icon-header-expiredcontent"></i><%= @expired_submissions.count %> expired content<% if @expired_submissions.count != 1 %>s<% end %></h3>
-  <br />
-  <% @expired_submissions.select{|s| s.content.parent.nil?}.each do |submission| %>
+  <% @paginated_submissions.select{|s| s.content.parent.nil?}.each do |submission| %>
     <%= render :partial => "submissions/submission_tile", :locals => { :submission => submission } %>
   <% end %>
 </div>
