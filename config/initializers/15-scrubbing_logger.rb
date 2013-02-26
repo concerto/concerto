@@ -1,3 +1,5 @@
+Rails.logger.debug "Starting 15-scubbing_logger.rb at #{Time.now.to_s}"
+
 class ActiveSupport::BufferedLogger
   def formatter=(formatter)
     @log.formatter = formatter
@@ -15,3 +17,5 @@ class ScrubbingFormatter < Logger::Formatter
 end
 
 Rails.logger.formatter = ScrubbingFormatter.new
+
+Rails.logger.debug "Completed 15-scubbing_logger.rb at #{Time.now.to_s}"

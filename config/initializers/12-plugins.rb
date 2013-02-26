@@ -1,3 +1,5 @@
+Rails.logger.debug "Starting 12-plugins.rb at #{Time.now.to_s}"
+
 # Concerto Plugins Initializer
 if ActiveRecord::Base.connection.table_exists? 'concerto_plugins'
   # First register any plugin configs.
@@ -22,3 +24,5 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_plugins'
     end
   end
 end
+
+Rails.logger.debug "Completed 12-plugins.rb at #{Time.now.to_s}"

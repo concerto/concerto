@@ -1,3 +1,5 @@
+Rails.logger.debug "Starting 01-db_create_load_or_migrate.rb at #{Time.now.to_s}"
+
 #Checks current migration status of Concerto and migrates to any more recent migration version available
 #Creates and migrates the database if it doesn't yet exist
 #Implementation based on http://trevorturk.wordpress.com/2008/04/10/automatically-creating-loading-and-migrating-your-database/
@@ -64,3 +66,5 @@ unless Rails.env.test?
   end
   
 end
+
+Rails.logger.debug "Completed 01-db_create_load_or_migrate.rb at #{Time.now.to_s}"

@@ -1,3 +1,5 @@
+Rails.logger.debug "Starting 02-concerto_config.rb at #{Time.now.to_s}"
+
 #Initialize all core Concerto Config entries
 
 if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
@@ -18,3 +20,5 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("use_frontend_to_trigger_cron", "false", :value_type => "boolean")
   end
 end
+
+Rails.logger.debug "Completed 02-concerto_config.rb at #{Time.now.to_s}"
