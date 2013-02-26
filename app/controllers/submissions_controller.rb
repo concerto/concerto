@@ -10,24 +10,26 @@ class SubmissionsController < ApplicationController
   # GET /feeds/:feed_id/submissions.js
   def index
     @can_moderate_feed = can?(:update, @feed)
-    
-    # active submissions are defined as submissions that are approved AND active (i.e. date window has not passed to make them expired):
-    @active_submissions = @feed.submissions.approved.active.page(params[:page]).per(100)
 
-    if @can_moderate_feed
-      
-      # pending submissions are defined as submissions that are flagged as pending OR active (date window has not passed to make them expired) AND flagged as pending via scope:
-      @pending_submissions = @feed.submissions.pending.active + @feed.submissions.pending.future
-      
-      # denied submissions are defined as all submissions that are marked with moderation false (regardless of expired or active status):
-      @denied_submissions = @feed.submissions.denied
-      
-      # expired submissions include any pending or active submissions that have passed their date windows, but denied submissions are not included (i.e. they're ALWAYS in the "denied" list):
-      @expired_submissions = @feed.submissions.pending.expired + @feed.submissions.approved.expired
-    
+    state = params[:state] || 'active'
+
+    @submissions = []
+    case state
+    when 'expired'
+      @submissions = @feed.submissions.approved.expired
+    when 'future'
+      @submissions = @feed.submissions.approved.future
+    when 'pending'
+      @submissions = @feed.submissions.pending
+    when 'denied'
+      @submissions = @feed.submissions.denied
+    else
+      @submissions = @feed.submissions.approved.active
+      state = 'active'
     end
-    #brzNote: did appears to result in a redirect when it is uncommented:
-    #auth!
+    @paginated_submissions = @submissions
+    @paginated_submissions = @submissions.page(params[:page]).per(100) unless @paginated_submissions.kind_of?(Array)
+    @state = state
 
     respond_to do |format|
       format.html { }
