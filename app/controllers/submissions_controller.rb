@@ -11,8 +11,8 @@ class SubmissionsController < ApplicationController
   def index
     @can_moderate_feed = can?(:update, @feed)
     
-    # active submissions are defined as submissions that are approved AND either active (i.e. date window has not passed to make them expired) OR future (i.e. date window has not even been met yet):
-    @active_submissions = @feed.submissions.approved.active + @feed.submissions.approved.future
+    # active submissions are defined as submissions that are approved AND active (i.e. date window has not passed to make them expired):
+    @active_submissions = @feed.submissions.approved.active.page(params[:page]).per(100)
 
     if @can_moderate_feed
       
