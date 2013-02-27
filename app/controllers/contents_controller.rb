@@ -48,6 +48,7 @@ class ContentsController < ApplicationController
       render :text => "Unrecognized content type.", :status => 400
     else
       @content = @content_const.new()
+      @content.duration = ConcertoConfig[:default_content_duration].to_i
       auth!
 
       # Remove the feeds that would not take a submission.

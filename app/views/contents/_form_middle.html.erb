@@ -7,7 +7,7 @@
     </div>
   </div>
 
-  <%= render :partial => 'contents/form_elements/duration', :locals => {:form => form, :min => 4, :max => 12} %>
+  <%= render :partial => 'contents/form_elements/duration', :locals => {:form => form, :min => ConcertoConfig[:min_content_duration].to_i, :max => ConcertoConfig[:max_content_duration].to_i} %>
   <%= render :partial => 'contents/form_elements/dates', :locals => {:form => form} %>
 </fieldset>
 

@@ -18,6 +18,9 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("autostart_delayed_job", "true", :value_type => "boolean")
     ConcertoConfig.make_concerto_config("dynamic_refresh_time", "0", :value_type => "integer", :hidden => "true")
     ConcertoConfig.make_concerto_config("use_frontend_to_trigger_cron", "false", :value_type => "boolean")
+    ConcertoConfig.make_concerto_config("default_content_duration", "8", :value_type => "integer")
+    ConcertoConfig.make_concerto_config("max_content_duration", "12", :value_type => "integer")
+    ConcertoConfig.make_concerto_config("min_content_duration", "4", :value_type => "integer")
   end
 end
 
