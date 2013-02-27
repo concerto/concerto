@@ -8,11 +8,7 @@
 
     <div class="subnav clearfix">
       <ul class="nav nav-tabs">
-        <% allowed_types = allowed_content_types(@feeds) %>
-        <% available_types = content_types.delete_if{ |subclass| !allowed_types.include?(subclass.name)} %>
-        <% available_types = available_types.sort_by do |subclass|
-             (subclass.name == @content.class.name ? '00' : '') + subclass.display_name
-          end %>
+        <% available_types = get_available_types() %> 
         <% available_types.each do |subclass| %>
           <li <% if @content.class.name == subclass.name %> class="active"<% end %>>
             <%= link_to subclass.display_name, new_content_path(:type => subclass.model_name.singular) %>
