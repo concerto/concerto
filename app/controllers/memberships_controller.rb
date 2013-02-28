@@ -15,6 +15,8 @@ class MembershipsController < ApplicationController
     else
       @membership.update_attributes(:level => Membership::LEVELS[:pending])
     end
+    
+    auth!
 
     respond_to do |format|
       if @membership.save
@@ -31,7 +33,7 @@ class MembershipsController < ApplicationController
   # PUT /groups/:group_id/memberships/1.xml
   def update
     @membership = Membership.find(params[:id])
-
+    auth!
     respond_to do |format|
       if (@membership.can_resign_leadership?(membership_params['level'])) && (@membership.update_attributes(membership_params))
         format.html { redirect_to(edit_group_path(@group), :notice => t(:membership_updated)) }
@@ -47,7 +49,7 @@ class MembershipsController < ApplicationController
   # DELETE /groups/1.xml
   def destroy
     @membership = Membership.find(params[:id])
-
+    auth!
     respond_to do |format|
       #throw a negative one at a function expecting a membership level to indicate deletion
       if (@membership.can_resign_leadership?(-1)) && (@membership.destroy)
@@ -63,6 +65,7 @@ class MembershipsController < ApplicationController
 # PUT /groups/:group_id/memberships/1/approve
   def approve
     membership = Membership.find(params[:id])
+    auth!    
     respond_to do |format|
       if membership.approve()
         format.html { redirect_to(edit_group_path(params[:group_id]), :notice => t(:membership_approved)) }
@@ -75,6 +78,7 @@ class MembershipsController < ApplicationController
 # PUT /groups/:group_id/memberships/1/promote_to_leader
   def promote_to_leader
     membership = Membership.find(params[:id])
+    auth!    
     respond_to do |format|
       if membership.promote_to_leader()
         format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_approved)) }
@@ -87,6 +91,7 @@ class MembershipsController < ApplicationController
   # PUT /groups/:group_id/memberships/1/deny
   def deny
     membership = Membership.find(params[:id])
+    auth!    
     respond_to do |format|
       if membership.deny()
         format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membersip_denied)) }

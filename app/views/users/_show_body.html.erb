@@ -42,7 +42,8 @@
                       <%= link_to membership.group.name, membership.group %>
                     </td>
 
-                    <% if user_signed_in? and current_user.is_admin? or current_user == @user %>
+                    <%# if user_signed_in? and current_user.is_admin? or current_user == @user %>
+                    <% if can? :update, membership.group %>
                         <td>
                           <%= form_for([membership.group, membership]) do |f| %>
                               <%= f.select :level, Membership::LEVELS, { }, :style => "width: 80px;" %>
@@ -50,7 +51,16 @@
                               <%= f.submit t(:submit), :class => "btn" %>
                           <% end %>
                         </td>
+                    <% elsif can? :update, membership, :receive_emails => [true,false]%>
+                        <td>
+                          <%= membership.level_name.humanize %>
+                          <%= form_for([membership.group, membership]) do |f| %>
+                              <%= f.select :receive_emails, {"Receive Emails" => true, "Don't Receive Emails" => false}%>
+                              <%= f.submit t(:submit), :class => "btn" %>
+                          <% end %>
+                        </td>
                     <% end %>
+                    
                   </tr>
               <% end %>
             </table>
