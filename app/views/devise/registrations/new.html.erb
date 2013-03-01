@@ -1,8 +1,8 @@
 <%= devise_error_messages! %>
 <section class="viewblock no">
   <% if @show_first_admin_page %>
-    <%= render :partial => 'new_first_admin' %>
+    <%= render partial: 'new_first_admin' %>
   <% else %>
-    <%= render :partial => 'new_user' %>
+    <%= render partial: 'new_user' %>
   <% end %>
 </section>

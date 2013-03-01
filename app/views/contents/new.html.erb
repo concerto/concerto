@@ -11,7 +11,7 @@
         <% available_types = get_available_types() %> 
         <% available_types.each do |subclass| %>
           <li <% if @content.class.name == subclass.name %> class="active"<% end %>>
-            <%= link_to subclass.display_name, new_content_path(:type => subclass.model_name.singular) %>
+            <%= link_to subclass.display_name, new_content_path( type: subclass.model_name.singular) %>
           </li>
         <% end %>
       </ul>

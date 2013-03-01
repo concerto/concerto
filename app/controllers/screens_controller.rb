@@ -16,11 +16,11 @@ class ScreensController < ApplicationController
     auth!
 
     @templates = Template.all
-    auth!(:object => @templates)
+    auth!(object: @templates)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @screens }
+      format.xml  { render xml: @screens }
     end
   end
 
@@ -33,7 +33,7 @@ class ScreensController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @screen }
+      format.xml  { render xml: @screen }
     end
   end
 
@@ -47,7 +47,7 @@ class ScreensController < ApplicationController
     @groups = Group.all
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @screen }
+      format.xml  { render xml: @screen }
     end
   end
 
@@ -58,8 +58,8 @@ class ScreensController < ApplicationController
     @template = Template.new
     
     @templates = Template.all
-    #@templates_bestfit = Template.find(:all, :conditions => "width / height = #{screen_aspect_ratio}")
-    #@templates_other = Template.find(:all, :conditions => "width / height != #{screen.aspect_ratio}")
+    #@templates_bestfit = Template.find(:all, conditions: "width / height = #{screen_aspect_ratio}")
+    #@templates_other = Template.find(:all, conditions: "width / height != #{screen.aspect_ratio}")
     @users = User.all
     @groups = Group.all
   end
@@ -83,11 +83,11 @@ class ScreensController < ApplicationController
     
     respond_to do |format|
       if @screen.save
-        format.html { redirect_to(@screen, :notice => t(:position_created)) }
-        format.xml  { render :xml => @screen, :status => :created, :location => @screen }
+        format.html { redirect_to(@screen, notice: t(:position_created)) }
+        format.xml  { render xml: @screen, status: :created, location: @screen }
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @screen.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.xml  { render xml: @screen.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -110,11 +110,11 @@ class ScreensController < ApplicationController
 
     respond_to do |format|
       if @screen.update_attributes(screen_params)
-        format.html { redirect_to(@screen, :notice => t(:screen_updated)) }
+        format.html { redirect_to(@screen, notice: t(:screen_updated)) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @screen.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.xml  { render xml: @screen.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -138,7 +138,7 @@ class ScreensController < ApplicationController
    elsif params[:owner] == "Group"
      @owners = Group.all
    end
-   render :layout => false
+   render layout: false
  end
 
 private

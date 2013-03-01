@@ -21,7 +21,7 @@ class ConcertoDeviseRegistrationsControllerTest < ActionController::TestCase
 
   test "registration processing disabled" do
     ConcertoConfig.set("allow_registration", "false")
-    post :create, {:user => {:first_name => "Name", :last_name => "Last", :email => "a@a.com"}}
+    post :create, {user: {first_name: "Name", last_name: "Last", email: "a@a.com"}}
     assert_response :redirect
   end
 end

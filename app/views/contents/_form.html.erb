@@ -1,12 +1,12 @@
-<%= form_for(@content, :html => { :multipart => true }) do |f| %>
+<%= form_for(@content, html: { multipart: true }) do |f| %>
   <% type_folder = "contents/#{@content.type.underscore}" %>
   <%= hidden_field_tag :type, @content.type %>
   <% if lookup_context.exists?("#{type_folder}/form_full", [], true) %>
-    <%= render :partial => "#{type_folder}/form_full", :locals => {:form => f} %>
+    <%= render partial: "#{type_folder}/form_full", locals: { form: f} %>
   <% else %>
     <% if @content.errors.any? %>
       <div id="errorExplanation">
-        <h2><%= pluralize(@content.errors.count, t(:error)) + t(:prohibited_save, :model => 'content') %></h2>
+        <h2><%= pluralize(@content.errors.count, t(:error)) + t(:prohibited_save, model: 'content') %></h2>
         <ul>
           <% @content.errors.full_messages.each do |msg| %>
             <li><%= msg %></li>
@@ -14,8 +14,8 @@
         </ul>
       </div>
     <% end %>
-    <%= render_partial_if("#{type_folder}/form_top", "form_top", {:form => f}) %>
-    <%= render_partial_if("#{type_folder}/form_middle", "form_middle", {:form => f}) %>
-    <%= render_partial_if("#{type_folder}/form_bottom", "form_bottom", {:form => f}) %>
+    <%= render_partial_if("#{type_folder}/form_top", "form_top", { form: f}) %>
+    <%= render_partial_if("#{type_folder}/form_middle", "form_middle", { form: f}) %>
+    <%= render_partial_if("#{type_folder}/form_bottom", "form_bottom", { form: f}) %>
   <% end %>
 <% end %>

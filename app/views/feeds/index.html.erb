@@ -2,10 +2,10 @@
   <div class="span9">
     <section class="viewblock">
       <header class="viewblock-header" id="browse-header">
-        <%= render :partial => "feeds/browse_header" %>
+        <%= render partial: "feeds/browse_header" %>
       </header>
       <div id="browse-body" class="viewblock-cont">
-        <%= render :partial => "feeds/browse_body" %>
+        <%= render partial: "feeds/browse_body" %>
         
       </div>
     </section>
@@ -25,7 +25,7 @@
           <% end %>
           </ul>
           <div class="clearfix">
-            <%= link_to t(:new_feed), new_feed_path, :class => "btn" if can? :create, Feed %>
+            <%= link_to t(:new_feed), new_feed_path, class: "btn" if can? :create, Feed %>
           </div>
         </div>
         
@@ -42,7 +42,7 @@
           <div class="clearfix">
             <h2><%= pluralize @screens.count, t(:screen) %></h2>
             <p># <%= t(:active) %>&nbsp;&nbsp;&nbsp;&nbsp;# <%= t(:offline) %></p>
-            <%= link_to t(:view_screens_list), screens_path, :class => "btn" %>
+            <%= link_to t(:view_screens_list), screens_path, class: "btn" %>
           </div>
           <br /><br />
           <div class="clearfix">

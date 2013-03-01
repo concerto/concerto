@@ -7,7 +7,7 @@
     <% if feed.approved_contents.size != 0 || feed.group.has_member?(current_user) %>
       <li>
         <h3>
-          <%= link_to feed_submissions_path(feed), :class => "link-hl" do %>
+          <%= link_to feed_submissions_path(feed), class: "link-hl" do %>
             <span class="badge"><%= feed.approved_contents.active.count %></span> <%= feed.name %>
           <% end %>
           <small>&nbsp;&nbsp;<%= feed.description %></small>
@@ -19,7 +19,7 @@
           <p class="indented">
             <%= t(:sub_feeds) %>
             <% feed.children.each do |sub_feed| %>
-              <%= link_to sub_feed.name, feed_submissions_path(sub_feed), :class => "link-hl" %>
+              <%= link_to sub_feed.name, feed_submissions_path(sub_feed), class: "link-hl" %>
             <% end %>
           </p>
         <% end %>
@@ -30,6 +30,6 @@
 
 <% if can? :create, Feed %>
   <div class="default-padding">
-    <%= link_to t(:new_feed), new_feed_path, :class => "btn" %>
+    <%= link_to t(:new_feed), new_feed_path, class: "btn" %>
   </div>
 <% end %>

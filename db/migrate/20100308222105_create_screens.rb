@@ -4,7 +4,7 @@ class CreateScreens < ActiveRecord::Migration
       t.string :name
       t.string :location
       t.boolean :is_public
-      t.references :owner, :polymorphic => true
+      t.references :owner, polymorphic: true
       t.references :template
 
       t.timestamps

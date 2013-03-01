@@ -6,7 +6,7 @@
 	<div class="viewblock-cont">
 		<article>
 			
-			<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
+			<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
         <%= devise_error_messages! %>
       
         <fieldset>
@@ -19,9 +19,9 @@
         </fieldset>
         
         <div class="submit_bar actions">
-      		<%= f.submit "Submit", :class => "btn primary" "Send Reset Instructions" %>
+      		<%= f.submit "Submit", class: "btn primary" "Send Reset Instructions" %>
       		&nbsp;&nbsp;&nbsp;
-      		<%= render :partial => "devise/shared/links" %>
+      		<%= render partial: "devise/shared/links" %>
       	</div>
       
       <% end %>

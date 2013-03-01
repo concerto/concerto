@@ -1,7 +1,7 @@
 #Overriding the Devise Registrations controller for fun and profit
 class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
-  rescue_from ActionView::Template::Error, :with => :precompile_error_catch
-  before_filter :check_permissions, :only=>[:new, :create]
+  rescue_from ActionView::Template::Error, with: :precompile_error_catch
+  before_filter :check_permissions, only:[:new, :create]
 
   def check_permissions
     authorize! :create, User
@@ -16,7 +16,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
     
     if @show_first_admin_page
       respond_with resource do |format|
-        format.html { render :layout => "no-topmenu" }
+        format.html { render layout: "no-topmenu" }
       end
     else 
       respond_with resource
@@ -39,18 +39,18 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
       if first_user_setup == true
         ConcertoConfig.set("setup_complete", "true")
         #let's be idempotent here...
-        group = Group.find_or_create_by_name(:name => "Concerto Admins")
+        group = Group.find_or_create_by_name(name: "Concerto Admins")
         #create the membership only after we have the user
-        Membership.create(:user_id => resource.id, :group_id => group.id, :level => Membership::LEVELS[:leader])
+        Membership.create(user_id: resource.id, group_id: group.id, level: Membership::LEVELS[:leader])
       end
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
         sign_in(resource_name, resource)
-        respond_with resource, :location => after_sign_up_path_for(resource)
+        respond_with resource, location: after_sign_up_path_for(resource)
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_navigational_format?
         expire_session_data_after_sign_in!
-        respond_with resource, :location => after_inactive_sign_up_path_for(resource)
+        respond_with resource, location: after_inactive_sign_up_path_for(resource)
       end
     else
       clean_up_passwords resource
@@ -58,7 +58,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
       @concerto_config = ConcertoConfig.new
       if @show_first_admin_page
         respond_with resource do |format|
-          format.html { render :layout => "no-topmenu" }
+          format.html { render layout: "no-topmenu" }
         end
       else 
         respond_with resource

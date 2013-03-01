@@ -12,7 +12,7 @@
 class ConcertoPlugin < ActiveRecord::Base
   attr_accessible :enabled, :gem_name, :gem_version, :installed, :module_name, :name, :source, :source_url
 
-  scope :enabled, where(:enabled => true)
+  scope :enabled, where(enabled: true)
 
   # Looks for the Engine in the module associated with this plugin.
   def engine
@@ -92,7 +92,7 @@ class ConcertoPlugin < ActiveRecord::Base
           # Make the authorization rules from the plugin available
           context.controller.switch_to_plugin_ability(plugin.mod)
           if hook[:type] == :partial
-            result += context.render :partial => hook[:hook]
+            result += context.render partial: hook[:hook]
           elsif hook[:type] == :text
             result += hook[:hook]
           elsif hook[:type] == :proc

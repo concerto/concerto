@@ -20,8 +20,8 @@
           </th>
           <th><p><%= pending_membership.created_at.strftime("%I:%M %p on %D") %></p></th>
           <th>
-            <%= link_to "Approve", approve_group_membership_path(@group,pending_membership), :method=> :put, :class => "btn small success" %>
-            <%= link_to "Deny", deny_group_membership_path(@group,pending_membership), :method=> :put, :class => "btn small danger" %>
+            <%= link_to "Approve", approve_group_membership_path(@group,pending_membership), method: :put, class: "btn small success" %>
+            <%= link_to "Deny", deny_group_membership_path(@group,pending_membership), method: :put, class: "btn small danger" %>
           </th>
         </tr>
       <% end %>
@@ -72,14 +72,14 @@
               </td>
             <% end %>
             <td>
-              <%= link_to "Promote to Leader", promote_to_leader_group_membership_path(@group,m.object), :method=> :put, :class => "btn small success" %>
-              <%= link_to "Remove from Group", group_membership_path(@group,m.object), :method=> :delete, :class => "btn small danger" %>
+              <%= link_to "Promote to Leader", promote_to_leader_group_membership_path(@group,m.object), method: :put, class: "btn small success" %>
+              <%= link_to "Remove from Group", group_membership_path(@group,m.object), method: :delete, class: "btn small danger" %>
             </td>
           </tr>
           <% end %>
         <% end %>
         </ul>
-        <%= f.submit "Save Updated Permissions", :class => "btn primary" %>
+        <%= f.submit "Save Updated Permissions", class: "btn primary" %>
       <% end %>
     </tbody>
   </table>
@@ -98,7 +98,7 @@
     <%= f.label :name %><br />
     <%= f.collection_select(:user_id, users_not_in_group, :id, :name) %>
     <%= hidden_field_tag 'autoconfirm' %>
-    <%= f.submit "Add Member", :class => "btn primary" %>
+    <%= f.submit "Add Member", class: "btn primary" %>
   <% end %>
 <% end %>
 
@@ -122,7 +122,7 @@
             </p>
           </th>
           <th>
-            <%= link_to "Demote to Regular", approve_group_membership_path(@group,leader), :method=> :put, :class => "btn small danger" %>
+            <%= link_to "Demote to Regular", approve_group_membership_path(@group,leader), method: :put, class: "btn small danger" %>
           </th>
         </tr>
       <% end %>
@@ -169,7 +169,7 @@
             <%# end %>
           </ul>
           <%# end %>
-          <%#= f.submit "Submit", :class => "btn primary" %>
+          <%#= f.submit "Submit", class: "btn primary" %>
         <%# end %>
       </td>
     </tr>

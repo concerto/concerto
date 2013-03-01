@@ -13,7 +13,7 @@ class GraphicTest < ActiveSupport::TestCase
   # Verify the kind is getting auto-assigned
   test "kind should be auto set" do
     graphic = Graphic.new
-    assert_equal graphic.kind, Kind.where(:name => "Graphics").first
+    assert_equal graphic.kind, Kind.where(name: "Graphics").first
   end
 
   # Graphics require imagess to be attached
@@ -21,11 +21,11 @@ class GraphicTest < ActiveSupport::TestCase
   # actual file upload process.  We should run that in
   # the integration test
   test "graphics require a file" do
-    graphic = Graphic.new(:name => "Sample Graphic",
-                          :duration => 15,
-                          :user => users(:katie))
+    graphic = Graphic.new(name: "Sample Graphic",
+                          duration: 15,
+                          user: users(:katie))
     file = fixture_file_upload("/files/concerto_background.jpg", 'image/jpeg', :binary)
-    graphic.media.build({:key => "original"})
+    graphic.media.build({key: "original"})
     graphic.media.first.file = file
 
     assert graphic.valid?
@@ -34,11 +34,11 @@ class GraphicTest < ActiveSupport::TestCase
 
   # Only a subset of files are valid graphics.
   test "graphics must be images" do
-        graphic = Graphic.new(:name => "Sample Graphic",
-                          :duration => 15,
-                          :user => users(:katie))
+        graphic = Graphic.new(name: "Sample Graphic",
+                          duration: 15,
+                          user: users(:katie))
     file = fixture_file_upload("/files/concerto_background.jpg", 'text/plain', :binary)
-    graphic.media.build({:key => "original"})
+    graphic.media.build({key: "original"})
     graphic.media.first.file = file
 
     assert graphic.invalid?

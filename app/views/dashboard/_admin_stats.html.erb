@@ -12,7 +12,7 @@
           <h1><%= Concerto::VERSION::STRING %></h1>
           <% if @latest_version > Concerto::VERSION::STRING %>
               <i class="ficon-exclamation-sign" style="font-size: 1.4em;"></i>
-              <b><%= t :new_version, :version => @latest_version %></b>
+              <b><%= t :new_version, version: @latest_version %></b>
           <% end %>
           <%= link_to t(:backup), dashboard_run_backup_path %>
         </div>
@@ -27,7 +27,7 @@
             <% else %>
                 <i class="ficon-stop"></i><%= t :stopped %>
             <% end %>
-            <small style="font-size: 0.4em; padding-left: 16px;"><%= link_to t(:start_stop), "#", :style => "text-decoration: underline;" %></small>
+            <small style="font-size: 0.4em; padding-left: 16px;"><%= link_to t(:start_stop), "#", style: "text-decoration: underline;" %></small>
           </h1>
         </div>
       </div>
@@ -36,7 +36,7 @@
           <h5><%= t :user_stats %></h5>
 
           <h1><%= User.all.size %> <i class="ficon-user"></i>
-            <small style="font-size: 0.4em; padding-left: 16px;"><%= link_to t(:manage_users), users_path, :style => "text-decoration: underline;" %></small>
+            <small style="font-size: 0.4em; padding-left: 16px;"><%= link_to t(:manage_users), users_path, style: "text-decoration: underline;" %></small>
           </h1>
         </div>
       </div>

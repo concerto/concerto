@@ -10,7 +10,7 @@
       <% feeds.each_with_index do |feed, i| %>
       <% allowed_type = (feed.content_types[@content.class.name] == "1") %>
       <li class="with-padding" data-filter="<%= feed.name %>">
-        <%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed), :disabled => !allowed_type %>
+        <%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed), disabled: !allowed_type %>
           <%= "-" * feed.depth %> <%= feed.name %>
       </li>
       <% end %>

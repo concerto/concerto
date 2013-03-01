@@ -16,9 +16,9 @@ class FeedTest < ActiveSupport::TestCase
 
   # The feed name must be unique
   test "feed is now valid without a unique name" do
-    feed = Feed.new(:name => feeds(:service).name,
-                    :description => "Another feed.",
-                    :group => groups(:rpitv))
+    feed = Feed.new(name: feeds(:service).name,
+                    description: "Another feed.",
+                    group: groups(:rpitv))
 
     assert feed.invalid?
     assert feed.errors[:name].any?

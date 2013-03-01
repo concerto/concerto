@@ -36,6 +36,6 @@ module ContentsHelper
 
     render_partial_if("contents/#{content.class.to_s.underscore}/render_#{options[:type]}",
                       "contents/render_#{options[:type]}",
-                      {:content => content, :options => options})
+                      {content: content, options: options})
   end
 end

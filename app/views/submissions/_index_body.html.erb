@@ -1,6 +1,6 @@
 <div class="subnav clearfix">
   <div class="pull-left" style="padding: 3px 0px; width:100px">
-    <%= link_to "#", :title => "Click on a feed to jump", :class => "btn small info dropdown-toggle dropdown-control dd-jumpto", :rel => "#jump_to" do %>
+    <%= link_to "#", title: "Click on a feed to jump", class: "btn small info dropdown-toggle dropdown-control dd-jumpto", rel: "#jump_to" do %>
       <i class="icon-bolt"></i> Jump to Feed...
     <% end %>
 
@@ -17,7 +17,7 @@
         <ul class="filterable selector-list">
           <% feeds.each_with_index do |feed, i| %>
           <li data-filter="<%= feed.name %>">
-            <%= link_to feed_submissions_path(feed), :class => "link-hl" do %>
+            <%= link_to feed_submissions_path(feed), class: "link-hl" do %>
               <%= ("&nbsp;" * feed.depth).html_safe %>
               <b><%= feed.name %></b>
             <% end %>
@@ -53,7 +53,7 @@
   <h3 class="header-with-icon" style="color:#993333;"><i class="icon-header-pendingcontent"></i><%= pluralize(@feed.submissions.pending.count, "content") %> pending your moderation</h3>
   <br />
   <% @feed.submissions.pending.select{|s| s.content.parent.nil?}.each do |submission| %>
-    <%= render :partial => "submissions/submission_tile", :locals => { :submission => submission } %>
+    <%= render partial: "submissions/submission_tile", locals: { submission: submission } %>
   <% end %>
 </div>
 <% end %>
@@ -71,7 +71,7 @@
   <h3 class="header-with-icon"><i class="icon-header-<%= @state %>content"></i><%= pluralize(@submissions.count, "#{@state} content") %></h3>
   <br />
   <% @paginated_submissions.select{|s| s.content.parent.nil?}.each do |submission| %>
-    <%= render :partial => "submissions/submission_tile", :locals => { :submission => submission } %>
+    <%= render partial: "submissions/submission_tile", locals: { submission: submission } %>
   <% end %>
 </div>
 <% end %>

@@ -1,4 +1,4 @@
-<%= render :partial => 'admin_stats' %>
+<%= render partial: 'admin_stats' %>
 
 <section class="viewblock">
   <header class="viewblock-header">
@@ -38,7 +38,7 @@
                     <div class="input">
                       <%= hidden_field_tag "concerto_config[#{c.key}]", '0' %>
                       <% if ConcertoConfig[c.key.to_sym] == "true" %>
-                          <%= check_box_tag "concerto_config[#{c.key}]", true, :checked => true %>
+                          <%= check_box_tag "concerto_config[#{c.key}]", true, checked: true %>
                       <% else %>
                           <%= check_box_tag "concerto_config[#{c.key}]", true %>
                       <% end %>
@@ -50,7 +50,7 @@
         </fieldset>
 
         <div class="submit_bar actions">
-          <%= submit_tag t(:save_settings), :class => "btn primary" %>
+          <%= submit_tag t(:save_settings), class: "btn primary" %>
         </div>
     <% end %>
 

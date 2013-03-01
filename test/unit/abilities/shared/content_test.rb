@@ -10,7 +10,7 @@ class SharedContentAbilityTest < ActiveSupport::TestCase
 
   test "anyone can read content approved on 1 feed" do
     # Deny the content on 1 feed
-    @content.submissions.create(:feed => feeds(:sleepy_announcements), :moderation_flag => false)
+    @content.submissions.create(feed: feeds(:sleepy_announcements), moderation_flag: false)
 
     [@user, @screen].each do |thing|
       ability = Ability.new(thing)

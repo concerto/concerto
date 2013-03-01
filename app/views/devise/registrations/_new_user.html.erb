@@ -6,7 +6,7 @@
   
     <article>
 
-    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
       <fieldset>
         <div class="clearfix">
           <%= f.label :first_name %>
@@ -41,9 +41,9 @@
       </fieldset>
 
       <div class="submit_bar actions">
-        <%= f.submit "Register Account", :class => "btn primary" "Register Account" %>
+        <%= f.submit "Register Account", class: "btn primary" "Register Account" %>
         &nbsp;&nbsp;&nbsp;
-        <%= render :partial => "devise/shared/links" %>
+        <%= render partial: "devise/shared/links" %>
       </div>
 
     <% end %>

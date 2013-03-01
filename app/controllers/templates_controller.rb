@@ -1,5 +1,5 @@
 class TemplatesController < ApplicationController
-  before_filter :get_type, :only => [:new, :create, :import]
+  before_filter :get_type, only: [:new, :create, :import]
 
   # GET /templates
   # GET /templates.xml
@@ -10,7 +10,7 @@ class TemplatesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @template }
+      format.xml  { render xml: @template }
       format.js { }
     end
   end
@@ -24,7 +24,7 @@ class TemplatesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @template.to_xml(:include => [:positions]) }
+      format.xml  { render xml: @template.to_xml(include: [:positions]) }
       format.js { }
     end
   end
@@ -38,7 +38,7 @@ class TemplatesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @template }
+      format.xml  { render xml: @template }
     end
   end
 
@@ -63,11 +63,11 @@ class TemplatesController < ApplicationController
 
     respond_to do |format|
       if @template.save
-        format.html { redirect_to(@template, :notice => t(:template_created)) }
-        format.xml  { render :xml => @template, :status => :created, :location => @template }
+        format.html { redirect_to(@template, notice: t(:template_created)) }
+        format.xml  { render xml: @template, status: :created, location: @template }
       else
-        format.html { redirect_to new_template_path(@template, :type => 'create'), :locals => {:template => @template} }
-        format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
+        format.html { redirect_to new_template_path(@template, type: 'create'), locals: {template: @template} }
+        format.xml  { render xml: @template.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -83,11 +83,11 @@ class TemplatesController < ApplicationController
 
     respond_to do |format|
       if @template.update_attributes(params[:template])
-        format.html { redirect_to(@template, :notice => t(:template_updated)) }
+        format.html { redirect_to(@template, notice: t(:template_updated)) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.xml  { render xml: @template.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -109,9 +109,9 @@ class TemplatesController < ApplicationController
   # Generate a preview of the template based on the request format.
   def preview
     @template = Template.find(params[:id])
-    auth!(:action => :read)
+    auth!(action: :read)
 
-    if stale?(:last_modified => @template.last_modified.utc, :etag => @template, :public => true)
+    if stale?(last_modified: @template.last_modified.utc, etag: @template, public: true)
       # Hide the fields if the hide_fields param is set,
       # show them by default though.
       @hide_fields = false
@@ -162,8 +162,8 @@ class TemplatesController < ApplicationController
         end
 
         send_data data,
-                  :filename => "#{@template.name.underscore}.#{image.format.downcase}_preview",
-                  :type => image.mime_type, :disposition => 'inline'
+                  filename: "#{@template.name.underscore}.#{image.format.downcase}_preview",
+                  type: image.mime_type, disposition: 'inline'
       else
         respond_to do |format|
           format.svg
@@ -185,22 +185,22 @@ class TemplatesController < ApplicationController
     auth!
     if xml_file.nil? || image_file.nil?
       respond_to do |format|
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.xml  { render xml: @template.errors, status: :unprocessable_entity }
       end
     else
       xml_data = xml_file.read
       if !xml_data.blank? && @template.import_xml(xml_data)
-        @template.media.build({:key=>"original", :file => image_file})
+        @template.media.build({key:"original", file: image_file})
       end  
 
       respond_to do |format|
         if @template.save
-          format.html { redirect_to(@template, :notice => t(:template_created)) }
-          format.xml  { render :xml => @template, :status => :created, :location => @template }
+          format.html { redirect_to(@template, notice: t(:template_created)) }
+          format.xml  { render xml: @template, status: :created, location: @template }
         else
-          format.html { render :action => "new" }
-          format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
+          format.html { render action: "new" }
+          format.xml  { render xml: @template.errors, status: :unprocessable_entity }
         end
       end
     end

@@ -1,4 +1,4 @@
-<%= render :partial => 'dashboard/admin_stats' %>
+<%= render partial: 'dashboard/admin_stats' %>
 
 <section class="viewblock">
   <header class="viewblock-header">
@@ -8,7 +8,7 @@
   </header>
   <div class="viewblock-cont" style="min-height: 600px;">
 
-    <%= render :partial => 'plugins_navigation' %>
+    <%= render partial: 'plugins_navigation' %>
     <%= link_to t(:concerto_plugins), concerto_plugins_path %> > <%= @concerto_plugin.name %>
 
     <p>

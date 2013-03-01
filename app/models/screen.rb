@@ -1,29 +1,29 @@
 class Screen < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
-  belongs_to :owner, :polymorphic => true
+  belongs_to :owner, polymorphic: true
   belongs_to :template
-  has_many :subscriptions, :dependent => :destroy
-  has_many :positions, :through => :template
-  has_many :fields, :through => :positions
+  has_many :subscriptions, dependent: :destroy
+  has_many :positions, through: :template
+  has_many :fields, through: :positions
 
   # Validations
-  validates :name, :presence => true
-  validates :template, :presence => true, :associated => true
+  validates :name, presence: true
+  validates :template, presence: true, associated: true
   #These two validations are used to solve problems with the polymorphic 
   #presence and associated tests.
-  validates :owner_id, :presence => true
-  validates_inclusion_of :owner_type, :in => %w( User Group )
+  validates :owner_id, presence: true
+  validates_inclusion_of :owner_type, in: %w( User Group )
   #The below validation fails loudly if the owner_type isn't a valid class
   #For now, the check will be string based, it should probably be moved to
   #something like if owner_type.is_class (however that would work)
-  validates :owner, :presence => true, :associated => true, :if => Proc.new { ["User", "Group"].include?(owner_type) }
+  validates :owner, presence: true, associated: true, if: Proc.new { ["User", "Group"].include?(owner_type) }
  
   # Scopes
   # THESE ARE MOCK INTERFACES.  PRETEND THEY MAKE SENSE.
   # TODO(bamnet): Make these real.
-  scope :online, where(:is_public => true)
-  scope :offline, where(:is_public => false)
+  scope :online, where(is_public: true)
+  scope :offline, where(is_public: false)
 
   # types of entities that may "own" a screen
   SCREEN_OWNER_TYPES = ["User", "Group"]
@@ -31,12 +31,12 @@ class Screen < ActiveRecord::Base
   # Determine the screen's aspect ratio.  If it doesn't exist, calculate it
   def aspect_ratio
     if width.nil? || height.nil?
-      return { :width=> "", :height=> "" }
+      return { width: "", height: "" }
     end
     gcd = gcd(width,height)
     aspect_width = width/gcd
     aspect_height = height/gcd
-    return {:width => aspect_width, :height => aspect_height }
+    return {width: aspect_width, height: aspect_height }
   end
 
   # Run Euclidean algorithm to find GCD

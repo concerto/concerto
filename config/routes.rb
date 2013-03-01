@@ -10,29 +10,29 @@ Concerto::Application.routes.draw do
   # about what you are doing because they could break things in
   # a very visible way.
   namespace :frontend do
-    resources :screens, :only => [:show], :path => '' do
+    resources :screens, only: [:show], path: '' do
       member do
         get :setup
       end
-      resources :fields, :only => [] do
-        resources :contents, :only => [:index, :show]
+      resources :fields, only: [] do
+        resources :contents, only: [:index, :show]
       end
-      resources :templates, :only => [:show]
+      resources :templates, only: [:show]
     end
   end
   # End really dangerous routes.
 
 
   devise_for :users, 
-    :controllers => {
-      :registrations => 'concerto_devise/registrations', 
-      :sessions => 'concerto_devise/sessions' }
+    controllers: {
+      registrations: 'concerto_devise/registrations', 
+      sessions: 'concerto_devise/sessions' }
   
   scope "/manage" do
     resources :users
   end
 
-  resources :media, :only => [:show]
+  resources :media, only: [:show]
 
   resources :templates do
     member do
@@ -44,7 +44,7 @@ Concerto::Application.routes.draw do
   end
 
   resources :screens do
-    resources :fields, :only => [] do
+    resources :fields, only: [] do
       resources :subscriptions do
         collection do
           get :manage
@@ -55,7 +55,7 @@ Concerto::Application.routes.draw do
   end
   
   resources :groups do
-    resources :memberships, :only => [:create, :update, :destroy] do     
+    resources :memberships, only: [:create, :update, :destroy] do     
       member do
         put :approve
         put :deny
@@ -69,25 +69,25 @@ Concerto::Application.routes.draw do
   match "moderate/" => "feeds#moderate"
 
   resources :feeds do
-    resources :submissions, :only => [:index, :show, :update]
+    resources :submissions, only: [:index, :show, :update]
   end
 
-  resources :contents, :except => [:index], :path => "content" do
-    get :display, :on => :member
+  resources :contents, except: [:index], path: "content" do
+    get :display, on: :member
   end
 
   # TODO(bamnet): Figure out if these routes mean anything.
-  resources :graphics, :controller => :contents, :except => [:index, :show], :path => "content" do
-    get :display, :on => :member
+  resources :graphics, controller: :contents, except: [:index, :show], path: "content" do
+    get :display, on: :member
   end
 
-  resources :tickers, :controller => :contents, :except => [:index, :show], :path => "content"
-  resources :html_texts, :controller => :contents, :except => [:index, :show], :path => "content"
+  resources :tickers, controller: :contents, except: [:index, :show], path: "content"
+  resources :html_texts, controller: :contents, except: [:index, :show], path: "content"
 
   #Set a non-restful route to the dashboard
   match 'dashboard/' => 'dashboard#index'
   match 'dashboard/run_backup' => 'dashboard#run_backup'
-  match 'dashboard/update' => 'dashboard#update', :via => "post"
+  match 'dashboard/update' => 'dashboard#update', via: "post"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -96,8 +96,8 @@ Concerto::Application.routes.draw do
   # Keep in mind you can assign values other than :controller and :action
 
   # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
+  #   match 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+  # This route can be invoked with purchase_url(id: product.id)
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
@@ -124,7 +124,7 @@ Concerto::Application.routes.draw do
   #   resources :products do
   #     resources :comments
   #     resources :sales do
-  #       get :recent, :on => :collection
+  #       get :recent, on: :collection
   #     end
   #   end
 
@@ -141,7 +141,7 @@ Concerto::Application.routes.draw do
   match 'content/' => 'feeds#index'
   match 'browse/' => 'feeds#index'
 
-  root :to => 'feeds#index'
+  root to: 'feeds#index'
 
   # See how all your routes lay out with "rake routes"
 

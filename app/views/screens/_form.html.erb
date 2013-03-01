@@ -15,14 +15,14 @@
 		<div class="clearfix">
 			<%= f.label :name %>
 			<div class="input">
-				<%= f.text_field :name, :class => "span6" %>
+				<%= f.text_field :name, class: "span6" %>
 			</div>
 		</div>
 		
 		<div class="clearfix">
 			<%= f.label :location %>
 			<div class="input">
-				<%= f.text_field :location, :class => "span6" %>
+				<%= f.text_field :location, class: "span6" %>
 			</div>
 		</div>
 		
@@ -30,7 +30,7 @@
 			<label><%= t('dimensions') %></label>
 			<div class="input">
 				<div class="inline-inputs">
-					<%= f.text_field :width, :class => "span2" %> (W) x <%= f.text_field :height, :class => "span2" %> (H)
+					<%= f.text_field :width, class: "span2" %> (W) x <%= f.text_field :height, class: "span2" %> (H)
 				</div>
 			</div>
 		</div>
@@ -63,7 +63,7 @@
     <div class="clearfix">
 
       <div class="input">
-        <%= link_to t('add_new_template'), new_template_path, :class => "btn info", :target => "_blank" %>
+        <%= link_to t('add_new_template'), new_template_path, class: "btn info", target: "_blank" %>
       </div>
     </div>
 
@@ -74,15 +74,15 @@
         <ul class="list-grid inset-selection small">
           <% @templates.each do |template| %>
           <li>
-            <%= link_to "#", :class => "template-selector dropdown-control", :rel => "#preview_#{ template.id }" do %>
+            <%= link_to "#", class: "template-selector dropdown-control", rel: "#preview_#{ template.id }" do %>
               <div class="inp">
                 <%= f.radio_button :template_id, template.id %>
               </div>
 
-              <%= image_tag preview_template_path(template, :height => 60, :format => :png), :style => "margin: 0px;" %>
+              <%= image_tag preview_template_path(template, height: 60, format: :png), style: "margin: 0px;" %>
               
               <div id="preview_<%= template.id %>" class="dd" style="display:none;">
-                <%= image_tag preview_template_path(template, :width => 540, :height => 310, :aspect_ratio => true, :format => :png), :style => "margin: 0px;", :class => "default-padding" %>
+                <%= image_tag preview_template_path(template, width: 540, height: 310, aspect_ratio: true, format: :png), style: "margin: 0px;", class: "default-padding" %>
               </div>
               
               <div class="cont">
@@ -100,6 +100,6 @@
   </fieldset>
 
 	<div class="submit_bar actions">
-		<%= f.submit t('submit'), :class => "btn primary" %>
+		<%= f.submit t('submit'), class: "btn primary" %>
 	</div>
 <% end %>

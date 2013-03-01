@@ -5,11 +5,11 @@ class Position < ActiveRecord::Base
   before_save :clean_styles
   
   # Validations
-  validates :field, :presence => true, :associated => true
-  validates :right, :numericality => {:greater_than_or_equal_to => -1, :less_than_or_equal_to => 1}
-  validates :left, :numericality => {:greater_than_or_equal_to => -1, :less_than_or_equal_to => 1}
-  validates :top, :numericality => {:greater_than_or_equal_to => -1, :less_than_or_equal_to => 1}
-  validates :bottom, :numericality => {:greater_than_or_equal_to => -1, :less_than_or_equal_to => 1}
+  validates :field, presence: true, associated: true
+  validates :right, numericality: {greater_than_or_equal_to: -1, less_than_or_equal_to: 1}
+  validates :left, numericality: {greater_than_or_equal_to: -1, less_than_or_equal_to: 1}
+  validates :top, numericality: {greater_than_or_equal_to: -1, less_than_or_equal_to: 1}
+  validates :bottom, numericality: {greater_than_or_equal_to: -1, less_than_or_equal_to: 1}
 
   attr_accessor :field_contents_path
 
@@ -62,7 +62,7 @@ class Position < ActiveRecord::Base
     # identify the field.  This is for backwards compatability
     # purposes with v1 descriptors.
     if data.has_key?('name')
-      self.field = Field.where(:name => data['name']).first
+      self.field = Field.where(name: data['name']).first
       data.delete('name')
     end
     # Handle everything else...

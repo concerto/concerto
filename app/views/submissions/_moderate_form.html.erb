@@ -3,18 +3,18 @@
     <div class="clearfix">
       <%= f.label :duration %>
       <div class="input">
-        <%= f.number_field :duration, :style => "width: 50px;" %>
+        <%= f.number_field :duration, style: "width: 50px;" %>
       </div>
     </div>
-    <%= f.hidden_field :moderation_flag, { :value => true }%>
+    <%= f.hidden_field :moderation_flag, { value: true }%>
   <% else %>
     <div class="clearfix">
       <%= f.label :moderation_reason, t(:reason) %>
       <div class="input">
-        <%= f.text_area :moderation_reason, :rows => 5, :style => "width: 90%;" %>
+        <%= f.text_area :moderation_reason, rows: 5, style: "width: 90%;" %>
       </div>
     </div>
-    <%= f.hidden_field :moderation_flag, { :value => false }%>
+    <%= f.hidden_field :moderation_flag, { value: false }%>
   <% end %>
-  <%= f.submit "Submit", :class => "btn primary" "Moderate Content", :class => "btn primary" %>
+  <%= f.submit "Submit", class: "btn primary" "Moderate Content", class: "btn primary" %>
 <% end %>

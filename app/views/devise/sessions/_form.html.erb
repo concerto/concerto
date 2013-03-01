@@ -1,4 +1,4 @@
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <fieldset>
     <div class="clearfix">
 			<%= f.label :email %>
@@ -23,8 +23,8 @@
   </fieldset>
   
   <div class="submit_bar actions">
-		<%= f.submit "Submit", :class => "btn primary" "Sign in" %>
+		<%= f.submit "Submit", class: "btn primary" "Sign in" %>
 		&nbsp;&nbsp;&nbsp;
-		<%= render :partial => "devise/shared/links" %>
+		<%= render partial: "devise/shared/links" %>
 	</div>
 <% end %>	

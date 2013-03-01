@@ -1,15 +1,15 @@
 <div class="clearfix datetime">
   <%= form.label :start_time %>
   <div class="input">
-    <%= form.text_field("start_time[date]", :id => "start_time_date", :maxlength => 20, :class => "datefield", :value => (Clock.time + ConcertoConfig[:start_date_offset].to_i.days).strftime("%m/%d/%Y")) %>
-    <%= form.text_field("start_time[time]", :id => "start_time_time", :maxlength => 20, :class => "timefield", :value => ConcertoConfig[:content_default_start_time]) %>
+    <%= form.text_field("start_time[date]", id: "start_time_date", maxlength: 20, class: "datefield", value: (Clock.time + ConcertoConfig[:start_date_offset].to_i.days).strftime("%m/%d/%Y")) %>
+    <%= form.text_field("start_time[time]", id: "start_time_time", maxlength: 20, class: "timefield", value: ConcertoConfig[:content_default_start_time]) %>
   </div>
 </div>
 
 <div class="clearfix datetime">
   <%= form.label :end_time %>
   <div class="input">
-    <%= form.text_field("end_time[date]", :id => "end_time_date", :maxlength => 20, :class => "datefield", :value => (Clock.time + ConcertoConfig[:default_content_run_time].to_i.days + ConcertoConfig[:start_date_offset].to_i.days).strftime("%m/%d/%Y")) %>
-    <%= form.text_field("end_time[time]", :id => "end_time_time", :maxlength => 20, :class => "timefield", :value => ConcertoConfig[:content_default_end_time]) %>
+    <%= form.text_field("end_time[date]", id: "end_time_date", maxlength: 20, class: "datefield", value: (Clock.time + ConcertoConfig[:default_content_run_time].to_i.days + ConcertoConfig[:start_date_offset].to_i.days).strftime("%m/%d/%Y")) %>
+    <%= form.text_field("end_time[time]", id: "end_time_time", maxlength: 20, class: "timefield", value: ConcertoConfig[:content_default_end_time]) %>
   </div>
 </div>

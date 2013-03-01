@@ -4,20 +4,20 @@ class Group < ActiveRecord::Base
   after_create :create_leader
 
   has_many :feeds
-  has_many :memberships, :dependent => :destroy
+  has_many :memberships, dependent: :destroy
   accepts_nested_attributes_for :memberships
 
-  has_many :users, :through => :memberships, :conditions => ["memberships.level > ?", Membership::LEVELS[:pending]]
-  has_many :screens, :as => :owner
+  has_many :users, through: :memberships, conditions: ["memberships.level > ?", Membership::LEVELS[:pending]]
+  has_many :screens, as: :owner
 
   # Scoped relation for members and pending members
-  has_many :all_users, :through => :memberships, :source => :user, :conditions => ["memberships.level != ?", Membership::LEVELS[:denied]]
+  has_many :all_users, through: :memberships, source: :user, conditions: ["memberships.level != ?", Membership::LEVELS[:denied]]
 
   # Scoped relation for leaders
-  has_many :leaders, :through => :memberships, :source => :user, :conditions => {"memberships.level" => Membership::LEVELS[:leader]}  
+  has_many :leaders, through: :memberships, source: :user, conditions: {"memberships.level" => Membership::LEVELS[:leader]}  
 
   # Validations
-  validates :name, :presence => true, :uniqueness => true
+  validates :name, presence: true, uniqueness: true
 
   before_save :update_membership_perms
   
@@ -67,7 +67,7 @@ class Group < ActiveRecord::Base
   def user_has_permissions?(user, level, type, permissions)
     return false if user.nil?
 
-    m = memberships.where(:user_id => user, :level => Membership::LEVELS[level]).first
+    m = memberships.where(user_id: user, level: Membership::LEVELS[level]).first
     return false if m.nil?
     return false unless m.perms.include?(type)
 

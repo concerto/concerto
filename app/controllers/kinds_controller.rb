@@ -3,10 +3,10 @@ class KindsController < ApplicationController
   # GET /kinds.xml
   def index
     @kinds = Kind.all
-    auth!(:allow_empty => false)
+    auth!(allow_empty: false)
     respond_to do |format|
       format.html # index.html.erb
-      format.xml { render :xml => @kinds }
+      format.xml { render xml: @kinds }
     end
   end
 
@@ -18,7 +18,7 @@ class KindsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml { render :xml => @kind.to_xml(:include => [:fields]) }
+      format.xml { render xml: @kind.to_xml(include: [:fields]) }
     end
   end
 
@@ -30,7 +30,7 @@ class KindsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml { render :xml => @kind }
+      format.xml { render xml: @kind }
     end
   end
 
@@ -48,11 +48,11 @@ class KindsController < ApplicationController
 
     respond_to do |format|
       if @kind.save
-        format.html { redirect_to(@kind, :notice => 'Kind was successfully created.') }
-        format.xml { render :xml => @kind, :status => :created, :location => @kind }
+        format.html { redirect_to(@kind, notice: 'Kind was successfully created.') }
+        format.xml { render xml: @kind, status: :created, location: @kind }
       else
-        format.html { render :action => "new" }
-        format.xml { render :xml => @kind.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.xml { render xml: @kind.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -65,11 +65,11 @@ class KindsController < ApplicationController
 
     respond_to do |format|
       if @kind.update_attributes(kind_params)
-        format.html { redirect_to(@kind, :notice => 'Kind was successfully updated.') }
+        format.html { redirect_to(@kind, notice: 'Kind was successfully updated.') }
         format.xml { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml { render :xml => @kind.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.xml { render xml: @kind.errors, status: :unprocessable_entity }
       end
     end
   end

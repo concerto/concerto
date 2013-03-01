@@ -15,20 +15,20 @@
 			<div class="clearfix">
 				<%= f.label t(:name) %>
 				<div class="input">
-					<%= f.text_field :name, :class => "fillWidth" %>
+					<%= f.text_field :name, class: "fillWidth" %>
 				</div>
 			</div>
 
 			<div class="clearfix">
 				<%= f.label t(:narrative) %>
 				<div class="input">
-					<%= f.text_area :narrative, :class => "fillWidth" %>
+					<%= f.text_area :narrative, class: "fillWidth" %>
 				</div>
 			</div>
 		</fieldset>
 		
 		<div class="submit_bar actions">
-			<%= f.submit "Save Group Details", :class => "btn" %>
+			<%= f.submit "Save Group Details", class: "btn" %>
 		</div>
 	<% end %>
 </div>

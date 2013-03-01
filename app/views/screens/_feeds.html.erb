@@ -4,7 +4,7 @@
     <div class="clearfix">
 
       <div class="input">
-        <%= link_to "Add New Feed", new_feed_path, :class => "btn info", :target => "_blank" %>
+        <%= link_to "Add New Feed", new_feed_path, class: "btn info", target: "_blank" %>
       </div>
     </div>
 
@@ -21,7 +21,7 @@
     <ol class='filterable'>
     <% feeds.each_with_index do |feed, i| %>
       <li data-filter="<%= feed.name %>"><%= check_box_tag "feed_id[#{i}]", feed.id, @screen.subscriptions.include?(feed) %>
-      <%= "-" * feed.depth %> <%= feed.name %> <%=select("feed", feed.id.to_s+"_weight", %w[.1 .2 .3 .4 .5 .6 .7 .7 .9 1.0], {}, { :index => nil }) %></li> 
+      <%= "-" * feed.depth %> <%= feed.name %> <%=select("feed", feed.id.to_s+"_weight", %w[.1 .2 .3 .4 .5 .6 .7 .7 .9 1.0], {}, { index: nil }) %></li> 
     <% end %>
     </ol>
   <% end %>

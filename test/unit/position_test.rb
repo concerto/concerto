@@ -26,7 +26,7 @@ class PositionTest < ActiveSupport::TestCase
 
   # Test the height and width setters
   test "width sets correctly" do
-    p = Position.new(:left => 0.1)
+    p = Position.new(left: 0.1)
     p.width = 0.5
     assert_equal p.right, 0.6
     assert_equal p.width, 0.5
@@ -34,7 +34,7 @@ class PositionTest < ActiveSupport::TestCase
   end
 
   test "height sets correctly" do
-    p = Position.new(:top => 0.1)
+    p = Position.new(top: 0.1)
     p.height = 0.5
     assert_equal p.bottom, 0.6
     assert_equal p.height, 0.5
@@ -43,7 +43,7 @@ class PositionTest < ActiveSupport::TestCase
 
   #Hash import testing
   test "import basic hash" do
-    p = Position.new({:template => templates(:one), :field => fields(:one)})
+    p = Position.new({template: templates(:one), field: fields(:one)})
     h = {'top' => "0.1", 'left' => "0.2", 'bottom' => "0.3", 'right' => "0.4", 'style' => "style"}
     assert p.import_hash(h)
     assert_equal p.top, 0.1

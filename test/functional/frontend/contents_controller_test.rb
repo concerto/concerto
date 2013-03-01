@@ -7,7 +7,7 @@ class Frontend::ContentsControllerTest < ActionController::TestCase
   fixtures :contents
 
   test "should get content for field" do
-    get(:index, {:screen_id => screens(:one).id, :field_id => fields(:one).id, :format => :json})
+    get(:index, {screen_id: screens(:one).id, field_id: fields(:one).id, format: :json})
     assert_response :success
     assert_template false
 

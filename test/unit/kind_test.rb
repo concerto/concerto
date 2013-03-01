@@ -14,7 +14,7 @@ class KindTest < ActiveSupport::TestCase
   #Test for duplicate names
   test "name cannot be duplicated" do
     k = kinds(:text)
-    kind = Kind.new({:name => k.name})
+    kind = Kind.new({name: k.name})
     assert_equal k.name, kind.name, "Names are set equal"
     assert !kind.valid?, "Names can't be equal"
     kind.name = "Fooasdasdasda"
