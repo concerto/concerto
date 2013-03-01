@@ -42,16 +42,19 @@
                       <%= link_to membership.group.name, membership.group %>
                     </td>
 
-                    <% if can? :update, membership.group %>
+                    
                         <td>
                           <%= form_for([membership.group, membership]) do |f| %>
-                              <%= f.select :level, Membership::LEVELS, { }, :style => "width: 80px;" %>
+                              <% if can? :update, membership.group %>
+                                <%= f.select :level, Membership::LEVELS, { }, :style => "width: 80px;" %>
+                              <% else %>
+                                 <%= membership.level_name.humanize %>
+                              <% end %>
                               <%= f.select :receive_emails, {"Receive Emails" => true, "Don't Receive Emails" => false}%>
                               <%= f.submit t(:submit), :class => "btn" %>
                           <% end %>
                         </td>
-                    <% end %>
-                    
+                   
                   </tr>
               <% end %>
             </table>
