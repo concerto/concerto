@@ -51,8 +51,6 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
-        @membership = Membership.new(:group => @group, :user => current_user, :level => Membership::LEVELS[:leader])
-        @membership.save
         format.html { redirect_to(@group, :notice => t(:group_created)) }
         format.xml  { render :xml => @group, :status => :created, :location => @group }
       else
@@ -96,6 +94,6 @@ private
 
   # Restrict the allowed parameters to a select set defined in the model.
   def group_params
-    params.require(:group).permit(:name, :narrative)
+    params.require(:group).permit(:name, :narrative, :new_leader)
   end
 end

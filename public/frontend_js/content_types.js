@@ -11,4 +11,3 @@ goog.require('concerto.frontend.Content.ClientTime');
 goog.require('concerto.frontend.Content.Graphic');
 goog.require('concerto.frontend.Content.HtmlText');
 goog.require('concerto.frontend.Content.Ticker');
-goog.require('concerto.frontend.ContentTypeRegistry');

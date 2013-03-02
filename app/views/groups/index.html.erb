@@ -17,6 +17,9 @@
                   <% if can? :update, group %>
                     <small><%= link_to t(:edit), edit_group_path(group) %></small>
                   <% end %>
+                  <% if can? :delete, group %>
+                    <small><%= link_to t(:destroy), group, :data => { :confirm => 'Are you sure?'}, :method => :delete %></small>
+                  <% end %>                  
                 </h3>
                 <%= link_to t(:join), group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></td>
                 <p class="indented">
@@ -39,6 +42,9 @@
                   <% if can? :update, group %>
                     <small><%= link_to t(:edit), edit_group_path(group) %></small>
                   <% end %>
+                  <% if can? :delete, group %>
+                    <small><%= link_to t(:destroy), group, :data => { :confirm => 'Are you sure?'}, :method => :delete %></small>
+                  <% end %>                       
                 </h3>
                 <%= link_to t(:join), group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></td>
                 <p class="indented">

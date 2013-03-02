@@ -1,6 +1,7 @@
 goog.provide('concerto.frontend.Content');
 goog.provide('concerto.frontend.Content.EventType');
 
+goog.require('concerto.frontend.ContentTypeRegistry');
 goog.require('goog.async.Delay');
 goog.require('goog.date.DateTime');
 goog.require('goog.debug.Logger');

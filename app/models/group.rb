@@ -1,5 +1,7 @@
 class Group < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
+  
+  after_create :create_leader
 
   has_many :feeds
   has_many :memberships, :dependent => :destroy
@@ -18,12 +20,19 @@ class Group < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
 
   before_save :update_membership_perms
+  
+  #have getters and setters for a new_leader virtual attribute
+  attr_accessor :new_leader
 
   # Manually cascade the callbacks for membership permissions.
   def update_membership_perms
     self.memberships.each do |m|
       m.run_callbacks(:save)
     end
+  end
+  
+  def create_leader
+    self.new_leader = Membership.create(user_id => new_leader, group_id => self.id, level => 9) if new_leader.present?
   end
 
   # Deliver a list of only users not currently in the group
