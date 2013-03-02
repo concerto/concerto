@@ -1,4 +1,7 @@
 en:
+  #index
+  future: 'Future'
+
   #_form
   feed: 'feed'
   edit: 'Edit'

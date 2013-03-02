@@ -1,10 +1,10 @@
 <section class="viewblock">
-	<header class="viewblock-header">
-		<%= back_button :back %>
-		<h1 class="default-padding"><%= t('edit_screen') %></h1>
-	</header>
-	<div class="viewblock-cont">
-		<%= render 'form' %>
-		
-	</div>
+  <header class="viewblock-header">
+    <%= back_button @screen %>
+    <h1 class="default-padding"><%= t('edit_screen') %></h1>
+  </header>
+  <div class="viewblock-cont">
+    <%= render 'form' %>
+
+  </div>
 </section>
