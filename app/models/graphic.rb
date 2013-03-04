@@ -36,26 +36,8 @@ class Graphic < Content
 
     if options.key?(:width) || options.key?(:height)
       require 'image_utility'
-      image = nil
-      Graphic.benchmark("Image#from_blob") do
-        image = Magick::Image.from_blob(original_media.file_contents).first
-      end
-
-      # Resize the image to a height and width if they are both being set.
-      # Round these numbers up to ensure the image will at least fill
-      # the requested space.
-      height = options[:height].nil? ? nil : options[:height].to_f.ceil
-      width = options[:width].nil? ? nil : options[:width].to_f.ceil
-
-      Graphic.benchmark("ImageUtility#resize") do
-        image = ImageUtility.resize(image, width, height, true, options[:crop])
-      end
-      if options[:crop]
-        Graphic.benchmark("ImageUtility#crop") do
-          image = ImageUtility.crop(image, width, height)
-        end
-      end
-
+      image = ImageUtility.process(original_media, options)
+      
       file = Media.new(
         :attachable => self,
         :file_data => image.to_blob,

@@ -1,6 +1,28 @@
 # Common image utilities.
 module ImageUtility
 
+  def self.process(original_media, options={})
+    image = nil
+    Graphic.benchmark("Image#from_blob") do
+      image = Magick::Image.from_blob(original_media.file_contents).first
+    end
+
+    # Resize the image to a height and width if they are both being set.
+    # Round these numbers up to ensure the image will at least fill
+    # the requested space.
+    height = options[:height].nil? ? nil : options[:height].to_f.ceil
+    width = options[:width].nil? ? nil : options[:width].to_f.ceil
+
+    Graphic.benchmark("ImageUtility#resize") do
+      image = resize(image, width, height, true, options[:crop])
+    end
+    if options[:crop]
+      Graphic.benchmark("ImageUtility#crop") do
+        image = crop(image, width, height)
+      end
+    end  
+  end
+
   # Resize an image to a height and width.
   # If maintain_aspect_ratio (default true) is set the constraining value
   # is used when resizing the image (i.e. the largest side will match the smallest dimension)
