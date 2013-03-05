@@ -4,18 +4,12 @@ class Frontend::TemplatesController < ApplicationController
   # Render the template for display on a screen.
   def show
     template = Template.find(params[:id])
-    if stale?(:last_modified => template.last_modified.utc, :etag => template, :public => true)
-      require'image_utility'
-      media = template.media.original.first
-      image = Magick::Image.from_blob(media.file_contents).first
+    if stale?(:last_modified => template.last_modified.utc, :etag => template, :public => true)     
+      require 'concerto_image_magick'
+      image = ConcertoImageMagick.load_image(template.media.original.first.file_contents)
 
       # Resize the image to a height and width if they are both being set.
-      # Round these numbers up to ensure the image will at least fill
-      # the requested space.
-      height = params[:height].nil? ? nil : params[:height].to_f.ceil
-      width = params[:width].nil? ? nil : params[:width].to_f.ceil 
-
-      image = ImageUtility.resize(image, width, height, false)
+      image = ConcertoImageMagick.graphic_transform(image, :width => params[:width], :height => params[:height], :crop => false)
       case request.format
         when Mime::Type.lookup_by_extension(:jpg)
           image.format = "JPG"
