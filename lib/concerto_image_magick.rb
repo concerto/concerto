@@ -48,6 +48,8 @@ module ConcertoImageMagick
     if options[:crop]
       image = crop(image, width, height)
     end  
+    
+    return image
   end
 
   # Resize an image to a height and width.
