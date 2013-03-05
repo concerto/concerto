@@ -8,6 +8,8 @@ class DynamicContent < Content
   after_find :load_config
   before_validation :save_config
 
+  after_create :refresh
+
   attr_accessor :config
 
   # Automatically set the kind for the content
