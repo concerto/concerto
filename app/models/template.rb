@@ -49,7 +49,8 @@ class Template < ActiveRecord::Base
   def update_original_sizes
     original_media = self.media.original.first
     unless original_media.nil?
-      image = Magick::Image.from_blob(original_media.file_contents).first
+      require 'concerto_image_magick'
+      image = ConcertoImageMagick.load_image(self.media.original.first.file_contents)
       self.original_width = image.columns
       self.original_height = image.rows
     end
