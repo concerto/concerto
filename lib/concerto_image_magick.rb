@@ -58,10 +58,12 @@ module ConcertoImageMagick
   # Returns an image.
   def self.resize(image, width, height, maintain_aspect_ratio=true, expand_to_fit=false)
     unless width.nil? && height.nil?
+      desired_width = width
+      desired_height = height
       if maintain_aspect_ratio && (!width.nil? && !height.nil?) 
         desired_ratio = width.to_f / height
         image_ratio = image.columns.to_f / image.rows
-        if image_ratio > desired_ratio && !expand_to_fit
+        if image_ratio > desired_ratio
           height = nil
         else
           width = nil
@@ -72,6 +74,16 @@ module ConcertoImageMagick
       end
       if height.nil?
         height = width * image.rows.to_f / image.columns
+      end
+      if expand_to_fit && (height < desired_height || width < desired_width)
+        upscale = 1
+        if height < desired_height
+          upscale = desired_height / height
+        else
+          upscale = desired_width / width
+        end
+        width = width * upscale
+        height = height * upscale
       end
       if image.columns != width && image.rows != height
         image = image.scale(width, height)
