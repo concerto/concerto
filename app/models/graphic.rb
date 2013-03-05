@@ -36,7 +36,7 @@ class Graphic < Content
 
     if options.key?(:width) || options.key?(:height)
       require 'concerto_image_magick'
-      image = ConcertoImageMagick.graphic_transform(original_media.file_contents, options)
+      image = ConcertoImageMagick.graphic_transform(original_media, options)
       
       file = Media.new(
         :attachable => self,
