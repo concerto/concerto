@@ -130,4 +130,21 @@ class Content < ActiveRecord::Base
     end
   end
 
+  # Figure out if a user should be able to run a custom action.
+  # Default to any user runs no actions.
+  def action_allowed?(action_name, user)
+    return false
+  end
+
+  # Perform custom actions on a piece of content.
+  # Accessed via /content/:id/act?action_name=action_name&options.
+  # Returns nil if there was a problem, otherwise return the result of the action.
+  def perform_action(action_name, options)
+    if action_allowed?(action_name, options[:current_user])
+      return send(action_name, options)
+    else
+      return nil
+    end
+  end
+
 end

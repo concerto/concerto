@@ -73,7 +73,10 @@ Concerto::Application.routes.draw do
   end
 
   resources :contents, :except => [:index], :path => "content" do
-    get :display, :on => :member
+    member do
+      get :display
+      put :act
+    end
   end
 
   # TODO(bamnet): Figure out if these routes mean anything.

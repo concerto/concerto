@@ -8,6 +8,8 @@ class DynamicContent < Content
   after_find :load_config
   before_validation :save_config
 
+  after_create :refresh
+
   attr_accessor :config
 
   # Automatically set the kind for the content
@@ -255,5 +257,25 @@ class DynamicContent < Content
   # Write back that the cron job has just run.
   def self.cron_ran
     ConcertoConfig.set("dynamic_refresh_time", Clock.time.to_i) 
+  end
+
+  # Allow dynamic content to be manually refreshed.
+  def action_allowed?(action_name, user)
+    return action_name == :manual_refresh
+  end
+
+  # Manually refresh the dynamic content, only if the user
+  # has permission to edit the content.
+  def manual_refresh(options)
+    # Only someoneone who can edit the content can do this.
+    owner = Ability.new(options[:current_user])
+    if owner.cannot?(:edit, self)
+      return "Sorry, you don't have access to perform this action."
+    end
+    if refresh!
+      return "OK."
+    else
+      return "Error refreshing."
+    end
   end
 end

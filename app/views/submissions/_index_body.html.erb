@@ -68,7 +68,14 @@
 </div>
 <% else %>
 <div class="clearfix default-padding">
-  <h3 class="header-with-icon"><i class="icon-header-<%= @state %>content"></i><%= pluralize(@submissions.count, "#{@state} content") %></h3>
+  <div class="header-with-icon clearfix">
+    <h3 style="float: left;">
+      <i class="icon-header-<%= @state %>content"></i> <%= pluralize(@submissions.count, "#{@state} content") %>
+    </h3>
+    <div class="pagination-cont">
+      <%= paginate @paginated_submissions %>
+    </div>
+  </div>
   <br />
   <% @paginated_submissions.select{|s| s.content.parent.nil?}.each do |submission| %>
     <%= render :partial => "submissions/submission_tile", :locals => { :submission => submission } %>

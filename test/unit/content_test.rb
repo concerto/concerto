@@ -109,4 +109,14 @@ class ContentTest < ActiveSupport::TestCase
     assert subclasses.include?(TestContent)
     assert !subclasses.include?(Content)
   end
+
+  test "default content allows no actions" do
+    c = Content.new()
+    assert !c.action_allowed?(:save, users(:katie))
+  end
+
+  test "default content does no actions" do
+    c = Content.new()
+    assert_equal c.perform_action(:save, {:current_user => users(:katie)}), nil
+  end
 end

@@ -157,6 +157,21 @@ class ContentsController < ApplicationController
     end
   end
 
+  # PUT /contents/1/act
+  # Trigger custom actions for the content.
+  def act
+    @content = Content.find(params[:id])
+    auth!(:action => :read)
+    action_name = params[:action_name].to_sym
+    params[:current_user] = current_user
+    result = @content.perform_action(action_name, params)
+    if result.nil?
+      render :text => 'Unable to perform action.', :status => 400
+    else
+      render :text => result, :status => 200
+    end
+  end
+
 private
 
   # Restrict the allowed parameters to a select set defined in the model.

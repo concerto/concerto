@@ -4,6 +4,7 @@ en:
   #_index_header
   moderated_by: 'moderated by'
   expired: 'expired'
+  future: 'future'
 
   #_index_body
   jump_to_feed: "Jump to Feed..."
