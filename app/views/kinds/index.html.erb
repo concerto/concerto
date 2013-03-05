@@ -1,6 +1,6 @@
 <section class="viewblock">
   <header class="viewblock-header">
-    <h1 class="default-padding"><%= t(:all_kinds) %> <%= link_to t(:new_kind), new_kind_path, :class => "button" %></h1>
+    <h1 class="default-padding"><%= t(:all_kinds) %> <%= link_to t(:new_kind), new_kind_path, class: "button" %></h1>
   </header>
   <div class="viewblock-cont">
     <table>
@@ -12,7 +12,7 @@
       <% @kinds.each do |kind| %>
           <tr>
             <td><%= kind.name %></td>
-            <td><%= link_to 'Show', kind %> <%= link_to 'Edit', edit_kind_path(kind) %> <%= link_to 'Destroy', kind, :data => {:confirm => 'Are you sure?'}, :method => :delete %></td>
+            <td><%= link_to 'Show', kind %> <%= link_to 'Edit', edit_kind_path(kind) %> <%= link_to 'Destroy', kind, data: { confirm: 'Are you sure?'}, method: :delete %></td>
           </tr>
       <% end %>
     </table>

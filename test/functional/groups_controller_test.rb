@@ -23,7 +23,7 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   test "not signed in user can see public group" do
-    get :show, :id => groups(:wtg).id
+    get :show, id: groups(:wtg).id
     assert_equal assigns(:group), groups(:wtg)
     assert_response :success
   end
@@ -32,7 +32,7 @@ class GroupsControllerTest < ActionController::TestCase
     sign_in users(:katie)
     groups = [groups(:wtg), groups(:rpitv)]
     groups.each do |g|
-      get :show, :id => g.id
+      get :show, id: g.id
       assert_equal assigns(:group), g
       assert_response :success
     end

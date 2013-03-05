@@ -68,9 +68,9 @@ class SubmissionsController < ApplicationController
 
     respond_to do |format|
       if @submission.update_attributes(params[:submission])
-        format.html { redirect_to(feed_submissions_path, :notice => t(:content_moderated)) }
+        format.html { redirect_to(feed_submissions_path, notice: t(:content_moderated)) }
       else
-        format.html { redirect_to(feed_submission_path, :notice => t(:content_failed_moderation)) }
+        format.html { redirect_to(feed_submission_path, notice: t(:content_failed_moderation)) }
       end
     end
   end

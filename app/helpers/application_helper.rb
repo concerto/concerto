@@ -4,7 +4,7 @@ module ApplicationHelper
   # in the header elements.
   def back_button(path, name = "Back", options = {})
     options[:class] ||= "button back"
-    tag("div", {:class => "viewblock-header_back"}, true) + link_to(name, path, options) + raw("</div>")
+    tag("div", {class: "viewblock-header_back"}, true) + link_to(name, path, options) + raw("</div>")
   end
   
   # Generate page titles.
@@ -27,9 +27,9 @@ module ApplicationHelper
   # Locals are passed along accordingly.
   def render_partial_if(partial, default=nil, locals={})
     if lookup_context.exists?(partial, [], true)
-      render :partial => partial, :locals => locals
+      render partial: partial, locals: locals
     elsif !default.blank?
-      render :partial => default, :locals => locals
+      render partial: default, locals: locals
     end
   end
 

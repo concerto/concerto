@@ -1,7 +1,7 @@
-<%= form_for(@template, :url => import_templates_path, :html => { :multipart => true }) do |f| %>
+<%= form_for(@template, url: import_templates_path, html: { multipart: true }) do |f| %>
   <% if @template.errors.any? %>
   <div id="errorExplanation">
-    <h2><%= pluralize(@template.errors.count, t(:error)) + t(:prohibited_save, :model => 'template') %></h2>
+    <h2><%= pluralize(@template.errors.count, t(:error)) + t(:prohibited_save, model: 'template') %></h2>
     <ul>
       <% @template.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -14,7 +14,7 @@
     <div class="clearfix">
       <%= label_tag :package, t(:package) %>
       <div class="input">
-        <%= file_field_tag :package, :disabled => true %>
+        <%= file_field_tag :package, disabled: true %>
       </div>
     </div>
     <hr />
@@ -44,6 +44,6 @@
 
 
   <div class="submit_bar actions">
-    <%= f.submit t(:submit, :model => 'template'), :class => "btn primary" %>
+    <%= f.submit t(:submit, model: 'template'), class: "btn primary" %>
   </div>
 <% end %>

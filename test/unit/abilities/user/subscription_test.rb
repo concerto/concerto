@@ -7,7 +7,7 @@ class UserSubscriptionAbilityTest < ActiveSupport::TestCase
     @feed = feeds(:service)
     @kt_screen = screens(:one)
     @wtg_screen = screens(:two)
-    @subscription = Subscription.new(:feed => @feed)
+    @subscription = Subscription.new(feed: @feed)
   end
 
   test "Screen user owner all access" do

@@ -10,7 +10,7 @@ class MembershipsControllerTest < ActionController::TestCase
   test "should create pending membership" do
     sign_in users(:katie)
     assert_difference('Membership.count', 1) do
-      post :create, {:membership => {:user_id => users(:kristen).id}, :group_id => groups(:rpitv).id}
+      post :create, {membership: {user_id: users(:kristen).id}, group_id: groups(:rpitv).id}
     end
     actual = assigns(:membership)
     group = assigns(:group)
@@ -21,7 +21,7 @@ class MembershipsControllerTest < ActionController::TestCase
   test "should autoaprove members added by admins" do
     sign_in users(:katie)
     assert_difference('Membership.count', 1) do
-      post :create, {:membership => {:user_id => users(:kristen).id}, :group_id => groups(:wtg).id, :autoconfirm => true}
+      post :create, {membership: {user_id: users(:kristen).id}, group_id: groups(:wtg).id, autoconfirm: true}
     end
     actual = assigns(:membership)
     group = assigns(:group)

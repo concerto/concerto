@@ -85,7 +85,7 @@ class UserSubmissionAbilityTest < ActiveSupport::TestCase
 
   test "Submissions can be modified by moderator" do
     ability = Ability.new(@katie)
-    content = Content.new(:user => users(:admin))
+    content = Content.new(user: users(:admin))
     @submission.content = content
     @submission.feed = feeds(:sleepy_announcements)
 
@@ -107,7 +107,7 @@ class UserSubmissionAbilityTest < ActiveSupport::TestCase
 
   test "Submissions cannot be deleted by moderator" do
     ability = Ability.new(@katie)
-    content = Content.new(:user => users(:admin))
+    content = Content.new(user: users(:admin))
     @submission.content = content
     @submission.feed = feeds(:sleepy_announcements)
 
@@ -123,7 +123,7 @@ class UserSubmissionAbilityTest < ActiveSupport::TestCase
   end
 
   test "Content owner can only read and delete submission" do
-    content = Content.new(:user => @kristen)
+    content = Content.new(user: @kristen)
     @submission.content = content
     @submission.feed = @rpitv
 

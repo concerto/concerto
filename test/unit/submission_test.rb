@@ -2,8 +2,8 @@ require 'test_helper'
 
 class SubmissionTest < ActiveSupport::TestCase
   def setup
-    @public_submission = Submission.new({:feed => feeds(:service)})
-    @hidden_submission = Submission.new({:feed => feeds(:secret_announcements)})
+    @public_submission = Submission.new({feed: feeds(:service)})
+    @hidden_submission = Submission.new({feed: feeds(:secret_announcements)})
   end
 
   # Attributes cannot be left empty/blank
@@ -20,7 +20,7 @@ class SubmissionTest < ActiveSupport::TestCase
     blank = Submission.new()
     assert !blank.valid?
 
-    s = Submission.new({:content => contents(:futuristic_ticker), :duration => 10})
+    s = Submission.new({content: contents(:futuristic_ticker), duration: 10})
     assert !s.valid?, "Submission doesn't have feed"
     s.feed = feeds(:service)
     assert s.valid?, "Submission has feed"
@@ -28,7 +28,7 @@ class SubmissionTest < ActiveSupport::TestCase
 
   # Content is critical to a submission
   test "submission requires content" do
-    s = Submission.new({:feed => feeds(:service), :duration => 10})
+    s = Submission.new({feed: feeds(:service), duration: 10})
     assert !s.valid?, "Submission doesn't have content"
     s.content_id = contents(:futuristic_ticker).id
     assert s.valid?, "Submission has content"
@@ -37,7 +37,7 @@ class SubmissionTest < ActiveSupport::TestCase
   # Test uniqueness of submissions, a piece of content
   # cannot be submitted to the same feed more than once
   test "submissions must be unique" do
-    s = Submission.new({:content => contents(:old_ticker), :feed => feeds(:service), :duration => 10})
+    s = Submission.new({content: contents(:old_ticker), feed: feeds(:service), duration: 10})
     assert !s.valid?, "Submission already exists"
     s.content = contents(:futuristic_ticker)
     assert s.valid?, "Submission doesn't exist"

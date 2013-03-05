@@ -12,7 +12,7 @@ class TickerTest < ActiveSupport::TestCase
   #Verify the kind is getting auto-assigned
   test "kind should be auto set" do
     ticker = Ticker.new
-    assert_equal ticker.kind, Kind.where(:name => "Ticker").first
+    assert_equal ticker.kind, Kind.where(name: "Ticker").first
   end
 
   test "ticker class has display name" do

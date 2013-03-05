@@ -1,4 +1,4 @@
-<%= link_to '#', :title => "Search and Find a Feed to Add", :class => "btn large dropdown-toggle dropdown-control dd-add-sub", :rel => "#add-sub" do %>
+<%= link_to '#', title: "Search and Find a Feed to Add", class: "btn large dropdown-toggle dropdown-control dd-add-sub", rel: "#add-sub" do %>
   <i class="ficon-plus"></i> <%= t(:add_a_new_feed).capitalize %>...
 <% end %>
 
@@ -15,7 +15,7 @@
     <ul class="filterable selector-list">
       <% feeds.each_with_index do |feed, i| %>
       <li data-filter="<%= feed.name %>">
-        <%= link_to new_screen_field_subscription_path(@screen, @field, :feed_id => feed.id), :remote => true, :class => "link-hl", "data-feed-id" => feed.id do %>
+        <%= link_to new_screen_field_subscription_path(@screen, @field, feed_id: feed.id), remote: true, class: "link-hl", "data-feed-id" => feed.id do %>
           <%= ("&nbsp;" * feed.depth).html_safe %>
           <i class="ficon-ok-sign"></i>
           <b><%= feed.name %></b>

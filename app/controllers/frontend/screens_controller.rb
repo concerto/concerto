@@ -1,6 +1,6 @@
 class Frontend::ScreensController < ApplicationController
   # Allow cross-origin resource sharing for screens#show.
-  before_filter :allow_cors, :only => [:show]
+  before_filter :allow_cors, only: [:show]
   
   layout 'frontend'
 
@@ -8,7 +8,7 @@ class Frontend::ScreensController < ApplicationController
     begin
       @screen = Screen.find(params[:id])
     rescue ActiveRecord::ActiveRecordError
-      render :text => "Screen not found.", :status => 404
+      render text: "Screen not found.", status: 404
     else
       @js_files = ['frontend.js']
       if params[:debug]
@@ -30,7 +30,7 @@ class Frontend::ScreensController < ApplicationController
     begin
       @screen = Screen.find(params[:id])
     rescue ActiveRecord::ActiveRecordError
-      render :json => {}, :status => 404
+      render json: {}, status: 404
     else
 
       # Inject paths into fake attribute so they gets sent with the setup info.
@@ -40,25 +40,25 @@ class Frontend::ScreensController < ApplicationController
       else
         template_format = nil
       end
-      @screen.template.path = frontend_screen_template_path(@screen, @screen.template, :format => template_format)      
+      @screen.template.path = frontend_screen_template_path(@screen, @screen.template, format: template_format)      
       @screen.template.positions.each do |p|
-        p.field_contents_path = frontend_screen_field_contents_path(@screen, p.field, :format => :json)
+        p.field_contents_path = frontend_screen_field_contents_path(@screen, p.field, format: :json)
       end
 
       respond_to do |format|
         format.json {
-          render :json => @screen.to_json(
-            :only => [:name, :id],
-            :include => {
-              :template => {
-                :include => {
-                  :positions => {
-                    :except => [:created_at, :updated_at, :template_id],
-                    :methods => [:field_contents_path]
+          render json: @screen.to_json(
+            only: [:name, :id],
+            include: {
+              template: {
+                include: {
+                  positions: {
+                    except: [:created_at, :updated_at, :template_id],
+                    methods: [:field_contents_path]
                   },
                 },
-                :only => [:id],
-                :methods => [:path]
+                only: [:id],
+                methods: [:path]
               }
             }
           )

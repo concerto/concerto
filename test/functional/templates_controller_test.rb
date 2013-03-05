@@ -16,7 +16,7 @@ class TemplatesControllerTest < ActionController::TestCase
   test "should create template" do
     sign_in users(:admin)
     assert_difference('Template.count', 1) do
-      post :create, {:template => {:name => "leet template", :author => "the bat", :is_hidden => false}}
+      post :create, {template: {name: "leet template", author: "the bat", is_hidden: false}}
     end
     actual = assigns(:template)
     actual.media.each do |media|
@@ -30,7 +30,7 @@ class TemplatesControllerTest < ActionController::TestCase
     file = fixture_file_upload("/files/simple_template.xml", 'text/xml')
     image = fixture_file_upload("/files/simple_template.xml", 'image')
     assert_difference('Template.count', 1) do
-      put :import, {:descriptor => file, :image => image}
+      put :import, {descriptor: file, image: image}
     end
     actual = assigns(:template).positions.first
     assert_small_delta 0.025, actual.left

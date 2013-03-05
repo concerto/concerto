@@ -4,7 +4,7 @@ class Frontend::TemplatesController < ApplicationController
   # Render the template for display on a screen.
   def show
     template = Template.find(params[:id])
-    if stale?(:last_modified => template.last_modified.utc, :etag => template, :public => true)
+    if stale?(last_modified: template.last_modified.utc, etag: template, public: true)
       require'image_utility'
       media = template.media.original.first
       image = Magick::Image.from_blob(media.file_contents).first
@@ -22,12 +22,12 @@ class Frontend::TemplatesController < ApplicationController
         when Mime::PNG
           image.format = "PNG"
         else
-          render :status => 406, :text => "Unacceptable image type." and return
+          render status: 406, text: "Unacceptable image type." and return
       end
 
       send_data image.to_blob,
-                :filename => "#{template.name.underscore}.#{image.format.downcase}",
-                :type => image.mime_type, :disposition => 'inline'
+                filename: "#{template.name.underscore}.#{image.format.downcase}",
+                type: image.mime_type, disposition: 'inline'
     end
   end
 

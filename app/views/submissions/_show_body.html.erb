@@ -1,31 +1,31 @@
 <div class="approval">
 
   <% if @submission.moderation_flag.nil? %>
-    <%= render :partial => "submissions/approval_info", :locals => { :submission => @submission } %>
+    <%= render partial: "submissions/approval_info", locals: { submission: @submission } %>
 
     <br />
 
     <% if can? :update, @submission %>
 
       <div class="moderate-select">
-        <%= link_to "#", :class => "btn pronounced dropdown-control dd-moderate", :title => t(:moderate_title, :name => @submission.content.name), :rel => "#moderate_approve_#{ @submission.id }" do %>
+        <%= link_to "#", class: "btn pronounced dropdown-control dd-moderate", title: t(:moderate_title, name: @submission.content.name), rel: "#moderate_approve_#{ @submission.id }" do %>
           <span class="ficon-check"></span> Approve
         <% end %>
         &nbsp;&nbsp;
-        <%= link_to "#", :class => "btn pronounced dropdown-control dd-moderate", :title => t(:moderate_title, :name => @submission.content.name), :rel => "#moderate_deny_#{ @submission.id }" do %>
+        <%= link_to "#", class: "btn pronounced dropdown-control dd-moderate", title: t(:moderate_title, name: @submission.content.name), rel: "#moderate_deny_#{ @submission.id }" do %>
           <span class="ficon-remove-sign"></span> Deny
         <% end %>
       </div>
 
       <div id="moderate_approve_<%= @submission.id %>" style="display:none;">
         <div class="form-stacked">
-          <%= render :partial => "submissions/moderate_form", :locals => { :submission => @submission, :moderate => true } %>
+          <%= render partial: "submissions/moderate_form", locals: { submission: @submission, moderate: true } %>
         </div>
       </div>
 
       <div id="moderate_deny_<%= @submission.id %>" style="display:none;">
         <div class="form-stacked">
-          <%= render :partial => "submissions/moderate_form", :locals => { :submission => @submission, :moderate => false } %>
+          <%= render partial: "submissions/moderate_form", locals: { submission: @submission, moderate: false } %>
         </div>
       </div>
 
@@ -36,13 +36,13 @@
 
     <% if can? :update, @submission %>
 
-      <%= link_to "#", :class => "btn small dropdown-control dd-moderate", :title => t(:moderate_title, :name => @submission.content.name), :rel => "#moderate_deny_#{ @submission.id }" do %>
+      <%= link_to "#", class: "btn small dropdown-control dd-moderate", title: t(:moderate_title, name: @submission.content.name), rel: "#moderate_deny_#{ @submission.id }" do %>
         <span class="ficon-remove-sign"></span> Deny
       <% end %>
 
       <div id="moderate_deny_<%= @submission.id %>" style="display:none;">
         <div class="form-stacked">
-          <%= render :partial => "submissions/moderate_form", :locals => { :submission => @submission, :moderate => false } %>
+          <%= render partial: "submissions/moderate_form", locals: { submission: @submission, moderate: false } %>
         </div>
       </div>
 
@@ -50,19 +50,19 @@
 
     <br />
 
-    <%= render :partial => "submissions/approval_info", :locals => { :submission => @submission } %>
+    <%= render partial: "submissions/approval_info", locals: { submission: @submission } %>
   <% else %>
     <h2><%= t(:denied) %></h2>
 
     <% if can? :update, @submission %>
 
-      <%= link_to "#", :class => "btn small dropdown-control dd-moderate", :title => t(:moderate_title, :name => @submission.content.name), :rel => "#moderate_approve_#{ @submission.id }" do %>
+      <%= link_to "#", class: "btn small dropdown-control dd-moderate", title: t(:moderate_title, name: @submission.content.name), rel: "#moderate_approve_#{ @submission.id }" do %>
         <span class="ficon-check"></span> Approve
       <% end %>
 
       <div id="moderate_approve_<%= @submission.id %>" style="display:none;">
         <div class="form-stacked">
-          <%= render :partial => "submissions/moderate_form", :locals => { :submission => @submission, :moderate => true } %>
+          <%= render partial: "submissions/moderate_form", locals: { submission: @submission, moderate: true } %>
         </div>
       </div>
 
@@ -70,7 +70,7 @@
 
     <br />
 
-    <%= render :partial => "submissions/approval_info", :locals => { :submission => @submission } %>
+    <%= render partial: "submissions/approval_info", locals: { submission: @submission } %>
   <% end %>
 </div>
 
@@ -92,9 +92,9 @@
 
   <% if !@submission.content.children.empty? %>
     <% @submission.content.children.active.each do |child| %>
-      <% child_submissions = child.submissions.where(:feed_id => @submission.feed_id) %>
+      <% child_submissions = child.submissions.where( feed_id: @submission.feed_id) %>
       <% child_submissions.each do |child_submission| %>
-        <%= render :partial => "submissions/submission_tile", :locals => { :submission => child_submission } %>
+        <%= render partial: "submissions/submission_tile", locals: { submission: child_submission } %>
       <% end %>
     <% end %>
   <% end %>

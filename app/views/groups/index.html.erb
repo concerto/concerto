@@ -2,7 +2,7 @@
   <div class="span12">
     <section class="viewblock">
       <header class="viewblock-header">
-        <h1 class="default-padding"><%= t(:all_groups) %> <%= link_to t(:new_group), new_group_path, :class => "button" if user_signed_in? %></h1>
+        <h1 class="default-padding"><%= t(:all_groups) %> <%= link_to t(:new_group), new_group_path, class: "button" if user_signed_in? %></h1>
       </header>
       <div class="viewblock-cont">
         <% if !@my_groups.empty? %>
@@ -13,15 +13,15 @@
             <% @my_groups.each do |group| %>
               <li>
                 <h3>
-                  <%= link_to group.name, group, :class => "link-hl" %>
+                  <%= link_to group.name, group, class: "link-hl" %>
                   <% if can? :update, group %>
                     <small><%= link_to t(:edit), edit_group_path(group) %></small>
                   <% end %>
                   <% if can? :delete, group %>
-                    <small><%= link_to t(:destroy), group, :data => { :confirm => 'Are you sure?'}, :method => :delete %></small>
+                    <small><%= link_to t(:destroy), group, data: { confirm: 'Are you sure?'}, method: :delete %></small>
                   <% end %>                  
                 </h3>
-                <%= link_to t(:join), group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></td>
+                <%= link_to t(:join), group_memberships_path( group_id: group.id, membership: { user_id: current_user.id}), method: :post if user_signed_in? & !group.made_request?(current_user) %></td>
                 <p class="indented">
                   <% member_list(group) %>
                 </p>
@@ -38,15 +38,15 @@
             <% other_groups.each do |group| %>
               <li>
                 <h3>
-                  <%= link_to group.name, group, :class => "link-hl" %>
+                  <%= link_to group.name, group, class: "link-hl" %>
                   <% if can? :update, group %>
                     <small><%= link_to t(:edit), edit_group_path(group) %></small>
                   <% end %>
                   <% if can? :delete, group %>
-                    <small><%= link_to t(:destroy), group, :data => { :confirm => 'Are you sure?'}, :method => :delete %></small>
+                    <small><%= link_to t(:destroy), group, data: { confirm: 'Are you sure?'}, method: :delete %></small>
                   <% end %>                       
                 </h3>
-                <%= link_to t(:join), group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></td>
+                <%= link_to t(:join), group_memberships_path( group_id: group.id, membership: { user_id: current_user.id}), method: :post if user_signed_in? & !group.made_request?(current_user) %></td>
                 <p class="indented">
                   <% member_list(group) %>
                 </p>

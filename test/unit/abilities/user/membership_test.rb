@@ -12,7 +12,7 @@ class UserMembershipAbilityTest < ActiveSupport::TestCase
     kristen = users(:kristen)
     wtg = groups(:wtg)
     ability = Ability.new(kristen)
-    m = Membership.new(:user => kristen, :group => wtg)
+    m = Membership.new(user: kristen, group: wtg)
     #The default level is pending
     assert ability.can?(:create, m)
     
@@ -33,7 +33,7 @@ class UserMembershipAbilityTest < ActiveSupport::TestCase
     kristen = users(:kristen)
     wtg = groups(:wtg)
     ability = Ability.new(users(:katie))
-    m = Membership.new(:user => kristen, :group => wtg)
+    m = Membership.new(user: kristen, group: wtg)
     #The default level is pending
     assert ability.can?(:create, m)
     assert ability.can?(:update, m)
@@ -70,7 +70,7 @@ class UserMembershipAbilityTest < ActiveSupport::TestCase
 
   test "Group members can read approved members" do
     ability = Ability.new(users(:katie))
-    membership = Membership.new(:group => groups(:rpitv), :level => Membership::LEVELS[:regular])
+    membership = Membership.new(group: groups(:rpitv), level: Membership::LEVELS[:regular])
     ability.can?(:read, membership)
 
     ability = Ability.new(users(:kristen))
@@ -79,7 +79,7 @@ class UserMembershipAbilityTest < ActiveSupport::TestCase
 
   test "Group members cannot read pending users" do
     ability = Ability.new(users(:katie))
-    membership = Membership.new(:group => groups(:rpitv), :level => Membership::LEVELS[:pending])
+    membership = Membership.new(group: groups(:rpitv), level: Membership::LEVELS[:pending])
     ability.cannot?(:read, membership)
 
     ability = Ability.new(users(:kristen))
@@ -88,7 +88,7 @@ class UserMembershipAbilityTest < ActiveSupport::TestCase
 
   test "Group members cannot read denied users" do
     ability = Ability.new(users(:katie))
-    membership = Membership.new(:group => groups(:rpitv), :level => Membership::LEVELS[:denied])
+    membership = Membership.new(group: groups(:rpitv), level: Membership::LEVELS[:denied])
     ability.cannot?(:read, membership)
 
     ability = Ability.new(users(:kristen))

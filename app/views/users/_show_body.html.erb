@@ -9,7 +9,7 @@
           </h2>
 
           <p>
-            <%= mail_to @user.email, @user.email, :encode => "hex" %>
+            <%= mail_to @user.email, @user.email, encode: "hex" %>
           </p>
 
           <% if current_user.is_admin? %>
@@ -46,12 +46,12 @@
                         <td>
                           <%= form_for([membership.group, membership]) do |f| %>
                               <% if can? :update, membership.group %>
-                                <%= f.select :level, Membership::LEVELS, { }, :style => "width: 80px;" %>
+                                <%= f.select :level, Membership::LEVELS, { }, style: "width: 80px;" %>
                               <% else %>
                                  <%= membership.level_name.humanize %>
                               <% end %>
                               <%= f.select :receive_emails, {"Receive Emails" => true, "Don't Receive Emails" => false}%>
-                              <%= f.submit t(:submit), :class => "btn" %>
+                              <%= f.submit t(:submit), class: "btn" %>
                           <% end %>
                         </td>
                    
@@ -90,7 +90,7 @@
               </li>
           <% end %>
 
-          <% Group.joins(:screens, :users).where(:users => {:id => @user}).group('groups.id').each do |group| %>
+          <% Group.joins(:screens, :users).where( users: { id: @user}).group('groups.id').each do |group| %>
               <% group.screens.each do |screen| %>
                   <li>
                     <div class="cont thumb-icon">
@@ -128,7 +128,7 @@
                   <li>
                     <div class="cont thumb-icon">
                       <%= link_to content do %>
-                          <%= render_content(content, {:type => 'grid'}) %>
+                          <%= render_content(content, { type: 'grid'}) %>
                       <% end %>
                     </div>
                     <div class="cont">

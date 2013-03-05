@@ -2,12 +2,12 @@ class Frontend::ContentsController < ApplicationController
   layout false
 
   before_filter :scope_setup
-  after_filter :dynamic_content_cron, :only => [:index]
+  after_filter :dynamic_content_cron, only: [:index]
 
   def scope_setup
     @screen = Screen.find(params[:screen_id])
     @field = Field.find(params[:field_id])
-    @subscriptions = @screen.subscriptions.where(:field_id => @field.id)
+    @subscriptions = @screen.subscriptions.where(field_id: @field.id)
   end
 
   def index
@@ -26,9 +26,9 @@ class Frontend::ContentsController < ApplicationController
     end
     respond_to do |format|
       format.json {
-        render :json => @content.to_json(
-          :only => [:name, :id, :duration, :type],
-          :methods => [:render_details]
+        render json: @content.to_json(
+          only: [:name, :id, :duration, :type],
+          methods: [:render_details]
         )
       }
     end
@@ -40,7 +40,7 @@ class Frontend::ContentsController < ApplicationController
   def show
     @content = Content.find(params[:id])
     @file = @content.render(params)
-    send_data @file.file_contents, :filename => @file.file_name, :type => @file.file_type, :disposition => 'inline'
+    send_data @file.file_contents, filename: @file.file_name, type: @file.file_type, disposition: 'inline'
   end
 
 

@@ -45,7 +45,7 @@ class TemplateTest < ActiveSupport::TestCase
     t = Template.new
     file = fixture_file_upload("/files/concerto_background.jpg", 'image/jpeg')
     t.save
-    media = t.media.build(:file => file, :key => 'original')
+    media = t.media.build(file: file, key: 'original')
     media.save
     assert t.update_original_sizes
     assert_equal t.original_width, 1920
@@ -56,7 +56,7 @@ class TemplateTest < ActiveSupport::TestCase
   test "preview template" do
     t = templates(:one)
     file = fixture_file_upload("/files/concerto_background.jpg", 'image/jpeg')
-    media = t.media.build(:file => file, :key => 'original')
+    media = t.media.build(file: file, key: 'original')
     media.save
     img = t.preview_image(false, true)
 

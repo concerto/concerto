@@ -1,15 +1,15 @@
 class ConcertoPluginsController < ApplicationController
-  before_filter :latest_version, :only => [:index, :show, :new, :edit]
-  before_filter :delayed_job_running, :only => [:index, :show, :new, :edit]
+  before_filter :latest_version, only: [:index, :show, :new, :edit]
+  before_filter :delayed_job_running, only: [:index, :show, :new, :edit]
 
   # GET /concerto_plugins
   # GET /concerto_plugins.json
   def index
     @concerto_plugins = ConcertoPlugin.all
-    auth!(:allow_empty => false)
+    auth!(allow_empty: false)
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @concerto_plugins }
+      format.json { render json: @concerto_plugins }
     end
   end
 
@@ -20,7 +20,7 @@ class ConcertoPluginsController < ApplicationController
     auth!
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @concerto_plugin }
+      format.json { render json: @concerto_plugin }
     end
   end
 
@@ -31,7 +31,7 @@ class ConcertoPluginsController < ApplicationController
     auth!
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @concerto_plugin }
+      format.json { render json: @concerto_plugin }
     end
   end
 
@@ -50,11 +50,11 @@ class ConcertoPluginsController < ApplicationController
     respond_to do |format|
       if @concerto_plugin.save    
         write_Gemfile()
-        format.html { redirect_to @concerto_plugin, :notice => 'Concerto plugin was successfully created.' }
-        format.json { render :json => @concerto_plugin, :status => :created, :location => @concerto_plugin }
+        format.html { redirect_to @concerto_plugin, notice: 'Concerto plugin was successfully created.' }
+        format.json { render json: @concerto_plugin, status: :created, location: @concerto_plugin }
       else
-        format.html { render :action => "new" }
-        format.json { render :json => @concerto_plugin.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.json { render json: @concerto_plugin.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -67,11 +67,11 @@ class ConcertoPluginsController < ApplicationController
     respond_to do |format|
       if @concerto_plugin.update_attributes(params[:concerto_plugin])
         write_Gemfile()
-        format.html { redirect_to @concerto_plugin, :notice => 'Concerto plugin was successfully updated.' }
+        format.html { redirect_to @concerto_plugin, notice: 'Concerto plugin was successfully updated.' }
         format.json { head :no_content }
       else
-        format.html { render :action => "edit" }
-        format.json { render :json => @concerto_plugin.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.json { render json: @concerto_plugin.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -101,11 +101,11 @@ class ConcertoPluginsController < ApplicationController
       end
 
       if plugin.source == "git" and not plugin.source_url.blank?
-        gem_args << ":git => \"#{plugin.source_url}\""
+        gem_args << "git: \"#{plugin.source_url}\""
       end
 
       if plugin.source == "path" and not plugin.source_url.blank?
-        gem_args << ":path => \"#{plugin.source_url}\""
+        gem_args << "path: \"#{plugin.source_url}\""
       end
 
       gemfile_content = gemfile_content + "\ngem " + gem_args.join(", ") + "\n"

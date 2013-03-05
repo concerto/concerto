@@ -13,15 +13,15 @@ class Graphic < Content
   after_initialize :set_kind
 
   #Validations
-  validates :duration, :numericality => { :greater_than => 0 }
-  validates :media, :length => { :minimum => 1, :too_short => "At least 1 file is required." }
+  validates :duration, numericality: { greater_than: 0 }
+  validates :media, length: { minimum: 1, too_short: "At least 1 file is required." }
   validates_with GraphicValidator
   
   # Automatically set the kind for the content
   # if it is new.
   def set_kind
     return unless new_record?
-    self.kind = Kind.where(:name => 'Graphics').first
+    self.kind = Kind.where(name: 'Graphics').first
   end
 
   # Responsible for display transformations on an image.
@@ -39,10 +39,10 @@ class Graphic < Content
       image = ImageUtility.process(original_media, options)
       
       file = Media.new(
-        :attachable => self,
-        :file_data => image.to_blob,
-        :file_type => image.mime_type,
-        :file_name => original_media.file_name
+        attachable: self,
+        file_data: image.to_blob,
+        file_type: image.mime_type,
+        file_name: original_media.file_name
       )
 
       return file
@@ -62,13 +62,13 @@ class Graphic < Content
 
   # Generate the path to the iamge to be displayed.
   def render_details
-    {:path => url_helpers.frontend_screen_field_content_path(self.screen, self.field, self)}
+    {path: url_helpers.frontend_screen_field_content_path(self.screen, self.field, self)}
   end
 
   # Graphics also accept media attributes for the uploaded file.
   def self.form_attributes
     attributes = super()
-    attributes.concat([{:media_attributes => [:file, :key]}])
+    attributes.concat([{media_attributes: [:file, :key]}])
   end
 
 end

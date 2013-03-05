@@ -13,24 +13,24 @@
   <div class="span4">
     <div class="default-padding">
 
-      <% can_join = can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending])
+      <% can_join = can? :create, Membership.new( group: @group, level: Membership::LEVELS[:pending])
          already_member = @group.made_request?(current_user) %>
       <% if can_join || already_member %>
       <div class="subblock bordered">
         <div class="default-padding">
           <% if already_member %>
-          <% membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first %>
+          <% membership = Membership.where( group_id: @group.id, user_id: current_user.id).first %>
           <p><b>You are currently a <%= membership.level_name %><%= " member" unless membership.level == Membership::LEVELS[:leader] %> of this group.</b></p>
           <% if @group.has_member?(current_user) %>
-          <%= link_to( t(:leave_group), group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn") %>
+          <%= link_to( t(:leave_group), group_membership_path( group_id: @group.id, id: membership.id), method: :delete, class: "btn") %>
           <% if can? :edit, @group %>
-          <%= link_to t(:edit_details), edit_group_path(@group), :class => "btn" %>
+          <%= link_to t(:edit_details), edit_group_path(@group), class: "btn" %>
           <% end %>
           <% end %>
           <% elsif can_join %>
           <p><b><%= t(:not_in_group) %></b></p>
-          <% if can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>
-          <%= link_to( t(:join_group), group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
+          <% if can? :create, Membership.new( group: @group, level: Membership::LEVELS[:pending]) %>
+          <%= link_to( t(:join_group), group_memberships_path( group_id: @group.id, membership: { user_id: current_user.id}), method: :post, class: "btn") %>
           <% end %>
           <% end %>
         </div>
@@ -64,7 +64,7 @@
             </td>
 
             <td>
-              <%= mail_to membership.user.email, membership.user.email, :encode => "hex" %>
+              <%= mail_to membership.user.email, membership.user.email, encode: "hex" %>
             </td>
           </tr>
           <% end %>
@@ -80,7 +80,7 @@
             </td>
 
             <td>
-              <%= mail_to membership.user.email, membership.user.email, :encode => "hex" %>
+              <%= mail_to membership.user.email, membership.user.email, encode: "hex" %>
             </td>
           </tr>
           <% end %>
@@ -125,7 +125,7 @@
            <% end %>
          </ul>
          <div class="clearfix">
-           <%= link_to t(:new_feed), new_feed_path, :class => "btn" if can? :create, Feed %>
+           <%= link_to t(:new_feed), new_feed_path, class: "btn" if can? :create, Feed %>
          </div>
          <div class="clear"></div>
 

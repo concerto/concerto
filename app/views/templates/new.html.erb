@@ -1,12 +1,12 @@
 <section class="viewblock">
   <header class="viewblock-header" id="template-header">
-    <h1 class="default-padding"><%= t(:template_type , :type => @type.capitalize) %></h1>
+    <h1 class="default-padding"><%= t(:template_type , type: @type.capitalize) %></h1>
   </header>
   <div class="viewblock-cont">
     <div class="subnav clearfix">
       <ul class="nav nav-tabs">
-        <li<% if @type == "import" %> class="active"<% end %>><%= link_to t(:import_existing), new_template_path(:type=> "import") %></li>
-        <li<% if @type == "create" %> class="active"<% end %>><%= link_to t(:from_scratch), new_template_path(:type=> "create") %></li>
+        <li<% if @type == "import" %> class="active"<% end %>><%= link_to t(:import_existing), new_template_path( type: "import") %></li>
+        <li<% if @type == "create" %> class="active"<% end %>><%= link_to t(:from_scratch), new_template_path( type: "create") %></li>
       </ul>
     </div>
 

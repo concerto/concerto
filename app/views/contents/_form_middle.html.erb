@@ -7,8 +7,8 @@
     </div>
   </div>
 
-  <%= render :partial => 'contents/form_elements/duration', :locals => {:form => form, :min => ConcertoConfig[:min_content_duration].to_i, :max => ConcertoConfig[:max_content_duration].to_i} %>
-  <%= render :partial => 'contents/form_elements/dates', :locals => {:form => form} %>
+  <%= render partial: 'contents/form_elements/duration', locals: { form: form, min: ConcertoConfig[:min_content_duration].to_i, max: ConcertoConfig[:max_content_duration].to_i} %>
+  <%= render partial: 'contents/form_elements/dates', locals: { form: form} %>
 </fieldset>
 
 <fieldset>
@@ -16,7 +16,7 @@
   <label>&nbsp;</label>
   <div class="input">
     <% if @content.new_record? %>
-      <%= render :partial => 'contents/form_elements/feeds' %>
+      <%= render partial: 'contents/form_elements/feeds' %>
     <% end %>
   </div>
 </fieldset>

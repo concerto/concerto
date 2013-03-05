@@ -1,6 +1,6 @@
 class DashboardController < ApplicationController
-  before_filter :latest_version, :only => :index
-  before_filter :delayed_job_running, :only => :index
+  before_filter :latest_version, only: :index
+  before_filter :delayed_job_running, only: :index
 
   # GET /dashboard
   def index
@@ -16,7 +16,7 @@ class DashboardController < ApplicationController
     params[:concerto_config].each  do |k,v|
       ConcertoConfig.set(k,v) #only set this if the config already exists
     end
-    redirect_to :action => :index
+    redirect_to action: :index
   end
 
   # GET /dashboard/run_backup

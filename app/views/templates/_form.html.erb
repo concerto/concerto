@@ -1,7 +1,7 @@
-<%= form_for(@template, :html => { :multipart => true }) do |f| %>
+<%= form_for(@template, html: { multipart: true }) do |f| %>
   <% if @template.errors.any? %>
   <div id="errorExplanation">
-    <h2><%= pluralize(@template.errors.count, t(:error)) + t(:prohibited_save, :model => 'template') %></h2>
+    <h2><%= pluralize(@template.errors.count, t(:error)) + t(:prohibited_save, model: 'template') %></h2>
     <ul>
       <% @template.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -33,6 +33,6 @@
   </fieldset>
 
   <div class="submit_bar actions">
-    <%= f.submit t(:submit), :class => "btn primary" %>
+    <%= f.submit t(:submit), class: "btn primary" %>
   </div>
 <% end %>

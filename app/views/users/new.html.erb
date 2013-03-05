@@ -7,7 +7,7 @@
       <%= form_for(@user) do |f| %>
           <% if @user.errors.any? %>
               <div id="error_explanation">
-                <h2><%= pluralize(@user.errors.count, t(:error)) + t(:prohibited_save, :model => 'user') %></h2>
+                <h2><%= pluralize(@user.errors.count, t(:error)) + t(:prohibited_save, model: 'user') %></h2>
 
                 <ul>
                   <% @user.errors.full_messages.each do |msg| %>
@@ -22,7 +22,7 @@
               <%= f.label :first_name %>
               <div class="input">
                 <div class="inline-inputs">
-                  <%= f.text_field :first_name, :class => "span3" %> <%= f.text_field :last_name, :class => "span3" %>
+                  <%= f.text_field :first_name, class: "span3" %> <%= f.text_field :last_name, class: "span3" %>
                 </div>
               </div>
             </div>
@@ -30,7 +30,7 @@
             <div class="clearfix">
               <%= f.label :email %>
               <div class="input">
-                <%= f.text_field :email, :class => "span4" %>
+                <%= f.text_field :email, class: "span4" %>
               </div>
             </div>
 
@@ -51,7 +51,7 @@
           </fieldset>
     
     	<div class="submit_bar actions">
-    		<%= f.submit t(:submit), :class => "btn primary" %>
+    		<%= f.submit t(:submit), class: "btn primary" %>
     	</div>
     <% end %>
 

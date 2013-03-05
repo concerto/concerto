@@ -6,13 +6,13 @@ class MembershipTest < ActiveSupport::TestCase
     blank = Membership.new()
     assert !blank.valid?
 
-    m = Membership.new({:user => users(:kristen)})
+    m = Membership.new({user: users(:kristen)})
     assert !m.valid?, "Membership doesn't have group"
     m.group = groups(:wtg)
     assert m.valid?, "Membership has group"
   end
   test "membership requires user" do
-    m = Membership.new({:group => groups(:wtg)})
+    m = Membership.new({group: groups(:wtg)})
     assert !m.valid?, "Membership doesn't have user"
     m.user = users(:kristen)
     assert m.valid?, "Membership has user"
@@ -20,7 +20,7 @@ class MembershipTest < ActiveSupport::TestCase
   
   #Test for uniqueness
   test "membership cannot duplicate" do
-    m = Membership.new({:user => users(:katie), :group => groups(:wtg)})
+    m = Membership.new({user: users(:katie), group: groups(:wtg)})
     assert !m.valid?, "Membership already exists"
     m.user = users(:kristen)
     assert m.valid?, "Membership is unique"
@@ -46,14 +46,14 @@ class MembershipTest < ActiveSupport::TestCase
     wtg = groups(:wtg)
     kristen = users(:kristen)
     assert_no_difference 'wtg.users.count' do
-      @m = Membership.new(:user => users(:kristen), :group => groups(:wtg))
+      @m = Membership.new(user: users(:kristen), group: groups(:wtg))
       @m.save
     end
     @m.destroy
   end
 
   test "membership permission compression" do
-    m = Membership.new(:level => Membership::LEVELS[:regular])
+    m = Membership.new(level: Membership::LEVELS[:regular])
     assert_equal m.perms, {}
 
     Membership::PERMISSIONS[:regular][:screen].each do |screen, screen_v|

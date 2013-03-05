@@ -14,7 +14,7 @@
         <tr>
           <td>
             <%= link_to content do %>
-              <%= image_tag("icons/icon_#{content.type}_40.png", {:alt => "View Content", :width => "40px", :height => "40px"}) %>
+              <%= image_tag("icons/icon_#{content.type}_40.png", { alt: "View Content", width: "40px", height: "40px"}) %>
             <% end %>
           </td>
           <td><%= link_to content do %><h2><%=h content.name %></h2><% end %></td>

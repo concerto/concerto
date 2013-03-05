@@ -4,28 +4,28 @@ class Membership < ActiveRecord::Base
   # Membership levels
   LEVELS = {
       # A denied member is not a member of the group.
-      :denied => 0,
+      denied: 0,
       # A pending member has not yet been accepted into a group.
       # We need to update authorization to reflect this.
-      :pending => 1,
+      pending: 1,
       # A regular member is a member of the group with full read permission.
-      :regular => 2,
+      regular: 2,
       # A leader controls the group.
-      :leader => 9,
+      leader: 9,
   }
 
   # Membership Permissions
   PERMISSIONS = {
-      :regular => {
-          :screen => {
-              :none => 0, # No screen write privledges
-              :subscriptions => 3, # Can update subscriptions
-              :all => 9, # Full write privledges
+      regular: {
+          screen: {
+              none: 0, # No screen write privledges
+              subscriptions: 3, # Can update subscriptions
+              all: 9, # Full write privledges
           },
-          :feed => {
-              :none => 0, # No feed write privledges
-              :submissions => 3, # Can update submissions (moderate)
-              :all => 9 # Full write privledges
+          feed: {
+              none: 0, # No feed write privledges
+              submissions: 3, # Can update submissions (moderate)
+              all: 9 # Full write privledges
           },
       }
   }
@@ -37,18 +37,18 @@ class Membership < ActiveRecord::Base
   belongs_to :group
 
   # Validations
-  validates :user, :presence => true, :associated => true
-  validates :group, :presence => true, :associated => true
-  validates_uniqueness_of :user_id, :scope => :group_id
+  validates :user, presence: true, associated: true
+  validates :group, presence: true, associated: true
+  validates_uniqueness_of :user_id, scope: :group_id
 
   # Scoping shortcuts for leaders/regular
-  scope :leader, where(:level => Membership::LEVELS[:leader])
-  scope :regular, where(:level => Membership::LEVELS[:regular])
+  scope :leader, where(level: Membership::LEVELS[:leader])
+  scope :regular, where(level: Membership::LEVELS[:regular])
 
   # Scoping shortcuts for workflow (approved/pending/denied)
   scope :approved, where("level > #{Membership::LEVELS[:pending]}")
-  scope :pending, where(:level => Membership::LEVELS[:pending])
-  scope :denied, where(:level => Membership::LEVELS[:denied])
+  scope :pending, where(level: Membership::LEVELS[:pending])
+  scope :denied, where(level: Membership::LEVELS[:denied])
 
   attr_accessor :perms
 
@@ -127,7 +127,7 @@ class Membership < ActiveRecord::Base
 
   # Approve a user in group
   def approve()
-    if can_resign_leadership?(Membership::LEVELS[:regular]) && update_attributes({:level => Membership::LEVELS[:regular]})
+    if can_resign_leadership?(Membership::LEVELS[:regular]) && update_attributes({level: Membership::LEVELS[:regular]})
       true
     else
       reload
@@ -137,7 +137,7 @@ class Membership < ActiveRecord::Base
 
   # Make a regular member a group leader
   def promote_to_leader
-    if update_attributes({:level => Membership::LEVELS[:leader]})
+    if update_attributes({level: Membership::LEVELS[:leader]})
       true
     else
       reload
@@ -147,7 +147,7 @@ class Membership < ActiveRecord::Base
 
   # Deny a user in group
   def deny()
-    if update_attributes({:level => Membership::LEVELS[:denied]})
+    if update_attributes({level: Membership::LEVELS[:denied]})
       true
     else
       reload

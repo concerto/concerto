@@ -9,7 +9,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @groups }
+      format.xml  { render xml: @groups }
     end
   end
 
@@ -21,7 +21,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @group }
+      format.xml  { render xml: @group }
     end
   end
 
@@ -33,7 +33,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @group }
+      format.xml  { render xml: @group }
     end
   end
 
@@ -51,11 +51,11 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
-        format.html { redirect_to(@group, :notice => t(:group_created)) }
-        format.xml  { render :xml => @group, :status => :created, :location => @group }
+        format.html { redirect_to(@group, notice: t(:group_created)) }
+        format.xml  { render xml: @group, status: :created, location: @group }
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @group.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.xml  { render xml: @group.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -68,11 +68,11 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.update_attributes(group_params)
-        format.html { redirect_to(@group, :notice => t(:group_updated)) }
+        format.html { redirect_to(@group, notice: t(:group_updated)) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @group.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.xml  { render xml: @group.errors, status: :unprocessable_entity }
       end
     end
   end

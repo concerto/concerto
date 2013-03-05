@@ -1,5 +1,5 @@
 class ContentsController < ApplicationController
-  before_filter :get_content_const, :only => [:new, :create]
+  before_filter :get_content_const, only: [:new, :create]
 
   # Grab the constant object for the type of
   # content we're working with.  Probably needs
@@ -21,7 +21,7 @@ class ContentsController < ApplicationController
 
     respond_to do |format|
       format.html #show.html.erb
-      format.xml { render :xml => @content }
+      format.xml { render xml: @content }
     end
   end
 
@@ -45,7 +45,7 @@ class ContentsController < ApplicationController
     # We don't recognize the requested content type, or
     # its not a child of Content so we'll return a 400.
     if @content_const.nil? || !@content_const.ancestors.include?(Content)
-      render :text => "Unrecognized content type.", :status => 400
+      render text: "Unrecognized content type.", status: 400
     else
       @content = @content_const.new()
       @content.duration = ConcertoConfig[:default_content_duration].to_i
@@ -53,11 +53,11 @@ class ContentsController < ApplicationController
 
       # Remove the feeds that would not take a submission.
       @feeds = Feed.all
-      @feeds.reject!{ |f| !can?(:create, Submission.new(:content => @content, :feed => f))}
+      @feeds.reject!{ |f| !can?(:create, Submission.new(content: @content, feed: f))}
 
       respond_to do |format|
         format.html { } # new.html.erb
-        format.xml  { render :xml => @content }
+        format.xml  { render xml: @content }
       end
     end
   end
@@ -87,20 +87,20 @@ class ContentsController < ApplicationController
           @feed = Feed.find(feed_id)
           #If a user can moderate the feed in question the content is automatically approved with their imprimatur
           if can?(:update, @feed)
-            @content.submissions << Submission.new({:feed_id => feed_id, :duration => @content.duration, :moderation_flag => true, :moderator_id => current_user.id})
+            @content.submissions << Submission.new({feed_id: feed_id, duration: @content.duration, moderation_flag: true, moderator_id: current_user.id})
           else
-            @content.submissions << Submission.new({:feed_id => feed_id, :duration => @content.duration})
+            @content.submissions << Submission.new({feed_id: feed_id, duration: @content.duration})
           end
         end
         @content.save #This second save adds the submissions
-        format.html { redirect_to(@content, :notice => t(:content_created)) }
-        format.xml  { render :xml => @content, :status => :created, :location => @content }
+        format.html { redirect_to(@content, notice: t(:content_created)) }
+        format.xml  { render xml: @content, status: :created, location: @content }
       else
         # Remove the feeds that would not take a submission.
         @feeds = Feed.all
-        @feeds.reject!{ |f| !can?(:create, Submission.new(:content => @content, :feed => f))}
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @content.errors, :status => :unprocessable_entity }
+        @feeds.reject!{ |f| !can?(:create, Submission.new(content: @content, feed: f))}
+        format.html { render action: "new" }
+        format.xml  { render xml: @content.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -115,13 +115,13 @@ class ContentsController < ApplicationController
       if @content.update_attributes(content_params)
         submissions = @content.submissions
         submissions.each do |submission|
-          submission.update_attributes(:moderation_flag => nil)
+          submission.update_attributes(moderation_flag: nil)
         end
-        format.html { redirect_to(@content, :notice => t(:content_updated)) }
+        format.html { redirect_to(@content, notice: t(:content_updated)) }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @content.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.xml  { render xml: @content.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -145,15 +145,15 @@ class ContentsController < ApplicationController
   # along for processing.  Should send an inline result of the processing.
   def display
     @content = Content.find(params[:id])
-    auth!(:action => :read)
-    if stale?(:etag => params, :last_modified => @content.updated_at.utc, :public => true)
+    auth!(action: :read)
+    if stale?(etag: params, last_modified: @content.updated_at.utc, public: true)
       @file = nil
       data = nil
       benchmark("Content#render") do
         @file = @content.render(params)
         data = @file.file_contents
       end
-      send_data data, :filename => @file.file_name, :type => @file.file_type, :disposition => 'inline'
+      send_data data, filename: @file.file_name, type: @file.file_type, disposition: 'inline'
     end
   end
 

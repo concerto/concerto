@@ -17,7 +17,7 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @subscriptions }
+      format.xml  { render xml: @subscriptions }
     end
   end
 
@@ -44,7 +44,7 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @subscription }
+      format.xml  { render xml: @subscription }
     end
   end
 
@@ -55,7 +55,7 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.js  { render :layout => false }
+      format.js  { render layout: false }
     end
   end
 
@@ -96,12 +96,12 @@ class SubscriptionsController < ApplicationController
     respond_to do |format|
 			@errnos.each_with_index do |errno, i|
 				if errno
-					format.html { render :action => "new" }
-					format.xml  { render :xml => @subscriptions[i].errors, :status => :unprocessable_entity }
+					format.html { render action: "new" }
+					format.xml  { render xml: @subscriptions[i].errors, status: :unprocessable_entity }
 				end
 			end
-			format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t(:subscriptions_created)) }
-			format.xml  { render :xml => @subscriptions, :status => :created, :location => @subscriptions }
+			format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), notice: t(:subscriptions_created)) }
+			format.xml  { render xml: @subscriptions, status: :created, location: @subscriptions }
 		end
 	end
 
@@ -132,7 +132,7 @@ class SubscriptionsController < ApplicationController
     auth!   
     
     #Get a hold of all the subscriptions ID's that aren't in the form and destroy them (as the user deleted them in the form)
-    @all_screen_subs = @screen.subscriptions.where(:field_id => @field.id).map(&:id)
+    @all_screen_subs = @screen.subscriptions.where(field_id: @field.id).map(&:id)
     #Use the subtraction operator to get the difference between the arrays
     unless @subscription_ids.nil?
       @subs_to_delete = @all_screen_subs - @subscription_ids.map! { |i| i.to_i }
@@ -148,31 +148,31 @@ class SubscriptionsController < ApplicationController
     #raise "feed_ids: #{@feed_ids}"
     if @feed_ids.empty?
       #If the feed_ids array is empty, the user has removed all the subscriptions - NUKE IT FROM ORBIT
-      @screen.subscriptions.where(:field_id => @field.id).destroy_all
+      @screen.subscriptions.where(field_id: @field.id).destroy_all
     else
       #Iterate through all feed ID's the user has submitted (using an iterator i)
       @feed_ids.each_with_index do |feed_id, i|
         #Check for an existing subscription corresponding the the ID the user submitted
-        @this_subscription = Subscription.where(:field_id => @field.id, :feed_id => feed_id).first
+        @this_subscription = Subscription.where(field_id: @field.id, feed_id: feed_id).first
         if @this_subscription.nil?
           #Create a shiny new object if we don't come up with it
           @this_subscription = Subscription.new
         end
         
         #Update attributes of all subscriptions present in form and populate array with any errors encountered
-        @errnos[i] = !@this_subscription.update_attributes(:screen => @screen, :field => @field, :feed_id => feed_id, :weight => @weights[i])
+        @errnos[i] = !@this_subscription.update_attributes(screen: @screen, field: @field, feed_id: feed_id, weight: @weights[i])
       end
     end
 
     respond_to do |format|
       @errnos.each_with_index do |errno, i|
         if errno
-          format.html { render :action => "new", :notice => "Failed to update subscriptions for this screen position" }
-          format.xml  { render :xml => @subscriptions[i].errors, :status => :unprocessable_entity }
+          format.html { render action: "new", notice: "Failed to update subscriptions for this screen position" }
+          format.xml  { render xml: @subscriptions[i].errors, status: :unprocessable_entity }
         end
       end
-      format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t(:subscriptions_updated)) }
-      format.xml  { render :xml => @subscriptions, :status => :created, :location => @subscriptions }
+      format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), notice: t(:subscriptions_updated)) }
+      format.xml  { render xml: @subscriptions, status: :created, location: @subscriptions }
     end
   end
 
