@@ -43,8 +43,12 @@ class UsersController < ApplicationController
   # PUT /users/1
   def update
     @user = User.find(params[:id])
+    set_admin = params[:user].delete("is_admin")
     if @user.update_attributes(params[:user])
       flash[:notice] = t(:user_updated)
+    end
+    if !(set_admin.nil?) and can? :manage, User
+      @user.update_attribute("is_admin", set_admin)
     end
     respond_with(@user)
   end
