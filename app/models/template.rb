@@ -89,7 +89,7 @@ class Template < ActiveRecord::Base
         dw = ConcertoImageMagick.draw_block(dw, :fill_color => "black", :stroke_opacity => 0, :fill_opacity => 0.6, :width => width, :height => height, :left => position.left, :right => position.right, :top => position.top, :bottom => position.bottom)
 
         if !hide_text
-          dw = ConcertoImageMagick.draw_text(dw,:stroke_color => "white", :fill_color => "white", :opacity => 1, :width => width, :height => height, :left => position.left, :right => position.right, :top => position.top, :bottom => position.bottom, :field_name => position.field_name)
+          dw = ConcertoImageMagick.draw_text(dw,:stroke_color => "white", :fill_color => "white", :opacity => 1, :width => width, :height => height, :left => position.left, :right => position.right, :top => position.top, :bottom => position.bottom, :field_name => position.field.name)
         end
       end
       ConcertoImageMagick.draw_image(dw,image)
