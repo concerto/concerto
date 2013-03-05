@@ -6,7 +6,7 @@ class Frontend::TemplatesController < ApplicationController
     template = Template.find(params[:id])
     if stale?(:last_modified => template.last_modified.utc, :etag => template, :public => true)     
       require 'concerto_image_magick'
-      image = ConcertoImageMagick.load_image(template.media.original.first)
+      image = ConcertoImageMagick.load_image(template.media.original.first.file_contents)
 
       # Resize the image to a height and width if they are both being set.
       image = ConcertoImageMagick.graphic_transform(image, :width => params[:width], :height => params[:height], :crop => false)
