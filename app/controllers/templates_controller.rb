@@ -134,19 +134,13 @@ class TemplatesController < ApplicationController
       jpg =  Mime::Type.lookup_by_extension(:jpg)  #JPG is getting defined elsewhere.
       if([jpg, Mime::PNG, Mime::HTML].include?(request.format))
         image = nil
-        benchmark("Template#preview_image") do
-          image = @template.preview_image(@hide_fields, @hide_text, @only_fields)
-        end
+        image = @template.preview_image(@hide_fields, @hide_text, @only_fields)
 
         # Resize the image if needed.
         # We do this post-field drawing because RMagick seems to struggle with small font sizes.
-        height = params[:height].nil? ? nil : params[:height].to_f.ceil
-        width = params[:width].nil? ? nil :  params[:width].to_f.ceil
-        if height || width
-          require 'image_utility'
-          benchmark("ImageUtility#resize") do
-            image = ImageUtility::resize(image, width, height)
-          end
+        unless params[:height].nil? || params[:width].nil?
+          require 'concerto_image_magick'
+          image = ConcertoImageMagick.graphic_transform(image, :width => params[:width], :height => params[:height])
         end
 
         case request.format
@@ -157,9 +151,7 @@ class TemplatesController < ApplicationController
         end
 
         data = nil
-        benchmark ("Image#to_blob") do
-          data = image.to_blob
-        end
+        data = image.to_blob
 
         send_data data,
                   :filename => "#{@template.name.underscore}.#{image.format.downcase}_preview",
