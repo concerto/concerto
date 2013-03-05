@@ -1,11 +1,41 @@
-# Common image utilities.
-module ImageUtility
+#ImageMagick-specfic image manipulation calls for Concerto 2
+module ConcertoImageMagick
 
-  def self.process(original_media, options={})
-    image = nil
-    Graphic.benchmark("Image#from_blob") do
-      image = Magick::Image.from_blob(original_media.file_contents).first
-    end
+  def self.load_image(file_contents)
+    return Magick::Image.from_blob(file_contents).first
+  end
+  
+  def self.new_drawing_object
+    return Magick::Draw.new
+  end
+  
+  def self.draw_image(dw,image)
+    dw.draw(image)
+  end
+  
+  def self.draw_block(dw, options={})
+    #Draw the rectangle
+    dw.fill(options[:fill_color])
+    dw.stroke_opacity(options[:stroke_opacity])
+    dw.fill_opacity(options[:fill_opacity])
+    dw.rectangle(options[:width]*options[:left], options[:height]*options[:top], options[:width]*options[:right], options[:height]*options[:bottom])
+  end
+ 
+  def self.draw_text(dw, options={})
+    #Layer the field name
+    dw.stroke(options[:stroke_color])
+    dw.fill(options[:fill_color])
+    dw.text_anchor(Magick::MiddleAnchor)
+    dw.opacity(options[:opacity])
+    font_size = [options[:width], options[:height]].min / 8
+    dw.pointsize = font_size
+    dw.text((options[:width]*(options[:left] + options[:right])/2),
+            (options[:height]*(options[:top] + options[:bottom])/2+0.4*font_size),
+            options[:field_name])  
+  end
+
+  def self.graphic_transform(original_media, options={})
+    image = load_image(original_media.file_contents)
 
     # Resize the image to a height and width if they are both being set.
     # Round these numbers up to ensure the image will at least fill
@@ -13,13 +43,10 @@ module ImageUtility
     height = options[:height].nil? ? nil : options[:height].to_f.ceil
     width = options[:width].nil? ? nil : options[:width].to_f.ceil
 
-    Graphic.benchmark("ImageUtility#resize") do
-      image = resize(image, width, height, true, options[:crop])
-    end
+    image = resize(image, width, height, true, options[:crop])
+
     if options[:crop]
-      Graphic.benchmark("ImageUtility#crop") do
-        image = crop(image, width, height)
-      end
+      image = crop(image, width, height)
     end  
   end
 

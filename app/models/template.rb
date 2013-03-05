@@ -71,41 +71,27 @@ class Template < ActiveRecord::Base
   # Hide the fields all together, or just hide the field text.
   # Or just show certain fields
   def preview_image(hide_fields=false, hide_text=false, only_fields=[])
-    template_media = self.media.original.first
-    image = Magick::Image.from_blob(template_media.file_contents).first
+    require 'concerto_image_magick'
+    image = ConcertoImageMagick.load_image(self.media.original.first.file_contents)
 
     height = image.rows
     width = image.columns
 
     if !hide_fields && !self.positions.empty?
-      dw = Magick::Draw.new
+      dw = ConcertoImageMagick.new_drawing_object()
+      
       self.positions.each do |position|
-        Rails.logger.debug(only_fields)
-        Rails.logger.debug(position.field_id)
         if !only_fields.empty? && !only_fields.include?(position.field_id)
           next
         end
-        #Draw the rectangle
-        dw.fill("black")
-        dw.stroke_opacity(0)
-        dw.fill_opacity(0.6)
-        dw.rectangle(width*position.left, height*position.top,
-                     width*position.right, height*position.bottom)
+        
+        dw = ConcertoImageMagick.draw_block(dw, :fill_color => "black", :stroke_opacity => 0, :fill_opacity => 0.6, :width => width, :height => height, :left => position.left, :right => position.right, :top => position.top, :bottom => position.bottom)
 
         if !hide_text
-          #Layer the field name
-          dw.stroke("white")
-          dw.fill("white")
-          dw.text_anchor(Magick::MiddleAnchor)
-          dw.opacity(1)
-          font_size = [width, height].min / 8
-          dw.pointsize = font_size
-          dw.text((width*(position.left + position.right)/2),
-                  (height*(position.top + position.bottom)/2+0.4*font_size),
-                  position.field.name)
+          dw = ConcertoImageMagick.draw_text(dw,:stroke_color => "white", :fill_color => "white", :opacity => 1, :width => width, :height => height, :left => position.left, :right => position.right, :top => position.top, :bottom => position.bottom, :field_name => position.field_name)
         end
       end
-      dw.draw(image)
+      ConcertoImageMagick.draw_image(dw,image)
     end
     return image
   end

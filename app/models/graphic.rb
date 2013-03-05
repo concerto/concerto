@@ -35,8 +35,9 @@ class Graphic < Content
     options[:crop] ||= false
 
     if options.key?(:width) || options.key?(:height)
-      require 'image_utility'
-      image = ImageUtility.process(original_media, options)
+      require 'concerto_image_magick'
+      image = ConcertoImageMagick.load_image(original_media.file_contents)
+      image = ConcertoImageMagick.graphic_transform(image, options)
       
       file = Media.new(
         :attachable => self,
