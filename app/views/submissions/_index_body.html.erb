@@ -69,27 +69,27 @@
     <div class="pull-left">
       <div class="btn-group">
         <% if params[:state] == "active" or params[:state].nil? %>
-          <%= link_to "Active", feed_submissions_path(@feed, state: 'active'), class: 'btn active' %>
+          <%= link_to "Active", feed_submissions_path(@feed, :state => 'active'), :class => 'btn active' %>
         <% else %>
-          <%= link_to "Active", feed_submissions_path(@feed, state: 'active'), class: 'btn' %>
+          <%= link_to "Active", feed_submissions_path(@feed, :state => 'active'), :class => 'btn' %>
         <% end %>
 
         <% if params[:state] == "future" %>
-          <%= link_to "Future", feed_submissions_path(@feed, state: 'future'), class: 'btn active' %>
+          <%= link_to "Future", feed_submissions_path(@feed, :state => 'future'), :class => 'btn active' %>
         <% else %>
-          <%= link_to "Future", feed_submissions_path(@feed, state: 'future'), class: 'btn' %>
+          <%= link_to "Future", feed_submissions_path(@feed, :state => 'future'), :class => 'btn' %>
         <% end %>
 
         <% if params[:state] == "expired" %>
-          <%= link_to "Expired", feed_submissions_path(@feed, state: 'expired'), class: 'btn active' %>
+          <%= link_to "Expired", feed_submissions_path(@feed, :state => 'expired'), :class => 'btn active' %>
         <% else %>
-          <%= link_to "Expired", feed_submissions_path(@feed, state: 'expired'), class: 'btn' %>
+          <%= link_to "Expired", feed_submissions_path(@feed, :state => 'expired'), :class => 'btn' %>
         <% end %>
 
         <% if params[:state] == "denied" %>
-          <%= link_to "Denied", feed_submissions_path(@feed, state: 'denied'), class: 'btn active' %>
+          <%= link_to "Denied", feed_submissions_path(@feed, :state => 'denied'), :class => 'btn active' %>
         <% else %>
-          <%= link_to "Denied", feed_submissions_path(@feed, state: 'denied'), class: 'btn' %>
+          <%= link_to "Denied", feed_submissions_path(@feed, :state => 'denied'), :class => 'btn' %>
         <% end %>
       </div>
     </div>
