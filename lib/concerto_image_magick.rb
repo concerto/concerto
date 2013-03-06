@@ -52,52 +52,90 @@ module ConcertoImageMagick
     return image
   end
 
+
+  # Compute the size of a new image.
+  # Using the size of the existing image, the desired size of the output, and some control
+  # options figure out what size the output image should actually be.  By default the content
+  # will be resized to be no larger than the desired output size and will maintain the aspect
+  # ratio.
+  #
+  # Internally used by {#resize} to abstract the thinking from the doing.
+  #
+  # @param [Integer] image_width The current image width (all sizes in pixels).
+  # @param [Integer] image_height The current image height.
+  # @param [Integer] desired_width The desired output width.
+  # @param [Integer] desired_height The desired output height.
+  # @param [Hash{Symbol => Boolean}] options Configuration options.
+  #    Setting :maintain_aspect_ratio to false will ignore the aspect ratio and just
+  #    return the desired size (aka dumb stretch).  Setting :expand_to_fit true will
+  #    resize the size to be no smaller than the desired output size, often used before
+  #    cropping.
+  # @return [Hash{Symbol => Integer}] Result hash with {:width => Integer, :height => Integer}.
+  def self.compute_size(image_width, image_height, desired_width, desired_height, options={})
+    options[:maintain_aspect_ratio] = true if options[:maintain_aspect_ratio].nil?
+    options[:expand_to_fit] ||= false
+
+    output_width = desired_width
+    output_height = desired_height
+
+    if options[:maintain_aspect_ratio]
+      image_ratio = image_width.to_f / image_height  # Forcing the float here is important
+
+      # If either of the desired outputs is missing, make up the value
+      # based on the fact that we're keeping the aspect ratio the same.
+      output_width = desired_height.to_f * image_ratio if output_width == 0
+      output_height = desired_width.to_f / image_ratio if output_height == 0
+
+      desired_ratio = output_width.to_f / output_height
+      if image_ratio > desired_ratio
+        output_height = output_width.to_f / image_ratio
+      else
+        output_width = output_height.to_f * image_ratio
+      end
+
+      if options[:expand_to_fit] && (output_height < desired_height || output_width < desired_width)
+        upscale = 1
+        if output_height < desired_height
+          upscale = desired_height.to_f / output_height
+        else
+          upscale = desired_width.to_f / output_width
+        end
+        output_height = output_height * upscale
+        output_width = output_width * upscale
+      end
+    end
+    return {:width => output_width, :height => output_height}
+  end
+
   # Resize an image to a height and width.
-  # If maintain_aspect_ratio (default true) is set the constraining value
-  # is used when resizing the image (i.e. the largest side will match the smallest dimension)
-  # otherwise the image will be resized to match the width and height.  expand_to_fit will
-  # stretch the image to be at least as big as the height and width.
-  # Returns an image.
+  #
+  # @param [Image] image Image to be resized.
+  # @param [Integer] width Desired width of the image.
+  # @param [Integer] height Desired height of the image.
+  # @param [Boolean] maintain_aspect_ratio Maintain the aspect ratio when resizing.
+  # @param [Boolean] expand_to_fit When false, the content will be no larger than
+  #    the desired size.  When true, the content will be no smaller than the desired size.
+  # @return [Image] The resized image.
   def self.resize(image, width, height, maintain_aspect_ratio=true, expand_to_fit=false)
     unless width.nil? && height.nil?
-      desired_width = width
-      desired_height = height
-      if maintain_aspect_ratio && (!width.nil? && !height.nil?)
-        image_ratio = image.columns.to_f / image.rows.to_f
-
-        width = height.to_f * image_ratio if width == 0
-        height = width.to_f / image_ratio if height == 0
-
-        desired_ratio = width.to_f / height
-        if image_ratio > desired_ratio
-          height = nil
-        else
-          width = nil
-        end
-      end
-      if width.nil?
-        width = height * image.columns.to_f / image.rows 
-      end
-      if height.nil?
-        height = width * image.rows.to_f / image.columns
-      end
-      if expand_to_fit && (height < desired_height || width < desired_width)
-        upscale = 1
-        if height < desired_height
-          upscale = desired_height / height
-        else
-          upscale = desired_width / width
-        end
-        width = width * upscale
-        height = height * upscale
-      end
-      if image.columns != width && image.rows != height
-        image = image.scale(width, height)
+      options = {
+        :maintain_aspect_ratio => maintain_aspect_ratio,
+        :expand_to_fit => expand_to_fit
+      }
+      size = self.compute_size(image.columns, image.rows, width, height, options)
+      if image.columns != size[:width] && image.rows != size[:height]
+        image = image.scale(size[:width], size[:height])
       end
     end
     return image
   end
 
+  # Crop an image to a width and height.
+  #
+  # @param [Image] image Image to be cropped.
+  # @param [Integer] width Width of the area to be cropped.
+  # @param [Integer] height Height of the area to be cropped.
+  # @return [Image] The cropped image, focused on the center of the image.
   def self.crop(image, width, height)
     unless width.nil? && height.nil?
       image.crop!(Magick::CenterGravity, width, height)
