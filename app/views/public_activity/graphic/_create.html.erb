@@ -1,0 +1,6 @@
+created a new graphic 
+<% if activity.trackable %>
+  <%= link_to activity.trackable.name, activity.trackable %>
+<% else %>
+  which has since been removed 
+<% end %>
