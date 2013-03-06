@@ -130,6 +130,7 @@
                       <%= link_to content do %>
                           <%= render_content(content, {:type => 'grid'}) %>
                       <% end %>
+                      <% if content.is_orphan? %>Orphaned<% end %>
                     </div>
                     <div class="cont">
                       <p>

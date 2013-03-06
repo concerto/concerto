@@ -63,6 +63,10 @@ class Content < ActiveRecord::Base
   def is_expired?
     (end_time < Clock.time)
   end
+  
+  def is_orphan?
+    self.submissions.empty?
+  end
 
   # Setter for the start time.  If a hash is passed, convert that into a DateTime object and then a string.
   # Otherwise, just set it like normal.  This is a bit confusing due to the differences in how Ruby handles
