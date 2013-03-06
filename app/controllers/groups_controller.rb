@@ -94,6 +94,7 @@ private
 
   # Restrict the allowed parameters to a select set defined in the model.
   def group_params
-    params.require(:group).permit(:name, :narrative, :new_leader)
+    params.require(:group).permit(:name, :narrative, :new_leader,
+                                  :memberships_attributes => [:id, :perms => [:screen, :feed]])
   end
 end
