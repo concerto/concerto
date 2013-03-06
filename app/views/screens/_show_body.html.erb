@@ -42,7 +42,9 @@
           <% @screen.template.positions.each do |pos| %>
             <div class="pos" style="top: <%= pos.top * 100 %>%; left: <%= pos.left * 100 %>%; width: <%= (pos.right - pos.left) * 100 %>%; height: <%= (pos.bottom - pos.top) * 100 %>%;">
               <%= pos.id %>
-              <%= link_to t('change_subscriptions'), manage_screen_field_subscriptions_path(@screen, pos.field), :class => "btn info" %>
+              <% if can? :update, @scren %>
+                <%= link_to t('change_subscriptions'), manage_screen_field_subscriptions_path(@screen, pos.field), :class => "btn info" %>
+              <% end %>
             </div>
           <% end %>
         </div>
