@@ -2,7 +2,7 @@ class Feed < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
   belongs_to :group
-  has_many :submissions
+  has_many :submissions, :dependent => :destroy
   has_many :contents, :through => :submissions
   has_many :subscriptions, :dependent => :destroy
   serialize :content_types, Hash

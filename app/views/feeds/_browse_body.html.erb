@@ -14,6 +14,9 @@
           <% if can? :update, feed %>
             <small><%= link_to t(:edit), edit_feed_path(feed) %></small>
           <% end %>
+          <% if can? :delete, feed %>
+            <small><%= link_to t(:destroy), feed, :data => { :confirm => 'Are you sure?'}, :method => :delete %></small>
+          <% end %>          
         </h3>    
         <% if feed.children.count > 0 %>
           <p class="indented">
