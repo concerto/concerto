@@ -12,11 +12,22 @@ unless Rails.env.test?
   end
   
   def daemon_is_running?
-    pid = File.read(DELAYED_JOB_PID_PATH).strip
-    Process.kill(0, pid.to_i)
-    true
-  rescue Errno::ENOENT, Errno::ESRCH   # file or process not found
-    false
+    begin
+      pid = File.read(DELAYED_JOB_PID_PATH).strip
+      Process.kill(0, pid.to_i)
+      true
+    rescue SystemCallError => e
+      if e.class.name.start_with?('Errno::ENOENT') || e.class.name.start_with?('Errno::ESRCH')
+        #if we can't find it, it's not running
+        false
+      elsif e.class.name.start_with?('Errno::EPERM')
+        #This generally means that root own the process...probably a problem, but no need to break everything
+        true
+      else
+        #Sod-all, let's error it out
+        raise e
+      end
+    end
   end
   
   if ConcertoConfig[:autostart_delayed_job] == "true"
