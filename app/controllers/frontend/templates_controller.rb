@@ -9,7 +9,7 @@ class Frontend::TemplatesController < ApplicationController
       image = ConcertoImageMagick.load_image(template.media.original.first.file_contents)
 
       # Resize the image to a height and width if they are both being set.
-      image = ConcertoImageMagick.graphic_transform(image, :width => params[:width], :height => params[:height], :crop => false)
+      image = ConcertoImageMagick.resize(image, params[:width].to_f, params[:height].to_f)
       case request.format
         when Mime::Type.lookup_by_extension(:jpg)
           image.format = "JPG"

@@ -138,9 +138,9 @@ class TemplatesController < ApplicationController
 
         # Resize the image if needed.
         # We do this post-field drawing because RMagick seems to struggle with small font sizes.
-        unless params[:height].nil? || params[:width].nil?
+        if  !params[:height].nil? || !params[:width].nil?
           require 'concerto_image_magick'
-          image = ConcertoImageMagick.graphic_transform(image, :width => params[:width], :height => params[:height])
+          image = ConcertoImageMagick.resize(image, params[:width].to_i, params[:height].to_i)
         end
 
         case request.format

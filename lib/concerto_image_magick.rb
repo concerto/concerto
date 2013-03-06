@@ -62,9 +62,13 @@ module ConcertoImageMagick
     unless width.nil? && height.nil?
       desired_width = width
       desired_height = height
-      if maintain_aspect_ratio && (!width.nil? && !height.nil?) 
+      if maintain_aspect_ratio && (!width.nil? && !height.nil?)
+        image_ratio = image.columns.to_f / image.rows.to_f
+
+        width = height.to_f * image_ratio if width == 0
+        height = width.to_f / image_ratio if height == 0
+
         desired_ratio = width.to_f / height
-        image_ratio = image.columns.to_f / image.rows
         if image_ratio > desired_ratio
           height = nil
         else
