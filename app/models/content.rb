@@ -15,9 +15,12 @@ class Content < ActiveRecord::Base
   #validates :kind, :presence => true, :associated => true
   validates :user, :presence => true, :associated => true
   validate :parent_id_cannot_be_this_content
-  
-  #Newsfeed
-  include PublicActivity::Common
+
+  def parent_id_cannot_be_this_content
+    if !parent_id.blank? and parent_id == id
+      errors.add(:parent_id, "can't be this content")
+    end
+  end
 
   belongs_to :parent, :class_name => "Content"
   has_many :children, :class_name => "Content", :foreign_key => "parent_id"
@@ -26,12 +29,6 @@ class Content < ActiveRecord::Base
   # This allows everything to keep working if a content type goes missing
   # or (more likely) gets removed.
   default_scope { where(:type => Content.all_subclasses.collect { |s| s.name }) unless Rails.env.development? }
-
-  def parent_id_cannot_be_this_content
-    if !parent_id.blank? and parent_id == id
-      errors.add(:parent_id, "can't be this content")
-    end
-  end
 
   # Easily query for active, expired, or future content
   # The scopes are defined as class methods to delay their resolution, defining them as proper scopes
