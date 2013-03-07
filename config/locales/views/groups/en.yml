@@ -31,6 +31,7 @@ en:
 
   #edit
   edit_group: "Edit Group"
+  narrative: "Narrative"
   change_group_memberships: "Change Group Memberships"
 
   helpers:

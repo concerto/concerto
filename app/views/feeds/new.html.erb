@@ -1,10 +1,8 @@
 <section class="viewblock">
 	<header class="viewblock-header">
-		<%= back_button feeds_path %>
 		<h1 class="default-padding"><%=t(:new_feed)%></h1>
 	</header>
 	<div class="viewblock-cont">
-		<%= render 'form' %>
-		
+		<%= render :partial => 'feeds/form', :locals => { :button_text => t('create_feed') } %>
 	</div>
 </section>

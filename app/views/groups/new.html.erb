@@ -1,51 +1,50 @@
 <section class="viewblock no">
   <header class="viewblock-header">
-    <%= back_button groups_path %>
-      <h1 class="default-padding"><%= t(:new_group) %></h1>
-    </header>
-    <div class="viewblock-cont">
-      <article>
-        <div class="form-stacked">
-        	<%= form_for(@group) do |f| %>
-        		<% if @group.errors.any? %>
-        		<div id="errorExplanation">
-        		<h2><%= pluralize(@group.errors.count, "error") + " " + t(:prohibited_save) %></h2>
-        		<ul>
-        		  <% @group.errors.full_messages.each do |msg| %>
-        		    <li><%= msg %></li>
-        		  <% end %>
-        		</ul>
-        		</div>
-        		<% end %>
-        
-        		<fieldset>
-        			<div class="clearfix">
-        				<%= f.label t(:name) %>
-        				<div class="input">
-        					<%= f.text_field :name, :class => "fillWidth" %>
-        				</div>
-        			</div>
-        
-        			<div class="clearfix">
-        				<%= f.label t(:narrative) %>
-        				<div class="input">
-        					<%= f.text_area :narrative, :class => "fillWidth" %>
-        				</div>
-        			</div>
-        		
-        			<div class="clearfix">
-        				<%= f.label :new_leader %>
-        				<div class="input">
-        					<%= f.collection_select :new_leader, User.order(:last_name), :id, :name %>
-        				</div>
-        			</div>
-        		</fieldset>        		        		
-        		
-        		<div class="submit_bar actions">
-        			<%= f.submit "Save Group Details", :class => "btn" %>
-        		</div>
-        	<% end %>
-        </div>
-      </article>
+    <h1 class="default-padding"><%= t(:new_group) %></h1>
+</header>
+<div class="viewblock-cont">
+  <article>
+    <div class="form-stacked">
+       <%= form_for(@group) do |f| %>
+       <% if @group.errors.any? %>
+       <div id="errorExplanation">
+          <h2><%= pluralize(@group.errors.count, "error") + " " + t(:prohibited_save) %></h2>
+          <ul>
+            <% @group.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+            <% end %>
+        </ul>
     </div>
+    <% end %>
+
+    <fieldset>
+     <div class="clearfix">
+        <%= f.label t(:name) %>
+        <div class="input">
+           <%= f.text_field :name, :class => "fillWidth" %>
+       </div>
+   </div>
+
+   <div class="clearfix">
+    <%= f.label t(:narrative) %>
+    <div class="input">
+       <%= f.text_area :narrative, :class => "fillWidth" %>
+   </div>
+</div>
+
+<div class="clearfix">
+    <%= f.label :new_leader %>
+    <div class="input">
+       <%= f.collection_select :new_leader, User.order(:last_name), :id, :name %>
+   </div>
+</div>
+</fieldset>        		        		
+
+<div class="submit_bar actions">
+ <%= f.submit "Save Group Details", :class => "btn primary" %> <%= link_to_function t('cancel'), "history.back()", :class => "btn" %>
+</div>
+<% end %>
+</div>
+</article>
+</div>
 </section>
