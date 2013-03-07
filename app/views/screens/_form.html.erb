@@ -74,23 +74,22 @@
         <ul class="list-grid inset-selection small">
           <% @templates.each do |template| %>
           <li>
-            <%= link_to "#", :class => "template-selector dropdown-control", :rel => "#preview_#{ template.id }" do %>
-              <div class="inp">
-                <%= f.radio_button :template_id, template.id %>
-              </div>
+            
+            <div class="inp">
+              <%= f.radio_button :template_id, template.id %>
+            </div>
 
-              <%= image_tag preview_template_path(template, :height => 60, :format => :png), :style => "margin: 0px;" %>
+            <%= image_tag preview_template_path(template, :height => 60, :format => :png), :style => "margin: 0px;" %>
+            
+            <div id="preview_<%= template.id %>" class="dd" style="display:none;">
+              <%= image_tag preview_template_path(template, :width => 540, :height => 310, :aspect_ratio => true, :format => :png), :style => "margin: 0px;", :class => "default-padding" %>
+            </div>
+            
+            <div class="cont">
+              <p><b><%= template.name %></b></p>
+              <p>by <%= template.author %></p>
+            </div>
               
-              <div id="preview_<%= template.id %>" class="dd" style="display:none;">
-                <%= image_tag preview_template_path(template, :width => 540, :height => 310, :aspect_ratio => true, :format => :png), :style => "margin: 0px;", :class => "default-padding" %>
-              </div>
-              
-              <div class="cont">
-                <p><b><%= template.name %></b></p>
-                <p>by <%= template.author %></p>
-              </div>
-              
-            <% end %>
           </li>
           <% end %>
         </ul>
