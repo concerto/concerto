@@ -31,14 +31,14 @@
     <div class="clearfix">
       <%= f.label :parent %>
       <div class="input">
-        <%= f.select :parent_id, parent_feeds.collect{|c| [("&nbsp; &nbsp;"*c.depth).html_safe + c.name, c.id ]}, {:include_blank => true }, :class => "span6" %>
+        <%= f.select :parent_id, parent_feeds.collect{|c| [("&nbsp; &nbsp;"*c.depth).html_safe + c.name, c.id ]}, {:include_blank => true } %>
       </div>
     </div>
     <% end %>
     <div class="clearfix">
       <%= f.label :group %>
       <div class="input">
-        <%= f.collection_select :group_id, Group.all, :id, :name, :class => "span6" %>
+        <%= f.collection_select :group_id, Group.all, :id, :name %>
       </div>
     </div>
     
@@ -56,19 +56,30 @@
       </div>
     </div>
     
-    <%= f.fields_for :content_types do |content_types| %>
-      <% Concerto::Application.config.content_types.sort_by{|type| type.display_name}.each do |type| %>
-        <% if @feed.content_types.empty? %>
-          <%= type.display_name %> <%= content_types.check_box type.name, {:checked => true } %>
-        <% else %>  
-          <%= type.display_name %> <%= content_types.check_box type.name, {:checked => (@feed.content_types["#{type.name}"] == "1")} %>
-        <% end %>
-      <% end %>
-    <% end %>
+    <div class="clearfix">
+      <label><%= t(:allowed_types) %></label>
+      <div class="input">
+        <ul class="inputs-list">
+          <%= f.fields_for :content_types do |content_types| %>
+            <% Concerto::Application.config.content_types.sort_by{|type| type.display_name}.each do |type| %>
+              <% if @feed.content_types.empty? %>
+                <li>
+                  <%= content_types.check_box type.name, {:checked => true } %> <label for="feed_content_types_<%= type.name %>"><%= type.display_name %></label>
+                </li>
+              <% else %>  
+                <li>
+                  <%= content_types.check_box type.name, {:checked => (@feed.content_types["#{type.name}"] == "1")} %> <label for="feed_content_types_<%= type.name %>"><%= type.display_name %></label>
+                </li>
+              <% end %>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+    </div>
     
   </fieldset>
   
   <div class="submit_bar actions">
-    <%= f.submit t(:submit), :class => "btn primary" %>
+    <%= f.submit button_text, :class => "btn primary" %> <%= link_to_function t('cancel'), "history.back()", :class => "btn" %>
   </div>
 <% end %>

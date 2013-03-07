@@ -173,39 +173,6 @@
   &.small .icon {
     margin-top: -1px;
   }
-
-  // back button:
-	&.back {
-		@include no-box-shadow;
-		@include border-radius(0px 4px 4px 0px);
-		background: transparent image-url('layout/button_back_states.png') no-repeat scroll top left;
-   	color: $white;
-    text-shadow: 0 -1px 0px #006699;
-    font-size: 0.7em;
-   	border: 0;
-   	border-right: solid 1px #396bab;
-   	height: 18px;
-   	padding: 2px 12px 2px 20px;
-
-   	&:hover {
-	 		@include no-box-shadow;
-			background-position: 0% -22px;
-   		border: 0;
-      color: #003366 !important;
-      text-shadow: 0 -1px 0px #eee;
-   		border-right: solid 1px #53abe7;
-		}
-
-    &:active {
-   		@include no-box-shadow;
-			background-position: 0% 100%;
-   		border: 0;
-      color: #333 !important;
-      text-shadow: 0 -1px 0px #eee;
-   		border-right: solid 1px #999;
-		} 
-			
-	}
 	
 	&.time, &.date {
 		display: inline-block;

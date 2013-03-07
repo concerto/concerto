@@ -11,9 +11,9 @@
     </div>
 
     <% if @type == "create" %>
-      <%= render 'create_form' %>
+      <%= render :partial => 'templates/create_form', :locals => { :button_text => t('create_template') } %>
     <% else %>
-      <%= render 'import_form' %>
+      <%= render :partial => 'templates/import_form', :locals => { :button_text => t('import_template') } %>
     <% end %>
   </div>
 </section>

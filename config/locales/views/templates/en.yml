@@ -1,10 +1,15 @@
 en:
   all_templates: 'All Templates'
 
+  #_form
+  edit_template: 'Edit Template'
+
   #_create_form
+  create_template: 'Create Template'
   background_image: 'Background Image'
 
   #_import_form
+  import_template: 'Import Template'
   package: 'Package'
   image: 'Image'
   descriptor: 'Descriptor file'

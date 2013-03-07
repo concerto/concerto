@@ -11,10 +11,10 @@ en:
   my_screens: 'My Screens'
   other_screens: 'Other Screens'
 
-  #edit
-  edit_screen: 'Edit Screen'
-
   #_form
+  create_screen: 'Create Screen'
+  edit_screen: 'Edit Screen'
+  cancel: 'Cancel'
   dimensions: 'Dimensions'
   visibility: 'Visibility'
   select_template: 'Select Template'

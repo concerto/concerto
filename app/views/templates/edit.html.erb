@@ -1,10 +1,8 @@
 <section class="viewblock">
 	<header class="viewblock-header" id="template-header">
-		<%= back_button template_path(@template), :back %>
 		<h1 class="default-padding"><%= t(:editing_template) %></h1>
 	</header> 
 	<div class="viewblock-cont">
-		<%= render 'form', :locals => { :template => @template } %>
-		
+    <%= render :partial => 'templates/form', :locals => { :template => @template, :button_text => t('edit_template') } %>
 	</div>
 </section>

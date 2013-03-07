@@ -44,6 +44,6 @@
 
 
   <div class="submit_bar actions">
-    <%= f.submit t(:submit, :model => 'template'), :class => "btn primary" %>
+    <%= f.submit button_text, :class => "btn primary" %> <%= link_to_function t('cancel'), "history.back()", :class => "btn" %>
   </div>
 <% end %>

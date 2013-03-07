@@ -1,10 +1,8 @@
 <section class="viewblock">
   <header class="viewblock-header">
-    <%= back_button @screen %>
     <h1 class="default-padding"><%= t('edit_screen') %></h1>
   </header>
   <div class="viewblock-cont">
-    <%= render 'form' %>
-
+    <%= render :partial => 'screens/form', :locals => { :button_text => t('edit_screen') } %>
   </div>
 </section>

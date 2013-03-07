@@ -63,7 +63,7 @@
     <div class="clearfix">
 
       <div class="input">
-        <%= link_to t('add_new_template'), new_template_path, :class => "btn info", :target => "_blank" %>
+        <%= link_to t('add_new_template'), new_template_path, :class => "btn", :target => "_blank" %>
       </div>
     </div>
 
@@ -100,6 +100,6 @@
   </fieldset>
 
 	<div class="submit_bar actions">
-		<%= f.submit t('submit'), :class => "btn primary" %>
+		<%= f.submit button_text, :class => "btn primary" %> <%= link_to_function t('cancel'), "history.back()", :class => "btn" %>
 	</div>
 <% end %>
