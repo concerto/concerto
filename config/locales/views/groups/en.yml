@@ -28,6 +28,10 @@ en:
   deny: "Deny"
   is_group_leader: "This user is a group leader"
   error: 'error'
+  
+  #new
+  group_narrative: 'Group description'
+  new_leader: 'New Leader'
 
   #edit
   edit_group: "Edit Group"

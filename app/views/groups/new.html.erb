@@ -27,14 +27,14 @@
         			</div>
         
         			<div class="clearfix">
-        				<%= f.label t(:narrative) %>
+        				<%= f.label t(:group_narrative) %>
         				<div class="input">
         					<%= f.text_area :narrative, :class => "fillWidth" %>
         				</div>
         			</div>
         		
         			<div class="clearfix">
-        				<%= f.label :new_leader %>
+        				<%= f.label t(:new_leader) %>
         				<div class="input">
         					<%= f.collection_select :new_leader, User.order(:last_name), :id, :name %>
         				</div>

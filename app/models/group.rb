@@ -21,6 +21,9 @@ class Group < ActiveRecord::Base
 
   before_save :update_membership_perms
   
+  #Newsfeed
+  include PublicActivity::Common    
+  
   #have getters and setters for a new_leader virtual attribute
   attr_accessor :new_leader
 
@@ -32,7 +35,7 @@ class Group < ActiveRecord::Base
   end
   
   def create_leader
-    self.new_leader = Membership.create(user_id => new_leader, group_id => self.id, level => 9) if new_leader.present?
+    self.new_leader = Membership.create(:user_id => new_leader, :group_id => self.id, :level => 9) if new_leader.present?
   end
 
   # Deliver a list of only users not currently in the group

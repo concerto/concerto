@@ -102,8 +102,8 @@ class FeedsController < ApplicationController
   def destroy
     @feed = Feed.find(params[:id])
     auth!
+    @feed.create_activity :destroy, :params => {:public_owner => current_user.id, :feed_name => @feed.name}
     @feed.destroy
-
     respond_to do |format|
       format.html { redirect_to(feeds_url) }
       format.xml  { head :ok }

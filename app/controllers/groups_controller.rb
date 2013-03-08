@@ -51,6 +51,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
+        @group.create_activity :create, :params => {:public_owner => current_user.id}
         format.html { redirect_to(@group, :notice => t(:group_created)) }
         format.xml  { render :xml => @group, :status => :created, :location => @group }
       else
@@ -82,6 +83,7 @@ class GroupsController < ApplicationController
   def destroy
     @group = Group.find(params[:id])
     auth!
+    @group.create_activity :destroy, :params => {:public_owner => current_user.id, :group_name => @group.name}
     @group.destroy
 
     respond_to do |format|
