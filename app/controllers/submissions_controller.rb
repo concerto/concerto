@@ -68,6 +68,7 @@ class SubmissionsController < ApplicationController
 
     respond_to do |format|
       if @submission.update_attributes(params[:submission])
+        @submission.create_activity :update, :owner => current_user, :recipient => @submission.content.user, :params => {:status => @submission.moderation_flag}
         format.html { redirect_to(feed_submissions_path, :notice => t(:content_moderated)) }
       else
         format.html { redirect_to(feed_submission_path, :notice => t(:content_failed_moderation)) }

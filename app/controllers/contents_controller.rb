@@ -82,7 +82,7 @@ class ContentsController < ApplicationController
 
     respond_to do |format|
       if @content.save
-        @content.create_activity :create, owner: current_user
+        @content.create_activity :create, :owner => current_user
         # Copy over the duration to each submission instance
         @feed_ids.each do |feed_id|
           @feed = Feed.find(feed_id)

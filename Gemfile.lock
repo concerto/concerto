@@ -5,13 +5,6 @@ GIT
     bootstrap-datepicker-rails (0.6.42)
       railties (>= 3.0)
 
-GIT
-  remote: git://github.com/concerto/c2_simplerss.git
-  revision: d6ad1c50fe6b9b43c0f995d3272a5facc57c8784
-  specs:
-    c2_simple_rss (0.0.1)
-      rails (~> 3.2.11)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -58,6 +51,10 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.4.0)
+    concerto_remote_video (0.0.2)
+      rails (~> 3.2)
+    concerto_simple_rss (0.0.2)
+      rails (~> 3.2.11)
     connection_pool (1.0.0)
     daemons (1.1.9)
     delayed_job (3.0.5)
@@ -179,9 +176,10 @@ DEPENDENCIES
   airbrake
   attachable (>= 0.0.5)
   bootstrap-datepicker-rails!
-  c2_simple_rss!
   cancan
   coffee-rails (~> 3.2.1)
+  concerto_remote_video
+  concerto_simple_rss
   daemons
   delayed_job_active_record
   devise

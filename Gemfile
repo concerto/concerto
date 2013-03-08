@@ -69,6 +69,7 @@ gem 'kaminari'  # Pagination
 
 gem 'public_activity' #Newsfeed
 
-# Default plugins.
-# We should move these to gems when we're releasing, but for now we'll develop with git repos.
-gem 'c2_simple_rss', :git => 'git://github.com/concerto/c2_simplerss.git'
+# Default content type plugins.
+gem 'concerto_simple_rss'
+gem 'concerto_remote_video'
+

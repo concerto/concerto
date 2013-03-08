@@ -1,0 +1,6 @@
+<% if activity.trackable %>
+  <%= activity.parameters[:status] ? "approved" : "denied" %>
+  <%= link_to activity.trackable.content.name, activity.trackable.content %> for the <%= link_to activity.trackable.feed.name, activity.trackable.feed %> feed
+<% else %>
+  which has since been removed 
+<% end %>
