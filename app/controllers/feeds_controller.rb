@@ -70,6 +70,7 @@ class FeedsController < ApplicationController
 
     respond_to do |format|
       if @feed.save
+        @feed.create_activity :create, :params => {:public_owner => current_user.id}
         format.html { redirect_to(:action => :index, :notice => t(:feed_created)) }
         format.xml  { render :xml => @feed, :status => :created, :location => @feed }
       else
