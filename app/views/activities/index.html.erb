@@ -2,7 +2,6 @@
 <% if current_user %>
   <% @activities.each do |activity| %>
     <div class="activity">
-      <%= link_to activity.owner.name, activity.owner if activity.owner %>
       <%= render_activity activity %>
     </div>
   <% end %>

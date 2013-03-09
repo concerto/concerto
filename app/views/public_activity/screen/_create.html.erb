@@ -1,4 +1,5 @@
-<%= link_to activity.owner.name, activity.owner if activity.owner %> created a new graphic 
+<% public_owner = User.find(activity.parameters[:public_owner]) %>
+<%= link_to public_owner.name, public_owner %> created a new screen 
 <% if activity.trackable %>
   <%= link_to activity.trackable.name, activity.trackable %>
 <% else %>

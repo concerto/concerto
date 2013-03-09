@@ -11,9 +11,9 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130306065329) do
+ActiveRecord::Schema.define(:version => 20130306065329) do
 
-  create_table "activities", force: true do |t|
+  create_table "activities", :force => true do |t|
     t.integer  "trackable_id"
     t.string   "trackable_type"
     t.integer  "owner_id"
@@ -26,11 +26,11 @@ ActiveRecord::Schema.define(version: 20130306065329) do
     t.datetime "updated_at",     :null => false
   end
 
-  add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type"
-  add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type"
-  add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type"
+  add_index "activities", ["owner_id", "owner_type"], :name => "index_activities_on_owner_id_and_owner_type"
+  add_index "activities", ["recipient_id", "recipient_type"], :name => "index_activities_on_recipient_id_and_recipient_type"
+  add_index "activities", ["trackable_id", "trackable_type"], :name => "index_activities_on_trackable_id_and_trackable_type"
 
-  create_table "concerto_configs", force: true do |t|
+  create_table "concerto_configs", :force => true do |t|
     t.string  "key"
     t.string  "value"
     t.string  "value_type"
@@ -43,9 +43,9 @@ ActiveRecord::Schema.define(version: 20130306065329) do
     t.boolean "hidden"
   end
 
-  add_index "concerto_configs", ["key"], name: "index_concerto_configs_on_key", unique: true
+  add_index "concerto_configs", ["key"], :name => "index_concerto_configs_on_key", :unique => true
 
-  create_table "concerto_plugins", force: true do |t|
+  create_table "concerto_plugins", :force => true do |t|
     t.string   "name"
     t.string   "module_name"
     t.boolean  "enabled"
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20130306065329) do
     t.datetime "updated_at",  :null => false
   end
 
-  create_table "contents", force: true do |t|
+  create_table "contents", :force => true do |t|
     t.string   "name"
     t.integer  "duration"
     t.datetime "start_time"
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 20130306065329) do
     t.integer  "parent_id"
   end
 
-  create_table "delayed_jobs", force: true do |t|
+  create_table "delayed_jobs", :force => true do |t|
     t.integer  "priority",   :default => 0
     t.integer  "attempts",   :default => 0
     t.text     "handler"
@@ -86,9 +86,9 @@ ActiveRecord::Schema.define(version: 20130306065329) do
     t.datetime "updated_at",                :null => false
   end
 
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
-  create_table "feeds", force: true do |t|
+  create_table "feeds", :force => true do |t|
     t.string   "name"
     t.text     "description"
     t.integer  "parent_id"
@@ -100,29 +100,29 @@ ActiveRecord::Schema.define(version: 20130306065329) do
     t.text     "content_types"
   end
 
-  add_index "feeds", ["parent_id"], name: "index_feeds_on_parent_id"
+  add_index "feeds", ["parent_id"], :name => "index_feeds_on_parent_id"
 
-  create_table "fields", force: true do |t|
+  create_table "fields", :force => true do |t|
     t.string   "name"
     t.integer  "kind_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "groups", force: true do |t|
+  create_table "groups", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.text     "narrative"
   end
 
-  create_table "kinds", force: true do |t|
+  create_table "kinds", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "media", force: true do |t|
+  create_table "media", :force => true do |t|
     t.integer  "attachable_id"
     t.string   "attachable_type"
     t.string   "key"
@@ -134,9 +134,9 @@ ActiveRecord::Schema.define(version: 20130306065329) do
     t.datetime "updated_at",                          :null => false
   end
 
-  add_index "media", ["attachable_id", "attachable_type"], name: "index_media_on_attachable_id_and_attachable_type"
+  add_index "media", ["attachable_id", "attachable_type"], :name => "index_media_on_attachable_id_and_attachable_type"
 
-  create_table "memberships", force: true do |t|
+  create_table "memberships", :force => true do |t|
     t.integer  "user_id"
     t.integer  "group_id"
     t.datetime "created_at",                    :null => false
@@ -146,9 +146,9 @@ ActiveRecord::Schema.define(version: 20130306065329) do
     t.boolean  "receive_emails"
   end
 
-  add_index "memberships", ["receive_emails"], name: "index_memberships_on_receive_emails"
+  add_index "memberships", ["receive_emails"], :name => "index_memberships_on_receive_emails"
 
-  create_table "positions", force: true do |t|
+  create_table "positions", :force => true do |t|
     t.text     "style"
     t.decimal  "top",         :precision => 6, :scale => 5, :default => 0.0
     t.decimal  "left",        :precision => 6, :scale => 5, :default => 0.0
@@ -160,7 +160,7 @@ ActiveRecord::Schema.define(version: 20130306065329) do
     t.datetime "updated_at",                                                 :null => false
   end
 
-  create_table "screens", force: true do |t|
+  create_table "screens", :force => true do |t|
     t.string   "name"
     t.string   "location"
     t.boolean  "is_public"
@@ -173,7 +173,7 @@ ActiveRecord::Schema.define(version: 20130306065329) do
     t.integer  "height"
   end
 
-  create_table "submissions", force: true do |t|
+  create_table "submissions", :force => true do |t|
     t.integer  "content_id"
     t.integer  "feed_id"
     t.boolean  "moderation_flag"
@@ -184,7 +184,7 @@ ActiveRecord::Schema.define(version: 20130306065329) do
     t.text     "moderation_reason"
   end
 
-  create_table "subscriptions", force: true do |t|
+  create_table "subscriptions", :force => true do |t|
     t.integer  "feed_id"
     t.integer  "field_id"
     t.integer  "screen_id"
@@ -193,7 +193,7 @@ ActiveRecord::Schema.define(version: 20130306065329) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "templates", force: true do |t|
+  create_table "templates", :force => true do |t|
     t.string   "name"
     t.string   "author"
     t.boolean  "is_hidden",       :default => false
@@ -203,7 +203,7 @@ ActiveRecord::Schema.define(version: 20130306065329) do
     t.integer  "original_height"
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", :force => true do |t|
     t.string   "email",                            :default => "",    :null => false
     t.string   "encrypted_password",               :default => "",    :null => false
     t.string   "reset_password_token"
@@ -218,7 +218,7 @@ ActiveRecord::Schema.define(version: 20130306065329) do
     t.boolean  "receive_moderation_notifications"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
 end

@@ -1,17 +1,18 @@
 class ActivitiesController < ApplicationController
   def index
     if current_user
-      #Don't even look at this - it makes PHP look clean - and makes you realize why the Rails core team needed a database systems course under its collective belt
-      #Only show activities the current user is an owner or a recipient of...easy
-      t = PublicActivity::Activity.arel_table
-      @activities = PublicActivity::Activity.where(
-        (t[:owner_id].eq(current_user.id).and(t[:owner_type].eq('User'))
-        .or(t[:recipient_id].eq(current_user.id).and(t[:recipient_type].eq('User')))))
-        .limit(50)
-        
-      @public_activities = PublicActivity::Activity.where(:owner_id => nil, :recipient_id => nil).limit(25)
+      #Retrieve the activities for which the current user is an owner or recipient (making sure the STI field specifies user as the Type)       
+      @owner = PublicActivity::Activity.where(:owner_id => current_user.id, :owner_type => 'User').limit(25)  
+      @recipient = PublicActivity::Activity.where(:recipient_id => current_user.id, :recipient_type => 'User').limit(25)
       
-      @activities += @public_activities
+      #Select the activities that involve a group as the recipient for which the user is a member
+      @group_member = PublicActivity::Activity.where("recipient_id IN (#{current_user.group_ids.join(", ")}) AND recipient_type = 'Group'").limit(10)
+        
+      #Select activities with neither an owner nor a recipient (public activities) - the actual owner is set in the parameters hash for these
+      @public_activities = PublicActivity::Activity.where(:owner_id => nil, :recipient_id => nil).limit(10)
+      
+      @activities = @owner + @recipient + @group_member + @public_activities
+      @activities.sort! { |a,b| b.created_at <=> a.created_at }
     end
   end
 end

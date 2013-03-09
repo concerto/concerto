@@ -18,6 +18,9 @@ class Screen < ActiveRecord::Base
   #For now, the check will be string based, it should probably be moved to
   #something like if owner_type.is_class (however that would work)
   validates :owner, :presence => true, :associated => true, :if => Proc.new { ["User", "Group"].include?(owner_type) }
+
+  #Newsfeed
+  include PublicActivity::Common  
  
   # Scopes
   # THESE ARE MOCK INTERFACES.  PRETEND THEY MAKE SENSE.

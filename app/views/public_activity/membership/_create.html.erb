@@ -1,0 +1,7 @@
+<% adder = User.find(activity.parameters[:adder]) %>
+<%= link_to adder.name, adder if adder%> added
+<% if activity.trackable %>
+  <%= link_to activity.trackable.user.name, activity.trackable.user %> to the <%= link_to activity.trackable.group.name, activity.trackable.group %> group as a <%= (activity.parameters[:level] == 9) ? "leader" : "regular member" %>
+<% else %>
+  a group membership, which has since been removed 
+<% end %>

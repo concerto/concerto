@@ -79,10 +79,10 @@ class ScreensController < ApplicationController
       @screen.owner_type = owner[0]
       @screen.owner_id = owner[1]
     end
-       
     
     respond_to do |format|
       if @screen.save
+        @screen.create_activity :create, :params => {:public_owner => current_user.id}
         format.html { redirect_to(@screen, :notice => t(:position_created)) }
         format.xml  { render :xml => @screen, :status => :created, :location => @screen }
       else
@@ -124,6 +124,7 @@ class ScreensController < ApplicationController
   def destroy
     @screen = Screen.find(params[:id])
     auth!
+    @screen.create_activity :destroy, :params => {:public_owner => current_user.id, :screen_name => @screen.name}
     @screen.destroy
 
     respond_to do |format|
