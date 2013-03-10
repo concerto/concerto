@@ -31,7 +31,7 @@ end
 
 gem 'jquery-rails'
 gem 'turbolinks'
-gem 'bootstrap-datepicker-rails', :git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
+gem 'bootstrap-datepicker-rails'
 gem 'jquery-timepicker-rails'
 
 # In production we prefer MySQL over sqlite3.  If you are only
