@@ -36,6 +36,9 @@ class Membership < ActiveRecord::Base
   belongs_to :user
   belongs_to :group
 
+  #Newsfeed
+  include PublicActivity::Common  
+
   # Validations
   validates :user, :presence => true, :associated => true
   validates :group, :presence => true, :associated => true

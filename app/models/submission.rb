@@ -21,6 +21,9 @@ class Submission < ActiveRecord::Base
   scope :active, joins(:content).merge(Content.active)
   scope :expired, joins(:content).merge(Content.expired)
   scope :future, joins(:content).merge(Content.future)
+  
+  #Newsfeed
+  include PublicActivity::Common  
 
   def moderation_text
     case self.moderation_flag

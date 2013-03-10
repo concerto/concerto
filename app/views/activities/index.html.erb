@@ -1,0 +1,8 @@
+<h1>Activities</h1>
+<% if current_user %>
+  <% @activities.each do |activity| %>
+    <div class="activity">
+      <%= render_activity activity %>
+    </div>
+  <% end %>
+<% end %>
