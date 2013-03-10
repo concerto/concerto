@@ -56,7 +56,9 @@ class UsersController < ApplicationController
   # DELETE /users/1
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
+    if !@user.destroy
+      flash[:notice] = t(:cannot_delete_last_admin)
+    end
     respond_with(@user)
   end
   

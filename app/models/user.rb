@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+         
+  before_destroy :check_for_last_admin
 
   # Setup accessible attributes for your model
   # Note: is_admin is intentionally not accessible.
@@ -20,6 +22,14 @@ class User < ActiveRecord::Base
   # Validations
   validates :email, :presence => true, :uniqueness => true
   validates :first_name, :presence => true
+  
+  scope :admin, where(:is_admin => true)
+
+  def check_for_last_admin
+    if User.admin.count == 1 && self.is_admin?
+      return false
+    end
+  end
 
   # A simple name, combining the first and last name
   # We should probably expand this so it doesn't look stupid
