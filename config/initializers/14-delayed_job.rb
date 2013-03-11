@@ -17,6 +17,9 @@ unless Rails.env.test?
     true
   rescue Errno::ENOENT, Errno::ESRCH
     false
+  rescue Errno::EPERM
+    true
+    Rails.logger.error "Concerto does not have access to the delayed_job process."
   end
   
   start_delayed_job unless daemon_is_running?
