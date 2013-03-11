@@ -9,40 +9,33 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   def new
-    @show_first_admin_page = ConcertoConfig[:setup_complete] == "false"
-
     resource = build_resource({})
-    @concerto_config = ConcertoConfig.new
-    
-    if @show_first_admin_page
-      respond_with resource do |format|
-        format.html { render :layout => "no-topmenu" }
-      end
-    else 
-      respond_with resource
-    end
+    render_registration_form(resource)
   end
 
   def create
     build_resource
 
-    #If there are no users, the first one created will be an admin
+    # If there are no users, the first one created will be an admin
     if User.all.empty?
       first_user_setup = true
-      #set the first user to be an admin
       resource.is_admin = true
       # At first registration, the admin is given the option to 
       # opt-out of error reporting.
-      ConcertoConfig.set("send_errors", params[:send_errors])
     end
+
     if resource.save    
-      if first_user_setup == true
+      if not ConcertoConfig["setup_complete"] == "true"
         ConcertoConfig.set("setup_complete", "true")
-        #let's be idempotent here...
+        # send_errors option is displayed in the form for first setup only
+        ConcertoConfig.set("send_errors", params[:send_errors])
+      end
+
+      if first_user_setup == true
         group = Group.find_or_create_by_name(:name => "Concerto Admins")
-        #create the membership only after we have the user
         Membership.create(:user_id => resource.id, :group_id => group.id, :level => Membership::LEVELS[:leader])
       end
+
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
         sign_in(resource_name, resource)
@@ -53,15 +46,20 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
         respond_with resource, :location => after_inactive_sign_up_path_for(resource)
       end
     else
-      clean_up_passwords resource
-      @show_first_admin_page = ConcertoConfig[:setup_complete] == "false"
-      @concerto_config = ConcertoConfig.new
-      if @show_first_admin_page
-        respond_with resource do |format|
-          format.html { render :layout => "no-topmenu" }
-        end
-      else 
-        respond_with resource
+      render_registration_form(resource)
+    end
+  end
+
+  # Decide whether to render the first admin registration page or simply
+  # the plain user registration form.
+  def render_registration_form(resource)
+    clean_up_passwords resource
+    if ConcertoConfig[:setup_complete] == "true"
+      respond_with resource
+    else 
+      @concerto_config = ConcertoConfig.new # for send_errors field
+      respond_with resource do |format|
+        format.html { render "new_first_admin", :layout => "no-topmenu" }
       end
     end
   end
