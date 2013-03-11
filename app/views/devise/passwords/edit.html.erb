@@ -1,10 +1,8 @@
 <section class="viewblock no">
-	<header>
-		<h1>Change Password</h1>
+	<header class="viewblock-header">
+		<h1 class="default-padding">Change Password</h1>
 	</header>
 	<div class="viewblock-cont">
-		<article>
-			
 			<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
         <%= devise_error_messages! %>
         <%= f.hidden_field :reset_password_token %>
@@ -32,8 +30,5 @@
       	</div>
 
       <% end %>
-
-		</article>
-		
 	</div>
 </section>

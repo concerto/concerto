@@ -57,35 +57,13 @@
 
         <div class="submit_bar actions">
           <%= f.submit t(:submit), :class => "btn primary" %>
+          <% if @user.id == current_user.id %>
+            &nbsp; &nbsp; &nbsp; &nbsp;
+            <%= link_to t(:change_password), edit_user_registration_path %>
+          <% end %>
         </div>
     <% end %>
 
-    <h2><%= t(:change_password) %></h2>
-
-    <%= form_for(@user) do |f| %>
-
-        <%= f.hidden_field :reset_password_token %>
-
-        <fieldset>
-          <div class="clearfix">
-            <%= f.label :new_password %>
-            <div class="input">
-              <%= f.password_field :password %></p>
-            </div>
-          </div>
-
-          <div class="clearfix">
-            <%= f.label :password_confirmation %>
-            <div class="input">
-              <%= f.password_field :password_confirmation %></p>
-            </div>
-          </div>
-        </fieldset>
-
-        <div class="submit_bar actions">
-          <%= f.submit t(:submit), :class => "btn primary" %>
-        </div>
-    <% end %>
 
   </div>
 </section>
