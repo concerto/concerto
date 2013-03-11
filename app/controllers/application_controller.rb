@@ -133,7 +133,7 @@ class ApplicationController < ActionController::Base
 
     @delayed_job_running = false
     Sys::ProcTable.ps do |process|
-      if process.cmdline.strip == "delayed_job" && process.state.strip == "run"
+      if process.cmdline.strip == "delayed_job" && (process.state.strip.downcase == "run" || process.state.strip.downcase == "s")
         @delayed_job_running = true
       end
     end
