@@ -11,7 +11,7 @@ class Ability
     can :read, User if accessor.persisted?
     
     # Only define these permissive settings if concerto is set to be public
-    if ConcertoConfig[:public_concerto] == "true"     
+    if ConcertoConfig[:public_concerto] 
       ## Feeds
       # Anything can read a viewable feed
       # the ability to 'read' a feed implies that
@@ -74,7 +74,7 @@ class Ability
     # A user can read and update themselves.
     can [:read, :update], User, :id => user.id
     # An unauthenticated user can create a new user, if that's allowed globally
-    if ConcertoConfig[:allow_registration] == "true"
+    if ConcertoConfig[:allow_registration]
       can :create, User unless user.persisted?
     end
     
@@ -92,7 +92,7 @@ class Ability
 
     ## Screens
     # Authenticated users can create screens
-    if ConcertoConfig[:allow_user_screen_creation] == "true"
+    if ConcertoConfig[:allow_user_screen_creation]
       can :create, Screen if user.persisted?
     end
     # Anyone can read public screens
@@ -149,7 +149,7 @@ class Ability
          feed.group.user_has_permissions?(user, :regular, :feed, [:all]))
     end
     # A group leader or supporter can create feeds
-    if ConcertoConfig[:allow_user_feed_creation] == "true"
+    if ConcertoConfig[:allow_user_feed_creation]
       if user.leading_groups.any? || user.supporting_groups(:feed, [:all]).any?
         can :create, Feed do |feed|
           if !feed.group.nil?

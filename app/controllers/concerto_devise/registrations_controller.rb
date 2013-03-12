@@ -25,7 +25,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
     end
 
     if resource.save    
-      if not ConcertoConfig["setup_complete"] == "true"
+      if ConcertoConfig["setup_complete"] == false
         ConcertoConfig.set("setup_complete", "true")
         # send_errors option is displayed in the form for first setup only
         ConcertoConfig.set("send_errors", params[:send_errors])
@@ -67,7 +67,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
   # the plain user registration form.
   def render_registration_form(resource)
     clean_up_passwords resource
-    if ConcertoConfig[:setup_complete] == "true"
+    if ConcertoConfig[:setup_complete]
       respond_with resource
     else 
       @concerto_config = ConcertoConfig.new # for send_errors field
