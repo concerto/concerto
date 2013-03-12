@@ -49,5 +49,16 @@ class Screen < ActiveRecord::Base
     end
     return gcd(b, a.modulo(b))
   end
+
+  def mark_updated
+    update_column(:frontend_updated_at, Clock.time)
+  end
+
+  # Mark the screen as updated some percentage of the time.
+  # Doesn't always mark the screen as updated to avoid flooding the database
+  # but does it frequently enought for online / offline detection.
+  def sometimes_mark_updated(pct=0.1)
+    mark_updated if rand() <= pct
+  end
 end
 

@@ -32,6 +32,7 @@ class Frontend::ContentsController < ApplicationController
         )
       }
     end
+    @screen.sometimes_mark_updated
   end
 
   # GET /frontend/1/fields/1/contents/1

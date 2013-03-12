@@ -64,6 +64,7 @@ class Frontend::ScreensController < ApplicationController
           )
         }
       end
+      @screen.mark_updated
     end
   end
 end
