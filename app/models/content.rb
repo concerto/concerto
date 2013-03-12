@@ -22,6 +22,9 @@ class Content < ActiveRecord::Base
     end
   end
 
+  #Newsfeed
+  include PublicActivity::Common  
+
   belongs_to :parent, :class_name => "Content"
   has_many :children, :class_name => "Content", :foreign_key => "parent_id"
 
