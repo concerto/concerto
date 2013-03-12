@@ -144,10 +144,10 @@ class ApplicationController < ActionController::Base
 
   def delayed_job_running
     require 'sys/proctable'
-
+    pid = File.read(DELAYED_JOB_PID_PATH).strip.to_i
     @delayed_job_running = false
     Sys::ProcTable.ps do |process|
-      if process.cmdline.strip == "delayed_job" && (process.state.strip.downcase == "run" || process.state.strip.downcase == "s")
+      if process.pid == pid && (process.state.strip.downcase == "run" || process.state.strip.downcase == "s")
         @delayed_job_running = true
       end
     end
