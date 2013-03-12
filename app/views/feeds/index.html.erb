@@ -41,7 +41,7 @@
         <div class="default-padding">
           <div class="clearfix">
             <h2><%= pluralize @screens.count, t(:screen) %></h2>
-            <p># <%= t(:active) %>&nbsp;&nbsp;&nbsp;&nbsp;# <%= t(:offline) %></p>
+            <p><%= @screens.count{|s| s.is_online? } %> <%= t(:active) %>&nbsp;&nbsp;&nbsp;&nbsp;<%= @screens.count{|s| s.is_offline? } %> <%= t(:offline) %></p>
             <%= link_to t(:view_screens_list), screens_path, :class => "btn" %>
           </div>
           <br /><br />

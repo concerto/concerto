@@ -60,5 +60,13 @@ class Screen < ActiveRecord::Base
   def sometimes_mark_updated(pct=0.1)
     mark_updated if rand() <= pct
   end
+
+  def is_online?
+    !frontend_updated_at.nil? && frontend_updated_at >= (Clock.time - Screen::ONLINE_THRESHOLD)
+  end
+
+  def is_offline?
+    frontend_updated_at.nil? || frontend_updated_at < (Clock.time - Screen::OFFLINE_THRESHOLD)
+  end
 end
 

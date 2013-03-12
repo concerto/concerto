@@ -60,13 +60,18 @@ class ScreenTest < ActiveSupport::TestCase
   end
 
   test "screen offline online toggle" do
+    s1 = screens(:one)
+    assert s1.is_offline?
     assert_difference('Screen.offline.count', -1) do
-      s = screens(:one)
-      s.mark_updated
+      s1.mark_updated
     end
+    assert s1.is_online?
+
+    s2 = screens(:two)
+    assert s2.is_offline?
     assert_difference('Screen.online.count') do
-      s = screens(:two)
-      s.mark_updated
+      s2.mark_updated
     end
+    assert s2.is_online?
   end
 end
