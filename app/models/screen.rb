@@ -23,10 +23,10 @@ class Screen < ActiveRecord::Base
   include PublicActivity::Common  
  
   # Scopes
-  # THESE ARE MOCK INTERFACES.  PRETEND THEY MAKE SENSE.
-  # TODO(bamnet): Make these real.
-  scope :online, where(:is_public => true)
-  scope :offline, where(:is_public => false)
+  ONLINE_THRESHOLD = 5.minutes
+  OFFLINE_THRESHOLD = 5.minutes
+  scope :online, lambda { where('frontend_updated_at >= ?', Clock.time - Screen::ONLINE_THRESHOLD) }
+  scope :offline, lambda { where('frontend_updated_at IS NULL OR frontend_updated_at < ?', Clock.time - Screen::OFFLINE_THRESHOLD) }
 
   # types of entities that may "own" a screen
   SCREEN_OWNER_TYPES = ["User", "Group"]
