@@ -143,14 +143,18 @@ class ApplicationController < ActionController::Base
   end
 
   def delayed_job_running
-    require 'sys/proctable'
-    pid = File.read("#{Rails.root}/tmp/pids/delayed_job.pid").strip.to_i
     @delayed_job_running = false
-    Sys::ProcTable.ps do |process|
-      if process.pid == pid && (process.state.strip.downcase == "run" || process.state.strip.downcase == "s")
-        @delayed_job_running = true
+    pidfile = "#{Rails.root}/tmp/pids/delayed_job.pid"
+    if File.exist?(pidfile)
+      require 'sys/proctable'
+      pid = File.read(pidfile).strip.to_i    
+      Sys::ProcTable.ps do |process|
+        if process.pid == pid && (process.state.strip.downcase == "run" || process.state.strip.downcase == "s")
+          @delayed_job_running = true
+        end
       end
     end
+    return @delayed_job_running
   end
 
   # Authenticate using the current action and instance variables.
