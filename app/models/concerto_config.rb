@@ -1,12 +1,3 @@
-# Current configuration keys:
-  # public_concerto
-  # default_upload_type
-  # content_default_start_time
-  # content_default_end_time
-  # setup_complete
-  # default_content_run_time
-  # start_date_offset
-
 # Adding a new configuration variable:
   # Either in your plugin, or in the seeds file, add a row as such:
   #  ConcertoConfig.find_or_create_by_key(:key => "default_upload_type", :value => "graphic", :value_default => "graphic", :value_type => "string")
@@ -19,9 +10,6 @@
 
 class ConcertoConfig < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
-
-  TRUE  = "true"
-  FALSE = "false"
 
   validates_presence_of   :key
   validates_uniqueness_of :key
@@ -42,15 +30,14 @@ class ConcertoConfig < ActiveRecord::Base
   # Make getting values from Rails nice and easy
   # Returns false if key isn't found or the config is broken.
   def self.get(key)
-    begin
-      setting = ConcertoConfig.where(:key => key).first
+    setting = ConcertoConfig.where(:key => key).first
       if setting.nil?
-        return false
-      end
-      return setting.value
-    rescue
-      return false
+        raise "Concerto Config key #{key} not found!"
+      end    
+    if setting.value_type == "boolean"
+      setting.value == "true" ? (return true) : (return false)
     end
+    return setting.value
   end
   
   # Creates a Concerto Config entry by taking the key and value desired

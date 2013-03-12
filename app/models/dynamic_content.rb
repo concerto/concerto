@@ -246,7 +246,7 @@ class DynamicContent < Content
   #
   # @return [Boolean] indicating if an update should be kicked off
   def self.should_cron_run?
-    if ConcertoConfig[:use_frontend_to_trigger_cron] == "false"
+    if !ConcertoConfig[:use_frontend_to_trigger_cron]
       return false
     else
       last_updated = ConcertoConfig[:dynamic_refresh_time].to_i
