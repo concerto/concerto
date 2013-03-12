@@ -50,6 +50,19 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  # DELETE /resource
+  # Overriden because Devise doesn't account for the possibility
+  # that self-destruction would be restricted.
+  def destroy
+    if resource.destroy
+      Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+    else
+      # This i18n translation comes from Concerto, not Devise
+      flash[:notice] = t(:cannot_delete_last_admin)
+    end
+    respond_with_navigational(resource){ redirect_to after_sign_out_path_for(resource_name) }
+  end 
+
   # Decide whether to render the first admin registration page or simply
   # the plain user registration form.
   def render_registration_form(resource)
