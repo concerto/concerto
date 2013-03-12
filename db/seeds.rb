@@ -27,7 +27,7 @@ Field.find_or_create_by_name({:name => 'Time', :kind => Kind.where(:name => 'Tex
 Group.find_or_create_by_name(:name => "Concerto Admins")
 
 #Create an initial feed
-Feed.find_or_create_by_name(:name => "Concerto", :description => "Initial Concerto Feed", :group_id => 1, :is_viewable => 1, :is_submittable => 1, :content_types => {:Graphics=>"1", :Ticker=>"1"})
+Feed.find_or_create_by_name(:name => "Concerto", :description => "Initial Concerto Feed", :group_id => 1, :is_viewable => 1, :is_submittable => 1, :content_types => {:Graphic=>"1", :Ticker=>"1"})
 
 #Create an initial template
 @template = Template.find_or_create_by_name(:name => "Default Template", :author => "Concerto")

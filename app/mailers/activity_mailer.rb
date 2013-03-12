@@ -1,6 +1,8 @@
 class ActivityMailer < ActionMailer::Base
-  def content_moderated(activity)
+  def submission_update(activity)
     @activity = activity
-    mail :to => @activity.recipient.email, :subject => "Your Concerto Submission: #{@activity.trackable.content.name} has been #{@activity.parameters[:status] ? "approved" : "denied"}", :from => @activity.owner.email 
+    if @activity.trackable.content.user.receive_moderation_notifications?
+      mail :to => @activity.recipient.email, :subject => "Your Concerto Submission: #{@activity.trackable.content.name} has been #{@activity.parameters[:status] ? "approved" : "denied"}", :from => @activity.owner.email
+    end
   end
 end

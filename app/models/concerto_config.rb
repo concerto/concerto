@@ -20,8 +20,8 @@
 class ConcertoConfig < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
-  TRUE  = "t"
-  FALSE = "f"
+  TRUE  = "true"
+  FALSE = "false"
 
   validates_presence_of   :key
   validates_uniqueness_of :key

@@ -70,7 +70,7 @@ class FeedsController < ApplicationController
 
     respond_to do |format|
       if @feed.save
-        @feed.create_activity :create, :params => {:public_owner => current_user.id}
+        process_notification(@feed, {:public_owner => current_user.id}, :action => 'create')
         format.html { redirect_to(:action => :index, :notice => t(:feed_created)) }
         format.xml  { render :xml => @feed, :status => :created, :location => @feed }
       else
@@ -102,7 +102,7 @@ class FeedsController < ApplicationController
   def destroy
     @feed = Feed.find(params[:id])
     auth!
-    @feed.create_activity :destroy, :params => {:public_owner => current_user.id, :feed_name => @feed.name}
+    process_notification(@feed, {:public_owner => current_user.id, :feed_name => @feed.name}, :action => 'destroy')
     @feed.destroy
     respond_to do |format|
       format.html { redirect_to(feeds_url) }

@@ -70,6 +70,20 @@ class ApplicationController < ActionController::Base
   def switch_to_main_app_ability
     @current_ability = @main_app_ability # it is okay if this is nil
   end
+  
+  #ar_instance - the Concerto class being passed in; for this to work, its class needs to include PA
+  #pa_params - specifically params send to PA to be stored in the params column on the activities 
+  #options - right now it only contains the action being performed (CRUD), but anything we don't want to send to PA can go here
+  def process_notification(ar_instance, pa_params, options = {})
+    activity = ar_instance.create_activity(options[:action], :owner => options[:owner], :recipient => options[:recipient], :params => pa_params)
+    #form the actionmailer method name by combining the class name with the action being performed (e.g. "submission_update")
+    am_string = "#{ar_instance.class.name.downcase}_#{options[:action]}"
+    #If ActivityMailer can find a method by the formulated name, pass in the activity (everything we know about what was done)
+    if ActivityMailer.respond_to?(am_string)
+      #fulfilling bamnet's expansive notification ambitions via metaprogramming since 2013
+      ActivityMailer.send(am_string, activity).deliver
+    end
+  end
 
   # Expose a instance variable counting the number of pending submissions
   # a user can moderate.  0 indicates no pending submissions.

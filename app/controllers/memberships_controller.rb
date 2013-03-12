@@ -20,7 +20,7 @@ class MembershipsController < ApplicationController
 
     respond_to do |format|
       if @membership.save
-        @membership.create_activity :create, :owner => @membership.user, :recipient => @membership.group, :params => {:level => @membership.level_name, :adder => current_user.id}
+        process_notification(@membership, {:level => @membership.level_name, :adder => current_user.id}, :action => 'create', :owner => @membership.user, :recipient => @membership.group)
         format.html { redirect_to(edit_group_path(@group), :notice => t(:membership_created)) }
         format.xml { render :xml => @group, :status => :created, :location => @group }
       else
@@ -54,7 +54,7 @@ class MembershipsController < ApplicationController
     respond_to do |format|
       #throw a negative one at a function expecting a membership level to indicate deletion
       if @membership.can_resign_leadership?(-1)
-        @membership.create_activity :destroy, :owner => current_user, :recipient => @membership.user, :params => {:group_name => @membership.group.name}
+        process_notification(@membership, {:group_name => @membership.group.name}, :action => 'destroy', :owner => current_user, :recipient => @membership.user)
         if @membership.destroy
           format.html { redirect_to({:controller => :groups, :action => :edit, :id => @group}, :notice => t(:member_removed)) }
           format.xml { head :ok }
