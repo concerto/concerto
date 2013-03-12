@@ -14,7 +14,7 @@ class UsersControllerTest < ActionController::TestCase
     sign_in users(:katie)
     get :index
     assert_response :redirect
-    assert !assigns(:users)
+    assert_equal assigns(:users).length, 0
   end
 
   test "admin can list all users" do

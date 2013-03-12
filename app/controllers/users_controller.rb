@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   # GET /users
   def index
     @users = User.all
-    auth!
+    auth!({:action => :list, :allow_empty => false, :new_exception => false})
     respond_with(@users)
   end
 
