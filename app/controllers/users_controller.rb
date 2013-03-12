@@ -1,21 +1,25 @@
 class UsersController < ApplicationController
-  load_and_authorize_resource :except => [:index]
+  #load_and_authorize_resource :except => [:index]
   respond_to :html, :json
    
   # GET /users
   def index
-    authorize! :list, User
-    respond_with(@users = User.all)
+    @users = User.all
+    auth!
+    respond_with(@users)
   end
 
   # GET /users/1
   def show
-    respond_with(@user = User.find(params[:id]))
+    @user = User.find(params[:id])
+    auth!
+    respond_with(@user)
   end
 
   # GET /users/new
   def new
     @user = User.new
+    auth!
     respond_with(@user)
   end
 
@@ -23,7 +27,7 @@ class UsersController < ApplicationController
   # POST /users.xml
   def create
     @user = User.new(params[:user])
-
+    auth!
     respond_to do |format|
       if @user.save
         format.html { redirect_to(@user, :notice => 'User was successfully created.') }
@@ -37,12 +41,15 @@ class UsersController < ApplicationController
   
   # GET /users/1/edit
   def edit
-    respond_with(@user = User.find(params[:id]))  
+    @user = User.find(params[:id])
+    auth!
+    respond_with(@user)  
   end
   
   # PUT /users/1
   def update
     @user = User.find(params[:id])
+    auth!
     set_admin = params[:user].delete("is_admin")
     if @user.update_attributes(params[:user])
       flash[:notice] = t(:user_updated)
@@ -56,6 +63,7 @@ class UsersController < ApplicationController
   # DELETE /users/1
   def destroy
     @user = User.find(params[:id])
+    auth!
     if !@user.destroy
       flash[:notice] = t(:cannot_delete_last_admin)
     end
