@@ -49,6 +49,11 @@ class FeedsController < ApplicationController
   def new
     @feed = Feed.new
     auth!
+    
+    #populate the checkboxes for content types by default when creating a new feed
+    Concerto::Application.config.content_types.each do |type|
+      @feed.content_types[type.name] = "1"
+    end
 
     respond_to do |format|
       format.html # new.html.erb
