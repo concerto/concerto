@@ -1,5 +1,7 @@
 Concerto::Application.routes.draw do
   resources :concerto_plugins
+  
+  resources :activities
 
   #Custom route for the screen creation/admin form JS
   #TODO(bamnet): Clean this up
