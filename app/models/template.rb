@@ -64,7 +64,7 @@ class Template < ActiveRecord::Base
     latest_position = positions.order('updated_at DESC').first
     timestamps.append(latest_position.updated_at) unless latest_position.nil?
     latest_media = media.original.order('updated_at DESC').first
-    timestamps.append(latest_media.updated_at)
+    timestamps.append(latest_media.updated_at) unless latest_media.nil?
     return timestamps.max
   end
 

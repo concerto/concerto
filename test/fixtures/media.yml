@@ -1,17 +1,14 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+<%
+def binary_fixture_data(filename)
+  data = File.open(filename,'rb').read
+  "!binary |-\n    #{[data].pack('m').gsub(/\n/,"\n    ")}\n"
+end
+%>
 
-one:
-  attachable: 
-  key: MyString
-  file_name: MyString
-  file_type: MyString
-  file_size: 1
-  file_data: 
-
-two:
-  attachable: 
-  key: MyString
-  file_name: MyString
-  file_type: MyString
-  file_size: 1
-  file_data: 
+template_one:
+  attachable: one (Template)
+  key: original
+  file_name: file.jpg
+  file_type: image/jpg
+  file_size: 147266
+  file_data: <%= binary_fixture_data('test/fixtures/files/concerto_background.jpg') %>
