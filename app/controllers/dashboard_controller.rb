@@ -21,7 +21,8 @@ class DashboardController < ApplicationController
 
   # GET /dashboard/run_backup
   def run_backup
-    # Add rake site:backup to the Delayed Jobs queue for processing
+    require 'concerto-backup'
+    concerto_backup()
   end
     
   def gh_latest_version
