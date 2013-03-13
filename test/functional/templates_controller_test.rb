@@ -39,4 +39,30 @@ class TemplatesControllerTest < ActionController::TestCase
     assert_small_delta 0.796, actual.bottom
   end
 
+  test "render full template preview" do
+    t = templates(:one)
+    sign_in users(:admin)
+    get :preview, :id => t.id, :format => 'jpg'
+
+    image = assigns(:image)
+    assert_equal image.rows, 1200
+    assert_equal image.columns, 1920
+  end
+
+  test "render resized template preview" do
+    t = templates(:one)
+    sign_in users(:admin)
+    get :preview, :id => t.id, :format => 'jpg', :width => 100
+
+    image = assigns(:image)
+    assert_in_delta  image.rows, 63, 1
+    assert_equal image.columns, 100
+
+    get :preview, :id => t.id, :format => 'jpg', :height => 100
+
+    image = assigns(:image)
+    assert_equal image.rows, 100
+    assert_in_delta image.columns, 160, 1
+  end
+
 end

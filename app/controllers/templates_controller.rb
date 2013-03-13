@@ -133,29 +133,29 @@ class TemplatesController < ApplicationController
       
       jpg =  Mime::Type.lookup_by_extension(:jpg)  #JPG is getting defined elsewhere.
       if([jpg, Mime::PNG, Mime::HTML].include?(request.format))
-        image = nil
-        image = @template.preview_image(@hide_fields, @hide_text, @only_fields)
+        @image = nil
+        @image = @template.preview_image(@hide_fields, @hide_text, @only_fields)
 
         # Resize the image if needed.
         # We do this post-field drawing because RMagick seems to struggle with small font sizes.
         if  !params[:height].nil? || !params[:width].nil?
           require 'concerto_image_magick'
-          image = ConcertoImageMagick.resize(image, params[:width].to_i, params[:height].to_i)
+          @image = ConcertoImageMagick.resize(@image, params[:width].to_i, params[:height].to_i)
         end
 
         case request.format
         when jpg
-          image.format = "JPG"
+          @image.format = "JPG"
         when Mime::PNG
-          image.format = "PNG"
+          @image.format = "PNG"
         end
 
         data = nil
-        data = image.to_blob
+        data = @image.to_blob
 
         send_data data,
-                  :filename => "#{@template.name.underscore}.#{image.format.downcase}_preview",
-                  :type => image.mime_type, :disposition => 'inline'
+                  :filename => "#{@template.name.underscore}.#{@image.format.downcase}_preview",
+                  :type => @image.mime_type, :disposition => 'inline'
       else
         respond_to do |format|
           format.svg
