@@ -11,7 +11,14 @@ class Ability
     can :read, User if accessor.persisted?
     
     # Only define these permissive settings if concerto is set to be public
-    if ConcertoConfig[:public_concerto] 
+    if ConcertoConfig[:public_concerto]
+      ## Users
+      # A user is readable by the public if the user has
+      # public content or public screens.
+      can :read, User do |user|
+        user.contents.any?{|c| can?(:read, c)} || user.screens.any?{|s| can?(:read, s)}
+      end
+
       ## Feeds
       # Anything can read a viewable feed
       # the ability to 'read' a feed implies that

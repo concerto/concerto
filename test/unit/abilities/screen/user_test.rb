@@ -14,8 +14,8 @@ class ScreenUserAbilityTest < ActiveSupport::TestCase
     assert ability.can?(:read, users(:kristen))
   end
 
-  test "new screens cannot read users" do
+  test "new screens cannot read private users" do
     ability = Ability.new(Screen.new)
-    assert ability.cannot?(:read, users(:kristen))
+    assert ability.cannot?(:read, users(:karen))
   end
 end

@@ -12,6 +12,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     auth!
+    @user.email = @user.email[0..3] + '...' unless user_signed_in?
     respond_with(@user)
   end
 

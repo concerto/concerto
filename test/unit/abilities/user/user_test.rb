@@ -6,6 +6,7 @@ class UserUserAbilityTest < ActiveSupport::TestCase
     @admin = users(:admin)
     @katie = users(:katie)
     @kristen = users(:kristen)
+    @karen = users(:karen)
   end
 
   test "admin users can do anything to users" do
@@ -46,9 +47,9 @@ class UserUserAbilityTest < ActiveSupport::TestCase
   test "new users can only sign up" do
     ability = Ability.new(User.new)
     assert ability.can?(:create, User)
-    assert ability.cannot?(:read, @katie)
-    assert ability.cannot?(:update, @katie)
-    assert ability.cannot?(:destroy, @katie)
+    assert ability.cannot?(:read, @karen)
+    assert ability.cannot?(:update, @karen)
+    assert ability.cannot?(:destroy, @karen)
   end
 
   test "new users cannot sign up with disabled" do
