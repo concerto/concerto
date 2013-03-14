@@ -9,7 +9,7 @@
           </h2>
 
           <p>
-            <%= mail_to @user.email, @user.email, :encode => "hex" %>
+            <%= mail_to @user.email, @user.email, :encode => "hex" if !@user.email.empty? %>
           </p>
 
           <% if @user.is_admin? %>
