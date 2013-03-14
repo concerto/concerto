@@ -12,7 +12,7 @@
             <%= mail_to @user.email, @user.email, :encode => "hex" %>
           </p>
 
-          <% if current_user.is_admin? %>
+          <% if @user.is_admin? %>
               <p><b><i class="icon-user-admin-blk tooltip-basic" data-tooltip-text="<%= t(:system_wide_admin) %>"></i> <%= t(:admin) %></b></p>
           <% end %>
 

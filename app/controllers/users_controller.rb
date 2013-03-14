@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  #load_and_authorize_resource :except => [:index]
   respond_to :html, :json
    
   # GET /users
@@ -26,8 +25,13 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.xml
   def create
+    set_admin = params[:user].delete("is_admin")
     @user = User.new(params[:user])
+    if !(set_admin.nil?) and can? :manage, User
+      @user.is_admin = set_admin
+    end
     auth!
+
     respond_to do |format|
       if @user.save
         format.html { redirect_to(@user, :notice => 'User was successfully created.') }
@@ -50,6 +54,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     auth!
+
     set_admin = params[:user].delete("is_admin")
     if @user.update_attributes(params[:user])
       flash[:notice] = t(:user_updated)
@@ -64,6 +69,7 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     auth!
+
     if !@user.destroy
       flash[:notice] = t(:cannot_delete_last_admin)
     end

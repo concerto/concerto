@@ -2,7 +2,12 @@
   <div class="span12">
     <section class="viewblock">
       <header class="viewblock-header">
-        <h1 class="default-padding"><%= t(:all_groups) %> <%= link_to t(:new_group), new_group_path, :class => "button" if user_signed_in? %></h1>
+        <h1 class="default-padding">
+          <%= t(:all_groups) %>
+          <% if can? :create, Group %>
+            <%= link_to t(:new_group), new_group_path, :class => "button" %>
+          <% end %>
+        </h1>
       </header>
       <div class="viewblock-cont">
         <% if !@my_groups.empty? %>

@@ -1,6 +1,11 @@
 <section class="viewblock">
   <header class="viewblock-header">
-    <h1 class="default-padding"><%= t(:all_users) %> <%= link_to t(:new_user), new_user_path, :class => "button" %></h1>
+    <h1 class="default-padding">
+    <%= t(:all_users) %>
+    <% if can? :create, User %>
+      <%= link_to t(:new_user), new_user_path, :class => "button" %>
+    <% end %>
+    </h1>
   </header>
   <div class="viewblock-cont">
     <table>
