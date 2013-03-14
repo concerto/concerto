@@ -49,7 +49,8 @@ gem 'attachable', '>= 0.0.5'
 gem 'devise'
 gem 'cancan'
 
-gem 'json'
+gem 'json', :platforms => :ruby
+gem 'json_pure', :platform => [:mswin, :mingw]
 
 # Process jobs in the background
 gem 'delayed_job_active_record'
