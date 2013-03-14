@@ -24,7 +24,7 @@ end
 group :assets do
   gem 'sass-rails', "~> 3.2.3"
   gem 'coffee-rails', "~> 3.2.1"
-  gem 'therubyracer'
+  gem 'therubyracer', :platforms => :ruby
   gem 'execjs'
   gem 'uglifier', '>= 1.0.3'
 end
@@ -41,7 +41,7 @@ gem "sqlite3", :group => [:development, :test]
 gem "mysql2", :group => [:production]
 
 #RMagick is used for image resizing and processing
-gem "rmagick", ">= 2.12.2", :require => 'RMagick'
+gem "rmagick", ">= 2.12.2", :require => 'RMagick', :platforms => :ruby
 
 # Attachable does all the file work.
 gem 'attachable', '>= 0.0.5'
