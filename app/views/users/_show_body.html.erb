@@ -24,15 +24,15 @@
 
       <div class="subblock">
         <h2><%= user_title @user, t(:groups) %></h2>
-        <% if !@user.memberships.empty? %>
+        <% if !@memberships.empty? %>
 
             <table>
               <tr>
                 <th><%= t(:name) %></th>
-                <% if user_signed_in? and current_user.is_admin? or current_user == @user %><th><%= t(:roles) %></th><% end %>
+                <% if @memberships.any? {|m| can? :edit, m} %><th><%= t(:roles) %></th><% end %>
               </tr>
 
-              <% @user.memberships.approved.each do |membership| %>
+              <% @memberships.each do |membership| %>
                   <tr>
                     <td>
                       <!-- TODO show leader icon if @user is a leader of the group that is listed here <%# if current_user.is_admin? %>
@@ -41,8 +41,7 @@
               -->
                       <%= link_to membership.group.name, membership.group %>
                     </td>
-
-                    
+                    <% if can? :edit, membership %>
                         <td>
                           <%= form_for([membership.group, membership]) do |f| %>
                               <% if can? :update, membership.group %>
@@ -54,7 +53,7 @@
                               <%= f.submit t(:submit), :class => "btn" %>
                           <% end %>
                         </td>
-                   
+                   <% end %>
                   </tr>
               <% end %>
             </table>
@@ -76,7 +75,7 @@
 
         <ul class="list-grid">
 
-          <% @user.screens.each do |screen| %>
+          <% @screens.each do |screen| %>
               <li>
                 <div class="cont thumb-icon">
                   <%= link_to screen do %>
@@ -85,27 +84,12 @@
                 </div>
                 <div class="cont">
                   <p><b><%= link_to screen.name, screen %></b></p>
-                  <p><%= t(:your_screen) %></p>
+                  <% if screen.owner.is_a? Group %>
+                    <p><%= link_to screen.owner.name, screen.owner %></p>
+                  <% end %>
                 </div>
               </li>
-          <% end %>
-
-          <% Group.joins(:screens, :users).where(:users => {:id => @user}).group('groups.id').each do |group| %>
-              <% group.screens.each do |screen| %>
-                  <li>
-                    <div class="cont thumb-icon">
-                      <%= link_to screen do %>
-                          <i class="icon-controller-screens"></i>
-                      <% end %>
-                    </div>
-                    <div class="cont">
-                      <p><b><%= link_to screen.name, screen %></b></p>
-                      <p><%= screen.location %></p>
-                      <p><%= link_to group.name, group %></p>
-                    </div>
-                  </li>
-              <% end %>
-          <% end %>
+            <% end %>
 
         </ul>
 
@@ -121,10 +105,9 @@
       <div class="subblock">
         <h2><%= user_title @user.first_name, t(:contents) %></h2>
 
-        <% if !@user.contents.empty? %>
-
+        <% if !@contents.empty? %>
             <ul class="list-grid">
-              <% @user.contents.each do |content| %>
+              <% @contents.each do |content| %>
                   <li>
                     <div class="cont thumb-icon">
                       <%= link_to content do %>

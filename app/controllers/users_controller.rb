@@ -13,6 +13,16 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     auth!
     @user.email = '' unless user_signed_in?
+
+    @memberships = @user.memberships
+    auth!({:action => :read, :object => @memberships})
+
+    @contents = @user.contents.where('parent_id IS NULL')
+    auth!({:action => :read, :object => @contents})
+
+    @screens = @user.screens + @user.groups.collect{|g| g.screens}.flatten
+    auth!({:action => :read, :object => @screens})
+ 
     respond_with(@user)
   end
 
