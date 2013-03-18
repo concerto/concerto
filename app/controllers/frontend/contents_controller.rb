@@ -11,18 +11,18 @@ class Frontend::ContentsController < ApplicationController
   end
 
   def index
-    content = @subscriptions.collect{|s| s.contents * s.weight}.flatten.shuffle!
-    count = content.count
-    @content = []
-    if count > 0
-      begin
-        @content = [content[rand(count)]]
-        @content.each do |c|
-          c.pre_render(@screen, @field)
-        end
-      rescue Exception => e
-        logger.warn e.message
+    require 'base_shuffle'
+    session_key = "frontend_#{@screen.id}_#{@field.id}".to_sym
+    shuffler = ContentShuffler.new(@screen, @field, @subscriptions, session[session_key])
+    @content = shuffler.next_contents()
+    session[session_key] = shuffler.save_session()
+
+    begin
+      @content.each do |c|
+        c.pre_render(@screen, @field)
       end
+    rescue Exception => e
+      logger.warn e.message
     end
     respond_to do |format|
       format.json {
