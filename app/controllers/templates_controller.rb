@@ -175,16 +175,21 @@ class TemplatesController < ApplicationController
     image_file = params[:image]
     @template = Template.new(params[:template])
     auth!
+    
     if xml_file.nil? || image_file.nil?
       respond_to do |format|
         format.html { render :action => "new" }
         format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
       end
     else
-      xml_data = xml_file.read
-      if !xml_data.blank? && @template.import_xml(xml_data)
-        @template.media.build({:key=>"original", :file => image_file})
-      end  
+      begin
+        xml_data = xml_file.read
+        if !xml_data.blank? && @template.import_xml(xml_data)
+          @template.media.build({:key=>"original", :file => image_file})
+        end  
+      rescue REXML::ParseException
+        raise t(:template_import_error)
+      end
 
       respond_to do |format|
         if @template.save
