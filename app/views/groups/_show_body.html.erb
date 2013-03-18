@@ -46,45 +46,46 @@
           <tr>
             <th style="width: 1px;">&nbsp;</th>
             <th><%= t(:name) %></th>
-            <th><%= t(:email) %></th>
+            <%if user_signed_in? %><th><%= t(:email) %></th><% end %>
           </tr>
         </thead>
 
         <tbody>
-
+        
           <% @group.memberships.leader.each do |membership| %>
-          <tr>
-            <td>
-              <i class="icon-user-leader tooltip-basic" data-tooltip-text="<%= t(:is_group_leader) %>"></i>
-            </td>
-
-            <td>
-              <%= membership.user.name %><br />
-              <b>Leader</b>
-            </td>
-
-            <td>
-              <%= mail_to membership.user.email, membership.user.email, :encode => "hex" %>
-            </td>
-          </tr>
+            <tr>
+              <td>
+                <i class="icon-user-leader tooltip-basic" data-tooltip-text="<%= t(:is_group_leader) %>"></i>
+              </td>
+  
+              <td>
+                <%= membership.user.name %><br />
+                <b>Leader</b>
+              </td>
+              <%if user_signed_in? %>
+                <td>
+                  <%= mail_to membership.user.email, membership.user.email, :encode => "hex" %>
+                  </td>
+              <% end %>
+            </tr>
           <% end %>
-
-          <% @group.memberships.regular.each do |membership| %>
-          <tr>
-            <td>
-              &nbsp;
-            </td>
-
-            <td>
-              <%= membership.user.name %>
-            </td>
-
-            <td>
-              <%= mail_to membership.user.email, membership.user.email, :encode => "hex" %>
-            </td>
-          </tr>
+          <%if user_signed_in? %>
+            <% @group.memberships.regular.each do |membership| %>
+            <tr>
+              <td>
+                &nbsp;
+              </td>
+  
+              <td>
+                <%= membership.user.name %>
+              </td>
+  
+              <td>
+                <%= mail_to membership.user.email, membership.user.email, :encode => "hex" %>
+              </td>
+            </tr>
           <% end %>
-
+        <% end %>
         </tbody>
 
       </table>
