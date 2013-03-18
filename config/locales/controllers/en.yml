@@ -44,6 +44,7 @@ en:
   #Templates controller
   template_created: "Template was successfully created."
   template_updated: "Template was successfully updated."
+  template_import_error: "A template import error has occurred. Make sure that the XML file for the imported template is valid."
 
   #Users controller
   user_created: "User was successfully created."
