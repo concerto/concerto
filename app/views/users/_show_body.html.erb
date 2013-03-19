@@ -121,7 +121,7 @@
                       </p>
                       <p><%= content.type %></p>
                       <p>
-                        <%= content.start_time.strftime("%m/%d") %> to <%= content.end_time.strftime("%m/%d") %>
+                        <%= content.start_time.nil? ? '-' : content.start_time.strftime("%m/%d") %> to <%= content.end_time.nil? ? 'Forever' : content.end_time.strftime("%m/%d") %>
                       </p>
                     </div>
                   </li>

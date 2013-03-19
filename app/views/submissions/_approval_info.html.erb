@@ -6,11 +6,19 @@
   </div>
   <div class="span3">
     <p class="uppercase" style="margin-bottom: 0px;"><small><b>Display From:</b></small></p>
-    <p><%= submission.content.start_time.strftime("%a %D") %> <%= submission.content.start_time.strftime("%I:%M %P") %></p>
+    <% if !submission.content.start_time.nil? %>
+      <p><%= submission.content.start_time.strftime("%a %D") %> <%= submission.content.start_time.strftime("%I:%M %P") %></p>
+    <% else %>
+      <p>The Dawn of Time.</p>
+    <% end %>
   </div>
   <div class="span3">
     <p class="uppercase" style="margin-bottom: 0px;"><small><b>Display Until:</b></small></p>
-    <p><%= submission.content.end_time.strftime("%a %D") %> <%= submission.content.end_time.strftime("%I:%M %P") %></p>
+    <% if !submission.content.end_time.nil? %>
+      <p><%= submission.content.end_time.strftime("%a %D") %> <%= submission.content.end_time.strftime("%I:%M %P") %></p>
+    <% else %>
+      <p>The End of Time.</p>
+    <% end %>
   </div>
   <div class="span3">
     <p class="uppercase" style="margin-bottom: 0px;"><small><b>Duration:</b></small></p>
