@@ -50,6 +50,8 @@ GEM
       rails (~> 3.2)
     concerto_simple_rss (0.0.2)
       rails (~> 3.2.11)
+    concerto_weather (0.0.1)
+      rails (~> 3.2.12)
     connection_pool (1.0.0)
     daemons (1.1.9)
     delayed_job (3.0.5)
@@ -175,6 +177,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   concerto_remote_video
   concerto_simple_rss
+  concerto_weather
   daemons
   delayed_job_active_record
   devise

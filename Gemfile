@@ -72,4 +72,4 @@ gem 'public_activity' #Newsfeed
 # Default content type plugins.
 gem 'concerto_simple_rss'
 gem 'concerto_remote_video'
-
+gem 'concerto_weather'
