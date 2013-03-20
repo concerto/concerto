@@ -17,7 +17,7 @@
             <span class="badge"><%= concerto_plugin.enabled ? t(:enabled) : t(:disabled)%></span> <%= concerto_plugin.name %>
           <% end %>
           <small><%= link_to t(:edit), edit_concerto_plugin_path(concerto_plugin) %></small>
-          <%= link_to t(:destroy), concerto_plugin, :data => { :confirm => 'Are you sure?'}, :method => :delete %>
+          <%= link_to t(:destroy), concerto_plugin, :data => { :confirm => t(:are_you_sure) }, :method => :delete %>
         </h3>
       </li>
     <% end %>
