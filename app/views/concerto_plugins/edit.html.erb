@@ -7,12 +7,10 @@
     </h1>
   </header>
   <div class="viewblock-cont" style="min-height: 600px;">
-
     <%= render :partial => 'plugins_navigation' %>
 
     <%= link_to t(:concerto_plugins), concerto_plugins_path %> > <%= link_to @concerto_plugin.name, @concerto_plugin %> > <%= t(:edit) %>
 
-    <%= render 'form' %>
-
+    <%= render :partial => 'concerto_plugins/form', :locals => { :button_text => t('update_plugin') } %>
   </div>
 </section>
