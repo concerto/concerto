@@ -2,6 +2,7 @@ goog.provide('concerto.frontend.Content.ClientTime');
 
 goog.require('concerto.frontend.Content');
 goog.require('concerto.frontend.ContentTypeRegistry');
+goog.require('concerto.frontend.Helpers');
 goog.require('goog.date.DateTime');
 goog.require('goog.dom');
 goog.require('goog.i18n.DateTimeFormat');
@@ -19,6 +20,19 @@ concerto.frontend.Content.ClientTime = function(data) {
   concerto.frontend.Content.call(this, data);
 
   /**
+   * The height of the field the time is being shown in.
+   * @type {number}
+   * @private
+   */
+  this.field_height_ = data.field.size.height;
+
+  /**
+   * The width of the field the time is being shown in.
+   * @type {number}
+   * @private
+   */
+  this.field_width_ = data.field.size.width;
+  /**
    * The timezone.
    * @type {?goog.i18n.TimeZone}
    */
@@ -27,7 +41,7 @@ concerto.frontend.Content.ClientTime = function(data) {
 goog.inherits(concerto.frontend.Content.ClientTime, concerto.frontend.Content);
 
 // Register the content type.
-concerto.frontend.ContentTypeRegistry['TimeDisplay'] =
+concerto.frontend.ContentTypeRegistry['ClientTime'] =
     concerto.frontend.Content.ClientTime;
 
 
@@ -44,5 +58,7 @@ concerto.frontend.Content.ClientTime.prototype.load_ = function() {
   var pretty_time = date_printer.format(now, this.timezone) +
       ' ' + time_printer.format(now, this.timezone);
   goog.dom.setTextContent(this.div_, pretty_time);
+  this.div_ = concerto.frontend.Helpers.Autofit(this.div_, this.field_width_,
+                                                this.field_height_);
   this.finishLoad();
 };

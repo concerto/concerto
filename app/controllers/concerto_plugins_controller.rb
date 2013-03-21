@@ -50,10 +50,10 @@ class ConcertoPluginsController < ApplicationController
     respond_to do |format|
       if @concerto_plugin.save    
         write_Gemfile()
-        format.html { redirect_to @concerto_plugin, :notice => 'Concerto plugin was successfully created.' }
+        format.html { redirect_to @concerto_plugin, :notice => t(:plugin_created) }
         format.json { render :json => @concerto_plugin, :status => :created, :location => @concerto_plugin }
       else
-        format.html { render :action => "new" }
+        format.html { redirect_to new_concerto_plugin_path, :notice => t(:plugin_creation_failed) }
         format.json { render :json => @concerto_plugin.errors, :status => :unprocessable_entity }
       end
     end
@@ -67,10 +67,10 @@ class ConcertoPluginsController < ApplicationController
     respond_to do |format|
       if @concerto_plugin.update_attributes(params[:concerto_plugin])
         write_Gemfile()
-        format.html { redirect_to @concerto_plugin, :notice => 'Concerto plugin was successfully updated.' }
+        format.html { redirect_to @concerto_plugin, :notice => t(:plugin_updated)}
         format.json { head :no_content }
       else
-        format.html { render :action => "edit" }
+        format.html { render :action => :edit }
         format.json { render :json => @concerto_plugin.errors, :status => :unprocessable_entity }
       end
     end
@@ -120,7 +120,7 @@ class ConcertoPluginsController < ApplicationController
     if bundle_status == true
       File.open("tmp/restart.txt", "w") {}
     else
-      raise "An error occurred while running bundle install."
+      raise t(:bundle_error)
     end
   end
   

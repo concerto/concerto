@@ -23,7 +23,7 @@ class Content < ActiveRecord::Base
   end
 
   #Newsfeed
-  include PublicActivity::Common  
+  include PublicActivity::Common if defined? PublicActivity::Common
 
   belongs_to :parent, :class_name => "Content"
   has_many :children, :class_name => "Content", :foreign_key => "parent_id"

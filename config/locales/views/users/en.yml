@@ -20,6 +20,7 @@ en:
   last_name: 'Last Name'
   destroy: 'destroy'
   edit: 'edit'
+  are_you_sure: 'Are you sure?'
 
   helpers:
     label:

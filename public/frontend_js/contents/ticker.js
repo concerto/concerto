@@ -1,6 +1,7 @@
 goog.provide('concerto.frontend.Content.Ticker');
 
 goog.require('concerto.frontend.Content');
+goog.require('concerto.frontend.Helpers');
 goog.require('goog.dom');
 
 
@@ -21,6 +22,20 @@ concerto.frontend.Content.Ticker = function(data) {
    */
   this.text = data['render_details']['data'];
 
+  /**
+   * The height of the field the ticker is being shown in.
+   * @type {number}
+   * @private
+   */
+  this.field_height_ = data.field.size.height;
+
+  /**
+   * The width of the field the ticker is being shown in.
+   * @type {number}
+   * @private
+   */
+  this.field_width_ = data.field.size.width;
+
 };
 goog.inherits(concerto.frontend.Content.Ticker, concerto.frontend.Content);
 
@@ -35,5 +50,8 @@ concerto.frontend.ContentTypeRegistry['Ticker'] =
  */
 concerto.frontend.Content.Ticker.prototype.load_ = function() {
   goog.dom.setTextContent(this.div_, this.text);
+  this.div_ = concerto.frontend.Helpers.Autofit(this.div_, this.field_width_,
+                                                this.field_height_);
+  console.log(this.div_);
   this.finishLoad();
 };

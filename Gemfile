@@ -1,7 +1,7 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'https://rubygems.org'
 
-gem "rails", "3.2.11"
+gem "rails", "3.2.13"
 
 # Get the absolute path of this Gemfile so the includes below still work
 # when the current directory for a bundler command isn't the application's
@@ -67,9 +67,10 @@ gem 'strong_parameters'
 
 gem 'kaminari'  # Pagination
 
-gem 'public_activity' #Newsfeed
+# Enable the newsfeed for 1.9+ users.
+gem 'public_activity' if RUBY_VERSION >= "1.9"
 
 # Default content type plugins.
 gem 'concerto_simple_rss'
 gem 'concerto_remote_video'
-
+gem 'concerto_weather'

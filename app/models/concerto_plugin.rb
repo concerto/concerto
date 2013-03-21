@@ -11,6 +11,9 @@
 
 class ConcertoPlugin < ActiveRecord::Base
   attr_accessible :enabled, :gem_name, :gem_version, :installed, :module_name, :name, :source, :source_url
+  validates :name, :presence => true
+  validates :gem_name, :presence => true
+
 
   scope :enabled, where(:enabled => true)
 

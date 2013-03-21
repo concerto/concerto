@@ -18,7 +18,7 @@ class Feed < ActiveRecord::Base
   validate :parent_id_cannot_be_this_feed
   
   #Newsfeed
-  include PublicActivity::Common  
+  include PublicActivity::Common if defined? PublicActivity::Common
 
   def parent_id_cannot_be_this_feed
     if !parent_id.blank? and parent_id == id

@@ -5,3 +5,9 @@ en:
   edit_plugins: "Edit Concerto plugins"
   enabled: "enabled"
   disabled: "disabled"
+
+  #new
+  create_plugin: 'Create Plugin'
+
+  #edit
+  update_plugin: 'Update Plugin'

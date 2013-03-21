@@ -19,13 +19,15 @@ goog.require('goog.structs.Queue');
  *
  * @param {!concerto.frontend.Position} position The position that owns this.
  * @param {number} id The field ID number.
+ * @param {string} name The field name.
  * @param {string} content_path The URL to get information about the content
  *    that you would show here.
  * @param {Object=} opt_transition A transition to use between content.
  * @constructor
  * @extends {goog.events.EventTarget}
  */
-concerto.frontend.Field = function(position, id, content_path, opt_transition) {
+concerto.frontend.Field = function(position, id, name, content_path,
+                                   opt_transition) {
   goog.events.EventTarget.call(this);
 
   /**
@@ -39,6 +41,12 @@ concerto.frontend.Field = function(position, id, content_path, opt_transition) {
    * @type {number}
    */
   this.id = id;
+
+  /**
+   * Field Name.
+   * @type {string}
+   */
+  this.name = name;
 
   /**
    * URL for content.
@@ -142,6 +150,34 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
   var load_content_on_finish = start_load || null;
 
   this.logger_.info('Field ' + this.id + ' is looking for new content.');
+
+  /**
+   * HACK HACK HACK
+   * Sideload ClientTime content for 'Time' fields.
+   * Remove when FieldConfig is implemented.
+   */
+  if (this.name == 'Time') {
+    var options = {
+      'duration': 15,
+      'id': 0,
+      'name': 'System Time',
+      'type': 'ClientTime',
+      'render_details': {'data': null},
+      'field': {'size': this.position.getSize()}
+    };
+    var clock = new concerto.frontend.ContentTypeRegistry['ClientTime'](options);
+    this.next_contents_.enqueue(clock);
+    goog.events.listen(clock,
+        concerto.frontend.Content.EventType.FINISH_LOAD,
+        this.showContent, false, this);
+    goog.events.listen(clock,
+        concerto.frontend.Content.EventType.DISPLAY_END,
+        this.autoAdvance, false, this);
+    this.next_contents_.peek().startLoad();
+    return;
+  };
+  /** END HACK HACK HACK */
+
   this.connection_.send('field' + this.id, this.content_url, 'GET', '', null, 1,
       goog.bind(function(e) {
 

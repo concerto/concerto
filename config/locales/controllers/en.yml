@@ -57,3 +57,12 @@ en:
   user_created: "User was successfully created."
   user_updated: "User was successfully updated."
   cannot_delete_last_admin: "Cannot delete last admin user."
+  
+  #Dashboard controller
+  settings_saved: "Concerto settings saved."
+
+  #Concerto plugins
+  plugin_created: "Concerto plugin was successfully created."
+  plugin_creation_failed: "Concerto plugin creation failed."
+  plugin_updated: "Concerto plugin was successfully updated."
+  bundle_error: "An error occurred while running bundle install."

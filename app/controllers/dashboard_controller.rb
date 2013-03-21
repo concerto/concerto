@@ -16,6 +16,7 @@ class DashboardController < ApplicationController
     params[:concerto_config].each  do |k,v|
       ConcertoConfig.set(k,v) #only set this if the config already exists
     end
+    flash[:notice] = t(:settings_saved)
     redirect_to :action => :index
   end
 

@@ -53,8 +53,13 @@ class Frontend::ScreensController < ApplicationController
               :template => {
                 :include => {
                   :positions => {
-                    :except => [:created_at, :updated_at, :template_id],
-                    :methods => [:field_contents_path]
+                    :except => [:created_at, :updated_at, :template_id, :field_id],
+                    :methods => [:field_contents_path],
+                    :include => {
+                      :field => {
+                        :only => [:id, :name]
+                      }
+                    }
                   },
                 },
                 :only => [:id],

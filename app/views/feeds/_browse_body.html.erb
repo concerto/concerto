@@ -15,7 +15,7 @@
             <small><%= link_to t(:edit), edit_feed_path(feed) %></small>
           <% end %>
           <% if can? :delete, feed %>
-            <small><%= link_to t(:destroy), feed, :data => { :confirm => 'Are you sure?'}, :method => :delete %></small>
+            <small><%= link_to t(:destroy), feed, :data => { :confirm => t(:are_you_sure) }, :method => :delete %></small>
           <% end %>          
         </h3>    
         <% if feed.children.count > 0 %>
@@ -23,6 +23,12 @@
             <%= t(:sub_feeds) %>
             <% feed.children.each do |sub_feed| %>
               <%= link_to sub_feed.name, feed_submissions_path(sub_feed), :class => "link-hl" %>
+              <% if can? :update, sub_feed %>
+                <small><%= link_to t(:edit), edit_feed_path(sub_feed) %></small>
+              <% end %>
+              <% if can? :delete, sub_feed %>
+                <small><%= link_to t(:destroy), sub_feed, :data => { :confirm => t(:are_you_sure) }, :method => :delete %></small>
+              <% end %>     
             <% end %>
           </p>
         <% end %>

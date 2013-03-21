@@ -7,10 +7,7 @@
     </h1>
   </header>
   <div class="viewblock-cont" style="min-height: 600px;">
-
     <%= render :partial => 'plugins_navigation' %>
-
-    <%= render 'form' %>
-
+    <%= render :partial => 'concerto_plugins/form', :locals => { :button_text => t('create_plugin') } %>
   </div>
 </section>
