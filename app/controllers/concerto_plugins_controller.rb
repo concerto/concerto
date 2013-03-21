@@ -45,6 +45,7 @@ class ConcertoPluginsController < ApplicationController
   # POST /concerto_plugins.json
   def create
     @concerto_plugin = ConcertoPlugin.new(params[:concerto_plugin])
+    @concerto_plugin.enabled = true
     auth!
     #if we're creating the plugin, install and enabled it by default
     respond_to do |format|
@@ -90,6 +91,8 @@ class ConcertoPluginsController < ApplicationController
   end
   
   def write_Gemfile
+    #slurp in the old Gemfile for possible later use
+    old_gemfile = IO.read("Gemfile-plugins")
     #start a big string to put the Gemfile contents in until it's written to the filesystem
     gemfile_content = ""
     ConcertoPlugin.all.each do |plugin|
@@ -120,6 +123,9 @@ class ConcertoPluginsController < ApplicationController
     if bundle_status == true
       File.open("tmp/restart.txt", "w") {}
     else
+      #if the bundle install fails, we rewrite the old Gemfile,and restart
+      File.open("Gemfile-plugins", 'w') {|f| f.write(old_gemfile) }
+      File.open("tmp/restart.txt", "w") {}
       raise t(:bundle_error)
     end
   end

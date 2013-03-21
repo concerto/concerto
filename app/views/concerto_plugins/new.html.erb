@@ -8,6 +8,40 @@
   </header>
   <div class="viewblock-cont" style="min-height: 600px;">
     <%= render :partial => 'plugins_navigation' %>
-    <%= render :partial => 'concerto_plugins/form', :locals => { :button_text => t('create_plugin') } %>
+    <%= form_for(@concerto_plugin) do |f| %>
+      <% if @concerto_plugin.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@concerto_plugin.errors.count, t(:error)) %> <%= t(:prohibited_feed_save) %></h2>
+    
+          <ul>
+          <% @concerto_plugin.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+    
+      <fieldset>
+
+        <div class="clearfix">
+          <%= f.label :source %>
+          <div class="input">
+            <%= f.select(:source, [['RubyGems', 'rubygems'], ['Git Repository', 'git'], ['Filesystem Path', 'path']]) %>
+          </div>
+        </div>
+    
+        <div class="clearfix">
+          <%= f.label :source_url %>
+          <div class="input">
+            <%= f.text_field :source_url %>
+          </div>
+        </div>
+    
+      </fieldset>
+    
+      <div class="submit_bar actions">
+        <%= f.submit t('create_plugin'), :class => "btn primary" %> <%= link_to_function t('cancel'), "history.back()", :class => "btn" %>
+      </div>
+    <% end %>
   </div>
 </section>
