@@ -10,6 +10,16 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_plugins'
   # Next run any boot-time initialization code that the
   # plugins might need.
   ConcertoPlugin.initialize_plugins
+  
+  #Go over all installed engines to check if a spec matches a plugin in the concerto_plugins table and add the module name
+  #ConcertoPlugin.where(:module_name => nil) do |plugin|
+    #Rails::Application::Railties.engines.select(#find the engine that matches plugin.gem_name and get its class.name)
+      #derive the gem name and module name with voodoo
+      #plugin.module_name = 
+      #save new metadata to the concerto_plugins table
+      #plugin.save
+    #end
+  #end
 
   # Mount all the engines at their requested mount points.
   # In the future, this may perform more strict checking to
