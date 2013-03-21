@@ -19,13 +19,15 @@ goog.require('goog.structs.Queue');
  *
  * @param {!concerto.frontend.Position} position The position that owns this.
  * @param {number} id The field ID number.
+ * @param {string} name The field name.
  * @param {string} content_path The URL to get information about the content
  *    that you would show here.
  * @param {Object=} opt_transition A transition to use between content.
  * @constructor
  * @extends {goog.events.EventTarget}
  */
-concerto.frontend.Field = function(position, id, content_path, opt_transition) {
+concerto.frontend.Field = function(position, id, name, content_path,
+                                   opt_transition) {
   goog.events.EventTarget.call(this);
 
   /**
@@ -39,6 +41,12 @@ concerto.frontend.Field = function(position, id, content_path, opt_transition) {
    * @type {number}
    */
   this.id = id;
+
+  /**
+   * Field Name.
+   * @type {string}
+   */
+  this.name = name;
 
   /**
    * URL for content.

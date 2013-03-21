@@ -107,20 +107,14 @@ concerto.frontend.Position.prototype.load = function(data) {
    */
   this.style_ = data['style'];
 
-  /**
-   * ID of the field for this position.
-   * @type {number}
-   */
-  this.field_id = data['field_id'];
-
   this.draw();
 
   /**
    * Field in this position.
    * @type {concerto.frontend.Field}
    */
-  this.field = new concerto.frontend.Field(this, this.field_id,
-      data['field_contents_path']);
+  this.field = new concerto.frontend.Field(this, data['field']['id'],
+      data['field']['name'], data['field_contents_path']);
 
   this.setProperties();
 };
