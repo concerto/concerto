@@ -128,45 +128,46 @@ class Membership < ActiveRecord::Base
     level == Membership::LEVELS[:leader]
   end
 
-  # Approve a user in group
-  def approve()
-    if can_resign_leadership?(Membership::LEVELS[:regular]) && update_attributes({:level => Membership::LEVELS[:regular]})
-      true
-    else
-      reload
-      false
+  # action can be {"approve, deny, promote, demote"}
+  def update_membership_level(action)
+    case action
+    when "approve"
+      # Can only approve if current level is pending
+      if self.level == Membership::LEVELS[:pending] && update_attributes({:level => Membership::LEVELS[:regular]})
+        return true, :membership_approved
+      else
+        return false, :membership_approved_failure
+      end
+    when "deny"
+      # Can only deny if current level is pending
+      if self.level == Membership::LEVELS[:pending] && update_attributes({:level => Membership::LEVELS[:denied]})
+        return true, :membership_denied
+      else
+        return false, :membership_denied_failure
+      end
+    when "promote"
+      # Can only promote regular members
+      if self.level == Membership::LEVELS[:regular] && update_attributes({:level => Membership::LEVELS[:leader]})
+        return true, :membership_promoted
+      else
+        return false, :membership_promoted_failure
+      end
+    when "demote"
+      # Only Leaders can be demoted, but only when there is more than one.
+      if can_resign_leadership? && update_attributes({:level => Membership::LEVELS[:regular]})
+        return true, :membership_demoted
+        true
+      else
+        return false, :membership_demoted_failure
+        false
+      end
     end
+    # default is failure
+    return false, :membership_unknown_action
   end
-
-  # Make a regular member a group leader
-  def promote_to_leader
-    if update_attributes({:level => Membership::LEVELS[:leader]})
-      true
-    else
-      reload
-      false
-    end
-  end
-
-  # Deny a user in group
-  def deny()
-    if update_attributes({:level => Membership::LEVELS[:denied]})
-      true
-    else
-      reload
-      false
-    end
-  end
-
+       
   #Returns whether a particular member object can resign leadership
-  #The new_level param is the membership level the user is changing to (from the one they presently hold)
-  def can_resign_leadership?(new_level)
-    #if no leadership level change is being done, just return true
-    if self.level == Membership::LEVELS[:leader] && new_level.to_i != Membership::LEVELS[:leader]
-      #make sure that if the current user is the leader, there are other leaders left
-      return self.group.leaders.count > 1 || !self.is_leader?
-    else
-      return true
-    end
+  def can_resign_leadership?
+      return self.group.leaders.count > 1 && self.is_leader?
   end
 end
