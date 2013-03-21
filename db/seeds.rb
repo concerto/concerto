@@ -24,11 +24,10 @@ end
 Field.find_or_create_by_name({:name => 'Time', :kind => Kind.where(:name => 'Text').first})
 
 #Create an initial group
-Group.find_or_create_by_name(:name => "Concerto Users")
+Group.find_or_create_by_name(:name => "Concerto Admins")
 
 #Create an initial feed
 Feed.find_or_create_by_name(:name => "Concerto", :description => "Initial Concerto Feed", :group_id => 1, :is_viewable => 1, :is_submittable => 1, :content_types => {:Graphic=>"1", :Ticker=>"1"})
-Feed.find_or_create_by_name(:name => "Date & Time", :description => "Date & Time", :group_id => 1, :is_viewable => 1, :is_submittable => 0, :content_types => {:ClientTime=>"1"})
 
 #Create an initial template
 @template = Template.find_or_create_by_name(:name => "Default Template", :author => "Concerto")
