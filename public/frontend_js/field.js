@@ -150,6 +150,34 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
   var load_content_on_finish = start_load || null;
 
   this.logger_.info('Field ' + this.id + ' is looking for new content.');
+
+  /**
+   * HACK HACK HACK
+   * Sideload ClientTime content for 'Time' fields.
+   * Remove when FieldConfig is implemented.
+   */
+  if (this.name == 'Time') {
+    var options = {
+      'duration': 15,
+      'id': 0,
+      'name': 'System Time',
+      'type': 'ClientTime',
+      'render_details': {'data': null},
+      'field': {'size': this.position.getSize()}
+    };
+    var clock = new concerto.frontend.ContentTypeRegistry['ClientTime'](options);
+    this.next_contents_.enqueue(clock);
+    goog.events.listen(clock,
+        concerto.frontend.Content.EventType.FINISH_LOAD,
+        this.showContent, false, this);
+    goog.events.listen(clock,
+        concerto.frontend.Content.EventType.DISPLAY_END,
+        this.autoAdvance, false, this);
+    this.next_contents_.peek().startLoad();
+    return;
+  };
+  /** END HACK HACK HACK */
+
   this.connection_.send('field' + this.id, this.content_url, 'GET', '', null, 1,
       goog.bind(function(e) {
 
