@@ -26,6 +26,10 @@ class ConcertoPlugin < ActiveRecord::Base
   def mod
     module_name.constantize
   end
+  
+  def name
+    gem_name.humanize
+  end
 
   # Returns the instance of PluginInfo provided by the engine
   # Note for simplicity we're not caching this info.
@@ -137,6 +141,28 @@ class ConcertoPlugin < ActiveRecord::Base
 
 private
 
+  #custom validation for plugin URLs
+  def check_sources
+    case self.source
+      when "rubygems"
+        require 'net/http'
+        r = Net::HTTP.get_response(URI.parse("http://rubygems.org/gems/#{self.gem_name}"))
+        Net::HTTPSuccess === r ? (return true) : (return false)        
+      when "git"
+        require 'command_check'
+        if command?('git')
+          git_ls = system("git ls-remote #{self.source.url}")
+          #git ls returns 0 on success, 128 on failure
+          git_ls == 0 ? (return true) : (return false) 
+        end
+      when "path"
+        #get the directory of the provided gemfile
+        plugin_path = File.dirname(self.source_url)
+        #user Dir to see if a gemfile exists in that directory
+        return !Dir.glob("#{plugin_path}/*.gemspec").empty?
+    end
+  end
+  
   def get_engine_from_module(plugin_name)
     if Object.const_defined?(plugin_name)
       mod = plugin_name.constantize

@@ -8,6 +8,7 @@ en:
 
   #new
   create_plugin: 'Create Plugin'
+  prohibited_feed_save: 'prohibited this plugin from being saved:'  
 
   #edit
   update_plugin: 'Update Plugin'

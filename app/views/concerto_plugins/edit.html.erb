@@ -14,7 +14,7 @@
     <%= form_for(@concerto_plugin) do |f| %>
       <% if @concerto_plugin.errors.any? %>
         <div id="error_explanation">
-          <h2><%= pluralize(@concerto_plugin.errors.count, t(:error)) %> <%= t(:prohibited_feed_save) %></h2>
+          <h2><%= pluralize(@concerto_plugin.errors.count, t(:error)) %> <%= t(:prohibited_plugin_save) %></h2>
     
           <ul>
           <% @concerto_plugin.errors.full_messages.each do |msg| %>
@@ -25,20 +25,7 @@
       <% end %>
     
       <fieldset>
-        <div class="clearfix">
-          <%= f.label :name %>
-          <div class="input">
-            <%= f.text_field :name %>
-          </div>
-        </div>
-    
-        <div class="clearfix">
-          <%= f.label :module_name %>
-          <div class="input">
-            <%= f.text_field :module_name %>
-          </div>
-        </div>
-    
+
         <div class="clearfix">
           <%= f.label :enabled %>
           <div class="input">
@@ -66,7 +53,9 @@
             <%= f.select(:source, [['RubyGems', 'rubygems'], ['Git Repository', 'git'], ['Filesystem Path', 'path']]) %>
           </div>
         </div>
-    
+        
+        GIT URL (https://foo.bar/baz.git) or Filesystem Path (/x/y/file.gem)
+        HIDE this if Rubygems is selected    
         <div class="clearfix">
           <%= f.label :source_url %>
           <div class="input">
