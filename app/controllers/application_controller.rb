@@ -75,6 +75,7 @@ class ApplicationController < ActionController::Base
   #pa_params - specifically params send to PA to be stored in the params column on the activities 
   #options - right now it only contains the action being performed (CRUD), but anything we don't want to send to PA can go here
   def process_notification(ar_instance, pa_params, options = {})
+    return if ar_instance.nil? || !ar_instance.respond_to?('create_activity')
     activity = ar_instance.create_activity(options[:action], :owner => options[:owner], :recipient => options[:recipient], :params => pa_params)
     #form the actionmailer method name by combining the class name with the action being performed (e.g. "submission_update")
     am_string = "#{ar_instance.class.name.downcase}_#{options[:action]}"

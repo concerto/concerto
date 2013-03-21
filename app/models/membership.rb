@@ -37,7 +37,7 @@ class Membership < ActiveRecord::Base
   belongs_to :group
 
   #Newsfeed
-  include PublicActivity::Common  
+  include PublicActivity::Common if defined? PublicActivity::Common
 
   # Validations
   validates :user, :presence => true, :associated => true
