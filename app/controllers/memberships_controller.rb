@@ -34,14 +34,18 @@ class MembershipsController < ApplicationController
   # PUT /groups/:group_id/memberships/1.xml
   def update
     @membership = Membership.find(params[:id])
+    action = params[:perform]
+    note = :membership_unknown_action
+    success = false
     auth!
     respond_to do |format|
-      if (@membership.can_resign_leadership?(membership_params['level'])) && (@membership.update_attributes(membership_params))
-        format.html { redirect_to(edit_group_path(@group), :notice => t(:membership_updated)) }
+      success, note = @membership.update_membership_level(action)
+      if success
+        format.html { redirect_to(edit_group_path(@group), :notice => t(note)) }
         format.xml { head :ok }
       else
-        format.html { redirect_to @group, :notice => @group.errors }
-        format.xml { render :xml => @membership.errors, :status => :unprocessable_entity }
+        format.html { redirect_to @group, :notice => t(note) }
+        format.xml { render :xml => t(note), :status => :unprocessable_entity }
       end
     end
   end
@@ -52,56 +56,13 @@ class MembershipsController < ApplicationController
     @membership = Membership.find(params[:id])
     auth!
     respond_to do |format|
-      #throw a negative one at a function expecting a membership level to indicate deletion
-      if @membership.can_resign_leadership?(-1)
-        process_notification(@membership, {:group_name => @membership.group.name}, :action => 'destroy', :owner => current_user, :recipient => @membership.user)
-        if @membership.destroy
-          format.html { redirect_to({:controller => :groups, :action => :edit, :id => @group}, :notice => t(:member_removed)) }
-          format.xml { head :ok }
-        else
-          format.html { redirect_to @group, :notice => t(:membership_denied) }
-          format.xml { render :xml => @membership.errors, :status => :unprocessable_entity }
-        end
-      end
-    end
-  end
-
-# PUT /groups/:group_id/memberships/1/approve
-  def approve
-    membership = Membership.find(params[:id])
-    auth!    
-    respond_to do |format|
-      if membership.approve()
-        format.html { redirect_to(edit_group_path(params[:group_id]), :notice => t(:membership_approved)) }
+      process_notification(@membership, {:group_name => @membership.group.name}, :action => 'destroy', :owner => current_user, :recipient => @membership.user)
+      if @membership.destroy
+        format.html { redirect_to({:controller => :groups, :action => :edit, :id => @group}, :notice => t(:member_removed)) }
+        format.xml { head :ok }
       else
-        format.html { redirect_to(edit_group_path(params[:group_id]), :notice => t(:membership_denied)) }
-      end
-    end
-  end
-
-# PUT /groups/:group_id/memberships/1/promote_to_leader
-  def promote_to_leader
-    membership = Membership.find(params[:id])
-    auth!    
-    respond_to do |format|
-      if membership.promote_to_leader()
-        format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_approved)) }
-      else
-        format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_denied)) }
-      end
-    end
-  end
-
-  # PUT /groups/:group_id/memberships/1/deny
-  def deny
-    membership = Membership.find(params[:id])
-    auth!    
-    respond_to do |format|
-      if membership.deny()
-        format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membersip_denied)) }
-      else
-        logger.debug membership.errors
-        format.html { redirect_to(group_path(params[:group_id]), :notice => t(:membership_failed_deny)) }
+        format.html { redirect_to @group, :notice => t(:membership_denied) }
+        format.xml { render :xml => @membership.errors, :status => :unprocessable_entity }
       end
     end
   end

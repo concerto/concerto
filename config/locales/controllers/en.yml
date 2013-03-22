@@ -16,10 +16,17 @@ en:
   group_updated: "Group was successfully updated."
 
   #Memberships controller
-  membership_created: "Membership was successfully created."
-  membership_updated: "Membership was successfully updated."
-  member_removed: "Member removed"
-  membership_denied: "Membership denied."
+  membership_created:          "Membership was successfully created."
+  membership_denied:           "Membership was successfully denied."
+  membership_denied_failure:   "Membership was not successfully denied."
+  membership_approved:         "Membership was successfully approved."
+  membership_approved_failure: "Membership was not successfully approved."
+  membership_promoted:         "Member was successfully promoted to group leader."
+  membership_promoted_failure: "Member was not successfully promoted to group leader"
+  membership_demoted:          "Member was successfully demoted from group leader."
+  membership_demoted_failure:  "Member was not successfully demoted from group leader. There must be at least one leader."
+  membership_unknown_action:   "Unknown Membership action submitted."
+  member_removed:              "Member removed"
 
   #Positions controller
   position_created: "Position was successfully created."
