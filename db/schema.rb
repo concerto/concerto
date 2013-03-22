@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130321184532) do
+ActiveRecord::Schema.define(:version => 20130322031345) do
 
   create_table "activities", :force => true do |t|
     t.integer  "trackable_id"
@@ -46,13 +46,11 @@ ActiveRecord::Schema.define(:version => 20130321184532) do
   add_index "concerto_configs", ["key"], :name => "index_concerto_configs_on_key", :unique => true
 
   create_table "concerto_plugins", :force => true do |t|
-    t.string   "module_name"
     t.boolean  "enabled"
     t.string   "gem_name"
     t.string   "gem_version"
     t.string   "source"
     t.string   "source_url"
-    t.boolean  "installed"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end

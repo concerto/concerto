@@ -10,22 +10,29 @@
 # Plugin interface.
 
 class ConcertoPlugin < ActiveRecord::Base
-  attr_accessible :enabled, :gem_name, :gem_version, :installed, :module_name, :name, :source, :source_url
-  validates :name, :presence => true
+  attr_accessible :enabled, :gem_name, :gem_version, :installed, :source, :source_url
   validates :gem_name, :presence => true
+  # TODO: use check_sources to validate the availability of the gem
   
   scope :enabled, where(:enabled => true)
 
-  # Looks for the Engine in the module associated with this plugin.
+  # Find the Engine's module from among the installed engines.
   def engine
-    @engine ||= get_engine_from_module(module_name)
+    @engine ||= find_engine
   end
 
-  # Quick way to get the module constant
-  def mod
-    module_name.constantize
+  def installed?
+    !engine.nil?
   end
-  
+
+  def mod
+    engine.parent
+  end
+ 
+  def module_name
+    engine.nil? ? "" : engine.parent.name
+  end
+
   def name
     gem_name.humanize
   end
@@ -34,7 +41,7 @@ class ConcertoPlugin < ActiveRecord::Base
   # Note for simplicity we're not caching this info.
   def plugin_info
     info = nil
-    if engine.respond_to? "plugin_info"
+    if installed? and engine.respond_to? "plugin_info"
       info = engine.plugin_info(Concerto::PluginInfo)
     end
     info
@@ -161,23 +168,27 @@ private
         return !Dir.glob("#{plugin_path}/*.gemspec").empty?
     end
   end
-  
-  def get_engine_from_module(plugin_name)
-    if Object.const_defined?(plugin_name)
-      mod = plugin_name.constantize
-      if mod.const_defined?("Engine")
-        engine = mod.const_get("Engine")
-        return engine
-      else
-        logger.warn("ConcertoPlugin: #{plugin_name} Engine Class " +
-                        plugin.module_name + " not found.")
-        return false
-      end
-    else
-      logger.warn("ConcertoPlugin: #{plugin_name} module (" +
-                      plugin_name + ") not found.")
-      return false
-    end
-  end
 
+  # Find an engine by using the gem name to find an installed
+  # gem, and matching it against the list of available engines.
+  # Returns nil if no engine is not found.
+  def find_engine
+    # We already know the name of the gem from user input
+    if Gem.loaded_specs.has_key? gem_name
+      # Let's get the gem's full path in the filesystem
+      gpath = Gem.loaded_specs[gem_name].full_gem_path
+      # Then match the path we've got to the path of an engine - 
+      #    which should have its Module Name (aka paydirt)
+      Rails::Application::Railties.engines do |engine| 
+        if engine.class.root.to_s == gpath
+          # Get the class name from the engine hash
+          result = engine.class.name
+          break
+        end
+      end
+    else # Gem not loaded
+      result = nil
+    end
+    result
+  end
 end
