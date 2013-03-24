@@ -70,6 +70,24 @@ class Content < ActiveRecord::Base
   def is_orphan?
     self.submissions.empty?
   end
+  
+  # Determine if content is approved everywhere
+  def is_approved?
+    return false
+    (self.approved_feeds.count > 0) && ((self.pending_feeds.count + self.denied_feeds.count) == 0)
+  end
+  
+  # Determine if content is pending on a feed
+  def is_pending?
+    return true
+    (self.pending_feeds.count > 0)
+  end
+
+  # Determine if content is denied on a feed
+  def is_denied?
+    return true
+    (self.denied_feeds.count > 0)
+  end
 
   # Setter for the start time.  If a hash is passed, convert that into a DateTime object and then a string.
   # Otherwise, just set it like normal.  This is a bit confusing due to the differences in how Ruby handles

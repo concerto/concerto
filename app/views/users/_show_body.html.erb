@@ -113,7 +113,21 @@
                       <%= link_to content do %>
                           <%= render_content(content, {:type => 'grid'}) %>
                       <% end %>
-                      <% if content.is_orphan? %>Orphaned<% end %>
+                      <% if content.is_orphan? %>
+                        <p class="is_orphan">Orphaned</p>
+                      <% elsif content.is_approved? %>
+                        <p class="is_approved">Approved</p>
+                      <% else %>
+                        <% if content.is_pending? %>
+                          <span class="is_pending">Pending</span>
+                        <% end %>
+                        <% if content.is_denied? %>
+                          <% if content.is_pending? %>
+                            <br>
+                          <% end %>
+                          <span class="is_denied">Denied</span>
+                        <% end %>
+                      <% end %>
                     </div>
                     <div class="cont">
                       <p>
