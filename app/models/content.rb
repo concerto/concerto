@@ -73,19 +73,16 @@ class Content < ActiveRecord::Base
   
   # Determine if content is approved everywhere
   def is_approved?
-    return false
     (self.approved_feeds.count > 0) && ((self.pending_feeds.count + self.denied_feeds.count) == 0)
   end
   
   # Determine if content is pending on a feed
   def is_pending?
-    return true
     (self.pending_feeds.count > 0)
   end
 
   # Determine if content is denied on a feed
   def is_denied?
-    return true
     (self.denied_feeds.count > 0)
   end
 
