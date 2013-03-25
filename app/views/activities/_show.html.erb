@@ -3,7 +3,7 @@
   <ul>
   <% @activities.each do |activity| %>
     <div class="activity">
-      <li><%= render_activity activity rescue nil %></li>
+      <li><%= render_activity activity if File.exists?(Rails.root.join("app", "views", "public_activity", activity.key.split('.')[0], "_#{activity.key.split('.')[1]}.html.erb")) %></li>
     </div>
   <% end %>
   </ul>
