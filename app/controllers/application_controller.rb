@@ -11,6 +11,29 @@ class ApplicationController < ActionController::Base
   def current_ability
     @current_ability ||= ::Ability.new(current_user)
   end
+  
+  def restart_webserver
+    #add any webservers that don't support tmp/restart.txt to this array
+    no_restart_txt = ["webrick"]
+    no_restart_txt.each do |w|    
+      #check if the server environment contains a webserver that doesn't support restart.txt
+      #This is NOT foolproof - a webserver may elect not to send this
+      re = /\S*#{w}/.match(env['SERVER_SOFTWARE'].to_s.downcase)
+      unless re.nil?      
+        flash[:notice] = t(:wont_write_restart_txt)
+        return false
+      end
+    end
+    
+    begin
+      File.open("tmp/restart.txt", "w") {}
+      return true
+    rescue
+      #generally a write permission error
+      flash[:notice] = t(:cant_write_restart_txt)
+      return false
+    end
+  end
 
   def precompile_error_catch
     require 'yaml'
@@ -19,7 +42,7 @@ class ApplicationController < ActionController::Base
       if File.exist?('public/assets/manifest.yml') == false && Rails.env.production?
         precompile_status = system("bundle exec rake assets:precompile")
         if precompile_status == true
-          File.open("tmp/restart.txt", "w") {}
+          restart_webserver()
         else
           raise "Asset precompilation failed. Please make sure the command rake assets:precompile works."
         end

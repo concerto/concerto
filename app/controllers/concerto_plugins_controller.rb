@@ -121,11 +121,11 @@ class ConcertoPluginsController < ApplicationController
     #Fork may not be used here as it's not cross-platform implemented
     bundle_status = system("bundle install")
     if bundle_status == true
-      File.open("tmp/restart.txt", "w") {}
+      restart_webserver()
     else
       #if the bundle install fails, we rewrite the old Gemfile,and restart
       File.open("Gemfile-plugins", 'w') {|f| f.write(old_gemfile) }
-      File.open("tmp/restart.txt", "w") {}
+      restart_webserver()
       raise t(:bundle_error)
     end
   end
