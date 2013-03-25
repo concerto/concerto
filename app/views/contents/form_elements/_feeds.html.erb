@@ -1,4 +1,5 @@
-<div class="clearfix">
+<label>Filter Feeds</label>
+<div class="input">  
   <% feeds = dfs_tree(Feed.roots) %>
   <% feeds.reject!{|f| !@feeds.include?(f) } %>
   <% if feeds.empty? %>
