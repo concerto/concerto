@@ -118,7 +118,7 @@ class FeedsController < ApplicationController
 private
 
   def get_activities
-    if current_user
+    if current_user && RUBY_VERSION >= "1.9"
       #Retrieve the activities for which the current user is an owner or recipient (making sure the STI field specifies user as the Type)       
       @owner = PublicActivity::Activity.where(:owner_id => current_user.id, :owner_type => 'User').limit(25)  
       @recipient = PublicActivity::Activity.where(:recipient_id => current_user.id, :recipient_type => 'User').limit(25)

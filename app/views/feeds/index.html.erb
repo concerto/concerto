@@ -24,9 +24,9 @@
             <li><%= link_to group.name, group %></li>
           <% end %>
           </ul>
-          
-          <%= render :partial => 'activities/show' %>
-
+          <% if RUBY_VERSION >= "1.9" %>
+            <%= render :partial => 'activities/show' %>
+          <% end %>
         </div>
         
       </div>
