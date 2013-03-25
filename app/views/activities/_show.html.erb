@@ -3,7 +3,7 @@
   <ul>
   <% @activities.each do |activity| %>
     <div class="activity">
-      <li><%= render_activity activity %></li>
+      <li><%= render_activity activity rescue nil %></li>
     </div>
   <% end %>
   </ul>
