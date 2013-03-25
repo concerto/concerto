@@ -1,8 +1,10 @@
-<h1>Activities</h1>
+<p>Recent Activity</p>
 <% if current_user %>
+  <ul>
   <% @activities.each do |activity| %>
     <div class="activity">
-      <%= render_activity activity %>
+      <li><%= render_activity activity %></li>
     </div>
   <% end %>
+  </ul>
 <% end %>

@@ -24,9 +24,9 @@
             <li><%= link_to group.name, group %></li>
           <% end %>
           </ul>
-          <div class="clearfix">
-            <%= link_to t(:new_feed), new_feed_path, :class => "btn" if can? :create, Feed %>
-          </div>
+          
+          <%= render :partial => 'activities/show' %>
+
         </div>
         
       </div>
