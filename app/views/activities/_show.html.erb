@@ -1,5 +1,5 @@
-<p>Recent Activity</p>
-<% if current_user %>
+<% if !@activities.empty? %>
+  <p>Recent Activity</p>
   <ul>
   <% @activities.each do |activity| %>
     <div class="activity">
