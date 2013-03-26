@@ -34,6 +34,22 @@ class ContentsControllerTest < ActionController::TestCase
     assert_select "li.active > a", {:text => "Ticker Text"}
   end
 
+  test "should upload new ticker" do
+    sign_in users(:katie)
+    assert_difference('Ticker.count') do
+      post :create, :type => 'ticker', :ticker => {:data => "Body", :name => "Ticker Name", :duration => 6,
+       :start_time => {:date => "03/25/2013", :time => "12:00am"},
+       :end_time => {:date => "04/01/2013", :time => "11:59pm"},
+       }, :feed_id => {"0" => feeds(:service).id}
+    end
+    assert_redirected_to content_path(assigns(:content))
+    assert_equal assigns(:content).submissions.length, 1
+    assert assigns(:content).submissions.first.moderation_flag
+
+    get(:show, :id => assigns(:content).id)
+    assert_select 'p', {:text => "Body"}
+  end
+
   test "should fallback to generic" do
     sign_in users(:katie)
     get(:new, {:type => "bananas"})
