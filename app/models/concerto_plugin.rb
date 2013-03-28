@@ -154,13 +154,13 @@ private
       when "rubygems"
         require 'net/http'
         r = Net::HTTP.get_response(URI.parse("http://rubygems.org/gems/#{self.gem_name}"))
-        Net::HTTPSuccess === r ? (return true) : errors.add("Not a valid rubygem")        
+        Net::HTTPSuccess === r ? (return true) : errors.add(:gem_name, "is not a valid rubygem")        
       when "git"
         require 'command_check'
         if command?('git')
           git_ls = system("git ls-remote #{self.source_url}")
           if git_ls != true
-            errors.add("Not a valid git repository")
+            errors.add(:source_url, "is not a valid git repository")
           end
         end
       when "path"
