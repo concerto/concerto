@@ -159,8 +159,7 @@ private
         require 'command_check'
         if command?('git')
           git_ls = system("git ls-remote #{self.source_url}")
-          #git ls returns 0 on success, 128 on failure
-          if git_ls != 0
+          if git_ls != true
             errors.add("Not a valid git repository")
           end
         end
