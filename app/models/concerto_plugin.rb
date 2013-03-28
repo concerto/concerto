@@ -12,6 +12,7 @@
 class ConcertoPlugin < ActiveRecord::Base
   attr_accessible :enabled, :gem_name, :gem_version, :installed, :source, :source_url
   validates :gem_name, :presence => true
+  validate :check_sources, :on => :create
   # TODO: use check_sources to validate the availability of the gem
   
   scope :enabled, where(:enabled => true)
@@ -153,13 +154,13 @@ private
       when "rubygems"
         require 'net/http'
         r = Net::HTTP.get_response(URI.parse("http://rubygems.org/gems/#{self.gem_name}"))
-        Net::HTTPSuccess === r ? (return true) : (return false)        
+        Net::HTTPSuccess === r ? (return true) : errors.add("Not a valid rubygem")        
       when "git"
         require 'command_check'
         if command?('git')
           git_ls = system("git ls-remote #{self.source.url}")
           #git ls returns 0 on success, 128 on failure
-          git_ls == 0 ? (return true) : (return false) 
+          git_ls == 0 ? (return true) : errors.add("Not a valid git repository")
         end
       when "path"
         #get the directory of the provided gemfile
