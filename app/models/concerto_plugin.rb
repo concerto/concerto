@@ -158,9 +158,11 @@ private
       when "git"
         require 'command_check'
         if command?('git')
-          git_ls = system("git ls-remote #{self.source.url}")
+          git_ls = system("git ls-remote #{self.source_url}")
           #git ls returns 0 on success, 128 on failure
-          git_ls == 0 ? (return true) : errors.add("Not a valid git repository")
+          if git_ls != 0
+            errors.add("Not a valid git repository")
+          end
         end
       when "path"
         #get the directory of the provided gemfile
