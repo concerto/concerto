@@ -119,14 +119,14 @@ class ConcertoPluginsController < ApplicationController
     #Going to try a synchronous bundle install - though this could get ugly and slow
     #The alternative is to use spawn with a timout protection (using the timeout Ruby module
     #Fork may not be used here as it's not cross-platform implemented
-    bundle_status = system("bundle install")
-    if bundle_status == true
+    bundle_output = `bundle install 2>&1`
+    if bundle_output.include? 'bundle is complete'
       restart_webserver()
     else
       #if the bundle install fails, we rewrite the old Gemfile,and restart
       File.open("Gemfile-plugins", 'w') {|f| f.write(old_gemfile) }
       restart_webserver()
-      raise t(:bundle_error)
+      raise t(:bundle_error) + " " + bundle_output
     end
   end
   
