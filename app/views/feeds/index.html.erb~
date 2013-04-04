@@ -44,7 +44,7 @@
           </div>
           <br /><br />
           <div class="clearfix">
-            <h3><%= t(:current_active_approved_content) + ": " + @active_approved_content.to_s %></h3>
+            <h3><%= t(:current_active_approved_content) + ": " + @active_approved_content %></h3>
           </div>
         </div>
         

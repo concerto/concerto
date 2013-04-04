@@ -167,8 +167,8 @@ ActiveRecord::Schema.define(:version => 20130312041530) do
     t.integer  "owner_id"
     t.string   "owner_type"
     t.integer  "template_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
     t.integer  "width"
     t.integer  "height"
     t.datetime "frontend_updated_at"
