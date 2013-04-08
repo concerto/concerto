@@ -6,7 +6,7 @@
   <% else %>
     <% if @content.errors.any? %>
       <div id="errorExplanation">
-        <h2><%= pluralize(@content.errors.count, t(:error)) + t(:prohibited_save, :model => 'content') %></h2>
+        <h2><%= pluralize(@content.errors.count, t(:error)) + ' ' + t(:prohibited_save, :model => 'content') %></h2>
         <ul>
           <% @content.errors.full_messages.each do |msg| %>
             <li><%= msg %></li>
