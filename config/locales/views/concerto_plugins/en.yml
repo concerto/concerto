@@ -1,13 +1,32 @@
 en:
-  #index
-  new_plugin: 'New Concerto plugin'
-  concerto_plugins: 'Manage Concerto plugins'
-  edit_plugins: "Edit Concerto plugins"
-  enabled: "enabled"
-  disabled: "disabled"
+  concerto_plugins:
 
-  #new
-  create_plugin: 'Create Plugin'
+    edit:
+      edit: 'Edit'
+      manage_plugins: 'Manage Plugins'
+      update_plugin: 'Update Plugin'
 
-  #edit
-  update_plugin: 'Update Plugin'
+    form:
+      cancel: 'Cancel'
+      source_rubygems: 'RubyGems'
+      source_git_repo: 'Git Repository'
+      source_filesystem_path: 'Filesystem Path'
+
+    index:
+      are_you_sure: 'Are you sure?'
+      destroy: 'Delete'
+      disabled: "disabled"
+      edit: 'Edit'
+      enabled: "enabled"
+      manage_plugins: 'Manage Plugins'
+      new_plugin: 'New Plugin'
+
+    new:
+      create_plugin: 'Create Plugin'
+      new_plugin: 'New Plugin'
+
+    plugins_navigation:
+      manage_plugins: 'Manage Plugins'
+
+    show:
+      manage_plugins: 'Manage Plugins'
