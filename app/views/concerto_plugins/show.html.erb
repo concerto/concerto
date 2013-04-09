@@ -3,13 +3,13 @@
 <section class="viewblock">
   <header class="viewblock-header">
     <h1 class="default-padding">
-      <%= t :concerto_plugins %>
+      <%= t 'concerto_plugins.manage_plugins' %>
     </h1>
   </header>
   <div class="viewblock-cont" style="min-height: 600px;">
 
     <%= render :partial => 'plugins_navigation' %>
-    <%= link_to t(:concerto_plugins), concerto_plugins_path %> > <%= @concerto_plugin.name %>
+    <%= link_to t('concerto_plugins.manage_plugins'), concerto_plugins_path %> > <%= @concerto_plugin.name %>
 
     <p>
       <b>Module name:</b>
