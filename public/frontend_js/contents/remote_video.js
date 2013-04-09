@@ -69,6 +69,7 @@ concerto.frontend.Content.RemoteVideo.prototype.load_ = function() {
   this.iframe.src = this.video_url;
   this.iframe.frameborder = 0;
   goog.style.setSize(this.iframe, '100%', '100%');
+  goog.style.setSize(this.div_, '100%', '100%');
   goog.style.setStyle(this.iframe, 'border', 0);
   goog.dom.appendChild(this.div_, this.iframe);
   this.finishLoad();
