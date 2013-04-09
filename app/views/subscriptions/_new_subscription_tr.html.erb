@@ -1,7 +1,7 @@
 <tr>
   <td>
     <h2><%= feed.name %></h3>
-    <h4 class="color-gray"><%= feed.approved_contents.size %> approved content<%= feed.approved_contents.size == 1 ? '' : 's' %></h4>
+    <h4 class="color-gray"><%= feed.approved_contents.active.size %> approved content<%= feed.approved_contents.active.size == 1 ? '' : 's' %></h4>
     <%= hidden_field_tag "subscription_id[#{i}]", "" %>
     <%= hidden_field_tag "subscription_feed[#{i}]", feed.id, :class => "marker-sub-feed" %>
   </td>

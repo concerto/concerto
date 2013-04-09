@@ -33,7 +33,7 @@
                 <tr>
                   <td>
                     <h2><%= subscription.feed.name %></h2>
-                    <h4 class="color-gray"><%= pluralize subscription.feed.approved_contents.size, t(:approved_content) %></h4>
+                    <h4 class="color-gray"><%= pluralize subscription.feed.approved_contents.active.size, t(:approved_content) %></h4>
                     <%= hidden_field_tag "subscription_id[#{i}]", subscription.id %>
                     <%= hidden_field_tag "subscription_feed[#{i}]", subscription.feed.id, :class => "marker-sub-feed" %>
                   </td>
