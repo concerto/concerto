@@ -15,7 +15,7 @@
     <div class="clearfix">
       <%= f.label :name %>
       <div class="input">
-        <%= f.text_field :name %>
+        <%= f.text_field :name, :autofocus => true %>
       </div>
     </div>
 
@@ -27,9 +27,9 @@
     </div>
 
     <div class="clearfix">
-      <%= f.label :enabled %>
       <div class="input">
-        <%= f.check_box :enabled %>
+        <%= f.check_box :enabled %> 
+        <%= f.label :enabled %>
       </div>
     </div>
 
@@ -64,6 +64,6 @@
   </fieldset>
 
   <div class="submit_bar actions">
-    <%= f.submit button_text, :class => "btn primary" %> <%= link_to_function t('.cancel'), "history.back()", :class => "btn" %>
+    <%= f.submit button_text, :class => "btn primary" %> <%= link_to_function t('concerto_plugins.cancel'), "history.back()", :class => "btn" %>
   </div>
 <% end %>
