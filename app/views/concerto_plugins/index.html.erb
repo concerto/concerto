@@ -3,7 +3,7 @@
 <section class="viewblock">
   <header class="viewblock-header">
     <h1 class="default-padding">
-      <%= t :concerto_plugins %>
+      <%= t 'concerto_plugins.manage_plugins' %>
     </h1>
   </header>
   <div class="viewblock-cont" style="min-height: 600px;">
@@ -14,16 +14,16 @@
       <li>
         <h3>
           <%= link_to concerto_plugin_path(concerto_plugin), :class => "link-hl" do %>
-            <span class="badge"><%= concerto_plugin.enabled ? t(:enabled) : t(:disabled)%></span> <%= concerto_plugin.name %>
+            <span class="badge"><%= concerto_plugin.enabled ? t('.enabled') : t('.disabled')%></span> <%= concerto_plugin.name %>
           <% end %>
-          <small><%= link_to t(:edit), edit_concerto_plugin_path(concerto_plugin) %></small>
-          <small><%= link_to t(:destroy), concerto_plugin, :data => { :confirm => t(:are_you_sure) }, :method => :delete %></small>
+          <small><%= link_to t('concerto_plugins.edit_plugin'), edit_concerto_plugin_path(concerto_plugin), :class => "btn" %></small>
+          <small><%= link_to t('concerto_plugins.destroy'), concerto_plugin, :data => { :confirm => t('.are_you_sure') }, :class => "btn", :method => :delete %></small>
         </h3>
       </li>
     <% end %>
 
     <div class="default-padding">
-      <%= link_to t(:new_plugin), new_concerto_plugin_path, :class => "btn primary" %>
+      <%= link_to t('concerto_plugins.new_plugin'), new_concerto_plugin_path, :class => "btn primary" %>
     </div>
 
   </div>
