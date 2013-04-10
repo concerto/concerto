@@ -18,7 +18,6 @@ en:
 
     #content/form
     form:
-      prohibited_save: "prevented this %{model} from being saved:"
       provide_details: "Provide Basic Details"
       select_feed: "Select Feed"
       select_content_type: "Select Content Type to Add"

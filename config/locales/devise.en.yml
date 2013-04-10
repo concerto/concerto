@@ -37,6 +37,11 @@ en:
       signed_up_but_locked: 'You have signed up successfully. However, we could not sign you in because your account is locked.'
       updated: 'You updated your account successfully.'
       destroyed: 'Bye! Your account was successfully cancelled. We hope to see you again soon.'
+      edit:
+        change_password: 'Change Password'
+        current_password: 'Current password'
+        new_password: 'New password'
+        confirm_password: 'Confirm new password'
     unlocks:
       send_instructions: 'You will receive an email with instructions about how to unlock your account in a few minutes.'
       unlocked: 'Your account was successfully unlocked. You are now signed in.'

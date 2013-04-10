@@ -10,6 +10,8 @@ en:
     expired: 'Expired'
     future: 'Future'
     pending: 'Pending'
+    approved: 'Approved'
+    orphaned: 'Orphaned'
 
     no_feeds: "There are no feeds in the system that you can submit content to.  Please contact your system administrator for more information."
 

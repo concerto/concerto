@@ -17,7 +17,8 @@ en:
       jump_to_feed: "Jump to Feed..."
       no_sub_feeds: 'No Sub-feeds'
       sub_feeds: 'Sub-feeds:'
-      submissions_pending: { one: '%{count} item pending your moderation', other: '%{count} items pending your moderation' }
+      submissions_pending: { one: '%{count} item pending your moderation', 
+        other: '%{count} items pending your moderation' }
       toggle_content_states_to_display: 'Toggle content states to display...'
       type_to_filter: 'Type here to filter'
 

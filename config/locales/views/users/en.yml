@@ -1,37 +1,47 @@
 en:
-  #_show_header
-  all_users: 'All Users'
-  create: 'Create'
-
-  #_show_body
-  system_wide_admin: 'This user is a system-wide admin'
-  you: 'This is you.'
-  my: 'My'
-  change: 'change'
-  your_screen: 'This is your screen.'
-  to: 'to'
-  contents: 'Contents'
-
-  #edit
-  change_password: 'Change Password'
-  delete_account: 'Delete Account'
-  edit_settings: 'Edit Settings'
-  #index
-  new_user: 'New User'
-  first_name: 'First Name'
-  last_name: 'Last Name'
-
-  helpers:
-    label:
+  activerecord:
+    attributes:
       user:
         first_name: 'First Name'
-        email: 'Email'
+        last_name: 'Last Name'
         locale: 'Locale'
+        email: 'Email'
+        actions: 'Actions'
         is_admin: 'Admin Status'
         receive_moderation_notifications: 'Receive Moderation Notifications'
-        password: 'Password'
-        new_password: 'New Password'
-        password_confirmation: 'Confirm New Password'
-        submit:
-          create: 'Create'
-          update: 'Update'
+
+  users:
+    all_users: 'All Users'
+
+    show_body:
+      admin: 'Admin'
+      screens: 'Screens'
+      groups: 'Groups'
+      system_wide_admin: 'This user is a system-wide admin'
+      this_is_you: 'This is you.'
+      name: 'Name'
+      roles: 'Roles'
+      receive_emails: 'Receive emails'
+      dont_receive_emails: "Don't receive emails"
+      content: 'Content'
+      my: 'My'
+      forever: 'forever'
+
+  # change: 'change'
+  # your_screen: 'This is your screen.'
+  # to: 'to'
+
+  # #edit
+  # change_password: 'Change Password'
+  # delete_account: 'Delete Account'
+  # edit_settings: 'Edit Settings'
+
+  # helpers:
+  #   label:
+  #     user:
+  #       password: 'Password'
+  #       new_password: 'New Password'
+  #       password_confirmation: 'Confirm New Password'
+  #       submit:
+  #         create: 'Create'
+  #         update: 'Update'

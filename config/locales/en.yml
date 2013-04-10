@@ -12,6 +12,7 @@ en:
   edit_model: 'Edit %{model}'
   manage_model: 'Manage %{model}'
   new_model: 'New %{model}'
+  prohibited_save: "prevented this %{model} from being saved:"
   show: 'Show'
   update_model: 'Update %{model}'
 
