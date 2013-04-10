@@ -15,7 +15,6 @@ en:
   descriptor: 'Descriptor file'
 
   #_show_body
-  edit: '[Edit]'
   preview_alt: '%{name} Preview'
   author: 'Author'
 

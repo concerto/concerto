@@ -14,7 +14,6 @@ en:
   #_form
   create_screen: 'Create Screen'
   edit_screen: 'Edit Screen'
-  cancel: 'Cancel'
   dimensions: 'Dimensions'
   visibility: 'Visibility'
   select_template: 'Select Template'

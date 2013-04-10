@@ -1,18 +1,18 @@
 <div class="subnav clearfix">
   <div class="pull-left" style="padding: 3px 0px; width:100px">
-    <%= link_to "#", :title => "Click on a feed to jump", :class => "btn small info dropdown-toggle dropdown-control dd-jumpto", :rel => "#jump_to" do %>
-      <i class="ficon-bolt"></i> Jump to Feed...
+    <%= link_to "#", :title => t('.click_to_jump'), :class => "btn small info dropdown-toggle dropdown-control dd-jumpto", :rel => "#jump_to" do %>
+      <i class="ficon-bolt"></i><%= t('.jump_to_feed') %>
     <% end %>
 
     <div id="jump_to" style="display: none;">
       <div class="tooltip-scrollY">
         <% feeds = dfs_tree(Feed.roots) %>
         <% if feeds.empty? %>
-          <p><%= t(:no_feeds) %></p>
+          <p><%= t('feeds.no_feeds') %></p>
         <% else %>
 
         <div class="filter-bar">
-          <input type="text" class="feed_filter" placeholder="Type here to filter"/>
+          <input type="text" class="feed_filter" placeholder='Type here to filter'/>
         </div>
         <ul class="filterable selector-list">
           <% feeds.each_with_index do |feed, i| %>
@@ -32,9 +32,9 @@
 
   <ul class="nav nav-pills">
     <% if @feed.children.empty? %>
-    <li class="legend">No Sub-feeds</li>
+    <li class="legend"><%= t('.no_sub_feeds') %></li>
     <% else %>
-    <li class="legend">Sub-feeds:</li>
+    <li class="legend"><% t('.sub_feeds') %></li>
     <% end %>
     <% @feed.children.each do |feed| %>
     <li>
@@ -50,7 +50,7 @@
 <% if @can_moderate_feed and @feed.submissions.pending.count > 0 %>
 <!-- note that we do not show an alert banner when there are no pending contents; we just hide it altogether -->
 <div class="clearfix default-padding">
-  <h3 class="header-with-icon" style="color:#993333;"><i class="icon-header-pendingcontent"></i><%= pluralize(@feed.submissions.pending.count, "content") %> pending your moderation</h3>
+  <h3 class="header-with-icon" style="color:#993333;"><i class="icon-header-pendingcontent"></i><%= t('.submissions_pending', :count => @feed.submissions.pending.count) %></h3>
   <br />
   <% @feed.submissions.pending.select{|s| s.content.parent.nil?}.each do |submission| %>
     <%= render :partial => "submissions/submission_tile", :locals => { :submission => submission } %>
@@ -59,7 +59,7 @@
 <% end %>
 
 <div class="default-padding" style="padding-bottom: 0px; height: 25px;">
-  <a id="browse-filter-toggle" href="#" style="font-size: 0.8em;">Toggle content states to display...</a>
+  <a id="browse-filter-toggle" href="#" style="font-size: 0.8em;"><%= t('.toggle_content_states_to_display') %></a>
   
   <div id="browse-filter-select" class="clearfix" style="display: none;">
 
@@ -69,27 +69,27 @@
     <div class="pull-left">
       <div class="btn-group">
         <% if params[:state] == "active" or params[:state].nil? %>
-          <%= link_to "Active", feed_submissions_path(@feed, :state => 'active'), :class => 'btn active' %>
+          <%= link_to t('feeds.active'), feed_submissions_path(@feed, :state => 'active'), :class => 'btn active' %>
         <% else %>
-          <%= link_to "Active", feed_submissions_path(@feed, :state => 'active'), :class => 'btn' %>
+          <%= link_to t('feeds.active'), feed_submissions_path(@feed, :state => 'active'), :class => 'btn' %>
         <% end %>
 
         <% if params[:state] == "future" %>
-          <%= link_to "Future", feed_submissions_path(@feed, :state => 'future'), :class => 'btn active' %>
+          <%= link_to t('feeds.future'), feed_submissions_path(@feed, :state => 'future'), :class => 'btn active' %>
         <% else %>
-          <%= link_to "Future", feed_submissions_path(@feed, :state => 'future'), :class => 'btn' %>
+          <%= link_to t('feeds.future'), feed_submissions_path(@feed, :state => 'future'), :class => 'btn' %>
         <% end %>
 
         <% if params[:state] == "expired" %>
-          <%= link_to "Expired", feed_submissions_path(@feed, :state => 'expired'), :class => 'btn active' %>
+          <%= link_to t('feeds.expired'), feed_submissions_path(@feed, :state => 'expired'), :class => 'btn active' %>
         <% else %>
-          <%= link_to "Expired", feed_submissions_path(@feed, :state => 'expired'), :class => 'btn' %>
+          <%= link_to t('feeds.expired'), feed_submissions_path(@feed, :state => 'expired'), :class => 'btn' %>
         <% end %>
 
         <% if params[:state] == "denied" %>
-          <%= link_to "Denied", feed_submissions_path(@feed, :state => 'denied'), :class => 'btn active' %>
+          <%= link_to t('feeds.denied'), feed_submissions_path(@feed, :state => 'denied'), :class => 'btn active' %>
         <% else %>
-          <%= link_to "Denied", feed_submissions_path(@feed, :state => 'denied'), :class => 'btn' %>
+          <%= link_to t('feeds.denied'), feed_submissions_path(@feed, :state => 'denied'), :class => 'btn' %>
         <% end %>
       </div>
     </div>

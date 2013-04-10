@@ -1,7 +1,7 @@
 <%= form_for(@feed) do |f| %>
   <% if @feed.errors.any? %>
     <div id="errorExplanation">
-      <h2><%= pluralize(@feed.errors.count, t(:error)) %> <%= t(:prohibited_feed_save) %></h2>
+      <h2><%= pluralize(@feed.errors.count, t(:error)) %> <%= t('.prohibited_feed_save') %></h2>
       <ul>
         <% @feed.errors.full_messages.each do |msg| %>
           <li><%= msg %></li>
@@ -43,7 +43,7 @@
     </div>
     
     <div class="clearfix">
-      <label><%= t(:other_options) %></label>
+      <label><%= t('.other_options') %></label>
       <div class="input">
         <ul class="inputs-list">
           <li>
@@ -57,7 +57,7 @@
     </div>
     
     <div class="clearfix">
-      <label><%= t(:allowed_types) %></label>
+      <label><%= t('.allowed_types') %></label>
       <div class="input">
         <ul class="inputs-list">
           <%= f.fields_for :content_types do |content_types| %>
@@ -74,6 +74,6 @@
   </fieldset>
   
   <div class="submit_bar actions">
-    <%= f.submit button_text, :class => "btn primary" %> <%= link_to_function t('cancel'), "history.back()", :class => "btn" %>
+    <%= f.submit button_text, :class => "btn primary" %> <%= link_to_function t(:cancel), "history.back()", :class => "btn" %>
   </div>
 <% end %>

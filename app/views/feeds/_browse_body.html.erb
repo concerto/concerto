@@ -1,5 +1,5 @@
 <div class="default-padding">
-  <h1><%= pluralize(@feeds.count, t(:feed).capitalize) %></h1>
+  <h1><%= pluralize(@feeds.count, Feed.model_name.human.capitalize) %></h1>
 </div>
 
 <ul class="list-stacked">
@@ -39,6 +39,6 @@
 
 <% if can? :create, Feed %>
   <div class="default-padding">
-    <%= link_to t(:new_feed), new_feed_path, :class => "btn" %>
+    <%= link_to t(:new_model, :model => Feed.model_name.human), new_feed_path, :class => "btn" %>
   </div>
 <% end %>

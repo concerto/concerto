@@ -1,27 +1,14 @@
 en:
+  activerecord:
+    models:
+      concerto_plugin: 'Plugin'
+
   concerto_plugins:
-    cancel: 'Cancel'
-    destroy: 'Delete'
-    edit_plugin: 'Edit'
-    manage_plugins: 'Manage Plugins'
-    new_plugin: 'New Plugin'
-
-    edit:
-      update_plugin: 'Update Plugin'
-
     form:
       source_rubygems: 'RubyGems'
       source_git_repo: 'Git Repository'
       source_filesystem_path: 'Filesystem Path'
 
     index:
-      are_you_sure: 'Are you sure?'
       disabled: "disabled"
       enabled: "enabled"
-
-    new:
-      create_plugin: 'Create Plugin'
-
-    plugins_navigation:
-
-    show:

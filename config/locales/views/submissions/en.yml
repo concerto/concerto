@@ -1,24 +1,38 @@
 en:
+  submissions:
+    index_header:
+      all_feeds: 'All Feeds'
+      moderated_by: 'moderated by'
+
+    approval_info:
+      submitted_by: 'Submitted By'
+      the_dawn_of_time: 'The Dawn of Time.'
+      display_until: 'Display Until:'
+      the_end_of_time: 'The End of Time.'
+      duration: 'Duration:'
+      seconds: 'seconds'
+
+    index_body:
+      click_to_jump: 'Click on a feed to jump'
+      jump_to_feed: "Jump to Feed..."
+      no_sub_feeds: 'No Sub-feeds'
+      sub_feeds: 'Sub-feeds:'
+      submissions_pending: { one: '%{count} item pending your moderation', other: '%{count} items pending your moderation' }
+      toggle_content_states_to_display: 'Toggle content states to display...'
+      type_to_filter: 'Type here to filter'
+
+    show_header:
+      all_feeds: 'All Feeds'
+
   browse_submissions: 'Browse Submissions'
-
-  #_index_header
-  moderated_by: 'moderated by'
-  expired: 'expired'
-  future: 'future'
-
-  #_index_body
-  jump_to_feed: "Jump to Feed..."
 
   #_moderate_form
   reason: Reason
 
   #_show_body
   change_moderation: 'Change Moderation'
-  submitted_by: 'Submitted By'
   also_appears_on: 'Also appears on...'
 
-  #_show_header
-  all_feeds: 'All Feeds'
 
   #_submission_listgriditem
   date_range: '%{start} to %{end}'

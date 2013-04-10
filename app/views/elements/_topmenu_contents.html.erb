@@ -12,9 +12,9 @@
   <% if not user_signed_in? %>
     <%= link_to "Concerto", main_app.root_url, :id => "top-menu-logobutton" %>
     <p id="top-menu-logintext">
-      <%= link_to t(:sign_in), main_app.new_user_session_path, :id => "login-dropdown" %> <%=t(:signin_login_spiel) %>
+      <%= link_to t('.sign_in'), main_app.new_user_session_path, :id => "login-dropdown" %> <%=t('.signin_login_spiel') %>
       <% if can? :create, User %>
-        <%= t(:no_account) %> <%= link_to t(:sign_up), main_app.new_user_registration_path %> <%= t(:now) %>
+        <%= t('.no_account') %> <%= link_to t('.sign_up'), main_app.new_user_registration_path %> <%= t('.now') %>
       <% end %>
     </p>
   <% else %>
@@ -25,16 +25,16 @@
     <!-- Begin Menu for CONTENT -->
     <section>
       <div class="top-menu-sectop">
-        <%= link_to t(:browse), main_app.feeds_path, :class => "btn #{ current_page?(main_app.feeds_path) || current_page?(main_app.root_path) ? 'selected' : '' }" %>
+        <%= link_to t('.browse'), main_app.feeds_path, :class => "btn #{ current_page?(main_app.feeds_path) || current_page?(main_app.root_path) ? 'selected' : '' }" %>
         <%= link_to t(:add), main_app.new_content_path, :class => "btn #{ current_page?(main_app.new_content_path) ? 'selected' : '' }" if can? :create, Content %>
         <% if @pending_submissions_count %>
-          <%= link_to main_app.moderate_path, :class => "tooltip-basic btn #{ current_page?(main_app.moderate_path) ? 'selected' : '' }", 'data-tooltip-text' => "You have #{ @pending_submissions_count } submissions to moderate" do %>
-            <%= t(:moderate) %>&nbsp;<span class="badge<% if @pending_submissions_count > 0 %> action<% end %>"><%= @pending_submissions_count %></span>
+          <%= link_to main_app.moderate_path, :class => "tooltip-basic btn #{ current_page?(main_app.moderate_path) ? 'selected' : '' }", 'data-tooltip-text' => t('.submissions_to_moderate', :count => @pending_submissions_count) do %>
+            <%= t('.moderate') %>&nbsp;<span class="badge<% if @pending_submissions_count > 0 %> action<% end %>"><%= @pending_submissions_count %></span>
           <% end %>
         <% end %>
       </div>
       <div class="top-menu-secbot">
-        <h1><%= t(:content) %></h1>
+        <h1><%= t('.content') %></h1>
       </div>
     </section>
     <!-- End Menu for CONTENT -->
@@ -42,11 +42,11 @@
     <!-- Begin Menu for NETWORK -->
     <section>
       <div class="top-menu-sectop">
-        <%= link_to t(:screens), main_app.screens_path, :class => "btn #{ controller.controller_name == 'screens' ? 'selected' : '' }" %>
-        <%= link_to t(:users_and_groups), main_app.groups_path, :class => "btn #{ controller.controller_name == 'groups' ? 'selected' : '' }" %>
+        <%= link_to t('.screens'), main_app.screens_path, :class => "btn #{ controller.controller_name == 'screens' ? 'selected' : '' }" %>
+        <%= link_to t('.users_and_groups'), main_app.groups_path, :class => "btn #{ controller.controller_name == 'groups' ? 'selected' : '' }" %>
       </div>
       <div class="top-menu-secbot">
-        <h1><%= t(:network) %></h1>
+        <h1><%= t('.network') %></h1>
       </div>
     </section>
     <!-- End Menu for NETWORK -->
@@ -55,11 +55,11 @@
     <% if can? :manage, :all %>
       <section>
         <div class="top-menu-sectop">
-          <%= link_to t(:dashboard), main_app.dashboard_path, :class => "btn #{ controller.controller_name == 'dashboard' ? 'selected' : '' }" %>
-          <%= link_to t(:manage_users), main_app.users_path, :class => "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" %>
+          <%= link_to t('.dashboard'), main_app.dashboard_path, :class => "btn #{ controller.controller_name == 'dashboard' ? 'selected' : '' }" %>
+          <%= link_to t(:manage_model, :model => User.model_name.human.pluralize), main_app.users_path, :class => "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" %>
         </div>
         <div class="top-menu-secbot">
-          <h1><%= t(:admin) %></h1>
+          <h1><%= t('.admin') %></h1>
         </div>
       </section>
     <% end %>
@@ -69,12 +69,12 @@
     <section class="right">
       <div id="top-menu-user" class="top-menu-sectop">
         <div class="pull-left">
-          <% if current_user.is_admin? %><i class="icon-user-admin tooltip-basic" data-tooltip-text="<%= t(:system_admin) %>"></i><% end %>
-          <% if user_leads_a_group? %><i class="icon-user-leader tooltip-basic" data-tooltip-text="<%= t(:leader) %>"></i><% end %>
+          <% if current_user.is_admin? %><i class="icon-user-admin tooltip-basic" data-tooltip-text="<%= t('.system_admin') %>"></i><% end %>
+          <% if user_leads_a_group? %><i class="icon-user-leader tooltip-basic" data-tooltip-text="<%= t('.leader') %>"></i><% end %>
         </div>
         <div class="pull-right">
           <h2><%= link_to current_user.name, [main_app, current_user] %></h2>
-          <p><%= link_to t(:settings), main_app.edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;<%= link_to t(:log_out), main_app.destroy_user_session_path %></p>
+          <p><%= link_to t('.settings'), main_app.edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;<%= link_to t('.log_out'), main_app.destroy_user_session_path %></p>
         </div>
 
       </div>

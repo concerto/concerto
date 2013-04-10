@@ -1,50 +1,53 @@
+
 en:
-  #index
-  browse_content: "Browse Concerto Content"
-  browse_content_by_feed: "Browse Content by Feed"
-  browse_content_by_screen: "Find Content on a Particular Screen"
+  contents:
+    index:
+      browse_content: "Browse Concerto Content"
+      browse_content_by_feed: "Browse Content by Feed"
+      browse_content_by_screen: "Find Content on a Particular Screen"
 
-  #_table
-  title: "Title"
-  link: "Link"
-  description: "Description"
-  submitted: "Submitted"
-  updated: "Updated"
+    table:
+      title: "Title"
+      link: "Link"
+      description: "Description"
+      submitted: "Submitted"
+      updated: "Updated"
 
-  #edit
-  editing_content: "Editing Content"
-  show: "Show"
-  back: "Back"
+    edit:
+      editing_content: "Editing Content"
 
-  #form_elements/_feeds
-  no_feeds: "There are no feeds in the system that you can submit content to.  Please contact your system administrator for more information."
+    #content/form
+    form:
+      prohibited_save: "prevented this %{model} from being saved:"
+      provide_details: "Provide Basic Details"
+      select_feed: "Select Feed"
+      select_content_type: "Select Content Type to Add"
 
-  #content/form
-  prohibited_save: "prohibited this %{model} from being saved:"
-  provide_details: "Provide Basic Details"
-  select_feed: "Select Feed"
-  select_content_type: "Select Content Type to Add"
+    #graphic/form
+    graphic:
+      form_top:
+        upload_graphic: "Upload Graphic From Your Computer"
+        specify_file: "Specify File"
+        accepted_filetypes: "Accepted Filetypes"
 
-  #graphic/form
-  upload_graphic: "Upload Graphic From Your Computer"
-  specify_file: "Specify File"
-  accepted_filetypes: "Accepted Filetypes"
+    #ticker/form
+    ticker:
+      form_top:
+        upload_ticker: "Type Your Message"
 
-  #ticker/form
-  upload_ticker: "Type Your Message"
-
-  #new
-  select_type: "Select Type"
-  design_graphic: "Design a Graphic"
-  add: "Add"
-  content: "Content"
-  content_type: "Content type to add:"
+    #new
+    new:
+      select_type: "Select Type"
+      design_graphic: "Design a Graphic"
+      content: "Content"
+      content_type: "Content type to add:"
 
   #show
-  display_from: "Display From:"
-  display_until: "Display Until:"
-  submitted_by: "Submitted by"
-  feeds_moderation_status: "Submission Status"
+    show:
+      display_from: "Display From:"
+      display_until: "Display Until:"
+      submitted_by: "Submitted by"
+      feeds_moderation_status: "Submission Status"
 
   helpers:
     label:

@@ -20,9 +20,6 @@ en:
   new_user: 'New User'
   first_name: 'First Name'
   last_name: 'Last Name'
-  destroy: 'destroy'
-  edit: 'edit'
-  are_you_sure: 'Are you sure?'
 
   helpers:
     label:

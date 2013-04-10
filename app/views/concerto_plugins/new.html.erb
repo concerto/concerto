@@ -3,11 +3,11 @@
 <section class="viewblock">
   <header class="viewblock-header">
     <h1 class="default-padding">
-      <%= t 'concerto_plugins.new_plugin' %>
+      <%= t :new_model, :model => ConcertoPlugin.model_name.human %>
     </h1>
   </header>
   <div class="viewblock-cont" style="min-height: 600px;">
     <%= render :partial => 'plugins_navigation' %>
-    <%= render :partial => 'form', :locals => { :button_text => t('.create_plugin') } %>
+    <%= render :partial => 'form', :locals => { :button_text => t(:create_model, :model => ConcertoPlugin.model_name.human) } %>
   </div>
 </section>

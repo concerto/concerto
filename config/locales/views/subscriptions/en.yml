@@ -4,8 +4,6 @@ en:
 
   #_list
   new_subscription: 'New subscription'  
-  edit: 'Edit'
-  destroy: 'Destroy'
   manage_subscription: 'Manage Subscriptions'
 
   #_manage
