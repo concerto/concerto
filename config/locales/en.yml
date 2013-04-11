@@ -3,23 +3,33 @@
 
 en:
   add: 'Add'
+  add_model: 'Add %{model}'
+  all_model: 'All %{model}'
+  approve: 'Approve'
   are_you_sure: 'Are you sure?'
   back: 'Back'
   cancel: 'Cancel'
   create_model: 'Create %{model}'
+  current_model: 'Current %{model}'
   destroy: 'Delete'
+  deny: 'Deny'
   edit: 'Edit'
   edit_model: 'Edit %{model}'
+  import_model: 'Import %{model}'
   manage_model: 'Manage %{model}'
   new_model: 'New %{model}'
+  no: 'No'
+  preview: 'Preview'
   prohibited_save: "prevented this %{model} from being saved:"
+  remove_model: 'Remove %{model}'
   show: 'Show'
+  type_to_filter: 'Type here to filter'
   update_model: 'Update %{model}'
 
   is_viewable: "Viewable"
   is_submittable: "Submittable"
   membership_approved: "Approved"
-  membersip_denied: "Denied"
+  membership_denied: "Denied"
   
   #CanCan Exceptions localization (https://github.com/ryanb/cancan/wiki/exception-handling)
   unauthorized:

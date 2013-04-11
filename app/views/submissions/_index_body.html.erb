@@ -64,7 +64,7 @@
   <div id="browse-filter-select" class="clearfix" style="display: none;">
 
     <div class="pull-left">
-      <p style="line-height: 24px; margin-right: 6px;">Show:</p>
+      <p style="line-height: 24px; margin-right: 6px;"><%= t(:show) %>:</p>
     </div>
     <div class="pull-left">
       <div class="btn-group">
@@ -101,13 +101,13 @@
 <div class="clearfix default-padding">
   <div class="header-with-icon clearfix">
     <h3 style="float: left;">
-      <i class="icon-header-<%= @state %>content"></i> <%= pluralize(@submissions.count, "#{@state} items") %>
+      <i class="icon-header-<%= @state %>content"></i> <%= t('.items_in_state', :count => @submissions.count, :state => @state) %>
     </h3>
   </div>
   <br />
   <div class="alert alert-block alert-zero">
-    <p class="alert-heading">No <%= @state.capitalize %> Content</p>
-    <% if (can? :create, Content) && @state == 'active' %>Would you kindly <%= link_to "submit something", new_content_path %> to make this feed a happier place?<% end %>
+    <p class="alert-heading"><%= t('.no_state_content', :state => @state.capitalize) %></p>
+    <% if (can? :create, Content) && @state == 'active' %><%= t('.would_you_kindly') %> <%= link_to t('.submit_something'), new_content_path %> <%= t('.to_make_this_feed_happy') %><% end %>
   </div>
 </div>
 <% else %>
@@ -115,7 +115,7 @@
 <div class="clearfix default-padding">
   <div class="header-with-icon clearfix">
     <h3 style="float: left;">
-      <i class="icon-header-<%= @state %>content"></i> <%= pluralize(@submissions.count, "#{@state} items") %>
+      <i class="icon-header-<%= @state %>content"></i> <%= t('.items_in_state', :count => @submissions.count, :state => @state) %>
     </h3>
     <div class="pagination-cont">
       <%= paginate @paginated_submissions %>

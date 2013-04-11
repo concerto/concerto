@@ -1,20 +1,19 @@
 <div class="fluid-row">
   <div class="span2">
     <br />
-    <%= link_to t('edit_screen_details'), edit_screen_path(@screen), :class => "btn" if can? :update, @screen %>
-    <br />
-    <%= link_to 'Preview Screen', frontend_screen_path(@screen), :class => "btn", :data => {'no-turbolink' => true} if can? :update, @screen %>
+    <%= link_to t(:edit_model, :model => Screen.model_name.human), edit_screen_path(@screen), :class => "btn primary" if can? :update, @screen %> 
+    <%= link_to t(:preview), frontend_screen_path(@screen), :class => "btn", :data => {'no-turbolink' => true} if can? :update, @screen %>
     <br />
     <br />
 
     <% unless @screen.location.blank? %>
-      <p><b><%= t('location') %></b> <%= @screen.location %></p>
+      <p><b><%= Screen.human_attribute_name(:location) %>:</b> <%= @screen.location %></p>
     <% end %>
 
-    <p><b><%= t('owned_by') %></b> <%= @screen.owner.name %></p>
+    <p><b><%= Screen.human_attribute_name(:owner_id) %>:</b> <%= @screen.owner.name %></p>
 
     <p>
-      <b><%= t('current_subscriptions') %></b>
+      <b><%= t(:current_model, :model => Subscription.model_name.human.pluralize) %></b>
 
       <ul>
         <% @screen.fields.each do |field| %>
@@ -42,7 +41,7 @@
           <% @screen.template.positions.each do |pos| %>
             <div class="pos" style="top: <%= pos.top * 100 %>%; left: <%= pos.left * 100 %>%; width: <%= (pos.right - pos.left) * 100 %>%; height: <%= (pos.bottom - pos.top) * 100 %>%;">
               <% if can? :update, Subscription.new(:screen => @screen, :field => pos.field) %>
-                <%= link_to t('change_subscriptions'), manage_screen_field_subscriptions_path(@screen, pos.field), :class => "btn info" %>
+                <%= link_to t(:manage_model, :model => Subscription.model_name.human.pluralize), manage_screen_field_subscriptions_path(@screen, pos.field), :class => "btn info" %>
               <% end %>
             </div>
           <% end %>

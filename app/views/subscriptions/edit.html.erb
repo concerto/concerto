@@ -1,5 +1,5 @@
-<h1>Editing <%= @screen.name %> subscriptions</h1>
+<h1><%= t(:edit) %> <%= @screen.name %> <%= Subscription.model_name.human.pluralize %></h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Back', manage_screen_field_subscriptions_path(@screen, @field) %>
+<%= link_to t(:back), manage_screen_field_subscriptions_path(@screen, @field) %>

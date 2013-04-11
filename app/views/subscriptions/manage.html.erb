@@ -2,7 +2,7 @@
   <div class="span12">
     <section class="viewblock">
       <header class="viewblock-header">
-        <h1 class="default-padding"><%= t :manage_subscriptions, :name => @this_field.name %></h1>
+        <h1 class="default-padding"><%= t('.manage_model_for_field', { :model => Subscription.model_name.human.pluralize, :name => @this_field.name }) %></h1>
       </header> 
       <div class="viewblock-cont" style="min-height: 600px;">
 
@@ -12,7 +12,7 @@
               <li<% if field.id == @this_field.id %> class="active"<% end %>>
                 <%= link_to manage_screen_field_subscriptions_path(@screen, field) do %>
                   <%= image_tag(preview_template_path(@screen.template, :height => 80, :format => :png, :fields => field), :border => 0) %>
-                  <p class="caption"><%= field.kind.name %> Field</p>
+                  <p class="caption"><%= field.kind.name %> <%= t('.field') %></p>
                 <% end %>
               </li>
             <% end %>
@@ -33,20 +33,20 @@
                 <tr>
                   <td>
                     <h2><%= subscription.feed.name %></h2>
-                    <h4 class="color-gray"><%= pluralize subscription.feed.approved_contents.size, t(:approved_content) %></h4>
+                    <h4 class="color-gray"><%= t('subscriptions.approved_content', :count => subscription.feed.approved_contents.size) %></h4>
                     <%= hidden_field_tag "subscription_id[#{i}]", subscription.id %>
                     <%= hidden_field_tag "subscription_feed[#{i}]", subscription.feed.id, :class => "marker-sub-feed" %>
                   </td>
                   <td>
                     <div class="clearfix frequency" data-sub-index="<%= i %>">
-                      <div class="leftseconds" style="width: 50px;"><%= t(:rare) %></div>
+                      <div class="leftseconds" style="width: 50px;"><%= t('subscriptions.shown_rarely') %></div>
                       <%= range_field :subscription_weight, i, { :value => subscription.weight, :min => 1, :max => Subscription::WEIGHTS.size, :step => 1, :class => "frequency_range thin" } %>
-                      <div class="rightseconds" style="width: 50px;"><%= t(:frequent) %></div>
+                      <div class="rightseconds" style="width: 50px;"><%= t('subscriptions.shown_frequently') %></div>
                     </div>
                   </td>
                   <td>
-                    <%= link_to screen_field_subscription_path(@screen,@this_field,subscription), :method => :delete, :class => "btn btnRemoveSubscription" do %>
-                      <i class="ficon-remove"></i> <%= t(:remove) %>
+                    <%= link_to screen_field_subscription_path(@screen,@this_field,subscription), {:data => { :confirm => t(:are_you_sure) }, :method => :delete, :class => "btn danger btnRemoveSubscription" } do %>
+                      <i class="ficon-remove"></i> <%= t(:remove_model, :model => Feed.model_name.human) %>
                     <% end %>
                   </td>
                 </tr>
@@ -65,9 +65,9 @@
 
           <div id="save-subscriptions-alert" class="alert alert-block alert-removeborder alert-zero" style="display: table; text-align: right;">
             <span class="save-msg" style="display:table-cell; vertical-align:middle; width: 100%;">
-              <%= t(:make_changes) %>
+              <%= t('.make_changes') %>
             </span>
-            <%= f.submit "Save changes to subscriptions", :class => "btn large pull-right", :style => "margin-left: 12px;" %>
+            <%= f.submit t('.save_changes_to_model', :model => Subscription.model_name.human.pluralize), :class => "btn large pull-right", :style => "margin-left: 12px;" %>
           </div>
 
         <% end %>

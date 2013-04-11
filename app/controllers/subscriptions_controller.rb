@@ -100,7 +100,7 @@ class SubscriptionsController < ApplicationController
 					format.xml  { render :xml => @subscriptions[i].errors, :status => :unprocessable_entity }
 				end
 			end
-			format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t(:subscriptions_created)) }
+			format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t('subscriptions.records_created')) }
 			format.xml  { render :xml => @subscriptions, :status => :created, :location => @subscriptions }
 		end
 	end
@@ -171,7 +171,7 @@ class SubscriptionsController < ApplicationController
           format.xml  { render :xml => @subscriptions[i].errors, :status => :unprocessable_entity }
         end
       end
-      format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t(:subscriptions_updated)) }
+      format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t('subscriptions.records_updated')) }
       format.xml  { render :xml => @subscriptions, :status => :created, :location => @subscriptions }
     end
   end

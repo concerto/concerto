@@ -1,7 +1,7 @@
 <section class="viewblock">
   <header class="viewblock-header">
     <h1 class="default-padding">
-    <%= t('users.all_users') %>
+    <%= t(:all_model, :model => User.model_name.human.pluralize) %>
     <% if can? :create, User %>
       <%= link_to t(:new_model, :model => User.model_name.human), new_user_path, :class => "button" %>
     <% end %>

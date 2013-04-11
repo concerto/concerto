@@ -15,26 +15,18 @@ en:
 
     show_body:
       admin: 'Admin'
-      screens: 'Screens'
+      change_password: 'Change Password'
+      content: 'Content'
+      dont_receive_emails: "Don't receive emails"
+      forever: 'forever'
       groups: 'Groups'
+      my: 'My'
+      name: 'Name'
+      receive_emails: 'Receive emails'
+      roles: 'Roles'
+      screens: 'Screens'
       system_wide_admin: 'This user is a system-wide admin'
       this_is_you: 'This is you.'
-      name: 'Name'
-      roles: 'Roles'
-      receive_emails: 'Receive emails'
-      dont_receive_emails: "Don't receive emails"
-      content: 'Content'
-      my: 'My'
-      forever: 'forever'
-
-  # change: 'change'
-  # your_screen: 'This is your screen.'
-  # to: 'to'
-
-  # #edit
-  # change_password: 'Change Password'
-  # delete_account: 'Delete Account'
-  # edit_settings: 'Edit Settings'
 
   # helpers:
   #   label:

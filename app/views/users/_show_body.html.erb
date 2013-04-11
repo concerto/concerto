@@ -18,12 +18,12 @@
 
           <% if user_signed_in? and current_user == @user %>
             <p style="margin-bottom: 0px;"><b><%= t('.this_is_you') %></b></p>
+          <% end %>
             <div class="inline-inputs">
               <%= link_to t(:edit), edit_user_path, :class => "btn primary" %> 
-              <%= link_to t(:change_password), edit_user_registration_path, :class => "btn" %> 
-              <%= link_to t(:delete), registration_path(@user), :data => { :confirm => "Are you sure?"}, :method => :delete, :class => "btn danger" if current_user != @user %> 
+              <%= link_to t('.change_password'), edit_user_registration_path, :class => "btn" %> 
+              <%= link_to t(:destroy), registration_path(@user), :data => { :confirm => t(:are_you_sure)}, :method => :delete, :class => "btn danger" if current_user != @user %> 
             </div>
-          <% end %>
         </div>
       </div>
 
@@ -123,7 +123,7 @@
                       <% if content.is_orphan? %>
                         <p class="is_orphan"><%= t('feeds.orphaned') %></p>
                       <% elsif content.is_approved? %>
-                        <p class="is_approved"><%= t('feeds.Approved') %></p>
+                        <p class="is_approved"><%= t('feeds.approved') %></p>
                       <% else %>
                         <% if content.is_pending? %>
                           <span class="is_pending"><%= t('feeds.pending') %></span>
