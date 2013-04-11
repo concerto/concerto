@@ -1,5 +1,5 @@
 <h1 class="default-padding">
-  <%= link_to t(:all_users), users_path %> &gt;
+  <%= link_to t(:all_model, :model => User.model_name.human.pluralize), users_path %> &gt;
   <%= @user.name %>
 </h1>
 

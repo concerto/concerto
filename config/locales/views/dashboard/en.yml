@@ -1,17 +1,17 @@
 en:
-  #index
-  admin_dashboard: "Admin Dashboard"
-  concerto_version: "Concerto Version:"
-  backup: "Backup"
-  save_settings: "Save Settings"
-  Concerto Version: "Concerto Version:"
-  new_version: "A new version (%{version}) is now available."
-  delayed_job_status: "Delayed Job Status:"
-  running: "Running"
-  stopped: "Stopped"
-  start_stop: "How to Start/Stop"
-  user_stats: "User Stats:"
-  manage_users: "Manage Users"
-  global_preferences: "Global Preferences"
-  manage_plugins: "Manage Plugins"
-  edit_preferences: "Edit Global Preferences"
+  dashboard:
+    global_preferences: "Global Preferences"
+
+    index:
+      edit_preferences: "Edit Global Preferences"
+      save_settings: "Save Settings"
+    admin_stats:
+      admin_dashboard: "Admin Dashboard"
+      backup: "Backup"
+      concerto_version: "Concerto Version:"
+      delayed_job_status: "Delayed Job Status:"
+      new_version: "A new version (%{version}) is now available."
+      running: "Running"
+      start_stop: "How to Start/Stop"
+      stopped: "Stopped"
+      user_stats: "User Stats:"

@@ -2,7 +2,7 @@
 
   <% if @templates.size == 0 %>
   <div class="default-padding">
-    <h3><%= t(:no_templates_html, :href => link_to(t(:add_one), new_template_path)) %></h3>
+    <h3><%= t('.no_templates_html', :href => link_to(t('.add_one'), new_template_path)) %></h3>
   </div>
   <% else %>
   <ul class="list-grid">
@@ -15,7 +15,7 @@
       </div>
       <div class="cont">
         <p><b><%= link_to template.name, template %></b></p>
-        <p>by <%= template.author %></p>
+        <p><%= t('.author') %> <%= template.author %></p>
       </div>
     </li>
     <% end %>

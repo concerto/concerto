@@ -1,14 +1,14 @@
 <section class="viewblock">
   <header class="viewblock-header" id="kinds-header">
     <h1 class="default-padding">
-      <%= link_to t(:all_kinds), kinds_path %> &gt;
+      <%= link_to t(:all_model, :model => Kind.model_name.human.pluralize), kinds_path %> &gt;
       <%= @kind.name %>
     </h1>
   </header>
   <div class="viewblock-cont">
     <table>
       <tr>
-        <th><%= t(:name) %></th>
+        <th><%= Kind.human_attribute_name(:name) %></th>
       </tr>
 
       <% @kind.fields.each do |field| %>
@@ -20,5 +20,5 @@
   </div>
 </section>
 
-<%= link_to 'Edit', edit_kind_path(@kind) %> |
-<%= link_to 'Back', kinds_path %>
+<%= link_to t(:edit), edit_kind_path(@kind) %> |
+<%= link_to t(:back), kinds_path %>

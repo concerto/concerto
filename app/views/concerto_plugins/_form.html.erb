@@ -1,7 +1,7 @@
 <%= form_for(@concerto_plugin) do |f| %>
   <% if @concerto_plugin.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@concerto_plugin.errors.count, t(:error)) %> <%= t(:prohibited_save) %></h2>
+      <h2><%= pluralize(@concerto_plugin.errors.count, t(:error)) %> <%= t(:prohibited_save, :model => ConcertoPlugin.model_name.human) %></h2>
 
       <ul>
       <% @concerto_plugin.errors.full_messages.each do |msg| %>
@@ -64,6 +64,6 @@
   </fieldset>
 
   <div class="submit_bar actions">
-    <%= f.submit button_text, :class => "btn primary" %> <%= link_to_function t('concerto_plugins.cancel'), "history.back()", :class => "btn" %>
+    <%= f.submit button_text, :class => "btn primary" %> <%= link_to_function t(:cancel), "history.back()", :class => "btn" %>
   </div>
 <% end %>

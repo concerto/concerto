@@ -1,9 +1,9 @@
 <%= @activity.recipient.name %>, 
 
-<p>Moderator <%= link_to @activity.owner.name, @activity.owner if @activity.owner %>
-<%= @activity.parameters[:status] ? "approved" : "denied" %>
-<%= link_to @activity.trackable.content.name, @activity.trackable.content %> for the <%= link_to @activity.trackable.feed.name, @activity.trackable.feed %> feed.</p>
+<p><%= t('.moderator')%> <%= link_to @activity.owner.name, @activity.owner if @activity.owner %>
+<%= @activity.parameters[:status] ? t(".approved") : t(".denied") %>
+<%= link_to @activity.trackable.content.name, @activity.trackable.content %> <%= t('.for_the')%> <%= link_to @activity.trackable.feed.name, @activity.trackable.feed %> <%= t('.feed')%>.</p>
 
 <% if @activity.parameters[:status] == false %>
-  <p>The reason provided for the rejection is: <%= @activity.trackable.moderation_reason %></p>
+  <p><%= t('.reason_rejected')%> <%= @activity.trackable.moderation_reason %></p>
 <% end %>

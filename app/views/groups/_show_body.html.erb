@@ -20,17 +20,17 @@
           <div class="default-padding">
             <% if already_member %>
               <% membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first %>
-              <p><b>You are currently a <%= membership.level_name %><%= " member" unless membership.level == Membership::LEVELS[:leader] %> of this group.</b></p>
+              <p><b><%= t('.your_membership_role', :level => membership.level_name, :what => (membership.level == Membership::LEVELS[:leader] ? "" : t('.member'))) %></b></p>
               <% if @group.has_member?(current_user) %>
-                <%= link_to( t(:leave_group), group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn") %>
+                <%= link_to( t('.leave_group'), group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn danger", :data => { :confirm => t(:are_you_sure)}) %>
                 <% if can? :edit, @group %>
-                  <%= link_to t(:edit_details), edit_group_path(@group), :class => "btn" %>
+                  <%= link_to t(:edit_model, :model => Group.model_name.human), edit_group_path(@group), :class => "btn" %>
                 <% end %>
               <% end %>
             <% elsif can_join %>
-              <p><b><%= t(:not_in_group) %></b></p>
+              <p><b><%= t('.not_in_group') %></b></p>
               <% if can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>
-                <%= link_to( t(:join_group), group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
+                <%= link_to( t('.join_group'), group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
               <% end %>
             <% end %>
           </div>
@@ -38,15 +38,15 @@
       <% end %>
 
       <br />
-      <h2><%= t(:group_members) %></h2>
+      <h2><%= t('.group_members') %></h2>
       <br />
 
       <table>
         <thead>
           <tr>
             <th style="width: 1px;">&nbsp;</th>
-            <th><%= t(:name) %></th>
-            <%if user_signed_in? %><th><%= t(:email) %></th><% end %>
+            <th><%= User.human_attribute_name(:name) %></th>
+            <%if user_signed_in? %><th><%= User.human_attribute_name(:email) %></th><% end %>
           </tr>
         </thead>
 
@@ -55,12 +55,12 @@
           <% @group.memberships.leader.each do |membership| %>
             <tr>
               <td>
-                <i class="icon-user-leader tooltip-basic" data-tooltip-text="<%= t(:is_group_leader) %>"></i>
+                <i class="icon-user-leader tooltip-basic" data-tooltip-text="<%= t('.is_group_leader') %>"></i>
               </td>
   
               <td>
                 <%= membership.user.name %><br />
-                <b>Leader</b>
+                <b><%= t('.leader') %></b>
               </td>
               <%if user_signed_in? %>
                 <td>
@@ -96,7 +96,7 @@
     <div class="default-padding">
 
      <div class="subblock">
-       <h2><%= t(:group_screens) %></h2>
+       <h2><%= t('.group_screens') %></h2>
        <ul class="list-grid">
          <% @group.screens.each do |screen| %>
          <li>
@@ -116,7 +116,7 @@
      </div>
 
      <div class="subblock">
-       <h2><%= t(:group_feeds) %></h2>
+       <h2><%= t('.group_feeds') %></h2>
 
        <% if !@group.feeds.empty? %>
 
@@ -126,7 +126,7 @@
            <% end %>
          </ul>
          <div class="clearfix">
-           <%= link_to t(:new_feed), new_feed_path, :class => "btn" if can? :create, Feed %>
+           <%= link_to t(:new_model, :model => Feed.model_name.human), new_feed_path, :class => "btn" if can? :create, Feed %>
          </div>
          <div class="clear"></div>
 

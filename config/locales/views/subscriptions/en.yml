@@ -1,19 +1,19 @@
 en:
-  subscriptions_created: 'Subscriptions created'
-  subscriptions_updated: 'Subscriptions have been saved for this field on your screen.'
+  subscriptions:
+    approved_content:
+      one: '%{count} approved item'
+      other: '%{count} approved items'
+    records_created: 'Subscriptions created'
+    records_updated: 'Subscriptions have been saved for this field on your screen.'
+    shown_frequently: 'Frequently shown'
+    shown_rarely: 'Rarely shown'
 
-  #_list
-  new_subscription: 'New subscription'  
-  edit: 'Edit'
-  destroy: 'Destroy'
-  manage_subscription: 'Manage Subscriptions'
-
-  #_manage
-  add_a_new_feed:  'add a new feed'
-  manage_subscriptions: 'Manage Subscriptions for %{name} Field'
-  switch_position: 'switch to screen position'
-  approved_content: 'approved content'
-  rare: 'Rarely shown'
-  frequent: 'Frequently shown'
-  make_changes: 'Please make some changes above in order to save new subscriptions.'
-  remove: 'Remove'
+    add_subscription:
+      add_a_new_feed:  'add a new feed'
+      search_and_find_a_feed_to_add: "Search and Find a Feed to Add"
+      
+    manage:
+      field: 'field'
+      make_changes: 'Please make some changes above in order to save new subscriptions.'
+      manage_model_for_field: 'Manage %{model} for %{name} Field'
+      save_changes_to_model: 'Save changes to %{model}'

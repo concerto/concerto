@@ -1,36 +1,35 @@
 en:
-  all_templates: 'All Templates'
+  activerecord:
+    models:
+      template: 'Template'
+    attributes:
+      template:
+        name: 'Name'
+        author: 'Author'
+        is_hidden: 'Hidden?'
 
-  #_form
-  edit_template: 'Edit Template'
 
-  #_create_form
-  create_template: 'Create Template'
-  background_image: 'Background Image'
+  templates:
+    from_scratch: 'Create from Scratch'
+    import_existing: 'Import Existing'
 
-  #_import_form
-  import_template: 'Import Template'
-  package: 'Package'
-  image: 'Image'
-  descriptor: 'Descriptor file'
+    import_form:
+      package: 'Package'
+      image: 'Image'
+      descriptor: 'Descriptor file'
 
-  #_show_body
-  edit: '[Edit]'
-  preview_alt: '%{name} Preview'
-  author: 'Author'
+    index_body:
+      no_templates_html: "Oops - there are no templates yet.  Why don't you %{href}?"
+      add_one: 'add one'
+      author: 'by'
 
-  #_index_body
-  no_templates_html: "Oops - there are no templates yet.  Why don't you %{href}?"
-  add_one: 'add one'
+    new:
+      template_type: "%{type} Template"
+      template_method: 'Template method:'
 
-  #edit
-  editing_template: 'Editing template'
-
-  #new
-  template_type: "%{type} Template"
-  template_method: 'Template method:'
-  from_scratch: 'Create from Scratch'
-  import_existing: 'Import Existing'
+    show_body:
+      preview_alt: '%{name} Preview'
+      author: 'Author'
 
   helpers:
     label:
@@ -39,6 +38,6 @@ en:
         author: 'Author'
         media: 'Background Image'
         is_hidden: 'Hide this template from being shown in lists'
-    submit:
-      create: "Create %{model}"
-      update: "Update %{model}"
+    # submit:
+    #   create: "Create %{model}"
+    #   update: "Update %{model}"

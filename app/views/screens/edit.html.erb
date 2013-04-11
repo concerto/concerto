@@ -1,8 +1,8 @@
 <section class="viewblock">
   <header class="viewblock-header">
-    <h1 class="default-padding"><%= t('edit_screen') %></h1>
+    <h1 class="default-padding"><%= t(:edit_model, :model => Screen.model_name.human) %></h1>
   </header>
   <div class="viewblock-cont">
-    <%= render :partial => 'screens/form', :locals => { :button_text => t('edit_screen') } %>
+    <%= render :partial => 'screens/form', :locals => { :button_text => t(:update_model, :model => Screen.model_name.human) } %>
   </div>
 </section>

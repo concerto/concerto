@@ -1,36 +1,31 @@
 en:
-  #index
-  all_screens: 'All Screens'
-  new_screen: 'New Screen'
-  new_template: 'New Template'
+  activerecord:
+    attributes:
+      screen:
+        name: 'Name'
+        location: 'Location'
+        owner: 'Owner'
+        owner_id: 'Owned By'
+        is_public: 'Is Public'
 
-  #_index_body
-  no_screens: 'Oops - there are no screens to display.'
-  add_one: 'Why not add one?'
-  to_add: " to add one"
-  my_screens: 'My Screens'
-  other_screens: 'Other Screens'
+  screens:
+    index_body:
+      add_one: 'Why not add one?'
+      my_screens: 'My Screens'
+      no_screens: 'Oops - there are no screens to display.'
+      other_screens: 'Other Screens'
+      to_add: " to add one"
 
-  #_form
-  create_screen: 'Create Screen'
-  edit_screen: 'Edit Screen'
-  cancel: 'Cancel'
-  dimensions: 'Dimensions'
-  visibility: 'Visibility'
-  select_template: 'Select Template'
-  add_new_template: 'Add New Template'
-  best_fit_templates: "Best-Fit Templates"
+    feeds:
+      filter_for_feeds: "Filter for Feeds"
+      select_feed: "Select Feed"
 
-  #show_body
-  edit_screen_details: 'Edit Screen Details'
-  location: 'Location:'
-  owned_by: 'Owned By:'
-  no_group: 'No Group'
-  current_subscriptions: 'Current Subscriptions:'
-  change_screen_template: 'Change Screen Template'
-  change_subscriptions: 'Change Subscriptions'
-  #provide_details: "Provide Basic Details"
-  #current_template: "Current Selection"
-  #other_templates: "Other Templates"
-  #select_feed: "Select Feed"
-  #filter_for_feeds: "Filter for Feeds"
+    form:
+      best_fit_templates: "Best-Fit Templates"
+      dimensions: 'Dimensions'
+      provide_details: 'Provide Details'
+      select_template: 'Select Template'
+      visibility: 'Visibility'
+
+      #current_template: "Current Selection"
+      #other_templates: "Other Templates"

@@ -1,6 +1,6 @@
 <section class="viewblock">
   <header class="viewblock-header" id="browse-header">
-    <h1 class="default-padding"><%= t(:all_templates) %><%= link_to t(:new_template), new_template_path, :class => "btn" if can? :create, @templates %></h1>
+    <h1 class="default-padding"><%= t(:all_model, :model => ::Template.model_name.human.pluralize) %><%= link_to t(:new_model, :model => ::Template.model_name.human), new_template_path, :class => "btn" if can? :create, @templates %></h1>
   </header>
   <div id="browse-body" class="viewblock-cont">
     <%= render "index_body" %>

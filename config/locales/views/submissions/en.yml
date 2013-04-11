@@ -1,37 +1,55 @@
 en:
-  browse_submissions: 'Browse Submissions'
+  activerecord:
+    attributes:
+      submission:
+        duration: 'Duration'
+        moderation_reason: 'Reason'
 
-  #_index_header
-  moderated_by: 'moderated by'
-  expired: 'expired'
-  future: 'future'
+  submissions:
+    moderate_title: 'moderate %{name}!'
 
-  #_index_body
-  jump_to_feed: "Jump to Feed..."
+    index_header:
+      all_feeds: 'All Feeds'
+      moderated_by: 'moderated by'
 
-  #_moderate_form
-  reason: Reason
+    approval_info:
+      submitted_by: 'Submitted By'
+      the_dawn_of_time: 'The Dawn of Time.'
+      display_from: 'Display From:'
+      display_until: 'Display Until:'
+      the_end_of_time: 'The End of Time.'
+      duration: 'Duration:'
+      seconds: 'seconds'
 
-  #_show_body
-  change_moderation: 'Change Moderation'
-  submitted_by: 'Submitted By'
-  also_appears_on: 'Also appears on...'
+    index_body:
+      click_to_jump: 'Click on a feed to jump'
+      items_in_state: 
+        one: '%{count} %{state} item'
+        other: '%{count} %{state} items' 
+      jump_to_feed: "Jump to Feed..."
+      no_state_content: 'No %{state} Content'
+      no_sub_feeds: 'No Sub-feeds'
+      sub_feeds: 'Sub-feeds:'
+      submissions_pending: 
+        one: '%{count} item pending your moderation'
+        other: '%{count} items pending your moderation' 
+      toggle_content_states_to_display: 'Toggle content states to display...'
 
-  #_show_header
-  all_feeds: 'All Feeds'
+      would_you_kindly: 'Would you kindly'
+      submit_something: 'submit something'
+      to_make_this_feed_happy: 'to make this feed a happier place?'
 
-  #_submission_listgriditem
-  date_range: '%{start} to %{end}'
-  urgent: 'Urgent'
-  urgent_tooltip: 'Hey! This content has already passed its requested start date and you should moderate it.'
-  moderate: 'Moderate...'
-  moderate_title: 'moderate %{name}!'
-  currently: 'currently'
-  approved: 'Approved'
-  denied: 'Denied'
-  change_to_denied: 'Change to Denied'
-  change_to_approved: 'Change to Approved'
-  pending_moderation: 'Pending Moderation'
-  approve: 'approve'
-  deny: 'deny'
+    show_body:
+      also_appears_on: 'Also submitted to...'
 
+    show_header:
+      all_feeds: 'All Feeds'
+
+    submission_listgriditem:
+      change_to_approved: 'Change to Approved'
+      change_to_denied: 'Change to Denied'
+      currently: 'currently'
+      date_range: '%{start} to %{end}'
+      moderate: 'Moderate...'
+      urgent: 'Urgent'
+      urgent_tooltip: 'Hey! This content has already passed its requested start date and you should moderate it.'

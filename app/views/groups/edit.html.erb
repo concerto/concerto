@@ -3,14 +3,14 @@
 
     <section class="viewblock">
       <header class="viewblock-header">
-        <h1 class="default-padding"><%= t(:edit_group) %></h1>
+        <h1 class="default-padding"><%= t(:edit_model, :model => Group.model_name.human) %></h1>
       </header>
       <div class="viewblock-cont clearfix">
         <div class="form-stacked">
         	<%= form_for(@group) do |f| %>
         		<% if @group.errors.any? %>
         		<div id="errorExplanation">
-        		<h2><%= pluralize(@group.errors.count, "error") + " " + t(:prohibited_save, :model => 'user group') %></h2>
+        		<h2><%= pluralize(@group.errors.count, "error") + " " + t(:prohibited_save, :model => Group.model_name.human) %></h2>
         		<ul>
         		  <% @group.errors.full_messages.each do |msg| %>
         		    <li><%= msg %></li>
@@ -21,14 +21,14 @@
         
         		<fieldset>
         			<div class="clearfix">
-        				<%= f.label t(:name) %>
+        				<%= f.label :name %>
         				<div class="input">
-        					<%= f.text_field :name, :class => "fillWidth" %>
+        					<%= f.text_field :name, :class => "fillWidth", :autofocus => true %>
         				</div>
         			</div>
         
         			<div class="clearfix">
-        				<%= f.label t(:narrative) %>
+        				<%= f.label :narrative %>
         				<div class="input">
         					<%= f.text_area :narrative, :class => "fillWidth" %>
         				</div>
@@ -36,7 +36,7 @@
         		</fieldset>
         		
         		<div class="submit_bar actions">
-        			<%= f.submit "Save Group Details", :class => "btn" %>
+        			<%= f.submit t(:update_model, :model => Group.model_name.human), :class => "btn primary" %>
         		</div>
         	<% end %>
         </div>
@@ -49,7 +49,7 @@
 
     <section class="viewblock no">
       <header class="viewblock-header">
-        <h1 class="default-padding"><%= t(:change_group_memberships) %></h1>
+        <h1 class="default-padding"><%= t('.change_group_memberships') %></h1>
       </header>
       <div class="viewblock-cont">
         <%= render 'edit_memberships' %>

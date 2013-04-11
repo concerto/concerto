@@ -1,15 +1,15 @@
   <fieldset>
-    <legend><span><%= t(:select_feed) %></span></legend>
+    <legend><span><%= t('.select_feed') %></span></legend>
 
     <div class="clearfix">
 
       <div class="input">
-        <%= link_to "Add New Feed", new_feed_path, :class => "btn info", :target => "_blank" %>
+        <%= link_to t(:add_model, :model => Feed.model_name.human), new_feed_path, :class => "btn info", :target => "_blank" %>
       </div>
     </div>
 
     <div class="clearfix">
-      <label><%= t(:filter_for_feed) %></label>
+      <label><%= t('.filter_for_feed') %></label>
 
 <div class="input">
   <% feeds = dfs_tree(Feed.roots) %>

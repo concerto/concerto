@@ -1,48 +1,43 @@
 en:
-  #index
-  future: 'Future'
+  activerecord:
+    models:
+      feed: 'Feed'
 
-  #_form
-  feed: 'feed'
-  edit: 'Edit'
-  sub_feeds: 'Sub-feeds:'
-  allowed_types: 'Allowed types'
-  prohibited_feed_save: 'prohibited this feed from being saved:'
-  name: 'Name'
-  description: 'Description'
-  parent: 'Parent'
-  group: 'Group'
-  edit_feed: 'Edit Feed'
-  create_feed: 'Create Feed'
-  show: 'Show'
-  back: 'Back'
-  delete: 'Delete'
-  new_feed: 'New Feed'
-  are_you_sure: 'Are you sure?'
-  child_feeds: 'Child Feeds'
-  approved_content: 'Approved Content'
-  denied_content: 'Denied Content'
-  pending_content: 'Pending Content'
-  moderate: 'Moderate'
-  my_concerto: 'My Concerto'
-  other_options: 'Other Options'
-  belong_to_groups: 'You belong to these groups:'
-  network_vitals: 'Network Vitals'
-  active: 'Active'
-  offline: 'Offline'
-  view_screens_list: 'View Screens List'
-  new_content_today: 'New Content Submitted Today'
-  screen: 'Screen'
-  pending: 'PENDING'
-  contents_pending_moderation: 'Contents Pending Your Moderation'
-  with_pending_content: 'with pending content'
-  nothing_to_moderate: 'Nothing to Moderate'
-  no_pending_content: 'All good for now! None of the feeds you moderate have any pending contents.'
-  submit:
-    create: "Create %{model}"
-    update: "Update %{model}"
+  feeds:
+    # status of submissions
+    active: 'Active'
+    denied: 'Denied'
+    expired: 'Expired'
+    future: 'Future'
+    pending: 'Pending'
+    approved: 'Approved'
+    orphaned: 'Orphaned'
 
+    no_feeds: "There are no feeds in the system that you can submit content to.  Please contact your system administrator for more information."
 
+    index:
+      belong_to_groups: 'Belong To Groups'
+      my_concerto: 'My Concerto'
+      network_vitals: 'Network Vitals'
+      new_content_today: 'New Content Submitted Today'
+      offline: 'Offline'
+      screen: 'Screen'
+      view_screens_list: 'View Screens List'
+
+    browse_header:
+      browse_content: 'Browse Concerto Content'
+
+    moderate:
+      contents_pending_moderation: 'Contents Pending Moderation'
+      with_pending_content: 'with pending content'
+      no_pending_content: 'All good for now! None of the feeds you moderate have any pending contents.'
+      nothing_to_moderate: 'Nothing to Moderate'
+
+    form:
+      allowed_types: 'Allowed types'
+      other_options: 'Other Options'
+      prohibited_feed_save: 'prevented this feed from being saved:'
+ 
   helpers:
     label:
       feed:

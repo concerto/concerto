@@ -1,19 +1,19 @@
 <section class="viewblock">
   <header class="viewblock-header">
     <h1 class="default-padding">
-    <%= t(:all_users) %>
+    <%= t(:all_model, :model => User.model_name.human.pluralize) %>
     <% if can? :create, User %>
-      <%= link_to t(:new_user), new_user_path, :class => "button" %>
+      <%= link_to t(:new_model, :model => User.model_name.human), new_user_path, :class => "button" %>
     <% end %>
     </h1>
   </header>
   <div class="viewblock-cont">
     <table>
       <tr>
-        <th><%= t(:first_name) %></th>
-        <th><%= t(:last_name) %></th>
-        <th><%= t(:email) %></th>
-        <th><%= t(:actions) %></th>
+        <th><%= User.human_attribute_name(:first_name) %></th>
+        <th><%= User.human_attribute_name(:last_name) %></th>
+        <th><%= User.human_attribute_name(:email) %></th>
+        <th><%= User.human_attribute_name(:actions) %></th>
       </tr>
 
       <% @users.each do |user| %>
