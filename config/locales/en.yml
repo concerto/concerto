@@ -15,7 +15,7 @@ en:
   deny: 'Deny'
   edit: 'Edit'
   edit_model: 'Edit %{model}'
-  error: 'Error'
+  error: 'error'
   import_model: 'Import %{model}'
   join: "Join"
   manage_model: 'Manage %{model}'
