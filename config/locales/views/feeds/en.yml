@@ -37,23 +37,7 @@ en:
       allowed_types: 'Allowed types'
       other_options: 'Other Options'
       prohibited_feed_save: 'prevented this feed from being saved:'
-
-      #approved_content: 'Approved Content'
-      # you_belong_to_groups: 'You belong to these groups:'
-      # child_feeds: 'Child Feeds'
-      # create_feed: 'Create Feed'
-      # delete: 'Delete'
-      # denied_content: 'Denied Content'
-      # description: 'Description'
-      # edit_feed: 'Edit Feed'
-      # group: 'Group'
-      # moderate: 'Moderate'
-      # name: 'Name'
-      # parent: 'Parent'
-      # pending: 'PENDING'
-      # pending_content: 'Pending Content'
-      # sub_feeds: 'Sub-feeds:'
-
+ 
   helpers:
     label:
       feed:

@@ -16,9 +16,12 @@ en:
   edit: 'Edit'
   edit_model: 'Edit %{model}'
   import_model: 'Import %{model}'
+  join: "Join"
   manage_model: 'Manage %{model}'
+  my_model: 'My %{model}'
   new_model: 'New %{model}'
   no: 'No'
+  other_model: 'Other %{model}'
   preview: 'Preview'
   prohibited_save: "prevented this %{model} from being saved:"
   remove_model: 'Remove %{model}'
@@ -59,6 +62,7 @@ en:
         autostart_delayed_job: "Automatically start Delayed Job Daemon"
         dynamic_refresh_time: "Dynamic refresh interval"
         use_frontend_to_trigger_cron: "Trigger cron using frontend"
+        min_content_duration: 'Minimum Content Duration (in seconds)'
 
         #send_errors: "Send errors"
         #allow_remote_error_reporting: "Allow remote error reporting"

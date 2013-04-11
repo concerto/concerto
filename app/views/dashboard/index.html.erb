@@ -3,7 +3,7 @@
 <section class="viewblock">
   <header class="viewblock-header">
     <h1 class="default-padding">
-      <%= t :edit_preferences %>
+      <%= t('.edit_preferences') %>
     </h1>
   </header>
   <div class="viewblock-cont" style="min-height: 600px;">
@@ -12,12 +12,12 @@
       <ul class="nav nav-tabs">
         <li class="active">
           <%= link_to dashboard_path do %>
-            <i class="ficon-cog"></i><%= t :global_preferences %>
+            <i class="ficon-cog"></i><%= t('dashboard.global_preferences') %>
           <% end %>
         </li>
         <li>
           <%= link_to concerto_plugins_path do %>
-            <i class="ficon-bolt"></i><%= t :manage_plugins %>
+            <i class="ficon-bolt"></i><%= t(:manage_model, :model => ConcertoPlugin.model_name.human.pluralize) %>
           <% end %>
         </li>
       </ul>
@@ -50,7 +50,7 @@
         </fieldset>
 
         <div class="submit_bar actions">
-          <%= submit_tag t(:save_settings), :class => "btn primary" %>
+          <%= submit_tag t('.save_settings'), :class => "btn primary" %>
         </div>
     <% end %>
 
