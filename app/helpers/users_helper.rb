@@ -1,4 +1,5 @@
 module UsersHelper
+  # also used in contents view
   def possessive( name )
     name + ('s' == name[-1,1] ? "'" : "'s" )
   end

@@ -1,7 +1,7 @@
 <% adder = User.find(activity.parameters[:adder]) %>
-<%= link_to adder.name, adder if adder%> added
+<%= link_to adder.name, adder if adder%> <%= t('.added')%>
 <% if activity.trackable %>
-  <%= link_to activity.trackable.user.name, activity.trackable.user %> to the <%= link_to activity.trackable.group.name, activity.trackable.group %> group as a <%= (activity.parameters[:level] == 9) ? "leader" : "regular member" %>
+  <%= link_to activity.trackable.user.name, activity.trackable.user %> <%= t('.to_the')%> <%= link_to activity.trackable.group.name, activity.trackable.group %> <%= t('.group_as_a')%> <%= (activity.parameters[:level] == 9) ? t(".leader") : t(".regular_member") %>
 <% else %>
-  a group membership, which has since been removed 
+  <%= t('.group_membership_removed')%>
 <% end %>

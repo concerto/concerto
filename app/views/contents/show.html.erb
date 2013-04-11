@@ -1,7 +1,7 @@
 <section class="viewblock">
   <header class="viewblock-header">
     <h1 class="default-padding" >
-      <%= link_to @content.user.name + "'s " + t(:content).pluralize, @content.user %> &gt; 
+      <%= link_to possessive(@content.user.name.strip) + " " + Content.model_name.human.pluralize, @content.user %> &gt; 
       <%= @content.name %>
     </h1>
   </header> 
@@ -13,27 +13,27 @@
         <div class="default-padding">
 
           <div class="subblock">
-            <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t(:display_from) %></b></small></p>
+            <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.display_from') %></b></small></p>
             <% if !@content.start_time.nil? %>
               <p><%= @content.start_time.strftime("%a %b %d %Y") %><br /><%= @content.start_time.strftime("%I:%M %P") %></p>
             <% else %>
-              <p>The Dawn of Time.</p>
+              <p><%= t('.the_dawn_of_time') %></p>
             <% end %>
-            <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t(:display_until) %></b></small></p>
+            <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.display_until') %></b></small></p>
             <% if !@content.end_time.nil? %>
               <p><%= @content.end_time.strftime("%a %b %d %Y") %><br /><%= @content.end_time.strftime("%I:%M %P") %></p>
             <% else %>
-              <p>The End of Time.</p>
+              <p><%= t('.the_end_of_time') %></p>
             <% end %>
           </div>
           
           <div class="subblock">
-            <%= t(:submitted_by) %> <%= link_to @user.name, @user %>
+            <%= t('.submitted_by') %> <%= link_to @user.name, @user %>
           </div>
 
           <div class="subblock">
             <% if @content.submissions.all.count > 0 %>
-              <h3><%= t(:feeds_moderation_status) %></h3>
+              <h3><%= t('.feeds_moderation_status') %></h3>
               <ul>
                 <% @content.submissions.all.each do |submission| %>
                   <li><%= link_to submission.feed.name, [submission.feed, submission] %> - <%= submission.moderation_text %></li>

@@ -1,10 +1,59 @@
 
 en:
+  activerecord:
+    attributes:
+      content:
+        name: 'Name'
+        duration: 'Duration'
+        start_time: 'Start Time'
+        end_time: 'End Time'
+
   contents:
+    provide_details: 'Provide Details'
+    select_feed: 'Select Feed'
+
+    edit:
+      editing_content: "Editing Content"
+
+    form:
+      provide_details: "Provide Basic Details"
+      select_feed: "Select Feed"
+      select_content_type: "Select Content Type to Add"
+
+    form_bottom:
+      submit_content: 'Submit Content'
+
+    form_elements:
+      feeds:
+        filter_feeds: 'Filter Feeds'
+
+    form_top:
+      data: 'Data'
+
+    graphic:
+      form_top:
+        upload_graphic: "Upload Graphic"
+        specify_file: "Specify File"
+        accepted_filetypes: "Accepted Filetypes"
+
     index:
       browse_content: "Browse Concerto Content"
       browse_content_by_feed: "Browse Content by Feed"
       browse_content_by_screen: "Find Content on a Particular Screen"
+
+    new:
+      select_type: "Select Type"
+      design_graphic: "Design a Graphic"
+      content: "Content"
+      content_type: "Content type to add:"
+
+    show:
+      display_from: "Display From"
+      display_until: "Display Until"
+      submitted_by: "Submitted by"
+      the_dawn_of_time: 'The Dawn of Time.'
+      the_end_of_time: 'The End of Time.'
+      feeds_moderation_status: "Submission Status"
 
     table:
       title: "Title"
@@ -13,49 +62,17 @@ en:
       submitted: "Submitted"
       updated: "Updated"
 
-    edit:
-      editing_content: "Editing Content"
-
-    #content/form
-    form:
-      provide_details: "Provide Basic Details"
-      select_feed: "Select Feed"
-      select_content_type: "Select Content Type to Add"
-
-    #graphic/form
-    graphic:
-      form_top:
-        upload_graphic: "Upload Graphic From Your Computer"
-        specify_file: "Specify File"
-        accepted_filetypes: "Accepted Filetypes"
-
-    #ticker/form
     ticker:
       form_top:
-        upload_ticker: "Type Your Message"
-
-    #new
-    new:
-      select_type: "Select Type"
-      design_graphic: "Design a Graphic"
-      content: "Content"
-      content_type: "Content type to add:"
-
-  #show
-    show:
-      display_from: "Display From:"
-      display_until: "Display Until:"
-      submitted_by: "Submitted by"
-      feeds_moderation_status: "Submission Status"
+        type_your_message: "Type Your Message"
+        ticker_text: 'Ticker Text'
+        characters: 'Characters'
 
   helpers:
     label:
       graphic:
         name: 'Name'
         submit: 'Submit'
-        duration: 'Duration'
-        start_time: 'Start Time'
-        end_time: 'End Time'
     submit:
       create: "Create %{model}"
       update: "Update %{model}"

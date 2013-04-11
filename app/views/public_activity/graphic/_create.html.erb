@@ -1,6 +1,6 @@
-<%= link_to activity.owner.name, activity.owner if activity.owner %> created a new graphic 
+<%= link_to activity.owner.name, activity.owner if activity.owner %> <%= t('.created_a_new_graphic')%>
 <% if activity.trackable %>
   <%= link_to activity.trackable.name, activity.trackable %>
 <% else %>
-  which has since been removed 
+  <%= t('public_activity.which_has_since_been_removed') %>
 <% end %>

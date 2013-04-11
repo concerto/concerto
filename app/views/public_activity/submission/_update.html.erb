@@ -1,7 +1,7 @@
 <%= link_to activity.owner.name, activity.owner if activity.owner %>
 <% if activity.trackable %>
-  <%= activity.parameters[:status] ? "approved" : "denied" %>
-  <%= link_to activity.trackable.content.name, activity.trackable.content %> for the <%= link_to activity.trackable.feed.name, activity.trackable.feed %> feed
+  <%= activity.parameters[:status] ? t(".approved") : t(".denied") %>
+  <%= link_to activity.trackable.content.name, activity.trackable.content %> <%= t('.for_the') %> <%= link_to activity.trackable.feed.name, activity.trackable.feed %> <%= t('.feed') %>
 <% else %>
-  which has since been removed 
+  <%= t('public_activity.which_has_since_been_removed') %>
 <% end %>
