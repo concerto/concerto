@@ -28,6 +28,21 @@
     </div>
   </div>
 
+  <% if @user.new_record? %>
+    <div class="clearfix">
+      <%= f.label :password %>
+      <div class="input">
+        <%= f.password_field :password %>
+      </div>
+    </div>
+    <div class="clearfix">
+      <%= f.label :password_confirmation %>
+      <div class="input">
+        <%= f.password_field :password_confirmation %>
+      </div>
+    </div>
+  <% end %>
+
   <div class="clearfix">
     <%= f.label :locale %>
     <div class="input">
