@@ -91,8 +91,10 @@ class ConcertoPluginsController < ApplicationController
   end
   
   def write_Gemfile
-    #slurp in the old Gemfile for possible later use
+    #slurp in the old Gemfile and write it to a backup file for use in config.ru
     old_gemfile = IO.read("Gemfile-plugins")
+    File.open("Gemfile-plugins.bak", 'w') {|f| f.write(old_gemfile) }
+    
     #start a big string to put the Gemfile contents in until it's written to the filesystem
     gemfile_content = ""
     ConcertoPlugin.all.each do |plugin|
@@ -116,18 +118,11 @@ class ConcertoPluginsController < ApplicationController
 
     File.open("Gemfile-plugins", 'w') {|f| f.write(gemfile_content) }
 
-    #Going to try a synchronous bundle install - though this could get ugly and slow
-    #The alternative is to use spawn with a timout protection (using the timeout Ruby module
-    #Fork may not be used here as it's not cross-platform implemented
-    bundle_output = `bundle install 2>&1`
-    if bundle_output.include? 'bundle is complete'
-      restart_webserver()
-    else
-      #if the bundle install fails, we rewrite the old Gemfile,and restart
-      File.open("Gemfile-plugins", 'w') {|f| f.write(old_gemfile) }
-      restart_webserver()
-      raise t(:bundle_error) + " " + bundle_output
-    end
+  end
+  
+  def restart_for_plugin
+    restart_webserver()
+    redirect_to :action => :index
   end
   
 end

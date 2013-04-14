@@ -11,3 +11,4 @@ doc/app/*
 public/assets/*
 vendor/bundle/
 doc/coverage/*
+Gemfile-plugins.bak

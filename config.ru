@@ -28,15 +28,22 @@ require 'yaml'
 concerto_base_config = YAML.load_file("./config/concerto.yml")
 
 if concerto_base_config['automatic_bundle_installation'] == true
-  #if gem isn't present, sod-all. But if gem is there and bundler isn't - attempt the installation
-  if command?('gem')
-    if command?('bundle')
-      system("bundle install --path=vendor/bundle")
-    else
-      system("gem install bundler")
-      system("bundle install --path=vendor/bundle")
-    end
+  if command?('gem') == false && command?('bundle') == false
+    raise "Gem and Bundler are required to run Concerto gem installation"
   end
+  
+  #get output of the bundle install command for later possible use
+  bundle_output = `bundle install`
+  #use the magical object from $? to get status of output
+  result = $?.success?
+  
+  #if the command doesn't work, retrieve the backup Gemfile and restart
+  if !result
+    old_gemfile = IO.read("Gemfile-plugins.bak")
+    File.open("Gemfile-plugins", 'w') {|f| f.write(old_gemfile) }
+    restart_webserver()
+  end
+
 end
 
 require ::File.expand_path('../config/environment',  __FILE__)
