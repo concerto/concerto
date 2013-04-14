@@ -23,7 +23,7 @@ class Submission < ActiveRecord::Base
   scope :future, joins(:content).merge(Content.future)
   
   #Newsfeed
-  include PublicActivity::Common  
+  include PublicActivity::Common if defined? PublicActivity::Common
 
   def moderation_text
     case self.moderation_flag

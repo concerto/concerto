@@ -1,6 +1,7 @@
 en:
   #_show_header
   all_users: 'All Users'
+  create: 'Create'
 
   #_show_body
   system_wide_admin: 'This user is a system-wide admin'
@@ -12,8 +13,9 @@ en:
   contents: 'Contents'
 
   #edit
-  change_password: 'Change your password'
-
+  change_password: 'Change Password'
+  delete_account: 'Delete Account'
+  edit_settings: 'Edit Settings'
   #index
   new_user: 'New User'
   first_name: 'First Name'
@@ -32,6 +34,6 @@ en:
         password: 'Password'
         new_password: 'New Password'
         password_confirmation: 'Confirm New Password'
-    submit:
-      create: 'Create'
-      update: 'Update'
+        submit:
+          create: 'Create'
+          update: 'Update'

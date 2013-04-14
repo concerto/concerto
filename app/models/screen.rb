@@ -20,7 +20,7 @@ class Screen < ActiveRecord::Base
   validates :owner, :presence => true, :associated => true, :if => Proc.new { ["User", "Group"].include?(owner_type) }
 
   #Newsfeed
-  include PublicActivity::Common  
+  include PublicActivity::Common if defined? PublicActivity::Common
  
   # Scopes
   ONLINE_THRESHOLD = 5.minutes

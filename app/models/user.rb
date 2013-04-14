@@ -20,7 +20,6 @@ class User < ActiveRecord::Base
   has_many :leading_groups, :through => :memberships, :source => :group, :conditions => {"memberships.level" => Membership::LEVELS[:leader]}
 
   # Validations
-  validates :email, :presence => true, :uniqueness => true
   validates :first_name, :presence => true
   
   scope :admin, where(:is_admin => true)

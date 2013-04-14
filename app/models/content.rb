@@ -23,7 +23,7 @@ class Content < ActiveRecord::Base
   end
 
   #Newsfeed
-  include PublicActivity::Common  
+  include PublicActivity::Common if defined? PublicActivity::Common
 
   belongs_to :parent, :class_name => "Content"
   has_many :children, :class_name => "Content", :foreign_key => "parent_id"
@@ -69,6 +69,21 @@ class Content < ActiveRecord::Base
   
   def is_orphan?
     self.submissions.empty?
+  end
+  
+  # Determine if content is approved everywhere
+  def is_approved?
+    (self.approved_feeds.count > 0) && ((self.pending_feeds.count + self.denied_feeds.count) == 0)
+  end
+  
+  # Determine if content is pending on a feed
+  def is_pending?
+    (self.pending_feeds.count > 0)
+  end
+
+  # Determine if content is denied on a feed
+  def is_denied?
+    (self.denied_feeds.count > 0)
   end
 
   # Setter for the start time.  If a hash is passed, convert that into a DateTime object and then a string.

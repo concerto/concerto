@@ -67,7 +67,8 @@ gem 'strong_parameters'
 
 gem 'kaminari'  # Pagination
 
-gem 'public_activity' #Newsfeed
+# Enable the newsfeed for 1.9+ users.
+gem 'public_activity' if RUBY_VERSION >= "1.9"
 
 # Default content type plugins.
 gem 'concerto_simple_rss'

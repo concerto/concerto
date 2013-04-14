@@ -22,7 +22,7 @@ class Group < ActiveRecord::Base
   before_save :update_membership_perms
   
   #Newsfeed
-  include PublicActivity::Common    
+  include PublicActivity::Common if defined? PublicActivity::Common
   
   #have getters and setters for a new_leader virtual attribute
   attr_accessor :new_leader

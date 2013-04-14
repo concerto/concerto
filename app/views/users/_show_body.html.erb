@@ -18,6 +18,9 @@
 
           <% if user_signed_in? and current_user == @user %>
               <p style="margin-bottom: 0px;"><b><%= t(:you) %></b></p>
+              <p><%= link_to t(:edit_settings), edit_user_path, :class => "btn primary" %></p>
+              <p><%= link_to t(:change_password), edit_user_registration_path, :class => "btn primary" %></p>
+              <p><%= link_to t(:delete_account), registration_path(@user), :data => { :confirm => "Are you sure?"}, :method => :delete, :class => "btn danger" %></p>
           <% end %>
         </div>
       </div>
@@ -50,7 +53,9 @@
                                  <%= membership.level_name.humanize %>
                               <% end %>
                               <%= f.select :receive_emails, {"Receive Emails" => true, "Don't Receive Emails" => false}%>
-                              <%= f.submit t(:submit), :class => "btn" %>
+                              <div class="submit_bar sub_actions">
+                                <%= f.submit :class => "btn primary" %>
+                              </div>
                           <% end %>
                         </td>
                    <% end %>
@@ -113,7 +118,21 @@
                       <%= link_to content do %>
                           <%= render_content(content, {:type => 'grid'}) %>
                       <% end %>
-                      <% if content.is_orphan? %>Orphaned<% end %>
+                      <% if content.is_orphan? %>
+                        <p class="is_orphan">Orphaned</p>
+                      <% elsif content.is_approved? %>
+                        <p class="is_approved">Approved</p>
+                      <% else %>
+                        <% if content.is_pending? %>
+                          <span class="is_pending">Pending</span>
+                        <% end %>
+                        <% if content.is_denied? %>
+                          <% if content.is_pending? %>
+                            <br>
+                          <% end %>
+                          <span class="is_denied">Denied</span>
+                        <% end %>
+                      <% end %>
                     </div>
                     <div class="cont">
                       <p>

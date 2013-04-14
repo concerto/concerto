@@ -11,9 +11,10 @@ class Frontend::ContentsController < ApplicationController
   end
 
   def index
-    require 'base_shuffle'
+    require 'frontend_content_order'
+    shuffler_klass = FrontendContentOrder.load_shuffler('WeightedShuffle')
     session_key = "frontend_#{@screen.id}_#{@field.id}".to_sym
-    shuffler = ContentShuffler.new(@screen, @field, @subscriptions, session[session_key])
+    shuffler = shuffler_klass.new(@screen, @field, @subscriptions, session[session_key])
     @content = shuffler.next_contents()
     session[session_key] = shuffler.save_session()
 

@@ -13,8 +13,7 @@
 
 <fieldset>
   <legend><span><%=t(:select_feed)%></span></legend>
-  <label>&nbsp;</label>
-  <div class="input">
+  <div class="clearfix">
     <% if @content.new_record? %>
       <%= render :partial => 'contents/form_elements/feeds' %>
     <% end %>
