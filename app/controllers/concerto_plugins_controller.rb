@@ -1,6 +1,6 @@
 class ConcertoPluginsController < ApplicationController
-  before_filter :latest_version, :only => [:index, :show, :new, :edit]
-  before_filter :delayed_job_running, :only => [:index, :show, :new, :edit]
+  before_filter :latest_version, :only => [:index, :show, :new, :edit, :create]
+  before_filter :delayed_job_running, :only => [:index, :show, :new, :edit, :create]
 
   # GET /concerto_plugins
   # GET /concerto_plugins.json
@@ -54,7 +54,7 @@ class ConcertoPluginsController < ApplicationController
         format.html { redirect_to @concerto_plugin, :notice => t(:plugin_created) }
         format.json { render :json => @concerto_plugin, :status => :created, :location => @concerto_plugin }
       else
-        format.html { redirect_to new_concerto_plugin_path, :notice => t(:plugin_creation_failed) }
+        format.html { render :action => :new, :notice => t(:plugin_creation_failed) }
         format.json { render :json => @concerto_plugin.errors, :status => :unprocessable_entity }
       end
     end
