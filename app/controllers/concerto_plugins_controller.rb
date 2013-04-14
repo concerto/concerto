@@ -1,6 +1,6 @@
 class ConcertoPluginsController < ApplicationController
-  before_filter :latest_version, :only => [:index, :show, :new, :edit]
-  before_filter :delayed_job_running, :only => [:index, :show, :new, :edit]
+  before_filter :latest_version, :only => [:index, :show, :new, :edit, :create]
+  before_filter :delayed_job_running, :only => [:index, :show, :new, :edit, :create]
 
   # GET /concerto_plugins
   # GET /concerto_plugins.json
@@ -45,6 +45,7 @@ class ConcertoPluginsController < ApplicationController
   # POST /concerto_plugins.json
   def create
     @concerto_plugin = ConcertoPlugin.new(params[:concerto_plugin])
+    @concerto_plugin.enabled = true
     auth!
     #if we're creating the plugin, install and enabled it by default
     respond_to do |format|
@@ -53,7 +54,7 @@ class ConcertoPluginsController < ApplicationController
         format.html { redirect_to @concerto_plugin, :notice => t(:plugin_created) }
         format.json { render :json => @concerto_plugin, :status => :created, :location => @concerto_plugin }
       else
-        format.html { redirect_to new_concerto_plugin_path, :notice => t(:plugin_creation_failed) }
+        format.html { render :action => :new, :notice => t(:plugin_creation_failed) }
         format.json { render :json => @concerto_plugin.errors, :status => :unprocessable_entity }
       end
     end
@@ -90,6 +91,10 @@ class ConcertoPluginsController < ApplicationController
   end
   
   def write_Gemfile
+    #slurp in the old Gemfile and write it to a backup file for use in config.ru
+    old_gemfile = IO.read("Gemfile-plugins")
+    File.open("Gemfile-plugins.bak", 'w') {|f| f.write(old_gemfile) }
+    
     #start a big string to put the Gemfile contents in until it's written to the filesystem
     gemfile_content = ""
     ConcertoPlugin.all.each do |plugin|
@@ -113,15 +118,11 @@ class ConcertoPluginsController < ApplicationController
 
     File.open("Gemfile-plugins", 'w') {|f| f.write(gemfile_content) }
 
-    #Going to try a synchronous bundle install - though this could get ugly and slow
-    #The alternative is to use spawn with a timout protection (using the timeout Ruby module
-    #Fork may not be used here as it's not cross-platform implemented
-    bundle_status = system("bundle install")
-    if bundle_status == true
-      File.open("tmp/restart.txt", "w") {}
-    else
-      raise t(:bundle_error)
-    end
+  end
+  
+  def restart_for_plugin
+    restart_webserver()
+    redirect_to :action => :index
   end
   
 end

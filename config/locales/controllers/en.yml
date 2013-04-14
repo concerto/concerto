@@ -66,3 +66,5 @@ en:
   plugin_creation_failed: "Concerto plugin creation failed."
   plugin_updated: "Concerto plugin was successfully updated."
   bundle_error: "An error occurred while running bundle install."
+  wont_write_restart_txt: "Concerto does not support restarting your webserver. Please restart it manually."
+  cant_write_restart_txt: "An error occurred while restarting the webserver. Please restart it manually."
