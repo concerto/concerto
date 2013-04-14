@@ -1,14 +1,14 @@
 en:
-  #index
-  new_plugin: 'New Concerto plugin'
-  concerto_plugins: 'Manage Concerto plugins'
-  edit_plugins: "Edit Concerto plugins"
-  enabled: "enabled"
-  disabled: "disabled"
+  activerecord:
+    models:
+      concerto_plugin: 'Plugin'
 
-  #new
-  create_plugin: 'Create Plugin'
-  prohibited_feed_save: 'prohibited this plugin from being saved:'  
+  concerto_plugins:
+    form:
+      source_rubygems: 'RubyGems'
+      source_git_repo: 'Git Repository'
+      source_filesystem_path: 'Filesystem Path'
 
-  #edit
-  update_plugin: 'Update Plugin'
+    index:
+      disabled: "disabled"
+      enabled: "enabled"

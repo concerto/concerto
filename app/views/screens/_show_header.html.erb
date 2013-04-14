@@ -1,4 +1,4 @@
 <h1 class="default-padding">
-  <%= link_to t('all_screens'), screens_path %> &gt; 
+  <%= link_to t(:all_model, :model => Screen.model_name.human.pluralize), screens_path %> &gt; 
   <%= @screen.name %>
 </h1>

@@ -2,7 +2,7 @@
 	<%= form_for(@group) do |f| %>
 		<% if @group.errors.any? %>
 		<div id="errorExplanation">
-		<h2><%= pluralize(@group.errors.count, "error") + " " + t(:prohibited_save, :model => 'group') %></h2>
+		<h2><%= pluralize(@group.errors.count, "error") + " " + t(:prohibited_save, :model => Group.model_name.human) %></h2>
 		<ul>
 		  <% @group.errors.full_messages.each do |msg| %>
 		    <li><%= msg %></li>
@@ -13,14 +13,14 @@
 
 		<fieldset>
 			<div class="clearfix">
-				<%= f.label t(:name) %>
+				<%= f.label :name %>
 				<div class="input">
-					<%= f.text_field :name, :class => "fillWidth" %>
+					<%= f.text_field :name, :class => "fillWidth", :autofocus => true %>
 				</div>
 			</div>
 
 			<div class="clearfix">
-				<%= f.label t(:narrative) %>
+				<%= f.label :narrative %>
 				<div class="input">
 					<%= f.text_area :narrative, :class => "fillWidth" %>
 				</div>
@@ -28,7 +28,7 @@
 		</fieldset>
 		
 		<div class="submit_bar actions">
-			<%= f.submit button_text, :class => "btn primary" %> <%= link_to_function t('cancel'), "history.back()", :class => "btn" %>
+			<%= f.submit button_text, :class => "btn primary" %> <%= link_to_function t(:cancel), "history.back()", :class => "btn" %>
 		</div>
 	<% end %>
 </div>

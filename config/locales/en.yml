@@ -2,12 +2,38 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  add: 'Add'
+  add_model: 'Add %{model}'
+  all_model: 'All %{model}'
+  approve: 'Approve'
+  are_you_sure: 'Are you sure?'
+  back: 'Back'
+  cancel: 'Cancel'
+  create_model: 'Create %{model}'
+  current_model: 'Current %{model}'
+  destroy: 'Delete'
+  deny: 'Deny'
+  edit: 'Edit'
+  edit_model: 'Edit %{model}'
+  error: 'error'
+  import_model: 'Import %{model}'
+  join: "Join"
+  manage_model: 'Manage %{model}'
+  my_model: 'My %{model}'
+  new_model: 'New %{model}'
+  no: 'No'
+  other_model: 'Other %{model}'
+  preview: 'Preview'
+  prohibited_save: "prevented this %{model} from being saved:"
+  remove_model: 'Remove %{model}'
+  show: 'Show'
+  type_to_filter: 'Type here to filter'
+  update_model: 'Update %{model}'
+
   is_viewable: "Viewable"
   is_submittable: "Submittable"
   membership_approved: "Approved"
-  membersip_denied: "Denied"
-  
-  signin_login_spiel: "to upload and manage content."  
+  membership_denied: "Denied"
   
   #CanCan Exceptions localization (https://github.com/ryanb/cancan/wiki/exception-handling)
   unauthorized:
@@ -37,6 +63,7 @@ en:
         autostart_delayed_job: "Automatically start Delayed Job Daemon"
         dynamic_refresh_time: "Dynamic refresh interval"
         use_frontend_to_trigger_cron: "Trigger cron using frontend"
+        min_content_duration: 'Minimum Content Duration (in seconds)'
 
         #send_errors: "Send errors"
         #allow_remote_error_reporting: "Allow remote error reporting"

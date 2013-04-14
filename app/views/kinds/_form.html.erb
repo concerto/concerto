@@ -1,7 +1,7 @@
 <%= form_for(@kind) do |f| %>
     <% if @kind.errors.any? %>
         <div id="error_explanation">
-          <h2><%= pluralize(@kind.errors.count, t(:error)) + t(:prohibited_save, :model => 'kind') %></h2>
+          <h2><%= pluralize(@kind.errors.count, t(:error)) + t(:prohibited_save, :model => Kind.model_name.human) %></h2>
 
           <ul>
             <% @kind.errors.full_messages.each do |msg| %>
@@ -15,13 +15,13 @@
         <%= f.label :name %>
         <div class="input">
           <div class="inline-inputs">
-            <%= f.text_field :name %>
+            <%= f.text_field :name, :autofocus => true %>
           </div>
         </div>
       </div>
     </fieldset>
 
     <div class="submit_bar actions">
-      <%= f.submit button_text, :class => "btn primary" %> <%= link_to_function t('cancel'), "history.back()", :class => "btn" %>
+      <%= f.submit button_text, :class => "btn primary" %> <%= link_to_function t(:cancel), "history.back()", :class => "btn" %>
     </div>
 <% end %>

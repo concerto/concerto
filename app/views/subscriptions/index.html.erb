@@ -23,5 +23,5 @@
 
 <br />
 
-<%= link_to t(:new_subscription), new_screen_field_subscription_path(@screen, @field) %> |
-<%= link_to t(:manage_subscription), manage_screen_field_subscriptions_path(@screen, @field) %>
+<%= link_to t(:new_model, :model => Subscription.model_name.human), new_screen_field_subscription_path(@screen, @field) %> |
+<%= link_to t(:manage_model, :model => Subscription.model_name.human.pluralize), manage_screen_field_subscriptions_path(@screen, @field) %>

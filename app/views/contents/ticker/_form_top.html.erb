@@ -11,12 +11,12 @@ $("#char_count").html(new_length);
 });
 <% end %>
 <fieldset>
-  <legend><span><%=t(:upload_ticker)%></span></legend>
+  <legend><span><%=t('.type_your_message')%></span></legend>
   <div class="clearfix">
-    <label><%=t(:ticker_text)%></label>
+    <label><%=t('.ticker_text')%></label>
     <div class="input">
-      <%= form.text_area :data, :class => 'word_count' %>
-      <div>Characters:<span id="char_count">0</span></div>
+      <%= form.text_area :data, :class => 'word_count', :autofocus => true %>
+      <div><%= t('.characters') %>:<span id="char_count">0</span></div>
     </div>
   </div>
 </fieldset>

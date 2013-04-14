@@ -1,5 +1,5 @@
 <fieldset>
-  <legend><span><%=t(:provide_details)%></span></legend>
+  <legend><span><%=t('contents.provide_details')%></span></legend>
   <div class="clearfix">
     <%= form.label :name %>
     <div class="input">
@@ -12,7 +12,7 @@
 </fieldset>
 
 <fieldset>
-  <legend><span><%=t(:select_feed)%></span></legend>
+  <legend><span><%=t('contents.select_feed')%></span></legend>
   <div class="clearfix">
     <% if @content.new_record? %>
       <%= render :partial => 'contents/form_elements/feeds' %>

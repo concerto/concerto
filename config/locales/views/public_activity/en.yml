@@ -1,0 +1,46 @@
+en:
+  public_activity:
+    which_has_since_been_removed: 'which has since been removed'
+
+    feed:
+      create:
+        created_a_new_feed: 'created a new feed'
+      destroy:
+        deleted_the_feed: 'deleted the feed'
+
+    graphic:
+      create:
+        created_a_new_graphic: 'created a new graphic'
+
+    group:
+      create:
+        created_a_new_group: 'created a new group'
+      destroy:
+        deleted_the_group: 'deleted the group'
+
+    membership:
+      create:
+        added: 'added'
+        to_the: 'to the'
+        group_as_a: 'group as a'
+        group_membership_removed: 'a group membership, which has since been removed'
+        leader: 'leader'
+        regular_member: 'regular member'
+      destroy:
+        removed: 'removed'
+        from_the: 'from the'
+        group: 'group'
+
+    screen:
+      create:
+        created_a_new_screen: 'created a new screen'
+      destroy:
+        deleted_the_screen: 'deleted the screen'
+
+    submission:
+      update:
+        approved: 'approved'
+        denied: 'denied'
+        for_the: 'for the'
+        feed: 'feed'
+

@@ -1,59 +1,78 @@
+
 en:
-  #index
-  browse_content: "Browse Concerto Content"
-  browse_content_by_feed: "Browse Content by Feed"
-  browse_content_by_screen: "Find Content on a Particular Screen"
+  activerecord:
+    attributes:
+      content:
+        name: 'Name'
+        duration: 'Duration'
+        start_time: 'Start Time'
+        end_time: 'End Time'
 
-  #_table
-  title: "Title"
-  link: "Link"
-  description: "Description"
-  submitted: "Submitted"
-  updated: "Updated"
+  contents:
+    provide_details: 'Provide Details'
+    select_feed: 'Select Feed'
 
-  #edit
-  editing_content: "Editing Content"
-  show: "Show"
-  back: "Back"
+    edit:
+      editing_content: "Editing Content"
 
-  #form_elements/_feeds
-  no_feeds: "There are no feeds in the system that you can submit content to.  Please contact your system administrator for more information."
+    form:
+      provide_details: "Provide Basic Details"
+      select_feed: "Select Feed"
+      select_content_type: "Select Content Type to Add"
 
-  #content/form
-  prohibited_save: "prohibited this %{model} from being saved:"
-  provide_details: "Provide Basic Details"
-  select_feed: "Select Feed"
-  select_content_type: "Select Content Type to Add"
+    form_bottom:
+      submit_content: 'Submit Content'
 
-  #graphic/form
-  upload_graphic: "Upload Graphic From Your Computer"
-  specify_file: "Specify File"
-  accepted_filetypes: "Accepted Filetypes"
+    form_elements:
+      feeds:
+        filter_feeds: 'Filter Feeds'
 
-  #ticker/form
-  upload_ticker: "Type Your Message"
+    form_top:
+      data: 'Data'
 
-  #new
-  select_type: "Select Type"
-  design_graphic: "Design a Graphic"
-  add: "Add"
-  content: "Content"
-  content_type: "Content type to add:"
+    graphic:
+      form_top:
+        upload_graphic: "Upload Graphic"
+        specify_file: "Specify File"
+        accepted_filetypes: "Accepted Filetypes"
 
-  #show
-  display_from: "Display From:"
-  display_until: "Display Until:"
-  submitted_by: "Submitted by"
-  feeds_moderation_status: "Submission Status"
+    index:
+      browse_content: "Browse Concerto Content"
+      browse_content_by_feed: "Browse Content by Feed"
+      browse_content_by_screen: "Find Content on a Particular Screen"
+
+    new:
+      select_type: "Select Type"
+      design_graphic: "Design a Graphic"
+      content: "Content"
+      content_type: "Content type to add:"
+
+    show:
+      display_from: "Display From"
+      display_until: "Display Until"
+      submitted_by: "Submitted by"
+      the_dawn_of_time: 'The Dawn of Time.'
+      the_end_of_time: 'The End of Time.'
+      feeds_moderation_status: "Submission Status"
+
+    table:
+      title: "Title"
+      link: "Link"
+      description: "Description"
+      submitted: "Submitted"
+      updated: "Updated"
+
+    ticker:
+      form_top:
+        type_your_message: "Type Your Message"
+        ticker_text: 'Ticker Text'
+        characters: 'Characters'
 
   helpers:
     label:
       graphic:
         name: 'Name'
         submit: 'Submit'
-        duration: 'Duration'
-        start_time: 'Start Time'
-        end_time: 'End Time'
     submit:
       create: "Create %{model}"
       update: "Update %{model}"

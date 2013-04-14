@@ -1,12 +1,12 @@
 <section class="viewblock">
   <header class="viewblock-header">
-    <h1 class="default-padding"><%= t(:all_kinds) %> <%= link_to t(:new_kind), new_kind_path, :class => "button" %></h1>
+    <h1 class="default-padding"><%= t(:all_model, :model => Kind.model_name.human.pluralize) %> <%= link_to t(:new_model, :model => Kind.model_name.human), new_kind_path, :class => "button" %></h1>
   </header>
   <div class="viewblock-cont">
     <table>
       <tr>
-        <th><%= t(:name) %></th>
-        <th><%= t(:actions) %></th>
+        <th><%= Kind.human_attribute_name(:name) %></th>
+        <th><%= Kind.human_attribute_name(:actions) %></th>
       </tr>
 
       <% @kinds.each do |kind| %>

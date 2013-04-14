@@ -13,26 +13,28 @@
           </p>
 
           <% if @user.is_admin? %>
-              <p><b><i class="icon-user-admin-blk tooltip-basic" data-tooltip-text="<%= t(:system_wide_admin) %>"></i> <%= t(:admin) %></b></p>
+              <p><b><i class="icon-user-admin-blk tooltip-basic" data-tooltip-text="<%= t('.system_wide_admin') %>"></i> <%= t('.admin') %></b></p>
           <% end %>
 
           <% if user_signed_in? and current_user == @user %>
-              <p style="margin-bottom: 0px;"><b><%= t(:you) %></b></p>
-              <p><%= link_to t(:edit_settings), edit_user_path, :class => "btn primary" %></p>
-              <p><%= link_to t(:change_password), edit_user_registration_path, :class => "btn primary" %></p>
-              <p><%= link_to t(:delete_account), registration_path(@user), :data => { :confirm => "Are you sure?"}, :method => :delete, :class => "btn danger" %></p>
+            <p style="margin-bottom: 0px;"><b><%= t('.this_is_you') %></b></p>
           <% end %>
+            <div class="inline-inputs">
+              <%= link_to t(:edit), edit_user_path, :class => "btn primary" %> 
+              <%= link_to t('.change_password'), edit_user_registration_path, :class => "btn" %> 
+              <%= link_to t(:destroy), registration_path(@user), :data => { :confirm => t(:are_you_sure)}, :method => :delete, :class => "btn danger" if current_user != @user %> 
+            </div>
         </div>
       </div>
 
       <div class="subblock">
-        <h2><%= user_title @user, t(:groups) %></h2>
+        <h2><%= user_title @user, t('.groups') %></h2>
         <% if !@memberships.empty? %>
 
             <table>
               <tr>
-                <th><%= t(:name) %></th>
-                <% if @memberships.any? {|m| can? :edit, m} %><th><%= t(:roles) %></th><% end %>
+                <th><%= t('.name') %></th>
+                <% if @memberships.any? {|m| can? :edit, m} %><th><%= t('.roles') %></th><% end %>
               </tr>
 
               <% @memberships.each do |membership| %>
@@ -52,9 +54,9 @@
                               <% else %>
                                  <%= membership.level_name.humanize %>
                               <% end %>
-                              <%= f.select :receive_emails, {"Receive Emails" => true, "Don't Receive Emails" => false}%>
+                              <%= f.select :receive_emails, { t('.receive_emails') => true, t('.dont_receive_emails') => false } %>
                               <div class="submit_bar sub_actions">
-                                <%= f.submit :class => "btn primary" %>
+                                <%= f.submit :class => "btn" %>
                               </div>
                           <% end %>
                         </td>
@@ -76,7 +78,7 @@
 
       <div class="subblock">
 
-        <h2><%= user_title @user, t(:screens) %></h2>
+        <h2><%= user_title @user, t('.screens') %></h2>
 
         <ul class="list-grid">
 
@@ -108,7 +110,7 @@
     <div class="default-padding">
 
       <div class="subblock">
-        <h2><%= user_title @user.first_name, t(:contents) %></h2>
+        <h2><%= user_title @user.first_name, t('.content') %></h2>
 
         <% if !@contents.empty? %>
             <ul class="list-grid">
@@ -119,18 +121,18 @@
                           <%= render_content(content, {:type => 'grid'}) %>
                       <% end %>
                       <% if content.is_orphan? %>
-                        <p class="is_orphan">Orphaned</p>
+                        <p class="is_orphan"><%= t('feeds.orphaned') %></p>
                       <% elsif content.is_approved? %>
-                        <p class="is_approved">Approved</p>
+                        <p class="is_approved"><%= t('feeds.approved') %></p>
                       <% else %>
                         <% if content.is_pending? %>
-                          <span class="is_pending">Pending</span>
+                          <span class="is_pending"><%= t('feeds.pending') %></span>
                         <% end %>
                         <% if content.is_denied? %>
                           <% if content.is_pending? %>
                             <br>
                           <% end %>
-                          <span class="is_denied">Denied</span>
+                          <span class="is_denied"><%= t('feeds.denied') %></span>
                         <% end %>
                       <% end %>
                     </div>
@@ -140,7 +142,7 @@
                       </p>
                       <p><%= content.type %></p>
                       <p>
-                        <%= content.start_time.nil? ? '-' : content.start_time.strftime("%m/%d") %> to <%= content.end_time.nil? ? 'Forever' : content.end_time.strftime("%m/%d") %>
+                        <%= content.start_time.nil? ? '-' : content.start_time.strftime("%m/%d") %> to <%= content.end_time.nil? ? t('.forever') : content.end_time.strftime("%m/%d") %>
                       </p>
                     </div>
                   </li>

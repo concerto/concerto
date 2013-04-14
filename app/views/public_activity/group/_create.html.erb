@@ -1,7 +1,7 @@
 <% public_owner = User.find(activity.parameters[:public_owner]) %>
-<%= link_to public_owner.name, public_owner %> created a new group 
+<%= link_to public_owner.name, public_owner %> <%=t('.created_a_new_group')%> 
 <% if activity.trackable %>
   <%= link_to activity.trackable.name, activity.trackable %>
 <% else %>
-  which has since been removed 
+  <%= t('public_activity.which_has_since_been_removed') %>
 <% end %>

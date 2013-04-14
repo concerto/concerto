@@ -1,5 +1,5 @@
 <% if !@activities.empty? %>
-  <p>Recent Activity</p>
+  <p><%= t('.recent_activity')%></p>
   <ul>
   <% @activities.each do |activity| %>
     <div class="activity">
