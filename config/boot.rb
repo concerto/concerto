@@ -28,7 +28,7 @@ require File.expand_path('../../lib/command_check.rb', __FILE__)
 require 'yaml'
 concerto_base_config = YAML.load_file("./config/concerto.yml")
 
-if concerto_base_config['automatic_bundle_installation'] == true && Rails.env.test? == false
+if concerto_base_config['automatic_bundle_installation'] == true && ENV['RAILS_ENV'] != 'test'
   if command?('gem') == false && command?('bundle') == false
     raise "Gem and Bundler are required to run Concerto gem installation.\n" +
     	  "You can disable automatic gem installation in config/concerto.yml"
