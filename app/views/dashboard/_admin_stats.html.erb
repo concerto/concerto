@@ -14,7 +14,10 @@
               <i class="ficon-exclamation-sign" style="font-size: 1.4em;"></i>
               <b><%= t('.new_version', :version => @latest_version) %></b>
           <% end %>
-          <%= link_to t('.backup'), dashboard_run_backup_path %>
+          <%= button_to t('.backup'), dashboard_run_backup_path %>
+          <% if webserver_supports_restart? %>
+            <%= button_to t('.restart_webserver'), :action => "restart_for_plugin" %>
+          <% end %>
         </div>
       </div>
       <div class="span4">

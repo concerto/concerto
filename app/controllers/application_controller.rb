@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   before_filter :check_for_initial_install
   before_filter :set_version
   before_filter :compute_pending_moderation
+  
+  helper_method :webserver_supports_restart?
 
   # Current Ability for CanCan authorization
   # This matches CanCan's code but is here to be explicit,
@@ -13,18 +15,10 @@ class ApplicationController < ActionController::Base
   end
   
   def restart_webserver
-    #add any webservers that don't support tmp/restart.txt to this array
-    no_restart_txt = ["webrick"]
-    no_restart_txt.each do |w|    
-      #check if the server environment contains a webserver that doesn't support restart.txt
-      #This is NOT foolproof - a webserver may elect not to send this
-      re = /\S*#{w}/.match(env['SERVER_SOFTWARE'].to_s.downcase)
-      unless re.nil?      
-        flash[:notice] = t(:wont_write_restart_txt)
-        return false
-      end
-    end
-    
+    unless webserver_supports_restart?
+      flash[:notice] = t(:wont_write_restart_txt)
+      return false      
+    end    
     begin
       File.open("tmp/restart.txt", "w") {}
       return true
@@ -32,6 +26,21 @@ class ApplicationController < ActionController::Base
       #generally a write permission error
       flash[:notice] = t(:cant_write_restart_txt)
       return false
+    end
+  end
+  
+  def webserver_supports_restart?
+    #add any webservers that don't support tmp/restart.txt to this array
+    no_restart_txt = ["webrick"]  
+    no_restart_txt.each do |w|    
+      #check if the server environment contains a webserver that doesn't support restart.txt
+      #This is NOT foolproof - a webserver may elect not to send this
+      server_match = /\S*#{w}/.match(env['SERVER_SOFTWARE'].to_s.downcase)
+      if server_match.nil?
+        return true
+      else
+        return false
+      end
     end
   end
 
