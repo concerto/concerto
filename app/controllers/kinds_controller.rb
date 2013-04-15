@@ -2,8 +2,8 @@ class KindsController < ApplicationController
   # GET /kinds
   # GET /kinds.xml
   def index
+    authorize! :read, Kind
     @kinds = Kind.all
-    auth!(:allow_empty => false)
     respond_to do |format|
       format.html # index.html.erb
       format.xml { render :xml => @kinds }
