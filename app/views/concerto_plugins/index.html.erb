@@ -8,7 +8,7 @@
   </header>
   <div class="viewblock-cont" style="min-height: 600px;">
 
-    <%= render :partial => 'plugins_navigation' %>
+    <%= render :partial => 'plugins_navigation' %>     
 
     <% @concerto_plugins.each do |concerto_plugin| %>
       <li>
@@ -24,6 +24,7 @@
 
     <div class="default-padding">
       <%= link_to t(:new_model, :model => ConcertoPlugin.model_name.human), new_concerto_plugin_path, :class => "btn primary" %>
+      <%= button_to "Restart Webserver", :action => "restart_for_plugin" %>
     </div>
 
   </div>

@@ -10,7 +10,7 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_plugins'
   # Next run any boot-time initialization code that the
   # plugins might need.
   ConcertoPlugin.initialize_plugins
-
+  
   # Mount all the engines at their requested mount points.
   # In the future, this may perform more strict checking to
   # make sure that the plugin is enabled and the app exists.
