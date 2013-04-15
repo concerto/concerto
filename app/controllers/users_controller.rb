@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
-    auth!
+    auth!(:action => :manage)
     respond_with(@user)
   end
 
