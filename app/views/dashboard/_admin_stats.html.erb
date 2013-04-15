@@ -16,7 +16,7 @@
           <% end %>
           <%= button_to t('.backup'), dashboard_run_backup_path %>
           <% if webserver_supports_restart? %>
-            <%= button_to t('.restart_webserver'), :action => "restart_for_plugin" %>
+            <%= button_to t('.restart_webserver'), :controller => :concerto_plugins, :action => "restart_for_plugin" %>
           <% end %>
         </div>
       </div>
