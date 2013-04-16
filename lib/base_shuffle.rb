@@ -29,7 +29,8 @@ class BaseShuffle
       @store += content.collect{|c| c.id}
     end
     return [] if @store.empty?
-    return @store.pop(count).collect{|id| Content.find(id)}
+    content_ids = @store.pop(count)
+    return Content.where(:id => content_ids)
   end
 
   # Return a timeline to be saved.
