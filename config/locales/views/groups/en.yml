@@ -13,7 +13,7 @@ en:
     edit:
       change_group_memberships: "Change Group Memberships"
 
-    edit_memberships:
+    show_body:
       add_member: 'Add Member'
       add_users_to_group: 'Add Users to Group'
       approve_requests: 'Approve Requests'
@@ -29,14 +29,13 @@ en:
       remove_from_group: 'Remove from Group'
       screen_permission: 'Screen Permission'
       update_permissions: 'Update Permissions'
-
-    show_body:
       group_feeds: 'Group Feeds'
       group_members: "Group Members"
       group_screens: 'Group Screens'
       is_group_leader: "This user is a group leader"
       join_group: 'Join Group'
       leave_group: 'Leave Group'
+      edit_group: 'Edit Group'
       not_in_group: "You are not currently in this group."
       leader: 'Leader'
       member: ' member'

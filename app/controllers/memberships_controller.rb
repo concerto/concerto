@@ -21,7 +21,7 @@ class MembershipsController < ApplicationController
     respond_to do |format|
       if @membership.save
         process_notification(@membership, {:level => @membership.level_name, :adder => current_user.id}, :action => 'create', :owner => @membership.user, :recipient => @membership.group)
-        format.html { redirect_to(edit_group_path(@group), :notice => t(:membership_created)) }
+        format.html { redirect_to(@group, :notice => t(:membership_created)) }
         format.xml { render :xml => @group, :status => :created, :location => @group }
       else
         format.html { redirect_to @group }
@@ -41,7 +41,7 @@ class MembershipsController < ApplicationController
     respond_to do |format|
       success, note = @membership.update_membership_level(action)
       if success
-        format.html { redirect_to(edit_group_path(@group), :notice => t(note)) }
+        format.html { redirect_to @group, :notice => t(note) }
         format.xml { head :ok }
       else
         format.html { redirect_to @group, :notice => t(note) }
@@ -58,7 +58,7 @@ class MembershipsController < ApplicationController
     respond_to do |format|
       process_notification(@membership, {:group_name => @membership.group.name}, :action => 'destroy', :owner => current_user, :recipient => @membership.user)
       if @membership.destroy
-        format.html { redirect_to({:controller => :groups, :action => :edit, :id => @group}, :notice => t(:member_removed)) }
+        format.html { redirect_to @group, :notice => t(:member_removed) }
         format.xml { head :ok }
       else
         format.html { redirect_to @group, :notice => t(:membership_denied) }
