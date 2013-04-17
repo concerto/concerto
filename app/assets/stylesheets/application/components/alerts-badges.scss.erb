@@ -68,7 +68,8 @@
 .alert-block p.alert-heading {
   font-weight: bold;
 }
-.alert-removeborder {
+.alert-banner, .alert-removeborder {
+  @extend .alert-block;
   @include border-radius(0px);
   margin-bottom: 0px;
 }

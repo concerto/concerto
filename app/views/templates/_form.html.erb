@@ -1,7 +1,7 @@
 <%= form_for(@template, :html => { :multipart => true }) do |f| %>
   <% if @template.errors.any? %>
-  <div id="errorExplanation">
-    <h2><%= pluralize(@template.errors.count, t(:error)) + t(:prohibited_save, :model => ::Template.model_name.human) %></h2>
+  <div class="alert alert-banner alert-error">
+    <h4><b><%= pluralize(@template.errors.count, t(:error)) + t(:prohibited_save, :model => ::Template.model_name.human.downcase) %></b></h4>
     <ul>
       <% @template.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>

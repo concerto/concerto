@@ -12,9 +12,10 @@
     <%= link_to t(:manage_model, :model => ConcertoPlugin.model_name.human.pluralize), concerto_plugins_path %> > <%= link_to @concerto_plugin.name, @concerto_plugin %> > <%= t(:edit) %>
     
     <%= form_for(@concerto_plugin) do |f| %>
+
       <% if @concerto_plugin.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(@concerto_plugin.errors.count, t(:error)) %> <%= t(:prohibited_plugin_save) %></h2>
+        <div class="alert alert-banner alert-error">
+          <h4><b><%= pluralize(@concerto_plugin.errors.count, t(:error)) %> <%= t(:prohibited_plugin_save) %></b></h4>
     
           <ul>
           <% @concerto_plugin.errors.full_messages.each do |msg| %>

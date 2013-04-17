@@ -1,7 +1,7 @@
 <%= form_for([@screen, @field, @subscription]) do |f| %>
   <% if @subscription.errors.any? %>
-  <div id="errorExplanation">
-    <h2><%= pluralize(@subscription.errors.count, "error") %> <%= t(:prohibited_save, :model => Subscription.model_name.human)</h2>
+  <div class="alert alert-banner alert-error">
+    <h4><b><%= pluralize(@subscription.errors.count, "error") %> <%= t(:prohibited_save, :model => Subscription.model_name.human.downcase) %></b></h4>
     <ul>
       <% @subscription.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>

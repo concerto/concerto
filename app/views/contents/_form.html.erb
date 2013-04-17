@@ -5,15 +5,16 @@
     <%= render :partial => "#{type_folder}/form_full", :locals => {:form => f} %>
   <% else %>
     <% if @content.errors.any? %>
-      <div id="errorExplanation">
-        <h2><%= pluralize(@content.errors.count, t(:error)) + ' ' + t(:prohibited_save, :model => Content.model_name.human) %></h2>
-        <ul>
-          <% @content.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-        </ul>
-      </div>
+    <div class="alert alert-banner alert-error">
+      <h4><b><%= pluralize(@content.errors.count, "error") + " " + t(:prohibited_save, :model => Content.model_name.human.downcase) %></b></h4>
+      <ul>
+        <% @content.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
     <% end %>
+
     <%= render_partial_if("#{type_folder}/form_top", "form_top", {:form => f}) %>
     <%= render_partial_if("#{type_folder}/form_middle", "form_middle", {:form => f}) %>
     <%= render_partial_if("#{type_folder}/form_bottom", "form_bottom", {:form => f}) %>

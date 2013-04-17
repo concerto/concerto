@@ -7,8 +7,8 @@
     <div class="form-stacked">
        <%= form_for(@group) do |f| %>
        <% if @group.errors.any? %>
-       <div id="errorExplanation">
-          <h2><%= pluralize(@group.errors.count, "error") + " " + t(:prohibited_save, :model => Group.model_name.human) %></h2>
+       <div class="alert alert-banner alert-error">
+          <h4><b><%= pluralize(@group.errors.count, "error") + " " + t(:prohibited_save, :model => Group.model_name.human.downcase) %></b></h4>
           <ul>
             <% @group.errors.full_messages.each do |msg| %>
             <li><%= msg %></li>

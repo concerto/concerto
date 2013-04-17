@@ -26,7 +26,7 @@ fieldset {
   }
   
   .field, .clearfix {
-    > label {
+    label {
       padding-top: 6px;
       float: left;
       width: 130px;
@@ -470,7 +470,7 @@ textarea[readonly] {
   .clearfix {
     margin-bottom: $baseline / 2;
     
-    > label {
+    label {
       display: block;
       float: none !important;
       width: auto !important;
@@ -503,4 +503,12 @@ textarea[readonly] {
   .actions {
     padding-left: 20px;
   }
+}
+
+.checkbox label {
+  width: auto !important;
+  text-align: left !important;
+  padding-top: 0px !important;
+  float: none !important;
+  display: inline !important;
 }

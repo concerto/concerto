@@ -18,12 +18,8 @@
 </head>
 <body>
   <%= render :partial => "elements/topmenu_contents" %>
-  <% if flash[:notice] %>
-    <div id="flash-banner">
-      <p><%= notice %></p>
-    </div>
-  <% end %>
-
+  <%= render :partial => "elements/render_flash" %>
+  
   <div id="main" class="container-fluid">
   	<%= yield %>
   </div>

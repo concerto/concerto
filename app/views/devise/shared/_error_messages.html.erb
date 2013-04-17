@@ -1,0 +1,10 @@
+<% if resource.errors.any? %>
+<div class="alert alert-banner alert-error">
+  <h4><b><%= pluralize(resource.errors.count, "error") + " " + t(:prohibited_save, :model => User.model_name.human.downcase) %></b></h4>
+  <ul>
+    <% resource.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>

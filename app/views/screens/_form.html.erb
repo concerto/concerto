@@ -1,14 +1,14 @@
 <%= form_for(@screen) do |f| %>
 	<% if @screen.errors.any? %>
-	<div id="errorExplanation">
-	  <h2><%= pluralize(@screen.errors.count, "error") %> <%= t(:prohibited_save, :model => Screen.model_name.human) %></h2>
-	  <ul>
-	    <% @screen.errors.full_messages.each do |msg| %>
-	      <li><%= msg %></li>
-	    <% end %>
-	  </ul>
-	</div>
-	<% end %>
+  <div class="alert alert-banner alert-error">
+    <h4><b><%= pluralize(@screen.errors.count, "error") + " " + t(:prohibited_save, :model => Screen.model_name.human.downcase) %></b></h4>
+    <ul>
+      <% @screen.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
 
 	<fieldset>
     <legend><span><%= t('.provide_details') %></span></legend>

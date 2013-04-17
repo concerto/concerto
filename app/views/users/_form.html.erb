@@ -1,15 +1,15 @@
 <%= form_for(@user) do |f| %>
-<% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, t(:error)) + ' ' + t(:prohibited_save, :model => 'user') %></h2>
+  <% if @user.errors.any? %>
+    <div class="alert alert-banner alert-error">
+      <h4><b><%= pluralize(@user.errors.count, t(:error)) + ' ' + t(:prohibited_save, :model => 'user') %></b></h4>
 
       <ul>
-	<% @user.errors.full_messages.each do |msg| %>
-	      <li><%= msg %></li>
-	<% end %>
+        <% @user.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
-<% end %>
+  <% end %>
 
 <fieldset>
   <div class="clearfix">

@@ -3,35 +3,35 @@
 		<h1 class="default-padding"><%= t('.change_password') %></h1>
   </header>
   <div class="viewblock-cont">
-			<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
-			  <%= devise_error_messages! %>
-				
-				<fieldset>
-					<div class="field">
-					  <%= f.label :current_password %> 
-					  <div class="inputs">
-							<%= f.password_field :current_password %>
-						</div>
+		<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+		  <%= devise_error_messages! %>
+			
+			<fieldset>
+				<div class="field">
+				  <%= f.label :current_password %> 
+				  <div class="inputs">
+						<%= f.password_field :current_password %>
 					</div>
-					<div class="field">
-					  <%= f.label :password, t('.new_password') %> 
-					  <div class="inputs">
-							<%= f.password_field :password %>
-						</div>
-					</div>
-					<div class="field">
-					  <%= f.label :password_confirmation, t('.confirm_password') %> 
-					  <div class="inputs">
-							<%= f.password_field :password_confirmation %>
-						</div>
-					</div>
-				</fieldset>
-				
-				<div class="submit_bar actions">
-				  <%= f.submit :class => "btn primary" %>
-                                  <%= link_to_function t(:cancel), "history.back()", :class => "btn" %>
 				</div>
+				<div class="field">
+				  <%= f.label :password, t('.new_password') %> 
+				  <div class="inputs">
+						<%= f.password_field :password %>
+					</div>
+				</div>
+				<div class="field">
+				  <%= f.label :password_confirmation, t('.confirm_password') %> 
+				  <div class="inputs">
+						<%= f.password_field :password_confirmation %>
+					</div>
+				</div>
+			</fieldset>
+			
+			<div class="submit_bar actions">
+			  <%= f.submit :class => "btn primary" %>
+			  <%= link_to_function t(:cancel), "history.back()", :class => "btn" %>
+			</div>
 
-			<% end %>
+		<% end %>
   </div>
 </section>

@@ -1,15 +1,5 @@
 <div class="form-stacked">
 	<%= form_for(@group) do |f| %>
-		<% if @group.errors.any? %>
-		<div id="errorExplanation">
-		<h2><%= pluralize(@group.errors.count, "error") + " " + t(:prohibited_save, :model => Group.model_name.human) %></h2>
-		<ul>
-		  <% @group.errors.full_messages.each do |msg| %>
-		    <li><%= msg %></li>
-		  <% end %>
-		</ul>
-		</div>
-		<% end %>
 
 		<fieldset>
 			<div class="clearfix">

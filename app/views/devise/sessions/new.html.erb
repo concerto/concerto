@@ -3,15 +3,18 @@
     <%= render 'form' %>
   </div>
 <% else %>
-  <% if flash[:alert] %>
-    <p class="alert"><%= alert %></p>
-  <% end %>
   <section class="viewblock no">
   	<header class="viewblock-header">
   		<h1 class="default-padding">Sign In</h1>
   	</header>
   	<div class="viewblock-cont">
-  			<%= render 'form' %>
+			<% if flash[:alert] %>
+        <div class="alert alert-banner alert-error">
+          <%= alert %>
+        </div>
+      <% end %>
+
+      <%= render 'form' %>
   	</div>
   </section>
 <% end %>

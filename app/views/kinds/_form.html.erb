@@ -1,7 +1,7 @@
 <%= form_for(@kind) do |f| %>
     <% if @kind.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(@kind.errors.count, t(:error)) + t(:prohibited_save, :model => Kind.model_name.human) %></h2>
+        <div class="alert alert-banner alert-error">
+          <h4><b><%= pluralize(@kind.errors.count, t(:error)) + t(:prohibited_save, :model => Kind.model_name.human.downcase) %></b></h4>
 
           <ul>
             <% @kind.errors.full_messages.each do |msg| %>

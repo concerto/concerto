@@ -10,8 +10,8 @@
     <%= render :partial => 'plugins_navigation' %>
     <%= form_for(@concerto_plugin) do |f| %>
       <% if @concerto_plugin.errors.any? %>
-        <div id="error_explanation">
-	  <h2><%= pluralize(@concerto_plugin.errors.count, t(:error)) %> <%= t(:prohibited_save, :model => ConcertoPlugin.model_name.human) %></h2>
+        <div class="alert alert-banner alert-error">
+          <h4><b><%= pluralize(@concerto_plugin.errors.count, t(:error)) %> <%= t(:prohibited_save, :model => ConcertoPlugin.model_name.human.downcase) %></b></h4>
           <ul>
           <% @concerto_plugin.errors.full_messages.each do |msg| %>
             <li><%= msg %></li>
