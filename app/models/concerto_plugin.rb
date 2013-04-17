@@ -167,7 +167,9 @@ private
         #get the directory of the provided gemfile
         plugin_path = File.dirname(self.source_url)
         #user Dir to see if a gemfile exists in that directory
-        return !Dir.glob("#{plugin_path}/*.gemspec").empty?
+        if Dir.glob("#{plugin_path}/*.gemspec").empty?
+          errors.add("Gemspec not found. Check the filesystem path.")
+        end
     end
   end
 
