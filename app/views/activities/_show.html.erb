@@ -2,9 +2,11 @@
   <p><%= t('.recent_activity')%></p>
   <ul>
   <% @activities.each do |activity| %>
-    <div class="activity">
-      <li><%= render_activity activity if File.exists?(Rails.root.join("app", "views", "public_activity", activity.key.split('.')[0], "_#{activity.key.split('.')[1]}.html.erb")) %></li>
-    </div>
+    <% if File.exists?(Rails.root.join("app", "views", "public_activity", activity.key.split('.')[0], "_#{activity.key.split('.')[1]}.html.erb")) %>
+      <div class="activity">
+        <li><%= render_activity activity %></li>
+      </div>
+    <% end %>
   <% end %>
   </ul>
 <% end %>
