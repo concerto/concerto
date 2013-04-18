@@ -53,14 +53,12 @@ function addSubscriptionsUi(){
     return false;
   });
 
-  $("body").on("click", "form .frequency_range").change(function(e) {
-    showSaveSubsAlert();
-  });
-
   $("#save-subscriptions-alert").find("input").attr("disabled", true);
 
   initializeFrequencySliders();
-
+  $("form .frequency_range").change(function() {
+    showSaveSubsAlert();
+  });
 }
 
 function showSaveSubsAlert() {
