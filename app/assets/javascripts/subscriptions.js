@@ -1,5 +1,4 @@
 function addSubscriptionsUi(){
-
   $('.dropdown-control.dd-add-sub').each(function() {
     $(this).qtip( {
       id: 'add-sub',
@@ -30,8 +29,6 @@ function addSubscriptionsUi(){
             initFeedListState(tooltip_content);
 
             $('.qtip-content input:first').focus(); }, 50);
-
-            
           }
       },
       show: {
@@ -95,7 +92,6 @@ function generateFeedIdArray() {
   var feedIdArray = $("#new_subscription .marker-sub-feed").map(function(){
     return $(this).val();
   }).get();
-
   return feedIdArray;
 }
 
@@ -115,14 +111,12 @@ function initFeedListState(api_content) {
   });
 }
 
-
 function initSubscriptions() {
   if($('#new_subscription').length > 0){
     addSubscriptionsUi();
     $("#new_subscription").formSavior();
   }
 }
-
 
 $(document).ready(initSubscriptions);
 $(document).on('page:change', initSubscriptions);
