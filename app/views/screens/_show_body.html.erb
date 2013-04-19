@@ -11,8 +11,8 @@
     <% end %>
 
     <p><b><%= Screen.human_attribute_name(:owner_id) %>:</b> <%= link_to @screen.owner.name, :user  %></p>
-    <p><b><%= t(:template)+': ' %></b><%= @screen.template.name %></p>
-    <p><b><%= t(:status)+': ' %></b> <% if @screen.is_online? %>Online <% else %>Offline <% end %> </p>
+    <p><b><%= t(:template) %>:</b> <%= @screen.template.name %></p>
+    <p><b><%= t(:status) %>:</b> <% if @screen.is_online? %>Online <% else %>Offline <% end %> </p>
 
     <p>
       <b><%= t(:current_model, :model => Subscription.model_name.human.pluralize) %></b>
