@@ -30,7 +30,10 @@
           <div class="subblock">
             <%= t('.submitted_by') %> <%= link_to @user.name, @user %>
           </div>
-
+          
+          <div class="subblock">
+            <%= link_to t(:destroy), @content, :data => { :confirm => t(:are_you_sure) }, :method => :delete, :class => "btn primary" if can? :delete, @content %>   
+          </div>
           <div class="subblock">
             <% if @content.submissions.all.count > 0 %>
               <h3><%= t('.feeds_moderation_status') %></h3>

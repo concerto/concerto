@@ -11,6 +11,10 @@ class Template < ActiveRecord::Base
   #Placeholder attributes
   attr_accessor :path
   
+  def can_delete?
+    self.screens.size == 0
+  end
+  
   # Given a string from an XML descriptor, build the template
   # to try and match the description.  Each position will be
   # constructed from the descriptor.  If a position can't be
