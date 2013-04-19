@@ -15,8 +15,8 @@ class FeedsController < ApplicationController
       format.xml  { render :xml => @feeds }
       format.js { render :layout => false }
     end
-    @active_approved_content = 0
-    @feeds.each { |node| node.submissions.each { |submission| if submission.moderation_flag == true then @active_approved_content += 1 end } }
+    @active_content = 0
+    @feeds.each { |node| node.submissions.each { |submission| if submission.moderation_flag == true then @active_content += 1 end } }
   end
 
   # GET /moderate
