@@ -164,12 +164,14 @@ class ApplicationController < ActionController::Base
     begin
       file = open('http://dl.concerto-signage.org/version.txt')
       version = file.read.chomp!
-    rescue OpenURI::HTTPError
+    rescue => e #OpenURI::HTTPError
+      logger.error("could not determine version number at primary location #{e.message}")
+      # any failure should result in trying to get the version via secondary location, github
       version = gh_latest_version()
     end
 
     if version == -1
-      @latest_version = "999"
+      @latest_version = "999" # flag for use as warning later
     else
       @latest_version = version
     end

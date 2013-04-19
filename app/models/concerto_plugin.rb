@@ -152,23 +152,32 @@ private
   def check_sources
     case self.source
       when "rubygems"
+        return false if self.gem_name.empty?
         require 'net/http'
         r = Net::HTTP.get_response(URI.parse("http://rubygems.org/gems/#{self.gem_name}"))
-        Net::HTTPSuccess === r ? (return true) : errors.add(:gem_name, "is not a valid rubygem")        
+        Net::HTTPSuccess === r ? (return true) : errors.add(:gem_name, "#{self.gem_name} is not a valid rubygem")
       when "git"
+        if self.source_url.empty?
+          errors.add(:source_url, "can't be blank")
+          return false
+        end
         require 'command_check'
         if command?('git')
           git_ls = system("git ls-remote #{self.source_url}")
           if git_ls != true
-            errors.add(:source_url, "is not a valid git repository")
+            errors.add(:source_url, "#{self.source_url} is not a valid git repository")
           end
         end
       when "path"
+        if self.source_url.empty?
+          errors.add(:source_url, "can't be blank")
+          return false
+        end
         #get the directory of the provided gemfile
         plugin_path = File.dirname(self.source_url)
         #user Dir to see if a gemfile exists in that directory
         if Dir.glob("#{plugin_path}/*.gemspec").empty?
-          errors.add("Gemspec not found. Check the filesystem path.")
+          errors.add(:source_url, "Gemspec not found in #{plugin_path}")
         end
     end
   end

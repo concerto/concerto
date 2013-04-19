@@ -2,12 +2,17 @@ en:
   activerecord:
     models:
       concerto_plugin: 'Plugin'
+    attributes:
+      concerto_plugin:
+        source: 'Source'
+        gem_name: 'Gem Name'
+        source_url: 'Source URL'
 
   concerto_plugins:
-    form:
-      source_rubygems: 'RubyGems'
-      source_git_repo: 'Git Repository'
-      source_filesystem_path: 'Filesystem Path'
+    sources:
+      rubygems: 'RubyGems'
+      git: 'Git Repository'
+      path: 'Filesystem Path'
 
     index:
       disabled: "disabled"
