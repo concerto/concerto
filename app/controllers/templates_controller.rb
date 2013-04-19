@@ -97,7 +97,7 @@ class TemplatesController < ApplicationController
   def destroy
     @template = Template.find(params[:id])
     auth!
-    if @template.can_delete?
+    if @template.not_used?
       @template.destroy
       
     else

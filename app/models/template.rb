@@ -11,7 +11,7 @@ class Template < ActiveRecord::Base
   #Placeholder attributes
   attr_accessor :path
   
-  def can_delete?
+  def not_used?
     self.screens.size == 0
   end
   
