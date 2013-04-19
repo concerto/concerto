@@ -17,9 +17,12 @@ function setPlaceHolderToggleSource()
   }
 }
 
-$(document).ready(function () {
+function bindListeners() {
   // hookup the listener to toggle placeholder text and visibility of source url
   $('select#concerto_plugin_source').change(setPlaceHolderToggleSource);
   // since the default source is rubygems, hide the source url on load
-  $('input#concerto_plugin_source_url').parent().parent().hide();
-});
+  $('select#concerto_plugin_source').trigger('change');
+}
+
+$(document).ready(bindListeners);
+$(document).on('page:change', bindListeners);

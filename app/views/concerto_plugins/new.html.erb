@@ -34,9 +34,7 @@
             <%= f.text_field :gem_name, :autofocus => true %>
           </div>
         </div>    
-<!--    
-        GIT URL (https://foo.bar/baz.git) or Filesystem Path (/x/y/file.gem)
-        HIDE this if Rubygems is selected -->
+
         <div class="clearfix">
           <%= f.label :source_url %>
           <div class="input">
@@ -46,7 +44,7 @@
       </fieldset>
     
       <div class="submit_bar actions">
-        <%= f.submit t(:create_model, :model => ConcertoPlugin.model_name.human), :class => "btn primary" %> <%= link_to_function t(:cancel), "history.back()", :class => "btn" %>
+        <%= f.submit t(:create_model, :model => ConcertoPlugin.model_name.human), :class => "btn primary" %> <%= link_to t(:cancel), concerto_plugins_path, :class => "btn" %>
       </div>
     <% end %>
    
