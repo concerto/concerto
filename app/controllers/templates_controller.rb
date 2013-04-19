@@ -97,7 +97,13 @@ class TemplatesController < ApplicationController
   def destroy
     @template = Template.find(params[:id])
     auth!
-    @template.destroy
+    if @template.can_delete?
+      @template.destroy
+      
+    else
+      redirect_to(@template, :notice => t(:cannot_delete_template))
+      return 
+    end
 
     respond_to do |format|
       format.html { redirect_to(templates_url) }
