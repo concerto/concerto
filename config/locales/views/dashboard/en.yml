@@ -8,6 +8,7 @@ en:
     admin_stats:
       admin_dashboard: "Admin Dashboard"
       backup: "Backup"
+      cant_determine_latest_version: 'Unable to determine latest available version.'
       restart_webserver: "Restart Webserver"
       concerto_version: "Concerto Version:"
       delayed_job_status: "Delayed Job Status:"
