@@ -4,6 +4,8 @@ en:
       accounts: "Accounts"
       admin: "Admin"
       browse: "Browse"
+      backup: "Backup"
+      restart_webserver: "Restart Webserver"
       content: "Content"
       dashboard: "Dashboard"
       groups: "Groups"
