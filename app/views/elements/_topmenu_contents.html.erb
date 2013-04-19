@@ -57,8 +57,6 @@
         <div class="top-menu-sectop">
           <%= link_to t('.dashboard'), main_app.dashboard_path, :class => "btn #{ (controller.controller_name == 'dashboard' && controller.action_name != 'run_backup') ? 'selected' : '' }" %>
           <%= link_to t(:manage_model, :model => User.model_name.human.pluralize), main_app.users_path, :class => "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" %>
-          <%= link_to t('.backup'), dashboard_run_backup_path, :class => "btn #{ (controller.controller_name == 'dashboard' && controller.action_name == 'run_backup') ? 'selected' : '' }" %>
-          <%= link_to t('.restart_webserver'), dashboard_run_backup_path, :class => "btn #{ (controller.controller_name == 'dashboard' && controller.action_name == 'run_backup') ? 'selected' : '' }" %>
         </div>
         <div class="top-menu-secbot">
           <h1><%= t('.admin') %></h1>
