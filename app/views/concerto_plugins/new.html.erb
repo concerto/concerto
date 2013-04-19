@@ -24,7 +24,7 @@
         <div class="clearfix">
           <%= f.label :source %>
           <div class="input">
-	    <%= f.select(:source, [[t('.source_rubygems'), 'rubygems'], [t('.source_git_repo'), 'git'], [t('.source_filesystem_path'), 'path']]) %>
+            <%= f.select :source, plugin_sources %>
           </div>
         </div>
         
@@ -34,16 +34,15 @@
             <%= f.text_field :gem_name, :autofocus => true %>
           </div>
         </div>    
-    
+<!--    
         GIT URL (https://foo.bar/baz.git) or Filesystem Path (/x/y/file.gem)
-        HIDE this if Rubygems is selected
+        HIDE this if Rubygems is selected -->
         <div class="clearfix">
           <%= f.label :source_url %>
           <div class="input">
             <%= f.text_field :source_url %>
           </div>
         </div>
-    
       </fieldset>
     
       <div class="submit_bar actions">
