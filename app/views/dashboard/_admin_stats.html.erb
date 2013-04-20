@@ -1,5 +1,9 @@
 <section class="viewblock">
   <header class="viewblock-header">
+    <div class="viewblock-header_right">
+      <%= link_to t('.backup'), dashboard_run_backup_path, :class => "btn" %>
+      <%= link_to t('.restart_webserver'), { :controller => :concerto_plugins, :action => "restart_for_plugin" }, :method => :post, :confirm => "Restarting the webserver may take a 10 to 20 seconds. Are you sure you'd like to restart?", :class => "btn" %>
+    </div>
     <h1 class="default-padding"><%= t('.admin_dashboard') %></h1>
   </header>
 
@@ -41,15 +45,6 @@
             <small style="font-size: 0.4em; padding-left: 16px;"><%= link_to t(:manage_model, :model => User.model_name.human.pluralize), users_path, :style => "text-decoration: underline;" %></small>
           </h1>
         </div>
-      </div>
-    </div>
-    <div class="default-padding">
-      <h2> System Functions</h2>
-      <div class="submit_bar">
-      <%= link_to t('.backup'), dashboard_run_backup_path, :class => "btn primary" %><b>|</b>
-      <% if webserver_supports_restart? %>
-        <%= button_to t('.restart_webserver'), {:controller => :concerto_plugins, :action => "restart_for_plugin"}, :class => "btn primary" %>
-      <% end %>
       </div>
     </div>
 

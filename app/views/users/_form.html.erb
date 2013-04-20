@@ -52,14 +52,14 @@
   </div>
 
   <div class="clearfix">
-    <div class="input">
+    <div class="input checkbox">
       <%= f.check_box :receive_moderation_notifications %> <%= f.label :receive_moderation_notifications %>
     </div>
   </div>
 
   <% if can? :manage, @user %>
   <div class="clearfix">
-	  <div class="input">
+	  <div class="input checkbox">
       <%= f.check_box :is_admin %> <%= f.label :is_admin %>
     </div>
   </div>

@@ -7,21 +7,21 @@
 		  <%= devise_error_messages! %>
 			
 			<fieldset>
-				<div class="field">
+				<div class="clearfix">
 				  <%= f.label :current_password %> 
-				  <div class="inputs">
+				  <div class="input">
 						<%= f.password_field :current_password %>
 					</div>
 				</div>
-				<div class="field">
+				<div class="clearfix">
 				  <%= f.label :password, t('.new_password') %> 
-				  <div class="inputs">
+				  <div class="input">
 						<%= f.password_field :password %>
 					</div>
 				</div>
-				<div class="field">
+				<div class="clearfix">
 				  <%= f.label :password_confirmation, t('.confirm_password') %> 
-				  <div class="inputs">
+				  <div class="input">
 						<%= f.password_field :password_confirmation %>
 					</div>
 				</div>
