@@ -47,12 +47,10 @@
 		
 		<div class="clearfix">
 			<label><%= t('.visibility') %></label>
-			<div class="input">
-				<ul class="inputs-list">
-		      <li>
-		        <%= f.check_box :is_public %> <%= f.label :is_public %>
-		      </li>
-		    </ul>
+			<div class="input checkbox">
+        <ul class="inputs-list">
+				  <li><%= f.check_box :is_public %> <%= f.label :is_public %></li>
+        </ul>
 			</div>
     </div>
 
