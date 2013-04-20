@@ -1,6 +1,7 @@
 <%= form_for(@kind) do |f| %>
     <% if @kind.errors.any? %>
         <div class="alert alert-banner alert-error">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
           <h4><b><%= pluralize(@kind.errors.count, t(:error)) + t(:prohibited_save, :model => Kind.model_name.human.downcase) %></b></h4>
 
           <ul>

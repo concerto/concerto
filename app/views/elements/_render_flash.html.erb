@@ -1,9 +1,15 @@
 <% if not @messages_rendered -%>
   <% if flash[:error] -%>
-    <p class='error'><%=h flash[:error] %></p>
+    <div class="alert alert-banner alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <h4><%=h flash[:error] %></h4>
+    </div>
   <% end -%>
   <% if flash[:notice] -%>
-    <p class='notice'><%=h flash[:notice] %></p>
+    <div class="alert alert-banner">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <h4><%=h flash[:notice] %></h4>
+    </div>
   <% end -%>
 <% end -%>
 <% @messages_rendered = true -%>
