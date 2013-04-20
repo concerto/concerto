@@ -1,6 +1,7 @@
 <%= form_for(@user) do |f| %>
   <% if @user.errors.any? %>
     <div class="alert alert-banner alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
       <h4><b><%= pluralize(@user.errors.count, t(:error)) + ' ' + t(:prohibited_save, :model => 'user') %></b></h4>
 
       <ul>

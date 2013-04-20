@@ -6,6 +6,7 @@
   <% else %>
     <% if @content.errors.any? %>
     <div class="alert alert-banner alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
       <h4><b><%= pluralize(@content.errors.count, "error") + " " + t(:prohibited_save, :model => Content.model_name.human.downcase) %></b></h4>
       <ul>
         <% @content.errors.full_messages.each do |msg| %>
