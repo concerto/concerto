@@ -1,5 +1,5 @@
 <label><%= t('.filter_feeds')%></label>
-<div class="input">  
+<div class="input checkbox">  
   <% feeds = dfs_tree(Feed.roots) %>
   <% feeds.reject!{|f| !@feeds.include?(f) } %>
   <% if feeds.empty? %>
@@ -12,10 +12,9 @@
       <% allowed_type = (feed.content_types[@content.class.name] == "1") %>
       <li class="with-padding" data-filter="<%= feed.name %>">
         <%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed), :disabled => !allowed_type %>
-          <%= "-" * feed.depth %> <%= feed.name %>
+          <%= label_tag "feed_id[#{i}]", "-" * feed.depth + feed.name %>
       </li>
       <% end %>
     </ul>
-
   <% end %>
 </div>
