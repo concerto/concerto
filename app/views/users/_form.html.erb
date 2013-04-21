@@ -1,6 +1,7 @@
 <%= form_for(@user) do |f| %>
   <% if @user.errors.any? %>
     <div class="alert alert-banner alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
       <h4><b><%= pluralize(@user.errors.count, t(:error)) + ' ' + t(:prohibited_save, :model => 'user') %></b></h4>
 
       <ul>
@@ -16,7 +17,7 @@
     <%= f.label :first_name %>
     <div class="input">
       <div class="inline-inputs">
-	      <%= f.text_field :first_name, :class => "span3", :autofocus => true %> <%= f.text_field :last_name, :class => "span3" %>
+	      <%= f.text_field :first_name, :class => "span3", :autofocus => true %><%= f.text_field :last_name, :class => "span3" %>
       </div>
     </div>
   </div>
@@ -51,14 +52,14 @@
   </div>
 
   <div class="clearfix">
-    <div class="input">
+    <div class="input checkbox">
       <%= f.check_box :receive_moderation_notifications %> <%= f.label :receive_moderation_notifications %>
     </div>
   </div>
 
   <% if can? :manage, @user %>
   <div class="clearfix">
-	  <div class="input">
+	  <div class="input checkbox">
       <%= f.check_box :is_admin %> <%= f.label :is_admin %>
     </div>
   </div>

@@ -15,6 +15,7 @@
 
       <% if @concerto_plugin.errors.any? %>
         <div class="alert alert-banner alert-error">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
           <h4><b><%= pluralize(@concerto_plugin.errors.count, t(:error)) %> <%= t(:prohibited_plugin_save) %></b></h4>
     
           <ul>
@@ -28,9 +29,8 @@
       <fieldset>
 
         <div class="clearfix">
-          <div class="input">
-            <%= f.check_box :enabled %>
-            <%= f.label :enabled %>
+          <div class="input checkbox">
+            <%= f.check_box :enabled %> <%= f.label :enabled %>
           </div>
         </div>
     

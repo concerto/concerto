@@ -45,7 +45,7 @@ if concerto_base_config['automatic_bundle_installation'] == true && ENV['RAILS_E
       old_gemfile = IO.read("Gemfile-plugins.bak")
       File.open("Gemfile-plugins", 'w') {|f| f.write(old_gemfile) }
     end
-    restart_webserver()
+    raise "Bundler error: #{bundle_output}"
   end
 end
 

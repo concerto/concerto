@@ -1,6 +1,7 @@
 <%= form_for(@screen) do |f| %>
 	<% if @screen.errors.any? %>
   <div class="alert alert-banner alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
     <h4><b><%= pluralize(@screen.errors.count, "error") + " " + t(:prohibited_save, :model => Screen.model_name.human.downcase) %></b></h4>
     <ul>
       <% @screen.errors.full_messages.each do |msg| %>
@@ -46,12 +47,10 @@
 		
 		<div class="clearfix">
 			<label><%= t('.visibility') %></label>
-			<div class="input">
-				<ul class="inputs-list">
-		      <li>
-		        <%= f.check_box :is_public %> <%= f.label :is_public %>
-		      </li>
-		    </ul>
+			<div class="input checkbox">
+        <ul class="inputs-list">
+				  <li><%= f.check_box :is_public %> <%= f.label :is_public %></li>
+        </ul>
 			</div>
     </div>
 

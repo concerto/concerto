@@ -1,6 +1,7 @@
 <%= form_for(@feed) do |f| %>
   <% if @feed.errors.any? %>
     <div class="alert alert-banner alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
       <h4><b><%= pluralize(@feed.errors.count, t(:error)) %> <%= t('.prohibited_feed_save') %></b></h4>
       <ul>
         <% @feed.errors.full_messages.each do |msg| %>

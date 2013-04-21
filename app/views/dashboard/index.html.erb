@@ -35,7 +35,7 @@
                       <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym] %>
                     </div>
                 <% elsif c.value_type == "boolean" %>
-                    <div class="input">
+                    <div class="input checkbox">
                       <%= tag 'input', :type => 'hidden', :name => "concerto_config[#{c.key}]", :value => '0' %>
                       <% if ConcertoConfig[c.key.to_sym] == true %>
                           <%= check_box_tag "concerto_config[#{c.key}]", true, :checked => true %>
