@@ -14,7 +14,7 @@ class Graphic < Content
 
   #Validations
   validates :duration, :numericality => { :greater_than => 0 }
-  validates :media, :length => { :minimum => 1, :too_short => "At least 1 file is required." }
+  validates :media, :length => { :minimum => 1, :too_short => "file is required." }
   validates_with GraphicValidator
   
   # Automatically set the kind for the content
