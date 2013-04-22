@@ -3,7 +3,7 @@ class GraphicValidator < ActiveModel::Validator
   def validate(record)
     graphic_types = ["image/gif", "image/jpeg", "image/pjpeg", "image/png", "image/svg+xml", "image/tiff"]
     if !record.media.empty? && !graphic_types.include?(record.media[0].file_type)
-      record.errors.add :media, "File is #{record.media[0].file_type}, not a graphic format we support."
+      record.errors.add :media, "file is #{record.media[0].file_type}, not a graphic format we support."
     end
   end
 end
