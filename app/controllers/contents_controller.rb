@@ -81,6 +81,8 @@ class ContentsController < ApplicationController
     end
 
     respond_to do |format|
+      # remove the media entry added in the _form_top partial if it is completely empty
+      @content.media.reject! {|m| m.file_name.nil? && m.file_type.nil? && m.file_size.nil? && m.file_data.nil? }
       if @content.save
         process_notification(@content, {}, :action => 'create', :owner => current_user)
         # Copy over the duration to each submission instance
