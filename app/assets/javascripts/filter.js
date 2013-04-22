@@ -13,6 +13,7 @@
  *      Default: data-filter
  *    show_unknown: Should elements without the attribute be
  *      shown or not.  Default: true [show them]
+ *    anchored: anchor regex to beginning? Default: true
  *    show_action: The function to call on elements to show.
  *    hide_action: The function to call on elements to hide.
  */
@@ -22,6 +23,7 @@
       'list': '.filterable',
       'attr': 'data-filter',
       'show_unknown': true,
+      'anchored': true,
       'show_action': function(elem) { elem.show() },
       'hide_action': function(elem) { elem.hide() }
     }, options);
@@ -39,7 +41,7 @@
       var text = input_box.val();
       var specials = new RegExp("[.*+?|()\\[\\]{}\\\\]", "g");
       text = text.replace(specials, "\\$&");
-      var regex = new RegExp('^' + text, 'i');
+      var regex = new RegExp((settings['anchored'] ? '^' : '') + text, 'i');
 
       lists.each(function() {
         // Grab all the possible children.  The existance of the attr and

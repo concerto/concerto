@@ -85,7 +85,7 @@ function initNoticeBannerDisplay() {
 
 function initFeedFilters() {
   $('.feed_filter').each(function(i){
-    $(this).listFilter();
+    $(this).listFilter({anchored: false});
   });
 }
 
