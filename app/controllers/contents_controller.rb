@@ -94,8 +94,13 @@ class ContentsController < ApplicationController
           end
         end
         @content.save #This second save adds the submissions
-        format.html { redirect_to(@content, :notice => t(:content_created)) }
-        format.xml  { render :xml => @content, :status => :created, :location => @content }
+        if @feed_ids = []
+          format.html { redirect_to(@content, :notice => t(:content_created_no_feeds)) }
+          format.xml  { render :xml => @content, :status => :created, :location => @content }
+        else 
+          format.html { redirect_to(@content, :notice => t(:content_created)) }
+          format.xml  { render :xml => @content, :status => :created, :location => @content }
+        end
       else
         # Remove the feeds that would not take a submission.
         @feeds = Feed.all

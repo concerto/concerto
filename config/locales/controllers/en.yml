@@ -1,6 +1,7 @@
 en:
   #Contents controller
   content_created: "Content was successfully created."
+  content_created_no_feeds: "Content was successfully created. Since no feeds were supplied, content will remain in limbo."
   content_updated: "Content was successfully updated."
 
   #Feeds controller
