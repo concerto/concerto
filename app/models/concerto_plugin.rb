@@ -10,7 +10,8 @@
 # Plugin interface.
 
 class ConcertoPlugin < ActiveRecord::Base
-  attr_accessible :enabled, :gem_name, :gem_version, :installed, :source, :source_url
+  include ActiveModel::ForbiddenAttributesProtection
+
   validates :gem_name, :presence => true
   validate :check_sources, :on => :create
   # TODO: use check_sources to validate the availability of the gem
