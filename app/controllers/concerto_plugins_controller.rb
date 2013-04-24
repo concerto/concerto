@@ -44,7 +44,7 @@ class ConcertoPluginsController < ApplicationController
   # POST /concerto_plugins
   # POST /concerto_plugins.json
   def create
-    @concerto_plugin = ConcertoPlugin.new(params[:concerto_plugin])
+    @concerto_plugin = ConcertoPlugin.new(concerto_plugin_params)
     @concerto_plugin.enabled = true
     auth!
     #if we're creating the plugin, install and enabled it by default
@@ -66,7 +66,7 @@ class ConcertoPluginsController < ApplicationController
     @concerto_plugin = ConcertoPlugin.find(params[:id])
     auth!
     respond_to do |format|
-      if @concerto_plugin.update_attributes(params[:concerto_plugin])
+      if @concerto_plugin.update_attributes(concerto_plugin_params)
         write_Gemfile()
         format.html { redirect_to @concerto_plugin, :notice => t(:plugin_updated)}
         format.json { head :no_content }
@@ -124,5 +124,11 @@ class ConcertoPluginsController < ApplicationController
     restart_webserver()
     redirect_to :action => :index
   end
-  
+
+private
+
+  # Restrict the allowed parameters to a select set defined in the model.
+  def concerto_plugin_params
+    params.require(:concerto_plugin).permit(:source, :gem_name, :source_url)
+  end
 end
