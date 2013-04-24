@@ -87,7 +87,7 @@ class KindsController < ApplicationController
     end
   end
 
-  private
+private
 
   # Restrict the allowed parameters to a select set defined in the model.
   def kind_params
