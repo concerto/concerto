@@ -19,9 +19,6 @@
               <li>
                 <h3>
                   <%= link_to group.name, group, :class => "link-hl" %>
-                  <% if can? :update, group %>
-                    <small><%= link_to t(:edit), edit_group_path(group) %></small>
-                  <% end %>
                   <% if can? :delete, group %>
                     <small><%= link_to t(:destroy), group, :data => { :confirm => t(:are_you_sure) }, :method => :delete %></small>
                   <% end %>                  
