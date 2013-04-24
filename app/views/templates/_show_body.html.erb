@@ -1,7 +1,5 @@
 <%= link_to t(:edit), edit_template_path(@template), :class => "btn primary" if can? :edit, @template %>
-<% if @template.not_used? %>
 <%= link_to t(:destroy), @template, :data => { :confirm => t(:are_you_sure) }, :method => :delete, :class => "btn primary" if can? :delete, @template %>
-<% end %>
 <article>
   <%= image_tag preview_template_path(@template, :width=> 600, :format => :jpg), :style => "width: 100%", :alt => t('.preview_alt', :name => @template.name) %>
 </article>
