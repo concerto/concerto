@@ -54,7 +54,7 @@ class TemplatesController < ApplicationController
   # POST /templates
   # POST /templates.xml
   def create
-    @template = Template.new(params[:template])
+    @template = Template.new(template_params)
     auth!
     @template.media.each do |media|
       media.key = "original"
@@ -82,7 +82,7 @@ class TemplatesController < ApplicationController
     end
 
     respond_to do |format|
-      if @template.update_attributes(params[:template])
+      if @template.update_attributes(template_params)
         format.html { redirect_to(@template, :notice => t(:template_updated)) }
         format.xml  { head :ok }
       else
@@ -212,5 +212,9 @@ private
   # creation we're working with.
   def get_type
     @type = params[:type] || 'import'
+  end
+
+  def template_params
+    params.require(:template).permit(:name, :author, :is_hidden, :original_width, :original_height)
   end
 end

@@ -1,4 +1,6 @@
 class Template < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   has_many :screens, :dependent => :restrict
   has_many :media, :as => :attachable, :dependent => :destroy
   has_many :positions, :dependent => :destroy
