@@ -66,6 +66,20 @@ function initBasicTooltips() {
   });
 }
 
+function initCharCount() {
+  //Character count for ticker text
+  $('.word_count').each(function(){
+    var length = $(this).val().length;
+    $("#char_count").html(length);
+    
+    // bind on key up event
+    $(this).keyup(function(){
+      var new_length = $(this).val().length;
+      $("#char_count").html(new_length);
+    });
+  });
+}
+
 function initNoticeBannerDisplay() {
   // flash-banner display animation:
   if ( $("#flash-banner").html() !== "" ) {
@@ -93,6 +107,7 @@ function initBasicInteractions() {
   initNoticeBannerDisplay();
   initBasicTooltips();
   initFeedFilters();
+  initCharCount();
 }
 
 $(document).ready(initBasicInteractions);
