@@ -1,4 +1,6 @@
 class Subscription < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   # Weight Levels
   WEIGHTS = {
     # A very frequent chance of content showing up.
