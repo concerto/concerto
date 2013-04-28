@@ -1,5 +1,5 @@
 <% if !@activities.empty? %>
-  <p><%= t('.recent_activity')%></p>
+  <p><%= t('.latest_activity')%></p>
   <ul>
   <% @activities.each do |activity| %>
     <% if File.exists?(Rails.root.join("app", "views", "public_activity", activity.key.split('.')[0], "_#{activity.key.split('.')[1]}.html.erb")) %>
