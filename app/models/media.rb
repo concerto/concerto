@@ -1,4 +1,6 @@
 class Media < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   belongs_to :attachable, :polymorphic => true
   
   attachable

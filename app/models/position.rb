@@ -1,4 +1,6 @@
 class Position < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   belongs_to :field
   belongs_to :template
 
