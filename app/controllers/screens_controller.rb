@@ -83,7 +83,7 @@ class ScreensController < ApplicationController
     respond_to do |format|
       if @screen.save
         process_notification(@screen, {:public_owner => current_user.id}, :action => 'create')
-        format.html { redirect_to(@screen, :notice => t(:position_created)) }
+        format.html { redirect_to(@screen, :notice => t(:screen_created)) }
         format.xml  { render :xml => @screen, :status => :created, :location => @screen }
       else
         format.html { render :action => "new" }
