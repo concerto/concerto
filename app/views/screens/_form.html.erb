@@ -98,6 +98,7 @@
   </fieldset>
 
 	<div class="submit_bar actions">
-		<%= f.submit button_text, :class => "btn primary" %> <%= link_to_function t(:cancel), "history.back()", :class => "btn" %>
+		<%= f.submit button_text, :class => "btn primary" %>
+          <%= link_to t(:cancel), (@screen.persisted? ? screen_path : screens_path), :class => "btn" %>
 	</div>
 <% end %>
