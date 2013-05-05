@@ -13,3 +13,5 @@ vendor/bundle/
 doc/coverage/*
 Gemfile-plugins.bak
 .rvmrc
+.ruby-gemset
+.ruby-version
