@@ -37,7 +37,7 @@ class UsersController < ApplicationController
   # POST /users.xml
   def create
     set_admin = params[:user].delete("is_admin")
-    @user = User.new(params[:user])
+    @user = User.new(user_params)
     if !(set_admin.nil?) and can? :manage, User
       @user.is_admin = set_admin
     end
@@ -53,7 +53,7 @@ class UsersController < ApplicationController
       end
     end
   end
-  
+
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
@@ -67,7 +67,7 @@ class UsersController < ApplicationController
     auth!
 
     set_admin = params[:user].delete("is_admin")
-    if @user.update_attributes(params[:user])
+    if @user.update_attributes(user_params)
       flash[:notice] = t(:user_updated)
     end
     if !(set_admin.nil?) and can? :manage, User
@@ -85,6 +85,13 @@ class UsersController < ApplicationController
       flash[:notice] = t(:cannot_delete_last_admin)
     end
     respond_with(@user)
+  end
+
+private
+
+  # Restrict the allowed parameters to a select set defined in the model.
+  def user_params
+    params.require(:user).permit(:email, :first_name, :last_name,:password, :confirm_passwword)
   end
   
 end
