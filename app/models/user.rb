@@ -1,14 +1,12 @@
 class User < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
          
   before_destroy :check_for_last_admin
-
-  # Setup accessible attributes for your model
-  # Note: is_admin is intentionally not accessible.
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :locale, :receive_moderation_notifications
 
   has_many :contents
   has_many :submissions, :foreign_key => "moderator_id"
