@@ -1,12 +1,12 @@
 Concerto::Application.routes.draw do
   resources :concerto_plugins
-  match 'concerto_plugins/restart_for_plugin' => 'concerto_plugins#restart_for_plugin', :via => "post"
+  post 'concerto_plugins/restart_for_plugin' => 'concerto_plugins#restart_for_plugin'
   
   resources :activities
 
   #Custom route for the screen creation/admin form JS
   #TODO(bamnet): Clean this up
-  match "update_owners" => "screens#update_owners"
+  get "update_owners" => "screens#update_owners"
 
   # These routes control the frontend of Concerto used by screens.
   # You probably should not touch them without thinking very hard
@@ -64,7 +64,7 @@ Concerto::Application.routes.draw do
   
   resources :kinds
 
-  match "moderate/" => "feeds#moderate"
+  get "moderate/" => "feeds#moderate"
 
   resources :feeds do
     resources :submissions, :only => [:index, :show, :update]
@@ -87,9 +87,9 @@ Concerto::Application.routes.draw do
   resources :client_times, :controller => :contents, :except => [:index, :show], :path => "content"
 
   #Set a non-restful route to the dashboard
-  match 'dashboard/' => 'dashboard#index'
-  match 'dashboard/run_backup' => 'dashboard#run_backup'
-  match 'dashboard/update' => 'dashboard#update', :via => "post"
+  get 'dashboard/' => 'dashboard#index'
+  get 'dashboard/run_backup' => 'dashboard#run_backup'
+  post 'dashboard/update' => 'dashboard#update'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -140,8 +140,8 @@ Concerto::Application.routes.draw do
   # This is the catch-all path we use for people who type /content when they
   # are semantically looking for all the feeds to show the content.  We put it
   # here at the bottom to avoid capturing any of the restful content paths.
-  match 'content/' => 'feeds#index'
-  match 'browse/' => 'feeds#index'
+  get 'content/' => 'feeds#index'
+  get 'browse/' => 'feeds#index'
 
   root :to => 'feeds#index'
 
