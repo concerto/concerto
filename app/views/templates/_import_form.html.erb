@@ -35,7 +35,7 @@
     <hr />
 
     <div class="clearfix">
-      <div class="input">
+      <div class="input checkbox">
         <%= f.check_box :is_hidden %> <%= f.label :is_hidden %>
       </div>
     </div>
@@ -44,6 +44,6 @@
 
 
   <div class="submit_bar actions">
-    <%= f.submit button_text, :class => "btn primary" %> <%= link_to_function t(:cancel), "history.back()", :class => "btn" %>
+    <%= f.submit button_text, :class => "btn primary" %> <%= link_to t(:cancel), screens_path, :class => "btn" %>
   </div>
 <% end %>
