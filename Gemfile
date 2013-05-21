@@ -19,15 +19,12 @@ group :concerto_plugins do
   eval File.read(basedir+'/Gemfile-plugins')
 end
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem "sass-rails", "~> 4.0.0.rc1"
-  gem "coffee-rails", "~> 4.0.0"
-  gem 'therubyracer', :platforms => :ruby
-  gem 'execjs'
-  gem 'uglifier', '>= 1.3.0'
-end
+# Gems used for assets and not required
+gem "sass-rails", "~> 4.0.0.rc1"
+gem "coffee-rails", "~> 4.0.0"
+gem 'therubyracer', :platforms => :ruby
+gem 'execjs'
+gem 'uglifier', '>= 1.3.0'
 
 gem 'jquery-rails'
 gem 'turbolinks'
@@ -67,3 +64,5 @@ gem 'kaminari'  # Pagination
 
 # Enable the newsfeed for 1.9+ users.
 gem 'public_activity' if RUBY_VERSION >= "1.9"
+
+rails4_dependa
