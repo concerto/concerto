@@ -36,9 +36,3 @@
     <% end %>
   <% end %>
 </ul>
-
-<% if can? :create, Feed %>
-  <div class="default-padding">
-    <%= link_to t(:new_model, :model => Feed.model_name.human), new_feed_path, :class => "btn" %>
-  </div>
-<% end %>
