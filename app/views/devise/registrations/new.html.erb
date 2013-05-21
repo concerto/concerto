@@ -5,12 +5,12 @@
   <div class="viewblock-cont">  
     <%= devise_error_messages! %>
 
-    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :autocomplete => 'off' }) do |f| %>
       <fieldset>
         <div class="clearfix">
           <%= f.label :first_name %>
           <div class="input">
-            <%= f.text_field :first_name %>
+            <%= f.text_field :first_name, :autofocus => true %>
           </div>
         </div>
         <div class="clearfix">
