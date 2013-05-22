@@ -12,7 +12,7 @@ unless Rails.env.test?
   # ActiveRecord. Benchmark comes in at around 62ms.
   # Inspired by rake railties:install:migrations from ActiveRecord.
   railties = ActiveSupport::OrderedHash.new
-  Rails.application.railties.all do |railtie|
+  Rails.application.railties.each do |railtie|
     if railtie.respond_to?(:paths) && (path = railtie.paths['db/migrate'].first)
       railties[railtie.railtie_name] = path
     end
