@@ -25,8 +25,7 @@
 
     <%= form_tag dashboard_update_path do %>
 
-        <fieldset>
-
+        <fieldset class="global-prefs">
           <% for c in @concerto_configs %>
               <div class="clearfix">
                 <% if c.value_type == "string" || c.value_type == "integer" %>
