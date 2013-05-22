@@ -12,7 +12,8 @@
       <div class="subnav clearfix">
         <h4><%= t('.my_screens') %></h4>
       </div>
-      <%= render :partial => "thumbs", :object => @my_screens %>
+      <%= render :partial => "thumbs", :object => @my_screens, 
+        :locals => { :show_field_count => true, :show_owner => true } %>
     <% end %>
 
     <% other_screens = @screens - @my_screens %>
@@ -20,7 +21,8 @@
       <div class="subnav clearfix">
         <h4><%= t('.other_screens') %></h4>
       </div>
-      <%= render :partial => "thumbs", :object => other_screens %>
+      <%= render :partial => "thumbs", :object => other_screens, 
+        :locals => { :show_field_count => true, :show_owner => true }  %>
     <% end %>
     
   <% end %>

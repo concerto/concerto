@@ -77,30 +77,9 @@
     <div class="default-padding">
 
       <div class="subblock">
-
         <h2><%= user_title @user, t('.screens') %></h2>
-
-        <ul class="list-grid">
-
-          <% @screens.each do |screen| %>
-              <li>
-                <div class="cont thumb-icon">
-                  <%= link_to screen do %>
-                      <i class="icon-controller-screens"></i>
-                  <% end %>
-                </div>
-                <div class="cont">
-                  <p><b><%= link_to screen.name, screen %></b></p>
-                  <% if screen.owner.is_a? Group %>
-                    <p><%= link_to screen.owner.name, screen.owner %></p>
-                  <% end %>
-                </div>
-              </li>
-            <% end %>
-
-        </ul>
-
-
+        <%= render :partial => "screens/thumbs", :object => @screens, 
+          :locals => { :show_field_count => false, :show_owner => true } %>
       </div>
 
     </div>
