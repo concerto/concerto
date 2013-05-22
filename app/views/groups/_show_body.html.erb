@@ -221,8 +221,8 @@
              </div>
            </fieldset>
            <div align="right" style="padding-right:20px;">
+             <%= f.submit t(:update_model, :model => Group.model_name.human), :class => "btn primary" %>
              <%= link_to_function t(:cancel), "history.back()", :class => "btn" %>
-             <%= f.submit t('.edit_group'), :class => "btn primary" %>
            </div>
          <% end %>
        </div>
