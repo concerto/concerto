@@ -170,44 +170,25 @@
 
     </div>
   </div>
+
   <div class="span5">
     <div class="default-padding">
 
      <div class="subblock">
        <h2><%= t('.group_screens') %></h2>
-       <ul class="list-grid">
-         <% @group.screens.each do |screen| %>
-         <li>
-           <div class="cont thumb-icon">
-             <%= link_to screen do %>
-             <i class="icon-controller-screens"></i>
-             <% end %>
-           </div>
-           <div class="cont">
-             <p><b><%= link_to screen.name, screen %></b></p>
-             <p><%= screen.location %></p>
-           </div>
-         </li>
-         <% end %>
-       </ul>
-
+       <%= render :partial => "screens/thumbs", :object => @group.screens, 
+        :locals => { :show_field_count => false, :show_owner => false } %>
      </div>
 
      <div class="subblock">
        <h2><%= t('.group_feeds') %></h2>
 
        <% if !@group.feeds.empty? %>
-
          <ul>
            <% @group.feeds.each do |feed| %>
            <li><%= link_to feed.name, feed %></li>
            <% end %>
          </ul>
-         <div class="clearfix">
-           <%= link_to t(:new_model, :model => Feed.model_name.human), new_feed_path, :class => "btn" if can? :create, Feed %>
-         </div>
-         <div class="clear"></div>
-
        <% end %>
 
      </div>
@@ -240,8 +221,8 @@
              </div>
            </fieldset>
            <div align="right" style="padding-right:20px;">
+             <%= f.submit t(:update_model, :model => Group.model_name.human), :class => "btn primary" %>
              <%= link_to_function t(:cancel), "history.back()", :class => "btn" %>
-             <%= f.submit t('.edit_group'), :class => "btn primary" %>
            </div>
          <% end %>
        </div>
