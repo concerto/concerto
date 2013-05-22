@@ -180,6 +180,13 @@ class ContentsController < ApplicationController
     end
   end
 
+  def ticker_preview
+    @html = Ticker.clean_html(params[:data])
+    respond_to do |format|
+      format.html { render @html }
+    end
+  end
+
 private
 
   # Restrict the allowed parameters to a select set defined in the model.

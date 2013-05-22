@@ -5,6 +5,8 @@
     <div class="input">
       <%= form.text_area :data, :class => 'word_count', :rows => 10, :autofocus => true %>
       <div><%= t('.characters') %>: <span id="char_count">0</span></div>
+      <i>Some html is allowed, presentation on screens may vary from preview below, count includes html formatting</i> <%= link_to 'Preview', ticker_preview_path, :id => "ticker-preview", :class => 'btn btn-mini', :remote => true %>
     </div>
   </div>
+  <div class="ticker-preview"></div>
 </fieldset>

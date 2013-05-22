@@ -1,8 +1,10 @@
 class Ticker < Content
+  include ActionView::Helpers
 
   DISPLAY_NAME = 'Ticker Text'
  
   after_initialize :set_kind
+  before_save :sanitize_html
 
   # Validations
   validates :duration, :numericality => { :greater_than => 0 }
@@ -15,4 +17,12 @@ class Ticker < Content
     self.kind = Kind.where(:name => 'Ticker').first
   end
 
+  def sanitize_html
+    self.data = clean_html(self.data) unless self.data.nil?
+  end
+
+  public def clean_html(html)
+    # sanitize gem erased '<<<'' whereas ActionView's was more discerning
+    sanitize html, :tags => %w(b blockquote br cite dd dl dt div i em li ol u ul p pre q small strong), :attributes => %w(style class) unless html.nil?
+  end
 end
