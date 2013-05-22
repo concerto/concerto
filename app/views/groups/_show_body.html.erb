@@ -197,17 +197,11 @@
        <h2><%= t('.group_feeds') %></h2>
 
        <% if !@group.feeds.empty? %>
-
          <ul>
            <% @group.feeds.each do |feed| %>
            <li><%= link_to feed.name, feed %></li>
            <% end %>
          </ul>
-         <div class="clearfix">
-           <%= link_to t(:new_model, :model => Feed.model_name.human), new_feed_path, :class => "btn" if can? :create, Feed %>
-         </div>
-         <div class="clear"></div>
-
        <% end %>
 
      </div>
