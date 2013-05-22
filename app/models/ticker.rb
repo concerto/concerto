@@ -21,7 +21,7 @@ class Ticker < Content
     self.data = clean_html(self.data) unless self.data.nil?
   end
 
-  public def clean_html(html)
+  def clean_html(html)
     # sanitize gem erased '<<<'' whereas ActionView's was more discerning
     sanitize html, :tags => %w(b blockquote br cite dd dl dt div i em li ol u ul p pre q small strong), :attributes => %w(style class) unless html.nil?
   end

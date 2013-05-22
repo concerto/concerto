@@ -181,9 +181,10 @@ class ContentsController < ApplicationController
   end
 
   def ticker_preview
-    @html = Ticker.clean_html(params[:data])
+    t = Ticker.new
+    @html = t.clean_html(params[:data])
     respond_to do |format|
-      format.html { render @html }
+      format.html { render :text => @html, :layout => false }
     end
   end
 
