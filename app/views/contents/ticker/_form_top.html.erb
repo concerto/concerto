@@ -1,15 +1,31 @@
 <fieldset>
   <legend><span><%=t('.type_your_message')%></span></legend>
+
   <div class="clearfix">
-    <label><%=t('.ticker_text')%></label>
-    <div class="input">
-      <%= form.text_area :data, :class => 'word_count', :rows => 10, :autofocus => true %>
-      <div><%= t('.characters') %>: <span id="char_count">0</span></div>
-      <i>Some html is allowed, presentation on screens may vary from preview below, count includes html formatting</i> 
-      <%= link_to 'Preview', { :controller => "contents", :action => 'ticker_preview', :method => :post, :remote => true }, { :id => "ticker-preview", :class => 'btn btn-mini' } %>
+    
+    <div class="tabbable tabs-left">
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a href="#tab1" data-toggle="tab"><%=t('.ticker_text')%></a>
+        </li>
+        <li>
+          <a href="#tab2" data-url="<%= url_for(:controller => 'contents', :action => 'ticker_preview')%>" id="ticker-preview" data-toggle="tab"><%=t('.preview')%></a>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="tab1">
+          <%= form.text_area :data, :class => 'word_count', :rows => 10, :autofocus => true %>
+          <div><%= t('.characters') %>: <span id="char_count">0</span></div>
+          <i><%= t('.allowed_html')%></i> 
+        </div>
+
+        <div class="tab-pane" id="tab2">
+          <div class="ticker-preview"></div>
+        </div>
+      </div>
     </div>
+
   </div>
-  <div class="input">
-    <div class="ticker-preview"></div>
-  </div>
+
 </fieldset>

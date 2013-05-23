@@ -1,13 +1,14 @@
-// preview the sanitized ticker text - idealy this would be a modal popup
+// preview the sanitized ticker text
 function initializeTickerPreview() {
-  // http://vombat.tumblr.com/post/6874151754/how-do-you-dynamically-set-ajax-request-data-with-rails
-  $("a#ticker-preview").on("ajax:before", function () {
-    var stuff = $('textarea#ticker_data').val();
-    $(this).data('params', { data: stuff });
-  });
-
-  $("a#ticker-preview").on("ajax:success", function (event, data, status, xhr) {
-    $("div.ticker-preview").html(data);
+  $('div.tabbable ul.nav-tabs li a').click(function (e) {
+    e.preventDefault();
+    $("div.ticker-preview").html("...");
+    $(this).tab('show');
+    var url = $(this).data('url');
+    if (url) {
+      var stuff = $('textarea#ticker_data').val();
+      $("div.ticker-preview").load(url, { data: stuff });
+    }
   });
 }
 
