@@ -17,7 +17,7 @@ class Ticker < Content
 
   # make sure the data only contains authorized html tags
   def sanitize_html
-    self.data = clean_html(self.data) unless self.data.nil?
+    self.data = self.class.clean_html(self.data) unless self.data.nil?
   end
 
   # clear out the unapproved html tags
