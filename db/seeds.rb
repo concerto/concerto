@@ -27,8 +27,15 @@ Field.find_or_create_by_name({:name => 'Time', :kind => Kind.where(:name => 'Tex
 Group.find_or_create_by_name(:name => "Concerto Admins")
 
 #Determine installed content types for enabling them in the inital feed
+# this is the ideal way but unfortunately they're not registered yet at this point
+# installed_content_types = { }
+# Concerto::Application.config.content_types.sort_by{|type| type.display_name}.each do |type| 
+#   puts "enabling #{type.name} content type in initial feed"
+#   installed_content_types.merge!({ type.name.to_sym => "1" })
+# end
 installed_content_types = { :Graphic=>"1", :Ticker=>"1" } # these are native
 begin
+  # enables the content types if the gems are found (even if they aren't going to be registered, unfortunately)
   installed_content_types.merge!({ :SimpleRss => "1" }) if `gem list`.lines.grep(/^concerto_simple_rss \(.*\)/)
   installed_content_types.merge!({ :RemoteVideo => "1" }) if `gem list`.lines.grep(/^concerto_remote_video \(.*\)/)
   installed_content_types.merge!({ :Weather => "1" }) if `gem list`.lines.grep(/^concerto_weather \(.*\)/)
