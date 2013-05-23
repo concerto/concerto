@@ -27,7 +27,7 @@ Field.find_or_create_by_name({:name => 'Time', :kind => Kind.where(:name => 'Tex
 Group.find_or_create_by_name(:name => "Concerto Admins")
 
 #Create an initial feed
-Feed.find_or_create_by_name(:name => "Concerto", :description => "Initial Concerto Feed", :group_id => 1, :is_viewable => 1, :is_submittable => 1, :content_types => {:Graphic=>"1", :Ticker=>"1"})
+Feed.find_or_create_by_name(:name => "Concerto", :description => "Initial Concerto Feed", :group_id => Group.first.id, :is_viewable => 1, :is_submittable => 1, :content_types => {:Graphic=>"1", :Ticker=>"1", :SimpleRss => "1", :RemoteVideo => "1", :Weather => "1"})
 
 #Create an initial template
 @template = Template.find_or_create_by_name(:name => "Default Template", :author => "Concerto")
@@ -44,3 +44,14 @@ Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Graphi
 Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Ticker").first.id,concerto_template, :top => ".885", :left => ".221", :bottom => ".985", :right => ".975", :style => "color:#FFF; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important;")
 Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Text").first.id,concerto_template, :top => ".015", :left => ".68", :bottom => ".811", :right => ".98", :style =>"color:#FFF; font-family:Frobisher, Arial, sans-serif;")
 Position.find_or_create_by_field_id_and_template_id(Field.where(:name => "Time").first.id,concerto_template, :top => ".885", :left => ".024", :bottom => ".974", :right => ".18", :style => "color:#ccc; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important; letter-spacing:.12em !important;")
+
+#Create a sample Full-Screen
+Screen.find_or_create_by_name(:name => "Sample Screen", :location => "Cafe", :is_public => true, :owner_id => Group.first.id, :owner_type => "Group", :template_id => concerto_template, :width => 1024, :height => 768)
+
+#Create initial subscriptions for the sample Screen
+feed_id = Feed.first.id
+screen_id= Screen.first.id
+i = 0
+Field.where("name <> 'Dynamic'").each do |f|
+  Subscription.find_or_create_by_id(:id => ++i, :feed_id => feed_id, :field_id => f.id, :screen_id => screen_id, :weight => 1)
+end
