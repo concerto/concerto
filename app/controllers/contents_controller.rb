@@ -1,5 +1,5 @@
 class ContentsController < ApplicationController
-  before_filter :get_content_const, :only => [:new, :create]
+  before_filter :get_content_const, :only => [:new, :create, :preview]
 
   # Grab the constant object for the type of
   # content we're working with.  Probably needs
@@ -180,11 +180,22 @@ class ContentsController < ApplicationController
     end
   end
 
-  def ticker_preview
-    t = Ticker.new
-    @html = t.clean_html(params[:data])
+  # returns the content types preview of the specified data or looked up by id 
+  def preview
+    data = ""
+    if !params[:data].nil?
+      data = params[:data]
+    elsif !params[:id].nil?
+      content = Content.find(params[:id])
+      data = content[:data] unless content.nil?
+    end
+
+    html = "Unrecognized content type"
+    if !@content_const.nil?
+      html = @content_const.preview(data)
+    end
     respond_to do |format|
-      format.html { render :text => @html, :layout => false }
+      format.html { render :text => html, :layout => false }
     end
   end
 
