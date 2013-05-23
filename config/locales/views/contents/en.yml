@@ -67,6 +67,8 @@ en:
         type_your_message: "Type Your Message"
         ticker_text: 'Ticker Text'
         characters: 'Characters'
+        preview: 'Preview'
+        allowed_html: "Certain, simple formatting html is allowed, presentation on screens may vary from that shown in the preview here."
 
   helpers:
     label:
