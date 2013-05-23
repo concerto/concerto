@@ -8,7 +8,7 @@ Concerto::Application.routes.draw do
   #TODO(bamnet): Clean this up
   match "update_owners" => "screens#update_owners"
 
-  match "ticker_preview" => "contents#ticker_preview"
+  match "preview" => "contents#preview"
 
   # These routes control the frontend of Concerto used by screens.
   # You probably should not touch them without thinking very hard
