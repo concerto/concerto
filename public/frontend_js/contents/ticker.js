@@ -49,7 +49,14 @@ concerto.frontend.ContentTypeRegistry['Ticker'] =
  * @private
  */
 concerto.frontend.Content.Ticker.prototype.load_ = function() {
-  goog.dom.setTextContent(this.div_, this.text);
+  // plain text ticker
+  // goog.dom.setTextContent(this.div_, this.text);
+
+  // html ticker, wrapped in single node
+  goog.dom.removeChildren(this.div_);
+  var frag = goog.dom.htmlToDocumentFragment('<div>' + this.text + '</div>');
+  goog.dom.appendChild(this.div_, frag);
+  
   this.div_ = concerto.frontend.Helpers.Autofit(this.div_, this.field_width_,
                                                 this.field_height_);
   console.log(this.div_);
