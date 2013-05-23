@@ -19,11 +19,13 @@
           <% if user_signed_in? and current_user == @user %>
             <p style="margin-bottom: 0px;"><b><%= t('.this_is_you') %></b></p>
           <% end %>
+          <% if can? :edit, @user %>
             <div class="inline-inputs">
               <%= link_to t(:edit), edit_user_path, :class => "btn" %> 
               <%= link_to t('.change_password'), edit_user_registration_path, :class => "btn" %> 
               <%= link_to t(:destroy), registration_path(@user), :data => { :confirm => t(:are_you_sure)}, :method => :delete, :class => "btn danger" if current_user != @user %> 
             </div>
+          <% end %>
         </div>
       </div>
 
