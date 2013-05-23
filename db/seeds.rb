@@ -26,8 +26,23 @@ Field.find_or_create_by_name({:name => 'Time', :kind => Kind.where(:name => 'Tex
 #Create an initial group
 Group.find_or_create_by_name(:name => "Concerto Admins")
 
+#Determine installed content types for enabling them in the inital feed
+installed_content_types = { :Graphic=>"1", :Ticker=>"1" } # these are native
+begin
+  installed_content_types.merge!({ :SimpleRss => "1" }) if `gem list`.lines.grep(/^concerto_simple_rss \(.*\)/)
+  installed_content_types.merge!({ :RemoteVideo => "1" }) if `gem list`.lines.grep(/^concerto_remote_video \(.*\)/)
+  installed_content_types.merge!({ :Weather => "1" }) if `gem list`.lines.grep(/^concerto_weather \(.*\)/)
+rescue
+  raise "cannot determine which additional concerto plugins are installed"
+end
+
 #Create an initial feed
-Feed.find_or_create_by_name(:name => "Concerto", :description => "Initial Concerto Feed", :group_id => Group.first.id, :is_viewable => 1, :is_submittable => 1, :content_types => {:Graphic=>"1", :Ticker=>"1", :SimpleRss => "1", :RemoteVideo => "1", :Weather => "1"})
+Feed.find_or_create_by_name(:name => "Concerto", 
+  :description => "Initial Concerto Feed", 
+  :group_id => Group.first.id, 
+  :is_viewable => 1, 
+  :is_submittable => 1, 
+  :content_types => installed_content_types)
 
 #Create an initial template
 @template = Template.find_or_create_by_name(:name => "Default Template", :author => "Concerto")
