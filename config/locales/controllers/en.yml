@@ -3,6 +3,7 @@ en:
   content_created: "Content was successfully created."
   content_created_no_feeds: "Content was successfully created. Since no feeds were supplied, content will remain in limbo."
   content_updated: "Content was successfully updated."
+  content_not_found: "Content not found."
 
   #Feeds controller
   feed_created: "Feed was successfully created."
