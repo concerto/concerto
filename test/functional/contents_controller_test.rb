@@ -90,4 +90,15 @@ class ContentsControllerTest < ActionController::TestCase
     assert_equal assigns(:feeds).length, 4
   end
 
+  test "invalid content id should redirect to browse" do
+    sign_in users(:kristen)
+    get(:show, :id => 'bogus')
+    assert_redirected_to browse_path
+  end
+
+  test "missing content should redirect to browse" do
+    sign_in users(:kristen)
+    get(:show, :id => 99999999)
+    assert_redirected_to browse_path
+  end
 end

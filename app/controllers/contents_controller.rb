@@ -15,17 +15,20 @@ class ContentsController < ApplicationController
   # GET /contents/1
   # GET /contents/1.xml
   def show
-    if params[:id].nil? || params[:id].to_i ==0
-      render :text => "Requested content not found", :status => 404
-    else
-      @content = Content.find(params[:id])
-      @user = User.find(@content.user_id)
-      auth!
+    @content = Content.find(params[:id])
+    @user = User.find(@content.user_id)
+    auth!
 
-      respond_to do |format|
-        format.html #show.html.erb
-        format.xml { render :xml => @content }
-      end
+    respond_to do |format|
+      format.html #show.html.erb
+      format.xml { render :xml => @content }
+    end
+
+  rescue ActiveRecord::RecordNotFound
+    # while it could be returned as a 404, we should keep the user in the application
+    # render :text => "Requested content not found", :status => 404
+    respond_to do |format|
+      format.html { redirect_to(browse_path, :notice => t(:content_not_found)) }
     end
   end
 
