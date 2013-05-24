@@ -18,6 +18,11 @@ done
 
 echo $debug
 
+if [[ ! -x "closure-library/closure/bin/build/closurebuilder.py" ]]
+then
+  chmod a+x closure-library/closure/bin/build/closurebuilder.py
+fi
+
 if [ $debug -eq 0 ]; then
   closure-library/closure/bin/build/closurebuilder.py \
     --root=closure-library/ --root=./ --namespace="concerto.frontend.Screen" \
