@@ -28,9 +28,23 @@ class Graphic < Content
   # Resizes the image to fit a width and height specified (both required ATM).
   # Returns a new (unsaved) Media instance.
   def render(options={})
+    cache_key = options
+    cache_key[:content_id] = self.id
+    image_hash = Rails.cache.read(cache_key)
+    if !image_hash.nil?
+      Rails.logger.debug('Cache hit!')
+      file = Media.new(
+        :attachable => self,
+        :file_data => image_hash[:data],
+        :file_type => image_hash[:type],
+        :file_name => image_hash[:name]
+      )
+      return file
+    end
+    Rails.logger.debug('Cache miss!')
+
     original_media = self.media.original.first
-    # In theory, there should be more code in here to look for a cached image and be smarter
-    # about the resizing, but this is a good first pass.
+    file = original_media
 
     options[:crop] ||= false
 
@@ -44,11 +58,12 @@ class Graphic < Content
         :file_type => image.mime_type,
         :file_name => original_media.file_name
       )
-
-      return file
-    else
-      return original_media
     end
+
+    cache_data = {:data => file.file_contents, :type => file.file_type, :name => file.file_name}
+    Rails.cache.write(cache_key, cache_data, :expires_in => 2.hours, :race_condition_ttl => 1.minute)
+
+    return file
   end
 
   # Placeholder attributes for rendering.
