@@ -15,13 +15,17 @@ class ContentsController < ApplicationController
   # GET /contents/1
   # GET /contents/1.xml
   def show
-    @content = Content.find(params[:id])
-    @user = User.find(@content.user_id)
-    auth!
+    if params[:id].nil? || params[:id].to_i ==0
+      render :text => "Requested content not found", :status => 404
+    else
+      @content = Content.find(params[:id])
+      @user = User.find(@content.user_id)
+      auth!
 
-    respond_to do |format|
-      format.html #show.html.erb
-      format.xml { render :xml => @content }
+      respond_to do |format|
+        format.html #show.html.erb
+        format.xml { render :xml => @content }
+      end
     end
   end
 
