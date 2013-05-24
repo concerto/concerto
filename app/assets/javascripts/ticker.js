@@ -7,7 +7,7 @@ function initializeTickerPreview() {
     var url = $(this).data('url');
     if (url) {
       var stuff = $('textarea#ticker_data').val();
-      $("div.ticker-preview").load(url, { data: stuff });
+      $("div.ticker-preview").load(url, { data: stuff, type: "Ticker" });
     }
   });
 }
