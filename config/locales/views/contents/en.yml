@@ -54,6 +54,7 @@ en:
       the_dawn_of_time: 'The Dawn of Time.'
       the_end_of_time: 'The End of Time.'
       feeds_moderation_status: "Submission Status"
+      not_submitted: 'This content has not been submitted to any feeds.'
 
     table:
       title: "Title"
