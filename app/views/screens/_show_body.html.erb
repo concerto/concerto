@@ -10,7 +10,7 @@
       <p><b><%= Screen.human_attribute_name(:location) %>:</b> <%= @screen.location %></p>
     <% end %>
 
-    <p><b><%= Screen.human_attribute_name(:owner_id) %>:</b> <%= link_to @screen.owner.name, :user  %></p>
+    <p><b><%= Screen.human_attribute_name(:owner_id) %>:</b> <%= screen_owner(@screen, false) %></p>
     <p><b><%= t(:template) %>:</b> <%= @screen.template.name unless @screen.template.nil? %></p>
     <p><b><%= t(:status) %>:</b> <% if @screen.is_online? %>Online <% else %>Offline <% end %> </p>
     
