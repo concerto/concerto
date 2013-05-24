@@ -27,5 +27,8 @@ en:
       select_template: 'Select Template'
       visibility: 'Visibility'
 
+    thumbs:
+      owner: 'owner'
+
       #current_template: "Current Selection"
       #other_templates: "Other Templates"
