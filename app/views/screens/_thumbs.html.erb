@@ -15,13 +15,11 @@
       <div class="cont">
         <p><b><%= link_to screen.name, screen %></b></p>
         <p><%= screen.location %></p>
+        
         <% if show_owner %>
-          <% if screen.owner.is_a? Group %>
-            <p><%= link_to screen.owner.name, group_path(screen.owner.id), :title => 'owner' %></p>
-          <% else %>
-            <p><%= link_to screen.owner.name, user_path(screen.owner.id), :title => 'owner' %></p>
-          <% end %>
+          <p><%= screen_owner(screen) %></p>
         <% end %>
+
         <% if show_field_count %>
           <p class="muted"><%= screen.fields.count %> fields</p>
         <% end %>
