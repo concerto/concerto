@@ -1,0 +1,72 @@
+nl:
+  #Contents controller
+  content_created: "Inhoud maken geslaagd."
+  content_created_no_feeds: "Inhoud maken geslaagd. Omdat geen feeds werden opgegeven, zal de inhoud in limbo blijven."
+  content_updated: "Inhoud aanpassen geslaagd."
+
+  #Feeds controller
+  feed_created: "Feed maken geslaagd."
+  feed_updated: "Feed aanpassen geslaagd."
+
+  #Fields controller
+  field_created: "Veld maken geslaagd."
+  field_updated: "Veld aanpassen geslaagd."
+
+  #Groups controller
+  group_created: "Groep maken geslaagd."
+  group_updated: "Groep aanpassen geslaagd."
+
+  #Memberships controller
+  membership_created:          "Lidmaatschap maken geslaagd."
+  membership_denied:           "Lidmaatschap maken geweigerd."
+  membership_denied_failure:   "Lidmaatschap maken niet geweigerd."
+  membership_approved:         "Lidmaatschap maken goedgekeurd."
+  membership_approved_failure: "Lidmaatschap maken niet goedgekeurd."
+  membership_promoted:         "Lid promoveren tot groepsleider geslaagd."
+  membership_promoted_failure: "Lid promoveren tot groepsleider niet geslaagd."
+  membership_demoted:          "Lid degraderen van groepsleider geslaagd."
+  membership_demoted_failure:  "Lid degraderen van groepsleider niet geslaagd. Er moet op zijn minst een groepsleider zijn."
+  membership_unknown_action:   "Onbekende ledenactie."
+  member_removed:              "Lid verwijderd."
+
+  #Positions controller
+  position_created: "Positie maken geslaagd."
+  position_updated: "Positie aanpassen geslaagd."
+
+  #Screens controller
+  screen_created: "Scherm maken geslaagd."
+  screen_updated: "Scherm aanpassen geslaagd."
+
+  #Submissions controller
+  content_approved: "Inhoud goedgekeurd."
+  content_failed_approve: "Inhoud niet goedgekeurd."
+  content_denied: "Inhoud geweigerd."
+  content_failed_deny: "Inhoud niet geweigerd."
+  content_moderated: "Inhoud gemodereerd."
+  content_failed_moderation: "Inhoud niet gemodereerd."
+
+  #Subscriptions controller
+  subscription_created: "Inschrijving maken geslaagd."
+  subscription_updated: "Inschrijving aanpassen geslaagd."
+
+  #Templates controller
+  template_created: "Sjabloon maken geslaagd."
+  template_updated: "Sjabloon aanpassen geslaagd."
+  template_import_error: "Fout bij importeren sjabloon. Zorg er voor dat dhet XML-bestand voor het sjabloon valide is.
+  cannot_delete_template: "Kan sjabloon niet verwijderen. Het heeft een of meer schermen an zich gelinkt."
+
+  #Users controller
+  user_created: "Gebruiker maken geslaagd."
+  user_updated: "Gebruiker aanpassen geslaagd."
+  cannot_delete_last_admin: "Kan de laatste beheerder niet verwijderen."
+  
+  #Dashboard controller
+  settings_saved: "Concerto-instellingen opgeslagen."
+
+  #Concerto plugins
+  plugin_created: "Concerto plugin maken geslaagd."
+  plugin_creation_failed: "Concerto plugin maken niet geslaagd."
+  plugin_updated: "Concerto plugin aanpassen geslaagd."
+  bundle_error: "Fout bij installeren van de bundle."
+  wont_write_restart_txt: "Concerto kan je webserver niet herstarten. Herstart manueel a.u.b."
+  cant_write_restart_txt: "Fout bij herstarten van de webserver. Herstart manueel a.u.b."
