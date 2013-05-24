@@ -39,6 +39,7 @@ en:
       destroyed: 'Bye! Your account was successfully cancelled. We hope to see you again soon.'
       edit:
         change_password: 'Change Password'
+        change_password_for: 'Change Password for %{username}'
         current_password: 'Current password'
         new_password: 'New password'
         confirm_password: 'Confirm new password'
