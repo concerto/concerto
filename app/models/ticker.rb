@@ -1,6 +1,4 @@
 class Ticker < Content
-  include ActionView::Helpers
-
   DISPLAY_NAME = 'Ticker Text'
  
   after_initialize :set_kind
@@ -17,13 +15,19 @@ class Ticker < Content
     self.kind = Kind.where(:name => 'Ticker').first
   end
 
+  # make sure the data only contains authorized html tags
   def sanitize_html
-    self.data = clean_html(self.data) unless self.data.nil?
+    self.data = self.class.clean_html(self.data) unless self.data.nil?
   end
 
-  def clean_html(html)
+  # clear out the unapproved html tags
+  def self.clean_html(html)
     # sanitize gem erased '<<<'' whereas ActionView's was more discerning
-    sanitize html, :tags => %w(b br i em li ol u ul p q small strong), 
-      :attributes => %w(style class) unless html.nil?
+    ActionController::Base.helpers.sanitize(html, :tags => %w(b br i em li ol u ul p q small strong), :attributes => %w(style class)) unless html.nil?
+  end
+
+  # return the cleaned input data
+  def self.preview(data)
+    clean_html(data.to_s)
   end
 end

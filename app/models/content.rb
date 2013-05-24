@@ -118,6 +118,11 @@ class Content < ActiveRecord::Base
     {:data => self.data}
   end
 
+  # Allow the subclasses to render a preview of their content
+  def self.preview(*arg)
+    ""
+  end
+
   # A quick test to see if a content has any children
   def has_children?
     !self.children.empty?
@@ -133,7 +138,7 @@ class Content < ActiveRecord::Base
   # All the subclasses of Content.
   # Conduct a DFS walk of the Content class tree and return the results.
   # This is important because DynamicContent is always 1 step removed
-  # from cotent (Content > DynamicContent > Rss).
+  # from content (Content > DynamicContent > Rss).
   def self.all_subclasses
     sub = []
     sub.concat(self.subclasses)
