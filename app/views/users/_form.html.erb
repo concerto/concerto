@@ -17,7 +17,7 @@
     <%= f.label :first_name %>
     <div class="input">
       <div class="inline-inputs">
-	      <%= f.text_field :first_name, :class => "span3", :autofocus => true %><%= f.text_field :last_name, :class => "span3" %>
+	      <%= f.text_field :first_name, :autofocus => true %>&nbsp;<%= f.text_field :last_name, :placeholder => 'Last' %>
       </div>
     </div>
   </div>
@@ -25,7 +25,7 @@
   <div class="clearfix">
     <%= f.label :email %>
     <div class="input">
-      <%= f.text_field :email, :class => "span4" %>
+      <%= f.text_field :email %>
     </div>
   </div>
 
