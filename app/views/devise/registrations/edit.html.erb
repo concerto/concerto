@@ -1,6 +1,6 @@
 <section class="viewblock no">
   <header class="viewblock-header">
-		<h1 class="default-padding"><%= t('.change_password') %></h1>
+		<h1 class="default-padding"><%= t('.change_password_for', :username  => resource.name) %></h1>
   </header>
   <div class="viewblock-cont">
 		<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
