@@ -23,6 +23,13 @@ class ContentsController < ApplicationController
       format.html #show.html.erb
       format.xml { render :xml => @content }
     end
+
+  rescue ActiveRecord::RecordNotFound
+    # while it could be returned as a 404, we should keep the user in the application
+    # render :text => "Requested content not found", :status => 404
+    respond_to do |format|
+      format.html { redirect_to(browse_path, :notice => t(:content_not_found)) }
+    end
   end
 
   # GET /contents/new
