@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# check for closure library and if not found get it via git submodule
+if [ ! "$(ls -A closure-library/)" ]; then
+  cd ../..
+  git submodule init
+  git submodule update
+  cd public/frontend_js
+fi
+
+# check for closure compiler and if not found try to download it
 if [ ! -f compiler.jar ];  then
   # try to download it automatically
   curl -O http://closure-compiler.googlecode.com/files/compiler-latest.zip && unzip -qq compiler-latest.zip compiler.jar && rm compiler-latest.zip
