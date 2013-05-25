@@ -15,4 +15,5 @@ doc/coverage/*
 Gemfile-plugins.bak
 .rvmrc
 .ruby-version
+.ruby-gemset
 
