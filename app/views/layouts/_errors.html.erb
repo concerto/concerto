@@ -1,0 +1,12 @@
+<% # the errors variable is actually the model that was passed in via :object %>
+<% if errors.errors.any? %>
+  <div class="alert alert-banner alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <h4><b><%= pluralize(errors.errors.count, "error") + " " + t(:prohibited_save, :model => errors.class.model_name.human.downcase) %></b></h4>
+    <ul>
+      <% errors.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

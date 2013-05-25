@@ -1,28 +1,19 @@
 <%= form_for(@feed) do |f| %>
-  <% if @feed.errors.any? %>
-    <div class="alert alert-banner alert-error">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <h4><b><%= pluralize(@feed.errors.count, t(:error)) %> <%= t('.prohibited_feed_save') %></b></h4>
-      <ul>
-        <% @feed.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render :partial => "layouts/errors", :object => @feed %>
 
   <fieldset>
+    <legend><span><%= t('.provide_details') %></span></legend>
     <div class="clearfix">
       <%= f.label :name	%>
       <div class="input">
-        <%= f.text_field :name, :class => "span6", :autofocus => true %>
+        <%= f.text_field :name, :class => "input-xlarge", :autofocus => true %>
       </div>
     </div>
 
     <div class="clearfix">
       <%= f.label :description %>
       <div class="input">
-        <%= f.text_area :description, :rows => 6, :class => "span6" %>
+        <%= f.text_area :description, :rows => 6, :class => "input-xxlarge" %>
       </div>
     </div>
     <%
@@ -42,7 +33,10 @@
         <%= f.collection_select :group_id, Group.all, :id, :name %>
       </div>
     </div>
+  </fieldset>
     
+  <fieldset>
+    <legend><span><%= t('.settings') %></span></legend>
     <div class="clearfix">
       <label><%= t('.other_options') %></label>
       <div class="input checkbox">
