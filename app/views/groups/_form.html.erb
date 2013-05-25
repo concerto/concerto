@@ -1,24 +1,37 @@
-<div class="form-stacked">
-	<%= form_for(@group) do |f| %>
+<% # needs button_text passed in %>
 
-		<fieldset>
-			<div class="clearfix">
-				<%= f.label :name %>
-				<div class="input">
-					<%= f.text_field :name, :class => "fillWidth", :autofocus => true %>
-				</div>
-			</div>
+<%= form_for(@group) do |f| %>
+  <%= render :partial => "layouts/errors", :object => @group %>
 
-			<div class="clearfix">
-				<%= f.label :narrative %>
-				<div class="input">
-					<%= f.text_area :narrative, :class => "fillWidth" %>
-				</div>
-			</div>
-		</fieldset>
-		
-		<div style="padding-left: 20px;">
-			<%= f.submit button_text, :class => "btn primary" %> <%= link_to_function t(:cancel), "history.back()", :class => "btn" %>
-		</div>
-	<% end %>
-</div>
+  <fieldset>
+    <legend><span><%= t('.provide_details') %></span></legend>
+    <div class="clearfix">
+      <%= f.label :name %>
+      <div class="input">
+        <%= f.text_field :name, :class => "input-xlarge", :autofocus => true %>
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <%= f.label :narrative %>
+      <div class="input">
+        <%= f.text_area :narrative, :class => "input-xxlarge" %>
+      </div>
+    </div>
+  </fieldset>                       
+
+  <fieldset>
+    <legend><span><%= t('.initial_leader') %></span></legend>
+    <div class="clearfix">
+      <%= f.label :new_leader %>
+      <div class="input">
+        <%= f.collection_select :new_leader, User.order(:last_name), :id, :name %>
+      </div>
+    </div>
+  </fieldset>        		        		
+
+  <div class="submit_bar actions">
+    <%= f.submit button_text, :class => "btn primary" %> 
+    <%= link_to t(:cancel), groups_path, :class => "btn" %>
+  </div>
+<% end %>
