@@ -37,6 +37,8 @@ en:
       allowed_types: 'Allowed types'
       other_options: 'Other Options'
       prohibited_feed_save: 'prevented this feed from being saved:'
+      settings: "Settings"
+      provide_details: "Provide Details"
  
   helpers:
     label:

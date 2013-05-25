@@ -1,23 +1,14 @@
 <%= form_for(@user) do |f| %>
-  <% if @user.errors.any? %>
-    <div class="alert alert-banner alert-error">
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-      <h4><b><%= pluralize(@user.errors.count, t(:error)) + ' ' + t(:prohibited_save, :model => 'user') %></b></h4>
-
-      <ul>
-        <% @user.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render :partial => "layouts/errors", :object => @user %>
 
 <fieldset>
+  <legend><span><%= t('.provide_details') %></span></legend>
   <div class="clearfix">
     <%= f.label :first_name %>
     <div class="input">
       <div class="inline-inputs">
-	      <%= f.text_field :first_name, :autofocus => true %>&nbsp;<%= f.text_field :last_name, :placeholder => 'Last' %>
+	      <%= f.text_field :first_name, :autofocus => true, :class => "input-large" %> 
+        <%= f.text_field :last_name, :placeholder => 'Last', :class => "input-large" %>
       </div>
     </div>
   </div>
@@ -25,7 +16,7 @@
   <div class="clearfix">
     <%= f.label :email %>
     <div class="input">
-      <%= f.text_field :email %>
+      <%= f.text_field :email, :class => "input-xlarge" %>
     </div>
   </div>
 
@@ -33,16 +24,20 @@
     <div class="clearfix">
       <%= f.label :password %>
       <div class="input">
-        <%= f.password_field :password %>
+        <%= f.password_field :password, :class => "input-medium" %>
       </div>
     </div>
     <div class="clearfix">
       <%= f.label :password_confirmation %>
       <div class="input">
-        <%= f.password_field :password_confirmation %>
+        <%= f.password_field :password_confirmation, :class => "input-medium" %>
       </div>
     </div>
   <% end %>
+</fieldset>
+
+<fieldset>
+  <legend><span><%= t('.options') %></span></legend>
 
   <div class="clearfix">
     <%= f.label :locale %>
@@ -67,6 +62,6 @@
 </fieldset>
 <div class="submit_bar actions">
   <%= f.submit :class => "btn primary" %>
-  <%= link_to_function t(:cancel), "history.back()", :class => "btn" %>
+  <%= link_to t(:cancel), users_path, :class => "btn" %>
 </div>
 <% end %>

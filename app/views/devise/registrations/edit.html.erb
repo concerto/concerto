@@ -10,19 +10,19 @@
 				<div class="clearfix">
 				  <%= f.label :current_password %> 
 				  <div class="input">
-						<%= f.password_field :current_password, :autofocus => true %>
+						<%= f.password_field :current_password, :autofocus => true, :class => "input-medium" %>
 					</div>
 				</div>
 				<div class="clearfix">
 				  <%= f.label :password, t('.new_password') %> 
 				  <div class="input">
-						<%= f.password_field :password %>
+						<%= f.password_field :password, :class => "input-medium" %>
 					</div>
 				</div>
 				<div class="clearfix">
 				  <%= f.label :password_confirmation, t('.confirm_password') %> 
 				  <div class="input">
-						<%= f.password_field :password_confirmation %>
+						<%= f.password_field :password_confirmation, :class => "input-medium" %>
 					</div>
 				</div>
 			</fieldset>

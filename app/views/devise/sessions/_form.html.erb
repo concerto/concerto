@@ -3,13 +3,13 @@
     <div class="clearfix">
 			<%= f.label :email %>
 			<div class="input">
-				<%= f.email_field :email, :autofocus => true %>
+				<%= f.email_field :email, :autofocus => true, :class => "input-xlarge" %>
 			</div>
 		</div>
 		<div class="clearfix">
 			<%= f.label :password %>
 			<div class="input">
-				<%= f.password_field :password %>
+				<%= f.password_field :password, :class => "input-medium" %>
 			</div>
 		</div>
 		<% if devise_mapping.rememberable? -%>

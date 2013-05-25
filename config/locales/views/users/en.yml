@@ -15,6 +15,10 @@ en:
   users:
     all_users: 'All Users'
 
+    form:
+      provide_details: "Provide Details"
+      options: "Options"
+
     show_body:
       admin: 'Admin'
       change_password: 'Change Password'
