@@ -7,8 +7,8 @@
     <%= f.label :first_name %>
     <div class="input">
       <div class="inline-inputs">
-	      <%= f.text_field :first_name, :autofocus => true, :class => "input-large" %> 
-        <%= f.text_field :last_name, :placeholder => 'Last', :class => "input-large" %>
+	      <%= f.text_field :first_name, :placeholder => t('.first_label'),:autofocus => true, :class => "input-large" %> 
+        <%= f.text_field :last_name, :placeholder => t('.last_label'), :class => "input-large" %>
       </div>
     </div>
   </div>
@@ -16,7 +16,7 @@
   <div class="clearfix">
     <%= f.label :email %>
     <div class="input">
-      <%= f.text_field :email, :class => "input-xlarge" %>
+      <%= f.text_field :email, :placeholder => t('.email_label'), :class => "input-xlarge" %>
     </div>
   </div>
 
