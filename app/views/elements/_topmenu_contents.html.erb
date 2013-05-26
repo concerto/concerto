@@ -25,7 +25,7 @@
     <!-- Begin Menu for CONTENT -->
     <section>
       <div class="top-menu-sectop">
-        <%= link_to t('.browse'), main_app.feeds_path, :class => "btn #{ current_page?(main_app.feeds_path) || current_page?(main_app.root_path) ? 'selected' : '' }" %>
+        <%= link_to t('.dashboard'), main_app.feeds_path, :class => "btn #{ current_page?(main_app.feeds_path) || current_page?(main_app.root_path) ? 'selected' : '' }" %>
         <%= link_to t(:add), main_app.new_content_path, :class => "btn #{ current_page?(main_app.new_content_path) ? 'selected' : '' }" if can? :create, Content %>
         <% if @pending_submissions_count %>
           <%= link_to main_app.moderate_path, :class => "tooltip-basic btn #{ current_page?(main_app.moderate_path) ? 'selected' : '' }", 'data-tooltip-text' => t('.submissions_to_moderate', :count => @pending_submissions_count) do %>
@@ -55,7 +55,7 @@
     <% if can? :manage, :all %>
       <section>
         <div class="top-menu-sectop">
-          <%= link_to t('.dashboard'), main_app.dashboard_path, :class => "btn #{ (controller.controller_name == 'dashboard' && controller.action_name != 'run_backup') ? 'selected' : '' }" %>
+          <%= link_to t('.configuration'), main_app.dashboard_path, :class => "btn #{ (controller.controller_name == 'dashboard' && controller.action_name != 'run_backup') ? 'selected' : '' }" %>
           <%= link_to t(:manage_model, :model => User.model_name.human.pluralize), main_app.users_path, :class => "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" %>
         </div>
         <div class="top-menu-secbot">
