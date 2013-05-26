@@ -20,7 +20,14 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("use_frontend_to_trigger_cron", "false", :value_type => "boolean")
     ConcertoConfig.make_concerto_config("default_content_duration", "8", :value_type => "integer")
     ConcertoConfig.make_concerto_config("max_content_duration", "12", :value_type => "integer")
-    ConcertoConfig.make_concerto_config("min_content_duration", "4", :value_type => "integer")
+    ConcertoConfig.make_concerto_config("min_content_duration", "4", :value_type => "integer")   
+    ConcertoConfig.make_concerto_config("mailer_protocol", "sendmail")
+    ConcertoConfig.make_concerto_config("mailer_host", "concerto.default")
+    ConcertoConfig.make_concerto_config("smtp_address", "")
+    ConcertoConfig.make_concerto_config("smtp_port", "587", :value_type => "integer")
+    ConcertoConfig.make_concerto_config("smtp_auth_type", "plain")
+    ConcertoConfig.make_concerto_config("smtp_username", "")
+    ConcertoConfig.make_concerto_config("smtp_password", "")  
   end
 end
 
