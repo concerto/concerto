@@ -61,9 +61,9 @@ en:
         allow_user_screen_creation: "Allow user screen creation"
         allow_user_feed_creation: "Allow user feed creation"
         rubygem_executable: "Rubygem Executable"
-        autostart_delayed_job: "Automatically start Delayed Job Daemon"
+        autostart_delayed_job: "Automatically start Background Job Processor"
         dynamic_refresh_time: "Dynamic refresh interval"
-        use_frontend_to_trigger_cron: "Trigger cron using frontend"
+        use_frontend_to_trigger_cron: "Trigger Background Job Processor using frontend"
         min_content_duration: 'Minimum Content Duration (in seconds)'
 
         #send_errors: "Send errors"
