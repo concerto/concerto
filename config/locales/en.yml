@@ -65,6 +65,13 @@ en:
         dynamic_refresh_time: "Dynamic refresh interval"
         use_frontend_to_trigger_cron: "Trigger Background Job Processor using frontend"
         min_content_duration: 'Minimum Content Duration (in seconds)'
+        mailer_protocol: "Mailer Protocol"
+        mailer_host: "Concerto Server Name (FQDN)"
+        smtp_address: "SMTP Server"
+        smtp_port: "SMTP Port"
+        smtp_auth_type: "SMTP Authentication Type"
+        smtp_username: "SMTP Username"
+        smtp_passworD: "SMTP Password"
 
         #send_errors: "Send errors"
         #allow_remote_error_reporting: "Allow remote error reporting"
