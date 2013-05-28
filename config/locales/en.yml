@@ -71,7 +71,7 @@ en:
         smtp_port: "SMTP Port"
         smtp_auth_type: "SMTP Authentication Type"
         smtp_username: "SMTP Username"
-        smtp_passworD: "SMTP Password"
+        smtp_password: "SMTP Password"
 
         #send_errors: "Send errors"
         #allow_remote_error_reporting: "Allow remote error reporting"
