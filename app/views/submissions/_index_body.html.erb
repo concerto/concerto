@@ -84,10 +84,12 @@
           <%= link_to t('feeds.expired'), feed_submissions_path(@feed, :state => 'expired'), :class => 'btn' %>
         <% end %>
 
-        <% if params[:state] == "denied" %>
-          <%= link_to t('feeds.denied'), feed_submissions_path(@feed, :state => 'denied'), :class => 'btn active' %>
-        <% else %>
-          <%= link_to t('feeds.denied'), feed_submissions_path(@feed, :state => 'denied'), :class => 'btn' %>
+        <% if @can_moderate_feed %>
+          <% if params[:state] == "denied" %>
+            <%= link_to t('feeds.denied'), feed_submissions_path(@feed, :state => 'denied'), :class => 'btn active' %>
+          <% else %>
+            <%= link_to t('feeds.denied'), feed_submissions_path(@feed, :state => 'denied'), :class => 'btn' %>
+          <% end %>
         <% end %>
       </div>
     </div>
