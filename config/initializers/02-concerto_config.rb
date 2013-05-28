@@ -28,6 +28,8 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     begin
       concerto_server = "#{`hostname -f`.strip}"
     rescue
+    ensure
+        concerto_server = (concerto_server.include?(" ") ? "concerto.local" : concerto_server)
     end
 
     ConcertoConfig.make_concerto_config("mailer_host", concerto_server)
