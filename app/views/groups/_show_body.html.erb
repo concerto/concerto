@@ -58,7 +58,7 @@
                 </th>
                 <th><p><%= pending_membership.created_at.strftime("%I:%M %p on %D") %></p></th>
                 <th>
-                  <% if can? :update, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>
+                  <% if can? :update, pending_membership %>
                     <%= link_to t(:approve), group_membership_path(@group, pending_membership, :perform => "approve"), :method => :put, :class => "btn small success"%>
                     <%= link_to t(:deny), group_membership_path(@group, pending_membership, :perform => "deny"), :method=> :put, :class => "btn small danger" %>
                   <% end %>
@@ -127,8 +127,9 @@
                       </td>
                     <% end %>
                     <td>
-                      <% if can? :update, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>                      <%= link_to t('.promote_to_leader'), group_membership_path(@group, m.object, :perform => "promote"), :method => :put, :class => "btn small success" %>
-                      <%= link_to t('.remove_from_group'), group_membership_path(@group , m.object), :method => :delete, :class => "btn small danger", :data => { :confirm => t(:are_you_sure) } %>
+                      <% if can? :update, m.object %>
+                        <%= link_to t('.promote_to_leader'), group_membership_path(@group, m.object, :perform => "promote"), :method => :put, :class => "btn small success" %>
+                        <%= link_to t('.remove_from_group'), group_membership_path(@group , m.object), :method => :delete, :class => "btn small danger", :data => { :confirm => t(:are_you_sure) } %>
                       <% end %>
                     </td>
                   </tr>
@@ -166,7 +167,7 @@
                 </p>
               </th>
               <th>
-                <% if can? :update, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>                
+                <% if can? :update, leader %>                
                   <%= link_to t('.demote_to_regular'), group_membership_path(@group, leader, :perform => "demote"), :method => :put, :class => "btn small danger", :data => { :confirm => t(:are_you_sure) } %>
                 <% end %>
               </th>
