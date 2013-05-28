@@ -22,7 +22,15 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("max_content_duration", "12", :value_type => "integer")
     ConcertoConfig.make_concerto_config("min_content_duration", "4", :value_type => "integer")   
     ConcertoConfig.make_concerto_config("mailer_protocol", "sendmail")
-    ConcertoConfig.make_concerto_config("mailer_host", "#{`hostname -f`.strip}")
+    
+    # quietly try to obtain the fqdn (works on all the real OS's ;-P )
+    concerto_server = "concerto.local"
+    begin
+      concerto_server = "#{`hostname -f`.strip}"
+    rescue
+    end
+
+    ConcertoConfig.make_concerto_config("mailer_host", concerto_server)
     ConcertoConfig.make_concerto_config("smtp_address", "")
     ConcertoConfig.make_concerto_config("smtp_port", "587", :value_type => "integer")
     ConcertoConfig.make_concerto_config("smtp_auth_type", "plain")
