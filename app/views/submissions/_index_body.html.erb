@@ -1,7 +1,7 @@
 <div class="subnav clearfix">
   <div class="pull-left" style="padding: 3px 0px; width:100px">
     <%= link_to "#", :title => t('.click_to_jump'), :class => "btn small info dropdown-toggle dropdown-control dd-jumpto", :rel => "#jump_to" do %>
-      <i class="ficon-bolt"></i><%= t('.jump_to_feed') %>
+      <i class="ficon-bolt"></i> <%= t('.jump_to_feed') %>
     <% end %>
 
     <div id="jump_to" style="display: none;">
@@ -32,13 +32,13 @@
 
   <ul class="nav nav-pills">
     <% if @feed.children.empty? %>
-    <li class="legend"><%= t('.no_sub_feeds') %></li>
+    <li class="legend">&nbsp;<%= t('.no_sub_feeds') %>&nbsp;</li>
     <% else %>
     <li class="legend"><% t('.sub_feeds') %></li>
     <% end %>
     <% @feed.children.each do |feed| %>
     <li>
-      <%= link_to feed_submissions_path(feed) do %><span class="badge"><%= feed.approved_contents.active.count %></span> <%= feed.name %><% end %>
+      <%= link_to feed_submissions_path(feed) do %>&nbsp;<%= feed.name %>&nbsp;<% end %>
     </li>
     <% end %>
   </ul>
@@ -58,6 +58,8 @@
 </div>
 <% end %>
 
+<br />
+
 <div class="default-padding" style="padding-bottom: 0px; height: 25px;">
   <div id="browse-filter-select" class="clearfix">
 
@@ -67,28 +69,52 @@
     <div class="pull-left">
       <div class="btn-group">
         <% if params[:state] == "active" or params[:state].nil? %>
-          <%= link_to t('feeds.active'), feed_submissions_path(@feed, :state => 'active'), :class => 'btn active' %>
+          <%= link_to feed_submissions_path(@feed, :state => 'active'), :class => 'btn active' do %>
+            <span class="badge"><%= @feed.submissions.approved.active.count %></span>
+            <%= t('feeds.active') %>
+          <% end %>
         <% else %>
-          <%= link_to t('feeds.active'), feed_submissions_path(@feed, :state => 'active'), :class => 'btn' %>
+          <%= link_to feed_submissions_path(@feed, :state => 'active'), :class => 'btn' do %>
+            <span class="badge"><%= @feed.submissions.approved.active.count %></span>
+            <%= t('feeds.active') %>
+          <% end %>
         <% end %>
 
         <% if params[:state] == "future" %>
-          <%= link_to t('feeds.future'), feed_submissions_path(@feed, :state => 'future'), :class => 'btn active' %>
+          <%= link_to feed_submissions_path(@feed, :state => 'future'), :class => 'btn active' do %>
+            <span class="badge"><%= @feed.submissions.approved.future.count %></span>
+            <%= t('feeds.future') %>
+          <% end %>
         <% else %>
-          <%= link_to t('feeds.future'), feed_submissions_path(@feed, :state => 'future'), :class => 'btn' %>
+          <%= link_to feed_submissions_path(@feed, :state => 'future'), :class => 'btn' do %>
+            <span class="badge"><%= @feed.submissions.approved.future.count %></span>
+            <%= t('feeds.future') %>
+          <% end %>
         <% end %>
 
         <% if params[:state] == "expired" %>
-          <%= link_to t('feeds.expired'), feed_submissions_path(@feed, :state => 'expired'), :class => 'btn active' %>
+          <%= link_to feed_submissions_path(@feed, :state => 'expired'), :class => 'btn active' do %>
+            <span class="badge"><%= @feed.submissions.approved.expired.count %></span>
+            <%= t('feeds.expired') %>
+          <% end %>
         <% else %>
-          <%= link_to t('feeds.expired'), feed_submissions_path(@feed, :state => 'expired'), :class => 'btn' %>
+          <%= link_to feed_submissions_path(@feed, :state => 'expired'), :class => 'btn' do %>
+            <span class="badge"><%= @feed.submissions.approved.expired.count %></span>
+            <%= t('feeds.expired') %>
+          <% end %>
         <% end %>
 
         <% if @can_moderate_feed %>
           <% if params[:state] == "denied" %>
-            <%= link_to t('feeds.denied'), feed_submissions_path(@feed, :state => 'denied'), :class => 'btn active' %>
+            <%= link_to feed_submissions_path(@feed, :state => 'denied'), :class => 'btn active' do %>
+              <span class="badge"><%= @feed.submissions.denied.count %></span>
+              <%= t('feeds.denied') %>
+            <% end %>
           <% else %>
-            <%= link_to t('feeds.denied'), feed_submissions_path(@feed, :state => 'denied'), :class => 'btn' %>
+            <%= link_to feed_submissions_path(@feed, :state => 'denied'), :class => 'btn' do %>
+              <span class="badge"><%= @feed.submissions.denied.count %></span>
+              <%= t('feeds.denied') %>
+            <% end %>
           <% end %>
         <% end %>
       </div>
