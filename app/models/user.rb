@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   # Validations
   validates :first_name, :presence => true
   
-  scope :admin, where(:is_admin => true)
+  scope :admin, -> { where :is_admin => true }
 
   def check_for_last_admin
     if User.admin.count == 1 && self.is_admin?

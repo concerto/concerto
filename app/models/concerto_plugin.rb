@@ -15,8 +15,8 @@ class ConcertoPlugin < ActiveRecord::Base
   validates :gem_name, :presence => true
   validate :check_sources, :on => :create
   # TODO: use check_sources to validate the availability of the gem
-  
-  scope :enabled, where(:enabled => true)
+
+  scope :enabled, -> { where(:enabled => true) }
 
   # Find the Engine's module from among the installed engines.
   def engine
@@ -30,7 +30,7 @@ class ConcertoPlugin < ActiveRecord::Base
   def mod
     engine.parent
   end
- 
+
   def module_name
     engine.nil? ? "" : engine.parent.name
   end
@@ -72,7 +72,7 @@ class ConcertoPlugin < ActiveRecord::Base
         (info.configs || []).each do |c|
           c[:options][:plugin_id] = plugin.id
           ConcertoConfig.make_concerto_config(
-            c[:config_key], c[:config_value], c[:options]
+              c[:config_key], c[:config_value], c[:options]
           )
         end
       end
@@ -119,7 +119,7 @@ class ConcertoPlugin < ActiveRecord::Base
         end
       else
         logger.warn("ConcertoPlugin: Failed to check view hooks for "+
-                    "#{plugin.name}")
+                        "#{plugin.name}")
       end
     end
     return result.html_safe
@@ -139,7 +139,7 @@ class ConcertoPlugin < ActiveRecord::Base
         end
       else
         logger.warn("ConcertoPlugin: failed to check #{plugin.name}" +
-                    " for callbacks")
+                        " for callbacks")
       end
     end
     callbacks.each do |callback|
@@ -147,7 +147,7 @@ class ConcertoPlugin < ActiveRecord::Base
     end
   end
 
-private
+  private
 
   #custom validation for plugin URLs
   def check_sources
@@ -194,7 +194,7 @@ private
       gpath = Gem.loaded_specs[gem_name].full_gem_path
       # Then match the path we've got to the path of an engine - 
       #    which should have its Module Name (aka paydirt)
-      Rails::Application::Railties.engines.each do |engine| 
+      Rails::Application::Railties.engines.each do |engine|
         if engine.class.root.to_s == gpath
           # Get the class name from the engine hash
           result = engine.class
