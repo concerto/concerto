@@ -34,6 +34,7 @@ class Graphic < Content
       image_hash = Rails.cache.read(cache_key)
     rescue Exception
       image_hash = nil
+      Rails.logger.info('Cache read triggered error')
     end
     if !image_hash.nil?
       Rails.logger.debug('Cache hit!')
@@ -68,6 +69,7 @@ class Graphic < Content
     begin
       Rails.cache.write(cache_key, cache_data, :expires_in => 2.hours, :race_condition_ttl => 1.minute)
     rescue Exception
+      Rails.logger.info('Cache write triggered error')
     end
 
     return file
