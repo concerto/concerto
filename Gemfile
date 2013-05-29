@@ -65,4 +65,3 @@ gem 'kaminari'  # Pagination
 # Enable the newsfeed for 1.9+ users.
 gem 'public_activity' if RUBY_VERSION >= "1.9"
 
-rails4_dependa
