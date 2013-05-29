@@ -88,8 +88,11 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
 
 private
 
+  # Overriden from Devise Controller to implement strong parameters.
+  # In Registrations Controller, used by update, and indirectly by create,
+  # to fetch the posted data about the current resource (user).
   def resource_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+    params.require(resource_name).permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_password)
   end
 
 end 
