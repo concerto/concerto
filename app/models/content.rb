@@ -3,7 +3,7 @@ class Content < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :kind
-  has_many :submissions, :dependent => :destroy
+  has_many :submissions, :dependent => :destroy, :after_add => :after_add_callback
   has_many :feeds, :through => :submissions
   has_many :media, :as => :attachable, :dependent => :destroy
   
@@ -172,6 +172,11 @@ class Content < ActiveRecord::Base
     else
       return nil
     end
+  end
+
+  # A placeholder for any action that should be performed
+  # after content has been submitted to a feed.
+  def after_add_callback(unused_submission)
   end
 
 end
