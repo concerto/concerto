@@ -6,7 +6,7 @@ class Content < ActiveRecord::Base
   has_many :submissions, :dependent => :destroy
   has_many :feeds, :through => :submissions
   has_many :media, :as => :attachable, :dependent => :destroy
-  
+
   accepts_nested_attributes_for :media
   accepts_nested_attributes_for :submissions
 
@@ -39,17 +39,19 @@ class Content < ActiveRecord::Base
   def self.expired
     where("end_time < :now", {:now => Clock.time})
   end
+
   def self.future
     where("start_time > :now", {:now => Clock.time})
   end
+
   def self.active
     where("(start_time IS NULL OR start_time < :now) AND (end_time IS NULL OR end_time > :now)", {:now => Clock.time})
   end
-  
+
   # Scoped relations for feed approval states
-  has_many :approved_feeds, :through => :submissions, :source => :feed, :conditions => {"submissions.moderation_flag" => true}
-  has_many :pending_feeds, :through => :submissions, :source => :feed, :conditions => "submissions.moderation_flag IS NULL"
-  has_many :denied_feeds, :through => :submissions, :source => :feed, :conditions => {"submissions.moderation_flag" => false}
+  has_many :approved_feeds, -> { where "submissions.moderation_flag" => true }, :through => :submissions, :source => :feed
+  has_many :pending_feeds, -> { where "submissions.moderation_flag IS NULL" }, :through => :submissions, :source => :feed
+  has_many :denied_feeds, -> { where "submissions.moderation_flag" => false }, :through => :submissions, :source => :feed
 
   # Magic to let us generate routes
   delegate :url_helpers, :to => 'Rails.application.routes'
@@ -66,16 +68,16 @@ class Content < ActiveRecord::Base
   def is_expired?
     (end_time < Clock.time)
   end
-  
+
   def is_orphan?
     self.submissions.empty?
   end
-  
+
   # Determine if content is approved everywhere
   def is_approved?
     (self.approved_feeds.count > 0) && ((self.pending_feeds.count + self.denied_feeds.count) == 0)
   end
-  
+
   # Determine if content is pending on a feed
   def is_pending?
     (self.pending_feeds.count > 0)
@@ -92,7 +94,7 @@ class Content < ActiveRecord::Base
   def start_time=(_start_time)
     if _start_time.kind_of?(Hash)
       #write_attribute(:start_time, Time.parse("#{_start_time[:date]} #{_start_time[:time]}").to_s(:db))
-      write_attribute(:start_time, DateTime.strptime("#{_start_time[:date]} #{_start_time[:time]}","%m/%d/%Y %l:%M %p").to_s(:db))
+      write_attribute(:start_time, DateTime.strptime("#{_start_time[:date]} #{_start_time[:time]}", "%m/%d/%Y %l:%M %p").to_s(:db))
     else
       write_attribute(:start_time, _start_time)
     end
@@ -101,7 +103,7 @@ class Content < ActiveRecord::Base
   # See start_time=.
   def end_time=(_end_time)
     if _end_time.kind_of?(Hash)
-      write_attribute(:end_time, DateTime.strptime("#{_end_time[:date]} #{_end_time[:time]}","%m/%d/%Y %l:%M %p").to_s(:db))
+      write_attribute(:end_time, DateTime.strptime("#{_end_time[:date]} #{_end_time[:time]}", "%m/%d/%Y %l:%M %p").to_s(:db))
     else
       write_attribute(:end_time, _end_time)
     end
