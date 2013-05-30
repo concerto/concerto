@@ -1,6 +1,8 @@
 Rails.logger.debug "Starting 02-concerto_config.rb at #{Time.now.to_s}"
 
 #Initialize all core Concerto Config entries
+require 'socket'
+concerto_hostname = Socket.gethostbyname(Socket.gethostname).first
 
 if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
   if ConcertoConfig.columns_hash.has_key?("plugin_id")
@@ -23,7 +25,7 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("min_content_duration", "4", :value_type => "integer")   
     ConcertoConfig.make_concerto_config("mailer_protocol", "sendmail", :value_type => "string")  
     ConcertoConfig.make_concerto_config("mailer_from", "concerto@localhost", :value_type => "string", :value_default => "concerto@localhost")
-    ConcertoConfig.make_concerto_config("mailer_host", "localhost", :value_type => "string", :value_default => "localhost")
+    ConcertoConfig.make_concerto_config("mailer_host", concerto_hostname, :value_type => "string", :value_default => concerto_hostname)
     ConcertoConfig.make_concerto_config("smtp_address", "", :value_type => "string")
     ConcertoConfig.make_concerto_config("smtp_port", "587", :value_type => "integer", :value_default => 587)
     ConcertoConfig.make_concerto_config("smtp_auth_type", "plain", :value_type => "string", :value_default => "plain")

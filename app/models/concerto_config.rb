@@ -46,7 +46,7 @@ class ConcertoConfig < ActiveRecord::Base
   def self.make_concerto_config(config_key,config_value, options={})
     defaults = {
       :value_type => "string",
-      :value_default => config_key
+      :value_default => config_value
     }
     options = defaults.merge(options)
     # first_or_create: check whether first returns nil or not; if it does return nil, create is called
