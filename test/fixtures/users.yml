@@ -20,3 +20,5 @@ karen:
   first_name: Karen
   last_name: Rowe
   email: karen@rowebot.com
+  encrypted_password: $2a$10$M8dCaJMIv/HBUtR1F.8tDOwWhVarLKxJVGvBhbgkXDAt1cdTZO.se
+  # password: password
