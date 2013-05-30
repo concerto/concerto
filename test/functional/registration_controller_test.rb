@@ -24,4 +24,11 @@ class ConcertoDeviseRegistrationsControllerTest < ActionController::TestCase
     post :create, {:user => {:first_name => "Name", :last_name => "Last", :email => "a@a.com"}}
     assert_response :redirect
   end
+
+  test "user can change password" do
+    sign_in users(:karen)
+    put :update, {:user => { :current_password => 'password', :password => 'pass1234', :password_confirmation => 'pass1234' } }
+
+    assert User.find(users(:karen).id).valid_password?('pass1234')
+  end
 end
