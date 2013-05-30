@@ -6,7 +6,7 @@ en:
       edit_preferences: "Edit Global Preferences"
       save_settings: "Save Settings"
     admin_stats:
-      admin_dashboard: "Admin Dashboard"
+      system_info: "System Information"
       backup: "Backup"
       cant_determine_latest_version: 'Unable to determine latest available version.'
       restart_webserver: "Restart Webserver"
