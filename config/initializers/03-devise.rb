@@ -3,7 +3,10 @@
 Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in DeviseMailer.
-  config.mailer_sender = ConcertoConfig[:mailer_from]
+  #Checking if configs exist because Travis is braindead
+  if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
+    config.mailer_sender = ConcertoConfig[:mailer_from]
+  end
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
