@@ -21,23 +21,14 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("default_content_duration", "8", :value_type => "integer")
     ConcertoConfig.make_concerto_config("max_content_duration", "12", :value_type => "integer")
     ConcertoConfig.make_concerto_config("min_content_duration", "4", :value_type => "integer")   
-    ConcertoConfig.make_concerto_config("mailer_protocol", "sendmail")
-    
-    # quietly try to obtain the fqdn (works on all the real OS's ;-P )
-    concerto_server = "concerto.local"
-    begin
-      concerto_server = "#{`hostname -f`.strip}"
-    rescue
-    ensure
-        concerto_server = (concerto_server.include?(" ") ? "concerto.local" : concerto_server)
-    end
-
-    ConcertoConfig.make_concerto_config("mailer_host", concerto_server)
-    ConcertoConfig.make_concerto_config("smtp_address", "")
-    ConcertoConfig.make_concerto_config("smtp_port", "587", :value_type => "integer")
-    ConcertoConfig.make_concerto_config("smtp_auth_type", "plain")
-    ConcertoConfig.make_concerto_config("smtp_username", "")
-    ConcertoConfig.make_concerto_config("smtp_password", "")  
+    ConcertoConfig.make_concerto_config("mailer_protocol", "sendmail", :value_type => "string")  
+    ConcertoConfig.make_concerto_config("mailer_from", "concerto@localhost", :value_type => "string", :value_default => "concerto@localhost")
+    ConcertoConfig.make_concerto_config("mailer_host", "localhost", :value_type => "string", :value_default => "localhost")
+    ConcertoConfig.make_concerto_config("smtp_address", "", :value_type => "string")
+    ConcertoConfig.make_concerto_config("smtp_port", "587", :value_type => "integer", :value_default => 587)
+    ConcertoConfig.make_concerto_config("smtp_auth_type", "plain", :value_type => "string", :value_default => "plain")
+    ConcertoConfig.make_concerto_config("smtp_username", "", :value_type => "string")
+    ConcertoConfig.make_concerto_config("smtp_password", "", :value_type => "string")  
   end
 end
 

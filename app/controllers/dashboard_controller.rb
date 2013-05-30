@@ -7,6 +7,10 @@ class DashboardController < ApplicationController
     authorize! :read, ConcertoConfig
     
     @concerto_configs = ConcertoConfig.where("hidden IS NULL")
+    
+    require 'socket'
+    @placeholders = Hash.new
+    @placeholders["mailer_host"] = Socket.gethostbyname(Socket.gethostname).first
   end
 
   # get a hash of concerto_config keys and values and update them using the ConcertoConfig setter

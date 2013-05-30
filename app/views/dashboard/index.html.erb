@@ -32,7 +32,7 @@
                     <% input_size = (c.value_type == "string" ? "input-large" : "input-small") %>
                     <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>
                     <div class="input">
-                      <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], :class => input_size %>
+                      <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], :class => input_size, :placeholder => @placeholders[c.key] %>
                     </div>
                 <% elsif c.value_type == "boolean" %>
                     <div class="input checkbox">
