@@ -16,4 +16,5 @@ Gemfile-plugins.bak
 .rvmrc
 .ruby-version
 .ruby-gemset
+webrat.log
 

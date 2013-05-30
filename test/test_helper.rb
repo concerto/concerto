@@ -1,9 +1,14 @@
 require 'simplecov'
+require 'webrat'
 
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 include Devise::TestHelpers
+
+Webrat.configure do |config|
+  config.mode = :rack
+end
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
