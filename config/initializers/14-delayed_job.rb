@@ -10,7 +10,11 @@ unless Rails.env.test?
   end
   
   def daemon_is_running?
-    pid = File.read("#{Rails.root}/tmp/pids/delayed_job.pid").strip
+    require 'fileutils'
+    #be sure to recursively create the path needed - mkdir won't do it
+    FileUtils.mkdir_p "#{Rails.root}/tmp/pids/" unless File.exists?("#{Rails.root}/tmp/pids/")
+    pid = File.read("#{Rails.root}/tmp/pids/delayed_job.pid")
+    (pid.nil?) ? pid.strip! : (return false)
     Process.kill(0, pid.to_i)
     true
   rescue Errno::ENOENT, Errno::ESRCH

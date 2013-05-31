@@ -116,6 +116,7 @@ class ApplicationController < ActionController::Base
       #fulfilling bamnet's expansive notification ambitions via metaprogramming since 2013
       begin
         ActivityMailer.send(am_string, activity).deliver
+      #make an effort to catch all mail-related exceptions after sending the mail - IOError will catch anything for sendmail, SMTP for the rest
       rescue IOError, Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
         Rails.logger.debug "Mail delivery failed at #{Time.now.to_s} for #{options[:recipient]}"
       end
