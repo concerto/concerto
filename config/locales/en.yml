@@ -3,6 +3,7 @@
 
 en:
   active_content: 'Active Content'
+  actions: "Actions"
   add: 'Add'
   add_model: 'Add %{model}'
   all_model: 'All %{model}'
@@ -28,6 +29,7 @@ en:
   prohibited_save: "prevented this %{model} from being saved:"
   remove_model: 'Remove %{model}'
   show: 'Show'
+  status: "Status"
   type_to_filter: 'Type here to filter'
   update_model: 'Update %{model}'
 

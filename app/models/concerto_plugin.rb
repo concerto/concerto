@@ -14,7 +14,6 @@ class ConcertoPlugin < ActiveRecord::Base
 
   validates :gem_name, :presence => true
   validate :check_sources, :on => :create
-  # TODO: use check_sources to validate the availability of the gem
   
   scope :enabled, where(:enabled => true)
 
