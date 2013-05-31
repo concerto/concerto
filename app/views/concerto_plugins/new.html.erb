@@ -32,20 +32,21 @@
         <div class="clearfix">
           <%= f.label :gem_name %>
           <div class="input">
-            <%= f.text_field :gem_name, :autofocus => true %>
+            <%= f.text_field :gem_name, :autofocus => true, :class => "input-xlarge" %>
           </div>
         </div>    
 
         <div class="clearfix">
           <%= f.label :source_url %>
           <div class="input">
-            <%= f.text_field :source_url %>
+            <%= f.text_field :source_url, :class => "input-xxlarge" %>
           </div>
         </div>
       </fieldset>
     
       <div class="submit_bar actions">
-        <%= f.submit t(:create_model, :model => ConcertoPlugin.model_name.human), :class => "btn primary" %> <%= link_to t(:cancel), concerto_plugins_path, :class => "btn" %>
+        <%= f.submit t(:create_model, :model => ConcertoPlugin.model_name.human), :class => "btn primary" %> 
+        <%= link_to t(:cancel), concerto_plugins_path, :class => "btn" %>
       </div>
     <% end %>
    
