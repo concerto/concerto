@@ -114,7 +114,11 @@ class ApplicationController < ActionController::Base
     #If ActivityMailer can find a method by the formulated name, pass in the activity (everything we know about what was done)
     if ActivityMailer.respond_to?(am_string)
       #fulfilling bamnet's expansive notification ambitions via metaprogramming since 2013
-      ActivityMailer.send(am_string, activity).deliver
+      begin
+        ActivityMailer.send(am_string, activity).deliver
+      rescue IOError, Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
+        Rails.logger.debug "Mail delivery failed at #{Time.now.to_s} for #{options[:recipient]}"
+      end
     end
   end
 
