@@ -23,23 +23,16 @@
       </thead>
       <tbody>
         <% @concerto_plugins.each do |concerto_plugin| %>
-          <td><span class="badge"><%= concerto_plugin.enabled ? t('.enabled') : t('.disabled')%></span></td>
-          <td><%= concerto_plugin.name %></td>
-          <td><%= concerto_plugin.gem_version %></td>
-          <td><%= plugin_source(concerto_plugin.source) %></td>
-          <td>
-            <small><%= link_to t(:edit), edit_concerto_plugin_path(concerto_plugin), :class => "btn" %></small>
-            <small><%= link_to t(:destroy), concerto_plugin, :data => { :confirm => t(:are_you_sure) }, :class => "btn", :method => :delete %></small>
-          </td>
-    <!--
-            <h3>
-              <%= link_to concerto_plugin_path(concerto_plugin), :class => "link-hl" do %>
-                <span class="badge"><%= concerto_plugin.enabled ? t('.enabled') : t('.disabled')%></span> <%= concerto_plugin.name %>
-              <% end %>
+          <tr>
+            <td><span class="badge"><%= concerto_plugin.enabled ? t('.enabled') : t('.disabled')%></span></td>
+            <td><%= concerto_plugin.name %></td>
+            <td><%= concerto_plugin.gem_version %></td>
+            <td><%= plugin_source(concerto_plugin.source) %></td>
+            <td>
               <small><%= link_to t(:edit), edit_concerto_plugin_path(concerto_plugin), :class => "btn" %></small>
               <small><%= link_to t(:destroy), concerto_plugin, :data => { :confirm => t(:are_you_sure) }, :class => "btn", :method => :delete %></small>
-            </h3>
-    -->        
+            </td>
+          </tr>
         <% end %>
       </tbody>
     </table>
