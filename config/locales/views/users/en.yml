@@ -14,6 +14,7 @@ en:
 
   users:
     all_users: 'All Users'
+    change_password: "Change Password"
 
     form:
       provide_details: "Provide Details"
@@ -23,7 +24,6 @@ en:
       email_label: "user@domain.com"
     show_body:
       admin: 'Admin'
-      change_password: 'Change Password'
       content: 'Content'
       dont_receive_emails: "Don't receive emails"
       forever: 'forever'
