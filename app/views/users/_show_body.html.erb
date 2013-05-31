@@ -8,9 +8,11 @@
             <%= @user.first_name %> <%= @user.last_name %>
           </h2>
 
-          <p>
-            <%= mail_to @user.email, @user.email, :encode => "hex" if !@user.email.empty? %>
-          </p>
+          <% if user_signed_in? && (current_user.is_admin? || current_user == @user) %>
+            <p>
+              <%= mail_to @user.email, @user.email, :encode => "hex" if !@user.email.empty? %>
+            </p>
+          <% end %>
 
           <% if @user.is_admin? %>
               <p><b><i class="icon-user-admin-blk tooltip-basic" data-tooltip-text="<%= t('.system_wide_admin') %>"></i> <%= t('.admin') %></b></p>

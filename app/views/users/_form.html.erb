@@ -63,6 +63,7 @@
 <div class="submit_bar actions">
   <%= f.submit :class => "btn primary" %>
   <%= link_to t('users.change_password'), edit_user_registration_path, :class => "btn" if current_user == @user %>  
-  <%= link_to t(:cancel), users_path, :class => "btn" %>
+  <%= link_to t(:cancel), users_path, :class => "btn" if current_user != @user %>
+  <%= link_to t(:cancel), current_user, :class => "btn" if current_user == @user %>
 </div>
 <% end %>
