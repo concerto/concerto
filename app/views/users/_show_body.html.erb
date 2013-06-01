@@ -35,41 +35,31 @@
         <h2><%= user_title @user, t('.groups') %></h2>
         <% if !@memberships.empty? %>
 
-            <table>
-              <tr>
-                <th><%= t('.name') %></th>
-                <% if @memberships.any? {|m| can? :edit, m} %><th><%= t('.roles') %></th><% end %>
-              </tr>
-
+            <ul class="list-grid">
               <% @memberships.each do |membership| %>
-                  <tr>
-                    <td>
-                      <!-- TODO show leader icon if @user is a leader of the group that is listed here <%# if current_user.is_admin? %>
-                <i class="icon-user-leader-blk tooltip-basic" data-tooltip-text="This user is a leader of this group"></i>
-              <%# end %>
-              -->
-                      <%= link_to membership.group.name, membership.group %>
-                    </td>
-                    <% if can? :edit, membership %>
-                        <td>
-                          <%= form_for([membership.group, membership]) do |f| %>
-                              <% if can? :update, membership.group %>
-                                <%= f.select :level, Membership::LEVELS, { }, :style => "width: 80px;" %>
-                              <% else %>
-                                 <%= membership.level_name.humanize %>
-                              <% end %>
-                              <%= f.select :receive_emails, { t('.receive_emails') => true, t('.dont_receive_emails') => false } %>
-                              <div class="submit_bar sub_actions">
-                                <%= f.submit :class => "btn" %>
-                              </div>
-                          <% end %>
-                        </td>
-                   <% end %>
-                  </tr>
-              <% end %>
-            </table>
+                <li>
+                  <div class="cont thumb-icon">
+                    <span class="icon-stack icon-3x">
+                      <i class="ficon-circle icon-stack-base muted"></i>
+                      <i class="ficon-group"></i>
+                    </span>
+                  </div>
+                  <div class="cont">
+                    <p><%= link_to membership.group.name, membership.group %></p>
+                    <p><%= membership.level_name.humanize %></p>
 
-            <br/><br/>
+                    <% if can? :edit, membership %>
+                      <%= form_for([membership.group, membership]) do |f| %>
+                        <%= f.check_box :receive_emails %> <%= f.label :receive_emails %>
+                        <div class="submit_bar sub_actions">
+                          <%= f.submit :class => "btn" %>
+                        </div>
+                      <% end %>
+                   <% end %>
+                  </div>
+                </li>
+              <% end %>
+            </ul>
         <% end %>
 
       </div>

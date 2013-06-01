@@ -35,12 +35,15 @@ class MembershipsController < ApplicationController
   def update
     @membership = Membership.find(params[:id])
     action = params[:perform]
-    note = :membership_unknown_action
-    success = false
+    receive_emails = nil
+    receive_emails = params[:membership][:receive_emails] if params.include? :membership
+    note = :preferences_updated
+    success = true
     auth!
     respond_to do |format|
-      success, note = @membership.update_membership_level(action)
-      if success
+      success, note = @membership.update_membership_level(action) unless action.nil?
+      @membership.receive_emails = receive_emails unless (receive_emails.nil? || !success)
+      if success && @membership.save
         format.html { redirect_to @group, :notice => t(note) }
         format.xml { head :ok }
       else
