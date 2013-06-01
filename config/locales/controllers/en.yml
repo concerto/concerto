@@ -29,6 +29,7 @@ en:
   membership_demoted_failure:  "Member was not successfully demoted from group leader. There must be at least one leader."
   membership_unknown_action:   "Unknown Membership action submitted."
   member_removed:              "Member removed"
+  preferences_updated:         "Email preferences have been updated."
 
   #Positions controller
   position_created: "Position was successfully created."

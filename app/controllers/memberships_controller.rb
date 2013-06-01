@@ -35,16 +35,19 @@ class MembershipsController < ApplicationController
   def update
     @membership = Membership.find(params[:id])
     action = params[:perform]
-    note = :membership_unknown_action
-    success = false
+    receive_emails = params[:receive_emails]
+    note = :preferences_updated
+    success = true
     auth!
     respond_to do |format|
-      success, note = @membership.update_membership_level(action)
-      if success
-        format.html { redirect_to @group, :notice => t(note) }
+      success, note = @membership.update_membership_level(action) unless action.nil?
+      @membership.receive_emails = receive_emails unless (receive_emails.nil? || !success)
+      # redirect to the users page if an email preference was specified since thats the only place it can come from
+      if success && @membership.save
+        format.html { redirect_to (receive_emails.nil? ? @group : @membership.user), :notice => t(note) }
         format.xml { head :ok }
       else
-        format.html { redirect_to @group, :notice => t(note) }
+        format.html { redirect_to (receive_emails.nil? ? @group : @membership.user), :notice => t(note) }
         format.xml { render :xml => t(note), :status => :unprocessable_entity }
       end
     end
