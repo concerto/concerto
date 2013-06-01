@@ -18,9 +18,6 @@
               <p><b><i class="icon-user-admin-blk tooltip-basic" data-tooltip-text="<%= t('.system_wide_admin') %>"></i> <%= t('.admin') %></b></p>
           <% end %>
 
-          <% if user_signed_in? and current_user == @user %>
-            <p style="margin-bottom: 0px;"><b><%= t('.this_is_you') %></b></p>
-          <% end %>
           <% if can? :edit, @user %>
             <div class="inline-inputs">
               <%= link_to t(:edit), edit_user_path, :class => "btn" %> 
@@ -34,44 +31,35 @@
       <div class="subblock">
         <h2><%= user_title @user, t('.groups') %></h2>
         <% if !@memberships.empty? %>
+          <ul class="list-grid">
+            <% @memberships.each do |membership| %>
+              <li>
+                <div class="cont thumb-icon">
+                  <%= link_to membership.group do %>
+                  <span class="icon-stack icon-3x">
+                    <i class="ficon-circle icon-stack-base <%= membership.is_leader? ? 'group-leader' : 'group-member' %>"></i>
+                    <i class="ficon-group"></i>
+                  </span>
+                  <% end %>
+                </div>
+                <div class="cont">
+                  <p><b><%= link_to membership.group.name, membership.group %></b></p>
+                  <p><%= membership.level_name.humanize %></p>
 
-            <table>
-              <tr>
-                <th><%= t('.name') %></th>
-                <% if @memberships.any? {|m| can? :edit, m} %><th><%= t('.roles') %></th><% end %>
-              </tr>
-
-              <% @memberships.each do |membership| %>
-                  <tr>
-                    <td>
-                      <!-- TODO show leader icon if @user is a leader of the group that is listed here <%# if current_user.is_admin? %>
-                <i class="icon-user-leader-blk tooltip-basic" data-tooltip-text="This user is a leader of this group"></i>
-              <%# end %>
-              -->
-                      <%= link_to membership.group.name, membership.group %>
-                    </td>
-                    <% if can? :edit, membership %>
-                        <td>
-                          <%= form_for([membership.group, membership]) do |f| %>
-                              <% if can? :update, membership.group %>
-                                <%= f.select :level, Membership::LEVELS, { }, :style => "width: 80px;" %>
-                              <% else %>
-                                 <%= membership.level_name.humanize %>
-                              <% end %>
-                              <%= f.select :receive_emails, { t('.receive_emails') => true, t('.dont_receive_emails') => false } %>
-                              <div class="submit_bar sub_actions">
-                                <%= f.submit :class => "btn" %>
-                              </div>
-                          <% end %>
-                        </td>
-                   <% end %>
-                  </tr>
-              <% end %>
-            </table>
-
-            <br/><br/>
+                  <% if can? :edit, membership %>
+                    <%= form_for([membership.group, membership]) do |f| %>
+                      <%= hidden_field_tag :receive_emails, "0" %>
+                      <%= check_box_tag :receive_emails, nil, membership.receive_emails, { 
+                        :id => "email#{membership.group.id}",
+                        :data => { :autosubmit => true }} %> 
+                      <%= label_tag "email#{membership.group.id}", t('.receive_emails') %>
+                    <% end %>
+                 <% end %>
+                </div>
+              </li>
+            <% end %>
+          </ul>
         <% end %>
-
       </div>
 
     </div>
