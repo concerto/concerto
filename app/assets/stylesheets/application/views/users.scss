@@ -13,3 +13,11 @@
 .is_denied {
   color: red;
 }
+
+.group-leader {
+  color: lighten($green, 40%);
+}
+
+.group-member {
+  color: $grayLighter;
+}
