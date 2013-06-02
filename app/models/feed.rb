@@ -29,7 +29,7 @@ class Feed < ActiveRecord::Base
   # Feed Hierarchy
   belongs_to :parent, :class_name => "Feed"
   has_many :children, :class_name => "Feed", :foreign_key => "parent_id"
-  scope :roots, where(:parent_id => nil)
+  scope :roots, -> { where :parent_id => nil }
 
   # Test if this feed is a root feed or not
   def is_root?
