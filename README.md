@@ -1,5 +1,6 @@
 #Concerto 2 Digital Signage System
-Full Installation Instructions: [https://github.com/concerto/concerto/wiki/Installing-Concerto-2](http://goo.gl/4YIzK)
+Full Installation Instructions: [https://github.com/concerto/concerto/wiki/Installing-Concerto-2](http://goo.gl/4YIzK)  
+[![Project Status](http://githubkanban.herokuapp.com/images/concerto_concerto.png)](http://bit.ly/10MNsh7)
 
 ##What is Concerto?
 Concerto 2 represents the latest and greatest in connected digital ecosystems.
