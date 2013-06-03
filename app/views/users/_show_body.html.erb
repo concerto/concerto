@@ -8,7 +8,7 @@
             <%= @user.first_name %> <%= @user.last_name %>
           </h2>
 
-          <% if user_signed_in? && (current_user.is_admin? || current_user == @user) %>
+          <% if user_signed_in? %>
             <p>
               <%= mail_to @user.email, @user.email, :encode => "hex" if !@user.email.empty? %>
             </p>
