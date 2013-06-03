@@ -37,6 +37,11 @@
                     <div class="input">
                       <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], :class => input_size, :placeholder => c.value_default %>
                     </div>
+                <% elsif c.value_type == "timezone" %>  
+                  <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>  
+                  <div class="input">
+                    <%= select_tag "concerto_config[#{c.key}]", time_zone_options_for_select(ConcertoConfig[:system_time_zone], ActiveSupport::TimeZone.us_zones) %>
+                  </div>
                 <% elsif c.value_type == "boolean" %>
                     <div class="input checkbox">
                       <%= tag 'input', :type => 'hidden', :name => "concerto_config[#{c.key}]", :value => '0' %>

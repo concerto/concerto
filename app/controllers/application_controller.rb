@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   before_filter :check_for_initial_install
   before_filter :set_version
   before_filter :compute_pending_moderation
-  
+  around_filter :user_time_zone, if: :current_user
   helper_method :webserver_supports_restart?
 
   # Current Ability for CanCan authorization
@@ -28,6 +28,10 @@ class ApplicationController < ActionController::Base
       return false
     end
   end
+  
+  def user_time_zone(&block)
+    Time.use_zone(current_user.time_zone, &block)
+  end  
   
   def webserver_supports_restart?
     #add any webservers that don't support tmp/restart.txt to this array
