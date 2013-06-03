@@ -33,11 +33,11 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("smtp_password", "", :value_type => "string")  
     ConcertoConfig.make_concerto_config("system_time_zone", 'Eastern Time (US & Canada)', :value_type => "timezone") 
   end
+
+  Rails.logger.debug "Completed 02-concerto_config.rb at #{Time.now.to_s}"
+  
+  #Set the time here instead of in application.rb to get ConcertoConfig access
+  Rails.application.config.time_zone = ConcertoConfig[:system_time_zone]
+  #Set Time.zone specifically, because it's too late to derive it from config.
+  Time.zone = ConcertoConfig[:system_time_zone]
 end
-
-Rails.logger.debug "Completed 02-concerto_config.rb at #{Time.now.to_s}"
-
-#Set the time here instead of in application.rb to get ConcertoConfig access
-Rails.application.config.time_zone = ConcertoConfig[:system_time_zone]
-#Set Time.zone specifically, because it's too late to derive it from config.
-Time.zone = ConcertoConfig[:system_time_zone]
