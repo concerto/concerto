@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130603021923) do
+ActiveRecord::Schema.define(:version => 20130603073427) do
 
   create_table "activities", :force => true do |t|
     t.integer  "trackable_id"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20130603021923) do
     t.datetime "updated_at", :null => false
     t.string   "type"
     t.integer  "parent_id"
+    t.integer  "children_count", :default => 0
   end
 
   create_table "delayed_jobs", :force => true do |t|

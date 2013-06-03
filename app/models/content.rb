@@ -25,7 +25,7 @@ class Content < ActiveRecord::Base
   #Newsfeed
   include PublicActivity::Common if defined? PublicActivity::Common
 
-  belongs_to :parent, :class_name => "Content"
+  belongs_to :parent, :class_name => "Content", :counter_cache => :children_count
   has_many :children, :class_name => "Content", :foreign_key => "parent_id"
 
   # By default, only find known content types.

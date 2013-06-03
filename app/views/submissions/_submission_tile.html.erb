@@ -4,7 +4,9 @@
     <%= render_content(submission.content, {:type => 'tile'}) %>
   </div>
   <div class="brand">
-    <% if not submission.content.children.active.empty? %>
+    <% # Note: The line below is extra verbose for performance reasons.  See #483. %>
+    <% if !submission.content.children.empty? &&
+          !submission.content.children.active.empty? %>
       <div class="count">x <%= submission.content.children.active.size %></div>
     <% end %>
   </div>
