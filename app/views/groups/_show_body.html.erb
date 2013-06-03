@@ -52,8 +52,7 @@
               <tr>
                 <th>
                   <p>
-                    <b><%= pending_membership.user.name %></b><br />
-                    <%= pending_membership.user.email %>
+                    <b><%= link_to_if can?(:read, pending_membership.user), pending_membership.user.name, pending_membership.user %></b><br />
                   </p>
                 </th>
                 <th><p><%= pending_membership.created_at.strftime("%I:%M %p on %D") %></p></th>
@@ -110,8 +109,7 @@
                   <tr>
                     <td>
                       <p>
-                        <b><%= m.object.user.name %></b><br />
-                        <%= m.object.user.email %>
+                        <b><%= link_to_if can?(:read, m.object.user), m.object.user.name, m.object.user %></b><br />
                       </p>
                     </td>
                     <% Membership::PERMISSIONS[m.object.level_name.to_sym].each_pair do |perm, levels| %>
@@ -163,7 +161,7 @@
             <tr>
               <th>
                 <p>
-                  <b><%= mail_to leader.user.email, leader.user.name, :encode => "hex" %><br></b>
+                  <b><%= link_to_if can?(:read, leader.user), leader.user.name, leader.user %><br></b>
                 </p>
               </th>
               <th>
