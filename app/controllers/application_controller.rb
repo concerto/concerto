@@ -11,7 +11,29 @@ class ApplicationController < ActionController::Base
   # This matches CanCan's code but is here to be explicit,
   # since we modify @current_ability below for plugins.
   def current_ability
-    @current_ability ||= ::Ability.new(current_user)
+    if @screen_api
+      @current_ability ||= ::Ability.new(current_accessor)
+    end
+    @current_ability ||= ::Ability.new(current_accessor)
+  end
+
+  # Determine the current logged-in screen or user to be used for auth
+  # on the current action.
+  # Used by current_ability and use_plugin_ability
+  def current_accessor
+    if @screen_api
+      @current_accessor ||= current_screen
+    end
+    @current_accessor ||= current_user
+  end
+
+  # Call this with a before filter to indicate that the current action
+  # should be treated as a Screen API page. On Screen API pages, the
+  # current logged-in screen (if there is one) is used instead of the
+  # current user. For non-screen API pages, it is impossible for a
+  # screen to view the page (though that may change).
+  def screen_api
+    @screen_api=true
   end
   
   def restart_webserver
@@ -91,7 +113,7 @@ class ApplicationController < ActionController::Base
         logger.warn "ConcertoPlugin: use_plugin_ability: "+
           "No Ability found for "+mod.name
       else
-        @plugin_abilities[mod_sym] ||= ability.new(current_user)
+        @plugin_abilities[mod_sym] ||= ability.new(current_accessor)
         @current_ability = @plugin_abilities[mod_sym]
       end
     else

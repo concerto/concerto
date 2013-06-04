@@ -1,4 +1,5 @@
 class Frontend::ScreenAuthController < ApplicationController
+  before_filter :screen_api
   # GET /frontend/
   # Entry point for secure screens.
   # If a screen is logged in or credentials are present, redirect
