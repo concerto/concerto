@@ -280,9 +280,9 @@ class ApplicationController < ActionController::Base
         object.delete_if {|o| cannot?(test_action, o)}
         if new_exception && object.empty?
           # Parent will be Object for Concerto, or the module for Plugins.
-          new_parent = self.class.parent.name
-          new_class = new_parent + '::' + controller_name.singularize.classify
-          new_object = new_class.constantize.new
+          new_parent = self.class.parent
+          new_class = new_parent.const_get(controller_name.singularize.classify)
+          new_object = new_class.new
           return true if can?(:create, new_object)
         end
         if !allow_empty && object.empty?
