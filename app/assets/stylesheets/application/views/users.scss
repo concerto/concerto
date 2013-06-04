@@ -32,5 +32,8 @@
   padding-top: 10px;
   margin: auto;
   display: block;
-  color: $gray;
+}
+
+.orange {
+  color: lighten($orange, 10%);
 }
