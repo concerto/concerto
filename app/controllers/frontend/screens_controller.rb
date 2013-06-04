@@ -1,6 +1,7 @@
 class Frontend::ScreensController < ApplicationController
   # Allow cross-origin resource sharing for screens#show.
   before_filter :allow_cors, :only => [:show]
+  before_filter :screen_api
   
   layout 'frontend'
 
@@ -8,8 +9,10 @@ class Frontend::ScreensController < ApplicationController
     begin
       @screen = Screen.find(params[:id])
     rescue ActiveRecord::ActiveRecordError
+      # TODO: Could this just be a regular 404?
       render :text => "Screen not found.", :status => 404
     else
+      auth!
       @js_files = ['frontend.js']
       if params[:debug]
         @js_files = ['frontend_debug.js']

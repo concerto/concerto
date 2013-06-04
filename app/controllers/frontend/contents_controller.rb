@@ -2,6 +2,7 @@ class Frontend::ContentsController < ApplicationController
   layout false
 
   before_filter :scope_setup
+  before_filter :screen_api
   after_filter :dynamic_content_cron, :only => [:index]
 
   def scope_setup
@@ -16,6 +17,7 @@ class Frontend::ContentsController < ApplicationController
     session_key = "frontend_#{@screen.id}_#{@field.id}".to_sym
     shuffler = shuffler_klass.new(@screen, @field, @subscriptions, session[session_key])
     @content = shuffler.next_contents()
+    auth! :object => @content
     session[session_key] = shuffler.save_session()
 
     begin
@@ -41,6 +43,7 @@ class Frontend::ContentsController < ApplicationController
   # along for processing.  Should send an inline result of the processing.
   def show
     @content = Content.find(params[:id])
+    auth! :object=>@content
     @file = @content.render(params)
     send_data @file.file_contents, :filename => @file.file_name, :type => @file.file_type, :disposition => 'inline'
   end
