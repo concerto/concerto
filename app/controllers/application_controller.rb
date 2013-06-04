@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   before_filter :check_for_initial_install
   before_filter :set_version
   before_filter :compute_pending_moderation
-  around_filter :user_time_zone, :if => lambda {|unused_c| user_signed_in?}
+  around_filter :user_time_zone, :if => user_signed_in?
   helper_method :webserver_supports_restart?
 
   # Current Ability for CanCan authorization
