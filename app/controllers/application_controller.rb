@@ -157,7 +157,7 @@ class ApplicationController < ActionController::Base
     #Don't do anything if a user is logged in
     unless user_signed_in?
       #if the flag set in the seeds file still isn't set to true and there are no users, let's do our thing
-      if !ConcertoConfig[:setup_complete] && User.all.empty?
+      if !User.exists? && !ConcertoConfig[:setup_complete]
         redirect_to new_user_registration_path
       end
     end
