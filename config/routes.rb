@@ -13,6 +13,7 @@ Concerto::Application.routes.draw do
   # about what you are doing because they could break things in
   # a very visible way.
   namespace :frontend do
+    root :to => 'screen_auth#index'
     resources :screens, :only => [:show], :path => '' do
       member do
         get :setup
