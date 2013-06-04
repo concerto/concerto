@@ -1,6 +1,9 @@
 class Screen < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
+  # Allow screens to act as accessors for the Frontend API
+  devise
+
   belongs_to :owner, :polymorphic => true
   belongs_to :template
   has_many :subscriptions, :dependent => :destroy

@@ -30,6 +30,11 @@ Concerto::Application.routes.draw do
     :controllers => {
       :registrations => 'concerto_devise/registrations', 
       :sessions => 'concerto_devise/sessions' }
+
+  # Devise for screens allows devise to manage screen logins, but does
+  # not provide any routes, as all authentication is managed by our own
+  # controllers.
+  devise_for :screens
   
   scope "/manage" do
     resources :users
