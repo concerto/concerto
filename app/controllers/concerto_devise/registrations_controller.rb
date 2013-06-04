@@ -17,7 +17,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
     build_resource
 
     # If there are no users, the first one created will be an admin
-    if User.all.empty?
+    if !User.exists?
       first_user_setup = true
       resource.is_admin = true
       # At first registration, the admin is given the option to 
