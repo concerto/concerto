@@ -174,8 +174,8 @@ class TemplatesController < ApplicationController
   #
   # TODO - This should be cleaned up, we should throw smarter errors too.
   def import
-    xml_file = template_params[:descriptor]
-    image_file = template_params[:image]
+    xml_file = params[:descriptor]
+    image_file = params[:image]
     @template = Template.new(template_params[:template])
     auth!
     
