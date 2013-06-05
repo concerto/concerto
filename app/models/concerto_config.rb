@@ -14,7 +14,6 @@ class ConcertoConfig < ActiveRecord::Base
   validates_presence_of   :key
   validates_uniqueness_of :key
 
-  after_save :cache_expire
   after_destroy :cache_expire
 
   # Enable hash-like access to table for ease of use
