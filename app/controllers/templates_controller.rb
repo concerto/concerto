@@ -174,9 +174,9 @@ class TemplatesController < ApplicationController
   #
   # TODO - This should be cleaned up, we should throw smarter errors too.
   def import
-    xml_file = params[:descriptor]
-    image_file = params[:image]
-    @template = Template.new(params[:template])
+    xml_file = template_params[:descriptor]
+    image_file = template_params[:image]
+    @template = Template.new(template_params[:template])
     auth!
     
     if xml_file.nil? || image_file.nil?
@@ -215,6 +215,6 @@ private
   end
 
   def template_params
-    params.require(:template).permit(:name, :author, :is_hidden, :original_width, :original_height)
+    params.require(:template).permit(:name, :author, :descriptor, :is_hidden, :original_width, :original_height)
   end
 end
