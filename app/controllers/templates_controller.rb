@@ -176,7 +176,7 @@ class TemplatesController < ApplicationController
   def import
     xml_file = params[:descriptor]
     image_file = params[:image]
-    @template = Template.new(template_params[:template])
+    @template = Template.new(template_params)
     auth!
     
     if xml_file.nil? || image_file.nil?
