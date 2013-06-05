@@ -215,6 +215,6 @@ private
   end
 
   def template_params
-    params.require(:template).permit(:name, :author, :descriptor, :is_hidden, :original_width, :original_height)
+    params.require(:template).permit(:name, :author, :descriptor, :image, :is_hidden, :original_width, :original_height)
   end
 end
