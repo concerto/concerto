@@ -1,3 +1,4 @@
+<%= javascript_include_tag "../views/groups/show" %>
 <% if !@group.narrative.blank? %>
 <div class="row-fluid">
   <div class="span12">
@@ -88,6 +89,7 @@
         </div>
       <% end %>
       </div>
+      <br />
 
       <% if can? :read, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>
       <h3 class="default-padding"><%= t('.approve_requests') %></h3>
