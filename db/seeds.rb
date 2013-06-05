@@ -26,6 +26,20 @@ Field.find_or_create_by(:name => 'Time', :kind => Kind.where(:name => 'Text').fi
 #Create an initial group
 Group.find_or_create_by(:name => "Concerto Admins")
 
+#Determine installed content types for enabling them in the inital feed
+#This is not the ideal way but unfortunately they're not registered yet at this point
+installed_content_types = { :Graphic=>"1", :Ticker=>"1" } # these are native
+# enables the content types if the gems are found (even if they aren't going to be registered, unfortunately)
+if Gem.loaded_specs.has_key? "concerto_simple_rss"
+  installed_content_types.merge!({ :SimpleRss => "1" })
+end
+if Gem.loaded_specs.has_key? "concerto_remote_video"
+  installed_content_types.merge!({ :RemoteVideo => "1" })
+end
+if Gem.loaded_specs.has_key? "concerto_weather"
+  installed_content_types.merge!({ :Weather => "1" })
+end
+
 #Create an initial feed
 Feed.where(:name => "Concerto").first_or_create(:description => "Initial Concerto Feed", :group_id => 1, :is_viewable => 1, :is_submittable => 1, :content_types => {:Graphic=>"1", :Ticker=>"1"})
 
@@ -44,3 +58,14 @@ Position.where(:field_id => Field.where(:name => "Graphics").first.id, :template
 Position.where(:field_id => Field.where(:name => "Ticker").first.id, :template_id => concerto_template, :top => ".885", :left => ".221", :bottom => ".985", :right => ".975", :style => "color:#FFF; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important;")
 Position.where(:field_id => Field.where(:name => "Text").first.id, :template_id => concerto_template, :top => ".015", :left => ".68", :bottom => ".811", :right => ".98", :style =>"color:#FFF; font-family:Frobisher, Arial, sans-serif;")
 Position.where(:field_id => Field.where(:name => "Time").first.id, :template_id => concerto_template, :top => ".885", :left => ".024", :bottom => ".974", :right => ".18", :style => "color:#ccc; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important; letter-spacing:.12em !important;")
+
+#Create a sample Full-Screen
+Screen.find_or_create_by_name(:name => "Sample Screen", :location => "Cafe", :is_public => true, :owner_id => Group.first.id, :owner_type => "Group", :template_id => concerto_template, :width => 1024, :height => 768)
+
+#Create initial subscriptions for the sample Screen
+feed_id = Feed.first.id
+screen_id= Screen.first.id
+i = 0
+Field.where("name <> 'Dynamic'").each do |f|
+  Subscription.find_or_create_by_id(:id => ++i, :feed_id => feed_id, :field_id => f.id, :screen_id => screen_id, :weight => 1)
+end

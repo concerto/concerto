@@ -17,7 +17,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
     build_resource
 
     # If there are no users, the first one created will be an admin
-    if User.all.empty?
+    if !User.exists?
       first_user_setup = true
       resource.is_admin = true
       # At first registration, the admin is given the option to 
@@ -88,8 +88,11 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
 
 private
 
+  # Overriden from Devise Controller to implement strong parameters.
+  # In Registrations Controller, used by update, and indirectly by create,
+  # to fetch the posted data about the current resource (user).
   def resource_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+    params.require(resource_name).permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_password)
   end
 
 end 

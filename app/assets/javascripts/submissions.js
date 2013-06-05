@@ -31,15 +31,6 @@ function addBrowseUi(){
         style: 'qtip-light qtip-shadow qtip-rounded'
       });
   });
-
-  $("a#browse-filter-toggle").click(function(e) {
-    e.preventDefault();
-    $(this).fadeOut("fast", function() {
-      $("#browse-filter-select").fadeIn("fast");
-    });
-    
-  });
-
 }
 
 function initBrowse() {

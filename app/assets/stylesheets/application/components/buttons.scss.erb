@@ -213,6 +213,16 @@
    	border: solid 1px #000; 
 	}
 
+  .badge {
+    background: $gray;
+    color: $white;
+    font-weight: normal;
+    text-shadow: 0 0 0;
+  }
+  &.active .badge {
+    background: darken($gray, 15%);
+  }
+
 }
 
 form .submit_bar input {

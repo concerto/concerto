@@ -51,7 +51,7 @@ class ConcertoPluginsController < ApplicationController
     respond_to do |format|
       if @concerto_plugin.save    
         write_Gemfile()
-        format.html { redirect_to @concerto_plugin, :notice => t(:plugin_created) }
+        format.html { redirect_to concerto_plugins_path, :notice => t(:plugin_created) }
         format.json { render :json => @concerto_plugin, :status => :created, :location => @concerto_plugin }
       else
         format.html { render :action => :new, :notice => t(:plugin_creation_failed) }
@@ -68,7 +68,7 @@ class ConcertoPluginsController < ApplicationController
     respond_to do |format|
       if @concerto_plugin.update_attributes(concerto_plugin_params)
         write_Gemfile()
-        format.html { redirect_to @concerto_plugin, :notice => t(:plugin_updated)}
+        format.html { redirect_to concerto_plugins_path, :notice => t(:plugin_updated)}
         format.json { head :no_content }
       else
         format.html { render :action => :edit }
@@ -129,6 +129,6 @@ private
 
   # Restrict the allowed parameters to a select set defined in the model.
   def concerto_plugin_params
-    params.require(:concerto_plugin).permit(:source, :gem_name, :source_url)
+    params.require(:concerto_plugin).permit(:source, :gem_name, :source_url, :enabled, :gem_version)
   end
 end

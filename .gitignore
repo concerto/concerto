@@ -9,9 +9,12 @@ public/.htaccess
 .DS_Store
 doc/app/*
 public/assets/*
+public/frontend_js/compiler.jar
 vendor/bundle/
 doc/coverage/*
 Gemfile-plugins.bak
 .rvmrc
+<<<<<<< HEAD
 .ruby-gemset
 .ruby-version
+

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130322031345) do
+ActiveRecord::Schema.define(:version => 20130603073427) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 20130322031345) do
     t.datetime "updated_at"
     t.string   "type"
     t.integer  "parent_id"
+    t.integer  "children_count", :default => 0
   end
 
   create_table "delayed_jobs", force: true do |t|
@@ -214,6 +215,7 @@ ActiveRecord::Schema.define(version: 20130322031345) do
     t.string   "locale"
     t.boolean  "is_admin",                         default: false
     t.boolean  "receive_moderation_notifications"
+    t.string   "time_zone"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

@@ -10,19 +10,35 @@
 
     <%= render :partial => 'plugins_navigation' %>     
 
-    <% @concerto_plugins.each do |concerto_plugin| %>
-      <li>
-        <h3>
-          <%= link_to concerto_plugin_path(concerto_plugin), :class => "link-hl" do %>
-            <span class="badge"><%= concerto_plugin.enabled ? t('.enabled') : t('.disabled')%></span> <%= concerto_plugin.name %>
-          <% end %>
-          <small><%= link_to t(:edit), edit_concerto_plugin_path(concerto_plugin), :class => "btn" %></small>
-          <small><%= link_to t(:destroy), concerto_plugin, :data => { :confirm => t(:are_you_sure) }, :class => "btn", :method => :delete %></small>
-        </h3>
-      </li>
-    <% end %>
-
     <div class="default-padding">
+    <table class="plugins-list">
+      <thead>
+        <tr>
+          <th><%= t(:status) %></th>
+          <th><%= ConcertoPlugin.human_attribute_name(:name) %></th>
+          <th><%= ConcertoPlugin.human_attribute_name(:version) %></th>
+          <th><%= ConcertoPlugin.human_attribute_name(:source) %></th>
+          <th><%= t(:actions) %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @concerto_plugins.each do |concerto_plugin| %>
+          <tr>
+            <td><span class="badge"><%= concerto_plugin.enabled ? t('.enabled') : t('.disabled')%></span></td>
+            <td><%= concerto_plugin.name %></td>
+            <td><%= concerto_plugin.gem_version %></td>
+            <td><%= plugin_source(concerto_plugin.source) %></td>
+            <td>
+              <small><%= link_to t(:edit), edit_concerto_plugin_path(concerto_plugin), :class => "btn" %></small>
+              <small><%= link_to t(:destroy), concerto_plugin, :data => { :confirm => t(:are_you_sure) }, :class => "btn", :method => :delete %></small>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="submit_bar actions">
       <%= link_to t(:new_model, :model => ConcertoPlugin.model_name.human), new_concerto_plugin_path, :class => "btn primary" %>
     </div>
 

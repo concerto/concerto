@@ -1,5 +1,5 @@
 class ContentsController < ApplicationController
-  before_filter :get_content_const, :only => [:new, :create]
+  before_filter :get_content_const, :only => [:new, :create, :preview]
 
   # Grab the constant object for the type of
   # content we're working with.  Probably needs
@@ -22,6 +22,13 @@ class ContentsController < ApplicationController
     respond_to do |format|
       format.html #show.html.erb
       format.xml { render :xml => @content }
+    end
+
+  rescue ActiveRecord::RecordNotFound
+    # while it could be returned as a 404, we should keep the user in the application
+    # render :text => "Requested content not found", :status => 404
+    respond_to do |format|
+      format.html { redirect_to(browse_path, :notice => t(:content_not_found)) }
     end
   end
 
@@ -177,6 +184,25 @@ class ContentsController < ApplicationController
       render :text => 'Unable to perform action.', :status => 400
     else
       render :text => result, :status => 200
+    end
+  end
+
+  # returns the content types preview of the specified data or looked up by id 
+  def preview
+    data = ""
+    if !params[:data].nil?
+      data = params[:data]
+    elsif !params[:id].nil?
+      content = Content.find(params[:id])
+      data = content[:data] unless content.nil?
+    end
+
+    html = "Unrecognized content type"
+    if !@content_const.nil?
+      html = @content_const.preview(data)
+    end
+    respond_to do |format|
+      format.html { render :text => html, :layout => false }
     end
   end
 

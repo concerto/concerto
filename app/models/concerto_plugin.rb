@@ -14,7 +14,6 @@ class ConcertoPlugin < ActiveRecord::Base
 
   validates :gem_name, :presence => true
   validate :check_sources, :on => :create
-  # TODO: use check_sources to validate the availability of the gem
 
   scope :enabled, -> { where(:enabled => true) }
 
@@ -147,9 +146,9 @@ class ConcertoPlugin < ActiveRecord::Base
     end
   end
 
-  private
+private
 
-  #custom validation for plugin URLs
+  # custom validation for plugin URLs
   def check_sources
     case self.source
       when "rubygems"
@@ -174,9 +173,9 @@ class ConcertoPlugin < ActiveRecord::Base
           errors.add(:source_url, "can't be blank")
           return false
         end
-        #get the directory of the provided gemfile
+        # get the directory of the provided gemfile
         plugin_path = File.dirname(self.source_url)
-        #user Dir to see if a gemfile exists in that directory
+        # user Dir to see if a gemfile exists in that directory
         if Dir.glob("#{plugin_path}/*.gemspec").empty?
           errors.add(:source_url, "Gemspec not found in #{plugin_path}")
         end
@@ -193,7 +192,7 @@ class ConcertoPlugin < ActiveRecord::Base
       # Let's get the gem's full path in the filesystem
       gpath = Gem.loaded_specs[gem_name].full_gem_path
       # Then match the path we've got to the path of an engine - 
-      #    which should have its Module Name (aka paydirt)
+      # which should have its Module Name (aka paydirt)
       Rails::Application::Railties.engines.each do |engine|
         if engine.class.root.to_s == gpath
           # Get the class name from the engine hash

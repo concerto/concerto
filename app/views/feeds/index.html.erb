@@ -1,3 +1,6 @@
+<% content_for :title do %>
+  Dashboard
+<% end %>
 <div class="row-fluid">
   <div class="span9">
     <section class="viewblock">
@@ -44,7 +47,7 @@
           </div>
           <br /><br />
           <div class="clearfix">
-            <h3><%= t(:current_active_approved_content) + ": " + @active_content.to_s %></h3>
+            <h3><%= t('.active_content') %>: <%= @active_content.to_s %></h3>
           </div>
         </div>
         

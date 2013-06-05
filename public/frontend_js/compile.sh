@@ -1,7 +1,20 @@
 #!/bin/bash
 
+# check for closure library and if not found get it via git submodule
+if [ ! "$(ls -A closure-library/)" ]; then
+  cd ../..
+  git submodule init
+  git submodule update
+  cd public/frontend_js
+fi
+
+# check for closure compiler and if not found try to download it
 if [ ! -f compiler.jar ];  then
-  echo -e 'compiler.jar not found.\nDownload it from http://closure-compiler.googlecode.com/files/compiler-latest.zip and drop it in this directory.'; exit 1;
+  # try to download it automatically
+  curl -O http://closure-compiler.googlecode.com/files/compiler-latest.zip && unzip -qq compiler-latest.zip compiler.jar && rm compiler-latest.zip
+  if [ ! -f compiler.jar ];  then
+    echo -e 'compiler.jar not found.\nDownload it from http://closure-compiler.googlecode.com/files/compiler-latest.zip and drop it in this directory.'; exit 1;
+  fi
 fi
 
 debug=0
@@ -17,6 +30,11 @@ do
 done
 
 echo $debug
+
+if [[ ! -x "closure-library/closure/bin/build/closurebuilder.py" ]]
+then
+  chmod a+x closure-library/closure/bin/build/closurebuilder.py
+fi
 
 if [ $debug -eq 0 ]; then
   closure-library/closure/bin/build/closurebuilder.py \

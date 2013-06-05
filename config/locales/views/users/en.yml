@@ -14,10 +14,16 @@ en:
 
   users:
     all_users: 'All Users'
+    change_password: "Change Password"
 
+    form:
+      provide_details: "Provide Details"
+      options: "Options"
+      first_label: "First"
+      last_label: "Last"
+      email_label: "user@domain.com"
     show_body:
       admin: 'Admin'
-      change_password: 'Change Password'
       content: 'Content'
       dont_receive_emails: "Don't receive emails"
       forever: 'forever'

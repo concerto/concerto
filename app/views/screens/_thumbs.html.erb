@@ -1,0 +1,29 @@
+<% 
+# partial parameters: 
+#   show_field_count - bool - shows field counts
+#   show_owner - bool - shows name of group or user that owns the screen
+%>
+
+<ul class="list-grid">
+  <% thumbs.each do |screen| %>
+    <li>
+      <div class="cont thumb-icon">
+        <%= link_to screen do %>
+          <i class="icon-controller-screens"></i>
+        <% end %>
+      </div>
+      <div class="cont">
+        <p><b><%= link_to screen.name, screen %></b></p>
+        <p><%= screen.location %></p>
+        
+        <% if show_owner %>
+          <p><%= screen_owner(screen) %></p>
+        <% end %>
+
+        <% if show_field_count %>
+          <p class="muted"><%= screen.fields.count %> fields</p>
+        <% end %>
+      </div>
+    </li>
+  <% end unless thumbs.nil? %>
+</ul>

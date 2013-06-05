@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   before_filter :check_for_initial_install
   before_filter :set_version
   before_filter :compute_pending_moderation
-  
+  around_filter :user_time_zone, :if => :user_signed_in?
   helper_method :webserver_supports_restart?
 
   # Current Ability for CanCan authorization
@@ -28,6 +28,10 @@ class ApplicationController < ActionController::Base
       return false
     end
   end
+  
+  def user_time_zone(&block)
+   Time.use_zone(current_user.time_zone, &block)
+  end  
   
   def webserver_supports_restart?
     #add any webservers that don't support tmp/restart.txt to this array
@@ -114,7 +118,12 @@ class ApplicationController < ActionController::Base
     #If ActivityMailer can find a method by the formulated name, pass in the activity (everything we know about what was done)
     if ActivityMailer.respond_to?(am_string)
       #fulfilling bamnet's expansive notification ambitions via metaprogramming since 2013
-      ActivityMailer.send(am_string, activity).deliver
+      begin
+        ActivityMailer.send(am_string, activity).deliver
+      #make an effort to catch all mail-related exceptions after sending the mail - IOError will catch anything for sendmail, SMTP for the rest
+      rescue IOError, Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
+        Rails.logger.debug "Mail delivery failed at #{Time.now.to_s} for #{options[:recipient]}"
+      end
     end
   end
 
@@ -148,7 +157,7 @@ class ApplicationController < ActionController::Base
     #Don't do anything if a user is logged in
     unless user_signed_in?
       #if the flag set in the seeds file still isn't set to true and there are no users, let's do our thing
-      if !ConcertoConfig[:setup_complete] && User.all.empty?
+      if !User.exists? && !ConcertoConfig[:setup_complete]
         redirect_to new_user_registration_path
       end
     end

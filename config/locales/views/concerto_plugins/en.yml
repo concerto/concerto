@@ -6,6 +6,7 @@ en:
       concerto_plugin:
         source: 'Source'
         gem_name: 'Gem Name'
+        gem_version: 'Gem Version'
         source_url: 'Source URL'
 
   concerto_plugins:

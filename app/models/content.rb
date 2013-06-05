@@ -3,7 +3,7 @@ class Content < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :kind
-  has_many :submissions, :dependent => :destroy
+  has_many :submissions, :dependent => :destroy, :after_add => :after_add_callback
   has_many :feeds, :through => :submissions
   has_many :media, :as => :attachable, :dependent => :destroy
 
@@ -25,7 +25,7 @@ class Content < ActiveRecord::Base
   #Newsfeed
   include PublicActivity::Common if defined? PublicActivity::Common
 
-  belongs_to :parent, :class_name => "Content"
+  belongs_to :parent, :class_name => "Content", :counter_cache => :children_count
   has_many :children, :class_name => "Content", :foreign_key => "parent_id"
 
   # By default, only find known content types.
@@ -120,6 +120,11 @@ class Content < ActiveRecord::Base
     {:data => self.data}
   end
 
+  # Allow the subclasses to render a preview of their content
+  def self.preview(*arg)
+    ""
+  end
+
   # A quick test to see if a content has any children
   def has_children?
     !self.children.empty?
@@ -135,7 +140,7 @@ class Content < ActiveRecord::Base
   # All the subclasses of Content.
   # Conduct a DFS walk of the Content class tree and return the results.
   # This is important because DynamicContent is always 1 step removed
-  # from cotent (Content > DynamicContent > Rss).
+  # from content (Content > DynamicContent > Rss).
   def self.all_subclasses
     sub = []
     sub.concat(self.subclasses)
@@ -169,6 +174,11 @@ class Content < ActiveRecord::Base
     else
       return nil
     end
+  end
+
+  # A placeholder for any action that should be performed
+  # after content has been submitted to a feed.
+  def after_add_callback(unused_submission)
   end
 
 end

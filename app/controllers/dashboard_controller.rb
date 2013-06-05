@@ -4,8 +4,7 @@ class DashboardController < ApplicationController
 
   # GET /dashboard
   def index
-    authorize! :read, ConcertoConfig
-    
+    authorize! :read, ConcertoConfig   
     @concerto_configs = ConcertoConfig.where("hidden IS NULL")
   end
 

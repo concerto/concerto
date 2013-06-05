@@ -54,6 +54,7 @@ en:
       the_dawn_of_time: 'The Dawn of Time.'
       the_end_of_time: 'The End of Time.'
       feeds_moderation_status: "Submission Status"
+      not_submitted: 'This content has not been submitted to any feeds.'
 
     table:
       title: "Title"
@@ -67,6 +68,8 @@ en:
         type_your_message: "Type Your Message"
         ticker_text: 'Ticker Text'
         characters: 'Characters'
+        preview: 'Preview'
+        allowed_html: "Certain, simple formatting html is allowed, presentation on screens may vary from that shown in the preview here."
 
   helpers:
     label:

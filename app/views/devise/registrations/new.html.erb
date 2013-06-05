@@ -5,36 +5,30 @@
   <div class="viewblock-cont">  
     <%= devise_error_messages! %>
 
-    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :autocomplete => 'off' }) do |f| %>
       <fieldset>
         <div class="clearfix">
           <%= f.label :first_name %>
           <div class="input">
-            <%= f.text_field :first_name %>
-          </div>
-        </div>
-        <div class="clearfix">
-          <%= f.label :last_name %>
-          <div class="input">
-            <%= f.text_field :last_name %>
+            <%= f.text_field :first_name, :autofocus => true, :class => "input-large" %> <%= f.text_field :last_name, :placeholder => 'Last', :class => "input-large" %>
           </div>
         </div>
         <div class="clearfix">
           <%= f.label :email %>
           <div class="input">
-            <%= f.email_field :email %>
+            <%= f.email_field :email, :class => "input-xlarge" %>
           </div>
         </div>
         <div class="clearfix">
           <%= f.label :password %>
           <div class="input">
-            <%= f.password_field :password %>
+            <%= f.password_field :password, :class => "input-medium" %>
           </div>
         </div>
         <div class="clearfix">
           <%= f.label :password_confirmation, "Confirm Password" %>
           <div class="input">
-            <%= f.password_field :password_confirmation %>
+            <%= f.password_field :password_confirmation, :class => "input-medium" %>
           </div>
         </div>
       </fieldset>

@@ -2,6 +2,8 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  active_content: 'Active Content'
+  actions: "Actions"
   add: 'Add'
   add_model: 'Add %{model}'
   all_model: 'All %{model}'
@@ -27,6 +29,7 @@ en:
   prohibited_save: "prevented this %{model} from being saved:"
   remove_model: 'Remove %{model}'
   show: 'Show'
+  status: "Status"
   type_to_filter: 'Type here to filter'
   update_model: 'Update %{model}'
 
@@ -60,10 +63,17 @@ en:
         allow_user_screen_creation: "Allow user screen creation"
         allow_user_feed_creation: "Allow user feed creation"
         rubygem_executable: "Rubygem Executable"
-        autostart_delayed_job: "Automatically start Delayed Job Daemon"
+        autostart_delayed_job: "Automatically start Background Job Processor"
         dynamic_refresh_time: "Dynamic refresh interval"
-        use_frontend_to_trigger_cron: "Trigger cron using frontend"
+        use_frontend_to_trigger_cron: "Trigger Background Job Processor using frontend"
         min_content_duration: 'Minimum Content Duration (in seconds)'
+        mailer_protocol: "Mailer Protocol"
+        mailer_host: "Concerto Server Name (FQDN)"
+        smtp_address: "SMTP Server"
+        smtp_port: "SMTP Port"
+        smtp_auth_type: "SMTP Authentication Type"
+        smtp_username: "SMTP Username"
+        smtp_password: "SMTP Password"
 
         #send_errors: "Send errors"
         #allow_remote_error_reporting: "Allow remote error reporting"

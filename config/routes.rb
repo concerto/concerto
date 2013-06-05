@@ -75,6 +75,9 @@ Concerto::Application.routes.draw do
       get :display
       put :act
     end
+    collection do
+      post :preview
+    end
   end
 
   # TODO(bamnet): Figure out if these routes mean anything.

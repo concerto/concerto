@@ -67,13 +67,19 @@ class SubmissionsController < ApplicationController
     auth!
 
     respond_to do |format|
-      if @submission.update_attributes(params[:submission])
+      if @submission.update_attributes(submission_params)
         process_notification(@submission, {:status => @submission.moderation_flag}, :action => 'update', :owner => current_user, :recipient => @submission.content.user)
         format.html { redirect_to(feed_submissions_path, :notice => t(:content_moderated)) }
       else
         format.html { redirect_to(feed_submission_path, :notice => t(:content_failed_moderation)) }
       end
     end
+  end
+
+private
+
+  def submission_params
+    params.require(:submission).permit(:moderation_reason, :moderation_flag)
   end
 
 end

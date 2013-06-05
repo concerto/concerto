@@ -3,6 +3,7 @@ en:
   content_created: "Content was successfully created."
   content_created_no_feeds: "Content was successfully created. Since no feeds were supplied, content will remain in limbo."
   content_updated: "Content was successfully updated."
+  content_not_found: "Content not found."
 
   #Feeds controller
   feed_created: "Feed was successfully created."
@@ -28,6 +29,7 @@ en:
   membership_demoted_failure:  "Member was not successfully demoted from group leader. There must be at least one leader."
   membership_unknown_action:   "Unknown Membership action submitted."
   member_removed:              "Member removed"
+  preferences_updated:         "Email preferences have been updated."
 
   #Positions controller
   position_created: "Position was successfully created."

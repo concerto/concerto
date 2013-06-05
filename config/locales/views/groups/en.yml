@@ -13,6 +13,10 @@ en:
     edit:
       change_group_memberships: "Change Group Memberships"
 
+    form:
+      provide_details: "Provide Details"
+      initial_leader: "Initial Leader"
+
     show_body:
       add_member: 'Add Member'
       add_users_to_group: 'Add Users to Group'

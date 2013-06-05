@@ -26,6 +26,11 @@ gem 'therubyracer', :platforms => :ruby
 gem 'execjs'
 gem 'uglifier', '>= 1.3.0'
 
+group :development do
+  gem "better_errors", ">= 0.7.2"
+  gem "binding_of_caller", ">= 0.7.1"
+end if RUBY_VERSION >= "1.9"
+
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'bootstrap-datepicker-rails'

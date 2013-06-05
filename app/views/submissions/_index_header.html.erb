@@ -1,27 +1,3 @@
-<div class="viewblock-header_right">
-  <div class="status-block">
-    <label><%= t('feeds.active').upcase %></label>
-    <span><%= @feed.submissions.approved.active.count %></span>
-  </div>
-  <div class="status-block">
-    <label><%= t('feeds.future').upcase %></label>
-    <span><%= @feed.submissions.approved.future.count %></span>
-  </div>
-  <div class="status-block">
-    <label><%= t('feeds.expired').upcase %></label>
-    <span><%= @feed.submissions.approved.expired.count %></span>
-  </div>
-  <% if @can_moderate_feed %>
-  <div class="status-block">
-    <label><%= t('feeds.pending').upcase %></label>
-    <span><%= @feed.submissions.pending.count %></span>
-  </div>
-  <div class="status-block">
-    <label><%= t('feeds.denied').upcase %></label>
-    <span><%= @feed.submissions.denied.count %></span>
-  </div>
-  <% end %>
-</div>
 <div class="default-padding">
   <h1 id="contentlist">
     <%= link_to t('.all_feeds'), feeds_path %> &gt; 

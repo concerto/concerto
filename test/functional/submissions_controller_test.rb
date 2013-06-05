@@ -18,4 +18,16 @@ class SubmissionsControllerTest < ActionController::TestCase
     assert_select "button", 0
   end
 
+  test "show feed does not show denied" do
+    @feed = feeds(:service)
+    get :index, :feed_id => @feed.id
+    assert_select "a[href=?]", feed_submissions_path(@feed, :state => 'denied'), 0
+  end
+
+  test "admin can see denied" do
+    sign_in users(:katie)
+    @feed = feeds(:service)
+    get :index, :feed_id => @feed.id
+    assert_select "a[href=?]", feed_submissions_path(@feed, :state => 'denied'), 1
+  end
 end

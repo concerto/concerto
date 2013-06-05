@@ -8,8 +8,6 @@ class DynamicContent < Content
   after_find :load_config
   before_validation :save_config
 
-  after_create :refresh
-
   attr_accessor :config
 
   # Automatically set the kind for the content
@@ -277,5 +275,13 @@ class DynamicContent < Content
     else
       return "Error refreshing."
     end
+  end
+
+  # Manually refresh the dynamic content each time it is
+  # added to a submission.  If we were smarter we would
+  # wait for all of these to finish but that is left as
+  # exercise to the reader.
+  def after_add_callback(unused_submission)
+    refresh!
   end
 end

@@ -49,6 +49,7 @@ parent_content:
   user: katie
   kind: ticker
   type: Ticker
+  children_count: 3
 
 child_content:
   name: Child Ticker
@@ -91,6 +92,7 @@ sample_dynamic_content:
   user: katie
   kind: dynamic
   type: DynamicContent
+  children_count: 1
 
 dynamic_child_content:
   name: Concerto TV Google Play

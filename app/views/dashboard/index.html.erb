@@ -1,3 +1,6 @@
+<% content_for :title do %>
+  Global Preferences
+<% end %>
 <%= render :partial => 'admin_stats' %>
 
 <section class="viewblock">
@@ -12,12 +15,12 @@
       <ul class="nav nav-tabs">
         <li class="active">
           <%= link_to dashboard_path do %>
-            <i class="ficon-cog"></i><%= t('dashboard.global_preferences') %>
+            <i class="ficon-cog"></i> <%= t('dashboard.global_preferences') %>
           <% end %>
         </li>
         <li>
           <%= link_to concerto_plugins_path do %>
-            <i class="ficon-bolt"></i><%= t(:manage_model, :model => ConcertoPlugin.model_name.human.pluralize) %>
+            <i class="ficon-bolt"></i> <%= t(:manage_model, :model => ConcertoPlugin.model_name.human.pluralize) %>
           <% end %>
         </li>
       </ul>
@@ -25,15 +28,20 @@
 
     <%= form_tag dashboard_update_path do %>
 
-        <fieldset>
-
+        <fieldset class="global-prefs">
           <% for c in @concerto_configs %>
               <div class="clearfix">
                 <% if c.value_type == "string" || c.value_type == "integer" %>
+                    <% input_size = (c.value_type == "string" ? "input-large" : "input-small") %>
                     <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>
                     <div class="input">
-                      <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym] %>
+                      <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], :class => input_size, :placeholder => c.value_default %>
                     </div>
+                <% elsif c.value_type == "timezone" %>  
+                  <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>  
+                  <div class="input">
+                    <%= select_tag "concerto_config[#{c.key}]", time_zone_options_for_select(ConcertoConfig[:system_time_zone], ActiveSupport::TimeZone.us_zones) %>
+                  </div>
                 <% elsif c.value_type == "boolean" %>
                     <div class="input checkbox">
                       <%= tag 'input', :type => 'hidden', :name => "concerto_config[#{c.key}]", :value => '0' %>
