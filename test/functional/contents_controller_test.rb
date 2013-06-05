@@ -60,7 +60,7 @@ class ContentsControllerTest < ActionController::TestCase
   test "broken default type raises exception" do
     sign_in users(:katie)
     default = ConcertoConfig.find_by_key("default_upload_type")
-    default.delete
+    default.destroy
 
     assert_raise RuntimeError do
       get :new
