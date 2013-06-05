@@ -35,7 +35,7 @@ class ConcertoConfig < ActiveRecord::Base
 
   # Make getting values from Rails nice and easy
   # Returns false if key isn't found or the config is broken.
-  def self.get(key, allow_cache=true)
+  def self.get(key, allow_cache=false)
     # First try a cache hit.
     begin
       if allow_cache
