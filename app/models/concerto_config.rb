@@ -100,8 +100,10 @@ class ConcertoConfig < ActiveRecord::Base
     hit = Rails.cache.read('ConcertoConfig')
 
     if hit.nil? || hit[key].nil? || hit['config_last_updated'].nil? || last_updated != hit['config_last_updated']
+      Rails.logger.debug("Cache miss on #{key}")
       return nil
     else
+      Rails.logger.debug("Cache hit on #{key} -  #{hit[key]}")
       return hit[key]
     end
   end
@@ -117,6 +119,7 @@ class ConcertoConfig < ActiveRecord::Base
       end
       data[config.key] = config.value
     end
+    Rails.logger.debug('Writing cache')
     Rails.cache.write('ConcertoConfig', data)
   end
 end

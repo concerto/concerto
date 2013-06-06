@@ -18,15 +18,15 @@ class ConcertoConfigTest < ActiveSupport::TestCase
     assert_equal(ConcertoConfig[:default_upload_type], "ticker")
   end
 
-  #test "set and get with cache" do
-  #  ConcertoConfig.set('foo', 'bar')
-  #  assert_equal(ConcertoConfig.get('foo'), 'bar')  # Trigger the cache rebuild.
-  #  assert_equal(ConcertoConfig.cache_get('foo'), 'bar') # Verify the value.
-  #
-  #  ConcertoConfig.set('foo', 'baz')
-  #  assert_equal(ConcertoConfig.get('foo'), 'baz')
-  #  assert_equal(ConcertoConfig.cache_get('foo'), 'baz')
-  #
-  #  assert_equal(ConcertoConfig.cache_get('missing_key'), nil)
-  #end
+  test "set and get with cache" do
+    ConcertoConfig.set('foo', 'bar')
+    assert_equal(ConcertoConfig.get('foo'), 'bar')  # Trigger the cache rebuild.
+    assert_equal(ConcertoConfig.cache_get('foo'), 'bar') # Verify the value.
+
+    ConcertoConfig.set('foo', 'baz')
+    assert_equal(ConcertoConfig.get('foo'), 'baz')
+    assert_equal(ConcertoConfig.cache_get('foo'), 'baz')
+
+    assert_equal(ConcertoConfig.cache_get('missing_key'), nil)
+  end
 end
