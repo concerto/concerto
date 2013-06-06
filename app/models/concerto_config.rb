@@ -35,7 +35,7 @@ class ConcertoConfig < ActiveRecord::Base
 
   # Make getting values from Rails nice and easy
   # Returns false if key isn't found or the config is broken.
-  def self.get(key, allow_cache=false)
+  def self.get(key, allow_cache=true)
     # First try a cache hit.
     begin
       if allow_cache
@@ -112,6 +112,9 @@ class ConcertoConfig < ActiveRecord::Base
   def self.cache_rebuild()
     data = {}
     ConcertoConfig.all.each do |config|
+      if config.value_type == "boolean"
+        config.value = (config.value == "true")
+      end
       data[config.key] = config.value
     end
     Rails.cache.write('ConcertoConfig', data)
