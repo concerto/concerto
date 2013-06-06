@@ -18,4 +18,13 @@ class RoutesTest < ActionController::IntegrationTest
   test "no screen path in frontend route" do
     assert_recognizes({:controller => 'frontend/screens', :action => 'show', :id => '1'}, "frontend/1")
   end
+
+  test "root url correct" do
+    assert_recognizes({:controller => 'feeds', :action => 'index'}, '/')
+  end
+
+  test "v1 screen urls work" do
+    assert_recognizes({:controller => 'frontend/screens', :action => 'index'}, "?mac=123")
+    assert_recognizes({:controller => 'frontend/screens', :action => 'index'}, "screen?mac=123")
+  end
 end

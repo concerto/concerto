@@ -68,5 +68,14 @@ class Screen < ActiveRecord::Base
   def is_offline?
     frontend_updated_at.nil? || frontend_updated_at < (Clock.time - Screen::OFFLINE_THRESHOLD)
   end
+
+  def self.find_by_mac(mac_addr)
+    begin
+      screen = Screen.find(mac_addr)
+      return screen
+    rescue ActiveRecord::ActiveRecordError
+      return nil
+    end
+  end
 end
 
