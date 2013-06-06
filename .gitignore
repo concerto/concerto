@@ -12,7 +12,7 @@ public/assets/*
 public/frontend_js/compiler.jar
 vendor/bundle/
 doc/coverage/*
-Gemfile-plugins.*
+Gemfile-plugins*
 .rvmrc
 .ruby-version
 .ruby-gemset
