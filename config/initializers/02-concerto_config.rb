@@ -2,7 +2,12 @@ Rails.logger.debug "Starting 02-concerto_config.rb at #{Time.now.to_s}"
 
 #Initialize all core Concerto Config entries
 require 'socket'
-concerto_hostname = Socket.gethostbyname(Socket.gethostname).first
+begin
+  concerto_hostname = Socket.gethostbyname(Socket.gethostname).first
+rescue SocketError => e
+  concerto_hostname = ""
+  Rails.logger.debug "Socket error in trying to determine hostname: #{e}"
+end
 
 if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
   if ConcertoConfig.columns_hash.has_key?("plugin_id")
