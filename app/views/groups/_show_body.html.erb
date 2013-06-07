@@ -1,4 +1,3 @@
-<%= javascript_include_tag "../views/groups/show" %>
 <% if !@group.narrative.blank? %>
 <div class="row-fluid">
   <div class="span12">
@@ -58,12 +57,9 @@
                     <% Membership::PERMISSIONS[m.object.level_name.to_sym].each_pair do |perm, levels| %>
                       <td>
                         <ul class="inputs-list">
-                          <% levels.keys.each do |level| %>
-                            <li>
-                              <%= radio_button_tag "#{m.object_name}[perms][#{perm.to_s}]", level.to_s, m.object.perms[perm] == level %>
-                              <%= label_tag "#{m.object_name}[perms][#{perm.to_s}][#{level}]", level.to_s.titleize %>
-                            </li>
-                          <% end %>
+                            <li> 
+                              <%= select_tag :permission , options_for_select(levels.keys.each) %>
+                            </li> 
                         </ul>
                       </td>
                     <% end %>
