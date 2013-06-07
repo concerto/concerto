@@ -6,6 +6,18 @@ class LegacyRouteMatcher
 end
 
 Concerto::Application.routes.draw do
+
+  resources :screens do
+    resources :fields, :only => [] do
+      resources :subscriptions do
+        collection do
+          get :manage
+          put :save_all
+        end
+      end
+    end
+  end
+
   v1_router = LegacyRouteMatcher.new
   match '/' => 'frontend/screens#index', :constraints => v1_router
   match '/screen' => 'frontend/screens#index', :constraints => v1_router
@@ -55,17 +67,6 @@ Concerto::Application.routes.draw do
     end
     collection do
       post :import
-    end
-  end
-
-  resources :screens do
-    resources :fields, :only => [] do
-      resources :subscriptions do
-        collection do
-          get :manage
-          put :save_all
-        end
-      end
     end
   end
   
