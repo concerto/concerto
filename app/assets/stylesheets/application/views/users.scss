@@ -21,3 +21,19 @@
 .group-member {
   color: $grayLighter;
 }
+
+.grid-item {
+  width: 60px;
+  height: 60px;
+}
+
+.grid-item i { 
+  text-align: center;
+  padding-top: 10px;
+  margin: auto;
+  display: block;
+}
+
+.orange {
+  color: lighten($orange, 10%);
+}
