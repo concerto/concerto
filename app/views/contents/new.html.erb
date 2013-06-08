@@ -10,8 +10,12 @@
       <ul class="nav nav-tabs">
         <% available_types = get_available_types() %> 
         <% available_types.each do |subclass| %>
+          <% type_folder = "contents/#{subclass.name.underscore}" %>
+
           <li <% if @content.class.name == subclass.name %> class="active"<% end %>>
-            <%= link_to subclass.display_name, new_content_path(:type => subclass.model_name.singular) %>
+            <%= link_to new_content_path(:type => subclass.model_name.singular) do %>
+              <%= render_partial_if("#{type_folder}/tab_icon", "tab_icon") %> <%= subclass.display_name %>
+            <% end %>
           </li>
         <% end %>
       </ul>

@@ -34,3 +34,13 @@
     right: 15px;
   }
 }
+
+div.tile div.brand i[class*=ficon-] {
+  background: $gray;
+  padding: 2px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  opacity: 0.5;
+  z-index: 2;
+}
