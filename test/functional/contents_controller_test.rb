@@ -122,31 +122,31 @@ class ContentsControllerTest < ActionController::TestCase
 
     file = assigns(:file)
     require 'concerto_image_magick'
-    image = ConcertoImageMagick.load_image(file.file_contents)    
-    assert_equal 150, image.rows
-    assert_equal 200, image.columns
+    image = ConcertoImageMagick.load_image(file.file_contents)
+    assert_operator 150, :>=, image.rows
+    assert_operator 200, :>=, image.columns
     
     get :display, :id => c.id, :height => "200"
     
     file = assigns(:file)
-    image = ConcertoImageMagick.load_image(file.file_contents)    
-    assert_equal 150, image.rows
-    assert_equal 200, image.columns
+    image = ConcertoImageMagick.load_image(file.file_contents)
+    assert_operator 150, :>=, image.rows
+    assert_operator 200, :>=, image.columns
     
     get :display, :id => c.id, :width => "150"
     
     file = assigns(:file)
-    image = ConcertoImageMagick.load_image(file.file_contents)    
-    assert_equal 150, image.rows
-    assert_equal 200, image.columns
+    image = ConcertoImageMagick.load_image(file.file_contents)
+    assert_operator 150, :>=, image.rows
+    assert_operator 200, :>=, image.columns
     
     get :display, :id => c.id, :width => "75", :height => "100"
 
     file = assigns(:file)
     require 'concerto_image_magick'
-    image = ConcertoImageMagick.load_image(file.file_contents)    
-    assert_equal 75, image.rows
-    assert_equal 100, image.columns
+    image = ConcertoImageMagick.load_image(file.file_contents)
+    assert_operator 75, :>=, image.rows
+    assert_operator 100, :>=, image.columns
   end
 
   test "render cropped content preview" do
