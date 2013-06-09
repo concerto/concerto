@@ -8,7 +8,8 @@ end
 Concerto::Application.routes.draw do
   v1_router = LegacyRouteMatcher.new
   match '/' => 'frontend/screens#index', :constraints => v1_router
-  match '/screen' => 'frontend/screens#index', :constraints => v1_router
+  match '/screen' => 'frontend/screens#index', :constraints => v1_router, :as => 'legacy_frontend'
+
   root :to => 'feeds#index'
 
   resources :concerto_plugins

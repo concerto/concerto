@@ -27,4 +27,10 @@ class RoutesTest < ActionController::IntegrationTest
     assert_recognizes({:controller => 'frontend/screens', :action => 'index'}, "?mac=123")
     assert_recognizes({:controller => 'frontend/screens', :action => 'index'}, "screen?mac=123")
   end
+
+  test "screen urls OK" do
+    assert_recognizes({:controller => 'screens', :action => 'index'}, 'screens')
+    assert_recognizes({:controller => 'screens', :action => 'show', :id => '1'}, 'screens/1')
+    assert_equal screen_path(screens(:one)), "/screens/#{screens(:one).id}"
+  end
 end
