@@ -34,4 +34,8 @@ class Frontend::ScreensControllerTest < ActionController::TestCase
     assert_equal ActiveSupport::JSON.decode(@response.body), {}
   end
 
+  test "v1 redirects to screen" do
+    get(:index, {:mac => screens(:one).id})
+    assert_redirected_to frontend_screen_path(screens(:one))
+  end
 end

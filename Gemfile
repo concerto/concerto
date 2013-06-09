@@ -16,7 +16,7 @@ end
 # The Gemfile-plugins gem list is managed by Concerto itself,
 # through the ConcertoPlugins controller.
 group :concerto_plugins do
-  eval File.read(basedir+'/Gemfile-plugins')
+  eval File.read(basedir+'/Gemfile-plugins') if File.exists?(basedir+'/Gemfile-plugins')
 end
 
 # Gems used for assets and not required

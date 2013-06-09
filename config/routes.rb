@@ -1,7 +1,31 @@
+class LegacyRouteMatcher
+  # Catch requests that have a 'mac' parameter.
+  def matches?(request)
+    return !request.query_parameters[:mac].nil?
+  end
+end
+
 Concerto::Application.routes.draw do
+
+  resources :screens do
+    resources :fields, :only => [] do
+      resources :subscriptions do
+        collection do
+          get :manage
+          put :save_all
+        end
+      end
+    end
+  end
+
+  v1_router = LegacyRouteMatcher.new
+  get '/' => 'frontend/screens#index', :constraints => v1_router
+  get '/screen' => 'frontend/screens#index', :constraints => v1_router
+  root :to => 'feeds#index'
+
   resources :concerto_plugins
   post 'concerto_plugins/restart_for_plugin' => 'concerto_plugins#restart_for_plugin'
-  
+
   resources :activities
 
   #Custom route for the screen creation/admin form JS
@@ -13,7 +37,7 @@ Concerto::Application.routes.draw do
   # about what you are doing because they could break things in
   # a very visible way.
   namespace :frontend do
-    resources :screens, :only => [:show], :path => '' do
+    resources :screens, :only => [:show, :index], :path => '' do
       member do
         get :setup
       end
@@ -45,17 +69,6 @@ Concerto::Application.routes.draw do
       post :import
     end
   end
-
-  resources :screens do
-    resources :fields, :only => [] do
-      resources :subscriptions do
-        collection do
-          get :manage
-          put :save_all
-        end
-      end
-    end
-  end
   
   resources :groups do
     resources :memberships, :only => [:create, :update, :destroy] do     
@@ -64,9 +77,10 @@ Concerto::Application.routes.draw do
   
   resources :kinds
 
-  get "moderate/" => "feeds#moderate"
-
   resources :feeds do
+    collection do
+      get :moderate
+    end
     resources :submissions, :only => [:index, :show, :update]
   end
 
@@ -145,8 +159,6 @@ Concerto::Application.routes.draw do
   # here at the bottom to avoid capturing any of the restful content paths.
   get 'content/' => 'feeds#index'
   get 'browse/' => 'feeds#index'
-
-  root :to => 'feeds#index'
 
   # See how all your routes lay out with "rake routes"
 
