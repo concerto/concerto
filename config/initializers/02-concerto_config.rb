@@ -21,7 +21,6 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("allow_registration", "true", :value_type => "boolean")
     ConcertoConfig.make_concerto_config("allow_user_screen_creation", "false", :value_type => "boolean")
     ConcertoConfig.make_concerto_config("allow_user_feed_creation", "true", :value_type => "boolean")
-    ConcertoConfig.make_concerto_config("rubygem_executable", "gem")
     ConcertoConfig.make_concerto_config("autostart_delayed_job", "true", :value_type => "boolean")
     ConcertoConfig.make_concerto_config("dynamic_refresh_time", "0", :value_type => "integer", :hidden => "true")
     ConcertoConfig.make_concerto_config("use_frontend_to_trigger_cron", "false", :value_type => "boolean")
