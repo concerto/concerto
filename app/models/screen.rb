@@ -8,8 +8,7 @@ class Screen < ActiveRecord::Base
   has_many :fields, :through => :positions
 
   # Validations
-  validates :name, :presence => true
-  validates_uniqueness_of :name
+  validates :name, :presence => true, :uniqueness => true
   validates :template, :presence => true, :associated => true
   #These two validations are used to solve problems with the polymorphic 
   #presence and associated tests.

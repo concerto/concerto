@@ -14,6 +14,7 @@ class ScreenTest < ActiveSupport::TestCase
   test "template cannot be blank or unassociated" do
     s = screens(:one)
     screen = Screen.new(s.attributes)
+    screen.name = "New screen"
     screen.owner = users(:katie)
     screen.template_id = ""
     assert !screen.valid?, "Screen template is blank"
