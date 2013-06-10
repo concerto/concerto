@@ -70,7 +70,6 @@ Screen.find_or_create_by_name(:name => "Sample Screen", :location => "Cafe", :is
 #Create initial subscriptions for the sample Screen
 feed_id = Feed.first.id
 screen_id= Screen.first.id
-i = 0
-Field.where("name <> 'Dynamic'").each do |f|
-  Subscription.find_or_create_by_id(:id => ++i, :feed_id => feed_id, :field_id => f.id, :screen_id => screen_id, :weight => 1)
+Field.where(:name != 'Dynamic').each do |f|
+  Subscription.find_or_create_by(:feed_id => feed_id, :field_id => f.id, :screen_id => screen_id, :weight => 1)
 end

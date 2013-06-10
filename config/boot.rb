@@ -35,7 +35,7 @@ if concerto_base_config['automatic_bundle_installation'] == true && ENV['RAILS_E
   end
   
   #get output of the bundle install command for later possible use
-  bundle_output = `bundle install --path vendor/bundle`
+  bundle_output = system("bundle install #{concerto_base_config['bundle_install_options']}")
   #use the magical object from $? to get status of output
   result = $?.success?
   
