@@ -2,32 +2,45 @@
   Dashboard
 <% end %>
 <div class="row-fluid">
-  <div class="span9">
+  <div class="span7">
     <section class="viewblock">
       <header class="viewblock-header" id="browse-header">
         <%= render :partial => "feeds/browse_header" %>
       </header>
       <div id="browse-body" class="viewblock-cont">
+        <% if @pending_submissions_count and @pending_submissions_count > 0 %>
+          <div class="alert alert-banner">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4><%= link_to t('.submissions_to_moderate', :count => @pending_submissions_count),  main_app.moderate_feeds_path %></h4>
+          </div>
+        <% end %>
+
         <%= render :partial => "feeds/browse_body" %>
-        
       </div>
     </section>
   </div>
-  <div class="span3">
+  <div class="span5">
     <% if user_signed_in? %>
     <section class="viewblock">
       <header class="viewblock-header">
-        <h1 class="default-padding"><%= t('.my_concerto') %></h1>
+        <h1 class="default-padding"><%= t('.latest_activity') %></h1>
+      </header>
+      <div class="viewblock-cont">
+        <%= render :partial => 'activities/show' %>
+      </div>
+    </section>
+
+    <section class="viewblock">
+      <header class="viewblock-header">
+        <h1 class="default-padding"><%= t('.your_network') %></h1>
       </header>
       <div class="viewblock-cont">
         <div class="default-padding">
-          <p><%= t('.belong_to_groups') %></p>
           <ul>
           <% current_user.groups.each do |group| %>
             <li><%= link_to group.name, group %></li>
           <% end %>
           </ul>
-          <%= render :partial => 'activities/show' %>
         </div>
         
       </div>

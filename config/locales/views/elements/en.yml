@@ -3,7 +3,8 @@ en:
     topmenu_contents:
       accounts: "Accounts"
       admin: "Admin"
-      dashboard: "Dashboard"
+      browse: "Browse"
+      dashboard_tooltip: "View the Concerto Dashboard"
       backup: "Backup"
       restart_webserver: "Restart Webserver"
       content: "Content"
