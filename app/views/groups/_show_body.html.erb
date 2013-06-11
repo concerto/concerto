@@ -58,7 +58,7 @@
                       <td>
                         <ul class="inputs-list">
                             <li> 
-                              <%= select_tag :permission , options_for_select(levels.keys.each) %>
+                              <%= select_tag "#{m.object_name}[perms][#{perm.to_s}]", options_for_select(levels.keys) %>
                             </li> 
                         </ul>
                       </td>
@@ -140,7 +140,6 @@
         </div>
       <% end %>
     <% end %>
-
     <br />
 
     <% can_join = can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending])
