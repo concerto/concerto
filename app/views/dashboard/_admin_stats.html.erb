@@ -1,7 +1,7 @@
 <section class="viewblock">
   <header class="viewblock-header">
     <div class="viewblock-header_right">
-      <div class="default-padding">
+      <div class="button-padding">
         <%= link_to t('.backup'), dashboard_run_backup_path, :class => "btn" %>
         <%= link_to t('.restart_webserver'), { :controller => :concerto_plugins, :action => "restart_for_plugin" }, :method => :post, :confirm => "Restarting the webserver may take a 10 to 20 seconds. Are you sure you'd like to restart?", :class => "btn" %>
       </div>
@@ -31,9 +31,9 @@
 
           <h1>
             <% if @delayed_job_running %>
-                <i class="ficon-play-circle"></i><%= t('.running') %>
+                <i class="ficon-play-circle"></i> <%= t('.running') %>
             <% else %>
-                <i class="ficon-stop"></i><%= t('.stopped') %>
+                <i class="ficon-stop"></i> <%= t('.stopped') %>
             <% end %>
             <small style="font-size: 0.4em; padding-left: 16px;"><%= link_to t('.start_stop'), "#", :style => "text-decoration: underline;" %></small>
           </h1>

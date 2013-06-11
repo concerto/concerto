@@ -6,7 +6,7 @@ en:
         moderation_reason: 'Reason'
 
   submissions:
-    moderate_title: 'moderate %{name}!'
+    moderate_title: 'Moderate %{name}'
 
     index_header:
       all_feeds: 'All Feeds'
