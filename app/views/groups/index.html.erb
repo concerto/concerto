@@ -2,11 +2,15 @@
   <div class="span12">
     <section class="viewblock">
       <header class="viewblock-header">
+        <div class="viewblock-header_right">
+          <div class="button-padding">
+            <% if can? :create, Group %>
+              <%= link_to t(:new_model, :model => Group.model_name.human), new_group_path, :class => "btn" %>
+            <% end %>
+          </div>
+        </div>
         <h1 class="default-padding">
           <%= t(:all_model, :model => Group.model_name.human.pluralize) %>
-          <% if can? :create, Group %>
-            <%= link_to t(:new_model, :model => Group.model_name.human), new_group_path, :class => "button" %>
-          <% end %>
         </h1>
       </header>
       <div class="viewblock-cont">

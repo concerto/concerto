@@ -1,10 +1,26 @@
+<div class="viewblock-header_right">
+  <div class="button-padding">
+    <% if can? :update, @feed %>
+      <%= link_to t(:edit_feed), edit_feed_path(@feed), :class => "btn" %>
+    <% end %>
+    <% if can? :delete, @feed %>
+      <%= link_to t(:delete_feed), @feed, :data => { :confirm => t(:are_you_sure) }, :method => :delete, :class => "btn" %>
+    <% end %>
+  </div>
+</div>
+
 <div class="default-padding">
   <h1 id="contentlist">
     <%= link_to t('.all_feeds'), feeds_path %> &gt; 
     <% @feed.ancestors.reverse.each do |ancestor_feed| %>
       <%= link_to ancestor_feed.name, feed_submissions_path(ancestor_feed) %> &gt; 
     <% end %>
-    <%= @feed.name %> (<%= t('.moderated_by') %> <%= link_to @feed.group.name, group_path(@feed.group) %>)
+    <%= @feed.name %>&nbsp;
+    <i class="ficon-info-sign dropdown-control dd-feedinfo"></i>
+
+    <div id="feedinfo" style="display: none;">
+      <%= t('.moderated_by') %> <%= link_to @feed.group.name, group_path(@feed.group) %>.
+    </div>
+     
   </h1>
 </div>
-
