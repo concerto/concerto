@@ -222,7 +222,7 @@ class ApplicationController < ActionController::Base
             JSON.parse(res.body).each do |tag|
               @versions << tag['ref'].gsub(/refs\/tags\//,'')
             end
-          rescue TypeError
+          rescue => e
             return -1
           end
           @versions.sort! {|x,y| y <=> x }
