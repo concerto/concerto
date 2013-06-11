@@ -11,6 +11,7 @@ class ScreenTest < ActiveSupport::TestCase
     screen.name = "Blah"
     assert screen.valid?, "Screen name has entry"
   end
+
   test "template cannot be blank or unassociated" do
     s = screens(:one)
     screen = Screen.new(s.attributes)
@@ -23,6 +24,7 @@ class ScreenTest < ActiveSupport::TestCase
     screen.template = templates(:one)
     assert screen.valid?, "Screen template is associated with one"
   end  
+
   test "owner must be group or user" do
     s = screens(:one)
     s.owner = users(:katie)
@@ -46,15 +48,18 @@ class ScreenTest < ActiveSupport::TestCase
     s.owner_id = 0
     assert !s.valid?, "Screen owner must be valid"
   end
+
   test "that a screen has an aspect ratio" do
     s = screens(:one)
     assert_equal 16, s.aspect_ratio[:width]
     assert_equal 9, s.aspect_ratio[:height]
   end
+
   test "a screen has positions" do
     s = screens(:one)
     assert !s.positions.empty?
   end
+
   test "a screen has fields" do
     s = screens(:one)
     assert !s.fields.empty?

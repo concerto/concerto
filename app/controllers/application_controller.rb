@@ -169,24 +169,6 @@ class ApplicationController < ActionController::Base
     redirect_to main_app.root_url, :flash => { :notice => exception.message }
   end
 
-  def latest_version
-    require 'open-uri'
-    begin
-      file = open('http://dl.concerto-signage.org/version.txt')
-      version = file.read.chomp!
-    rescue => e #OpenURI::HTTPError
-      logger.error("could not determine version number at primary location #{e.message}")
-      # any failure should result in trying to get the version via secondary location, github
-      version = gh_latest_version()
-    end
-
-    if version == -1
-      @latest_version = "999" # flag for use as warning later
-    else
-      @latest_version = version
-    end
-  end
-
   def delayed_job_running
     @delayed_job_running = false
     pidfile = "#{Rails.root}/tmp/pids/delayed_job.pid"
@@ -201,40 +183,7 @@ class ApplicationController < ActionController::Base
     end
     return @delayed_job_running
   end
-
-  def gh_latest_version
-    require 'net/https'
-    require 'uri'
-    require 'json'
     
-    begin
-      uri = URI.parse('https://api.github.com/repos/concerto/concerto/git/refs/tags')
-      http = Net::HTTP.new(uri.host, uri.port)
-      if uri.scheme == "https" # enable SSL/TLS
-        http.use_ssl = true
-        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-        http.ca_file = Rails.root.join('config', 'cacert.pem').to_s
-      end
-      http.start {
-        http.request_get(uri.path) {|res|
-          @versions = Array.new
-          begin
-            JSON.parse(res.body).each do |tag|
-              @versions << tag['ref'].gsub(/refs\/tags\//,'')
-            end
-          rescue => e
-            return -1
-          end
-          @versions.sort! {|x,y| y <=> x }
-          return @versions[0]
-        }
-      }
-    rescue => e# if for any reason we cannot determine the version then return an error condition
-      logger.error("could not determine version number at secondary location #{e.message}")
-      return -1
-    end
-  end
-
   # Authenticate using the current action and instance variables.
   # If the instance variable is an {Enumerable} or {ActiveRecord::Relation}
   # we remove anything that we cannot? from the array.
