@@ -58,7 +58,7 @@
                       <td>
                         <ul class="inputs-list">
                             <li> 
-                              <%= select_tag "#{m.object_name}[perms][#{perm.to_s}]", options_for_select(levels.keys) %>
+                              <%= select_tag "#{m.object_name}[perms][#{perm.to_s}]", options_for_select(levels.keys, m.object.perms[perm]) %>
                             </li> 
                         </ul>
                       </td>
