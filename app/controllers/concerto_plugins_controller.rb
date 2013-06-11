@@ -1,5 +1,5 @@
 class ConcertoPluginsController < ApplicationController
-  before_filter :latest_version, :only => [:index, :show, :new, :edit, :create]
+  before_filter :get_latest_version, :only => [:index, :show, :new, :edit, :create]
   before_filter :delayed_job_running, :only => [:index, :show, :new, :edit, :create]
 
   # GET /concerto_plugins
@@ -130,5 +130,9 @@ private
   # Restrict the allowed parameters to a select set defined in the model.
   def concerto_plugin_params
     params.require(:concerto_plugin).permit(:source, :gem_name, :source_url, :enabled, :gem_version)
+  end
+
+  def get_latest_version
+    @latest_version = VersionCheck.latest_version()
   end
 end

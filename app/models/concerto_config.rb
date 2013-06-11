@@ -13,6 +13,9 @@ class ConcertoConfig < ActiveRecord::Base
 
   validates_presence_of   :key
   validates_uniqueness_of :key
+  
+  #Newsfeed
+  include PublicActivity::Common if defined? PublicActivity::Common  
 
   after_destroy :cache_expire
 
@@ -35,7 +38,7 @@ class ConcertoConfig < ActiveRecord::Base
 
   # Make getting values from Rails nice and easy
   # Returns false if key isn't found or the config is broken.
-  def self.get(key, allow_cache=false)
+  def self.get(key, allow_cache=true)
     # First try a cache hit.
     begin
       if allow_cache
@@ -100,8 +103,10 @@ class ConcertoConfig < ActiveRecord::Base
     hit = Rails.cache.read('ConcertoConfig')
 
     if hit.nil? || hit[key].nil? || hit['config_last_updated'].nil? || last_updated != hit['config_last_updated']
+      Rails.logger.debug("Cache miss on #{key}")
       return nil
     else
+      Rails.logger.debug("Cache hit on #{key} -  #{hit[key]}")
       return hit[key]
     end
   end
@@ -112,8 +117,12 @@ class ConcertoConfig < ActiveRecord::Base
   def self.cache_rebuild()
     data = {}
     ConcertoConfig.all.each do |config|
+      if config.value_type == "boolean"
+        config.value = (config.value == "true")
+      end
       data[config.key] = config.value
     end
+    Rails.logger.debug('Writing cache')
     Rails.cache.write('ConcertoConfig', data)
   end
 end

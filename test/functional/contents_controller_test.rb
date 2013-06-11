@@ -101,4 +101,66 @@ class ContentsControllerTest < ActionController::TestCase
     get(:show, :id => 99999999)
     assert_redirected_to browse_path
   end
+  
+  test "render full content preview" do
+    c = contents(:sample_image)
+    sign_in users(:admin)
+    get :display, :id => c.id
+
+    file = assigns(:file)
+    require 'concerto_image_magick'
+    image = ConcertoImageMagick.load_image(file.file_contents)
+    assert_equal 750, image.rows
+    assert_equal 1000, image.columns
+  end
+  
+  test "render resized content preview" do
+    c = contents(:sample_image)
+    sign_in users(:admin)
+    
+    get :display, :id => c.id, :height => "150", :width => "200"
+
+    file = assigns(:file)
+    require 'concerto_image_magick'
+    image = ConcertoImageMagick.load_image(file.file_contents)
+    assert_in_delta 150, image.rows, 1
+    assert_in_delta 200, image.columns, 1
+    
+    get :display, :id => c.id, :height => "100", :witdh => "100"
+
+    file = assigns(:file)
+    require 'concerto_image_magick'
+    image = ConcertoImageMagick.load_image(file.file_contents)
+    assert_in_delta 100, image.rows, 1
+    assert_in_delta 133, image.columns, 1
+  end
+
+  test "render single dimension resize content" do
+    c = contents(:sample_image)
+    sign_in users(:admin)
+
+    get :display, :id => c.id, :height => "200"
+
+    file = assigns(:file)
+    image = ConcertoImageMagick.load_image(file.file_contents)
+    assert_in_delta 200, image.rows, 1
+
+    get :display, :id => c.id, :width => "150"
+
+    file = assigns(:file)
+    image = ConcertoImageMagick.load_image(file.file_contents)
+    assert_in_delta 150, image.columns, 1
+  end
+
+  test "render cropped content preview" do
+    c = contents(:sample_image)
+    sign_in users(:admin)
+    get :display, :id => c.id, :crop => "true", :width => "200", :height => "200"
+
+    file = assigns(:file)
+    require 'concerto_image_magick'
+    image = ConcertoImageMagick.load_image(file.file_contents)
+    assert_equal 200, image.rows
+    assert_equal 200, image.columns
+  end
 end

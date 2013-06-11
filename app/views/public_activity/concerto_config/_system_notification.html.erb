@@ -1,0 +1,5 @@
+<% if activity.trackable %>
+  System Notification:<%= activity.parameters[:message] %>
+<% else %>
+  <%= t('public_activity.which_has_since_been_removed') %>
+<% end %>

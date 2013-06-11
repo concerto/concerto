@@ -6,11 +6,13 @@ en:
         moderation_reason: 'Reason'
 
   submissions:
-    moderate_title: 'moderate %{name}!'
+    moderate_title: 'Moderate %{name}'
 
     index_header:
       all_feeds: 'All Feeds'
-      moderated_by: 'moderated by'
+      moderated_by: 'This feed is moderated by'
+      edit_feed: 'Edit Feed'
+      delete_feed: 'Delete Feed'
 
     approval_info:
       submitted_by: 'Submitted By'
