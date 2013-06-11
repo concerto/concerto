@@ -13,10 +13,10 @@
 
     <div class="row-fluid">
       <div class="span4">
-        <div class="default-padding<% if @latest_version > Concerto::VERSION::STRING %> alert alert-block alert-removeborder<% end %>">
+        <div class="default-padding<% if !@latest_version.nil? && @latest_version > Concerto::VERSION::STRING %> alert alert-block alert-removeborder<% end %>">
           <h5><%= t ('.concerto_version') %></h5>
           <h1><%= Concerto::VERSION::STRING %></h1>
-          <% if @latest_version == '999' %>
+          <% if @latest_version.nil? %>
               <i class="ficon-exclamation-sign" style="font-size: 1.4em;"></i>
               <b><%= t('.cant_determine_latest_version') %></b>
           <% elsif @latest_version > Concerto::VERSION::STRING %>
