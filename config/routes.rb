@@ -80,6 +80,7 @@ Concerto::Application.routes.draw do
   resources :feeds do
     collection do
       get :moderate
+      get :browse
     end
     resources :submissions, :only => [:index, :show, :update]
   end

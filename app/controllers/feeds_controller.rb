@@ -19,6 +19,21 @@ class FeedsController < ApplicationController
     @feeds.each { |node| node.submissions.each { |submission| if submission.moderation_flag == true then @active_content += 1 end } }
   end
 
+  # GET /feeds/browse
+  # GET /feeds/browse.xml
+  # GET /feeds/browse.js
+  def browse
+    @feeds = Feed.roots
+    auth!
+    respond_to do |format|
+      format.html { } # index.html.erb
+      format.xml  { render :xml => @feeds }
+      format.js { render :layout => false }
+    end
+    @active_content = 0
+    @feeds.each { |node| node.submissions.each { |submission| if submission.moderation_flag == true then @active_content += 1 end } }
+  end
+
   # GET /moderate
   # GET /moderate.js
   def moderate

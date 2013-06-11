@@ -36,6 +36,7 @@
       </header>
       <div class="viewblock-cont">
         <div class="default-padding">
+          <p><%= t('.groups') %>:</p>
           <ul>
           <% current_user.groups.each do |group| %>
             <li><%= link_to group.name, group %></li>
