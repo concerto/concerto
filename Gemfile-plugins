@@ -1,0 +1,8 @@
+
+gem "better_errors"
+
+gem 'concerto_simple_rss'
+
+gem 'concerto_remote_video'
+
+gem 'concerto_weather'
