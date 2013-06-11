@@ -18,7 +18,7 @@
       <% end %>
     </p>
   <% else %>
-    <%= link_to main_app.root_url, :id => "top-menu-logobutton", :class => "full" do %>
+    <%= link_to main_app.root_url, :id => "top-menu-logobutton", :class => "full #{ current_page?(main_app.root_url) ? 'selected' : '' }" do %>
       <i class="icon-logobutton"></i>
     <% end %>
 
