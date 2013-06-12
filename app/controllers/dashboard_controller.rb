@@ -1,5 +1,4 @@
 class DashboardController < ApplicationController
-  before_filter :delayed_job_running, :only => :index
 
   # GET /dashboard
   def index

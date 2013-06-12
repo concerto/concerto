@@ -168,22 +168,7 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to main_app.root_url, :flash => { :notice => exception.message }
   end
-
-  def delayed_job_running
-    @delayed_job_running = false
-    pidfile = "#{Rails.root}/tmp/pids/delayed_job.pid"
-    if File.exist?(pidfile)
-      require 'sys/proctable'
-      pid = File.read(pidfile).strip.to_i    
-      Sys::ProcTable.ps do |process|
-        if process.pid == pid && (process.state.strip.downcase == "run" || process.state.strip.downcase == "s")
-          @delayed_job_running = true
-        end
-      end
-    end
-    return @delayed_job_running
-  end
-    
+   
   # Authenticate using the current action and instance variables.
   # If the instance variable is an {Enumerable} or {ActiveRecord::Relation}
   # we remove anything that we cannot? from the array.
