@@ -29,8 +29,10 @@
           </tr>
       <% end %>
     </table>
+
+    <div class="pagination-cont default-padding" style="padding-top: 0px; padding-bottom: 0px;">
+      <%= paginate @users %>
+    </div>
   </div>
-  <div class="pagination-cont">
-    <%= paginate @users %>
-  </div>
+  
 </section>
