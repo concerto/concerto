@@ -25,6 +25,21 @@ class Frontend::ScreensController < ApplicationController
       end
     end
   end
+  
+  # GET /frontend
+  # Handles legacy screens and stuff that doesn't know their id.
+  def index
+    if params[:mac]
+      screen = Screen.find_by_mac(params[:mac])
+      if screen
+        redirect_to frontend_screen_path(screen), :status => :moved_permanently
+      else
+        render :text => "Screen not found.", :status => 404
+      end
+    else
+      render :text => 'Bad request.', :status => 400
+    end  
+  end
 
   # GET /frontend/1/setup.json
   # Get information required to setup the screen

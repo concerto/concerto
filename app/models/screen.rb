@@ -11,7 +11,7 @@ class Screen < ActiveRecord::Base
   has_many :fields, :through => :positions
 
   # Validations
-  validates :name, :presence => true
+  validates :name, :presence => true, :uniqueness => true
   validates :template, :presence => true, :associated => true
   #These two validations are used to solve problems with the polymorphic 
   #presence and associated tests.
@@ -70,6 +70,15 @@ class Screen < ActiveRecord::Base
 
   def is_offline?
     frontend_updated_at.nil? || frontend_updated_at < (Clock.time - Screen::OFFLINE_THRESHOLD)
+  end
+
+  def self.find_by_mac(mac_addr)
+    begin
+      screen = Screen.find(mac_addr)
+      return screen
+    rescue ActiveRecord::ActiveRecordError
+      return nil
+    end
   end
 end
 

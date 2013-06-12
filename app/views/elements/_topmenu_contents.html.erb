@@ -28,7 +28,7 @@
         <%= link_to t('.dashboard'), main_app.feeds_path, :class => "btn #{ current_page?(main_app.feeds_path) || current_page?(main_app.root_path) ? 'selected' : '' }" %>
         <%= link_to t(:add), main_app.new_content_path, :class => "btn #{ current_page?(main_app.new_content_path) ? 'selected' : '' }" if can? :create, Content %>
         <% if @pending_submissions_count %>
-          <%= link_to main_app.moderate_path, :class => "tooltip-basic btn #{ current_page?(main_app.moderate_path) ? 'selected' : '' }", 'data-tooltip-text' => t('.submissions_to_moderate', :count => @pending_submissions_count) do %>
+          <%= link_to main_app.moderate_feeds_path, :class => "tooltip-basic btn #{ current_page?(main_app.moderate_feeds_path) ? 'selected' : '' }", 'data-tooltip-text' => t('.submissions_to_moderate', :count => @pending_submissions_count) do %>
             <%= t('.moderate') %>&nbsp;<span class="badge<% if @pending_submissions_count > 0 %> action<% end %>"><%= @pending_submissions_count %></span>
           <% end %>
         <% end %>
@@ -74,7 +74,7 @@
         </div>
         <div class="pull-right">
           <h2><%= link_to current_user.name, [main_app, current_user] %></h2>
-          <p><%= link_to t('.settings'), main_app.edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;<%= link_to t('.log_out'), main_app.destroy_user_session_path %></p>
+          <p style="margin: 0px;"><%= link_to t('.settings'), main_app.edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;<%= link_to t('.log_out'), main_app.destroy_user_session_path %></p>
         </div>
 
       </div>

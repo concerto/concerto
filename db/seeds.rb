@@ -12,6 +12,11 @@
   Kind.find_or_create_by_name kind
 end
 
+#Default plugins
+ConcertoPlugin.find_or_create_by_gem_name({:gem_name => "concerto_weather", :enabled => true, :source => "rubygems"})
+ConcertoPlugin.find_or_create_by_gem_name({:gem_name => "concerto_remote_video", :enabled => true, :source => "rubygems"})
+ConcertoPlugin.find_or_create_by_gem_name({:gem_name => "concerto_simple_rss", :enabled => true, :source => "rubygems"})
+
 # Establish the 4 major display areas a template usually has.
 # In my quick sample, this code will make 68% of the Concerto 1 fields match
 # up correct with the new Concerto 2 fields.  Magic will have to handle the other
@@ -70,7 +75,6 @@ Screen.find_or_create_by_name(:name => "Sample Screen", :location => "Cafe", :is
 #Create initial subscriptions for the sample Screen
 feed_id = Feed.first.id
 screen_id= Screen.first.id
-i = 0
-Field.where("name <> 'Dynamic'").each do |f|
-  Subscription.find_or_create_by_id(:id => ++i, :feed_id => feed_id, :field_id => f.id, :screen_id => screen_id, :weight => 1)
+Field.where(:name != 'Dynamic').each do |f|
+  Subscription.find_or_create_by(:feed_id => feed_id, :field_id => f.id, :screen_id => screen_id, :weight => 1)
 end

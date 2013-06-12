@@ -1,7 +1,20 @@
+class LegacyRouteMatcher
+  # Catch requests that have a 'mac' parameter.
+  def matches?(request)
+    return !request.query_parameters[:mac].nil?
+  end
+end
+
 Concerto::Application.routes.draw do
+  v1_router = LegacyRouteMatcher.new
+  match '/' => 'frontend/screens#index', :constraints => v1_router
+  match '/screen' => 'frontend/screens#index', :constraints => v1_router, :as => 'legacy_frontend'
+
+  root :to => 'feeds#index'
+
   resources :concerto_plugins
   match 'concerto_plugins/restart_for_plugin' => 'concerto_plugins#restart_for_plugin', :via => "post"
-  
+
   resources :activities
 
   #Custom route for the screen creation/admin form JS
@@ -14,7 +27,7 @@ Concerto::Application.routes.draw do
   # a very visible way.
   namespace :frontend do
     root :to => 'screen_auth#index'
-    resources :screens, :only => [:show], :path => '' do
+    resources :screens, :only => [:show, :index], :path => '' do
       member do
         get :setup
       end
@@ -70,9 +83,10 @@ Concerto::Application.routes.draw do
   
   resources :kinds
 
-  match "moderate/" => "feeds#moderate"
-
   resources :feeds do
+    collection do
+      get :moderate
+    end
     resources :submissions, :only => [:index, :show, :update]
   end
 
@@ -151,8 +165,6 @@ Concerto::Application.routes.draw do
   # here at the bottom to avoid capturing any of the restful content paths.
   match 'content/' => 'feeds#index'
   match 'browse/' => 'feeds#index'
-
-  root :to => 'feeds#index'
 
   # See how all your routes lay out with "rake routes"
 

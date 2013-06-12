@@ -16,7 +16,7 @@ end
 # The Gemfile-plugins gem list is managed by Concerto itself,
 # through the ConcertoPlugins controller.
 group :concerto_plugins do
-  eval File.read(basedir+'/Gemfile-plugins')
+  eval File.read(basedir+'/Gemfile-plugins') if File.exists?(basedir+'/Gemfile-plugins')
 end
 
 # Gems used only for assets and not required
@@ -28,11 +28,6 @@ group :assets do
   gem 'execjs'
   gem 'uglifier', '>= 1.0.3'
 end
-
-group :development do
-  gem "better_errors", ">= 0.7.2"
-  gem "binding_of_caller", ">= 0.7.1"
-end if RUBY_VERSION >= "1.9"
 
 gem 'jquery-rails'
 gem 'turbolinks'
@@ -63,9 +58,6 @@ gem "daemons"
 # Test Coverage
 gem 'simplecov', :require => false, :group => :test
 
-#Cross-platform monitoring of processes
-gem 'sys-proctable'
-
 gem 'rails-backup-migrate'
 
 gem 'strong_parameters'
@@ -74,8 +66,3 @@ gem 'kaminari'  # Pagination
 
 # Enable the newsfeed for 1.9+ users.
 gem 'public_activity' if RUBY_VERSION >= "1.9"
-
-# Default content type plugins.
-gem 'concerto_simple_rss'
-gem 'concerto_remote_video'
-gem 'concerto_weather'

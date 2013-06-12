@@ -27,6 +27,7 @@ class SubmissionsController < ApplicationController
       @submissions = @feed.submissions.approved.active
       state = 'active'
     end
+    @submissions = @submissions.includes(:content)
     @paginated_submissions = @submissions
     @paginated_submissions = @submissions.page(params[:page]).per(100) unless @paginated_submissions.kind_of?(Array)
     @state = state

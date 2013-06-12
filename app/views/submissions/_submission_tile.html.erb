@@ -4,6 +4,9 @@
     <%= render_content(submission.content, {:type => 'tile'}) %>
   </div>
   <div class="brand">
+    <% type_folder = "contents/#{submission.content.type.underscore}" %>
+    <%= render_partial_if("#{type_folder}/tab_icon") %>
+
     <% # Note: The line below is extra verbose for performance reasons.  See #483. %>
     <% if !submission.content.children.empty? &&
           !submission.content.children.active.empty? %>

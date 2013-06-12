@@ -1,4 +1,6 @@
 en:
+  smtp_send_error: "A SMTP error occurred while sending a notification e-mail. Please check the Concerto SMTP settings."
+
   #Contents controller
   content_created: "Content was successfully created."
   content_created_no_feeds: "Content was successfully created. Since no feeds were supplied, content will remain in limbo."
