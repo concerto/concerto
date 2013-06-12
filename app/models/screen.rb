@@ -93,7 +93,7 @@ class Screen < ActiveRecord::Base
 
   def mac_address
     mac = token_by_type('mac')
-    mac = MacAddr::expand(token_by_type('mac')) unless mac.nil?
+    mac = MacAddr::expand(mac) unless mac.nil?
     return mac
   end
 
