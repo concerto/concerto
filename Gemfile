@@ -58,9 +58,6 @@ gem "daemons"
 # Test Coverage
 gem 'simplecov', :require => false, :group => :test
 
-#Cross-platform monitoring of processes
-gem 'sys-proctable'
-
 gem 'rails-backup-migrate'
 
 gem 'strong_parameters'
