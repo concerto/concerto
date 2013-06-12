@@ -38,4 +38,9 @@ class Frontend::ScreensControllerTest < ActionController::TestCase
     get(:index, {:mac => 'a1:b2:c3'})
     assert_redirected_to frontend_screen_path(screens(:two))
   end
+
+  test "v1 forbids private screens" do
+    get(:index, {:mac => 'deadbeef'})
+    assert_response :forbidden
+  end
 end
