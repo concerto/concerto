@@ -35,16 +35,10 @@ GEM
     arel (3.0.2)
     attachable (0.0.5)
     bcrypt-ruby (3.0.1)
-    better_errors (0.9.0)
-      coderay (>= 1.0.0)
-      erubis (>= 2.6.6)
-    binding_of_caller (0.7.1)
-      debug_inspector (>= 0.0.1)
     bootstrap-datepicker-rails (1.0.0.7)
       railties (>= 3.0)
     builder (3.0.4)
     cancan (1.6.10)
-    coderay (1.0.9)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -52,6 +46,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.2)
+    concerto_iframe (0.0.1)
+      rails (~> 3.2)
     concerto_remote_video (0.0.4)
       rails (~> 3.2)
     concerto_simple_rss (0.0.3)
@@ -60,7 +56,6 @@ GEM
       rails (~> 3.2.12)
     connection_pool (1.0.0)
     daemons (1.1.9)
-    debug_inspector (0.0.2)
     delayed_job (3.0.5)
       activesupport (~> 3.0)
     delayed_job_active_record (0.4.4)
@@ -154,7 +149,6 @@ GEM
       actionpack (~> 3.0)
       activemodel (~> 3.0)
       railties (~> 3.0)
-    sys-proctable (0.9.3)
     therubyracer (0.11.4)
       libv8 (~> 3.11.8.12)
       ref
@@ -178,11 +172,10 @@ PLATFORMS
 DEPENDENCIES
   airbrake
   attachable (>= 0.0.5)
-  better_errors (>= 0.7.2)
-  binding_of_caller (>= 0.7.1)
   bootstrap-datepicker-rails
   cancan
   coffee-rails (~> 3.2.1)
+  concerto_iframe
   concerto_remote_video
   concerto_simple_rss
   concerto_weather
@@ -204,7 +197,6 @@ DEPENDENCIES
   simplecov
   sqlite3
   strong_parameters
-  sys-proctable
   therubyracer
   turbolinks
   uglifier (>= 1.0.3)
