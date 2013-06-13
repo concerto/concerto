@@ -15,6 +15,7 @@ two:
   is_public: true
   owner: wtg (Group)
   template: one
+  authentication_token: mac:a1b2c3
 
 rpitv:
   name: RPI TV Screen
@@ -22,3 +23,4 @@ rpitv:
   is_public: false
   owner: rpitv (Group)
   template: one
+  authentication_token: mac:deadbeef

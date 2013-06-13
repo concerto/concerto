@@ -1,10 +1,14 @@
 <section class="viewblock">
   <header class="viewblock-header">
+    <div class="viewblock-header_right">
+      <div class="button-padding">
+        <% if can? :create, User %>
+          <%= link_to t(:new_model, :model => User.model_name.human), new_user_path, :class => "btn" %>
+        <% end %>
+      </div>
+    </div>
     <h1 class="default-padding">
-    <%= t(:all_model, :model => User.model_name.human.pluralize) %>
-    <% if can? :create, User %>
-      <%= link_to t(:new_model, :model => User.model_name.human), new_user_path, :class => "button" %>
-    <% end %>
+      <%= t(:all_model, :model => User.model_name.human.pluralize) %>
     </h1>
   </header>
   <div class="viewblock-cont">
@@ -26,5 +30,9 @@
       <% end %>
     </table>
 
+    <div class="pagination-cont default-padding" style="padding-top: 0px; padding-bottom: 0px;">
+      <%= paginate @users %>
+    </div>
   </div>
+  
 </section>

@@ -24,7 +24,7 @@
       <tbody>
         <% @concerto_plugins.each do |concerto_plugin| %>
           <tr>
-            <td><span class="badge"><%= concerto_plugin.enabled ? t('.enabled') : t('.disabled')%></span></td>
+            <td><%= status_badge(concerto_plugin.enabled) %></td>
             <td><%= concerto_plugin.name %></td>
             <td><%= concerto_plugin.gem_version %></td>
             <td><%= plugin_source(concerto_plugin.source) %></td>

@@ -175,7 +175,7 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
         this.autoAdvance, false, this);
     this.next_contents_.peek().startLoad();
     return;
-  };
+  }
   /** END HACK HACK HACK */
 
   this.connection_.send('field' + this.id, this.content_url, 'GET', '', null, 1,

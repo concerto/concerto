@@ -9,4 +9,10 @@ module ConcertoPluginsHelper
     # return raw value if someone messed up the localization entry
     source
   end
+
+  def status_badge (enabled)
+    content_tag :span, :class => "badge" + (!enabled ? " muted" : "") do 
+      enabled ? t('.enabled') : t('.disabled')
+    end
+  end
 end

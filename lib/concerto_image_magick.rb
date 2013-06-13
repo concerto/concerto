@@ -75,8 +75,8 @@ module ConcertoImageMagick
     options[:maintain_aspect_ratio] = true if options[:maintain_aspect_ratio].nil?
     options[:expand_to_fit] ||= false
 
-    output_width = desired_width
-    output_height = desired_height
+    output_width = desired_width || 0
+    output_height = desired_height || 0
 
     if options[:maintain_aspect_ratio]
       image_ratio = image_width.to_f / image_height  # Forcing the float here is important

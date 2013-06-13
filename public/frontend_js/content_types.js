@@ -12,3 +12,4 @@ goog.require('concerto.frontend.Content.Graphic');
 goog.require('concerto.frontend.Content.HtmlText');
 goog.require('concerto.frontend.Content.Ticker');
 goog.require('concerto.frontend.Content.RemoteVideo');
+goog.require('concerto.frontend.Content.Iframe');

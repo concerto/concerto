@@ -21,7 +21,6 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("allow_registration", "true", :value_type => "boolean")
     ConcertoConfig.make_concerto_config("allow_user_screen_creation", "false", :value_type => "boolean")
     ConcertoConfig.make_concerto_config("allow_user_feed_creation", "true", :value_type => "boolean")
-    ConcertoConfig.make_concerto_config("rubygem_executable", "gem")
     ConcertoConfig.make_concerto_config("autostart_delayed_job", "true", :value_type => "boolean")
     ConcertoConfig.make_concerto_config("dynamic_refresh_time", "0", :value_type => "integer", :hidden => "true")
     ConcertoConfig.make_concerto_config("use_frontend_to_trigger_cron", "false", :value_type => "boolean")
@@ -37,7 +36,7 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("smtp_username", "", :value_type => "string")
     ConcertoConfig.make_concerto_config("smtp_password", "", :value_type => "string")  
     ConcertoConfig.make_concerto_config("system_time_zone", 'Eastern Time (US & Canada)', :value_type => "timezone") 
-    ConcertoConfig.make_concerto_config("config_last_updated", "0", :value_type => "integer")
+    ConcertoConfig.make_concerto_config("config_last_updated", "0", :value_type => "integer", :hidden => "true")
   end
 
   Rails.logger.debug "Completed 02-concerto_config.rb at #{Time.now.to_s}"

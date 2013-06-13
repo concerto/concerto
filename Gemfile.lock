@@ -132,7 +132,6 @@ GEM
       activesupport (>= 3.0)
       sprockets (~> 2.8)
     sqlite3 (1.3.7)
-    sys-proctable (0.9.3)
     therubyracer (0.11.4)
       libv8 (~> 3.11.8.12)
       ref
@@ -178,7 +177,6 @@ DEPENDENCIES
   sass-rails (~> 4.0.0.rc1)
   simplecov
   sqlite3
-  sys-proctable
   therubyracer
   turbolinks
   uglifier (>= 1.3.0)

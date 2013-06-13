@@ -13,6 +13,9 @@ class ConcertoConfig < ActiveRecord::Base
 
   validates_presence_of   :key
   validates_uniqueness_of :key
+  
+  #Newsfeed
+  include PublicActivity::Common if defined? PublicActivity::Common  
 
   after_destroy :cache_expire
 

@@ -2,11 +2,15 @@
   <div class="span12">
     <section class="viewblock">
       <header class="viewblock-header">
+        <div class="viewblock-header_right">
+          <div class="button-padding">
+            <% if can? :create, Group %>
+              <%= link_to t(:new_model, :model => Group.model_name.human), new_group_path, :class => "btn" %>
+            <% end %>
+          </div>
+        </div>
         <h1 class="default-padding">
           <%= t(:all_model, :model => Group.model_name.human.pluralize) %>
-          <% if can? :create, Group %>
-            <%= link_to t(:new_model, :model => Group.model_name.human), new_group_path, :class => "button" %>
-          <% end %>
         </h1>
       </header>
       <div class="viewblock-cont">
@@ -21,7 +25,7 @@
                   <%= link_to group.name, group, :class => "link-hl" %>
                   <% if can? :delete, group %>
                     <small><%= link_to t(:destroy), group, :data => { :confirm => t(:are_you_sure) }, :method => :delete %></small>
-                  <% end %>                  
+                  <% end %>
                 </h3>
                 <%= link_to t(:join), group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %>
                 <p class="indented">
@@ -46,7 +50,7 @@
                   <% end %>
                   <% if can? :delete, group %>
                     <small><%= link_to t(:destroy), group, :data => { :confirm => t(:are_you_sure) }, :method => :delete %></small>
-                  <% end %> 
+                  <% end %>
                     <small><%= link_to t(:join), group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></small>
                 </h3>
                 <p class="indented">

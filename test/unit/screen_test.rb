@@ -11,9 +11,11 @@ class ScreenTest < ActiveSupport::TestCase
     screen.name = "Blah"
     assert screen.valid?, "Screen name has entry"
   end
+
   test "template cannot be blank or unassociated" do
     s = screens(:one)
     screen = Screen.new(s.attributes)
+    screen.name = "New screen"
     screen.owner = users(:katie)
     screen.template_id = ""
     assert !screen.valid?, "Screen template is blank"
@@ -22,6 +24,7 @@ class ScreenTest < ActiveSupport::TestCase
     screen.template = templates(:one)
     assert screen.valid?, "Screen template is associated with one"
   end  
+
   test "owner must be group or user" do
     s = screens(:one)
     s.owner = users(:katie)
@@ -45,15 +48,18 @@ class ScreenTest < ActiveSupport::TestCase
     s.owner_id = 0
     assert !s.valid?, "Screen owner must be valid"
   end
+
   test "that a screen has an aspect ratio" do
     s = screens(:one)
     assert_equal 16, s.aspect_ratio[:width]
     assert_equal 9, s.aspect_ratio[:height]
   end
+
   test "a screen has positions" do
     s = screens(:one)
     assert !s.positions.empty?
   end
+
   test "a screen has fields" do
     s = screens(:one)
     assert !s.fields.empty?
@@ -73,5 +79,20 @@ class ScreenTest < ActiveSupport::TestCase
       s2.mark_updated
     end
     assert s2.is_online?
+  end
+
+  test "find by mac" do
+    assert_equal screens(:two), Screen.find_by_mac('a1:b2:c3')
+    assert_equal screens(:two), Screen.find_by_mac('a1b2c3')
+    assert_equal screens(:two), Screen.find_by_mac('00:00:00:a1:b2:c3')
+    assert_equal nil, Screen.find_by_mac('123')
+  end
+
+  test "mac get and set" do
+    s = Screen.new()
+    assert_equal nil, s.mac_address
+    s.mac_address = 'abc123'
+    assert_equal s.mac_address, '00:00:00:ab:c1:23'
+    assert_equal s.authentication_token, 'mac:abc123'
   end
 end

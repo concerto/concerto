@@ -1,5 +1,8 @@
-  <h1 class="default-padding"><%= t('.browse_content') %>
-<% if can? :create, Feed %>
-    <%= link_to t(:new_model, :model => Feed.model_name.human), new_feed_path, :class => "button" %>
-<% end %>
-  </h1>
+<div class="viewblock-header_right">
+  <div class="button-padding">
+    <% if can? :create, Feed %>
+      <%= link_to t(:new_model, :model => Feed.model_name.human), new_feed_path, :class => "btn" %>
+    <% end %>
+  </div>
+</div>
+<h1 class="default-padding"><%= t('.browse_content') %></h1>

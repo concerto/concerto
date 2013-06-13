@@ -1,11 +1,11 @@
 class DashboardController < ApplicationController
-  before_filter :latest_version, :only => :index
-  before_filter :delayed_job_running, :only => :index
 
   # GET /dashboard
   def index
     authorize! :read, ConcertoConfig   
     @concerto_configs = ConcertoConfig.where("hidden IS NULL")
+
+    @latest_version = VersionCheck.latest_version()
   end
 
   # get a hash of concerto_config keys and values and update them using the ConcertoConfig setter
