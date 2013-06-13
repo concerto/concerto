@@ -22,13 +22,13 @@ ActiveRecord::Schema.define(version: 20130612030753) do
     t.text     "parameters"
     t.integer  "recipient_id"
     t.string   "recipient_type"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
-  add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
-  add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
+  add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type"
+  add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type"
+  add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type"
 
   create_table "concerto_configs", force: true do |t|
     t.string  "key"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20130612030753) do
     t.boolean "hidden"
   end
 
-  add_index "concerto_configs", ["key"], name: "index_concerto_configs_on_key", unique: true, using: :btree
+  add_index "concerto_configs", ["key"], name: "index_concerto_configs_on_key", unique: true
 
   create_table "concerto_plugins", force: true do |t|
     t.boolean  "enabled"
@@ -51,8 +51,8 @@ ActiveRecord::Schema.define(version: 20130612030753) do
     t.string   "gem_version"
     t.string   "source"
     t.string   "source_url"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "contents", force: true do |t|
@@ -63,8 +63,8 @@ ActiveRecord::Schema.define(version: 20130612030753) do
     t.text     "data"
     t.integer  "user_id"
     t.integer  "kind_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "type"
     t.integer  "parent_id"
     t.integer  "children_count", default: 0
@@ -80,25 +80,25 @@ ActiveRecord::Schema.define(version: 20130612030753) do
     t.datetime "failed_at"
     t.string   "locked_by"
     t.string   "queue"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
 
   create_table "feeds", force: true do |t|
     t.string   "name"
     t.text     "description"
     t.integer  "parent_id"
     t.integer  "group_id"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "is_viewable",    default: true
     t.boolean  "is_submittable", default: true
     t.text     "content_types"
   end
 
-  add_index "feeds", ["parent_id"], name: "index_feeds_on_parent_id", using: :btree
+  add_index "feeds", ["parent_id"], name: "index_feeds_on_parent_id"
 
   create_table "field_configs", force: true do |t|
     t.integer "field_id"
@@ -111,21 +111,21 @@ ActiveRecord::Schema.define(version: 20130612030753) do
   create_table "fields", force: true do |t|
     t.string   "name"
     t.integer  "kind_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "groups", force: true do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.text     "narrative"
   end
 
   create_table "kinds", force: true do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "media", force: true do |t|
@@ -135,24 +135,24 @@ ActiveRecord::Schema.define(version: 20130612030753) do
     t.string   "file_name"
     t.string   "file_type"
     t.integer  "file_size"
-    t.binary   "file_data",       limit: 16777215
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.binary   "file_data",       limit: 10485760
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "media", ["attachable_id", "attachable_type"], name: "index_media_on_attachable_id_and_attachable_type", using: :btree
+  add_index "media", ["attachable_id", "attachable_type"], name: "index_media_on_attachable_id_and_attachable_type"
 
   create_table "memberships", force: true do |t|
     t.integer  "user_id"
     t.integer  "group_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "level",          default: 1
     t.integer  "permissions"
     t.boolean  "receive_emails"
   end
 
-  add_index "memberships", ["receive_emails"], name: "index_memberships_on_receive_emails", using: :btree
+  add_index "memberships", ["receive_emails"], name: "index_memberships_on_receive_emails"
 
   create_table "positions", force: true do |t|
     t.text     "style"
@@ -162,8 +162,8 @@ ActiveRecord::Schema.define(version: 20130612030753) do
     t.decimal  "right",       precision: 6, scale: 5, default: 0.0
     t.integer  "field_id"
     t.integer  "template_id"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "screens", force: true do |t|
@@ -173,8 +173,8 @@ ActiveRecord::Schema.define(version: 20130612030753) do
     t.integer  "owner_id"
     t.string   "owner_type"
     t.integer  "template_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "width"
     t.integer  "height"
     t.datetime "frontend_updated_at"
@@ -187,8 +187,8 @@ ActiveRecord::Schema.define(version: 20130612030753) do
     t.boolean  "moderation_flag"
     t.integer  "moderator_id"
     t.integer  "duration"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.text     "moderation_reason"
   end
 
@@ -197,16 +197,16 @@ ActiveRecord::Schema.define(version: 20130612030753) do
     t.integer  "field_id"
     t.integer  "screen_id"
     t.integer  "weight"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "templates", force: true do |t|
     t.string   "name"
     t.string   "author"
     t.boolean  "is_hidden",       default: false
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "original_width"
     t.integer  "original_height"
   end
@@ -217,8 +217,8 @@ ActiveRecord::Schema.define(version: 20130612030753) do
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "first_name"
     t.string   "last_name"
     t.string   "locale"
@@ -227,7 +227,7 @@ ActiveRecord::Schema.define(version: 20130612030753) do
     t.string   "time_zone"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
 end

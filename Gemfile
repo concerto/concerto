@@ -1,7 +1,7 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'https://rubygems.org'
 
-gem "rails", "~> 4.0.0.rc1"
+gem "rails", "~> 4.0.0.rc2"
 
 # Get the absolute path of this Gemfile so the includes below still work
 # when the current directory for a bundler command isn't the application's
@@ -20,8 +20,7 @@ group :concerto_plugins do
 end
 
 # Gems used for assets and not required
-gem "sass-rails", "~> 4.0.0.rc1"
-gem "coffee-rails", "~> 4.0.0"
+gem "sass-rails", "~> 4.0.0.rc2"
 gem 'therubyracer', :platforms => :ruby
 gem 'execjs'
 gem 'uglifier', '>= 1.3.0'
@@ -43,7 +42,7 @@ gem "rmagick", ">= 2.12.2", :require => 'RMagick', :platforms => :ruby
 # Attachable does all the file work.
 gem 'attachable', '>= 0.0.5'
 
-gem 'devise'
+gem 'devise', :git => "git://github.com/plataformatec/devise.git", :branch => "rails4"
 gem 'cancan'
 
 gem 'json'
@@ -59,5 +58,4 @@ gem 'rails-backup-migrate'
 
 gem 'kaminari'  # Pagination
 
-# Enable the newsfeed for 1.9+ users.
-gem 'public_activity' if RUBY_VERSION >= "1.9"
+gem 'public_activity', :git => "git://github.com/pokonski/public_activity.git", :branch => "rails4"

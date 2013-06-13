@@ -16,6 +16,6 @@ class ScrubbingFormatter < Logger::Formatter
   end
 end
 
-Rails.logger.formatter = ScrubbingFormatter.new
+#Rails.logger.formatter = ScrubbingFormatter.new
 
 Rails.logger.debug "Completed 15-scubbing_logger.rb at #{Time.now.to_s}"
