@@ -13,10 +13,10 @@
 end
 
 #Default plugins
-ConcertoPlugin.find_or_create_by_gem_name({:gem_name => "concerto_weather", :enabled => true, :source => "rubygems"})
-ConcertoPlugin.find_or_create_by_gem_name({:gem_name => "concerto_remote_video", :enabled => true, :source => "rubygems"})
-ConcertoPlugin.find_or_create_by_gem_name({:gem_name => "concerto_simple_rss", :enabled => true, :source => "rubygems"})
-ConcertoPlugin.find_or_create_by_gem_name({:gem_name => "concerto_iframe", :enabled => true, :source => "rubygems"})
+ConcertoPlugin.where(:gem_name => "concerto_weather", :enabled => true, :source => "rubygems").first_or_create
+ConcertoPlugin.where(:gem_name => "concerto_remote_video", :enabled => true, :source => "rubygems").first_or_create
+ConcertoPlugin.where(:gem_name => "concerto_simple_rss", :enabled => true, :source => "rubygems").first_or_create
+ConcertoPlugin.where(:gem_name => "concerto_iframe", :enabled => true, :source => "rubygems").first_or_create
 
 # Establish the 4 major display areas a template usually has.
 # In my quick sample, this code will make 68% of the Concerto 1 fields match
@@ -66,7 +66,7 @@ Position.where(:field_id => Field.where(:name => "Text").first.id, :template_id 
 Position.where(:field_id => Field.where(:name => "Time").first.id, :template_id => concerto_template, :top => ".885", :left => ".024", :bottom => ".974", :right => ".18", :style => "color:#ccc; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important; letter-spacing:.12em !important;")
 
 #Create a sample Full-Screen
-Screen.find_or_create_by_name(:name => "Sample Screen", :location => "Cafe", :is_public => true, :owner_id => Group.first.id, :owner_type => "Group", :template_id => concerto_template, :width => 1024, :height => 768)
+Screen.where(:name => "Sample Screen", :location => "Cafe", :is_public => true, :owner_id => Group.first.id, :owner_type => "Group", :template_id => concerto_template, :width => 1024, :height => 768).first_or_create
 
 #Create initial subscriptions for the sample Screen
 feed_id = Feed.first.id
