@@ -35,15 +35,32 @@
         <h1 class="default-padding"><%= t('.your_network') %></h1>
       </header>
       <div class="viewblock-cont">
-        <div class="default-padding">
-          <p><%= t('.groups') %>:</p>
-          <ul>
-          <% current_user.groups.each do |group| %>
-            <li><%= link_to group.name, group %></li>
-          <% end %>
-          </ul>
+        <div class="row-fluid">
+          <div class="span6">
+            <div class="default-padding">
+              <% if current_user.groups.count > 0 %>
+              <p><%= t(".groups") %></p>
+              <ul>
+                <% current_user.groups.each do |group| %>
+                <li><%= link_to group.name, group %></li>
+                <% end %>
+              </ul>
+              <% end %>
+            </div>
+          </div>
+          <div class="span6">
+            <div class="default-padding">
+              <% if current_user.screens.count > 0 %>
+              <p><%= t('.screens') %>:</p>
+              <ul>
+                <% current_user.screens.each do |screen| %>
+                <li><%= link_to screen.name, screen %></li>
+                <% end %>
+              </ul>
+              <% end %>
+            </div>
+          </div>
         </div>
-        
       </div>
     </section>
     <% end %>
@@ -64,14 +81,21 @@
           </div>
           <div class="span6">
             <ul class="list-stacked condensed">
-              <li><h3><%= link_to users_path do %><%= pluralize @users.count, t('.user') %><% end %></h3></li>
               <li><h3><%= link_to groups_path do %><%= pluralize @groups.count, t('.group') %><% end %></h3></li>
-              <% if @concerto_plugins %><li><h3><%= link_to concerto_plugins_path do %><%= pluralize @concerto_plugins.count, t('.plugin') %><% end %></h3></li><% end %>
+              <% if can? :manage, :all %>
+                <li><h3><%= link_to users_path do %><%= pluralize @users.count, t('.user') %><% end %></h3></li>
+                <% if @concerto_plugins %><li><h3><%= link_to concerto_plugins_path do %><%= pluralize @concerto_plugins.count, t('.plugin') %><% end %></h3></li><% end %>
+              <% end %>
             </ul>
           </div>
         </div>
 
       </div>
     </section>
+
+    <% if can? :manage, :all %>
+      <%= render :partial => 'dashboard/admin_stats' %>
+    <% end %>
+
   </div>
 </div>

@@ -1,7 +1,6 @@
 <% content_for :title do %>
   Global Preferences
 <% end %>
-<%= render :partial => 'admin_stats' %>
 
 <section class="viewblock">
   <header class="viewblock-header">
@@ -10,21 +9,6 @@
     </h1>
   </header>
   <div class="viewblock-cont" style="min-height: 600px;">
-
-    <div class="subnav clearfix">
-      <ul class="nav nav-tabs">
-        <li class="active">
-          <%= link_to dashboard_path do %>
-            <i class="ficon-cog"></i> <%= t('dashboard.global_preferences') %>
-          <% end %>
-        </li>
-        <li>
-          <%= link_to concerto_plugins_path do %>
-            <i class="ficon-bolt"></i> <%= t(:manage_model, :model => ConcertoPlugin.model_name.human.pluralize) %>
-          <% end %>
-        </li>
-      </ul>
-    </div>
 
     <%= form_tag dashboard_update_path do %>
 
