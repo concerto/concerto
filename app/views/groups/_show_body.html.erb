@@ -32,8 +32,7 @@
               <th>
                 <p>
                   <i class="icon-user-leader tooltip-basic" data-tooltip-text="<%= t('.leader') %>"></i>
-                  <b><%= link_to leader.user.name, leader.user %></b><br />
-                  <%= mail_to leader.user.email %>
+                  <b><%= link_to_if can?(:read, leader.user), leader.user.name, leader.user %></b><br />
                 </p>
               </th>
               <th> All </th> <th> All </th>
@@ -50,8 +49,7 @@
                   <tr>
                     <td>
                       <p>
-                        <b><%= link_to m.object.user.name, m.object.user %></b><br />
-                        <%= mail_to m.object.user.email %>
+                        <b><%= link_to_if can?(:read, m.object.user), m.object.user.name, m.object.user %></b><br />
                       </p>
                     </td>
                     <% Membership::PERMISSIONS[m.object.level_name.to_sym].each_pair do |perm, levels| %>
