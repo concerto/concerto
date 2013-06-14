@@ -296,7 +296,8 @@ namespace :import do
           :name => s.name,
           :location => s.location,
           :is_public => !s.type?,
-          :template_id => templates[s.template_id]
+          :template_id => templates[s.template_id],
+          :mac_address => MacAddr::to_hex(s.mac_address)
         )
         new_screen.owner = Group.find(groups[s.group_id])
         if new_screen.save

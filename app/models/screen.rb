@@ -21,6 +21,8 @@ class Screen < ActiveRecord::Base
   #For now, the check will be string based, it should probably be moved to
   #something like if owner_type.is_class (however that would work)
   validates :owner, :presence => true, :associated => true, :if => Proc.new { ["User", "Group"].include?(owner_type) }
+  # Authentication token must be unique, prevents mac address collisions with legacy screens.
+  validates :authentication_token, :uniqueness => {:allow_nil => true}
 
   #Newsfeed
   include PublicActivity::Common if defined? PublicActivity::Common
@@ -74,11 +76,37 @@ class Screen < ActiveRecord::Base
 
   def self.find_by_mac(mac_addr)
     begin
-      screen = Screen.find(mac_addr)
+      mac = MacAddr::condense(mac_addr)
+      token = "mac:#{mac}"
+      screen = Screen.where(:authentication_token => token).first
       return screen
     rescue ActiveRecord::ActiveRecordError
       return nil
     end
+  end
+
+  def mac_address=(mac_addr)
+    mac = MacAddr::condense(mac_addr)
+    if !mac.empty?
+      self.authentication_token = "mac:#{mac}"
+    else
+      self.authentication_token = nil
+    end
+  end
+
+  def mac_address
+    mac = token_by_type('mac')
+    mac = MacAddr::expand(mac) unless mac.nil?
+    return mac
+  end
+
+private
+
+  def token_by_type(type)
+    return nil if self.authentication_token.nil?
+    (token_type, value) = self.authentication_token.split(':')
+    return value if type == token_type
+    return nil
   end
 end
 

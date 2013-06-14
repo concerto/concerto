@@ -80,4 +80,19 @@ class ScreenTest < ActiveSupport::TestCase
     end
     assert s2.is_online?
   end
+
+  test "find by mac" do
+    assert_equal screens(:two), Screen.find_by_mac('a1:b2:c3')
+    assert_equal screens(:two), Screen.find_by_mac('a1b2c3')
+    assert_equal screens(:two), Screen.find_by_mac('00:00:00:a1:b2:c3')
+    assert_equal nil, Screen.find_by_mac('123')
+  end
+
+  test "mac get and set" do
+    s = Screen.new()
+    assert_equal nil, s.mac_address
+    s.mac_address = 'abc123'
+    assert_equal s.mac_address, '00:00:00:ab:c1:23'
+    assert_equal s.authentication_token, 'mac:abc123'
+  end
 end
