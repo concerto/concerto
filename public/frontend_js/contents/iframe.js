@@ -68,7 +68,7 @@ concerto.frontend.Content.Iframe.prototype.load_ = function() {
   this.iframe = goog.dom.createElement('iframe');
   this.iframe.src = this.url;
   this.iframe.frameborder = 0;
-  this.iframe.scrolling = "no";
+  this.iframe.scrolling = 'no';
   goog.style.setSize(this.iframe, '100%', '100%');
   goog.style.setSize(this.div_, '100%', '100%');
   goog.style.setStyle(this.iframe, 'border', 0);
