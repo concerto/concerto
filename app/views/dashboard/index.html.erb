@@ -1,11 +1,17 @@
 <% content_for :title do %>
-  Global Preferences
+  Global Settings
 <% end %>
 
 <section class="viewblock">
   <header class="viewblock-header">
+    <div class="viewblock-header_right">
+      <div class="button-padding">
+        <%= link_to t('.backup'), dashboard_run_backup_path, :class => "btn" %>
+        <%= link_to t('.restart_webserver'), { :controller => :concerto_plugins, :action => "restart_for_plugin" }, :method => :post, :confirm => "Restarting the webserver may take a 10 to 20 seconds. Are you sure you'd like to restart?", :class => "btn" %>
+      </div>
+    </div>
     <h1 class="default-padding">
-      <%= t('.edit_preferences') %>
+      <%= t('.edit_settings') %>
     </h1>
   </header>
   <div class="viewblock-cont" style="min-height: 600px;">

@@ -1,9 +1,9 @@
 en:
   dashboard:
-    global_preferences: "Global Preferences"
+    global_preferences: "Global Settings"
 
     index:
-      edit_preferences: "Edit Global Preferences"
+      edit_settings: "Edit Global Settings"
       save_settings: "Save Settings"
     admin_stats:
       system_info: "System Information"
