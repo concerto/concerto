@@ -2,8 +2,11 @@ class DashboardController < ApplicationController
 
   # GET /dashboard
   def index
-    authorize! :read, ConcertoConfig   
-    @concerto_configs = ConcertoConfig.where("hidden IS NULL")
+    authorize! :read, ConcertoConfig
+    # The ordering is by group, sequence number (if specified), name (if specified),
+    # falling back to the id (being the original order in which it was added to the db)
+    # if the developer omits the seq_no or name.
+    @concerto_configs = ConcertoConfig.where("hidden IS NULL").order('"group", seq_no, name, id')
 
     @latest_version = VersionCheck.latest_version()
   end
