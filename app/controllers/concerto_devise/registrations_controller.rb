@@ -172,7 +172,8 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
   end
 
   def sign_up_params
-    devise_parameter_sanitizer.for(:sign_up)
+    #devise_parameter_sanitizer.for(:sign_up)
+    params.require(:user).permit(:email, :password, :password_confirmation, :first_name, :last_name)
   end
 
   def account_update_params
