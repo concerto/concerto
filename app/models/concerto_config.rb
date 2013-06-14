@@ -68,18 +68,20 @@ class ConcertoConfig < ActiveRecord::Base
   end
   
   # Creates a Concerto Config entry by taking the key and value desired
-  # Also takes the following options: value_type, value_default, name, group, description, plugin_config, and plugin_id
+  # Also takes the following options: value_type, value_default, name, group, description, plugin_config, plugin_id, and seq_no
   # If they're not specified, the type is assumed to be string and the default value the key that is set
   def self.make_concerto_config(config_key,config_value, options={})
     defaults = {
       :value_type => "string",
-      :value_default => config_value
+      :value_default => config_value,
+      :seq_no => 0
     }
     options = defaults.merge(options)
     # first_or_create: check whether first returns nil or not; if it does return nil, create is called
     ConcertoConfig.where(:key => config_key).first_or_create(:key => config_key, :value => config_value,
       :value_default => options[:value_default], :value_type => options[:value_type], :name => options[:name], :group => options[:group],
-      :description => options[:description], :plugin_config => options[:plugin_config], :plugin_id => options[:plugin_id], :hidden => options[:hidden])
+      :description => options[:description], :plugin_config => options[:plugin_config], :plugin_id => options[:plugin_id], 
+      :hidden => options[:hidden], :seq_no => options[:seq_no])
   end  
 
   # Update the config_last_updated entry to indicate the cached data is no longer valid.
