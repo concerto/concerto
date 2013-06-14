@@ -9,7 +9,7 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
   if defined?(Airbrake)
     Airbrake.configure do |config|
       def config.api_key
-        if ConcertoConfig[:send_errors] == "true"
+        if ConcertoConfig[:send_errors] == true
           return '52adf2979c2ab87c634612bef9deaaf2'
         else 
           return nil
