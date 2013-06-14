@@ -4,6 +4,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
   prepend_before_filter :authenticate_scope!, :only => [:edit, :update, :destroy]
   rescue_from ActionView::Template::Error, :with => :precompile_error_catch
   before_filter :check_permissions, :only=>[:new, :create]  
+  before_filter :configure_permitted_parameters
 
   def check_permissions
     authorize! :create, User
@@ -164,6 +165,16 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
   def after_update_path_for(resource)
     signed_in_root_path(resource)
   end
+  
+  #custom fields
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) do |u|
+      u.permit(:first_name, :last_name, :email, :password, :password_confirmation)
+    end
+    devise_parameter_sanitizer.for(:account_update) do |u|
+      u.permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_password)
+    end
+  end  
 
   # Authenticates the current scope and gets the current resource from the session.
   def authenticate_scope!
@@ -172,8 +183,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
   end
 
   def sign_up_params
-    #devise_parameter_sanitizer.for(:sign_up)
-    params.require(:user).permit(:email, :password, :password_confirmation, :first_name, :last_name)
+    devise_parameter_sanitizer.for(:sign_up)
   end
 
   def account_update_params
