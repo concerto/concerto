@@ -73,7 +73,7 @@
                 
                 <ul class="inputs-list">
                   <li style="font-size: 1.4em;">
-                    <%= check_box_tag 'concerto_config[send_errors]', 'true', true %> <%= label 'concerto_config', :send_errors, " Send error reports to the Concerto team", :style => "font-size: 1.1em; padding-left: 1em;" %>
+                    <%= c.check_box :send_errors, {:checked => true}, "true", "false" %> <%= label 'concerto_config', :send_errors, " Send error reports to the Concerto team", :style => "font-size: 1.1em; padding-left: 1em;" %>
                   </li>
                 </ul>
 
