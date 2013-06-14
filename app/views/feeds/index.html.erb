@@ -53,18 +53,24 @@
         <h1 class="default-padding"><%= t('.network_vitals') %></h1>
       </header>
       <div class="viewblock-cont">
-        <div class="default-padding">
-          <div class="clearfix">
-            <h2><%= pluralize @screens.count, t('.screen') %></h2>
-            <p><%= @screens.count{|s| s.is_online? } %> <%= t('.active') %>&nbsp;&nbsp;&nbsp;&nbsp;<%= @screens.count{|s| s.is_offline? } %> <%= t('.offline') %></p>
-            <%= link_to t('.view_screens_list'), screens_path, :class => "btn" %>
+        
+        <div class="row-fluid">
+          <div class="span6">
+            <ul class="list-stacked condensed">
+              <li><h3><%= link_to browse_feeds_path do %><%= pluralize(@feeds.count, Feed.model_name.human.capitalize.downcase) %><% end %> <small>&nbsp;&nbsp;<%= @active_content.to_s %> <%= t('.active_content') %></small></h3></li>
+              <li><h3><%= link_to screens_path do %><%= pluralize @screens.count, t('.screen') %><% end %> <small>&nbsp;&nbsp;<%= @screens.count{|s| s.is_online? } %> <%= t('.active') %>, <%= @screens.count{|s| s.is_offline? } %> <%= t('.offline') %></small></h3></li>
+              <li><h3><%= link_to templates_path do %><%= pluralize @templates.count, t('.template') %><% end %></h3></li>
+            </ul>
           </div>
-          <br /><br />
-          <div class="clearfix">
-            <h3><%= t('.active_content') %>: <%= @active_content.to_s %></h3>
+          <div class="span6">
+            <ul class="list-stacked condensed">
+              <li><h3><%= link_to users_path do %><%= pluralize @users.count, t('.user') %><% end %></h3></li>
+              <li><h3><%= link_to groups_path do %><%= pluralize @groups.count, t('.group') %><% end %></h3></li>
+              <% if @concerto_plugins %><li><h3><%= link_to concerto_plugins_path do %><%= pluralize @concerto_plugins.count, t('.plugin') %><% end %></h3></li><% end %>
+            </ul>
           </div>
         </div>
-        
+
       </div>
     </section>
   </div>

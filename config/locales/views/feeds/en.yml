@@ -20,10 +20,15 @@ en:
       my_concerto: 'My Concerto'
       network_vitals: 'Network Vitals'
       new_content_today: 'New Content Submitted Today'
-      offline: 'Offline'
-      screen: 'Screen'
+      offline: 'offline'
+      screen: 'screen'
+      template: 'template'
+      user: 'user'
+      plugin: 'plugin'
+      group: 'group'
       view_screens_list: 'View Screens List'
       submissions_to_moderate: { one: "You have %{count} submission to moderate", other: "You have %{count} submissions to moderate" }
+      active_content: 'active contents'
 
     browse_header:
       browse_content: 'Browse Concerto Content'

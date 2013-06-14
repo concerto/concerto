@@ -7,6 +7,11 @@ class FeedsController < ApplicationController
   def index
     @feeds = Feed.roots
     @screens = Screen.all
+    @templates = Template.all
+    @users = User.all
+    @groups = Group.all
+    authorize! :read, ConcertoPlugin
+    @concerto_plugins = ConcertoPlugin.all
     auth!(:object => @screens)
     auth!
     get_activities()
