@@ -47,7 +47,7 @@ if Gem.loaded_specs.has_key? "concerto_weather"
 end
 
 #Create an initial feed
-Feed.where(:name => "Concerto").first_or_create(:description => "Initial Concerto Feed", :group_id => 1, :is_viewable => 1, :is_submittable => 1, :content_types => {:Graphic=>"1", :Ticker=>"1"})
+Feed.where(:name => "Concerto").first_or_create(:description => "Initial Concerto Feed", :group_id => 1, :is_viewable => 1, :is_submittable => 1, :content_types => {"Graphic"=>"1", "Ticker"=>"1"})
 
 #Create an initial template
 @template = Template.find_or_create_by(:name => "Default Template", :author => "Concerto")
