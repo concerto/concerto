@@ -29,7 +29,11 @@ class Frontend::ScreensController < ApplicationController
     if params[:mac]
       screen = Screen.find_by_mac(params[:mac])
       if screen
-        redirect_to frontend_screen_path(screen), :status => :moved_permanently
+        if screen.is_public?
+          redirect_to frontend_screen_path(screen), :status => :moved_permanently
+        else
+          render :text => 'Forbidden.', :status => 403
+        end
       else
         render :text => "Screen not found.", :status => 404
       end

@@ -36,7 +36,7 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("smtp_username", "", :value_type => "string")
     ConcertoConfig.make_concerto_config("smtp_password", "", :value_type => "string")  
     ConcertoConfig.make_concerto_config("system_time_zone", 'Eastern Time (US & Canada)', :value_type => "timezone") 
-    ConcertoConfig.make_concerto_config("config_last_updated", "0", :value_type => "integer")
+    ConcertoConfig.make_concerto_config("config_last_updated", "0", :value_type => "integer", :hidden => "true")
   end
 
   Rails.logger.debug "Completed 02-concerto_config.rb at #{Time.now.to_s}"
