@@ -8,23 +8,27 @@ class FeedsController < ApplicationController
   # GET /feeds.xml
   # GET /feeds.js
   def index
-    @feeds = Feed.roots
-    @screens = Screen.all
-    @templates = Template.all
-    @users = User.all
-    @groups = Group.all
-    authorize! :read, ConcertoPlugin
-    @concerto_plugins = ConcertoPlugin.all
-    auth!(:object => @screens)
-    auth!
-    get_activities()
-    respond_to do |format|
-      format.html { } # index.html.erb
-      format.xml  { render :xml => @feeds }
-      format.js { render :layout => false }
+    if current_user 
+      @feeds = Feed.roots
+      @screens = Screen.all
+      @templates = Template.all
+      @users = User.all
+      @groups = Group.all
+      authorize! :read, ConcertoPlugin
+      @concerto_plugins = ConcertoPlugin.all
+      auth!(:object => @screens)
+      auth!
+      get_activities()
+      respond_to do |format|
+        format.html { } # index.html.erb
+        format.xml  { render :xml => @feeds }
+        format.js { render :layout => false }
+      end
+      @active_content = 0
+      @feeds.each { |node| node.submissions.each { |submission| if submission.moderation_flag == true then @active_content += 1 end } }
+    else 
+      redirect_to browse_feeds_path
     end
-    @active_content = 0
-    @feeds.each { |node| node.submissions.each { |submission| if submission.moderation_flag == true then @active_content += 1 end } }
   end
 
   # GET /feeds/browse
