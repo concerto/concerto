@@ -1,7 +1,4 @@
 class FeedsController < ApplicationController
-  before_filter :latest_version, :only => :index
-  before_filter :delayed_job_running, :only => :index
-
   rescue_from ActionView::Template::Error, :with => :precompile_error_catch
   
   # GET /feeds
