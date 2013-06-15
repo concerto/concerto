@@ -94,7 +94,7 @@ class ContentTest < ActiveSupport::TestCase
   end
 
   test "content scope does not propogate" do
-    graphics = Graphic.active.all
+    graphics = Graphic.active
     graphics.each do |g|
       assert_equal g.class.name, "Graphic"
     end

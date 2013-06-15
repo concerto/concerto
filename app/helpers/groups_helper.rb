@@ -1,6 +1,6 @@
 module GroupsHelper
   def member_list(group=nil)
-    orderedMemberships = group.memberships.approved.order('level DESC').includes(:user).all
+    orderedMemberships = group.memberships.approved.order('level DESC').includes(:user).to_a
     orderedMemberships.each_with_index do |membership, i|
       if can? :read, membership.user
         concat link_to membership.user.name, user_path(membership.user)
