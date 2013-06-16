@@ -56,7 +56,7 @@
                       <td>
                         <ul class="inputs-list">
                             <li> 
-                              <% if can? :update, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>
+                              <% if can? :update, m %>
                                 <%= select_tag "#{m.object_name}[perms][#{perm.to_s}]", options_for_select(levels.keys, m.object.perms[perm]) %>
                               <% else %>
                                 <%= label_tag m.object.perms[perm] %>
