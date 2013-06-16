@@ -37,6 +37,10 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("smtp_password", "", :value_type => "string")  
     ConcertoConfig.make_concerto_config("system_time_zone", 'Eastern Time (US & Canada)', :value_type => "timezone") 
     ConcertoConfig.make_concerto_config("config_last_updated", "0", :value_type => "integer", :hidden => "true")
+        
+    require 'yaml'
+    concerto_base_config = YAML.load_file("./config/concerto.yml")
+    ConcertoConfig.make_concerto_config("send_errors", "#{concerto_base_config['airbrake_enabled_initially'].to_s}", :value_type => "boolean")      
   end
 
   Rails.logger.debug "Completed 02-concerto_config.rb at #{Time.now.to_s}"
