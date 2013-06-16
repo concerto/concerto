@@ -42,7 +42,7 @@ gem "rmagick", ">= 2.12.2", :require => 'RMagick', :platforms => :ruby
 # Attachable does all the file work.
 gem 'attachable', '>= 0.0.5'
 
-gem 'devise', :git => "git://github.com/plataformatec/devise.git", :branch => "rails4"
+gem "devise", ">= 3.0.0.rc"
 gem 'cancan'
 
 gem 'json'
