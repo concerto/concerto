@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   before_filter :compute_pending_moderation
   around_filter :user_time_zone, :if => :user_signed_in?
   helper_method :webserver_supports_restart?
+  helper_method :current_screen
 
   # Current Ability for CanCan authorization
   # This matches CanCan's code but is here to be explicit,
@@ -25,6 +26,28 @@ class ApplicationController < ActionController::Base
       @current_accessor ||= current_screen
     end
     @current_accessor ||= current_user
+  end
+
+  def current_screen
+    if @current_screen.nil?
+      token = cookies[:concerto_screen_token]
+      @current_screen=Screen.find_by_screen_token(token)
+    else
+       @current_screen
+    end
+  end
+
+  def sign_in_screen(screen)
+    token = screen.generate_screen_token!
+    cookies.permanent[:concerto_screen_token]=token
+  end
+
+  def sign_out_screen
+    if !current_screen.nil?
+      current_screen.clear_screen_token!
+      @current_screen = nil
+    end
+    cookies.permanent[:concerto_screen_token]=""
   end
 
   # Call this with a before filter to indicate that the current action

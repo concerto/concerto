@@ -2,7 +2,7 @@ class Screen < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
   # Allow screens to act as accessors for the Frontend API
-  devise
+  #devise
 
   belongs_to :owner, :polymorphic => true
   belongs_to :template
@@ -99,6 +99,31 @@ class Screen < ActiveRecord::Base
     mac = MacAddr::expand(mac) unless mac.nil?
     return mac
   end
+
+  def screen_token
+    token_by_type('auth')
+  end
+
+  def self.find_by_screen_token(token)
+    return nil if token.blank?
+    begin
+      Screen.where(:authentication_token=>'auth:'+token).first
+    rescue ActiveRecord::ActiveRecordError
+      nil
+    end
+  end 
+
+  def generate_screen_token!
+    require 'securerandom'
+    token = SecureRandom.hex
+    self.update_attribute(:authentication_token, 'auth:'+token)
+    return token
+  end
+
+  def clear_screen_token!
+    self.update_attribute(:authentication_token, '')
+  end
+
 
 private
 

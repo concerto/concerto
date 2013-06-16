@@ -16,11 +16,10 @@ class Frontend::ScreenAuthController < ApplicationController
       if !params[:screen_id].blank?
         screen = Screen.find(params[:screen_id])
         if screen.is_a?(Screen) 
-          sign_in :screen, screen
-          #current_screen.remember_me!
+          sign_in_screen screen
         end
       else
-        sign_out :screen
+        sign_out_screen
       end
     end
   end
