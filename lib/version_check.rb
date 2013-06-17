@@ -4,11 +4,36 @@ module VersionCheck
   REMOTE_URL = 'http://dl.concerto-signage.org/version.txt'
   GITHUB_URL = 'https://api.github.com/repos/concerto/concerto/git/refs/tags'
 
+  # Check cache for latest Concerto version
+  def self.latest_version
+    file_location = Rails.root.join('tmp', 'cache', 'version.txt')
+    if File.exist?(file_location) # We have a cached version
+      if File.mtime(file_location) < Time.now - 86400 # Stale (older than 24 hours).
+        Rails.logger.info "Downloading latest Concerto version information."
+        version = fetch_latest_version() 
+        open(file_location, 'w') do |f|
+          f << version
+        end
+      else # Cached version is fresh.
+        open(file_location, 'r') do |f|
+          version = f.read.chomp!
+        end
+      end
+    else # Fetch a cached version.
+      Rails.logger.info "Downloading latest Concerto version information for the first time."
+      version = fetch_latest_version() 
+      open(file_location, 'w') do |f|
+        f << version
+      end
+    end
+    return version
+  end
+
   # Find the latest version of Concerto available..
   # First hit the Concerto team's version information, if that is unavailable head directly
   # to Github and try to find the latest tag.  If all else fails return nil.
   # @return [String, nil] String with the latest version, if available.
-  def self.latest_version
+  def self.fetch_latest_version
     version = remote_version()
     if version.nil?
       version = github_version()
