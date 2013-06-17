@@ -28,7 +28,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
       if ConcertoConfig["setup_complete"] == false
         ConcertoConfig.set("setup_complete", "true")
         # send_errors option is displayed in the form for first setup only
-        ConcertoConfig.set("send_errors", params[:send_errors])
+        ConcertoConfig.set("send_errors", params[:concerto_config][:send_errors])
       end
 
       if first_user_setup == true
