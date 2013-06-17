@@ -14,17 +14,19 @@ module VersionCheck
         open(file_location, 'w') do |f|
           f << version
         end
+        Rails.logger.info "Current version is #{version}."
       else # Cached version is fresh.
         open(file_location, 'r') do |f|
-          version = f.read.chomp!
+          version = f.read.chomp
         end
       end
     else # Fetch a cached version.
       Rails.logger.info "Downloading latest Concerto version information for the first time."
-      version = fetch_latest_version() 
+      version = fetch_latest_version()
       open(file_location, 'w') do |f|
         f << version
       end
+      Rails.logger.info "Current version is #{version}."
     end
     return version
   end
