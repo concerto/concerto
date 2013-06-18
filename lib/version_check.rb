@@ -6,26 +6,21 @@ module VersionCheck
 
   # Check cache for latest Concerto version
   def self.latest_version
-    file_location = Rails.root.join('tmp', 'cache', 'version.txt')
-    if File.exist?(file_location) # We have a cached version
-      if File.mtime(file_location) < Time.now - 86400 # Stale (older than 24 hours).
+    version = Rails.cache.read("concerto_version")
+    version_updated = Rails.cache.read("concerto_version_time")
+    if !version.nil? # Version is cached.
+      if version_updated < Time.now - 86400 # Stale (older than 24 hours).
         Rails.logger.info "Downloading latest Concerto version information."
         version = fetch_latest_version() 
-        open(file_location, 'w') do |f|
-          f << version
-        end
+        Rails.cache.write("concerto_version", version)
+        Rails.cache.write("concerto_version_time", Time.now)
         Rails.logger.info "Current version is #{version}."
-      else # Cached version is fresh.
-        open(file_location, 'r') do |f|
-          version = f.read.chomp
-        end
       end
-    else # Fetch a cached version.
+    else # Fetch the latest version.
       Rails.logger.info "Downloading latest Concerto version information for the first time."
       version = fetch_latest_version()
-      open(file_location, 'w') do |f|
-        f << version
-      end
+      Rails.cache.write("concerto_version", version)
+      Rails.cache.write("concerto_version_time", Time.now)
       Rails.logger.info "Current version is #{version}."
     end
     return version
