@@ -1,7 +1,7 @@
 <div class="subnav clearfix">
   <div class="pull-left" style="padding: 3px 0px; width:100px">
     <%= link_to "#", :title => t('.click_to_jump'), :class => "btn small info dropdown-toggle dropdown-control dd-jumpto", :rel => "#jump_to" do %>
-      <i class="ficon-bolt"></i> <%= t('.jump_to_feed') %>
+      <i class="icon-bolt"></i> <%= t('.jump_to_feed') %>
     <% end %>
 
     <div id="jump_to" style="display: none;">
@@ -50,7 +50,7 @@
 <% if @can_moderate_feed and @feed.submissions.pending.count > 0 %>
 <!-- note that we do not show an alert banner when there are no pending contents; we just hide it altogether -->
 <div class="clearfix default-padding">
-  <h3 class="header-with-icon" style="color:#993333;"><i class="icon-header-pendingcontent"></i><%= t('.submissions_pending', :count => @feed.submissions.pending.count) %></h3>
+  <h3 class="header-with-icon" style="color:#993333;"><i class="concertocon-header-pendingcontent"></i><%= t('.submissions_pending', :count => @feed.submissions.pending.count) %></h3>
   <br />
   <% @feed.submissions.pending.select{|s| s.content.parent.nil?}.each do |submission| %>
     <%= render :partial => "submissions/submission_tile", :locals => { :submission => submission } %>
@@ -127,7 +127,7 @@
 <div class="clearfix default-padding">
   <div class="header-with-icon clearfix">
     <h3 style="float: left;">
-      <i class="icon-header-<%= @state %>content"></i> <%= t('.items_in_state', :count => @submissions.count, :state => @state) %>
+      <i class="concertocon-header-<%= @state %>content"></i> <%= t('.items_in_state', :count => @submissions.count, :state => @state) %>
     </h3>
   </div>
   <br />
@@ -141,7 +141,7 @@
 <div class="clearfix default-padding">
   <div class="header-with-icon clearfix">
     <h3 style="float: left;">
-      <i class="icon-header-<%= @state %>content"></i> <%= t('.items_in_state', :count => @submissions.count, :state => @state) %>
+      <i class="concertocon-header-<%= @state %>content"></i> <%= t('.items_in_state', :count => @submissions.count, :state => @state) %>
     </h3>
     <div class="pagination-cont">
       <%= paginate @paginated_submissions %>

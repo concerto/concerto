@@ -19,7 +19,7 @@
     </p>
   <% else %>
     <%= link_to main_app.root_url, :id => "top-menu-logobutton", :class => "full" do %>
-      <i class="icon-logobutton"></i>
+      <i class="concertocon-logobutton"></i>
     <% end %>
 
     <!-- Begin Menu for CONTENT -->
@@ -69,8 +69,8 @@
     <section class="right">
       <div id="top-menu-user" class="top-menu-sectop">
         <div class="pull-left">
-          <% if current_user.is_admin? %><i class="icon-user-admin tooltip-basic" data-tooltip-text="<%= t('.system_admin') %>"></i><% end %>
-          <% if user_leads_a_group? %><i class="icon-user-leader tooltip-basic" data-tooltip-text="<%= t('.leader') %>"></i><% end %>
+          <% if current_user.is_admin? %><i class="concertocon-user-admin tooltip-basic" data-tooltip-text="<%= t('.system_admin') %>"></i><% end %>
+          <% if user_leads_a_group? %><i class="concertocon-user-leader tooltip-basic" data-tooltip-text="<%= t('.leader') %>"></i><% end %>
         </div>
         <div class="pull-right">
           <h2><%= link_to current_user.name, [main_app, current_user] %></h2>

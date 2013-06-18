@@ -97,14 +97,18 @@
     font-weight: bold;
     vertical-align: middle;
 
+    i.concertocon-logobutton {
+      opacity: 0.6;
+    }
+
     &.full {
-      height: 43px;
-      padding: 6px 12px;
+      padding: 0px 12px;
     }
 
     // apply new background position on hover to show "lit up" version of logo bg:
-    &:hover i.icon-logobutton {
-      background-position: 0px -40px;
+    &:hover i.concertocon-logobutton {
+      opacity: 1.0;
+      text-decoration: none;
     }
   }
 

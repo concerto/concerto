@@ -15,7 +15,7 @@
           <% end %>
 
           <% if @user.is_admin? %>
-              <p><b><i class="icon-user-admin-blk tooltip-basic" data-tooltip-text="<%= t('.system_wide_admin') %>"></i> <%= t('.admin') %></b></p>
+              <p><b><i class="concertocon-user-admin-blk tooltip-basic" data-tooltip-text="<%= t('.system_wide_admin') %>"></i> <%= t('.admin') %></b></p>
           <% end %>
 
           <% if can? :edit, @user %>
@@ -37,8 +37,8 @@
                 <div class="cont thumb-icon">
                   <%= link_to membership.group do %>
                   <span class="icon-stack icon-3x">
-                    <i class="ficon-circle icon-stack-base <%= membership.is_leader? ? 'group-leader' : 'group-member' %>"></i>
-                    <i class="ficon-group"></i>
+                    <i class="icon-circle icon-stack-base <%= membership.is_leader? ? 'group-leader' : 'group-member' %>"></i>
+                    <i class="icon-group"></i>
                   </span>
                   <% end %>
                 </div>
