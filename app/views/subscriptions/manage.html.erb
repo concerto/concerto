@@ -46,7 +46,7 @@
                   </td>
                   <td>
                     <%= link_to screen_field_subscription_path(@screen,@this_field,subscription), {:data => { :confirm => t(:are_you_sure) }, :method => :delete, :class => "btn danger btnRemoveSubscription" } do %>
-                      <i class="ficon-remove"></i> <%= t(:remove_model, :model => Feed.model_name.human) %>
+                      <i class="icon-remove"></i> <%= t(:remove_model, :model => Feed.model_name.human) %>
                     <% end %>
                   </td>
                 </tr>

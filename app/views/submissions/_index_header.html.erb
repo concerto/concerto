@@ -16,7 +16,7 @@
       <%= link_to ancestor_feed.name, feed_submissions_path(ancestor_feed) %> &gt; 
     <% end %>
     <%= @feed.name %>&nbsp;
-    <i class="ficon-info-sign dropdown-control dd-feedinfo"></i>
+    <i class="icon-info-sign dropdown-control dd-feedinfo"></i>
 
     <div id="feedinfo" style="display: none;">
       <%= t('.moderated_by') %> <%= link_to @feed.group.name, group_path(@feed.group) %>.
