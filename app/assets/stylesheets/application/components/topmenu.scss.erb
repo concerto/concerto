@@ -90,7 +90,7 @@
   }
 	
 	#top-menu-logobutton {
-    @include vertical-gradient($concerto-blue-1, $concerto-blue-2);
+    @include vertical-gradient($concerto-blue-0, $concerto-blue-2);
     float: left;
     color: $white;
     padding: 4px 12px;
@@ -103,6 +103,30 @@
 
     &.full {
       padding: 0px 12px;
+      height: 55px;
+    }
+
+    &.selected {
+      background: $concerto-blue-0;
+      color: $white;
+      position: relative;
+
+      i.concertocon-logobutton {
+        opacity: 1.0;
+      }
+
+      &:after {
+        content: ' ';
+        height: 0;
+        position: absolute;
+        width: 0;
+        top: 100%;
+        left: 50%;
+        margin-left: -10px;
+
+        border: 10px solid transparent;
+        border-top-color: $concerto-blue-0;
+      }
     }
 
     // apply new background position on hover to show "lit up" version of logo bg:
