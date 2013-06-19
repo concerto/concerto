@@ -111,7 +111,6 @@ Concerto::Application.routes.draw do
     end
   end
 
-  #Set a non-restful route to the dashboard
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
