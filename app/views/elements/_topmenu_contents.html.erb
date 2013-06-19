@@ -18,7 +18,7 @@
       <% end %>
     </p>
   <% else %>
-    <%= link_to main_app.root_url, :id => "top-menu-logobutton", :class => "tooltip-basic full #{ current_page?(main_app.root_url)? 'selected' : '' }", 'data-tooltip-text' => t('.return_home_msg') do %>
+    <%= link_to main_app.root_url, :id => "top-menu-logobutton", :class => "tooltip-basic full #{ current_page?(main_app.root_url)? 'selected' : '' }" do %>
       <i class="concertocon-logobutton"></i>
     <% end %>
 
