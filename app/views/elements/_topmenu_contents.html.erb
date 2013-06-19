@@ -55,7 +55,7 @@
     <% if can? :manage, :all %>
       <section>
         <div class="top-menu-sectop">
-          <%= link_to t('.settings'), dashboard_path, :class => "btn #{ (controller.controller_name == 'dashboard' && controller.action_name != 'run_backup') ? 'selected' : '' }" %>
+          <%= link_to t('.settings'), concerto_config_path, :class => "btn #{ (controller.controller_name == 'dashboard' && controller.action_name != 'run_backup') ? 'selected' : '' }" %>
           <%= link_to t('.plugins'), concerto_plugins_path, :class => "btn #{ (controller.controller_name == 'concerto_plugins') ? 'selected' : '' }" %>
           <%= link_to t(".users"), main_app.users_path, :class => "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" %>
         </div>

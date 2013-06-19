@@ -16,7 +16,7 @@
   </header>
   <div class="viewblock-cont" style="min-height: 600px;">
  
-    <%= form_tag dashboard_update_path do %>
+    <%= form_tag concerto_config_path, :method => :put do %>
 
         <fieldset class="global-prefs">
           <% for c in @concerto_configs %>
