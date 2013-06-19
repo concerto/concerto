@@ -12,6 +12,8 @@ Concerto::Application.routes.draw do
 
   root :to => 'feeds#index'
 
+  resource :dashboard, :controller => :dashboard, :only => [:show]
+
   resources :concerto_plugins
   match 'concerto_plugins/restart_for_plugin' => 'concerto_plugins#restart_for_plugin', :via => "post"
 
@@ -80,7 +82,6 @@ Concerto::Application.routes.draw do
   resources :feeds do
     collection do
       get :moderate
-      get :browse
     end
     resources :submissions, :only => [:index, :show, :update]
   end

@@ -1,0 +1,101 @@
+<% content_for :title do %>
+  Dashboard
+<% end %>
+<div class="row-fluid">
+  <div class="span7">
+    <section class="viewblock">
+      <header class="viewblock-header" id="browse-header">
+        <%= render :partial => "feeds/browse_header" %>
+      </header>
+      <div id="browse-body" class="viewblock-cont">
+        <% if @pending_submissions_count and @pending_submissions_count > 0 %>
+          <div class="alert alert-banner">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <h4><%= link_to t('.submissions_to_moderate', :count => @pending_submissions_count),  main_app.moderate_feeds_path %></h4>
+          </div>
+        <% end %>
+
+        <%= render :partial => "feeds/browse_body" %>
+      </div>
+    </section>
+  </div>
+  <div class="span5">
+    <% if user_signed_in? %>
+    <section class="viewblock">
+      <header class="viewblock-header">
+        <h1 class="default-padding"><%= t('.latest_activity') %></h1>
+      </header>
+      <div class="viewblock-cont">
+        <%= render :partial => 'activities/show' %>
+      </div>
+    </section>
+
+    <section class="viewblock">
+      <header class="viewblock-header">
+        <h1 class="default-padding"><%= t('.your_network') %></h1>
+      </header>
+      <div class="viewblock-cont">
+        <div class="row-fluid">
+          <div class="span6">
+            <div class="default-padding">
+              <% if current_user.groups.count > 0 %>
+              <p><%= t(".groups") %></p>
+              <ul>
+                <% current_user.groups.each do |group| %>
+                <li><%= link_to group.name, group %></li>
+                <% end %>
+              </ul>
+              <% end %>
+            </div>
+          </div>
+          <div class="span6">
+            <div class="default-padding">
+              <% if current_user.screens.count > 0 %>
+              <p><%= t('.screens') %>:</p>
+              <ul>
+                <% current_user.screens.each do |screen| %>
+                <li><%= link_to screen.name, screen %></li>
+                <% end %>
+              </ul>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <% end %>
+
+    <section class="viewblock">
+      <header class="viewblock-header">
+        <h1 class="default-padding"><%= t('.network_vitals') %></h1>
+      </header>
+      <div class="viewblock-cont">
+        
+        <div class="row-fluid">
+          <div class="span6">
+            <ul class="list-stacked condensed">
+              <li><h3><%= link_to feeds_path do %><%= pluralize(@feeds.count, Feed.model_name.human.capitalize.downcase) %><% end %> <small>&nbsp;&nbsp;<%= @active_content.to_s %> <%= t('.active_content') %></small></h3></li>
+              <li><h3><%= link_to screens_path do %><%= pluralize @screens.count, t('.screen') %><% end %> <small>&nbsp;&nbsp;<%= @screens.count{|s| s.is_online? } %> <%= t('.active') %>, <%= @screens.count{|s| s.is_offline? } %> <%= t('.offline') %></small></h3></li>
+              <li><h3><%= link_to templates_path do %><%= pluralize @templates.count, t('.template') %><% end %></h3></li>
+            </ul>
+          </div>
+          <div class="span6">
+            <ul class="list-stacked condensed">
+              <li><h3><%= link_to groups_path do %><%= pluralize @groups.count, t('.group') %><% end %></h3></li>
+              <% if can? :manage, :all %>
+                <li><h3><%= link_to users_path do %><%= pluralize @users.count, t('.user') %><% end %></h3></li>
+                <% if @concerto_plugins %><li><h3><%= link_to concerto_plugins_path do %><%= pluralize @concerto_plugins.count, t('.plugin') %><% end %></h3></li><% end %>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <% if can? :manage, :all %>
+      <%= render :partial => 'dashboard/admin_stats' %>
+    <% end %>
+
+  </div>
+</div>
