@@ -1,5 +1,5 @@
 <%= link_to '#', :title => t('.search_and_find_a_feed_to_add'), :class => "btn large dropdown-toggle dropdown-control dd-add-sub", :rel => "#add-sub" do %>
-  <i class="ficon-plus"></i> <%= t('.add_a_new_feed').capitalize %>...
+  <i class="icon-plus"></i> <%= t('.add_a_new_feed').capitalize %>...
 <% end %>
 
 <div id="add-sub" style="display: none;">
@@ -17,7 +17,7 @@
       <li data-filter="<%= feed.name %>">
         <%= link_to new_screen_field_subscription_path(@screen, @field, :feed_id => feed.id), :remote => true, :class => "link-hl", "data-feed-id" => feed.id do %>
           <%= ("&nbsp;" * feed.depth).html_safe %>
-          <i class="ficon-ok-sign"></i>
+          <i class="icon-ok-sign"></i>
           <b><%= feed.name %></b>
         <% end %>
       </li>

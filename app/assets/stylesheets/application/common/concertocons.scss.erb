@@ -1,0 +1,119 @@
+// SPRITES
+// Glyphs and icons for buttons, nav, and more
+// -------------------------------------------
+
+
+$concertoconsPath: "/assets/concertocons" !default;
+
+@font-face {
+  font-family: "concertocons";
+  src: url("#{$concertoconsPath}.eot?v=3.1.0");
+  src: url("#{$concertoconsPath}.eot?#iefix&v=3.1.0") format('embedded-opentype'), 
+    url("#{$concertoconsPath}.woff?v=3.1.0") format('woff'), 
+    url("#{$concertoconsPath}.ttf?v=3.1.0") format('truetype'), 
+    url("#{$concertoconsPath}.svg#concertocons?v=1.0") format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* FONT AWESOME CORE
+ * -------------------------- */
+[class^="concertocon-"],
+[class*=" concertocon-"] {
+  font-family: concertocons;
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: inherit;
+  -webkit-font-smoothing: antialiased;
+  *margin-right: .3em;
+  display: inline;
+  width: auto;
+  height: auto;
+  font-size: 17px;
+  line-height: normal;
+  vertical-align: baseline;
+  background-image: none;
+  background-position: 0% 0%;
+  background-repeat: repeat;
+  margin-top: 0;
+}
+[class^="concertocon-"]:before,
+[class*=" concertocon-"]:before {
+  text-decoration: inherit;
+  display: inline-block;
+  speak: none;
+}
+
+.concertocon-logobutton:before {
+  content: "\e000";
+}
+.concertocon-user-admin:before {
+  content: "\e001";
+}
+.concertocon-user-leader:before {
+  content: "\e002";
+}
+.concertocon-header-activecontent:before {
+  content: "\e003";
+}
+.concertocon-header-deniedcontent:before {
+  content: "\e004";
+}
+.concertocon-header-pendingcontent:before {
+  content: "\e005";
+}
+.concertocon-header-futurecontent:before {
+  content: "\e006";
+}
+.concertocon-header-expiredcontent:before {
+  content: "\e007";
+}
+.concertocon-controller-templates:before {
+  content: "\e008";
+}
+.concertocon-controller-screens:before {
+  content: "\e009";
+}
+.concertocon-controller-groups:before {
+  content: "\e00a";
+}
+
+
+// CONTROLLER ICONS
+
+// These are used on various views to designate controllers 
+// (screens, templates, user groups, etc.). 
+
+// <i class="concertocon-controller-screens"></i>
+
+[class^="concertocon-controller-"],
+[class*=" concertocon-controller-"] {
+  display: inline-block;
+  color: $black;
+  font-size: 4em;
+  line-height: 34px;
+  vertical-align: text-top;
+  
+  @include ie7-restore-right-whitespace();
+}
+
+
+// HEADER ICONS
+
+// <i class="concertocon-header-activecontent"></i>
+
+[class^="concertocon-header-"],
+[class*=" concertocon-header-"] {
+  display: inline-block;
+  font-size: 2.2em;
+  vertical-align: text-top;
+  
+  @include ie7-restore-right-whitespace();
+}
+
+
+// MISC ICONS
+
+.concertocon-logobutton {
+  display: block;
+  font-size: 48px;
+}

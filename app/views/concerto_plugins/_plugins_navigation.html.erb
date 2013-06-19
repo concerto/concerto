@@ -2,12 +2,12 @@
   <ul class="nav nav-tabs">
     <li>
       <%= link_to dashboard_path do %>
-          <i class="ficon-cog"></i> <%= t('dashboard.global_preferences') %>
+          <i class="icon-cog"></i> <%= t('dashboard.global_preferences') %>
       <% end %>
     </li>
     <li class="active">
       <%= link_to concerto_plugins_path do %>
-          <i class="ficon-bolt"></i> <%= t :manage_model, :model => ConcertoPlugin.model_name.human.pluralize %>
+          <i class="icon-bolt"></i> <%= t :manage_model, :model => ConcertoPlugin.model_name.human.pluralize %>
       <% end %>
     </li>
   </ul>

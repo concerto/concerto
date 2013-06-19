@@ -28,3 +28,4 @@ en:
       system_admin: "You are a system-wide admin"
       templates: "Templates"
       users_and_groups: "User Groups"
+      return_home_msg: 'Return home'

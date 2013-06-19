@@ -31,7 +31,7 @@
             <tr>
               <th>
                 <p>
-                  <i class="icon-user-leader tooltip-basic" data-tooltip-text="<%= t('.leader') %>"></i>
+                  <i class="concertocon-user-leader tooltip-basic" data-tooltip-text="<%= t('.leader') %>"></i>
                   <b><%= link_to_if can?(:read, leader.user), leader.user.name, leader.user %></b><br />
                 </p>
               </th>
@@ -56,7 +56,11 @@
                       <td>
                         <ul class="inputs-list">
                             <li> 
-                              <%= select_tag "#{m.object_name}[perms][#{perm.to_s}]", options_for_select(levels.keys, m.object.perms[perm]) %>
+                              <% if can? :update, m %>
+                                <%= select_tag "#{m.object_name}[perms][#{perm.to_s}]", options_for_select(levels.keys, m.object.perms[perm]) %>
+                              <% else %>
+                                <%= label_tag m.object.perms[perm] %>
+                               <% end %>
                             </li> 
                         </ul>
                       </td>
