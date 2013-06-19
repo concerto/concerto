@@ -104,10 +104,10 @@ Concerto::Application.routes.draw do
   resources :html_texts, :controller => :contents, :except => [:index, :show], :path => "content"
   resources :client_times, :controller => :contents, :except => [:index, :show], :path => "content"
 
+  resource :concerto_config, :controller => :concerto_config, :only => [:show, :update], :path => "settings"
+
   #Set a non-restful route to the dashboard
-  match 'dashboard/' => 'dashboard#index'
   match 'dashboard/run_backup' => 'dashboard#run_backup'
-  match 'dashboard/update' => 'dashboard#update', :via => "post"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
