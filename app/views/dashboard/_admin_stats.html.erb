@@ -1,52 +1,40 @@
 <section class="viewblock">
   <header class="viewblock-header">
-    <div class="viewblock-header_right">
-      <div class="button-padding">
-        <%= link_to t('.backup'), dashboard_run_backup_path, :class => "btn" %>
-        <%= link_to t('.restart_webserver'), { :controller => :concerto_plugins, :action => "restart_for_plugin" }, :method => :post, :confirm => "Restarting the webserver may take a 10 to 20 seconds. Are you sure you'd like to restart?", :class => "btn" %>
-      </div>
-    </div>
     <h1 class="default-padding"><%= t('.system_info') %></h1>
   </header>
 
   <div class="viewblock-cont">
 
     <div class="row-fluid">
-      <div class="span4">
-        <div class="default-padding<% if !@latest_version.nil? && @latest_version > Concerto::VERSION::STRING %> alert alert-block alert-removeborder<% end %>">
+      <div class="span6">
+        <div class="default-padding
+          <% if !@latest_version.nil? && @latest_version > Concerto::VERSION::STRING %> alert alert-block alert-removeborder
+          <% end %>">
           <h5><%= t ('.concerto_version') %></h5>
-          <h1><%= Concerto::VERSION::STRING %></h1>
+
+          <h2><%= Concerto::VERSION::STRING %></h2>
           <% if @latest_version.nil? %>
-              <i class="ficon-exclamation-sign" style="font-size: 1.4em;"></i>
+              <i class="icon-exclamation-sign" style="font-size: 1.4em;"></i>
               <b><%= t('.cant_determine_latest_version') %></b>
           <% elsif @latest_version > Concerto::VERSION::STRING %>
-              <i class="ficon-exclamation-sign" style="font-size: 1.4em;"></i>
+              <i class="icon-exclamation-sign" style="font-size: 1.4em;"></i>
               <b><%= t('.new_version', :version => @latest_version) %></b>
           <% end %>
         </div>
       </div>
-      <div class="span4">
+      <div class="span6">
         <div class="default-padding">
           <h5><%= t('.delayed_job_status') %></h5>
 
-          <h1>
+          <h2>
             <% require 'process_tools' %>
             <% if pid_process_running?("#{Rails.root}/tmp/pids/delayed_job.pid") %>
-                <i class="ficon-play-circle"></i> <%= t('.running') %>
+                <i class="icon-play-circle"></i> <%= t('.running') %>
             <% else %>
-                <i class="ficon-stop"></i> <%= t('.stopped') %>
+                <i class="icon-stop"></i> <%= t('.stopped') %>
             <% end %>
             <small style="font-size: 0.4em; padding-left: 16px;"><%= link_to t('.start_stop'), "#", :style => "text-decoration: underline;" %></small>
-          </h1>
-        </div>
-      </div>
-      <div class="span4">
-        <div class="default-padding">
-          <h5><%= t('.user_stats') %></h5>
-
-          <h1><%= User.all.size %> <i class="ficon-user"></i>
-            <small style="font-size: 0.4em; padding-left: 16px;"><%= link_to t(:manage_model, :model => User.model_name.human.pluralize), users_path, :style => "text-decoration: underline;" %></small>
-          </h1>
+          </h2>
         </div>
       </div>
     </div>

@@ -28,8 +28,18 @@ class SubmissionsController < ApplicationController
       state = 'active'
     end
     @submissions = @submissions.includes(:content)
-    @paginated_submissions = @submissions
-    @paginated_submissions = @submissions.page(params[:page]).per(100) unless @paginated_submissions.kind_of?(Array)
+
+    # We only paginate based on the parent content during the active page.
+    # Other pages may show submissions without a parent to collect them under,
+    # so we paginate directly on them there.  This will probably need cleanup at some point.
+    if state == 'active'
+      @paginated_submissions = @submissions.select {|s| s.content.parent_id.nil? }
+      @paginated_submissions = Kaminari.paginate_array(@paginated_submissions)
+    else
+      @paginated_submissions = @submissions
+    end
+    @paginated_submissions = @paginated_submissions.page(params[:page]).per(100)
+
     @state = state
 
     respond_to do |format|

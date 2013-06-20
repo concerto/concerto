@@ -284,4 +284,9 @@ class ApplicationController < ActionController::Base
     headers['Access-Control-Allow-Origin'] = site
     headers['Access-Control-Allow-Methods'] = '*'
   end
+
+  # Redirect the user to the dashboard after signing in.
+  def after_sign_in_path_for(resource)
+    dashboard_path
+  end
 end

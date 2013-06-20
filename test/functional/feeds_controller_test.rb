@@ -41,7 +41,7 @@ class FeedsControllerTest < ActionController::TestCase
     sign_in users(:katie)
     get :index
 
-    key_text = ['Dashboard', 'Screens', 'User Groups']
+    key_text = ['Browse', 'Screens', 'User Groups']
     key_text.each do |text|
       assert_select 'nav>section>div>a', text
     end
