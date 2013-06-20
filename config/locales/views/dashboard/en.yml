@@ -2,7 +2,9 @@ en:
   dashboard:
     global_preferences: "Global Settings"
 
-    show: 
+    browse: 
+      submissions_to_moderate: { one: "You have %{count} submission to moderate", other: "You have %{count} submissions to moderate" }
+    vitals:
       active: 'active'
       offline: 'offline'
       screen: 'screen'
@@ -10,8 +12,6 @@ en:
       user: 'user'
       plugin: 'plugin'
       group: 'group'
-      view_screens_list: 'View Screens List'
-      submissions_to_moderate: { one: "You have %{count} submission to moderate", other: "You have %{count} submissions to moderate" }
       active_content: 'active contents'
 
     admin_stats:

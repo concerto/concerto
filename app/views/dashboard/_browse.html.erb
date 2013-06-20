@@ -6,7 +6,7 @@
     <% if @pending_submissions_count and @pending_submissions_count > 0 %>
       <div class="alert alert-banner">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
-         <h4><%= link_to t('.submissions_to_moderate', :count => @pending_submissions_count),  main_app.moderate_feeds_path %></h4>
+         <h4><%= link_to t('.submissions_to_moderate', :count => @pending_submissions_count),  moderate_feeds_path %></h4>
       </div>
     <% end %>
     <%= render :partial => "feeds/browse_body" %>

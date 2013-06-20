@@ -6,9 +6,9 @@
     <%= render :partial => 'browse' %>
   </div>
   <div class="span5">
-    <%= render :partial => 'latest_activity' %>
+    <%= render :partial => 'latest_activity', :locals => {:activities => @activities} %>
     <%= render :partial => 'network' %>
-    <%= render :partial => 'vitals' %>
+    <%= render :partial => 'vitals', :locals => {:screens => @screens, :feeds => @feeds, :templates => @templates, :active_content => @active_content} %>
     <% if can? :manage, :all %>
       <%= render :partial => 'dashboard/admin_stats' %>
     <% end %>
