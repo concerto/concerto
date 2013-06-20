@@ -20,9 +20,7 @@ class DashboardController < ApplicationController
       can?(:read, ConcertoPlugin) ? @concerto_plugins = ConcertoPlugin : @concerto_plugins = nil
 
       respond_to do |format|
-        format.html { } # index.html.erb
-        format.xml  { render :xml => @feeds }
-        format.js { render :layout => false }
+        format.html { } # show.html.erb
       end
     else
       redirect_to feeds_path
