@@ -1,0 +1,14 @@
+<section class="viewblock">
+  <header class="viewblock-header" id="browse-header">
+    <%= render :partial => "feeds/browse_header" %>
+  </header>
+  <div id="browse-body" class="viewblock-cont">
+    <% if @pending_submissions_count and @pending_submissions_count > 0 %>
+      <div class="alert alert-banner">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+         <h4><%= link_to t('.submissions_to_moderate', :count => @pending_submissions_count),  main_app.moderate_feeds_path %></h4>
+      </div>
+    <% end %>
+    <%= render :partial => "feeds/browse_body" %>
+  </div>
+</section>

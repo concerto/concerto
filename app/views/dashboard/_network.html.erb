@@ -1,0 +1,33 @@
+<section class="viewblock">
+  <header class="viewblock-header">
+    <h1 class="default-padding"><%= t('.your_network') %></h1>
+  </header>
+  <div class="viewblock-cont">
+    <div class="row-fluid">
+      <div class="span6">
+        <div class="default-padding">
+          <% if current_user.groups.count > 0 %>
+            <p><%= t(".groups") %></p>
+            <ul>
+              <% current_user.groups.each do |group| %>
+                <li><%= link_to group.name, group %></li>
+              <% end %>
+            </ul>
+          <% end %>
+        </div>
+      </div>
+      <div class="span6">
+        <div class="default-padding">
+          <% if current_user.screens.count > 0 %>
+            <p><%= t('.screens') %>:</p>
+            <ul>
+              <% current_user.screens.each do |screen| %>
+                <li><%= link_to screen.name, screen %></li>
+              <% end %>
+            </ul>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
