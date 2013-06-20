@@ -1,0 +1,11 @@
+<h1>Concerto is coming soon!</h1>
+<p>Administrators: To configure this screen, you will need the following code: <strong><%= @temp_token %></strong></p>
+<p>Screen configuration is a three-step process.</p>
+<ol>
+  <li>On your PC or moble device, Log in to the Concerto Control Panel and visit the Screens page.</li>
+  <li>If this is a brand-new screen, click "New Screen" and fill out the relevant details. The Screen should not be public. Use the code given above as the authorization code.<br/></li>
+  If this PC is being reconfigured or is replacing an existing screen, simply click on that screen, click edit, make sure the screen is not public, and enter the authorization code.**</li>
+  <li>Finally, return to this screen and hit F5 to refresh*. Your new screen will appear before your eyes!</li>
+</ol>
+<p><em>** You need to do this on the console for now, for example</em> Screen.find(1).update_attribute('authentication_token', 'temp:bf9f1f')  <em>(TODO)</em></p>
+<p><em>*Hopefully some javascript magician will make this step unnecessary in the future (TODO)</em></p>

@@ -27,7 +27,10 @@ class Frontend::ScreensController < ApplicationController
   end
   
   # GET /frontend
-  # Handles legacy screens and stuff that doesn't know their id.
+  # Handles cases where the ID is not provided:
+  #   public legacy screens screens - a MAC address is provided instead of an ID
+  #   private screens - authentication token from a cookie is used instead of an ID
+  #   private screen setup - a short token is stored in the session
   def index
     if params[:mac]
       screen = Screen.find_by_mac(params[:mac])
@@ -40,8 +43,24 @@ class Frontend::ScreensController < ApplicationController
       else
         render :text => "Screen not found.", :status => 404
       end
+    elsif session.has_key? :screen_temp_token
+      screen = Screen.find_by_temp_token session[:screen_temp_token]
+      if screen.nil?
+	@temp_token = session[:screen_temp_token]
+	render 'sign_in', :layout => false
+      else
+        sign_in_screen screen
+	redirect_to frontend_screen_path(screen), :status => :moved_permanently
+      end
+    elsif !current_screen.nil?
+      redirect_to frontend_screen_path(current_screen), :status => :moved_permanently
     else
-      render :text => 'Bad request.', :status => 400
+      # We're going to store the temporary token in the session.
+      # We rely on rails's hash (based on a server-side key) to prevent spoofing,
+      # since it will otherwise be very easy to steal the token.
+      @temp_token = Screen.generate_temp_token
+      session[:screen_temp_token] = @temp_token
+      render 'sign_in', :layout => false
     end  
   end
 

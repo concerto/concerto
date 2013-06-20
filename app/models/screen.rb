@@ -124,9 +124,29 @@ class Screen < ActiveRecord::Base
     self.update_attribute(:authentication_token, '')
   end
 
+  # The token is first associated with a session, not a Screen, so
+  # it is generated independent of a particular instance
+  def self.generate_temp_token
+    require 'securerandom'
+    token = SecureRandom.hex(3) # Short token (length 3*2) since the user will enter this
+    return token
+  end
+
+  def self.find_by_temp_token(token)
+    return nil if token.blank?
+    begin
+      Screen.where(:authentication_token=>'temp:'+token).first
+    rescue ActiveRecord::ActiveRecordError
+      nil
+    end
+  end
 
 private
 
+  # Right now there are three types of tokens
+  #   mac -  for public screens that are accessed by legacy clients
+  #   auth - for authenticating secure screens once they are set up
+  #   temp - used during one-time setup for secure screens
   def token_by_type(type)
     return nil if self.authentication_token.nil?
     (token_type, value) = self.authentication_token.split(':')
