@@ -52,6 +52,7 @@ class SubmissionsController < ApplicationController
   # GET /feeds/:feed_id/submissions/1.js
   def show
     @submission = Submission.find(params[:id])
+    auth!
     
     # IMPORTANT: .load must be at the end of the collection to eager load and prevent the actual object from being deleted!
     @other_submissions = @submission.content.submissions.load

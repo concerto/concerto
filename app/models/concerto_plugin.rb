@@ -154,8 +154,12 @@ private
       when "rubygems"
         return false if self.gem_name.empty?
         require 'net/http'
-        r = Net::HTTP.get_response(URI.parse("http://rubygems.org/gems/#{self.gem_name}"))
-        Net::HTTPSuccess === r ? (return true) : errors.add(:gem_name, "#{self.gem_name} is not a valid rubygem")
+        begin
+          r = Net::HTTP.get_response(URI.parse("http://rubygems.org/gems/#{self.gem_name}"))
+          Net::HTTPSuccess === r ? (return true) : errors.add(:gem_name, "#{self.gem_name} is not a valid rubygem")
+        rescue
+          errors.add(:gem_name, "#{self.gem_name} failed.")
+        end
       when "git"
         if self.source_url.empty?
           errors.add(:source_url, "can't be blank")

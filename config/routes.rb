@@ -12,6 +12,8 @@ Concerto::Application.routes.draw do
 
   root :to => 'feeds#index'
 
+  resource :dashboard, :controller => :dashboard, :only => [:show]
+
   resources :concerto_plugins
   post 'concerto_plugins/restart_for_plugin' => 'concerto_plugins#restart_for_plugin'
 
@@ -103,10 +105,13 @@ Concerto::Application.routes.draw do
   resources :html_texts, :controller => :contents, :except => [:index, :show], :path => "content"
   resources :client_times, :controller => :contents, :except => [:index, :show], :path => "content"
 
-  #Set a non-restful route to the dashboard
-  get 'dashboard/' => 'dashboard#index'
-  get 'dashboard/run_backup' => 'dashboard#run_backup'
-  post 'dashboard/update' => 'dashboard#update'
+  resource :concerto_config, :controller => :concerto_config, :only => [:show, :update], :path => "settings"
+  resource :tools, :only => [] do
+    member do
+      get :run_backup
+    end
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

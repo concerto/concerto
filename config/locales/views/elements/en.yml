@@ -3,11 +3,14 @@ en:
     topmenu_contents:
       accounts: "Accounts"
       admin: "Admin"
-      dashboard: "Dashboard"
+      browse: "Browse"
+      dashboard_tooltip: "View the Concerto Dashboard"
       backup: "Backup"
       restart_webserver: "Restart Webserver"
       content: "Content"
       configuration: "Configuration"
+      settings: "Settings"
+      plugins: "Plugins"
       groups: "Groups"
       leader: "You are a leader of one or more groups"
       log_out: "Log Out"
@@ -16,6 +19,7 @@ en:
       no_account: "No account?"
       now: "now!"
       screens: "Screens"
+      users: "Users"
       settings: "Settings"
       sign_in: "Sign In"
       sign_up: "Register"
@@ -24,3 +28,4 @@ en:
       system_admin: "You are a system-wide admin"
       templates: "Templates"
       users_and_groups: "User Groups"
+      return_home_msg: 'Return home'

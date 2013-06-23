@@ -15,15 +15,6 @@ en:
 
     no_feeds: "There are no feeds in the system that you can submit content to.  Please contact your system administrator for more information."
 
-    index:
-      belong_to_groups: 'Belong To Groups'
-      my_concerto: 'My Concerto'
-      network_vitals: 'Network Vitals'
-      new_content_today: 'New Content Submitted Today'
-      offline: 'Offline'
-      screen: 'Screen'
-      view_screens_list: 'View Screens List'
-
     browse_header:
       browse_content: 'Browse Concerto Content'
 
