@@ -5,6 +5,9 @@ class FeedsController < ApplicationController
   # GET /feeds.xml
   # GET /feeds.js
   def index
+    if !ConcertoConfig[:public_concerto]
+      redirect_to(new_user_session_path)
+    end
     @feeds = Feed.roots
     auth!
     respond_to do |format|

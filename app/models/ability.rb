@@ -103,7 +103,7 @@ class Ability
       can :create, Screen if user.persisted?
     end
     # Anyone can read public screens
-    can :read, Screen, :is_public => true
+    can :read, Screen, :is_public => true if (user.persisted? || ConcertoConfig[:public_concerto])
     # Users can read, update and delete their own screens
     can [:read, :update, :delete], Screen do |screen|
       screen.owner.is_a?(User) && screen.owner == user
@@ -147,7 +147,7 @@ class Ability
 
     ## Feeds
     # A feed can be read if it's viewable
-    can :read, Feed, :is_viewable => true
+    can :read, Feed, :is_viewable => true if (user.persisted? || ConcertoConfig[:public_concerto])
     # Group members can read a feed they own
     can :read, Feed, :group => {:id => user.group_ids }
     # Group leaders can update / date a feed they own
