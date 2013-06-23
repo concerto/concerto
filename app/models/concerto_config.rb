@@ -86,7 +86,7 @@ class ConcertoConfig < ActiveRecord::Base
   def self.cache_expire
     updated = ConcertoConfig.where(:key => 'config_last_updated').first
     if !updated.nil?
-      updated.update_column(:value, Time.now)
+      updated.update_column(:value, (Time.now.to_f * 1000000).to_i)
     end
   end
   def cache_expire
@@ -101,6 +101,7 @@ class ConcertoConfig < ActiveRecord::Base
     return nil if last_updated.nil?  # No validation data for the cache.
 
     hit = Rails.cache.read('ConcertoConfig')
+    Rails.logger.debug("last_updated is #{last_updated}, hit['config_last_updated'] is #{hit['config_last_updated']} ")
 
     if hit.nil? || hit[key].nil? || hit['config_last_updated'].nil? || last_updated != hit['config_last_updated']
       Rails.logger.debug("Cache miss on #{key}")
