@@ -5,23 +5,23 @@ class DashboardController < ApplicationController
   # GET /dashboard.js
   def show
     if current_user
+      # Browse + Vitals share feeds.
       @feeds = Feed.roots
+      auth!(!:object => @feeds)
+
+      # Latest Activities
+      @activities = get_activities()
+
+      # Vitals
       @screens = Screen.all
-      @templates = Template.all
-      @users = User.all
-      @groups = Group.all
-      authorize! :read, ConcertoPlugin
-      @concerto_plugins = ConcertoPlugin.all
       auth!(:object => @screens)
-      auth!
-      get_activities()
+      @active_content = Content.active.joins(:submissions).merge(Submission.approved).count
+      @templates = Template.where(:is_hidden => false)
+      can?(:read, ConcertoPlugin) ? @concerto_plugins = ConcertoPlugin : @concerto_plugins = nil
+
       respond_to do |format|
-        format.html { } # index.html.erb
-        format.xml  { render :xml => @feeds }
-        format.js { render :layout => false }
+        format.html { } # show.html.erb
       end
-      @active_content = 0
-      @feeds.each { |node| node.submissions.each { |submission| if submission.moderation_flag == true then @active_content += 1 end } }
     else
       redirect_to feeds_path
     end
@@ -30,7 +30,7 @@ class DashboardController < ApplicationController
 private
 
   def get_activities
-    @activities = []
+    activities = []
     if current_user && defined? PublicActivity::Activity
       #Retrieve the activities for which the current user is an owner or recipient (making sure the STI field specifies user as the Type)
       owner = PublicActivity::Activity.where(:owner_id => current_user.id, :owner_type => 'User').limit(25)
@@ -43,13 +43,13 @@ private
       public_activities = PublicActivity::Activity.where(:owner_id => nil, :recipient_id => nil).where(PublicActivity::Activity.arel_table[:trackable_type].not_eq("ConcertoConfig")).limit(10)
       if current_user.is_admin?
         system_notifications = PublicActivity::Activity.where(:trackable_type => "ConcertoConfig").limit(10)
-        @activities = owner + recipient + group_member + public_activities + system_notifications
+        activities = owner + recipient + group_member + public_activities + system_notifications
       else
-        @activities = owner + recipient + group_member + public_activities
+        activities = owner + recipient + group_member + public_activities
       end
-
-      @activities.sort! { |a,b| b.created_at <=> a.created_at }
+      activities.sort! { |a,b| b.created_at <=> a.created_at }
     end
+    return activities
   end
 
 end
