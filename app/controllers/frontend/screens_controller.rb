@@ -47,7 +47,7 @@ class Frontend::ScreensController < ApplicationController
       screen = Screen.find_by_temp_token session[:screen_temp_token]
       if screen.nil?
 	@temp_token = session[:screen_temp_token]
-	render 'sign_in', :layout => false
+	render 'sign_in', :layout => "no-topmenu"
       else
         sign_in_screen screen
 	redirect_to frontend_screen_path(screen), :status => :moved_permanently
@@ -60,7 +60,7 @@ class Frontend::ScreensController < ApplicationController
       # since it will otherwise be very easy to steal the token.
       @temp_token = Screen.generate_temp_token
       session[:screen_temp_token] = @temp_token
-      render 'sign_in', :layout => false
+      render 'sign_in', :layout => "no-topmenu"
     end  
   end
 
