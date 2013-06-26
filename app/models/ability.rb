@@ -210,10 +210,7 @@ class Ability
 
     ## Content
     # If any of the feeds the content is submitted can be read, the
-    # content can be read too.
-    can :read, Content do |content|
-      content.submissions.any?{|s| can?(:read, s.feed)}
-    end
+    # content can be read too, as long as it is approved.
+    can :read, Content, :submissions => {:feed => {:is_viewable => true}, :moderation_flag => true}
   end
-
 end

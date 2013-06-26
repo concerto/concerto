@@ -5,9 +5,15 @@ class Frontend::ScreensControllerTest < ActionController::TestCase
   fixtures :screens
 
   test "should get screen frontend" do
+    @request.cookies['concerto_screen_token'] = screens(:one).screen_token
     get(:show, {:id => screens(:one).id})
     assert_response :success
     assert_template false
+  end
+
+  test "private screen must be authenticated" do
+    get(:show, {:id => screens(:one).id})
+    assert_login_failure
   end
 
   test "should get screen setup" do
