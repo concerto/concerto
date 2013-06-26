@@ -101,7 +101,6 @@ class ConcertoConfig < ActiveRecord::Base
     return nil if last_updated.nil?  # No validation data for the cache.
 
     hit = Rails.cache.read('ConcertoConfig')
-    Rails.logger.debug("last_updated is #{last_updated}, hit['config_last_updated'] is #{hit['config_last_updated']} ")
 
     if hit.nil? || hit[key].nil? || hit['config_last_updated'].nil? || last_updated != hit['config_last_updated']
       Rails.logger.debug("Cache miss on #{key}")
