@@ -8,11 +8,13 @@ class Frontend::ScreensController < ApplicationController
   def show
     begin
       @screen = Screen.find(params[:id])
+      auth!
     rescue ActiveRecord::ActiveRecordError
       # TODO: Could this just be a regular 404?
       render :text => "Screen not found.", :status => 404
+    rescue CanCan::AccessDenied
+      render :text=> "Screen requires authentication.", :status => 403
     else
-      auth!
       @js_files = ['frontend.js']
       if params[:debug]
         @js_files = ['frontend_debug.js']
@@ -44,9 +46,9 @@ class Frontend::ScreensController < ApplicationController
         render :text => "Screen not found.", :status => 404
       end
     elsif session.has_key? :screen_temp_token
-      screen = Screen.find_by_temp_token session[:screen_temp_token]
+      @temp_token = session[:screen_temp_token]
+      screen = Screen.find_by_temp_token @temp_token
       if screen.nil?
-        @temp_token = session[:screen_temp_token]
         render 'sign_in', :layout => "no-topmenu"
       else
         sign_in_screen screen
@@ -70,8 +72,11 @@ class Frontend::ScreensController < ApplicationController
   def setup
     begin
       @screen = Screen.find(params[:id])
+      auth! :action => :read
     rescue ActiveRecord::ActiveRecordError
       render :json => {}, :status => 404
+    rescue CanCan::AccessDenied
+      render :json => {}, :status => 403
     else
 
       # Inject paths into fake attribute so they gets sent with the setup info.

@@ -11,18 +11,25 @@ class Frontend::ScreensControllerTest < ActionController::TestCase
     assert_template false
   end
 
-  test "private screen must be authenticated" do
+  test "private screen frontend is not public" do
     get(:show, {:id => screens(:one).id})
-    assert_login_failure
+    assert_response 403
+  end
+
+  test "private screen setup data is not public" do
+    get(:setup, {:id => screens(:one).id, :format => :json})
+    assert_response 403
   end
 
   test "should get screen setup" do
+    @request.cookies['concerto_screen_token'] = screens(:one).screen_token
     get(:setup, {:id => screens(:one).id, :format => :json})
     assert_response :success
     assert_not_nil assigns(:screen)
   end
 
   test "screen setup makes sense" do
+    @request.cookies['concerto_screen_token'] = screens(:one).screen_token
     get(:setup, {:id => screens(:one).id, :format => :json})
     data = ActiveSupport::JSON.decode(@response.body)
     assert_equal data['name'], screens(:one).name
