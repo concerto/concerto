@@ -31,8 +31,8 @@ class ApplicationController < ActionController::Base
   def current_screen
     if @current_screen.nil?
       if cookies.has_key? :concerto_screen_token
-	token = cookies[:concerto_screen_token]
-	@current_screen = Screen.find_by_screen_token(token)
+        token = cookies[:concerto_screen_token]
+        @current_screen = Screen.find_by_screen_token(token)
       end
     else
        @current_screen

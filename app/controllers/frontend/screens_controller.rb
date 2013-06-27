@@ -46,11 +46,11 @@ class Frontend::ScreensController < ApplicationController
     elsif session.has_key? :screen_temp_token
       screen = Screen.find_by_temp_token session[:screen_temp_token]
       if screen.nil?
-	@temp_token = session[:screen_temp_token]
-	render 'sign_in', :layout => "no-topmenu"
+        @temp_token = session[:screen_temp_token]
+        render 'sign_in', :layout => "no-topmenu"
       else
         sign_in_screen screen
-	redirect_to frontend_screen_path(screen), :status => :moved_permanently
+        redirect_to frontend_screen_path(screen), :status => :moved_permanently
       end
     elsif !current_screen.nil?
       redirect_to frontend_screen_path(current_screen), :status => :moved_permanently
