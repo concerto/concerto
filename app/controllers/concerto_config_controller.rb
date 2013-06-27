@@ -3,7 +3,7 @@ class ConcertoConfigController < ApplicationController
   # GET /settings
   def show
     authorize! :read, ConcertoConfig
-    @concerto_configs = ConcertoConfig.where("hidden IS NULL")
+    @concerto_configs = ConcertoConfig.where("hidden IS NULL").order(:key)
 
     @latest_version = VersionCheck.latest_version()
   end
