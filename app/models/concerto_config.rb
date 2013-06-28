@@ -86,7 +86,7 @@ class ConcertoConfig < ActiveRecord::Base
   def self.cache_expire
     updated = ConcertoConfig.where(:key => 'config_last_updated').first
     if !updated.nil?
-      updated.update_column(:value, Time.now)
+      updated.update_column(:value, (Time.now.to_f * 1000000).to_i)
     end
   end
   def cache_expire

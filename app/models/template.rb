@@ -6,6 +6,7 @@ class Template < ActiveRecord::Base
   has_many :positions, :dependent => :destroy
   
   accepts_nested_attributes_for :media
+  accepts_nested_attributes_for :positions, :allow_destroy => true
 
   # Validations
   validates :name, :presence => true

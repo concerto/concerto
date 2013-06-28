@@ -1,7 +1,3 @@
-<div class="default-padding">
-  <h1><%= pluralize(@feeds.count, Feed.model_name.human.capitalize) %></h1>
-</div>
-
 <ul class="list-stacked">
   <% @feeds.each do |feed| %>
     <% if feed.approved_contents.size != 0 || feed.group.has_member?(current_user) %>
@@ -14,7 +10,7 @@
         </h3>
         <% if feed.children.count > 0 %>
           <p class="indented">
-            <%= t(:sub_feeds) %>
+            <%= t(:sub_feeds) %>:
             <% feed.children.each do |sub_feed| %>
               <%= link_to sub_feed.name, feed_submissions_path(sub_feed), :class => "link-hl" %>
             <% end %>

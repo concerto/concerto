@@ -1,11 +1,8 @@
-<% if !@activities.empty? %>
-  <p><%= t('.latest_activity')%></p>
-  <ul>
-  <% @activities.each do |activity| %>
+<% if !activities.empty? %>
+  <ul class="list-stacked condensed">
+  <% activities.each do |activity| %>
     <% if File.exists?(Rails.root.join("app", "views", "public_activity", activity.key.split('.')[0], "_#{activity.key.split('.')[1]}.html.erb")) %>
-      <div class="activity">
-        <li><%= render_activity activity %></li>
-      </div>
+      <li><b><%= activity.created_at.strftime("%D, %l:%M") %>:</b> <%= render_activity activity %></li>
     <% end %>
   <% end %>
   </ul>

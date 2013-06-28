@@ -1,0 +1,5 @@
+en:
+  concerto_config:
+    show:
+      edit_settings: "Edit Global Settings"
+      save_settings: "Save Settings"

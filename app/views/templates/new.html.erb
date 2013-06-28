@@ -11,9 +11,9 @@
     </div>
 
     <% if @type == "create" %>
-      <%= render :partial => 'templates/create_form', :locals => { :button_text => t(:create_model, :model => ::Template.model_name.human) } %>
+      <%= render :partial => 'templates/create_form', :locals => { :button_text => t(:create_model, :model => ::Template.model_name.human), :template => @template } %>
     <% else %>
-      <%= render :partial => 'templates/import_form', :locals => { :button_text => t(:import_model, :model => ::Template.model_name.human) } %>
+      <%= render :partial => 'templates/import_form', :locals => { :button_text => t(:import_model, :model => ::Template.model_name.human), :template => @template } %>
     <% end %>
   </div>
 </section>
