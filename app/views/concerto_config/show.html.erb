@@ -16,62 +16,64 @@
   </header>
   <div class="viewblock-cont" style="min-height: 600px;">
  
+    <div class="subnav clearfix">
+      <%= generate_tabs @concerto_configs %>
+    
+    </div>
+
     <%= form_tag concerto_config_path, :method => :put do %>
 
-        <fieldset class="global-prefs">
-          <div class="tabbable tabs-left">
-            <%= generate_tabs @concerto_configs %>
-
-            <div class="tab-content">
-              <% last_group, i = "", 0 %>
-              <% for c in @concerto_configs %>
-                  <% if c.group != last_group %>
-                    <%= "</div>".html_safe if i > 0 %>
-                    <div class="tab-pane <%= 'active' if i == 0 %>" id="tab<%= c.id %>">
-                      <% last_group = c.group %>
-                  <% end %>
-                  <% i += 1 %>
-
-                  <div class="clearfix">
-                    <% if c.value_type == "string" %>
-                        <% input_size = "input-large" %>
-                        <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>
-                        <div class="input">
-                          <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], :class => input_size, :placeholder => c.value_default %>
-                        </div>
-                    <% elsif c.value_type == "integer" %>
-                        <% input_size = "input-small" %>
-                        <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>
-                        <div class="input">
-                          <%= number_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], :class => input_size, :placeholder => c.value_default %>
-                        </div>
-                    <% elsif c.value_type == "timezone" %>  
-                      <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>  
-                      <div class="input">
-                        <%= select_tag "concerto_config[#{c.key}]", time_zone_options_for_select(ConcertoConfig[:system_time_zone], ActiveSupport::TimeZone.us_zones) %>
-                      </div>
-                    <% elsif c.value_type == "boolean" %>
-                        <div class="input checkbox">
-                          <%= tag 'input', :type => 'hidden', :name => "concerto_config[#{c.key}]", :value => '0' %>
-                          <% if ConcertoConfig[c.key.to_sym] == true %>
-                              <%= check_box_tag "concerto_config[#{c.key}]", true, :checked => true %>
-                          <% else %>
-                              <%= check_box_tag "concerto_config[#{c.key}]", true %>
-                          <% end %>
-                          <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>
-                        </div>
-                    <% end %>
-                  </div>
-              <% end %>
+      <fieldset class="global-prefs">
+        
+        <div class="tab-content">
+          <% last_group, i = "", 0 %>
+          <% for c in @concerto_configs %>
+            <% if c.group != last_group %>
               <%= "</div>".html_safe if i > 0 %>
-            </div>
-          </div>
-        </fieldset>
+              <div class="tab-pane <%= 'active' if i == 0 %>" id="tab<%= c.id %>">
+                <% last_group = c.group %>
+            <% end %>
+            <% i += 1 %>
 
-        <div class="submit_bar actions">
-          <%= submit_tag t('.save_settings'), :class => "btn primary" %>
+            <div class="clearfix">
+              <% if c.value_type == "string" %>
+                <% input_size = "input-large" %>
+                <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>
+                <div class="input">
+                  <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], :class => input_size, :placeholder => c.value_default %>
+                </div>
+              <% elsif c.value_type == "integer" %>
+                <% input_size = "input-small" %>
+                <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>
+                <div class="input">
+                  <%= number_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], :class => input_size, :placeholder => c.value_default %>
+                </div>
+              <% elsif c.value_type == "timezone" %>  
+                <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>  
+                <div class="input">
+                  <%= select_tag "concerto_config[#{c.key}]", time_zone_options_for_select(ConcertoConfig[:system_time_zone], ActiveSupport::TimeZone.us_zones) %>
+                </div>
+              <% elsif c.value_type == "boolean" %>
+                <div class="input checkbox">
+                  <%= tag 'input', :type => 'hidden', :name => "concerto_config[#{c.key}]", :value => '0' %>
+                  <% if ConcertoConfig[c.key.to_sym] == true %>
+                      <%= check_box_tag "concerto_config[#{c.key}]", true, :checked => true %>
+                  <% else %>
+                      <%= check_box_tag "concerto_config[#{c.key}]", true %>
+                  <% end %>
+                  <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+          <%= "</div>".html_safe if i > 0 %>
         </div>
+      </fieldset>
+
+      <div class="submit_bar actions">
+        <%= submit_tag t('.save_settings'), :class => "btn primary" %>
+      </div>
     <% end %>
 
   </div>
-  </section>
+</section>
