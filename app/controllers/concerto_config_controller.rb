@@ -3,10 +3,8 @@ class ConcertoConfigController < ApplicationController
   # GET /settings
   def show
     authorize! :read, ConcertoConfig
-    # The ordering is by group, sequence number (if specified), name (if specified),
-    # falling back to the id (being the original order in which it was added to the db)
-    # if the developer omits the seq_no or name.
-    @concerto_configs = ConcertoConfig.where("hidden IS NULL").order('"group", seq_no, name, id')
+    # The ordering is by group, falling back to the id (being the original order in which it was added to the db)
+    @concerto_configs = ConcertoConfig.where("hidden IS NULL").order('"group", key, id')
 
     @latest_version = VersionCheck.latest_version()
   end
