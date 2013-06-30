@@ -133,12 +133,23 @@
       <% unless users_not_in_group.empty? %>
         <h3 class="default-padding"><%= t('.add_users_to_group') %></h3>
         <div class="second-level-padding">
-        <%= form_for([@group, Membership.new]) do |f| %>
-          <%= f.label :name %><br />
-          <%= f.collection_select(:user_id, users_not_in_group, :id, :name) %>
-          <%= hidden_field_tag 'autoconfirm' %>
-          <%= f.submit t('.add_member'), :class => "btn primary" %>
-        <% end %>
+          <table class="hover-highlight">
+          <%= form_for([@group, Membership.new]) do |f| %>
+            <thead>
+              <tr>
+                <th><%= f.label :name %></th><th><%= f.label t('.screen_permission') %></th><th><%= f.label t('.feed_permission') %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>     
+                <td> <%= f.collection_select(:user_id, users_not_in_group, :id, :name) %> <%= hidden_field_tag 'autoconfirm' %> </td>
+                <td> <%= select_tag( :screen, options_for_select(Membership::PERMISSIONS[:regular][:screen].keys) ) %> </td>
+                <td> <%= select_tag( :feed, options_for_select(Membership::PERMISSIONS[:regular][:feed].keys) ) %> </td>
+                <td> <%= f.submit t('.add_member'), :class => "btn primary" %> </td>
+              </tr>
+            </tbody>
+          <% end %>
+          </table>
         </div>
       <% end %>
     <% end %>
