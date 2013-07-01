@@ -7,7 +7,7 @@
     var screen;
     function init() {
       var div = document.getElementsByClassName('screen')[0];
-      screen = new concerto.frontend.Screen(div.getAttribute('data-screen'), div);
+      screen = new concerto.frontend.Screen(<%= @screen.id %>, '<%=j setup_frontend_screen_path(@screen, :format => :json) %>', div);
     }
     window.addEventListener('load', init, false);
   </script>
