@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130612030753) do
+ActiveRecord::Schema.define(:version => 20130701235059) do
 
   create_table "activities", :force => true do |t|
     t.integer  "trackable_id"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(:version => 20130612030753) do
     t.string  "value"
     t.string  "value_type"
     t.string  "value_default"
+    t.integer "screen_id"
   end
 
   create_table "fields", :force => true do |t|
