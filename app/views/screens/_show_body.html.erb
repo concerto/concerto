@@ -1,7 +1,6 @@
 <div class="fluid-row">
   <div class="span2">
     <br />
-    <%= link_to t(:edit_model, :model => Screen.model_name.human), edit_screen_path(@screen), :class => "btn primary" if can? :update, @screen %> 
     <%= link_to t(:preview), frontend_screen_path(@screen), :class => "btn", :data => {'no-turbolink' => true} if can? :update, @screen %>
     <br />
     <br />
@@ -16,9 +15,7 @@
     <% if !@screen.mac_address.nil? && can?(:edit, @screen) %>
       <p><b><%= t(:mac_address) %>:</b> <%= @screen.mac_address %></p>
     <% end %>
-
-    <p><%= link_to t(:destroy), @screen, :data => { :confirm => t(:are_you_sure) }, :method => :delete, :class => "btn primary" if can? :delete, @screen %></p>
-
+    
     <p>
       <b><%= t(:current_model, :model => Subscription.model_name.human.pluralize) %></b>
 

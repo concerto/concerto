@@ -14,6 +14,7 @@ en:
   create_model: 'Create %{model}'
   current_model: 'Current %{model}'
   destroy: 'Delete'
+  destroy_model: 'Delete %{model}'
   deny: 'Deny'
   edit: 'Edit'
   edit_model: 'Edit %{model}'

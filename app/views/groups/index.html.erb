@@ -23,9 +23,6 @@
               <li>
                 <h3>
                   <%= link_to group.name, group, :class => "link-hl" %>
-                  <% if can? :delete, group %>
-                    <small><%= link_to t(:destroy), group, :data => { :confirm => t(:are_you_sure) }, :method => :delete %></small>
-                  <% end %>
                 </h3>
                 <%= link_to t(:join), group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %>
                 <p class="indented">
@@ -45,13 +42,7 @@
               <li>
                 <h3>
                   <%= link_to group.name, group, :class => "link-hl" %>
-                  <% if can? :update, group %>
-                    <small><%= link_to t(:edit), edit_group_path(group) %></small>
-                  <% end %>
-                  <% if can? :delete, group %>
-                    <small><%= link_to t(:destroy), group, :data => { :confirm => t(:are_you_sure) }, :method => :delete %></small>
-                  <% end %>
-                    <small><%= link_to t(:join), group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></small>
+                  <small><%= link_to t(:join), group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></small>
                 </h3>
                 <p class="indented">
                   <% member_list(group) %>

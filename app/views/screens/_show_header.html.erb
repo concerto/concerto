@@ -1,4 +1,17 @@
-<h1 class="default-padding">
-  <%= link_to t(:all_model, :model => Screen.model_name.human.pluralize), screens_path %> &gt; 
-  <%= @screen.name %>
-</h1>
+<div class="viewblock-header_right">
+  <div class="button-padding">
+    <% if can? :update, @screen %>
+      <%= link_to t(:edit_model, :model => Screen.model_name.human), edit_screen_path(@screen), :class => "btn" %>
+    <% end %>
+    <% if can? :delete, @screen %>
+      <%= link_to t(:destroy_model, :model => Screen), @screen, :data => { :confirm => t(:are_you_sure) }, :method => :delete, :class => "btn" %>
+    <% end %>
+  </div>
+</div>
+
+<div class="default-padding">
+  <h1>
+    <%= link_to t(:all_model, :model => Screen.model_name.human.pluralize), screens_path %> &gt; 
+    <%= @screen.name %>
+  </h1>
+</div>
