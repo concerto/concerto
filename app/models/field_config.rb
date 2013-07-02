@@ -2,9 +2,11 @@
 class FieldConfig < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
-  validates_presence_of :key
-  validates_presence_of :field_id
-  validates_uniqueness_of :key
+  belongs_to :field
+  belongs_to :screen
+
+  validates_presence_of :key, :field_id, :screen_id
+  validates_uniqueness_of :key, :scope => [:screen_id, :field_id]
 
   # Enable hash-like access to table for ease of use
   # Shortcut for self.get(key)
