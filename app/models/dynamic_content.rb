@@ -259,7 +259,8 @@ class DynamicContent < Content
 
   # Allow dynamic content to be manually refreshed.
   def action_allowed?(action_name, user)
-    return action_name == :manual_refresh
+    available = [:manual_refresh, :delete_children]
+    return available.include?(action_name)
   end
 
   # Manually refresh the dynamic content, only if the user
@@ -275,6 +276,20 @@ class DynamicContent < Content
     else
       return "Error refreshing."
     end
+  end
+
+  # Delete all the children of a dynamic content entry.
+  # Might be useful if things get broken / out of sync.
+  def delete_children(options)
+    # Only someoneone who can edit the content can do this.
+    owner = Ability.new(options[:current_user])
+    if owner.cannot?(:edit, self)
+      return "Sorry, you don't have access to perform this action."
+    end
+    self.children.each do |c|
+      c.destroy
+    end
+    return "OK."
   end
 
   # Manually refresh the dynamic content each time it is
