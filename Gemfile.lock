@@ -44,6 +44,9 @@ GEM
       railties (>= 3.0)
     builder (3.0.4)
     cancan (1.6.10)
+    clockwork (0.5.2)
+      activesupport
+      tzinfo (~> 0.3.35)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -208,6 +211,7 @@ DEPENDENCIES
   attachable (>= 0.0.5)
   bootstrap-datepicker-rails
   cancan
+  clockwork
   coffee-rails (~> 3.2.1)
   concerto_calendar
   concerto_iframe
