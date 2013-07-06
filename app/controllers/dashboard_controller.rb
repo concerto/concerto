@@ -19,6 +19,9 @@ class DashboardController < ApplicationController
       @templates = Template.where(:is_hidden => false)
       can?(:read, ConcertoPlugin) ? @concerto_plugins = ConcertoPlugin : @concerto_plugins = nil
 
+      # Admin Stats
+      @latest_version = VersionCheck.latest_version()
+
       respond_to do |format|
         format.html { } # show.html.erb
       end
