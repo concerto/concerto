@@ -67,7 +67,6 @@ GEM
     concerto_weather (0.0.3)
       rails (~> 3.2.12)
     connection_pool (1.1.0)
-    daemons (1.1.9)
     delayed_job (3.0.5)
       activesupport (~> 3.0)
     delayed_job_active_record (0.4.4)
@@ -218,7 +217,6 @@ DEPENDENCIES
   concerto_remote_video
   concerto_simple_rss
   concerto_weather
-  daemons
   delayed_job_active_record
   devise
   execjs

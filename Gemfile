@@ -53,7 +53,6 @@ gem 'json'
 
 # Process jobs in the background
 gem 'delayed_job_active_record'
-gem "daemons"
 gem 'clockwork'
 
 # Test Coverage
