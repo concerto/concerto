@@ -239,24 +239,6 @@ class DynamicContent < Content
     end
   end
 
-  # If DynamicContent is updating outside of a cron enviroment, this check
-  # should figure out how frequently {self.pid_locked_refresh} should be run.
-  #
-  # @return [Boolean] indicating if an update should be kicked off
-  def self.should_cron_run?
-    if !ConcertoConfig[:use_frontend_to_trigger_cron]
-      return false
-    else
-      last_updated = ConcertoConfig[:dynamic_refresh_time].to_i
-      return last_updated + 300 < Clock.time.to_i
-    end
-  end
-
-  # Write back that the cron job has just run.
-  def self.cron_ran
-    ConcertoConfig.set("dynamic_refresh_time", Clock.time.to_i) 
-  end
-
   # Allow dynamic content to be manually refreshed.
   def action_allowed?(action_name, user)
     available = [:manual_refresh, :delete_children]

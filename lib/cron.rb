@@ -4,9 +4,7 @@ require './config/boot'
 require './config/environment'
 
 module Clockwork
-  handler do |job|
-    puts "Running #{job}"
+  every(5.minutes, 'Refresh Dynamic Content') do
+    DynamicContent.delay.refresh
   end
-
-  every(5.minutes, 'sample.job')
 end

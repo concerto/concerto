@@ -38,9 +38,7 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("smtp_password", "", :value_type => "string", :group => 'Mail')
 
     # background processing
-    ConcertoConfig.make_concerto_config("dynamic_refresh_time", "0", :value_type => "integer", :hidden => "true", :group => 'Processing')
     ConcertoConfig.make_concerto_config("worker_heartbeat", "0", :value_type => "integer", :group => 'Processing', :hidden => "true")
-    ConcertoConfig.make_concerto_config("use_frontend_to_trigger_cron", "false", :value_type => "boolean", :group => 'Processing')
 
     # system
     ConcertoConfig.make_concerto_config("setup_complete", "false", :value_type => "boolean", :value_default => "true", :hidden => "true", :group => 'System')
