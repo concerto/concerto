@@ -38,7 +38,7 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("smtp_password", "", :value_type => "string", :group => 'Mail')
 
     # background processing
-    ConcertoConfig.make_concerto_config("worker_heartbeat", "0", :value_type => "integer", :group => 'Processing', :hidden => "true")
+    ConcertoConfig.make_concerto_config("worker_heartbeat", "0", :value_type => "integer", :group => 'Processing', :hidden => "true", :can_cache => false)
 
     # system
     ConcertoConfig.make_concerto_config("setup_complete", "false", :value_type => "boolean", :value_default => "true", :hidden => "true", :group => 'System')
