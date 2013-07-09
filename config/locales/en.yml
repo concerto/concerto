@@ -14,6 +14,7 @@ en:
   create_model: 'Create %{model}'
   current_model: 'Current %{model}'
   destroy: 'Delete'
+  destroy_model: 'Delete %{model}'
   deny: 'Deny'
   edit: 'Edit'
   edit_model: 'Edit %{model}'
@@ -62,9 +63,6 @@ en:
         allow_registration: "Allow open user registration"
         allow_user_screen_creation: "Allow user screen creation"
         allow_user_feed_creation: "Allow user feed creation"
-        autostart_delayed_job: "Automatically start Background Job Processor"
-        dynamic_refresh_time: "Dynamic refresh interval"
-        use_frontend_to_trigger_cron: "Trigger Background Job Processor using frontend"
         min_content_duration: 'Minimum Content Duration (in seconds)'
         mailer_protocol: "Mailer Protocol"
         mailer_host: "Concerto Server Name (FQDN)"

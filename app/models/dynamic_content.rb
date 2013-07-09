@@ -239,27 +239,10 @@ class DynamicContent < Content
     end
   end
 
-  # If DynamicContent is updating outside of a cron enviroment, this check
-  # should figure out how frequently {self.pid_locked_refresh} should be run.
-  #
-  # @return [Boolean] indicating if an update should be kicked off
-  def self.should_cron_run?
-    if !ConcertoConfig[:use_frontend_to_trigger_cron]
-      return false
-    else
-      last_updated = ConcertoConfig[:dynamic_refresh_time].to_i
-      return last_updated + 300 < Clock.time.to_i
-    end
-  end
-
-  # Write back that the cron job has just run.
-  def self.cron_ran
-    ConcertoConfig.set("dynamic_refresh_time", Clock.time.to_i) 
-  end
-
   # Allow dynamic content to be manually refreshed.
   def action_allowed?(action_name, user)
-    return action_name == :manual_refresh
+    available = [:manual_refresh, :delete_children]
+    return available.include?(action_name)
   end
 
   # Manually refresh the dynamic content, only if the user
@@ -275,6 +258,20 @@ class DynamicContent < Content
     else
       return "Error refreshing."
     end
+  end
+
+  # Delete all the children of a dynamic content entry.
+  # Might be useful if things get broken / out of sync.
+  def delete_children(options)
+    # Only someoneone who can edit the content can do this.
+    owner = Ability.new(options[:current_user])
+    if owner.cannot?(:edit, self)
+      return "Sorry, you don't have access to perform this action."
+    end
+    self.children.each do |c|
+      c.destroy
+    end
+    return "OK."
   end
 
   # Manually refresh the dynamic content each time it is

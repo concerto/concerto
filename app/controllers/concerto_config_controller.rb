@@ -4,9 +4,7 @@ class ConcertoConfigController < ApplicationController
   def show
     authorize! :read, ConcertoConfig
     # The ordering is by group, falling back to the id (being the original order in which it was added to the db)
-    @concerto_configs = ConcertoConfig.where("hidden IS NULL").order('"group", key, id')
-
-    @latest_version = VersionCheck.latest_version()
+    @concerto_configs = ConcertoConfig.where("hidden IS NULL").order('"group", "key", "id"')
   end
 
   # get a hash of concerto_config keys and values and update them using the ConcertoConfig setter

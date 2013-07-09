@@ -1,10 +1,23 @@
 <section class="viewblock">
   <header class="viewblock-header">
-    <h1 class="default-padding" >
-      <%= link_to possessive(@content.user.name.strip) + " " + Content.model_name.human.pluralize, @content.user %> &gt; 
-      <%= @content.name %>
-    </h1>
-  </header> 
+    <div class="viewblock-header_right">
+      <div class="button-padding">
+        <% if can? :update, @content %>
+          <%= link_to t(:edit_model, :model => Content), edit_content_path(@content), :class => "btn" %>
+        <% end %>
+        <% if can? :delete, @content %>
+          <%= link_to t(:destroy_model, :model => Content), @content, :data => { :confirm => t(:are_you_sure) }, :method => :delete, :class => "btn" %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="default-padding">
+      <h1>
+        <%= link_to possessive(@content.user.name.strip) + " " + Content.model_name.human.pluralize, @content.user %> &gt; 
+        <%= @content.name %>
+      </h1>
+    </div>
+  </header>
   <div class="viewblock-cont">
 
     <div class="row-fluid">
@@ -31,9 +44,6 @@
             <%= t('.submitted_by') %> <%= link_to @user.name, @user %>
           </div>
           
-          <div class="subblock">
-            <%= link_to t(:destroy), @content, :data => { :confirm => t(:are_you_sure) }, :method => :delete, :class => "btn primary" if can? :delete, @content %>   
-          </div>
           <div class="subblock">
               <h3><%= t('.feeds_moderation_status') %></h3>
             <% if @content.submissions.all.count > 0 %>

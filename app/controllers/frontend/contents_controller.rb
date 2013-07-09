@@ -3,7 +3,6 @@ class Frontend::ContentsController < ApplicationController
 
   before_filter :scope_setup
   before_filter :screen_api
-  after_filter :dynamic_content_cron, :only => [:index]
 
   def scope_setup
     @screen = Screen.find(params[:screen_id])
@@ -46,17 +45,5 @@ class Frontend::ContentsController < ApplicationController
     auth! :object=>@content
     @file = @content.render(params)
     send_data @file.file_contents, :filename => @file.file_name, :type => @file.file_type, :disposition => 'inline'
-  end
-
-
-  private
-
-  # Use the content#index requests as pings to think about updating the dynamic content.
-  # This code needs to be really fast since it runs in the frontend and may block responses.
-  def dynamic_content_cron
-    if DynamicContent.should_cron_run?
-      DynamicContent.delay.pid_locked_refresh
-      DynamicContent.cron_ran()
-    end
   end
 end

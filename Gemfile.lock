@@ -44,6 +44,9 @@ GEM
       railties (>= 3.0)
     builder (3.0.4)
     cancan (1.6.10)
+    clockwork (0.5.2)
+      activesupport
+      tzinfo (~> 0.3.35)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -64,7 +67,6 @@ GEM
     concerto_weather (0.0.3)
       rails (~> 3.2.12)
     connection_pool (1.1.0)
-    daemons (1.1.9)
     delayed_job (3.0.5)
       activesupport (~> 3.0)
     delayed_job_active_record (0.4.4)
@@ -208,13 +210,13 @@ DEPENDENCIES
   attachable (>= 0.0.5)
   bootstrap-datepicker-rails
   cancan
+  clockwork
   coffee-rails (~> 3.2.1)
   concerto_calendar
   concerto_iframe
   concerto_remote_video
   concerto_simple_rss
   concerto_weather
-  daemons
   delayed_job_active_record
   devise
   execjs
