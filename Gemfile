@@ -52,6 +52,7 @@ gem 'cancan'
 gem 'json'
 
 # Process jobs in the background
+gem 'foreman', :group => :development
 gem 'delayed_job_active_record'
 gem 'clockwork'
 

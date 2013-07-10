@@ -77,12 +77,16 @@ GEM
       orm_adapter (~> 0.1)
       railties (~> 3.1)
       warden (~> 1.2.1)
+    dotenv (0.8.0)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
     extlib (0.9.16)
     faraday (0.8.7)
       multipart-post (~> 1.1)
+    foreman (0.63.0)
+      dotenv (>= 0.7)
+      thor (>= 0.13.6)
     girl_friday (0.11.2)
       connection_pool (~> 1.0)
       rubinius-actor
@@ -220,6 +224,7 @@ DEPENDENCIES
   delayed_job_active_record
   devise
   execjs
+  foreman
   girl_friday
   jquery-rails
   jquery-timepicker-rails
