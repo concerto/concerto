@@ -185,7 +185,7 @@ concerto.frontend.Content.prototype.finishTimer = function() {
  */
 concerto.frontend.Content.prototype.dispose = function() {
   goog.events.removeAll(this);
-  this.timer_ = null;
+  this.timer_.dispose();
   this.div_ = null;
   this.start_ = null;
   this.end_ = null;
