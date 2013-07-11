@@ -153,7 +153,7 @@ concerto.frontend.Content.prototype.setupTimer = function() {
    */
   this.timer_ = new goog.async.Delay(this.finishTimer, duration, this);
 
-  goog.events.listen(this,
+  goog.events.listenOnce(this,
       concerto.frontend.Content.EventType.COMPLETE_RENDER,
       this.startTimer, false, this);
 };
@@ -176,6 +176,19 @@ concerto.frontend.Content.prototype.startTimer = function() {
  */
 concerto.frontend.Content.prototype.finishTimer = function() {
   this.dispatchEvent(concerto.frontend.Content.EventType.DISPLAY_END);
+};
+
+
+/**
+ * Clean everything up.
+ * I really don't want to do this.
+ */
+concerto.frontend.Content.prototype.dispose = function() {
+  goog.events.removeAll(this);
+  this.timer_ = null;
+  this.div_ = null;
+  this.start_ = null;
+  this.end_ = null;
 };
 
 
