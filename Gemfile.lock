@@ -198,6 +198,7 @@ GEM
       polyglot (>= 0.3.1)
     turbolinks (1.2.0)
       coffee-rails
+    twitter-bootstrap-rails-confirm (1.0.1)
     tzinfo (0.3.37)
     uglifier (2.1.1)
       execjs (>= 0.3.0)
@@ -241,4 +242,5 @@ DEPENDENCIES
   strong_parameters
   therubyracer
   turbolinks
+  twitter-bootstrap-rails-confirm
   uglifier (>= 1.0.3)
