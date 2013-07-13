@@ -34,7 +34,7 @@ class Ticker < Content
  
   # return the cleaned input data
   def self.preview(data)
-    RedCloth.new(clean_html(data.to_s)).to_html
+    clean_html(RedCloth.new(data.to_s).to_html)
   end
  
 end
