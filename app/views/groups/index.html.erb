@@ -26,7 +26,7 @@
                 </h3>
                 <%= link_to t(:join), group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %>
                 <p class="indented">
-                  <% member_list(group) %>
+                  <%= member_list(group) %>
                 </p>
               </li>
             <% end %>
@@ -45,7 +45,7 @@
                   <small><%= link_to t(:join), group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></small>
                 </h3>
                 <p class="indented">
-                  <% member_list(group) %>
+                  <%= member_list(group) %>
                 </p>
               </li>
             <% end %>
