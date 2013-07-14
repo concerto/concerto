@@ -13,7 +13,7 @@ module GroupsHelper
       end
     end
     shortened_list = member_list.take(10)
-    shortened_list.push "and #{link_to (ordered_memberships.length - 10).to_s + ' more', group}" if member_list.length > 10
+    shortened_list.push "and #{link_to "#{ordered_memberships.length - 10} more", group}" if member_list.length > 10
     shortened_list.join(', ').html_safe
   end
 end
