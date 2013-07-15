@@ -73,11 +73,11 @@ GEM
     delayed_job_active_record (0.4.4)
       activerecord (>= 2.1.0, < 4)
       delayed_job (~> 3.0)
-    devise (2.2.4)
+    devise (3.0.0)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
-      railties (~> 3.1)
-      warden (~> 1.2.1)
+      railties (>= 3.2.6, < 5)
+      warden (~> 1.2.3)
     dotenv (0.8.0)
     erubis (2.7.0)
     execjs (1.4.0)
@@ -224,7 +224,7 @@ DEPENDENCIES
   concerto_simple_rss
   concerto_weather
   delayed_job_active_record
-  devise (~> 2.2)
+  devise (~> 3.0.0)
   execjs
   foreman
   girl_friday
