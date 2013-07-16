@@ -1,7 +1,7 @@
 <div class="viewblock-header_right">
   <div class="button-padding">
-    <%= link_to t(:edit_template), edit_template_path(@template), :class => "btn" if can? :edit, @template %>
-    <%= link_to t(:destroy_template), @template, :data => { :confirm => t(:are_you_sure) }, :method => :delete, :class => "btn" if can? :delete, @template %>
+    <%= link_to t('.edit_template'), edit_template_path(@template), :class => "btn" if can? :edit, @template %>
+    <%= link_to t('.delete_template'), @template, :data => { :confirm => t(:are_you_sure) }, :method => :delete, :class => "btn" if can? :delete, @template %>
   </div>
 </div>
 
