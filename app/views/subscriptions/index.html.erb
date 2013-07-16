@@ -16,7 +16,7 @@
     <td><%= subscription.field.name  unless subscription.field.nil? %></td>
     <td><%= subscription.weight %></td>
     <td><%= link_to t(:edit), edit_screen_field_subscription_path(@screen, subscription.field, subscription) %></td>
-    <td><%= link_to t(:destroy), [@screen, subscription.field, subscription], :data => {:confirm => t(:are_you_sure)}, :method => :delete %></td>
+    <td><%= link_to t(:destroy), [@screen, subscription.field, subscription], :data => {:confirm => t(:are_you_sure_remove_model_key, :model => Subscription.model_name.human, :key => subscription.feed.name)}, :method => :delete %></td>
   </tr>
 <% end %>
 </table>

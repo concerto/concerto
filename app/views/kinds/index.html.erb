@@ -12,7 +12,7 @@
       <% @kinds.each do |kind| %>
           <tr>
             <td><%= kind.name %></td>
-            <td><%= link_to t(:show), kind %> <%= link_to t(:edit), edit_kind_path(kind) %> <%= link_to t(:destroy), kind, :data => {:confirm => t(:are_you_sure)}, :method => :delete %></td>
+            <td><%= link_to t(:show), kind %> <%= link_to t(:edit), edit_kind_path(kind) %> <%= link_to t(:destroy), kind, :data => {:confirm => t(:are_you_sure_delete_model_key, :model => Kind.model_name.human, :key => kind.name)}, :method => :delete %></td>
           </tr>
       <% end %>
     </table>

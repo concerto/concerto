@@ -38,7 +38,7 @@
               <th> All </th> <th> All </th>
               <th>
                 <% if can? :update, leader %>                
-                  <%= link_to t('.demote_to_regular'), group_membership_path(@group, leader, :perform => "demote"), :method => :put, :class => "btn small danger", :data => { :confirm => t(:are_you_sure) } %>
+                  <%= link_to t('.demote_to_regular'), group_membership_path(@group, leader, :perform => "demote"), :method => :put, :class => "btn small danger", :data => { :confirm => t(:are_you_sure_demote_user, :user => leader.user.name) } %>
                 <% end %>
               </th>
             </tr>
@@ -68,7 +68,7 @@
                     <td>
                       <% if can? :update, m.object %>
                         <%= link_to t('.promote_to_leader'), group_membership_path(@group, m.object, :perform => "promote"), :method => :put, :class => "btn small success" %>
-                        <%= link_to t('.remove_from_group'), group_membership_path(@group , m.object), :method => :delete, :class => "btn small danger", :data => { :confirm => t(:are_you_sure) } %>
+                        <%= link_to t('.remove_from_group'), group_membership_path(@group , m.object), :method => :delete, :class => "btn small danger", :data => { :confirm => t(:are_you_sure_remove_user_group, :user => m.object.user.name, :group => @group.name) } %>
                       <% end %>
                     </td>
                   </tr>
@@ -164,7 +164,7 @@
               <% membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first %>
               <p><b><%= t('.your_membership_role', :level => membership.level_name, :what => (membership.level == Membership::LEVELS[:leader] ? "" : t('.member'))) %></b></p>
               <% if @group.has_member?(current_user) %>
-                <%= link_to( t('.leave_group'), group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn danger", :data => { :confirm => t(:are_you_sure)}) %>
+                <%= link_to( t('.leave_group'), group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn danger", :data => { :confirm => t(:are_you_sure_leave_group, :group => @group.name)}) %>
               <% end %>
             <% elsif can_join %>
               <p><b><%= t('.not_in_group') %></b></p>
