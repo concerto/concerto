@@ -4,7 +4,8 @@
       <%= link_to t(:edit_model, :model => Group), edit_group_path(@group), :class => "btn" %>
     <% end %>
     <% if can? :delete, @group %>
-      <%= link_to t(:destroy_model, :model => Group), @group, :data => { :confirm => t(:are_you_sure) }, :method => :delete, :class => "btn" %>
+      <%= link_to t(:destroy_model, :model => Group), @group, 
+        :data => { :confirm => t(:are_you_sure_delete_model_key, :model =>Group.model_name.human, :key => @group.name) }, :method => :delete, :class => "btn" %>
     <% end %>
   </div>
 </div>

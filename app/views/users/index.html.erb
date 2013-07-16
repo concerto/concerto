@@ -25,7 +25,7 @@
             <td><%= user.first_name %></td>
             <td><%= user.last_name %></td>
             <td><%= user.email %></td>
-            <td><%= link_to t(:show), user %> <%= link_to t(:edit), edit_user_path(user) %> <%= link_to t(:destroy), user, :data => { :confirm => t(:are_you_sure) }, :method => :delete %></td>
+            <td><%= link_to t(:show), user %> <%= link_to t(:edit), edit_user_path(user) %> <%= link_to t(:destroy), user, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => User.model_name.human, :key => user.name) }, :method => :delete %></td>
           </tr>
       <% end %>
     </table>
