@@ -13,7 +13,7 @@
     </div>
   </td>
   <td>
-    <%= link_to "#", {:data => { :confirm => t(:are_you_sure) }, :class => "btn danger btnRemoveSubscription"} do %>
+    <%= link_to "#", {:data => { :confirm => t(:are_you_sure_remove_model_key, :model => Feed.model_name.human, :key => feed.name) }, :class => "btn danger btnRemoveSubscription"} do %>
       <i class="icon-remove"></i> <%= t(:remove_model, :model => Feed.model_name.human) %>
     <% end %>
   </td>

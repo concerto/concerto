@@ -1,5 +1,37 @@
 en:
+  activerecord:
+    attributes:
+      concerto_config:
+        autostart_delayed_job: 'Autostart Delayed Job Processor'
+        default_upload_type: "Default content upload type"
+        public_concerto: "Public Concerto access"
+        content_default_start_time: "Default start time for content"
+        content_default_end_time: "Default end time for content"
+        start_date_offset: "Time between submission and content start"
+        default_content_run_time: "Default content run time (in days)"
+        default_content_duration: "Default Content Duration"
+        setup_complete: "Concerto setup complete"
+        allow_registration: "Allow open user registration"
+        allow_user_screen_creation: "Allow user screen creation"
+        allow_user_feed_creation: "Allow user feed creation"
+        min_content_duration: 'Minimum Content Duration (in seconds)'
+        max_content_duration: 'Max Content Duration (in seconds)'
+        mailer_from: 'Mailer From'
+        mailer_protocol: "Mailer Protocol"
+        mailer_host: "Concerto Server Name (FQDN)"
+        send_errors: "Notify Developers of Errors"
+        smtp_address: "SMTP Server"
+        smtp_port: "SMTP Port"
+        smtp_auth_type: "SMTP Authentication Type"
+        smtp_username: "SMTP Username"
+        smtp_password: "SMTP Password"
+        system_time_zone: 'System Time Zone'
+        use_frontend_to_trigger_cron: "Use Frontend to Trigger Cron"
+
   concerto_config:
     show:
+      backup: "Backup"
       edit_settings: "Edit Global Settings"
+      restart_confirm: "Restarting the webserver may take a 10 to 20 seconds. Are you sure you'd like to restart?"
+      restart_webserver: "Restart Webserver"
       save_settings: "Save Settings"
