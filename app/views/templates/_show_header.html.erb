@@ -1,4 +1,13 @@
-<h1 class="default-padding" id="contentlist">
-  <%= link_to t(:all_model, :model => ::Template.model_name.human.pluralize), templates_path %> &gt; 
-  <%= @template.name %>
-</h1>
+<div class="viewblock-header_right">
+  <div class="button-padding">
+    <%= link_to t(:edit), edit_template_path(@template), :class => "btn" if can? :edit, @template %>
+    <%= link_to t(:destroy), @template, :data => { :confirm => t(:are_you_sure) }, :method => :delete, :class => "btn" if can? :delete, @template %>
+  </div>
+</div>
+
+<div class="default-padding">
+	<h1 id="contentlist">
+	  <%= link_to t(:all_model, :model => ::Template.model_name.human.pluralize), templates_path %> &gt; 
+	  <%= @template.name %>
+	</h1>
+</div>
