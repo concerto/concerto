@@ -1,5 +1,3 @@
-<%= link_to t(:edit), edit_template_path(@template), :class => "btn primary" if can? :edit, @template %>
-<%= link_to t(:destroy), @template, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => ::Template.model_name.human, :key => @template.name) }, :method => :delete, :class => "btn primary" if can? :delete, @template %>
 <article>
   <%= image_tag preview_template_path(@template, :width=> 600, :format => :jpg), :style => "width: 100%", :alt => t('.preview_alt', :name => @template.name) %>
 </article>
