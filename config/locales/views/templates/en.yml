@@ -27,6 +27,10 @@ en:
       template_type: "%{type} Template"
       template_method: 'Template method:'
 
+    show_header: 
+      edit_template: 'Edit Template'
+      delete_template: 'Delete Template'
+
     show_body:
       preview_alt: '%{name} Preview'
       author: 'Author'
