@@ -10,8 +10,9 @@
 ### END INIT INFO
 
 #CONCERTO USERS: SET THESE DEFAULTS ACCORDING TO YOUR SYSTEM CONFIGURATION
-USERNAME=concerto
+USERNAME=www-data
 CONCERTODIR=/var/www/concerto
+RAILS_ENVIRONMENT=production
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
@@ -47,7 +48,7 @@ do_start()
       # START CONCURRENT: 1
         # Start: concerto.clock.1
         # Create $PIDDIR/clock.1.pid
-        su - $USERNAME -c "cd $CONCERTODIR; export PORT=5000; bundle exec clockwork lib/cron.rb >> /var/log/concerto/clock-1.log 2>&1 & echo \$!" > $PIDDIR/clock.1.pid
+        su - $USERNAME -c "cd $CONCERTODIR; export PORT=5000; RAILS_ENV=$RAILS_ENVIRONMENT bundle exec clockwork lib/cron.rb >> /var/log/concerto/clock-1.log 2>&1 & echo \$!" > $PIDDIR/clock.1.pid
     
   
     # START PROCESS: worker
@@ -55,7 +56,7 @@ do_start()
       # START CONCURRENT: 1
         # Start: concerto.worker.1
         # Create $PIDDIR/worker.1.pid
-        su - $USERNAME -c "cd $CONCERTODIR; export PORT=5100; bundle exec rake jobs:work >> /var/log/concerto/worker-1.log 2>&1 & echo \$!" > $PIDDIR/worker.1.pid
+        su - $USERNAME -c "cd $CONCERTODIR; export PORT=5100; RAILS_ENV=$RAILS_ENVIRONMENT bundle exec rake jobs:work >> /var/log/concerto/worker-1.log 2>&1 & echo \$!" > $PIDDIR/worker.1.pid
     
   
 
