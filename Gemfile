@@ -46,12 +46,13 @@ gem "rmagick", ">= 2.12.2", :require => 'RMagick', :platforms => :ruby
 # Attachable does all the file work.
 gem 'attachable', '>= 0.0.5'
 
-gem 'devise'
+gem 'devise', '~> 2.2'
 gem 'cancan'
 
 gem 'json'
 
 # Process jobs in the background
+gem 'foreman', :group => :development
 gem 'delayed_job_active_record'
 gem 'clockwork'
 
@@ -66,3 +67,5 @@ gem 'kaminari'  # Pagination
 
 # Enable the newsfeed for 1.9+ users.
 gem 'public_activity' if RUBY_VERSION >= "1.9"
+
+gem 'RedCloth'

@@ -75,7 +75,7 @@
         </div>
         <div class="pull-right">
           <h2><%= link_to current_user.name, [main_app, current_user] %></h2>
-          <p style="margin: 0px;"><%= link_to t('.settings'), main_app.edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;<%= link_to t('.log_out'), main_app.destroy_user_session_path %></p>
+          <p style="margin: 0px;"><%= link_to t('.settings'), main_app.edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;<%= link_to t('.log_out'), main_app.destroy_user_session_path, :method => :delete %></p>
         </div>
 
       </div>

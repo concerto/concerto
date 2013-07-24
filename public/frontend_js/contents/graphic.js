@@ -27,7 +27,7 @@ concerto.frontend.Content.Graphic = function(data) {
    * @private
    */
   this.loader_ = new goog.net.ImageLoader();
-  goog.events.listen(this.loader_, goog.events.EventType.LOAD,
+  goog.events.listenOnce(this.loader_, goog.events.EventType.LOAD,
       this.loaderFinish_, false, this);
 
   /**
@@ -119,4 +119,15 @@ concerto.frontend.Content.Graphic.prototype.imageData_ = function() {
 
   var data_url = canvas.toDataURL('image/png');
   return data_url;
+};
+
+
+/**
+ * Dispose content stuff.
+ */
+concerto.frontend.Content.Graphic.prototype.dispose = function() {
+  concerto.frontend.Content.Graphic.superClass_.dispose.call(this);
+  this.image_ = null;
+  this.loader_.dispose();
+  this.loader_ = null;
 };
