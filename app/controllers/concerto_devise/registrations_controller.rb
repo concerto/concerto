@@ -96,6 +96,8 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
   end
 end
 
-class User::ParameterSanitizer < Devise::ParameterSanitizer
-
+class ConcertoDevise::ParameterSanitizer < Devise::ParameterSanitizer
+  def sign_in
+    default_params.permit(:first_name)
+  end
 end

@@ -244,4 +244,10 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     dashboard_path
   end
+
+  protected
+
+  def devise_parameter_sanitizer
+    ConcertoDevise::ParameterSanitizer.new(User, :user, params)
+  end
 end
