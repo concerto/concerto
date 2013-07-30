@@ -9,22 +9,23 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   def new
-    resource = build_resource({})
-    render_registration_form(resource)
+    build_resource({})
+    render_registration_form self.resource
   end
 
+  # POST /resource
   def create
-    build_resource
+    build_resource(sign_up_params)
 
     # If there are no users, the first one created will be an admin
     if !User.exists?
       first_user_setup = true
       resource.is_admin = true
-      # At first registration, the admin is given the option to 
+      # At first registration, the admin is given the option to
       # opt-out of error reporting.
     end
 
-    if resource.save    
+    if resource.save
       if ConcertoConfig["setup_complete"] == false
         ConcertoConfig.set("setup_complete", "true")
         # send_errors option is displayed in the form for first setup only
@@ -38,7 +39,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
 
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
-        sign_in(resource_name, resource)
+        sign_up(resource_name, resource)
         respond_with resource, :location => after_sign_up_path_for(resource)
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_navigational_format?
@@ -60,8 +61,9 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
       # This i18n translation comes from Concerto, not Devise
       flash[:notice] = t(:cannot_delete_last_admin)
     end
+    set_flash_message :notice, :destroyed if is_navigational_format?
     respond_with_navigational(resource){ redirect_to after_sign_out_path_for(resource_name) }
-  end 
+  end
 
   # Decide whether to render the first admin registration page or simply
   # the plain user registration form.
@@ -69,13 +71,15 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
     clean_up_passwords resource
     if ConcertoConfig[:setup_complete]
       respond_with resource
-    else 
+    else
       @concerto_config = ConcertoConfig.new # for send_errors field
       respond_with resource do |format|
         format.html { render "new_first_admin", :layout => "no-topmenu" }
       end
     end
   end
+
+  protected
 
   # Where to redirect the user after registration
   def after_sign_up_path_for(resource)
@@ -86,13 +90,12 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-private
-
-  # Overriden from Devise Controller to implement strong parameters.
-  # In Registrations Controller, used by update, and indirectly by create,
-  # to fetch the posted data about the current resource (user).
-  def resource_params
-    params.require(resource_name).permit(:first_name, :last_name, :email, :password, :password_confirmation, :current_password)
+  def sign_up
+    Rails.logger.debug '=====Sanitizer====='
+    default_params.permit(:first_name)
   end
+end
 
-end 
+class User::ParameterSanitizer < Devise::ParameterSanitizer
+
+end
