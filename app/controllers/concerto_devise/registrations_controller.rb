@@ -90,14 +90,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  def sign_up
-    Rails.logger.debug '=====Sanitizer====='
-    default_params.permit(:first_name)
-  end
-end
-
-class ConcertoDevise::ParameterSanitizer < Devise::ParameterSanitizer
-  def sign_in
-    default_params.permit(:first_name)
+  def sign_up_params
+    params.fetch(resource_name, {}).permit(:first_name, :last_name, :email, :password, :password_confirmation)
   end
 end
