@@ -85,7 +85,7 @@ class Membership < ActiveRecord::Base
       new_permissions = 0
       local_perms.each_with_index do |(key, value), index|
         p_value = 0
-        if perms.include?(key)
+        if !perms[key].nil?
           p_sym = perms[key].to_sym
           p_value = local_perms[key][p_sym]
         end

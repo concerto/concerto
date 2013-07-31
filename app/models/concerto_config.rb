@@ -33,7 +33,7 @@ class ConcertoConfig < ActiveRecord::Base
       setting.save
     end
     setting.update_column(:value, value)
-    ConcertoConfig.cache_expire
+    ConcertoConfig.cache_expire if setting.can_cache?
   end  
 
   # Make getting values from Rails nice and easy
@@ -59,7 +59,7 @@ class ConcertoConfig < ActiveRecord::Base
 
     # Rebuild the cache if there was a cache miss.
     begin
-      ConcertoConfig.cache_rebuild if allow_cache
+      ConcertoConfig.cache_rebuild if allow_cache && setting.can_cache?
     rescue Exception => e
       Rails.logger.info("Config cache rebuild failed - #{e.message}")
     end
@@ -73,13 +73,15 @@ class ConcertoConfig < ActiveRecord::Base
   def self.make_concerto_config(config_key,config_value, options={})
     defaults = {
       :value_type => "string",
-      :value_default => config_value
+      :value_default => config_value,
+      :can_cache => true
     }
     options = defaults.merge(options)
     # first_or_create: check whether first returns nil or not; if it does return nil, create is called
     ConcertoConfig.where(:key => config_key).first_or_create(:key => config_key, :value => config_value,
       :value_default => options[:value_default], :value_type => options[:value_type], :name => options[:name], :group => options[:group],
-      :description => options[:description], :plugin_config => options[:plugin_config], :plugin_id => options[:plugin_id], :hidden => options[:hidden])
+      :description => options[:description], :plugin_config => options[:plugin_config], :plugin_id => options[:plugin_id], 
+      :hidden => options[:hidden], :can_cache => options[:can_cache])
   end  
 
   # Update the config_last_updated entry to indicate the cached data is no longer valid.
@@ -101,7 +103,6 @@ class ConcertoConfig < ActiveRecord::Base
     return nil if last_updated.nil?  # No validation data for the cache.
 
     hit = Rails.cache.read('ConcertoConfig')
-    Rails.logger.debug("last_updated is #{last_updated}, hit['config_last_updated'] is #{hit['config_last_updated']} ")
 
     if hit.nil? || hit[key].nil? || hit['config_last_updated'].nil? || last_updated != hit['config_last_updated']
       Rails.logger.debug("Cache miss on #{key}")
@@ -121,7 +122,9 @@ class ConcertoConfig < ActiveRecord::Base
       if config.value_type == "boolean"
         config.value = (config.value == "true")
       end
-      data[config.key] = config.value
+      if config.can_cache?
+        data[config.key] = config.value
+      end
     end
     Rails.logger.debug('Writing cache')
     Rails.cache.write('ConcertoConfig', data)

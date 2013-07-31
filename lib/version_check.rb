@@ -9,9 +9,9 @@ module VersionCheck
     version = Rails.cache.read("concerto_version")
     version_updated = Rails.cache.read("concerto_version_time")
     if !version.nil? # Version is cached.
-      if version_updated < Time.now - 86400 # Stale (older than 24 hours).
+      if Time.new(version_updated) < Time.now - 86400 # Stale (older than 24 hours).
         Rails.logger.info "Downloading latest Concerto version information."
-        version = fetch_latest_version() 
+        version = fetch_latest_version()
         Rails.cache.write("concerto_version", version)
         Rails.cache.write("concerto_version_time", Time.now)
         Rails.logger.info "Current version is #{version}."
@@ -38,7 +38,7 @@ module VersionCheck
     return version
   end
 
-private  # This doesn't actually work, we have to use private_class_method for class methods.
+  private  # This doesn't actually work, we have to use private_class_method for class methods.
 
   def self.remote_version
     require 'open-uri'

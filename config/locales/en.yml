@@ -9,11 +9,17 @@ en:
   all_model: 'All %{model}'
   approve: 'Approve'
   are_you_sure: 'Are you sure?'
+  are_you_sure_delete_model_key: 'Are you sure you want to delete %{model} "%{key}"?'
+  are_you_sure_demote_user: 'Are you sure you want to demote user "%{user}"?'
+  are_you_sure_remove_model_key: 'Are you sure you want to remove %{model} "%{key}"?'
+  are_you_sure_remove_user_group: 'Are you sure you want to remove user "%{user}" from group "%{group}"?'
+  are_you_sure_leave_group: 'Are you sure you want to leave the group "%{group}"?'
   back: 'Back'
   cancel: 'Cancel'
   create_model: 'Create %{model}'
   current_model: 'Current %{model}'
   destroy: 'Delete'
+  destroy_model: 'Delete %{model}'
   deny: 'Deny'
   edit: 'Edit'
   edit_model: 'Edit %{model}'
@@ -48,37 +54,3 @@ en:
       all: "You're not authorized to update %{subject}."      
     delete:
       all: "You're not authorized to delete %{subject}."
-
-  activerecord:
-    attributes:
-      concerto_config:
-        default_upload_type: "Default content upload type"
-        public_concerto: "Public Concerto access"
-        content_default_start_time: "Default start time for content"
-        content_default_end_time: "Default end time for content"
-        start_date_offset: "Time between submission and content start"
-        default_content_run_time: "Default content run time (in days)"
-        setup_complete: "Concerto setup complete"
-        allow_registration: "Allow open user registration"
-        allow_user_screen_creation: "Allow user screen creation"
-        allow_user_feed_creation: "Allow user feed creation"
-        autostart_delayed_job: "Automatically start Background Job Processor"
-        dynamic_refresh_time: "Dynamic refresh interval"
-        use_frontend_to_trigger_cron: "Trigger Background Job Processor using frontend"
-        min_content_duration: 'Minimum Content Duration (in seconds)'
-        mailer_protocol: "Mailer Protocol"
-        mailer_host: "Concerto Server Name (FQDN)"
-        smtp_address: "SMTP Server"
-        smtp_port: "SMTP Port"
-        smtp_auth_type: "SMTP Authentication Type"
-        smtp_username: "SMTP Username"
-        smtp_password: "SMTP Password"
-
-        #send_errors: "Send errors"
-        #allow_remote_error_reporting: "Allow remote error reporting"
-        #submit: "Submit"
-        #duration: "Duration"
-        #start_time: "Start Time"
-        #end_time: "End Time"
-        #content_default_duration: "Default duration for content (in days)"
-        #save_settings: "Save Settings"

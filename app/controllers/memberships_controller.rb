@@ -15,6 +15,9 @@ class MembershipsController < ApplicationController
     else
       @membership.update_attributes(:level => Membership::LEVELS[:pending])
     end
+
+    @membership.perms[:screen] = params[:screen]
+    @membership.perms[:feed] = params[:feed]
     
     auth!
 

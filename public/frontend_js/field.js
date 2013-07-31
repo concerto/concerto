@@ -167,10 +167,10 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
     };
     var clock = new concerto.frontend.ContentTypeRegistry['ClientTime'](options);
     this.next_contents_.enqueue(clock);
-    goog.events.listen(clock,
+    goog.events.listenOnce(clock,
         concerto.frontend.Content.EventType.FINISH_LOAD,
         this.showContent, false, this);
-    goog.events.listen(clock,
+    goog.events.listenOnce(clock,
         concerto.frontend.Content.EventType.DISPLAY_END,
         this.autoAdvance, false, this);
     this.next_contents_.peek().startLoad();
@@ -211,13 +211,13 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
             this.next_contents_.enqueue(content);
 
             // When the content is loaded, we show it in the field,
-            goog.events.listen(content,
+            goog.events.listenOnce(content,
                 concerto.frontend.Content.EventType.FINISH_LOAD,
                 this.showContent, false, this);
 
             // When the content has been shown for too long
             // try to load a new one.
-            goog.events.listen(content,
+            goog.events.listenOnce(content,
                 concerto.frontend.Content.EventType.DISPLAY_END,
                 this.autoAdvance, false, this);
           } else {
@@ -248,6 +248,12 @@ concerto.frontend.Field.prototype.showContent = function() {
   var transition = new this.transition_(
       this, this.current_content_, content);
   transition.go();
+
+  goog.events.removeAll(this.prev_content);
+  if (this.prev_content) {
+    this.prev_content.dispose();
+  }
+  this.prev_content = null;
 
   this.prev_content = this.current_content_;
   this.current_content_ = content;

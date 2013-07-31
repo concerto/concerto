@@ -12,11 +12,12 @@ goog.require('goog.style');
  * Screen Frontend.
  *
  * @param {number} screen_id Screen ID number.
- * @param {ELement=} opt_div Optional load to put the screen in.  Defaults
+ * @param {String} setup_url URL we should hit for setup information.
+ * @param {Element=} opt_div Optional load to put the screen in.  Defaults
  *   to document.body, so the screen will take over the entire body.
  * @constructor
  */
-concerto.frontend.Screen = function(screen_id, opt_div) {
+concerto.frontend.Screen = function(screen_id, setup_url, opt_div) {
   /**
    * Manages connections to the backend server.
    * @type {!goog.net.XhrManager}
@@ -28,6 +29,12 @@ concerto.frontend.Screen = function(screen_id, opt_div) {
    * @type {number}
    */
   this.id = screen_id;
+
+  /**
+   * URL with setup info for this screen.
+   * @type {string}
+   */
+  this.setup_url = setup_url;
 
   /**
    * Screen name.
@@ -57,19 +64,6 @@ concerto.frontend.Screen.prototype.logger_ = goog.debug.Logger.getLogger(
 
 
 /**
- * Configuration URL.
- * A temporary method to build the URL used for downloading
- * the screen setup data.
- *
- * @return {string} Screen setup URL.
- */
-concerto.frontend.Screen.prototype.configUrl = function() {
-  var url = ['../../frontend/', this.id, '/setup.json'];
-  return url.join('');
-};
-
-
-/**
  * Setup the screen.
  * Download the config, parse it, and start creating the template.
  */
@@ -82,7 +76,7 @@ concerto.frontend.Screen.prototype.setup = function() {
   goog.dom.appendChild(this.container_, div);
   this.div_ = div;
 
-  var url = this.configUrl();
+  var url = this.setup_url;
   this.logger_.info('Requesting screen config from ' + url);
   this.connection.send('setup', url, 'GET', '', null, 1, goog.bind(function(e) {
     var xhr = e.target;

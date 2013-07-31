@@ -1,6 +1,4 @@
 class ConcertoPluginsController < ApplicationController
-  before_filter :get_latest_version, :only => [:index, :show, :new, :edit, :create]
-
   # GET /concerto_plugins
   # GET /concerto_plugins.json
   def index

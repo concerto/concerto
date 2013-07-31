@@ -42,7 +42,7 @@ GEM
     arel (4.0.0)
     atomic (1.1.9)
     attachable (0.0.5)
-    bcrypt-ruby (3.0.1)
+    bcrypt-ruby (3.1.1)
     bootstrap-datepicker-rails (1.1.0.1)
       railties (>= 3.0)
     builder (3.1.4)
@@ -61,11 +61,11 @@ GEM
     delayed_job_active_record (4.0.0.beta2)
       activerecord (>= 3.0, < 4.1)
       delayed_job (~> 4.0.0.beta1)
-    devise (3.0.0.rc)
+    devise (3.0.0)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
-      warden (~> 1.2.1)
+      warden (~> 1.2.3)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -152,7 +152,7 @@ GEM
     uglifier (2.1.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
-    warden (1.2.1)
+    warden (1.2.3)
       rack (>= 1.0)
 
 PLATFORMS
@@ -165,7 +165,7 @@ DEPENDENCIES
   cancan
   daemons
   delayed_job_active_record (~> 4.0.0.beta2)
-  devise (>= 3.0.0.rc)
+  devise (~> 3.0.0)
   execjs
   girl_friday
   jquery-rails
