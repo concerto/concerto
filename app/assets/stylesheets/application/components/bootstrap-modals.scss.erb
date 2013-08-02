@@ -39,7 +39,8 @@
   outline: none;
 
   &.fade {
-    @include transition(opacity .3s linear, top .3s ease-out);
+    $transition: opacity .3s linear, top .3s ease-out;
+    @include transition($transition);
     top: -25%;
   }
   &.fade.in { top: 10%; }
@@ -48,7 +49,26 @@
   padding: 9px 15px;
   border-bottom: 1px solid #eee;
   // Close icon
-  .close { margin-top: 2px; }
+  .close { 
+    position: relative;
+    top: -2px;
+    //right: -21px;
+    line-height: 18px;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #404040;
+    text-shadow: 0px 1px 0px white;
+    opacity: 0.5;
+    margin-top: 2px; 
+  }
+
   // Heading
   h3 {
     margin: 0;
