@@ -1,73 +1,87 @@
 <%= form_for(@feed) do |f| %>
   <%= render :partial => "layouts/errors", :object => @feed %>
 
-  <fieldset>
-    <legend><span><%= t('.provide_details') %></span></legend>
-    <div class="clearfix">
-      <%= f.label :name	%>
-      <div class="input">
-        <%= f.text_field :name, :class => "input-xlarge", :autofocus => true %>
-      </div>
-    </div>
+  <div class="row-fluid">
+    <div class="span6">
 
-    <div class="clearfix">
-      <%= f.label :description %>
-      <div class="input">
-        <%= f.text_area :description, :rows => 6, :class => "input-xxlarge" %>
-      </div>
+      <fieldset>
+        <legend><span><%= t('.provide_details') %></span></legend>
+        
+        <div class="clearfix">
+          <%= f.label :name %>
+          <div class="input">
+            <%= f.text_field :name, :class => "fillWidth", :autofocus => true %>
+          </div>
+        </div>
+
+        <div class="clearfix">
+          <%= f.label :description %>
+          <div class="input">
+            <%= f.text_area :description, :rows => 6, :class => "fillWidth" %>
+          </div>
+        </div>
+          
+        <%
+          parent_feeds = dfs_tree(Feed.roots, @feed)
+          unless parent_feeds.empty?
+         %>
+        <div class="clearfix">
+          <%= f.label :parent %>
+          <div class="input">
+            <%= f.select :parent_id, parent_feeds.collect{|c| [("&nbsp; &nbsp;"*c.depth).html_safe + c.name, c.id ]}, {:include_blank => true } %>
+          </div>
+        </div>
+        <% end %>
+        <div class="clearfix">
+          <%= f.label :group %>
+          <div class="input">
+            <%= f.collection_select :group_id, Group.all, :id, :name %>
+          </div>
+        </div>
+        
+      </fieldset>
+
     </div>
-    <%
-      parent_feeds = dfs_tree(Feed.roots, @feed)
-      unless parent_feeds.empty?
-     %>
-    <div class="clearfix">
-      <%= f.label :parent %>
-      <div class="input">
-        <%= f.select :parent_id, parent_feeds.collect{|c| [("&nbsp; &nbsp;"*c.depth).html_safe + c.name, c.id ]}, {:include_blank => true } %>
-      </div>
-    </div>
-    <% end %>
-    <div class="clearfix">
-      <%= f.label :group %>
-      <div class="input">
-        <%= f.collection_select :group_id, Group.all, :id, :name %>
-      </div>
-    </div>
-  </fieldset>
-    
-  <fieldset>
-    <legend><span><%= t('.settings') %></span></legend>
-    <div class="clearfix">
-      <label><%= t('.other_options') %></label>
-      <div class="input checkbox">
-        <ul class="inputs-list">
-          <li>
-            <%= f.check_box :is_viewable %> <%= f.label :is_viewable %>
-          </li>
-          <li>
-            <%= f.check_box :is_submittable %> <%= f.label :is_submittable %>
-          </li>
-        </ul>
-      </div>
-    </div>
-    
-    <div class="clearfix">
-      <label><%= t('.allowed_types') %></label>
-      <div class="input checkbox">
-        <ul class="inputs-list">
-          <%= f.fields_for :content_types do |content_types| %>
-            <% Concerto::Application.config.content_types.sort_by{|type| type.display_name}.each do |type| %>
+    <div class="span6">
+
+      <fieldset>
+        <legend><span><%= t('.settings') %></span></legend>
+        
+        <div class="clearfix">
+          <label><%= t('.allowed_types') %></label>
+          <div class="input checkbox">
+            <ul class="inputs-list">
+              <%= f.fields_for :content_types do |content_types| %>
+                <% Concerto::Application.config.content_types.sort_by{|type| type.display_name}.each do |type| %>
+                  <li>
+                    <%= content_types.check_box type.name, {:checked => (@feed.content_types["#{type.name}"] == "1")} %> <label for="feed_content_types_<%= type.name %>"><%= type.display_name %></label>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      
+        <div class="clearfix">
+          <label><%= t('.other_options') %></label>
+          <div class="input checkbox">
+            <ul class="inputs-list">
               <li>
-                <%= content_types.check_box type.name, {:checked => (@feed.content_types["#{type.name}"] == "1")} %> <label for="feed_content_types_<%= type.name %>"><%= type.display_name %></label>
+                <%= f.check_box :is_viewable %> <%= f.label :is_viewable %>
               </li>
-            <% end %>
-          <% end %>
-        </ul>
-      </div>
+              <li>
+                <%= f.check_box :is_submittable %> <%= f.label :is_submittable %>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+      </fieldset>
+
     </div>
-    
-  </fieldset>
-  
+  </div>
+
+
   <div class="submit_bar actions">
     <%= f.submit button_text, :class => "btn primary" %> <%= link_to t(:cancel), feeds_path, :class => "btn" %>
   </div>
