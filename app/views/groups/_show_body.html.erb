@@ -38,7 +38,7 @@
               <th> All </th> <th> All </th>
               <th>
                 <% if can? :update, leader %>                
-                  <%= link_to t('.demote_to_regular'), group_membership_path(@group, leader, :perform => "demote"), :method => :put, :class => "btn small danger", :data => { :confirm => t(:are_you_sure_demote_user, :user => leader.user.name) } %>
+                  <%= link_to t('.demote_to_regular'), group_membership_path(@group, leader, :perform => "demote"), :method => :put, :class => "btn btn-small btn-danger", :data => { :confirm => t(:are_you_sure_demote_user, :user => leader.user.name) } %>
                 <% end %>
               </th>
             </tr>
@@ -67,8 +67,8 @@
                     <% end %>
                     <td>
                       <% if can? :update, m.object %>
-                        <%= link_to t('.promote_to_leader'), group_membership_path(@group, m.object, :perform => "promote"), :method => :put, :class => "btn small success" %>
-                        <%= link_to t('.remove_from_group'), group_membership_path(@group , m.object), :method => :delete, :class => "btn small danger", :data => { :confirm => t(:are_you_sure_remove_user_group, :user => m.object.user.name, :group => @group.name) } %>
+                        <%= link_to t('.promote_to_leader'), group_membership_path(@group, m.object, :perform => "promote"), :method => :put, :class => "btn btn-small btn-success" %>
+                        <%= link_to t('.remove_from_group'), group_membership_path(@group , m.object), :method => :delete, :class => "btn btn-small btn-danger", :data => { :confirm => t(:are_you_sure_remove_user_group, :user => m.object.user.name, :group => @group.name) } %>
                       <% end %>
                     </td>
                   </tr>
@@ -78,7 +78,7 @@
           </tbody>
         </table>
         <% if can? :update, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>
-            <%= f.submit t('.update_permissions'), :class => "btn primary" %>
+            <%= f.submit t('.update_permissions'), :class => "btn btn-primary" %>
           <% end %>
         <% end %>
       <% else %>
@@ -111,8 +111,8 @@
                 <th><p><%= pending_membership.created_at.strftime("%I:%M %p on %D") %></p></th>
                 <th>
                   <% if can? :update, pending_membership %>
-                    <%= link_to t(:approve), group_membership_path(@group, pending_membership, :perform => "approve"), :method => :put, :class => "btn small success"%>
-                    <%= link_to t(:deny), group_membership_path(@group, pending_membership, :perform => "deny"), :method=> :put, :class => "btn small danger" %>
+                    <%= link_to t(:approve), group_membership_path(@group, pending_membership, :perform => "approve"), :method => :put, :class => "btn btn-small btn-success"%>
+                    <%= link_to t(:deny), group_membership_path(@group, pending_membership, :perform => "deny"), :method=> :put, :class => "btn btn-small btn-danger" %>
                   <% end %>
                 </th>
               </tr>
@@ -147,7 +147,7 @@
                 <td> <%= f.collection_select(:user_id, users_not_in_group, :id, :name) %> <%= hidden_field_tag 'autoconfirm' %> </td>
                 <td> <%= select_tag( :screen, options_for_select(Membership::PERMISSIONS[:regular][:screen].keys) ) %> </td>
                 <td> <%= select_tag( :feed, options_for_select(Membership::PERMISSIONS[:regular][:feed].keys) ) %> </td>
-                <td> <%= f.submit t('.add_member'), :class => "btn primary" %> </td>
+                <td> <%= f.submit t('.add_member'), :class => "btn btn-primary" %> </td>
               </tr>
             </tbody>
           <% end %>
@@ -166,7 +166,7 @@
               <% membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first %>
               <p><b><%= t('.your_membership_role', :level => membership.level_name, :what => (membership.level == Membership::LEVELS[:leader] ? "" : t('.member'))) %></b></p>
               <% if @group.has_member?(current_user) %>
-                <%= link_to( t('.leave_group'), group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn danger", :data => { :confirm => t(:are_you_sure_leave_group, :group => @group.name)}) %>
+                <%= link_to( t('.leave_group'), group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn btn-danger", :data => { :confirm => t(:are_you_sure_leave_group, :group => @group.name)}) %>
               <% end %>
             <% elsif can_join %>
               <p><b><%= t('.not_in_group') %></b></p>
@@ -234,7 +234,7 @@
              </div>
            </fieldset>
            <div align="right" style="padding-right:20px;">
-             <%= f.submit t(:update_model, :model => Group.model_name.human), :class => "btn primary" %>
+             <%= f.submit t(:update_model, :model => Group.model_name.human), :class => "btn btn-primary" %>
              <%= link_to_function t(:cancel), "history.back()", :class => "btn" %>
            </div>
          <% end %>

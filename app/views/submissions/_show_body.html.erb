@@ -8,11 +8,11 @@
     <% if can? :update, @submission %>
 
       <div class="moderate-select">
-        <%= link_to "#", :class => "btn pronounced dropdown-control dd-moderate", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_approve_#{ @submission.id }" do %>
+        <%= link_to "#", :class => "btn btn-pronounced dropdown-control dd-moderate", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_approve_#{ @submission.id }" do %>
           <span class="icon-check"></span> <%= t(:approve) %>
         <% end %>
         &nbsp;&nbsp;
-        <%= link_to "#", :class => "btn pronounced dropdown-control dd-moderate danger", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_deny_#{ @submission.id }" do %>
+        <%= link_to "#", :class => "btn btn-pronounced dropdown-control dd-moderate danger", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_deny_#{ @submission.id }" do %>
           <span class="icon-remove-sign"></span> <%= t(:deny) %>
         <% end %>
       </div>
@@ -36,7 +36,7 @@
 
     <% if can? :update, @submission %>
 
-      <%= link_to "#", :class => "btn small dropdown-control dd-moderate danger", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_deny_#{ @submission.id }" do %>
+      <%= link_to "#", :class => "btn btn-small dropdown-control dd-moderate danger", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_deny_#{ @submission.id }" do %>
         <span class="icon-remove-sign"></span> <%= t(:deny) %>
       <% end %>
 
@@ -56,7 +56,7 @@
 
     <% if can? :update, @submission %>
 
-      <%= link_to "#", :class => "btn small dropdown-control dd-moderate", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_approve_#{ @submission.id }" do %>
+      <%= link_to "#", :class => "btn btn-small dropdown-control dd-moderate", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_approve_#{ @submission.id }" do %>
         <span class="icon-check"></span> <%= t(:approve) %>
       <% end %>
 

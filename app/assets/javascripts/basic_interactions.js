@@ -112,3 +112,13 @@ function initBasicInteractions() {
 
 $(document).ready(initBasicInteractions);
 $(document).on('page:change', initBasicInteractions);
+
+// bootstrap confirmation modal defaults
+$.fn.twitter_bootstrap_confirmbox.defaults = {
+    fade: false,
+    title: "Concerto", // if title equals null window.top.location.origin is used
+    cancel: "Cancel",
+    cancel_class: "btn cancel",
+    proceed: "OK",
+    proceed_class: "btn proceed btn-primary"
+};
