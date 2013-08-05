@@ -25,7 +25,9 @@ en:
       add_users_to_group: 'Add Users to Group'
       approve_requests: 'Approve Requests'
       demote_to_regular: "Demote to Regular"
-      feed_permission: 'Feed Permission'
+      feed_permission:
+        name: 'Feed Permission'
+        tooltip: 'What you can change about the feeds owned by this group. You can change nothing, just moderate submissions, or everything (edit feed, moderate submissions).'
       group_leaders: 'Group Leaders'
       group_has_no_leaders: 'This group currently has no leaders.  You should promote a regular member in the table above.'
       no_pending_approvals: 'No Pending Approvals!'
@@ -34,7 +36,9 @@ en:
       request_made_at: 'Request Made At'
       regular_members: 'Regular Members'
       remove_from_group: 'Remove from Group'
-      screen_permission: 'Screen Permission'
+      screen_permission:
+        name: 'Screen Permission'
+        tooltip: 'What you can change about the screens owned by this group. You can change nothing, just the subscriptions, or everything (edit screen, change template, and subscriptions).'
       update_permissions: 'Update Permissions'
       group_feeds: 'Group Feeds'
       group_members: "Group Members"

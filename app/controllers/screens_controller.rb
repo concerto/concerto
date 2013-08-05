@@ -43,8 +43,8 @@ class ScreensController < ApplicationController
     @screen = Screen.new
     auth!
     @templates = Template.all
-    @users = User.all
-    @groups = Group.all
+    @users = User.order('last_name ASC').all
+    @groups = Group.order('name ASC').all
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @screen }

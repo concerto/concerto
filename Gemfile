@@ -29,6 +29,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'bootstrap-datepicker-rails'
 gem 'jquery-timepicker-rails'
+gem 'twitter-bootstrap-rails-confirm'
 
 # In production we prefer MySQL over sqlite3.  If you are only
 # interested in development and don't want to bother with production,

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130612030753) do
+ActiveRecord::Schema.define(version: 20130804221836) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(version: 20130612030753) do
     t.boolean "plugin_config"
     t.integer "plugin_id"
     t.boolean "hidden"
+    t.boolean "can_cache",     default: true
+    t.boolean "confirmable",   default: true
   end
 
   add_index "concerto_configs", ["key"], name: "index_concerto_configs_on_key", unique: true
@@ -106,6 +108,7 @@ ActiveRecord::Schema.define(version: 20130612030753) do
     t.string  "value"
     t.string  "value_type"
     t.string  "value_default"
+    t.integer "screen_id"
   end
 
   create_table "fields", force: true do |t|
@@ -225,6 +228,10 @@ ActiveRecord::Schema.define(version: 20130612030753) do
     t.boolean  "is_admin",                         default: false
     t.boolean  "receive_moderation_notifications"
     t.string   "time_zone"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

@@ -48,6 +48,7 @@ class ConcertoPluginsController < ApplicationController
     respond_to do |format|
       if @concerto_plugin.save    
         write_Gemfile()
+        flash[:alert] << t(:restart_alert)
         format.html { redirect_to concerto_plugins_path, :notice => t(:plugin_created) }
         format.json { render :json => @concerto_plugin, :status => :created, :location => @concerto_plugin }
       else
