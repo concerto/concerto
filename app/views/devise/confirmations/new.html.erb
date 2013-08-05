@@ -1,12 +1,29 @@
-<h2>Resend confirmation instructions</h2>
+<section class="viewblock no">
+  <header class="viewblock-header">
+    <h2>Resend confirmation instructions</h2>
+  </header>
+  <div class="viewblock-cont">
+    <% if flash[:alert] %>
+        <div class="alert alert-banner alert-error">
+          <%= alert %>
+        </div>
+    <% end %>
+    <%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => {:method => :post}) do |f| %>
+        <%= devise_error_messages! %>
+        <fieldset>
+          <div class="clearfix">
+            <%= f.label :email %>
+            <div class="input">
+              <%= f.email_field :email, :autofocus => true, :class => "input-xlarge" %>
+            </div>
+          </div>
+        </fieldset>
 
-<%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
-  <%= devise_error_messages! %>
-
-  <p><%= f.label :email %><br />
-  <%= f.email_field :email %></p>
-
-  <p><%= f.submit "Submit", :class => "btn btn-primary" "Resend confirmation instructions" %></p>
-<% end %>
-
-<%= render :partial => "devise/shared/links" %>
+        <div class="submit_bar actions">
+          <%= f.submit "Submit", :class => "btn btn-primary" "Resend confirmation instructions" %>
+          &nbsp;&nbsp;&nbsp;
+          <%= render :partial => "devise/shared/links" %>
+        </div>
+    <% end %>
+  </div>
+</section>
