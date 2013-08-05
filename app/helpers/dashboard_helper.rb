@@ -11,21 +11,23 @@ module DashboardHelper
     #   </ul>
     # </div>
 
-    headers = []
+    #configs.uniq.pluck(:group, :id).each_with_index do |group, i|
+    #  headers << "<li#{class_attribute if i == 0}><a href=\"#tab#{i}\" data-toggle=\"tab\">#{group}</a></li>"
+    #end
+
+    headers = ['<ul class="nav nav-tabs">']
     last_group = ""
-    headers << '<ul class="nav nav-tabs">'
-    i = 0
-    configs.each do |c|
+    class_attribute = ' class="active"'
+
+    configs.uniq.each_with_index do |c, i|
       if c.group != last_group
-        class_attribute = (i == 0 ? ' class="active"' : '')
-        i += 1
-        headers << "<li#{class_attribute}><a href=\"#tab#{c.id}\" data-toggle=\"tab\">#{c.group}</a></li>"
+        headers << "<li#{class_attribute if i == 0}><a href=\"#tab#{c.id}\" data-toggle=\"tab\">#{c.group}</a></li>"
         last_group = c.group
       end
     end
-    headers << '</ul>'
 
-    return headers.join().html_safe
+    headers << '</ul>'
+    headers.join.html_safe
   end
 
   # Check if the background processor is running or not
