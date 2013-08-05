@@ -1,20 +1,35 @@
-<label><%= t('.filter_feeds')%></label>
-<div class="input checkbox">  
+<div class="clearfix">
+  <div class="pull-left" style="margin-right: 16px;">
+    <%= link_to '#', :title => t('.edit_feed_selections'), :class => "btn dropdown-toggle dropdown-control dd-select-feeds", :rel => "#select-feeds" do %>
+      <%= t('.edit_selections').capitalize %>...
+    <% end %>
+  </div>
+  <div id="marker-feed-list" class="pull-left"></div>
+</div>
+
+<div id="select-feeds" style="display: none;">
   <% feeds = dfs_tree(Feed.roots) %>
-  <% feeds.reject!{|f| !@feeds.include?(f) } %>
-  <% if feeds.empty? %>
-    <p><%= t('feeds.no_feeds')%></p>
-  <% else %>
-    <input type="text" class="input-xlarge feed_filter" placeholder="Type here to filter"/>
-    <br /><br />
-    <ul class="filterable selector-list">
-      <% feeds.each_with_index do |feed, i| %>
-      <% allowed_type = (feed.content_types[@content.class.name] == "1") %>
-      <li class="with-padding" data-filter="<%= feed.name %>">
-        <%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed), :disabled => !allowed_type %>
-          <%= label_tag "feed_id[#{i}]", "-" * feed.depth + feed.name %>
-      </li>
-      <% end %>
-    </ul>
+    <% feeds.reject!{|f| !@feeds.include?(f) } %>
+    <% if feeds.empty? %>
+      <p><%= t('feeds.no_feeds')%></p>
+    <% else %>
+
+    <div class="tooltip-filter-cont">
+      <input type="text" class="feed_filter fillWidth" placeholder="<%= t('.type_to_filter') %>"/>
+    </div>
+
+    <div class="tooltip-scrollY" style="height: 300px; width: 250px;">
+      <ul class="filterable selector-list">
+        <% feeds.each_with_index do |feed, i| %>
+        <% allowed_type = (feed.content_types[@content.class.name] == "1") %>
+        <li class="with-padding" data-filter="<%= feed.name %>">
+          <label class="checkbox">
+            <%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed), :class => "feed-select-checkbox", :disabled => !allowed_type, "data-feed-index" => i, "data-feed-name" => feed.name %>
+            <%= "- " * feed.depth + feed.name %>
+          </label>
+        </li>
+        <% end %>
+      </ul>
+    </div>
   <% end %>
 </div>
