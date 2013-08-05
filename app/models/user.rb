@@ -6,7 +6,6 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable, :trackable
   modules = [:database_authenticatable, :recoverable, :registerable, :rememberable, :validatable]
   modules << :confirmable if ConcertoConfig[:confirmable]
-  p modules
   devise *modules
          
   before_destroy :check_for_last_admin
