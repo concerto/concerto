@@ -1,4 +1,3 @@
-
 <%= form_for(template, :html => { :multipart => true }) do |f| %>
   <% if template.errors.any? %>
   <div class="alert alert-banner alert-error">
@@ -36,29 +35,22 @@
 
   <fieldset>
     <legend><span>Positions</span></legend>
-    <div>
-      <span>Field</span> 
-      <span>Top</span> 
-      <span>Left</span> 
-      <span>Bottom</span> 
-      <span>Right</span> 
-      <span>Style</span> 
-      <span>Delete</span> 
-    </div>
-    <%= f.fields_for :positions do |p| %>
-      <div class="clearfix template-position-fields">
-      <%= p.select :field_id, Field.all.collect {|field| [ field.name, field.id ] } %>
-      <%= p.number_field :top, {:step => 'any', :min => 0, :class => 'input-mini' } %>
-      <%= p.number_field :left, {:step => 'any', :min => 0, :class => 'input-mini'} %>
-      <%= p.number_field :bottom, {:step => 'any', :min => 0, :class => 'input-mini'} %>
-      <%= p.number_field :right, {:step => 'any', :min => 0, :class => 'input-mini'} %>
-      <%= p.text_field :style, :class => 'input-xxlarge' %>
-      <%= p.hidden_field :_destroy %>
-      <%= link_to_function t(:destroy), "remove_template_fields(this)", :class => "btn btn-danger" %>
+    <div class="template-positions">
+      <div>
+        <span>Field</span> 
+        <span>Top</span> 
+        <span>Left</span> 
+        <span>Bottom</span> 
+        <span>Right</span> 
+        <span>Style</span> 
+        <span>Delete</span> 
       </div>
-    <% end %>
+      <%= f.fields_for :positions do |p| %>
+        <% render 'position_fields', :p => p %>
+      <% end %>
+    </div>
+    <%= link_to_add_position_fields t(:add), f, :positions %>
   </fieldset>
-  
 
   <div class="submit_bar actions">
     <%= f.submit button_text, :class => "btn btn-primary" %> <%= link_to t(:cancel), screens_path, :class => "btn" %>
