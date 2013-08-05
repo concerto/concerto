@@ -244,15 +244,16 @@ pre {
 // ------
 
 .label {
-  padding: 1px 3px 2px;
+  padding: 4px;
   font-size: $basefont * .75;
   font-weight: bold;
   color: $white;
-  text-transform: uppercase;
   white-space: nowrap;
-  background-color: $grayLight;
+  background-color: darken($gray, 5%);
   &.important { background-color: #c43c35; }
   &.warning   { background-color: $orange; }
   &.success   { background-color: $green; }
   &.notice    { background-color: lighten($blue, 25%); }
+
+  a { color: $white; }
 }

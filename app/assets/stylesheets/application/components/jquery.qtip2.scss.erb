@@ -12,7 +12,7 @@
   top: -28000px;
   display: none;
 
-  max-width: 280px;
+  max-width: 350px;
   min-width: 50px;
   
   font-size: 10.5px;
@@ -33,7 +33,7 @@
 
   .qtip-titlebar{
     position: relative;
-    padding: 5px 35px 5px 10px;
+    padding: 10px 35px 10px 10px;
     overflow: hidden;
 
     border-width: 0 0 1px;
@@ -170,6 +170,12 @@
   max-width: none !important;
 }
 
+/* Class applied to force a fixed height of 300px */
+.qtip-fixedheight {
+  height: 300px !important;
+  max-height: 300px !important;
+}
+
 
 /* IE9 fix - removes all filters */
 .qtip:not(.ie9haxors) div.qtip-content,
@@ -229,4 +235,15 @@
 /* IE6 Modal plugin fix */
 .qtipmodal-ie6fix{
   position: absolute !important;
+}
+
+
+// Tooltip Scrollable region
+.tooltip-scrollY {
+  max-height: 300px;
+  overflow: auto;
+}
+.tooltip-filter-cont {
+  padding: 10px;
+  border-bottom: solid 1px #ccc;
 }

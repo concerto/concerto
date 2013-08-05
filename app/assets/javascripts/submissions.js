@@ -28,7 +28,7 @@ function addBrowseUi(){
           }
       },
       hide: 'unfocus',
-      style: 'qtip-light qtip-shadow qtip-rounded'
+      style: 'qtip-light qtip-shadow qtip-rounded qtip-nopadding'
     });
   });
   $(document).delegate(".dd-feedinfo", "mouseover", function(event) {
