@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><%= yield_for_title(controller.controller_name.titleize) %> - Concerto Panel</title>
-  <meta name="generator" content="Concerto <%= Concerto::VERSION::STRING %>" />
-  <meta name="application-name" content="Concerto" />
+  <meta charset="UTF-8">
+  <title><%= yield_for_title(controller.controller_name.titleize) %> - Concerto Panel</title>
+  <meta name="generator" content="Concerto <%= Concerto::VERSION::STRING %>"/>
+  <meta name="application-name" content="Concerto"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <%= stylesheet_link_tag "application" %>
   <%= javascript_include_tag "application" %>
@@ -16,14 +17,14 @@
   <![endif]-->
 </head>
 <body>
-  <% if flash[:notice] %>
+<% if flash[:notice] %>
     <div id="flash-banner">
       <p><%= notice %></p>
     </div>
-  <% end %>
+<% end %>
 
-  <div id="main" class="container-fluid">
-    <%= yield %>
-  </div>
+<div id="main" class="container-fluid">
+  <%= yield %>
+</div>
 </body>
 </html>
