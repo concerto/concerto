@@ -69,6 +69,7 @@ en:
 
   #Concerto plugins
   plugin_created: "Concerto plugin was successfully created."
+  restart_alert: "A new plugin has been added.  Please restart the concerto application."
   plugin_creation_failed: "Concerto plugin creation failed."
   plugin_updated: "Concerto plugin was successfully updated."
   bundle_error: "An error occurred while running bundle install."
