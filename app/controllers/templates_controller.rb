@@ -97,13 +97,19 @@ class TemplatesController < ApplicationController
   def destroy
     @template = Template.find(params[:id])
     auth!
-    if @template.destroy
+
+    begin
+      result = @template.destroy
+    rescue ActiveRecord::DeleteRestrictionError
+      result = false
+    end
+    if result 
       respond_to do |format|
         format.html { redirect_to(templates_url) }
         format.xml  { head :ok }
       end
     else
-      redirect_to(@template, :notice => t(:cannot_delete_template))
+      redirect_to(@template, :notice => t(:cannot_delete_template, :screens => @template.screens.collect { |s| s.name if can? :read, s}.join(", ")))
       return 
     end
   end
