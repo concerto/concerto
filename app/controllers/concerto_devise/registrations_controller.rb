@@ -23,6 +23,8 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
       resource.is_admin = true
       # At first registration, the admin is given the option to
       # opt-out of error reporting.
+      resource.receive_moderation_notifications = true
+      resource.confirmed_at = Date.today
     end
 
     if resource.save
