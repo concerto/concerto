@@ -1,10 +1,26 @@
-<div class="clearfix template-position-fields">
-  <%= p.select :field_id, Field.all.collect {|field| [ field.name, field.id ] } %>
-  <%= p.number_field :top, {:step => 'any', :min => 0, :class => 'input-mini' } %>
-  <%= p.number_field :left, {:step => 'any', :min => 0, :class => 'input-mini'} %>
-  <%= p.number_field :bottom, {:step => 'any', :min => 0, :class => 'input-mini'} %>
-  <%= p.number_field :right, {:step => 'any', :min => 0, :class => 'input-mini'} %>
-  <%= p.text_field :style, :class => 'input-xxlarge' %>
-  <%= p.hidden_field :_destroy %>
-  <%= link_to_function t(:destroy), "remove_position_fields(this)", :class => "btn btn-danger" %>
+<div class="row-fluid template-position-fields">
+  <div class="span2">
+  	<%= p.select(:field_id, Field.all.collect {|field| [ field.name, field.id ] }, {}, { :class => 'fillWidth' }) %>
+  </div>
+  <div class="span1">
+  	<%= p.number_field :top, {:step => 'any', :min => 0, :class => 'fillWidth' } %>
+  </div>
+  <div class="span1">
+  	<%= p.number_field :left, {:step => 'any', :min => 0, :class => 'fillWidth'} %>
+  </div>
+  <div class="span1">
+  	<%= p.number_field :bottom, {:step => 'any', :min => 0, :class => 'fillWidth'} %>
+  </div>
+  <div class="span1">
+  	<%= p.number_field :right, {:step => 'any', :min => 0, :class => 'fillWidth'} %>
+  </div>
+  <div class="span5">
+  	<%= p.text_field :style, :class => 'fillWidth' %>
+  </div>
+  <div class="span1">
+  	<%= p.hidden_field :_destroy %>
+  	<%= link_to_function t(:destroy), "remove_position_fields(this)", :class => "btn btn-danger" %>
+  </div>
 </div>
+
+<br />

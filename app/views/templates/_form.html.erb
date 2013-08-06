@@ -36,14 +36,28 @@
   <fieldset>
     <legend><span>Positions</span></legend>
     <div class="template-positions">
-      <div>
-        <span>Field</span> 
-        <span>Top</span> 
-        <span>Left</span> 
-        <span>Bottom</span> 
-        <span>Right</span> 
-        <span>Style</span> 
-        <span>Delete</span> 
+      <div class="row-fluid">
+        <div class="span2">
+          <label>Field</label>
+        </div>
+        <div class="span1">
+          <label>Top</label>
+        </div>
+        <div class="span1">
+          <label>Left</label>
+        </div>
+        <div class="span1">
+          <label>Bottom</label>
+        </div>
+        <div class="span1">
+          <label>Right</label>
+        </div>
+        <div class="span5">
+          <label>Style</label>
+        </div>
+        <div class="span1">
+
+        </div>
       </div>
       <%= f.fields_for :positions do |p| %>
         <% render 'position_fields', :p => p %>
