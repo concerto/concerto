@@ -34,36 +34,35 @@
   </fieldset>
 
   <fieldset>
-    <legend><span>Positions</span></legend>
+    <legend><span><%= Position.model_name.humanize.pluralize %></span></legend>
     <div class="template-positions">
       <div class="row-fluid">
         <div class="span2">
-          <label>Field</label>
+          <label><%= Position.human_attribute_name(:field) %></label>
         </div>
         <div class="span1">
-          <label>Top</label>
+          <label><%= Position.human_attribute_name(:top) %></label>
         </div>
         <div class="span1">
-          <label>Left</label>
+          <label><%= Position.human_attribute_name(:left) %></label>
         </div>
         <div class="span1">
-          <label>Bottom</label>
+          <label><%= Position.human_attribute_name(:bottom) %></label>
         </div>
         <div class="span1">
-          <label>Right</label>
+          <label><%= Position.human_attribute_name(:right) %></label>
         </div>
         <div class="span5">
-          <label>Style</label>
+          <label><%= Position.human_attribute_name(:style) %></label>
         </div>
         <div class="span1">
-
         </div>
       </div>
       <%= f.fields_for :positions do |p| %>
         <% render 'position_fields', :p => p %>
       <% end %>
     </div>
-    <%= link_to_add_position_fields t(:add), f, :positions %>
+    <%= link_to_add_position_fields t(:add_model, :model => Position.model_name.humanize), f, :positions %>
   </fieldset>
 
   <div class="submit_bar actions">
