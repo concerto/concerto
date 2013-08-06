@@ -59,14 +59,14 @@ class TemplatesController < ApplicationController
     @template.media.each do |media|
       media.key = "original"
     end
-    
 
     respond_to do |format|
       if @template.save
         format.html { redirect_to(@template, :notice => t(:template_created)) }
         format.xml  { render :xml => @template, :status => :created, :location => @template }
       else
-        format.html { redirect_to new_template_path(@template, :type => 'create'), :locals => {:template => @template} }
+        @type = "create"
+        format.html { render :new }
         format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
       end
     end
@@ -186,6 +186,7 @@ class TemplatesController < ApplicationController
     auth!
     
     if xml_file.nil? || image_file.nil?
+      @template.errors.add(:base, t(:template_import_requires_files))
       respond_to do |format|
         format.html { render :action => "new" }
         format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }

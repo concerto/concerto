@@ -9,7 +9,7 @@ class Template < ActiveRecord::Base
   accepts_nested_attributes_for :positions, :allow_destroy => true
 
   # Validations
-  validates :name, :presence => true
+  validates :name, :presence => true, :uniqueness => true
 
   #Placeholder attributes
   attr_accessor :path
