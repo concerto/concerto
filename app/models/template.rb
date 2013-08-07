@@ -76,7 +76,12 @@ class Template < ActiveRecord::Base
   # Or just show certain fields
   def preview_image(hide_fields=false, hide_text=false, only_fields=[])
     require 'concerto_image_magick'
-    image = ConcertoImageMagick.load_image(self.media.original.first.file_contents)
+
+    if self.media.blank?
+      image = ConcertoImageMagick.new_image(1, 1);
+    else
+      image = ConcertoImageMagick.load_image(self.media.original.first.file_contents)
+    end
 
     height = image.rows
     width = image.columns
