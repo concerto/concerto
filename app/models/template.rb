@@ -78,7 +78,7 @@ class Template < ActiveRecord::Base
     require 'concerto_image_magick'
 
     if self.media.blank?
-      image = ConcertoImageMagick.new_image(640, 480);
+      image = ConcertoImageMagick.new_image(1, 1);
     else
       image = ConcertoImageMagick.load_image(self.media.original.first.file_contents)
     end
