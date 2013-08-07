@@ -81,6 +81,7 @@ concerto.frontend.Template.prototype.createDiv_ = function() {
  * Load the template.
  * Build a template using an object with information about it.
  * This data will get passed on to create positions.
+ * Does not render the background css if there is no template image (path item).
  *
  * @param {!Object} data The template data.
  */
@@ -89,7 +90,12 @@ concerto.frontend.Template.prototype.load = function(data) {
   this.path_ = data['path'];
   goog.dom.setProperties(this.div_, {'id': 'template_' + this.id});
 
-  this.render_();
+  if (goog.isDefAndNotNull(data['path'])) {
+    this.logger_.info('Rendering template ' + data['name'] + ' with image at ' + data['path']);
+    this.render_();
+  } else {
+    this.logger_.info('The template ' + data['name'] + ' has no background image');
+  }
 
   if (goog.isDefAndNotNull(data['positions'])) {
     goog.array.forEach(data['positions'], goog.bind(function(position_data) {
