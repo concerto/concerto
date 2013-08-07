@@ -6,7 +6,13 @@ class Frontend::TemplatesController < ApplicationController
     template = Template.find(params[:id])
     if stale?(:last_modified => template.last_modified.utc, :etag => template, :public => true)     
       require 'concerto_image_magick'
-      image = ConcertoImageMagick.load_image(template.media.original.first.file_contents)
+
+      if template.media.blank?
+        image = ConcertoImageMagick.new_image(1,1)
+        image.format = "PNG"
+      else
+        image = ConcertoImageMagick.load_image(template.media.original.first.file_contents)
+      end
 
       # Resize the image to a height and width if they are both being set.
       image = ConcertoImageMagick.resize(image, params[:width].to_f, params[:height].to_f)
@@ -17,7 +23,7 @@ class Frontend::TemplatesController < ApplicationController
           image.format = "PNG"
         else
           render :status => 406, :text => "Unacceptable image type." and return
-      end
+      end if !template.media.blank?
 
       send_data image.to_blob,
                 :filename => "#{template.name.underscore}.#{image.format.downcase}",
