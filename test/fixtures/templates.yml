@@ -6,8 +6,8 @@ one:
   is_hidden: false
 
 two:
-  name: MyString
-  author: MyString
+  name: MyString2
+  author: MyString2
   is_hidden: false
 
 hidden:
