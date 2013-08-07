@@ -81,7 +81,6 @@ concerto.frontend.Template.prototype.createDiv_ = function() {
  * Load the template.
  * Build a template using an object with information about it.
  * This data will get passed on to create positions.
- * Does not render the background css if there is no template image (path item).
  *
  * @param {!Object} data The template data.
  */
@@ -90,12 +89,7 @@ concerto.frontend.Template.prototype.load = function(data) {
   this.path_ = data['path'];
   goog.dom.setProperties(this.div_, {'id': 'template_' + this.id});
 
-  if (goog.isDefAndNotNull(data['path'])) {
-    this.logger_.info('Rendering template ' + data['name'] + ' with image at ' + data['path']);
-    this.render_();
-  } else {
-    this.logger_.info('The template ' + data['name'] + ' has no background image');
-  }
+  this.render_();
 
   if (goog.isDefAndNotNull(data['positions'])) {
     goog.array.forEach(data['positions'], goog.bind(function(position_data) {
@@ -110,18 +104,22 @@ concerto.frontend.Template.prototype.load = function(data) {
 /**
  * Render the template styles.
  * Set the correect background image and stuff.
+ * Does not render the background url if there is no path_.
  *
  * @private
  */
 concerto.frontend.Template.prototype.render_ = function() {
   var size = goog.style.getSize(this.div_);
 
-  var background_url = new goog.Uri(this.path_);
-  background_url.setParameterValue('height', size.height);
-  background_url.setParameterValue('width', size.width);
+  if (this.path_ != null) {
+    var background_url = new goog.Uri(this.path_);
+    background_url.setParameterValue('height', size.height);
+    background_url.setParameterValue('width', size.width);
 
-  goog.style.setStyle(this.div_, 'background-image',
-      'url(' + background_url.toString() + ')');
+    goog.style.setStyle(this.div_, 'background-image',
+        'url(' + background_url.toString() + ')');
+  }
+
   goog.style.setStyle(this.div_, 'background-size', '100% 100%');
   goog.style.setStyle(this.div_, 'background-repeat', 'no-repeat');
 };
