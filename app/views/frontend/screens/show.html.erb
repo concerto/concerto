@@ -6,6 +6,11 @@
   <script type="text/javascript">
     var screen;
     function init() {
+      <% if @debug %>
+        var debugWindow = new goog.debug.FancyWindow('main');
+        debugWindow.setEnabled(true);
+        debugWindow.init();
+      <% end %>
       var div = document.getElementsByClassName('screen')[0];
       screen = new concerto.frontend.Screen(<%= @screen.id %>, '<%=j setup_frontend_screen_path(@screen, :format => :json) %>', div);
     }

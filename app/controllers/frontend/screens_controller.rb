@@ -11,7 +11,9 @@ class Frontend::ScreensController < ApplicationController
       render :text => "Screen not found.", :status => 404
     else
       @js_files = ['frontend.js']
+      @debug = false
       if params[:debug]
+        @debug = true
         @js_files = ['frontend_debug.js']
       end
       if params[:files]
