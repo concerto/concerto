@@ -35,7 +35,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
       end
 
       if first_user_setup == true
-        group = Group.find_or_create_by_name(:name => "Concerto Admins")
+        group = Group.where(:name => "Concerto Admins").first_or_create
         Membership.create(:user_id => resource.id, :group_id => group.id, :level => Membership::LEVELS[:leader])
       end
 
