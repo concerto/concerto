@@ -30,6 +30,7 @@ class SubscriptionsController < ApplicationController
     
     @this_field = Field.find(params[:field_id])
     @fields = @screen.template.positions.collect{|p| p.field}
+    @field_configs = @screen.field_configs.where(:field_id => @this_field.id)
     
     respond_to do |format|
       format.html # manage.html.erb
@@ -163,6 +164,22 @@ class SubscriptionsController < ApplicationController
         @errnos[i] = !@this_subscription.update_attributes(:screen => @screen, :field => @field, :feed_id => feed_id, :weight => @weights[i])
       end
     end
+
+    # update the field configuration
+    params[:subscription][:field_config].values.each do |attrs|
+      attrs[:screen_id] = @screen.id
+      attrs[:field_id] = @field.id
+
+      if attrs[:_destroy] == '1' 
+        if !attrs[:id].blank? # persisted record
+          FieldConfig.find(attrs[:id]).destroy
+        end
+      elsif attrs[:id].blank?
+        FieldConfig.create(attrs.slice!(:id,:_destroy))
+      else
+        FieldConfig.find(attrs[:id]).update_attributes(attrs.slice!(:id,:_destroy))
+      end
+    end    
 
     respond_to do |format|
       @errnos.each_with_index do |errno, i|

@@ -67,7 +67,7 @@ function showSaveSubsAlert() {
       .attr("disabled", false)
       .end()
     .find(".save-msg")
-      .html("<b>You have made changes to the subscriptions for this field.</b><br />Please click this button to commit your changes, or exit this page to cancel.");
+      .html("<b>You have made changes to the subscriptions or configuration for this field.</b><br />Please click this button to commit your changes, or exit this page to cancel.");
 }
 
 function initializeFrequencySliders() {
@@ -111,11 +111,27 @@ function initFeedListState(api_content) {
   });
 }
 
+function remove_field_config_fields (link) {
+  $(link).prev("input[type=hidden]").val("1");
+  $(link).closest(".field-config-fields").hide();
+  showSaveSubsAlert();
+}
+
+function add_field_config_fields (link, association, content) {
+  var new_id = new Date().getTime();
+  var regexp = new RegExp("new_" + association, "g");
+  $(link).parent().find('.field-configs').first().append(content.replace(regexp, new_id));
+  showSaveSubsAlert();
+}
+
+
 function initSubscriptions() {
   if($('#new_subscription').length > 0){
     addSubscriptionsUi();
     $("#new_subscription").formSavior();
   }
+
+  $('input[type="text"]').on('change', showSaveSubsAlert);
 }
 
 $(document).ready(initSubscriptions);
