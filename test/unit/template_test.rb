@@ -54,4 +54,13 @@ class TemplateTest < ActiveSupport::TestCase
     assert_equal t.original_width, 1920
     assert_equal t.original_height, 1200
   end
+
+  test "template names must be unique" do
+    t = templates(:one)
+    templ = Template.new({:name => t.name})
+    assert_equal t.name, templ.name, "Names are set equal"
+    assert !templ.valid?, "Names can't be equal"
+    templ.name = "Fooasdasdasda"
+    assert templ.valid?, "Unique name is OK"
+  end
 end

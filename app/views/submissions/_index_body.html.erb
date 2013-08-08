@@ -1,19 +1,20 @@
 <div class="subnav clearfix">
   <div class="pull-left" style="padding: 3px 0px; width:100px">
-    <%= link_to "#", :title => t('.click_to_jump'), :class => "btn small info dropdown-toggle dropdown-control dd-jumpto", :rel => "#jump_to" do %>
+    <%= link_to "#", :title => t('.click_to_jump'), :class => "btn btn-small btn-info dropdown-toggle dropdown-control dd-jumpto", :rel => "#jump_to" do %>
       <i class="icon-bolt"></i> <%= t('.jump_to_feed') %>
     <% end %>
 
     <div id="jump_to" style="display: none;">
-      <div class="tooltip-scrollY">
-        <% feeds = dfs_tree(Feed.roots) %>
-        <% if feeds.empty? %>
-          <p><%= t('feeds.no_feeds') %></p>
-        <% else %>
+      <% feeds = dfs_tree(Feed.roots) %>
+      <% if feeds.empty? %>
+        <p><%= t('feeds.no_feeds') %></p>
+      <% else %>
 
-        <div class="filter-bar">
-          <input type="text" class="feed_filter" placeholder='Type here to filter'/>
-        </div>
+      <div class="tooltip-filter-cont">
+        <input type="text" class="feed_filter fillWidth" placeholder="Type here to filter"/>
+      </div>
+
+      <div class="tooltip-scrollY">
         <ul class="filterable selector-list">
           <% feeds.each_with_index do |feed, i| %>
           <li data-filter="<%= feed.name %>">
@@ -24,8 +25,8 @@
           </li>
           <% end %>
         </ul>
-        <% end %>
       </div>
+      <% end %>
     </div>
 
   </div>

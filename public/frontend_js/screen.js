@@ -1,6 +1,7 @@
 goog.provide('concerto.frontend.Screen');
 
 goog.require('concerto.frontend.Template');
+goog.require('goog.debug.FancyWindow');
 goog.require('goog.debug.Logger');
 goog.require('goog.dom');
 goog.require('goog.net.XhrManager');

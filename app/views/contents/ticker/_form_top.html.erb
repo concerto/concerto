@@ -2,29 +2,15 @@
   <legend><span><%=t('.type_your_message')%></span></legend>
 
   <div class="clearfix">
-    
-    <div class="tabbable tabs-left">
-      <ul class="nav nav-tabs">
-        <li class="active">
-          <a href="#tab1" data-toggle="tab"><%=t('.ticker_text')%></a>
-        </li>
-        <li>
-          <a href="#tab2" data-url="<%= preview_contents_path %>" id="ticker-preview" data-toggle="tab"><%=t('.preview')%></a>
-        </li>
-      </ul>
 
-      <div class="tab-content">
-        <div class="tab-pane active" id="tab1">
-          <%= form.text_area :data, :class => 'word_count input-xxlarge', :rows => 10, :autofocus => true %>
-          <div><%= t('.characters') %>: <span id="char_count">0</span></div>
-          <i><%= t('.allowed_html')%></i> 
-        </div>
-
-        <div class="tab-pane" id="tab2">
-          <div class="ticker-preview"></div>
-        </div>
+    <%= form.text_area :data, :class => 'word_count fillWidth', :rows => 3, :autofocus => true, "data-url" => preview_contents_path %>
+    <div class="row-fluid">
+      <div class="span6">
+        <span id="char_count">0</span> <%= t('.characters') %>
       </div>
-    </div>
+      <div class="span6" style="text-align: right;">
+        <span class="tooltip-basic" data-tooltip-text="<%= t('.allowed_html') %>"><i class="icon-question-sign"></i> Some HTML is allowed in this field</span>
+      </div>
 
   </div>
 

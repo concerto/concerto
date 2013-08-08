@@ -63,7 +63,7 @@ function showSaveSubsAlert() {
     .removeClass("alert-zero")
     .addClass("alert-info")
     .find("input")
-      .addClass("primary")
+      .addClass("btn-primary")
       .attr("disabled", false)
       .end()
     .find(".save-msg")

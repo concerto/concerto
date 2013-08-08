@@ -1,7 +1,8 @@
 <%= form_for(@template, :html => { :multipart => true }) do |f| %>
   <% if @template.errors.any? %>
-  <div id="errorExplanation">
-    <h2><%= pluralize(@template.errors.count, t(:error)) + t(:prohibited_save, :model => ::Template.model_name.human) %></h2>
+  <div class="alert alert-banner alert-error">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <h4><b><%= pluralize(@template.errors.count, t(:error)) + " "  + t(:prohibited_save, :model => ::Template.model_name.human.downcase) %></b></h4>
     <ul>
       <% @template.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -14,14 +15,14 @@
     <div class="clearfix">
       <%= f.label :name %>
       <div class="input">
-        <%= f.text_field :name, :autofocus => true %>
+        <%= f.text_field :name, :autofocus => true, :class => "input-xlarge" %>
       </div>
     </div>
     
     <div class="clearfix">
       <%= f.label :author %>
       <div class="input">
-        <%= f.text_field :author %>
+        <%= f.text_field :author, :class => "input-xlarge" %>
       </div>
     </div>
 
@@ -44,6 +45,6 @@
 
 
   <div class="submit_bar actions">
-    <%= f.submit button_text, :class => "btn primary" %> <%= link_to t(:cancel), screens_path, :class => "btn" %>
+    <%= f.submit button_text, :class => "btn btn-primary" %> <%= link_to t(:cancel), screens_path, :class => "btn" %>
   </div>
 <% end %>

@@ -1,7 +1,7 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'https://rubygems.org'
 
-gem "rails", "3.2.13"
+gem "rails", "3.2.14"
 
 # Get the absolute path of this Gemfile so the includes below still work
 # when the current directory for a bundler command isn't the application's
@@ -33,6 +33,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'bootstrap-datepicker-rails'
 gem 'jquery-timepicker-rails'
+gem 'twitter-bootstrap-rails-confirm'
 
 # In production we prefer MySQL over sqlite3.  If you are only
 # interested in development and don't want to bother with production,
@@ -46,7 +47,7 @@ gem "rmagick", ">= 2.12.2", :require => 'RMagick', :platforms => :ruby
 # Attachable does all the file work.
 gem 'attachable', '>= 0.0.5'
 
-gem 'devise', '~> 2.2'
+gem 'devise', '~> 3.0.0'
 gem 'cancan'
 
 gem 'json'

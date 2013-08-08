@@ -1,46 +1,39 @@
 // FORM STYLES
 // -----------
 
+
 // Groups of fields with labels on top (legends)
 fieldset {
-  margin:$baseline 0px;
-  padding-top: $baseline;
+  margin: 0px 0px $baseline+5 0px;
+  padding: $baseline 18px 0px 18px;
 
   legend {
     border-bottom:solid 1px $grayLighter;
-		display: block;
-		width:100%;
-		padding: 18px 0px 6px 0px;
+    display: block;
+    width:100%;
+    padding: 18px 0px 6px 0px;
+    margin-left: -18px;
+    margin-right: -18px;
 
     > span {
-    	font-size: $basefont;
-			letter-spacing: 0.1em; 
-			text-transform: uppercase;
-			color: $gray;
-			line-height: 1;
-			padding-left: 150px;
-			*padding: 0 0 5px 145px; /* IE6-7 */
-    	*line-height: 1.5; /* IE6-7 */
-		}
-		
-  }
-  
-  .field, .clearfix {
-    label {
-      padding-top: 6px;
-      float: left;
-      width: 130px;
-      text-align: right;
+      font-size: $basefont;
+      letter-spacing: 0.1em; 
+      text-transform: uppercase;
+      color: $gray;
+      line-height: 1;
+      padding-left: 20px;
+      *padding: 0 0 5px 15px; /* IE6-7 */
+      *line-height: 1.5; /* IE6-7 */
     }
   }
-}
-  
 
-// Parent element that clears floats and wraps labels and fields together
-form .field, form .clearfix {
-  margin-bottom: $baseline;
-  @include clearfix();
+  // Parent element that clears floats and wraps labels and fields together
+  .field, .clearfix {
+    margin-bottom: $baseline;
+    @include clearfix();
+  }
 }
+
 
 // Set font for forms
 label,
@@ -48,18 +41,16 @@ input,
 select,
 textarea {
   @include sans-serif-font(normal,13px,normal);
+  max-width: 98%;
 }
 
-// Float labels left
+// default labels are block elements (stacked layout)
 label {
+  display: block;
   font-size: $basefont;
-  line-height: $baseline;
+  line-height: $baseline+4;
   color: $grayDark;
-}
-
-// Shift over the inside div to align all label's relevant content
-form .input {
-  margin-left: 150px;
+  font-weight: bold;
 }
 
 // Checkboxs and radio buttons
@@ -74,9 +65,8 @@ textarea,
 select,
 .uneditable-input {
   display: inline-block;
-  //width: 300px;
-  height: $baseline;
-  padding: 4px;
+  //height: $baseline;
+  padding: 5px 5px 6px 5px;
   font-size: $basefont;
   color: $black;
   border: 1px solid #ccc;
@@ -86,6 +76,7 @@ select,
 // remove padding from select
 select {
   padding: initial;
+  margin: 0px;
 }
 
 // mini reset for non-html5 file types 
@@ -292,7 +283,10 @@ textarea {
   &.span16    { @include formColumns(16); }
 }
 
-.fillWidth { width: 98%; }
+.fillWidth { 
+  width: 100%;
+  box-sizing: border-box;
+}
 
 // Disabled and read-only inputs
 input[disabled],
@@ -310,7 +304,7 @@ textarea[readonly] {
 .actions {
   background: #f5f5f5;
   margin-top: $baseline * 2;
-  padding: ($baseline - 1) 20px $baseline 150px;
+  padding: ($baseline - 1) 20px $baseline 20px;
   border-top: 1px solid #ddd;
   @include border-radius(0 0 3px 3px);
   .secondary-action {
@@ -376,7 +370,7 @@ textarea[readonly] {
     margin-right: -1px;
     font-weight: normal;
     line-height: 18px;
-    color: $grayLight;
+    color: $grayDark;
     text-align: center;
     text-shadow: 0 1px 0 $white;
     @include border-radius(3px 0 0 3px);

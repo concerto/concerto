@@ -1,15 +1,38 @@
-<div class="clearfix datetime">
-  <%= form.label :start_time %>
-  <div class="input">
-    <%= form.text_field("start_time[date]", :id => "start_time_date", :maxlength => 20, :class => "datefield input-small", :value => (Clock.time + ConcertoConfig[:start_date_offset].to_i.days).strftime("%m/%d/%Y")) %>
-    <%= form.text_field("start_time[time]", :id => "start_time_time", :maxlength => 20, :class => "timefield input-small", :value => ConcertoConfig[:content_default_start_time]) %>
+<div class="row-fluid">
+  <div class="span6">
+    <div class="clearfix datetime">
+      <%= form.label :start_time, t(:start_displaying) %>
+      <div class="input">
+        <div class="input-append">
+          <%= form.text_field("start_time[date]", :id => "start_time_date", :maxlength => 20, :class => "datefield input-small", :value => (Clock.time + ConcertoConfig[:start_date_offset].to_i.days).strftime("%m/%d/%Y")) %>
+          <span class="add-on"><i class="icon-calendar"></i></span>
+        </div>
+        <br /><br />
+        <p>&nbsp;<a class="event-toggleTimeSelects" href="#">Set specific times</a></p>
+        <div class="event-timeSelectDiv input-append">
+          <%= form.text_field("start_time[time]", :id => "start_time_time", :maxlength => 20, :class => "timefield input-small", :value => ConcertoConfig[:content_default_start_time]) %>
+          <span class="add-on"><i class="icon-time"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="span6">
+    <div class="clearfix datetime">
+      <%= form.label :end_time, t(:finish_displaying) %>
+      <div class="input">
+        <div class="input-append">
+          <%= form.text_field("end_time[date]", :id => "end_time_date", :maxlength => 20, :class => "datefield input-small", :value => (Clock.time + ConcertoConfig[:default_content_run_time].to_i.days + ConcertoConfig[:start_date_offset].to_i.days).strftime("%m/%d/%Y")) %>
+          <span class="add-on"><i class="icon-calendar"></i></span>
+        </div>
+        <br /><br />
+        <div class="event-timeSelectDiv input-append">
+          <%= form.text_field("end_time[time]", :id => "end_time_time", :maxlength => 20, :class => "timefield input-small", :value => ConcertoConfig[:content_default_end_time]) %>
+          <span class="add-on"><i class="icon-time"></i></span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="clearfix datetime">
-  <%= form.label :end_time %>
-  <div class="input">
-    <%= form.text_field("end_time[date]", :id => "end_time_date", :maxlength => 20, :class => "datefield input-small", :value => (Clock.time + ConcertoConfig[:default_content_run_time].to_i.days + ConcertoConfig[:start_date_offset].to_i.days).strftime("%m/%d/%Y")) %>
-    <%= form.text_field("end_time[time]", :id => "end_time_time", :maxlength => 20, :class => "timefield input-small", :value => ConcertoConfig[:content_default_end_time]) %>
-  </div>
-</div>
+
+

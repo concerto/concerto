@@ -16,7 +16,9 @@ class Frontend::ScreensController < ApplicationController
       render :text=> "Screen requires authentication.", :status => 403
     else
       @js_files = ['frontend.js']
+      @debug = false
       if params[:debug]
+        @debug = true
         @js_files = ['frontend_debug.js']
       end
       if params[:files]

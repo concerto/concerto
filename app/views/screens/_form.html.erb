@@ -3,45 +3,53 @@
 
 	<fieldset>
     <legend><span><%= t('.provide_details') %></span></legend>
-		<div class="clearfix">
-			<%= f.label :name %>
-			<div class="input">
-				<%= f.text_field :name, :class => "input-xlarge", :autofocus => true %>
-			</div>
-		</div>
 		
-		<div class="clearfix">
-			<%= f.label :location %>
-			<div class="input">
-				<%= f.text_field :location, :class => "input-xlarge" %>
-			</div>
-		</div>
-		
-		<div class="clearfix">
-			<label><%= t('.dimensions') %></label>
-			<div class="input">
-				<div class="inline-inputs">
-					<%= f.text_field :width, :class => "input-small" %> (W) x <%= f.text_field :height, :class => "input-small" %> (H)
-				</div>
-			</div>
-		</div>
-		
-		<div class="clearfix">
-			<%= f.label :owner %>
-			<div class="input">
-	      <% options = { User.model_name.human.pluralize => @users.map{|u| [u.name, "User-#{u.id}"]},
-	                    Group.model_name.human.pluralize => @groups.map{|g| [g.name, "Group-#{g.id}"]}} %> 
-	      <%= select_tag :owner, grouped_options_for_select(options, "#{@screen.owner_type}-#{@screen.owner_id}") %>
-			</div>
-		</div>
-		
-		<div class="clearfix">
-			<label><%= t('.visibility') %></label>
-			<div class="input checkbox">
-        <ul class="inputs-list">
-				  <li><%= f.check_box :is_public %> <%= f.label :is_public %></li>
-        </ul>
-			</div>
+
+    <div class="row-fluid">
+      <div class="span4">
+        <div class="clearfix">
+    			<%= f.label :name %>
+    			<div class="input">
+    				<%= f.text_field :name, :class => "input-xlarge", :autofocus => true %>
+    			</div>
+    		</div>
+    		
+    		<div class="clearfix">
+    			<%= f.label :location %>
+    			<div class="input">
+    				<%= f.text_field :location, :class => "input-xlarge" %>
+    			</div>
+    		</div>
+
+        <div class="clearfix">
+          <label><%= t('.visibility') %></label>
+          <div class="input checkbox">
+            <ul class="inputs-list">
+              <li><%= f.check_box :is_public %> <%= f.label :is_public %></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="span4">
+        <div class="clearfix">
+          <label><%= t('.dimensions') %></label>
+          <div class="input">
+            <div class="inline-inputs">
+              <%= f.text_field :width, :class => "input-small" %> (W) x <%= f.text_field :height, :class => "input-small" %> (H)
+            </div>
+          </div>
+        </div>
+        
+        <div class="clearfix">
+          <%= f.label :owner %>
+          <div class="input">
+            <% options = { User.model_name.human.pluralize => @users.map{|u| [u.name, "User-#{u.id}"]},
+                          Group.model_name.human.pluralize => @groups.map{|g| [g.name, "Group-#{g.id}"]}} %> 
+            <%= select_tag :owner, grouped_options_for_select(options, "#{@screen.owner_type}-#{@screen.owner_id}") %>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </fieldset>
@@ -88,7 +96,7 @@
   </fieldset>
 
 	<div class="submit_bar actions">
-		<%= f.submit button_text, :class => "btn primary" %>
+		<%= f.submit button_text, :class => "btn btn-primary" %>
           <%= link_to t(:cancel), (@screen.persisted? ? screen_path : screens_path), :class => "btn" %>
 	</div>
 <% end %>

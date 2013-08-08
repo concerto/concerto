@@ -22,7 +22,7 @@
             <div class="inline-inputs">
               <%= link_to t(:edit), edit_user_path, :class => "btn" %> 
               <%= link_to t('users.change_password'), edit_user_registration_path, :class => "btn" if current_user == @user %> 
-              <%= link_to t(:destroy), user_path(@user), :data => { :confirm => t(:are_you_sure_delete_model_key, :model => User.model_name.human, :key => @user.name)}, :method => :delete, :class => "btn danger" if current_user != @user %> 
+              <%= link_to t(:destroy), user_path(@user), :data => { :confirm => t(:are_you_sure_delete_model_key, :model => User.model_name.human, :key => @user.name)}, :method => :delete, :class => "btn btn-danger" if current_user != @user %> 
             </div>
           <% end %>
         </div>
@@ -48,11 +48,13 @@
 
                   <% if can? :edit, membership %>
                     <%= form_for([membership.group, membership]) do |f| %>
-                      <%= hidden_field_tag :receive_emails, "0" %>
-                      <%= check_box_tag :receive_emails, nil, membership.receive_emails, { 
-                        :id => "email#{membership.group.id}",
-                        :data => { :autosubmit => true }} %> 
-                      <%= label_tag "email#{membership.group.id}", t('.receive_emails') %>
+                      <div class="input checkbox">
+                        <%= hidden_field_tag :receive_emails, "0" %>
+                        <%= check_box_tag :receive_emails, nil, membership.receive_emails, { 
+                          :id => "email#{membership.group.id}",
+                          :data => { :autosubmit => true }} %> 
+                        <%= label_tag "email#{membership.group.id}", t('.receive_emails') %>
+                      </div>
                     <% end %>
                  <% end %>
                 </div>

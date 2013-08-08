@@ -2,8 +2,13 @@ class User < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
   # Include default devise modules. Others available are:
-  # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
+  # :token_authenticatable, :encryptable, :confirmable,
+  # :lockable, :timeoutable and :omniauthable, :trackable
+  modules = [:database_authenticatable, :recoverable, :registerable, :rememberable, :validatable]
+  if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
+    modules << :confirmable if ConcertoConfig[:confirmable]
+  end
+  devise *modules
          
   before_destroy :check_for_last_admin
 

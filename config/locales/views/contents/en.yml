@@ -26,6 +26,9 @@ en:
     form_elements:
       feeds:
         filter_feeds: 'Filter Feeds'
+        edit_selections: "Edit selections"
+        edit_feed_selections: "Edit Feed Selections"
+        type_to_filter: "Type here to filter"
 
     form_top:
       data: 'Data'
