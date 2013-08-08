@@ -1,5 +1,7 @@
 
 en:
+  at: 'at'
+
   activerecord:
     attributes:
       content:

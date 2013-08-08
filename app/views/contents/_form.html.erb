@@ -10,7 +10,6 @@
       <div class="span8">
         <%= render_partial_if("#{type_folder}/form_top", "form_top", {:form => f}) %>
         <%= render_partial_if("#{type_folder}/form_middle", "form_middle", {:form => f}) %>
-        <%= render_partial_if("#{type_folder}/form_bottom", "form_bottom", {:form => f}) %>
       </div>
       <div class="span4">
         <fieldset>
@@ -19,5 +18,7 @@
         </fieldset>
       </div>
     </div>
+
+    <%= render_partial_if("#{type_folder}/form_bottom", "form_bottom", {:form => f}) %>
   <% end %>
 <% end %>
