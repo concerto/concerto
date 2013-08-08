@@ -62,7 +62,7 @@
         <% render 'position_fields', :p => p %>
       <% end %>
     </div>
-    <%= link_to_add_position_fields t(:add_model, :model => Position.model_name.humanize), f, :positions %>
+    <%= link_to_add_position_fields t(:add_model, :model => Position.model_name.human), f, :positions %>
   </fieldset>
 
   <div class="submit_bar actions">
