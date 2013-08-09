@@ -16,6 +16,7 @@
 
 set :application, "concerto"
 set :repository,  "https://github.com/mfrederickson/ssat.git"
+set :branch, "master"
 set :asset_env, "#{asset_env} RAILS_RELATIVE_URL_ROOT=/#{application}"
 
 role :web, "artemisu"                   # Your HTTP server, Apache/etc
@@ -33,7 +34,7 @@ task :uname do
   run "uname -a"
 end
 
-default_run_options[:pty] = true
+default_run_options[:pty] = true # must be true for password prompt from git or ssh to work
 
 # if you want to clean up old releases on each deploy uncomment this:
 after "deploy:restart", "deploy:cleanup"
@@ -55,4 +56,6 @@ namespace :deploy do
   end
 end
 
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'deploy')
 require "bundler/capistrano"
+require "capistrano_database"
