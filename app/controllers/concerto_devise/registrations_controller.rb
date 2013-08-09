@@ -16,6 +16,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     build_resource(sign_up_params)
+    first_user_setup = false
 
     # If there are no users, the first one created will be an admin
     if !User.exists?
@@ -34,7 +35,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
         ConcertoConfig.set("send_errors", params[:concerto_config][:send_errors])
       end
 
-      if first_user_setup == true
+      if first_user_setup
         group = Group.where(:name => "Concerto Admins").first_or_create
         Membership.create(:user_id => resource.id, :group_id => group.id, :level => Membership::LEVELS[:leader])
       end
