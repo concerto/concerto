@@ -64,7 +64,10 @@ class Frontend::ScreensController < ApplicationController
       @screen.template.path = frontend_screen_template_path(@screen, @screen.template, :format => template_format)      
       @screen.template.positions.each do |p|
         p.field_contents_path = frontend_screen_field_contents_path(@screen, p.field, :format => :json)
-        p.field.field_configs = FieldConfig.where(:screen_id => @screen.id, :field_id => p.field.id)
+        p.field.config = {}
+        FieldConfig.where(:screen_id => @screen.id, :field_id => p.field.id).each do |r|
+          p.field.config[r.key] = r.value
+        end
       end
 
       respond_to do |format|
@@ -79,12 +82,8 @@ class Frontend::ScreensController < ApplicationController
                     :methods => [:field_contents_path],
                     :include => {
                       :field => {
-                        :only => [:id, :name],
-                        :include => {
-                          :config => {
-                            :only => [:key, :value, :value_type]
-                          }
-                        }
+                        :methods => [:config],
+                        :only => [:id, :name, :config]
                       }
                     }
                   },
