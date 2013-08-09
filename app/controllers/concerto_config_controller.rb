@@ -20,6 +20,14 @@ class ConcertoConfigController < ApplicationController
         config.update_column(:value, v)
       end
     end
+    
+    #remove any config items not in the whitelist on the ConcertoConfig class
+    ConcertoConfig.all.each do |c|   
+      unless ConcertoConfig::CONFIG_ITEMS.include?(c.key)
+        c.destroy
+      end
+    end
+    
     ConcertoConfig.cache_expire
     flash[:notice] = t(:settings_saved)
     redirect_to :action => :show

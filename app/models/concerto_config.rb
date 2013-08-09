@@ -18,6 +18,9 @@ class ConcertoConfig < ActiveRecord::Base
   include PublicActivity::Common if defined? PublicActivity::Common  
 
   after_destroy :cache_expire
+  
+  #a whitelist of valid ConcertoConfigs that is populated when make_concerto_config is called
+  CONFIG_ITEMS = Array.new
 
   # Enable hash-like access to table for ease of use
   # Shortcut for self.get(key)
@@ -77,6 +80,9 @@ class ConcertoConfig < ActiveRecord::Base
       :can_cache => true
     }
     options = defaults.merge(options)
+    
+    CONFIG_ITEMS.push(config_key)
+    
     # first_or_create: check whether first returns nil or not; if it does return nil, create is called
     ConcertoConfig.where(:key => config_key).first_or_create(:key => config_key, :value => config_value,
       :value_default => options[:value_default], :value_type => options[:value_type], :name => options[:name], :group => options[:group],
