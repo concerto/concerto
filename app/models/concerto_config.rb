@@ -122,19 +122,24 @@ class ConcertoConfig < ActiveRecord::Base
   def self.cache_rebuild()
     data = {}
     ConcertoConfig.all.each do |config|
-      #remove any config items not in the whitelist on the ConcertoConfig class
-      unless ConcertoConfig::CONFIG_ITEMS.include?(c.key)
-        c.destroy
-      end    
       if config.value_type == "boolean"
         config.value = (config.value == "true")
       end
       if config.can_cache?
         data[config.key] = config.value
       end
-    end
+    end  
     Rails.logger.debug('Writing cache')
     Rails.cache.write('ConcertoConfig', data)
+  end
+  
+  def delete_unused_configs
+    #remove any config items not in the whitelist on the ConcertoConfig class
+    ConcertoConfig.all.each do |config|
+      unless self.CONFIG_ITEMS.include?(config.key)
+        config.destroy
+      end 
+    end
   end
   
   private 
