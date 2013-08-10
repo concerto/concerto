@@ -23,7 +23,9 @@ en:
       
     manage:
       field: 'field'
-      make_changes: 'Please make some changes above in order to save new subscriptions.'
+      make_changes: 'First make some changes above to save.'
       manage_model_for_field: 'Manage %{model} for %{name} Field'
       save_changes_to_model: 'Save changes to %{model}'
       no_configuration_yet: 'This field does not have any configuration.'
+      subscriptions: 'Subscriptions'
+      field_custom_configurations: 'Custom Field Configurations'

@@ -43,7 +43,7 @@ function addSubscriptionsUi(){
   });
 
   // bind click handler to all remove buttons, now and in the future, on subscription UI
-  $("body").on("click", "a.btnRemoveSubscription", function(e) {
+  $(document).on("click", "a.btnRemoveSubscription", function(e) {
     $(this).parents("tbody").append("<tr><td></td></tr>");
     $(this).parents("tr").remove();
     showSaveSubsAlert();
@@ -56,6 +56,28 @@ function addSubscriptionsUi(){
   $("form .frequency_range").change(function() {
     showSaveSubsAlert();
   });
+
+  $(document).on("change", "input[type='text'], select", function() {
+    showSaveSubsAlert();
+  });
+
+  if ($("#count_field_configs").val() <= 0) {
+    toggleFieldConfigsCont();
+  } else {
+    $(".event-toggleFieldConfigsDiv").parent().hide();
+  }
+}
+
+function toggleFieldConfigsCont() {
+  $(".event-fieldConfigsDiv").hide();
+
+  $(".event-toggleFieldConfigsDiv").on("click", function(e) {
+    e.preventDefault();
+    $(this).parent().hide();
+    $(".event-fieldConfigsDiv").show();
+  });
+
+  $(".event-fieldConfigsDiv").hide();
 }
 
 function showSaveSubsAlert() {
@@ -130,8 +152,6 @@ function initSubscriptions() {
     addSubscriptionsUi();
     $("#new_subscription").formSavior();
   }
-
-  $('input[type="text"]').on('change', showSaveSubsAlert);
 }
 
 $(document).ready(initSubscriptions);
