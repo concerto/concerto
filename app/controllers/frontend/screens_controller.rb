@@ -58,10 +58,11 @@ class Frontend::ScreensController < ApplicationController
       # Pretend that it's better not to change the format of the image, so we detect it's upload extension.
       if !@screen.template.media.original.first.nil?
         template_format = File.extname(@screen.template.media.original.first.file_name)[1..-1]
+        @screen.template.path = frontend_screen_template_path(@screen, @screen.template, :format => template_format)      
       else
         template_format = nil
+        @screen.template.path = nil
       end
-      @screen.template.path = frontend_screen_template_path(@screen, @screen.template, :format => template_format)      
       @screen.template.positions.each do |p|
         p.field_contents_path = frontend_screen_field_contents_path(@screen, p.field, :format => :json)
         p.field.config = {}
@@ -88,7 +89,7 @@ class Frontend::ScreensController < ApplicationController
                     }
                   },
                 },
-                :only => [:id],
+                :only => [:id, :name],
                 :methods => [:path]
               }
             }
