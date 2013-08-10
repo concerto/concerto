@@ -104,18 +104,22 @@ concerto.frontend.Template.prototype.load = function(data) {
 /**
  * Render the template styles.
  * Set the correect background image and stuff.
+ * Does not render the background url if there is no path_.
  *
  * @private
  */
 concerto.frontend.Template.prototype.render_ = function() {
   var size = goog.style.getSize(this.div_);
 
-  var background_url = new goog.Uri(this.path_);
-  background_url.setParameterValue('height', size.height);
-  background_url.setParameterValue('width', size.width);
+  if (this.path_ != null) {
+    var background_url = new goog.Uri(this.path_);
+    background_url.setParameterValue('height', size.height);
+    background_url.setParameterValue('width', size.width);
 
-  goog.style.setStyle(this.div_, 'background-image',
-      'url(' + background_url.toString() + ')');
+    goog.style.setStyle(this.div_, 'background-image',
+        'url(' + background_url.toString() + ')');
+  }
+
   goog.style.setStyle(this.div_, 'background-size', '100% 100%');
   goog.style.setStyle(this.div_, 'background-repeat', 'no-repeat');
 };
