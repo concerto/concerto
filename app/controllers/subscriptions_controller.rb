@@ -167,26 +167,28 @@ class SubscriptionsController < ApplicationController
 
     # update the field configuration
     results_msg = []
-    params[:subscription][:field_config].values.each do |attrs|
-      attrs[:screen_id] = @screen.id
-      attrs[:field_id] = @field.id
-
-      if attrs[:_destroy] == '1' 
-        if !attrs[:id].blank? # persisted record
-          FieldConfig.find(attrs[:id]).destroy
+    if params.has_key?(:subscription)
+      params[:subscription][:field_config].values.each do |attrs|
+        attrs[:screen_id] = @screen.id
+        attrs[:field_id] = @field.id
+  
+        if attrs[:_destroy] == '1' 
+          if !attrs[:id].blank? # persisted record
+            FieldConfig.find(attrs[:id]).destroy
+          end
+        elsif attrs[:id].blank?
+          fc = FieldConfig.new(attrs.slice!(:id,:_destroy))
+          if !fc.save
+            results_msg << fc.errors.full_messages
+          end
+        else
+          fc = FieldConfig.find(attrs[:id])
+          if !fc.update_attributes(attrs.slice!(:id,:_destroy))
+            results_msg << fc.errors.full_messages
+          end
         end
-      elsif attrs[:id].blank?
-        fc = FieldConfig.new(attrs.slice!(:id,:_destroy))
-        if !fc.save
-          results_msg << fc.errors.full_messages
-        end
-      else
-        fc = FieldConfig.find(attrs[:id])
-        if !fc.update_attributes(attrs.slice!(:id,:_destroy))
-          results_msg << fc.errors.full_messages
-        end
-      end
-    end    
+      end  
+    end  
 
     respond_to do |format|
       if !results_msg.empty?
