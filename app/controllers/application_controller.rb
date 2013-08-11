@@ -6,12 +6,59 @@ class ApplicationController < ActionController::Base
   before_filter :compute_pending_moderation
   around_filter :user_time_zone, :if => :user_signed_in?
   helper_method :webserver_supports_restart?
+  helper_method :current_screen
 
   # Current Ability for CanCan authorization
   # This matches CanCan's code but is here to be explicit,
   # since we modify @current_ability below for plugins.
   def current_ability
-    @current_ability ||= ::Ability.new(current_user)
+    if @screen_api
+      @current_ability ||= ::Ability.new(current_accessor)
+    end
+    @current_ability ||= ::Ability.new(current_accessor)
+  end
+
+  # Determine the current logged-in screen or user to be used for auth
+  # on the current action.
+  # Used by current_ability and use_plugin_ability
+  def current_accessor
+    if @screen_api
+      @current_accessor ||= current_screen
+    end
+    @current_accessor ||= current_user
+  end
+
+  def current_screen
+    if @current_screen.nil?
+      if cookies.has_key? :concerto_screen_token
+        token = cookies[:concerto_screen_token]
+        @current_screen = Screen.find_by_screen_token(token)
+      end
+    else
+       @current_screen
+    end
+  end
+
+  def sign_in_screen(screen)
+    token = screen.generate_screen_token!
+    cookies.permanent[:concerto_screen_token]=token
+  end
+
+  def sign_out_screen
+    if !current_screen.nil?
+      current_screen.clear_screen_token!
+      @current_screen = nil
+    end
+    cookies.permanent[:concerto_screen_token]=""
+  end
+
+  # Call this with a before filter to indicate that the current action
+  # should be treated as a Screen API page. On Screen API pages, the
+  # current logged-in screen (if there is one) is used instead of the
+  # current user. For non-screen API pages, it is impossible for a
+  # screen to view the page (though that may change).
+  def screen_api
+    @screen_api=true
   end
   
   def restart_webserver
@@ -91,7 +138,7 @@ class ApplicationController < ActionController::Base
         logger.warn "ConcertoPlugin: use_plugin_ability: "+
           "No Ability found for "+mod.name
       else
-        @plugin_abilities[mod_sym] ||= ability.new(current_user)
+        @plugin_abilities[mod_sym] ||= ability.new(current_accessor)
         @current_ability = @plugin_abilities[mod_sym]
       end
     else
@@ -215,9 +262,9 @@ class ApplicationController < ActionController::Base
         object.delete_if {|o| cannot?(test_action, o)}
         if new_exception && object.empty?
           # Parent will be Object for Concerto, or the module for Plugins.
-          new_parent = self.class.parent.name
-          new_class = new_parent + '::' + controller_name.singularize.classify
-          new_object = new_class.constantize.new
+          new_parent = self.class.parent
+          new_class = new_parent.const_get(controller_name.singularize.classify)
+          new_object = new_class.new
           return true if can?(:create, new_object)
         end
         if !allow_empty && object.empty?
