@@ -2,9 +2,14 @@
   <div class="span12">
     <section class="viewblock">
       <header class="viewblock-header">
-        <h1 class="default-padding"><%= t('.manage_model_for_field', { :model => Subscription.model_name.human.pluralize, :name => @this_field.name }) %></h1>
+        <h1 class="default-padding">
+          <%= link_to t(:all_model, :model => Screen.model_name.human.pluralize), screens_path %> &gt; 
+          <%= link_to @screen.name, @screen %> &gt; 
+          <%= t('.manage_model_for_field', { :model => Subscription.model_name.human.pluralize, :name => @this_field.name }) %>
+        </h1>
       </header> 
-      <div class="viewblock-cont" style="min-height: 600px;">
+      
+      <div class="viewblock-cont" style="min-height: 550px;">
 
         <div class="subnav clearfix">
           <ul class="nav nav-tabs">
@@ -19,16 +24,18 @@
           </ul>
         </div>
 
-        <br /><br />
+        <br />
 
         <%= form_for([@screen, @this_field, @subscription], :url => save_all_screen_field_subscriptions_path(@screen, @this_field), :method => :put) do |f| %>
 
-          <%= hidden_field_tag "new-subscription-index", @this_field.subscriptions.where(:screen_id => @screen.id).size %>
+          <fieldset>
+            <legend><span><%= t(:subcriptions) %><span></legend>
+            <%= hidden_field_tag "new-subscription-index", @this_field.subscriptions.where(:screen_id => @screen.id).size %>
 
-          <table id="subscriptions-list">
+            <table id="subscriptions-list" class="no-padding-table">
 
-            <tbody>
-              <% @this_field.subscriptions.where(:screen_id => @screen.id).each_with_index do |subscription, i| %>
+              <tbody>
+                <% @this_field.subscriptions.where(:screen_id => @screen.id).each_with_index do |subscription, i| %>
 
                 <tr>
                   <td>
@@ -45,21 +52,52 @@
                     </div>
                   </td>
                   <td>
-                    <%= link_to screen_field_subscription_path(@screen,@this_field,subscription), {:data => { :confirm => t(:are_you_sure_remove_model_key, :model => Feed.model_name.human, :key => subscription.feed.name) }, :method => :delete, :class => "btn btn-danger btnRemoveSubscription" } do %>
+                    <%= link_to screen_field_subscription_path(@screen,@this_field,subscription), :class => "btn btn-danger btnRemoveSubscription" do %>
                       <i class="icon-remove"></i> <%= t(:remove_model, :model => Feed.model_name.human) %>
                     <% end %>
                   </td>
                 </tr>
 
-              <% end %>
-            </tbody>
+                <% end %>
+              </tbody>
 
-          </table>
+            </table>
 
-          <div class="default-padding">
             <% feeds = Feed.subscribable(@screen, @this_field) %>
             <%= render :partial => 'add_subscription' unless feeds.empty? %>
-          </div>
+          </fieldset>
+
+          <br />
+          
+          <%= hidden_field_tag "count_field_configs", @field_configs.size %>
+
+          <p class="default-padding"><%= link_to "Specify custom field configurations...", "#", :class => "event-toggleFieldConfigsDiv" %></p>
+
+          <fieldset class="event-fieldConfigsDiv">
+            <legend><span><%= t(:field_custom_configurations) %><span></legend>
+            <div class="field-configs">
+              <div class="row-fluid">
+                <div class="span1">
+                  <label><%= FieldConfig.human_attribute_name(:key) %></label>
+                </div>
+                <div class="span1">
+                  <label><%= FieldConfig.human_attribute_name(:value_type) %></label>
+                </div>
+                <div class="span4">
+                  <label><%= FieldConfig.human_attribute_name(:value) %></label>
+                </div>
+                <div class="span1">
+                </div>
+              </div>
+              <% @field_configs.each do |field_config_entry| %>
+                <%= f.fields_for('field_config[]', field_config_entry, :hidden_field_id => true) do |builder| %>
+                  <% render 'field_config_fields', :p => builder %>
+                <% end %>
+              <% end %>
+
+            </div>
+            <%= link_to_add_field_config_fields t(:add_model, :model => FieldConfig.model_name.human), f %>
+          </fieldset>
 
           <br />
 
@@ -67,9 +105,8 @@
             <span class="save-msg" style="display:table-cell; vertical-align:middle; width: 100%;">
               <%= t('.make_changes') %>
             </span>
-            <%= f.submit t('.save_changes_to_model', :model => Subscription.model_name.human.pluralize), :class => "btn btn-large pull-right", :style => "margin-left: 12px;" %>
+            <%= f.submit t('.save_changes_to_model', :model => Field.model_name.human), :class => "btn btn-large pull-right", :style => "margin-left: 12px;" %>
           </div>
-
         <% end %>
 
       </div>

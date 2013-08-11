@@ -8,6 +8,16 @@ class ConcertoDeviseRegistrationsControllerTest < ActionController::TestCase
     request.env["devise.mapping"] = Devise.mappings[:user]
   end
 
+  def unsetup_everything
+    User.all.each do |u|
+      u.screens.each { |s| s.destroy }
+    end
+    User.all.each do |u|
+      u.destroy
+    end
+    ConcertoConfig.set("setup_complete", "false")
+  end
+
   test "should get registration" do
     get :new
     assert_response :success
@@ -33,11 +43,7 @@ class ConcertoDeviseRegistrationsControllerTest < ActionController::TestCase
   end
 
   test "new admin registration" do
-    # First we have to un-setup everything.
-    User.all.each do |u|
-      u.destroy
-    end
-    ConcertoConfig.set("setup_complete", "false")
+    unsetup_everything
 
     get :new
     assert_response :success
@@ -45,11 +51,7 @@ class ConcertoDeviseRegistrationsControllerTest < ActionController::TestCase
   end
 
   test "new admin send errors" do
-    # First we have to un-setup everything.
-    User.all.each do |u|
-      u.destroy
-    end
-    ConcertoConfig.set("setup_complete", "false")
+    unsetup_everything
 
     assert_difference('User.count', 1) do
       post :create, {:user => {:first_name => "Name", :last_name => "Last", :email => "a@a.com", :password => 'pass1234', :password_confirmation => 'pass1234'}, :concerto_config => {:send_errors => "true"}}
@@ -59,11 +61,7 @@ class ConcertoDeviseRegistrationsControllerTest < ActionController::TestCase
   end
 
   test "new admin no errors" do
-    # First we have to un-setup everything.
-    User.all.each do |u|
-      u.destroy
-    end
-    ConcertoConfig.set("setup_complete", "false")
+    unsetup_everything
 
     assert_difference('User.count', 1) do
       post :create, {:user => {:first_name => "Name", :last_name => "Last", :email => "a@a.com", :password => 'pass1234', :password_confirmation => 'pass1234'}, :concerto_config => {:send_errors => "false"}}

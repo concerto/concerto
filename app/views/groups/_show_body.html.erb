@@ -77,7 +77,7 @@
               
           </tbody>
         </table>
-        <% if can? :update, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>
+        <% if !@group.memberships.regular.empty? && (can? :update, Membership.new(:group => @group, :level => Membership::LEVELS[:pending])) %>
             <%= f.submit t('.update_permissions'), :class => "btn btn-primary" %>
           <% end %>
         <% end %>

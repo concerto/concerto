@@ -2,6 +2,8 @@
 class FieldConfig < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
+  VALUE_TYPES = %w"string boolean number"
+
   belongs_to :field
   belongs_to :screen
 

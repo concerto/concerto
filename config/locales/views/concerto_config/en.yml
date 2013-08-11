@@ -6,7 +6,7 @@ en:
         allow_user_feed_creation: "Allow user feed creation"
         allow_user_screen_creation: "Allow user screen creation"
         autostart_delayed_job: 'Autostart Delayed Job Processor'
-        confirmable: 'Users must Confirm their email accounts'
+        confirmable: 'Users must confirm their accounts '
         content_default_end_time: "Default end time for content"
         content_default_start_time: "Default start time for content"
         default_content_duration: "Default Content Duration"

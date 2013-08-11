@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   has_many :submissions, :foreign_key => "moderator_id"
   has_many :memberships, :dependent => :destroy
   has_many :groups, :through => :memberships
-  has_many :screens, :as => :owner
+  has_many :screens, :as => :owner, :dependent => :restrict
 
   has_many :groups, :through => :memberships, :conditions => ["memberships.level > ?", Membership::LEVELS[:pending]]
   has_many :leading_groups, :through => :memberships, :source => :group, :conditions => {"memberships.level" => Membership::LEVELS[:leader]}

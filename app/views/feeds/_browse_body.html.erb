@@ -1,6 +1,8 @@
+<% viewable = 0 %>
 <ul class="list-stacked">
   <% @feeds.each do |feed| %>
     <% if feed.approved_contents.size != 0 || feed.group.has_member?(current_user) %>
+      <% viewable+=1 %>
       <li>
         <h3>
           <%= link_to feed_submissions_path(feed), :class => "link-hl" do %>
@@ -16,7 +18,15 @@
             <% end %>
           </p>
         <% end %>
-      </li>
+      </li>   
     <% end %>
   <% end %>
-</ul>
+  </ul>
+<% if viewable == 0 %>
+  <div class="default-padding">
+    <div class="alert alert-block alert-zero">
+      <p class="alert-heading">I'm afraid we're not in Kansas anymore.</p>
+      There doesn't appear to be anything you can view on this Concerto network. You should <%= link_to t('.sign_in'), main_app.new_user_session_path %><% if can? :create, User %> or <%= link_to t('.sign_up'), main_app.new_user_registration_path %> and submit some content!<% end %>
+    </div>
+  </div>
+<% end %>

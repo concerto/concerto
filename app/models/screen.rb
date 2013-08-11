@@ -15,7 +15,9 @@ class Screen < ActiveRecord::Base
   belongs_to :template
   has_many :subscriptions, :dependent => :destroy
   has_many :positions, :through => :template
+  has_many :field_configs, :dependent => :destroy
   has_many :fields, :through => :positions
+  #has_many :fields, :through => :field_configs # this overwrites the prior definition, so leave off
 
   before_validation :update_authentication
 
