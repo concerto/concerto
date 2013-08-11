@@ -193,7 +193,11 @@ class Ability
 
   # Permission we grant screens
   def screen_abilities(screen)
+    ## Screens
+    # A Screen can read its own properties
+    can :read, Screen, :id => screen.id
   
+    ## Feeds
     # If a screen is owned by the same group as the feed
     # it can see content.
     can :read, Feed do |feed|
@@ -203,6 +207,10 @@ class Ability
         feed.group.users.include?(screen.owner)
       end
     end
-  end
 
+    ## Content
+    # If any of the feeds the content is submitted can be read, the
+    # content can be read too, as long as it is approved.
+    can :read, Content, :submissions => {:feed => {:is_viewable => true}, :moderation_flag => true}
+  end
 end

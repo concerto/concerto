@@ -26,6 +26,9 @@ en:
       provide_details: 'Provide Details'
       select_template: 'Select Template'
       visibility: 'Visibility'
+      authentication: 'Authentication'
+      connection_details: 'Connection Details'
+      auth_action: 'Authentication Action'
 
     thumbs:
       owner: 'owner'

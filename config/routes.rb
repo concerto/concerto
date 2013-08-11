@@ -45,7 +45,7 @@ Concerto::Application.routes.draw do
     :controllers => {
       :registrations => 'concerto_devise/registrations', 
       :sessions => 'concerto_devise/sessions' }
-  
+
   scope "/manage" do
     resources :users
   end
