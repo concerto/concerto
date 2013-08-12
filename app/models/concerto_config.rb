@@ -18,6 +18,9 @@ class ConcertoConfig < ActiveRecord::Base
   include PublicActivity::Common if defined? PublicActivity::Common  
 
   after_destroy :cache_expire
+  
+  #a whitelist of valid ConcertoConfigs that is populated when make_concerto_config is called
+  CONFIG_ITEMS = Array.new  
 
   # Enable hash-like access to table for ease of use
   # Shortcut for self.get(key)
@@ -133,18 +136,14 @@ class ConcertoConfig < ActiveRecord::Base
     Rails.cache.write('ConcertoConfig', data)
   end
   
-  def delete_unused_configs
+  def self.delete_unused_configs
     #remove any config items not in the whitelist on the ConcertoConfig class
     ConcertoConfig.all.each do |config|
-      unless self.CONFIG_ITEMS.include?(config.key)
+      unless CONFIG_ITEMS.include?(config.key)
         config.destroy
       end 
     end
   end
-  
-  private 
-  #a whitelist of valid ConcertoConfigs that is populated when make_concerto_config is called
-  CONFIG_ITEMS = Array.new  
   
 end
 
