@@ -179,4 +179,35 @@ class Content < ActiveRecord::Base
   def after_add_callback(unused_submission)
   end
 
+  def self.filter_all_content(params)
+    # Content can be filtered by feed, screen, or any combination of user&type
+    # Still need to modify for combining feed&screen&user&type paramters ... etc 
+    contents = Array.new
+
+    if params[:feed]
+      # Find all contents that are submissions to the specified feed
+      subs = Submission.find(:all, :conditions => {:feed_id => params[:feed]})
+      subs.each do |sub|
+        content = Content.find(sub.content_id)
+        contents.push(content)
+      end
+    elsif params[:screen]
+      # Find all contents belonging to subscriptions which belong to the requested screen
+      subs = Subscription.find(:all, :conditions => {:screen_id => params[:screen]})
+      subs.each do |sub|
+        sub.contents.each do |content|
+          contents.push(content)
+        end
+      end
+    else
+      # Specified parameters will be added to query using content_conditions hash
+      content_conditions = {}
+      if params[:user] then content_conditions[:user_id] = params[:user] end
+      if params[:type] then content_conditions[:type] = params[:type] end
+      contents = Content.find(:all, :conditions => content_conditions)
+    end
+
+    contents
+  end
+
 end

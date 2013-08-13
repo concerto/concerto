@@ -13,19 +13,8 @@ class ContentsController < ApplicationController
   end
 
   def index 
-    @content = Array.new
-    if !params[:user].nil?
-      user = User.find(params[:user])
-      @title = "#{user.first_name} #{user.last_name}"
-      @content = Content.find(:all, :conditions => "user_id = #{params[:user]}")
-    elsif !params[:screen].nil?
-      screen = Screen.find(params[:screen])
-      @title = "#{screen.name} Screen"
-      subs = Subscription.find(:all, :conditions => "screen_id = #{params[:screen]}")
-      subs.each { |sub| sub.contents.each { |c| @content.push(c) } }
-    else 
-      @content = Content.find(:all)
-    end
+    @content = Content.filter_all_content(params)
+    @title = "Filtered Content"
 
     respond_to do |format|
       format.html
