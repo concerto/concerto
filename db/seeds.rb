@@ -78,7 +78,5 @@ Screen.find_or_create_by_name(:name => "Sample Screen", :location => "Cafe", :is
 feed_id = Feed.first.id
 screen_id= Screen.first.id
 Field.where('name != ?', 'Dynamic').each do |f|
-  if Subscription.where('feed_id = ? and field_id = ? and screen_id = ?', feed_id, f.id, screen_id).empty?
-    Subscription.create(:feed_id => feed_id, :field_id => f.id, :screen_id => screen_id, :weight => 1)
-  end
+  Subscription.where(:feed_id => feed_id, :field_id => f.id, :screen_id => screen_id, :weight => 1).first_or_create
 end
