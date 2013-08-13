@@ -15,13 +15,13 @@
 # cap deploy
 
 set :application, "concerto"
-set :repository,  "https://github.com/mfrederickson/ssat.git"
+set :repository,  "https://github.com/concerto/concerto.git"
 set :branch, "master"
 set :asset_env, "#{asset_env} RAILS_RELATIVE_URL_ROOT=/#{application}"
 
-role :web, "artemisu"                   # Your HTTP server, Apache/etc
-role :app, "artemisu"                   # This may be the same as your `Web` server
-role :db,  "artemisu", :primary => true # This is where Rails migrations will run
+role :web, "concerto.local"                   # Your HTTP server, Apache/etc
+role :app, "concerto.local"                   # This may be the same as your `Web` server
+role :db,  "concerto.local", :primary => true # This is where Rails migrations will run
 
 set :deploy_to, "/var/www/webapps/#{application}"
 
