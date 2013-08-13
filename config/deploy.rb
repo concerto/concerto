@@ -38,10 +38,6 @@ default_run_options[:pty] = true # must be true for password prompt from git or 
 
 # if you want to clean up old releases on each deploy uncomment this:
 after "deploy:restart", "deploy:cleanup"
-after "deploy:update_code", "deploy:migrate"
-
-#after "deploy:update_code", "custom:config"
-# move migrate to production one since we dont want to run this when updating the kiosks
 #after "deploy:update_code", "deploy:migrate"
 
 # if you're still using the script/reaper helper you will need
