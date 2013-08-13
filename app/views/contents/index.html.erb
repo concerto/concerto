@@ -1,0 +1,26 @@
+<section class="viewblock">
+  <header class="viewblock-header" id="browse-header">
+    <h1 class="default-padding"><%= t('.Concerto Content') %> </h1>
+  </header>
+  <div id="browse-body" class="viewblock-cont">
+  	<div class="clearfix default-padding">
+      <div class="header-with-icon clearfix">
+        <h3 style="float: left;"><%= if @title.nil? then "All Concerto Content" else "#{@title}'s Content" end %></h3>
+        <br><hr>
+        <% @content.each do |c| %>
+    	  <%= link_to c do %>
+    	  <div class="tile">
+    	    <div class="tile-content">
+    	      <%= render_content(c, {:type => 'tile'}) %>
+    	    </div>
+    	    <div class="brand">
+    	      <% type_folder = "contents/#{c.type.underscore}" %>
+    		  <%= render_partial_if("#{type_folder}/tab_icon") %>
+    	    </div>
+           </div>
+    	  <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>

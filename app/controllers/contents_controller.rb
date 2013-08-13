@@ -1,5 +1,5 @@
 class ContentsController < ApplicationController
-  before_filter :get_content_const, :only => [:new, :create, :preview]
+  before_filter :get_content_const, :only => [:index, :new, :create, :preview]
 
   # Grab the constant object for the type of
   # content we're working with.  Probably needs
@@ -9,6 +9,24 @@ class ContentsController < ApplicationController
       @content_const = params[:type].camelize.constantize
     rescue
       @content_const = nil
+    end
+  end
+
+  def index 
+    if !params[:user].nil?
+      @user = User.find(params[:user])
+      @title = "#{@user.first_name} #{@user.last_name}"
+      @content = Content.find(:all, :conditions => "user_id = #{params[:user]}")
+    elsif !params[:screen].nil?
+      @screen = Screen.find(params[:screen])
+      @title = "#{@screen.name} Screen"
+      @content = Subscription.find(screen_id = params[:screen]).contents
+    else 
+      @content = Content.find(:all)
+    end
+
+    respond_to do |format|
+      format.html
     end
   end
 

@@ -86,7 +86,7 @@ Concerto::Application.routes.draw do
     resources :submissions, :only => [:index, :show, :update]
   end
 
-  resources :contents, :except => [:index], :path => "content" do
+  resources :contents, :path => "content" do
     member do
       get :display
       put :act
@@ -162,7 +162,7 @@ Concerto::Application.routes.draw do
   # This is the catch-all path we use for people who type /content when they
   # are semantically looking for all the feeds to show the content.  We put it
   # here at the bottom to avoid capturing any of the restful content paths.
-  match 'content/' => 'feeds#index'
+  #match 'content/' => 'feeds#index'
   match 'browse/' => 'feeds#index'
 
   # See how all your routes lay out with "rake routes"
