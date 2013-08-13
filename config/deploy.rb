@@ -69,3 +69,4 @@ set :bundle_dir, "vendor/bundle"  # this uses separate bundles (as the applicati
 require "capistrano-tags"   # required because concerto doesnt have a "branch" for each tag
 require "bundler/capistrano"
 require "capistrano_database"
+
