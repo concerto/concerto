@@ -180,34 +180,32 @@ class Content < ActiveRecord::Base
   end
 
   def self.filter_all_content(params)
-    # Content can be filtered by feed, screen, or any combination of user&type
-    # Still need to modify for combining feed&screen&user&type paramters ... etc 
-    contents = Array.new
+    # Filter Concerto content by user, screen, feed, and/or type
+    filtered_contents = Array.new
 
-    if params[:feed]
-      # Find all contents that are submissions to the specified feed
-      subs = Submission.find(:all, :conditions => {:feed_id => params[:feed]})
-      subs.each do |sub|
-        content = Content.find(sub.content_id)
-        contents.push(content)
-      end
-    elsif params[:screen]
-      # Find all contents belonging to subscriptions which belong to the requested screen
-      subs = Subscription.find(:all, :conditions => {:screen_id => params[:screen]})
+    query_conditions = {}
+    # If filtering by screen or feed, we must search through subscriptions 
+    if params[:screen] || params[:feed]
+      if params[:feed] then query_conditions[:feed_id] = params[:feed] end
+      if params[:screen] then query_conditions[:screen_id] = params[:screen] end
+      subs = Subscription.find(:all, :conditions => query_conditions)
       subs.each do |sub|
         sub.contents.each do |content|
-          contents.push(content)
+          # If filtering by user or type, do not add (skip) content that 
+          # does not match filter criteria
+          if params[:user] && content.user_id.to_s != params[:user] then next end
+          if params[:type] && content.type != params[:type] then next end
+          filtered_contents.push(content)
         end
       end
     else
-      # Specified parameters will be added to query using content_conditions hash
-      content_conditions = {}
-      if params[:user] then content_conditions[:user_id] = params[:user] end
-      if params[:type] then content_conditions[:type] = params[:type] end
-      contents = Content.find(:all, :conditions => content_conditions)
+      # If filtering by user or type, we don't need to search through subscriptions, only contents
+      if params[:user] then query_conditions[:user_id] = params[:user] end
+      if params[:type] then query_conditions[:type] = params[:type] end
+      filtered_contents = Content.find(:all, :conditions => query_conditions)
     end
 
-    contents
+    filtered_contents
   end
 
 end
