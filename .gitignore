@@ -13,7 +13,7 @@ public/frontend_js/compiler.jar
 vendor/bundle/
 doc/coverage/*
 .rvmrc
-.ruby-gemset
 .ruby-version
+.ruby-gemset
 .powrc
 Gemfile-plugins.bak

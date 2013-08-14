@@ -1,16 +1,18 @@
 GIT
   remote: git://github.com/pokonski/public_activity.git
-  revision: 3fa28064fd00e0896ad2016b6bb9290f27877e5f
-  branch: rails4
+  revision: 4e14ff246096604e4e3eb4d47372542e46c12ce3
+  ref: 4e14f
   specs:
-    public_activity (1.1.0)
-      actionpack (>= 3.0.0.rc1)
+    public_activity (1.4.0)
+      actionpack (>= 3.0.0)
+      activerecord (>= 3.0)
       i18n (>= 0.5.0)
-      railties (>= 3.0.0.rc1)
+      railties (>= 3.0.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    RedCloth (4.2.9)
     actionmailer (4.0.0)
       actionpack (= 4.0.0)
       mail (~> 2.5.3)
@@ -43,7 +45,7 @@ GEM
     atomic (1.1.12)
     attachable (0.0.5)
     bcrypt-ruby (3.1.1)
-    bootstrap-datepicker-rails (1.1.1.4)
+    bootstrap-datepicker-rails (1.1.1.6)
       railties (>= 3.0)
     builder (3.1.4)
     cancan (1.6.10)
@@ -63,7 +65,7 @@ GEM
     delayed_job_active_record (4.0.0)
       activerecord (>= 3.0, < 4.1)
       delayed_job (>= 3.0, < 4.1)
-    devise (3.0.1)
+    devise (3.0.2)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
@@ -79,7 +81,7 @@ GEM
       connection_pool (~> 1.0)
       rubinius-actor
     hike (1.2.3)
-    i18n (0.6.4)
+    i18n (0.6.5)
     jquery-rails (3.0.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -95,7 +97,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.23)
     minitest (4.7.5)
-    multi_json (1.7.8)
+    multi_json (1.7.9)
     mysql2 (0.3.13)
     orm_adapter (0.4.0)
     polyglot (0.3.3)
@@ -166,12 +168,13 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  RedCloth
   airbrake
   attachable (>= 0.0.5)
   bootstrap-datepicker-rails
   cancan
   clockwork
-  delayed_job_active_record (~> 4.0.0)
+  delayed_job_active_record
   devise (~> 3.0.0)
   execjs
   foreman

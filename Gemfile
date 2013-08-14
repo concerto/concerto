@@ -42,6 +42,7 @@ gem "rmagick", ">= 2.12.2", :require => 'RMagick', :platforms => :ruby
 
 # Attachable does all the file work.
 gem 'attachable', '>= 0.0.5'
+
 gem 'devise', '~> 3.0.0'
 gem 'cancan'
 
@@ -49,7 +50,7 @@ gem 'json'
 
 # Process jobs in the background
 gem 'foreman', :group => :development
-gem "delayed_job_active_record", "~> 4.0.0"
+gem "delayed_job_active_record"
 gem 'clockwork'
 
 # Test Coverage
@@ -59,4 +60,7 @@ gem 'rails-backup-migrate'
 
 gem 'kaminari'  # Pagination
 
-gem 'public_activity', :git => "git://github.com/pokonski/public_activity.git", :branch => "rails4"
+# Enable the newsfeed for 1.9+ users.
+gem 'public_activity', :git => "git://github.com/pokonski/public_activity.git", :ref => '4e14f' if RUBY_VERSION >= "1.9"
+
+gem 'RedCloth'
