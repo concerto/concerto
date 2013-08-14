@@ -72,6 +72,6 @@ Screen.where(:name => "Sample Screen", :location => "Cafe", :is_public => true, 
 #Create initial subscriptions for the sample Screen
 feed_id = Feed.first.id
 screen_id= Screen.first.id
-Field.where(:name != 'Dynamic').each do |f|
-  Subscription.find_or_create_by(:feed_id => feed_id, :field_id => f.id, :screen_id => screen_id, :weight => 1)
+Field.where('name != ?', 'Dynamic').each do |f|
+  Subscription.where(:feed_id => feed_id, :field_id => f.id, :screen_id => screen_id, :weight => 1).first_or_create
 end

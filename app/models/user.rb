@@ -5,8 +5,9 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :encryptable, :confirmable,
   # :lockable, :timeoutable and :omniauthable, :trackable
   modules = [:database_authenticatable, :recoverable, :registerable, :rememberable, :validatable]
-  modules << :confirmable if ConcertoConfig[:confirmable]
-  p modules
+  if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
+    modules << :confirmable if ConcertoConfig[:confirmable]
+  end
   devise *modules
          
   before_destroy :check_for_last_admin
@@ -15,7 +16,7 @@ class User < ActiveRecord::Base
   has_many :submissions, :foreign_key => "moderator_id"
   has_many :memberships, :dependent => :destroy
   has_many :groups, :through => :memberships
-  has_many :screens, :as => :owner
+  has_many :screens, :as => :owner, :dependent => :restrict
 
   has_many :groups, -> { where "memberships.level > ?", Membership::LEVELS[:pending]}, :through => :memberships
   has_many :leading_groups, -> { where "memberships.level" => Membership::LEVELS[:leader]}, :through => :memberships, :source => :group

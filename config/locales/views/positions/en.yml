@@ -1,1 +1,12 @@
 en:
+  activerecord:
+    models:
+      position: 'Position'
+    attributes:
+      position:
+        top: 'Top'
+        left: 'Left'
+        bottom: 'Bottom'
+        right: 'Right'
+        style: 'Style'
+        field: 'Field'

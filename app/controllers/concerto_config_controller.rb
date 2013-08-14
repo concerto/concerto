@@ -12,8 +12,18 @@ class ConcertoConfigController < ApplicationController
   def update
     authorize! :update, @concerto_config
     params[:concerto_config].each  do |k,v|
-      ConcertoConfig.set(k,v) #only set this if the config already exists
+      config = ConcertoConfig.where(:key => k).first
+      if config.nil?
+        config = ConcertoConfig.new(:key => k, :value => v)
+        config.save
+      else
+        config.update_column(:value, v)
+      end
     end
+    
+    ConcertoConfig.delete_unused_configs()
+
+    ConcertoConfig.cache_expire
     flash[:notice] = t(:settings_saved)
     redirect_to :action => :show
   end

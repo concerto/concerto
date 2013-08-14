@@ -81,8 +81,13 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     auth!
 
-    if !@user.destroy
-      flash[:notice] = t(:cannot_delete_last_admin)
+    if !@user.screens.empty?
+      # dont need to list screens because they'll see them on the user page
+      flash[:notice] = t(:user_owns_screens)
+    else
+      if !@user.destroy
+        flash[:notice] = t(:cannot_delete_last_admin)
+      end
     end
     respond_with(@user)
   end

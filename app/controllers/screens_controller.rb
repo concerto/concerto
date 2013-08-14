@@ -145,7 +145,7 @@ class ScreensController < ApplicationController
 private
 
   def screen_params
-    params.require(:screen).permit(:name, :location, :owner, :width, :height, :template_id, :is_public)
+    params.require(:screen).permit(:name, :location, :owner, :width, :height, :template_id, :is_public, :new_temp_token, :auth_action)
   end
  
 end

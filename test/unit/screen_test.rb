@@ -6,6 +6,7 @@ class ScreenTest < ActiveSupport::TestCase
     s = screens(:one)
     screen = Screen.new(s.attributes)
     screen.owner = users(:katie)
+    screen.authentication_token="" # Must be blank or unique
     screen.name = ""
     assert !screen.valid?, "Screen name is blank"
     screen.name = "Blah"
@@ -17,6 +18,7 @@ class ScreenTest < ActiveSupport::TestCase
     screen = Screen.new(s.attributes)
     screen.name = "New screen"
     screen.owner = users(:katie)
+    screen.authentication_token="" # Must be blank or unique
     screen.template_id = ""
     assert !screen.valid?, "Screen template is blank"
     screen.template_id = 0

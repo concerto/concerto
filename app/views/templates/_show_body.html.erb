@@ -6,4 +6,15 @@
     <b><%= t('.author') %></b>
     <%= @template.author %>
   </p>
+  <% if !@template.screens.empty? %>
+    <p>Used by the following screens:
+      <ul>
+        <% @template.screens.each do |s| %>
+          <% if can? :read, s %>
+            <li><%= link_to s.name, s %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    </p>
+  <% end %>
 </aside>

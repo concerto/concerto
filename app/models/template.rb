@@ -9,7 +9,7 @@ class Template < ActiveRecord::Base
   accepts_nested_attributes_for :positions, :allow_destroy => true
 
   # Validations
-  validates :name, :presence => true
+  validates :name, :presence => true, :uniqueness => true
 
   #Placeholder attributes
   attr_accessor :path
@@ -76,7 +76,12 @@ class Template < ActiveRecord::Base
   # Or just show certain fields
   def preview_image(hide_fields=false, hide_text=false, only_fields=[])
     require 'concerto_image_magick'
-    image = ConcertoImageMagick.load_image(self.media.original.first.file_contents)
+
+    if self.media.blank?
+      image = ConcertoImageMagick.new_image(1024, 768);
+    else
+      image = ConcertoImageMagick.load_image(self.media.original.first.file_contents)
+    end
 
     height = image.rows
     width = image.columns

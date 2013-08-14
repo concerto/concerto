@@ -142,4 +142,13 @@ module ConcertoImageMagick
     end
     return image
   end
+
+  # Create a new image
+  #
+  # @param [Integer] width Width of the image
+  # @param [Integer] height Height of the image
+  # @return [Image] The image
+  def self.new_image(width, height)
+    return Magick::Image.new(width, height)
+  end
 end

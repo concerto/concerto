@@ -2,7 +2,7 @@
   <% if template.errors.any? %>
   <div class="alert alert-banner alert-error">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <h4><b><%= pluralize(template.errors.count, t(:error)) + t(:prohibited_save, :model => ::Template.model_name.human.downcase) %></b></h4>
+    <h4><b><%= pluralize(template.errors.count, t(:error)) + " "  + t(:prohibited_save, :model => ::Template.model_name.human.downcase) %></b></h4>
     <ul>
       <% template.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -15,14 +15,14 @@
     <div class="clearfix">
       <%= f.label :name %>
       <div class="input">
-        <%= f.text_field :name, :autofocus => true %>
+        <%= f.text_field :name, :autofocus => true, :class => "input-xlarge" %>
       </div>
     </div>
     
     <div class="clearfix">
       <%= f.label :author %>
       <div class="input">
-        <%= f.text_field :author %>
+        <%= f.text_field :author, :class => "input-xlarge" %>
       </div>
     </div>
 
@@ -34,20 +34,36 @@
   </fieldset>
 
   <fieldset>
-    <legend><span>Positions</span></legend>
-    <%= f.fields_for :positions do |p| %>
-      <div class="clearfix">
-      <%= p.select :field_id, Field.all.collect {|field| [ field.name, field.id ] } %>
-      <%= p.number_field :top, {:step => 'any', :min => 0} %>
-      <%= p.number_field :left, {:step => 'any', :min => 0} %>
-      <%= p.number_field :bottom, {:step => 'any', :min => 0} %>
-      <%= p.number_field :right, {:step => 'any', :min => 0} %>
-      <%= p.text_field :style %>
-      <%= p.check_box :_destroy %>
+    <legend><span><%= Position.model_name.humanize.pluralize %></span></legend>
+    <div class="template-positions">
+      <div class="row-fluid">
+        <div class="span2">
+          <label><%= Position.human_attribute_name(:field) %></label>
+        </div>
+        <div class="span1">
+          <label><%= Position.human_attribute_name(:top) %></label>
+        </div>
+        <div class="span1">
+          <label><%= Position.human_attribute_name(:left) %></label>
+        </div>
+        <div class="span1">
+          <label><%= Position.human_attribute_name(:bottom) %></label>
+        </div>
+        <div class="span1">
+          <label><%= Position.human_attribute_name(:right) %></label>
+        </div>
+        <div class="span5">
+          <label><%= Position.human_attribute_name(:style) %></label>
+        </div>
+        <div class="span1">
+        </div>
       </div>
-    <% end %>
+      <%= f.fields_for :positions do |p| %>
+        <% render 'position_fields', :p => p %>
+      <% end %>
+    </div>
+    <%= link_to_add_position_fields t(:add_model, :model => Position.model_name.human), f, :positions %>
   </fieldset>
-  
 
   <div class="submit_bar actions">
     <%= f.submit button_text, :class => "btn btn-primary" %> <%= link_to t(:cancel), screens_path, :class => "btn" %>

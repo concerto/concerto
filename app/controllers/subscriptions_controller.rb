@@ -30,6 +30,7 @@ class SubscriptionsController < ApplicationController
     
     @this_field = Field.find(params[:field_id])
     @fields = @screen.template.positions.collect{|p| p.field}
+    @field_configs = @screen.field_configs.where(:field_id => @this_field.id)
     
     respond_to do |format|
       format.html # manage.html.erb
@@ -164,15 +165,46 @@ class SubscriptionsController < ApplicationController
       end
     end
 
-    respond_to do |format|
-      @errnos.each_with_index do |errno, i|
-        if errno
-          format.html { render :action => "new", :notice => "Failed to update subscriptions for this screen position" }
-          format.xml  { render :xml => @subscriptions[i].errors, :status => :unprocessable_entity }
+    # update the field configuration
+    results_msg = []
+    if params.has_key?(:subscription)
+      params[:subscription][:field_config].values.each do |attrs|
+        attrs[:screen_id] = @screen.id
+        attrs[:field_id] = @field.id
+  
+        if attrs[:_destroy] == '1' 
+          if !attrs[:id].blank? # persisted record
+            FieldConfig.find(attrs[:id]).destroy
+          end
+        elsif attrs[:id].blank?
+          fc = FieldConfig.new(attrs.slice!(:id,:_destroy))
+          if !fc.save
+            results_msg << fc.errors.full_messages
+          end
+        else
+          fc = FieldConfig.find(attrs[:id])
+          if !fc.update_attributes(attrs.slice!(:id,:_destroy))
+            results_msg << fc.errors.full_messages
+          end
         end
+      end  
+    end  
+
+    respond_to do |format|
+      if !results_msg.empty?
+        format.html { redirect_to manage_screen_field_subscriptions_path(@screen, @field), :notice => results_msg.join(", ") }
+        format.xml  { render :xml => @subscriptions, :status => :unprocessable_entity }
+      else
+        # i dont understand this part...
+        @errnos.each_with_index do |errno, i|
+          if errno
+            format.html { render :action => "new", :notice => "Failed to update subscriptions for this screen position" }
+            format.xml  { render :xml => @subscriptions[i].errors, :status => :unprocessable_entity }
+          end
+        end
+        format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t('subscriptions.records_updated')) }
+        format.xml  { render :xml => @subscriptions, :status => :created, :location => @subscriptions }
       end
-      format.html { redirect_to(manage_screen_field_subscriptions_path(@screen, @field), :notice => t('subscriptions.records_updated')) }
-      format.xml  { render :xml => @subscriptions, :status => :created, :location => @subscriptions }
     end
   end
 

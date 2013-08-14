@@ -1,6 +1,6 @@
 // preview the sanitized ticker text
 function initializeTickerPreview() {
-  $('#ticker_data').keypress(function (e) {
+  $('#ticker_data').keyup(function (e) {
     var url = $(this).data('url');
     if (url) {
       var stuff = $('textarea#ticker_data').val();

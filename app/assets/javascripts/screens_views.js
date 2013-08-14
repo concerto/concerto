@@ -1,3 +1,20 @@
+function updateScreenAuthVisibility(){
+  if ($('#screen_auth_action_3').is(':checked')) {
+    $('#screen_new_temp_token_container').show();
+  } else {
+    $('#screen_new_temp_token_container').hide();
+  }
+}
+
+function initScreenAuthForm() {
+  // We want to show the temp token form only when the option to set a new
+  // temp token is selected. It's value is 3 (Screen::AUTH_NEW_TOKEN).
+  updateScreenAuthVisibility(); //initial state
+  $("input[name=screen\\[auth_action\\]]").change(function() {
+    updateScreenAuthVisibility();
+  });
+}
+
 function initTemplateSelector() {
   $('.template-selector.dropdown-control').click(function(event) { event.preventDefault(); });
   $('.template-selector.dropdown-control').each(function() {
@@ -44,6 +61,7 @@ function initScreensViews() {
   });
 
   initTemplateSelector();
+  initScreenAuthForm();
 }
 
 $(document).ready(initScreensViews);

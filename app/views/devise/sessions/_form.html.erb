@@ -3,13 +3,13 @@
     <div class="clearfix">
 			<%= f.label :email %>
 			<div class="input">
-				<%= f.email_field :email, :autofocus => true, :class => "input-xlarge" %>
+				<%= f.email_field :email, :autofocus => true, :class => "input-large" %>
 			</div>
 		</div>
 		<div class="clearfix">
 			<%= f.label :password %>
 			<div class="input">
-				<%= f.password_field :password, :class => "input-medium" %>
+				<%= f.password_field :password, :class => "input-large" %>
 			</div>
 		</div>
 		<% if devise_mapping.rememberable? -%>
@@ -23,8 +23,8 @@
   </fieldset>
   
   <div class="submit_bar actions">
-		<%= f.submit "Submit", :class => "btn btn-primary" "Sign in" %>
-		&nbsp;&nbsp;&nbsp;
-		<%= render :partial => "devise/shared/links" %>
+    <%= f.submit "Submit", :class => "btn btn-primary" "Sign in" %>
+    &nbsp;&nbsp;&nbsp;
+    <%= render :partial => "devise/shared/links" %>
 	</div>
-<% end %>	
+<% end %>

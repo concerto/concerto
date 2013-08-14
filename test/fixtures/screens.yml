@@ -8,6 +8,7 @@ one:
   template: one
   width: 1920
   height: 1080
+  authentication_token: auth:0123456789abcdef
 
 two:
   name: SGS Screen

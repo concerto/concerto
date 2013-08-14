@@ -36,7 +36,7 @@
 
     <% if can? :update, @submission %>
 
-      <%= link_to "#", :class => "btn btn-small dropdown-control dd-moderate danger", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_deny_#{ @submission.id }" do %>
+      <%= link_to "#", :class => "btn dropdown-control dd-moderate danger", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_deny_#{ @submission.id }" do %>
         <span class="icon-remove-sign"></span> <%= t(:deny) %>
       <% end %>
 
@@ -47,7 +47,11 @@
       </div>
 
     <% end %>
-
+    
+    <% if can? :delete, @submission.content %>
+      <%= link_to t(:destroy_model, :model => Content), @submission.content, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => Content.model_name.human, :key => @submission.content.name) }, :method => :delete, :class => "btn danger" %>
+    <% end %>
+    
     <br />
 
     <%= render :partial => "submissions/approval_info", :locals => { :submission => @submission } %>
@@ -76,7 +80,7 @@
 
 <div class="default-padding">
   <div class="content-frame">
-    <%= render_content(@submission.content) %>
+    <%= link_to render_content(@submission.content), content_path(@submission.content)%>
   </div>
 
   <br />

@@ -57,12 +57,14 @@ en:
   template_created: "Template was successfully created."
   template_updated: "Template was successfully updated."
   template_import_error: "A template import error has occurred. Make sure that the XML file for the imported template is valid."
-  cannot_delete_template: "Cannot delete template. It has one or more screens associated with it."
+  template_import_requires_files: "Importing a template requires an xml file and an image file."
+  cannot_delete_template: "Cannot delete template. It has one or more screens associated with it: %{screens}"
 
   #Users controller
   user_created: "User was successfully created."
   user_updated: "User was successfully updated."
   cannot_delete_last_admin: "Cannot delete last admin user."
+  user_owns_screens: "This user cannot be deleted because they own one or more screens."
   
   #Dashboard controller
   settings_saved: "Concerto settings saved."
