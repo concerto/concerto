@@ -165,7 +165,7 @@ DEPENDENCIES
   bootstrap-datepicker-rails
   cancan
   daemons
-  delayed_job_active_record (~> 4.0.0.beta2)
+  delayed_job_active_record (~> 4.0.0)
   devise (~> 3.0.0)
   execjs
   girl_friday
@@ -175,10 +175,10 @@ DEPENDENCIES
   kaminari
   mysql2
   public_activity!
-  rails (~> 4.0.0.rc2)
+  rails (~> 4.0.0)
   rails-backup-migrate
   rmagick (>= 2.12.2)
-  sass-rails (~> 4.0.0.rc2)
+  sass-rails (~> 4.0.0)
   simplecov
   sqlite3
   therubyracer

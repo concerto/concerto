@@ -1,7 +1,7 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'https://rubygems.org'
 
-gem "rails", "~> 4.0.0.rc2"
+gem "rails", "~> 4.0.0"
 
 # Get the absolute path of this Gemfile so the includes below still work
 # when the current directory for a bundler command isn't the application's
@@ -19,8 +19,8 @@ group :concerto_plugins do
   eval File.read(basedir+'/Gemfile-plugins') if File.exists?(basedir+'/Gemfile-plugins')
 end
 
-# Gems used for assets and not required
-gem "sass-rails", "~> 4.0.0.rc2"
+# Gems used only for assets
+gem "sass-rails", "~> 4.0.0"
 gem 'therubyracer', :platforms => :ruby
 gem 'execjs'
 gem 'uglifier', '>= 1.3.0'
@@ -37,7 +37,7 @@ gem 'twitter-bootstrap-rails-confirm'
 gem "sqlite3", :group => [:development, :test]
 gem "mysql2", :group => [:production]
 
-#RMagick is used for image resizing and processing
+# RMagick is used for image resizing and processing
 gem "rmagick", ">= 2.12.2", :require => 'RMagick', :platforms => :ruby
 
 # Attachable does all the file work.
@@ -48,7 +48,7 @@ gem 'cancan'
 gem 'json'
 
 # Process jobs in the background
-gem "delayed_job_active_record", "~> 4.0.0.beta2"
+gem "delayed_job_active_record", "~> 4.0.0"
 gem "daemons"
 
 # Test Coverage
