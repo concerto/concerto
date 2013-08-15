@@ -71,7 +71,7 @@ class ConcertoPlugin < ActiveRecord::Base
         (info.configs || []).each do |c|
           c[:options][:plugin_id] = plugin.id
           ConcertoConfig.make_concerto_config(
-              c[:config_key], c[:config_value], c[:options]
+            c[:config_key], c[:config_value], c[:options]
           )
         end
       end
@@ -117,8 +117,7 @@ class ConcertoPlugin < ActiveRecord::Base
           result += "\n"
         end
       else
-        logger.warn("ConcertoPlugin: Failed to check view hooks for "+
-                        "#{plugin.name}")
+        logger.warn("ConcertoPlugin: Failed to check view hooks for #{plugin.name}")
       end
     end
     return result.html_safe
@@ -137,8 +136,7 @@ class ConcertoPlugin < ActiveRecord::Base
           callbacks += controller_callbacks
         end
       else
-        logger.warn("ConcertoPlugin: failed to check #{plugin.name}" +
-                        " for callbacks")
+        logger.warn("ConcertoPlugin: failed to check #{plugin.name} for callbacks")
       end
     end
     callbacks.each do |callback|

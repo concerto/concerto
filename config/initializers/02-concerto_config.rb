@@ -51,10 +51,10 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("send_errors", "#{concerto_base_config['airbrake_enabled_initially'].to_s}", :value_type => "boolean", :group => 'System')
   end
 
+  Rails.logger.debug "Completed 02-concerto_config.rb at #{Time.now.to_s}"
+
   #Set the time here instead of in application.rb to get ConcertoConfig access
   Rails.application.config.time_zone = ConcertoConfig[:system_time_zone]
   #Set Time.zone specifically, because it's too late to derive it from config.
   Time.zone = ConcertoConfig[:system_time_zone]
-
-  Rails.logger.debug "Completed 02-concerto_config.rb at #{Time.now.to_s}"
 end

@@ -38,7 +38,7 @@ module VersionCheck
     return version
   end
 
-  private  # This doesn't actually work, we have to use private_class_method for class methods.
+private  # This doesn't actually work, we have to use private_class_method for class methods.
 
   def self.remote_version
     require 'open-uri'
