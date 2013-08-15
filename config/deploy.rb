@@ -54,8 +54,7 @@ default_run_options[:pty] = true # must be true for password prompt from git or 
 # if you want to clean up old releases on each deploy uncomment this:
 after "deploy:restart", "deploy:cleanup"
 after "deploy:update_code", "deploy:migrate"
-#after "deploy:update_code", "custom:plugins"
-before "deploy:assets:precompile", "custom:plugins"
+#before "deploy:assets:precompile", "custom:plugins"  # this is already done in source control
 
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
@@ -70,12 +69,12 @@ namespace :deploy do
 end
 
 # task to run the install for the plugins and recompile the frontend_js
-namespace :custom do
-  task :plugins, :roles => [:app, :web] do
-    run "cd #{release_path} && RAILS_ENV=#{rails_env} rails generate concerto_remote_video:install install
-      && RAILS_ENV=#{rails_env} rails generate concerto_iframe:install install && cd public/frontend_js && ./compile.sh --debug"
-  end
-end
+# namespace :custom do
+#   task :plugins, :roles => [:app, :web] do
+#     run "cd #{release_path} && RAILS_ENV=#{rails_env} rails generate concerto_remote_video:install install
+#       && RAILS_ENV=#{rails_env} rails generate concerto_iframe:install install && cd public/frontend_js && ./compile.sh --debug"
+#   end
+# end
 
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'deploy')
