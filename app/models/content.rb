@@ -193,8 +193,8 @@ class Content < ActiveRecord::Base
         sub.contents.each do |content|
           # If filtering by user or type, do not add (skip) content that 
           # does not match filter criteria
-          if params[:user] && content.user_id.to_s != params[:user] then next end
-          if params[:type] && content.type != params[:type] then next end
+          next if params[:user] && content.user_id.to_s != params[:user]  
+          next if params[:type] && content.type != params[:type]
           filtered_contents.push(content)
         end
       end
