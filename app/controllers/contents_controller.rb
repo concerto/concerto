@@ -1,5 +1,5 @@
 class ContentsController < ApplicationController
-  before_filter :get_content_const, :only => [:index, :new, :create, :preview]
+  before_filter :get_content_const, :only => [:new, :create, :preview]
 
   # Grab the constant object for the type of
   # content we're working with.  Probably needs
