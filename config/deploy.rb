@@ -1,29 +1,26 @@
-# to deploy using cap
+# To deploy using capistrano:
 #
-# Make sure the appropriate servers are specified below.
-# Make sure the deploy_to path points to your deploy location.
-# Run the following two lines at the console (actually, I couldn't get this part to work, so I added 
-# them to the Gemfile and then ran bundle, and then continued with the cap commands...)
-#$ sudo apt-get install capistrano        (or you can gem install capistrano)
-#$ gem install capistrano-tags            (might need sudo)
-# might need to sudo gem install rails
-#$ cap deploy:setup
-#$ cap deploy:check
-# Make sure your database.yml file is correctly set up in your deploy_to location under the shared folder
-# deploy with the following command
-# cap deploy
+# This script was tested on the concerto virtual image and should run as is (after the prepare_for_capistrano.sh
+# script is run) under the concerto user.  If you need help, post to the group or read up on capistrano.
+#
+# 1. Make sure you have the capistrano and capistrano-tags gems installed.  On the ubuntu virtual machine image
+#    I ran: `sudo apt-get install capistrano`  and: `sudo gem install capistrano-tags`
+#    a) Make sure the role :web, :app, and :db servers are set to your actual servers (below).
+#    b) Make sure the :deploy_to path points to your actual deploy location.
+#    c) If you need to, make sure the :user and :group are set and uncommented below.
+#    d) If you are running the site under a subdirectory instead of at the root of the web server then
+#       uncomment the :asset_env line and make sure the RAILS_RELATIVE_URL_ROOT is set appropriately.
+# 2. Setup the production server(s) for the deploy by running: cap deploy:setup
+#    This will create directories and prompt you for the database password for the concerto user
+#    and set up the database.yml file.  This only ever needs to be run once per server.
+# 3. Run: cap deploy
 
-# If your user account is not the one going to be used for ssh to those servers, then uncomment the following two
-# lines and specify the user that will be used.
 #set :user, "deploy"
 #set :group, "deploy"
 
-# if you want to clean up the old deploys (releases) run cap deploy:cleanup
-
 set :application, "concerto"
 set :repository,  "https://github.com/concerto/concerto.git"
-#set :asset_env, "#{asset_env} RAILS_RELATIVE_URL_ROOT=/#{application}"  # only needed if not running at root of webserver
-set :deploy_via, :remote_cache
+#set :asset_env, "#{asset_env} RAILS_RELATIVE_URL_ROOT=/#{application}"  # only needed if running under sub-uri
 
 # this code will get the latest official release, unless a branch was specified in the command line
 # like: cap -S branch="master" deploy
@@ -33,33 +30,21 @@ set :branch do
   default_tag
 end unless exists?(:branch)
 
-role :web, "concerto.local"                   # Your HTTP server, Apache/etc
-role :app, "concerto.local"                   # This may be the same as your `Web` server
-role :db,  "concerto.local", :primary => true # This is where Rails migrations will run
+role :web, "concerto"                   # Your HTTP server, Apache/etc
+role :app, "concerto"                   # This may be the same as your `Web` server
+role :db,  "concerto", :primary => true # This is where Rails migrations will run
 
-#set :deploy_to, "/var/www/webapps/#{application}"
 set :deploy_to, "/var/webapps/#{application}"    # make sure this exists and is writable
 
 set :use_sudo, false
-
-# set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
-# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
-
-task :uname do
-  run "uname -a"
-end
 
 default_run_options[:pty] = true # must be true for password prompt from git or ssh to work
 
 # if you want to clean up old releases on each deploy uncomment this:
 after "deploy:restart", "deploy:cleanup"
 after "deploy:update_code", "deploy:migrate"
-#before "deploy:assets:precompile", "custom:plugins"  # this is already done in source control
 
-# if you're still using the script/reaper helper you will need
-# these http://github.com/rails/irs_process_scripts
-
-# If you are using Passenger mod_rails uncomment this:
+# If you are using Passenger mod_rails uncomment this so it restarts your webserver
 namespace :deploy do
   task :start do ; end
   task :stop do ; end
@@ -68,19 +53,9 @@ namespace :deploy do
   end
 end
 
-# task to run the install for the plugins and recompile the frontend_js
-# namespace :custom do
-#   task :plugins, :roles => [:app, :web] do
-#     run "cd #{release_path} && RAILS_ENV=#{rails_env} rails generate concerto_remote_video:install install
-#       && RAILS_ENV=#{rails_env} rails generate concerto_iframe:install install && cd public/frontend_js && ./compile.sh --debug"
-#   end
-# end
-
-
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'deploy')
 
-#set :bundle_flags, "--deployment"   # override, if you want, so --quiet is not specified
-set :bundle_dir, "vendor/bundle"  # this uses separate bundles (as the application specifies, and is very slow)
+set :bundle_dir, "vendor/bundle"  # this uses separate bundles per release (and is very slow)
 
 require "capistrano-tags"       # needed to deploy tags that are not also branches
 require "bundler/capistrano"    # needed to be able to bundle stuff
