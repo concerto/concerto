@@ -186,8 +186,8 @@ class Content < ActiveRecord::Base
     query_conditions = {}
     # If filtering by screen or feed, we must search through subscriptions 
     if params[:screen] || params[:feed]
-      if params[:feed] then query_conditions[:feed_id] = params[:feed] end
-      if params[:screen] then query_conditions[:screen_id] = params[:screen] end
+      query_conditions[:feed_id] = params[:feed] if params[:feed]
+      query_conditions[:screen_id] = params[:screen] if params[:screen] 
       subs = Subscription.find(:all, :conditions => query_conditions)
       subs.each do |sub|
         sub.contents.each do |content|
@@ -200,9 +200,15 @@ class Content < ActiveRecord::Base
       end
     else
       # If filtering by user or type, we don't need to search through subscriptions, only contents
-      if params[:user] then query_conditions[:user_id] = params[:user] end
-      if params[:type] then query_conditions[:type] = params[:type] end
-      filtered_contents = Content.find(:all, :conditions => query_conditions)
+      query_conditions[:user_id] = params[:user] if params[:user]
+      query_conditions[:type] = params[:type] if params[:type]
+      if query_conditions.empty?
+        # No filters are specified
+        filtered_contents = Content.find(:all)
+      else 
+        # User and/or type filters are specified
+        filtered_contents = Content.find(:all, :conditions => query_conditions)
+      end
     end
 
     filtered_contents
