@@ -263,8 +263,9 @@ class ApplicationController < ActionController::Base
         if new_exception && object.empty?
           # Parent will be Object for Concerto, or the module for Plugins.
           new_parent = self.class.parent
-          new_class = new_parent.const_get(controller_name.singularize.classify)
-          new_object = new_class.new
+          class_name =  controller_name.singularize.classify
+          new_class = new_parent.const_get(class_name) if new_parent.const_defined?(class_name)
+          new_object = new_class.new if !new_class.nil?
           return true if can?(:create, new_object)
         end
         if !allow_empty && object.empty?
