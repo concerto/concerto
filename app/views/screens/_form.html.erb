@@ -1,28 +1,28 @@
 <%= form_for(@screen) do |f| %>
   <%= render :partial => "layouts/errors", :object => @screen %>
 
-	<fieldset>
+  <fieldset>
     <legend><span><%= t('.provide_details') %></span></legend>
-		
+
 
     <div class="row-fluid">
       <div class="span4">
         <div class="clearfix">
-    			<%= f.label :name %>
-    			<div class="input">
-    				<%= f.text_field :name, :class => "input-xlarge", :autofocus => true %>
-    			</div>
-    		</div>
-    		
-    		<div class="clearfix">
-    			<%= f.label :location %>
-    			<div class="input">
-    				<%= f.text_field :location, :class => "input-xlarge" %>
-    			</div>
-    		</div>
+          <%= f.label :name %>
+          <div class="input">
+            <%= f.text_field :name, :class => "input-xlarge", :autofocus => true %>
+          </div>
+        </div>
 
         <div class="clearfix">
-          <label><%= t('.visibility') %></label>
+          <%= f.label :location %>
+          <div class="input">
+            <%= f.text_field :location, :class => "input-xlarge" %>
+          </div>
+        </div>
+
+        <div class="clearfix">
+          <%= f.label :is_public %>
           <div class="input checkbox">
             <ul class="inputs-list">
               <li><%= f.check_box :is_public %> <%= f.label :is_public %></li>
@@ -32,19 +32,20 @@
       </div>
       <div class="span4">
         <div class="clearfix">
-          <label><%= t('.dimensions') %></label>
+          <%= f.label :dimensions %>
           <div class="input">
             <div class="inline-inputs">
-              <%= f.text_field :width, :class => "input-small" %> (W) x <%= f.text_field :height, :class => "input-small" %> (H)
+              <%= f.text_field :width, :class => "input-small" %> (W)
+              x <%= f.text_field :height, :class => "input-small" %> (H)
             </div>
           </div>
         </div>
-        
+
         <div class="clearfix">
           <%= f.label :owner %>
           <div class="input">
-            <% options = { User.model_name.human.pluralize => @users.map{|u| [u.name, "User-#{u.id}"]},
-                          Group.model_name.human.pluralize => @groups.map{|g| [g.name, "Group-#{g.id}"]}} %> 
+            <% options = {User.model_name.human.pluralize => @users.map { |u| [u.name, "User-#{u.id}"] },
+                          Group.model_name.human.pluralize => @groups.map { |g| [g.name, "Group-#{g.id}"] }} %>
             <%= select_tag :owner, grouped_options_for_select(options, "#{@screen.owner_type}-#{@screen.owner_id}") %>
           </div>
         </div>
@@ -63,40 +64,40 @@
           <% if @screen.unsecured? %>
             <li>
               <%= f.radio_button(:auth_action, Screen::AUTH_NO_SECURITY) %>
-              <%= f.label(:auth_action, "No authentication (unsecured)", :value => Screen::AUTH_NO_SECURITY) %>
+              <%= f.label(:auth_action, t('.no_auth'), :value => Screen::AUTH_NO_SECURITY) %>
             </li>
             <li>
               <%= f.radio_button(:auth_action, Screen::AUTH_NEW_TOKEN) %>
-              <%= f.label(:auth_action, "New token for a secure setup", :value => Screen::AUTH_NEW_TOKEN) %>
+              <%= f.label(:auth_action, t('.new_token'), :value => Screen::AUTH_NEW_TOKEN) %>
             </li>
           <% elsif @screen.auth_by_token? or @screen.auth_in_progress? %>
             <li>
               <%= f.radio_button(:auth_action, Screen::AUTH_KEEP_TOKEN) %>
-              <%= f.label(:auth_action, "Secured by existing private token", :value => Screen::AUTH_KEEP_TOKEN) %>
+              <%= f.label(:auth_action, t('.private_token'), :value => Screen::AUTH_KEEP_TOKEN) %>
             </li>
             <li>
               <%= f.radio_button(:auth_action, Screen::AUTH_NO_SECURITY) %>
-              <%= f.label(:auth_action, "No authentication (unsecured)", :value => Screen::AUTH_NO_SECURITY) %>
+              <%= f.label(:auth_action, t('.no_auth'), :value => Screen::AUTH_NO_SECURITY) %>
             </li>
             <li>
               <%= f.radio_button(:auth_action, Screen::AUTH_NEW_TOKEN) %>
-              <%= f.label(:auth_action, "Secure with a new token (removing the existing authentication)", :value => Screen::AUTH_NEW_TOKEN) %>
+              <%= f.label(:auth_action, t('.new_token_override'), :value => Screen::AUTH_NEW_TOKEN) %>
             </li>
           <% elsif @screen.auth_by_mac? %>
             <li>
               <%= f.radio_button(:auth_action, Screen::AUTH_LEGACY_SCREEN) %>
               <%= f.label(:auth_action, :value => Screen::AUTH_LEGACY_SCREEN) do %>
-                Existing legacy MAC Address 
-                <%= "<strong>#{@screen.mac_address}</strong>".html_safe %>
+                <%= t '.existing_mac' %>
+                <strong><%= @screen.mac_address %></strong>
               <% end %>
             </li>
             <li>
               <%= f.radio_button(:auth_action, Screen::AUTH_NO_SECURITY) %>
-              <%= f.label(:auth_action, "No authentication (unsecured)", :value => Screen::AUTH_NO_SECURITY) %>
+              <%= f.label(:auth_action, t('.no_auth'), :value => Screen::AUTH_NO_SECURITY) %>
             </li>
             <li>
               <%= f.radio_button(:auth_action, Screen::AUTH_NEW_TOKEN) %>
-              <%= f.label(:auth_action, "New token for a secure setup", :value => Screen::AUTH_NEW_TOKEN) %>
+              <%= f.label(:auth_action, t('.new_token'), :value => Screen::AUTH_NEW_TOKEN) %>
             </li>
           <% end %>
         </ul>
@@ -123,28 +124,30 @@
 
     <div id="template_selection" class="clearfix">
       <label><%= t('.best_fit_templates') %></label>
+
       <div class="input">
-        
+
         <ul class="list-grid inset-selection small">
           <% @templates.each do |template| %>
-          <li>
-            
-            <div class="inp">
-              <%= f.radio_button :template_id, template.id %>
-            </div>
+            <li>
 
-            <%= image_tag preview_template_path(template, :height => 60, :format => :png), :style => "margin: 0px;" %>
-            
-            <div id="preview_<%= template.id %>" class="dd" style="display:none;">
-              <%= image_tag preview_template_path(template, :width => 540, :height => 310, :aspect_ratio => true, :format => :png), :style => "margin: 0px;", :class => "default-padding" %>
-            </div>
-            
-            <div class="cont">
-              <p><b><%= template.name %></b></p>
-              <p>by <%= template.author %></p>
-            </div>
-              
-          </li>
+              <div class="inp">
+                <%= f.radio_button :template_id, template.id %>
+              </div>
+
+              <%= image_tag preview_template_path(template, :height => 60, :format => :png), :style => "margin: 0px;" %>
+
+              <div id="preview_<%= template.id %>" class="dd" style="display:none;">
+                <%= image_tag preview_template_path(template, :width => 540, :height => 310, :aspect_ratio => true, :format => :png), :style => "margin: 0px;", :class => "default-padding" %>
+              </div>
+
+              <div class="cont">
+                <p><b><%= template.name %></b></p>
+
+                <p>by <%= template.author %></p>
+              </div>
+
+            </li>
           <% end %>
         </ul>
 
@@ -152,8 +155,8 @@
     </div>
   </fieldset>
 
-	<div class="submit_bar actions">
-		<%= f.submit button_text, :class => "btn btn-primary" %>
-          <%= link_to t(:cancel), (@screen.persisted? ? screen_path : screens_path), :class => "btn" %>
-	</div>
+  <div class="submit_bar actions">
+    <%= f.submit button_text, :class => "btn btn-primary" %>
+    <%= link_to t(:cancel), (@screen.persisted? ? screen_path : screens_path), :class => "btn" %>
+  </div>
 <% end %>
