@@ -45,6 +45,8 @@ en:
       browse_content: "Browse Concerto Content"
       browse_content_by_feed: "Browse Content by Feed"
       browse_content_by_screen: "Find Content on a Particular Screen"
+      concerto_contents_search: "Concerto Content"
+      filtered_content: "Filtered Content"
 
     new:
       select_type: "Select Type"
