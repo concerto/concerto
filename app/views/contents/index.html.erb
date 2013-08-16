@@ -3,22 +3,23 @@
     <h1 class="default-padding"><%= t '.concerto_contents_search' %> </h1>
   </header>
   <div id="browse-body" class="viewblock-cont">
-  	<div class="clearfix default-padding">
+    <div class="clearfix default-padding">
       <div class="header-with-icon clearfix">
         <h3 style="float: left;"><%= t '.filtered_content' %></h3>
-        <br><hr>
+        <br>
+        <hr>
         <% @content.each do |c| %>
-    	  <%= link_to c do %>
-    	  <div class="tile">
-    	    <div class="tile-content">
-    	      <%= render_content(c, {:type => 'tile'}) %>
-    	    </div>
-    	    <div class="brand">
-    	      <% type_folder = "contents/#{c.type.underscore}" %>
-    		    <%= render_partial_if("#{type_folder}/tab_icon") %>
-    	    </div>
-           </div>
-    	  <% end %>
+          <%= link_to c do %>
+            <div class="tile">
+              <div class="tile-content">
+                <%= render_content(c, {:type => 'tile'}) %>
+              </div>
+              <div class="brand">
+                <% type_folder = "contents/#{c.type.underscore}" %>
+                <%= render_partial_if("#{type_folder}/tab_icon") %>
+              </div>
+            </div>
+          <% end %>
         <% end %>
       </div>
     </div>

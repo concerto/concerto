@@ -12,7 +12,7 @@ class ContentsController < ApplicationController
     end
   end
 
-  def index 
+  def index
     @content = Content.filter_all_content(params)
     @title = "Filtered Content"
 
@@ -69,11 +69,11 @@ class ContentsController < ApplicationController
 
       # Remove the feeds that would not take a submission.
       @feeds = Feed.all
-      @feeds.reject!{ |f| !can?(:create, Submission.new(:content => @content, :feed => f))}
+      @feeds.reject! { |f| !can?(:create, Submission.new(:content => @content, :feed => f)) }
 
       respond_to do |format|
-        format.html { } # new.html.erb
-        format.xml  { render :xml => @content }
+        format.html {} # new.html.erb
+        format.xml { render :xml => @content }
       end
     end
   end
@@ -87,7 +87,7 @@ class ContentsController < ApplicationController
   # POST /contents
   # POST /contents.xml
   def create
-    @content =  @content_const.new(content_params)
+    @content = @content_const.new(content_params)
     @content.user = current_user
     auth!
 
@@ -98,7 +98,7 @@ class ContentsController < ApplicationController
 
     respond_to do |format|
       # remove the media entry added in the _form_top partial if it is completely empty
-      @content.media.reject! {|m| m.file_name.nil? && m.file_type.nil? && m.file_size.nil? && m.file_data.nil? }
+      @content.media.reject! { |m| m.file_name.nil? && m.file_type.nil? && m.file_size.nil? && m.file_data.nil? }
       if @content.save
         process_notification(@content, {}, :action => 'create', :owner => current_user)
         # Copy over the duration to each submission instance
@@ -114,17 +114,17 @@ class ContentsController < ApplicationController
         @content.save #This second save adds the submissions
         if @feed_ids == []
           format.html { redirect_to(@content, :notice => t(:content_created_no_feeds)) }
-          format.xml  { render :xml => @content, :status => :created, :location => @content }
-        else 
+          format.xml { render :xml => @content, :status => :created, :location => @content }
+        else
           format.html { redirect_to(@content, :notice => t(:content_created)) }
-          format.xml  { render :xml => @content, :status => :created, :location => @content }
+          format.xml { render :xml => @content, :status => :created, :location => @content }
         end
       else
         # Remove the feeds that would not take a submission.
         @feeds = Feed.all
-        @feeds.reject!{ |f| !can?(:create, Submission.new(:content => @content, :feed => f))}
+        @feeds.reject! { |f| !can?(:create, Submission.new(:content => @content, :feed => f)) }
         format.html { render :action => "new" }
-        format.xml  { render :xml => @content.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @content.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -142,10 +142,10 @@ class ContentsController < ApplicationController
           submission.update_attributes(:moderation_flag => nil)
         end
         format.html { redirect_to(@content, :notice => t(:content_updated)) }
-        format.xml  { head :ok }
+        format.xml { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @content.errors, :status => :unprocessable_entity }
+        format.xml { render :xml => @content.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -160,7 +160,7 @@ class ContentsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to(feeds_url) }
-      format.xml  { head :ok }
+      format.xml { head :ok }
     end
   end
 
@@ -215,7 +215,7 @@ class ContentsController < ApplicationController
     end
   end
 
-private
+  private
 
   # Restrict the allowed parameters to a select set defined in the model.
   def content_params

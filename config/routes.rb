@@ -41,10 +41,10 @@ Concerto::Application.routes.draw do
   # End really dangerous routes.
 
 
-  devise_for :users, 
-    :controllers => {
-      :registrations => 'concerto_devise/registrations', 
-      :sessions => 'concerto_devise/sessions' }
+  devise_for :users,
+             :controllers => {
+               :registrations => 'concerto_devise/registrations',
+               :sessions => 'concerto_devise/sessions'}
 
   scope "/manage" do
     resources :users
@@ -71,12 +71,12 @@ Concerto::Application.routes.draw do
       end
     end
   end
-  
+
   resources :groups, :except => [:edit] do
-    resources :memberships, :only => [:create, :update, :destroy] do     
+    resources :memberships, :only => [:create, :update, :destroy] do
     end
   end
-  
+
   resources :kinds
 
   resources :feeds do
@@ -85,7 +85,7 @@ Concerto::Application.routes.draw do
     end
     resources :submissions, :only => [:index, :show, :update]
   end
-  
+
   match 'content/search' => 'contents#index'
   resources :contents, :except => [:index], :path => "content" do
     member do
