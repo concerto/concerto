@@ -6,7 +6,7 @@ class Content < ActiveRecord::Base
   has_many :submissions, :dependent => :destroy, :after_add => :after_add_callback
   has_many :feeds, :through => :submissions
   has_many :media, :as => :attachable, :dependent => :destroy
-  
+
   accepts_nested_attributes_for :media
   accepts_nested_attributes_for :submissions
 
@@ -39,13 +39,15 @@ class Content < ActiveRecord::Base
   def self.expired
     where("end_time < :now", {:now => Clock.time})
   end
+
   def self.future
     where("start_time > :now", {:now => Clock.time})
   end
+
   def self.active
     where("(start_time IS NULL OR start_time < :now) AND (end_time IS NULL OR end_time > :now)", {:now => Clock.time})
   end
-  
+
   # Scoped relations for feed approval states
   has_many :approved_feeds, :through => :submissions, :source => :feed, :conditions => {"submissions.moderation_flag" => true}
   has_many :pending_feeds, :through => :submissions, :source => :feed, :conditions => "submissions.moderation_flag IS NULL"
@@ -66,16 +68,16 @@ class Content < ActiveRecord::Base
   def is_expired?
     (end_time < Clock.time)
   end
-  
+
   def is_orphan?
     self.submissions.empty?
   end
-  
+
   # Determine if content is approved everywhere
   def is_approved?
     (self.approved_feeds.count > 0) && ((self.pending_feeds.count + self.denied_feeds.count) == 0)
   end
-  
+
   # Determine if content is pending on a feed
   def is_pending?
     (self.pending_feeds.count > 0)
@@ -92,7 +94,7 @@ class Content < ActiveRecord::Base
   def start_time=(_start_time)
     if _start_time.kind_of?(Hash)
       #write_attribute(:start_time, Time.parse("#{_start_time[:date]} #{_start_time[:time]}").to_s(:db))
-      write_attribute(:start_time, DateTime.strptime("#{_start_time[:date]} #{_start_time[:time]}","%m/%d/%Y %l:%M %p").to_s(:db))
+      write_attribute(:start_time, DateTime.strptime("#{_start_time[:date]} #{_start_time[:time]}", "%m/%d/%Y %l:%M %p").to_s(:db))
     else
       write_attribute(:start_time, _start_time)
     end
@@ -101,7 +103,7 @@ class Content < ActiveRecord::Base
   # See start_time=.
   def end_time=(_end_time)
     if _end_time.kind_of?(Hash)
-      write_attribute(:end_time, DateTime.strptime("#{_end_time[:date]} #{_end_time[:time]}","%m/%d/%Y %l:%M %p").to_s(:db))
+      write_attribute(:end_time, DateTime.strptime("#{_end_time[:date]} #{_end_time[:time]}", "%m/%d/%Y %l:%M %p").to_s(:db))
     else
       write_attribute(:end_time, _end_time)
     end
@@ -177,6 +179,41 @@ class Content < ActiveRecord::Base
   # A placeholder for any action that should be performed
   # after content has been submitted to a feed.
   def after_add_callback(unused_submission)
+  end
+
+  def self.filter_all_content(params)
+    # Filter Concerto content by user, screen, feed, and/or type
+    filtered_contents = Array.new
+
+    query_conditions = {}
+    # If filtering by screen or feed, we must search through subscriptions
+    if params[:screen] || params[:feed]
+      query_conditions[:feed_id] = params[:feed] if params[:feed]
+      query_conditions[:screen_id] = params[:screen] if params[:screen]
+      subs = Subscription.all query_conditions
+      subs.each do |sub|
+        sub.contents.each do |content|
+          # If filtering by user or type, do not add (skip) content that 
+          # does not match filter criteria
+          next if params[:user] && content.user_id.to_s != params[:user]
+          next if params[:type] && content.type != params[:type]
+          filtered_contents.push(content)
+        end
+      end
+    else
+      # If filtering by user or type, we don't need to search through subscriptions, only contents
+      query_conditions[:user_id] = params[:user] if params[:user]
+      query_conditions[:type] = params[:type] if params[:type]
+      if query_conditions.empty?
+        # No filters are specified
+        filtered_contents = Content.all
+      else
+        # User and/or type filters are specified
+        filtered_contents = Content.all query_conditions
+      end
+    end
+
+    filtered_contents
   end
 
 end
