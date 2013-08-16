@@ -1,35 +1,23 @@
-# To deploy using capistrano:
+# To update or deploy using capistrano:
 #
-# This script was tested on the concerto virtual image and should run as is (after the prepare_for_capistrano.sh
-# script is run) under the concerto user.  If you need help, post to the group or read up on capistrano.
+# To deploy from/to the concerto vm image:
+# 1. First, you have to run the prepvm_for_capistrano.sh script on the concerto server.  This is a one-time install
+#    that makes sure the environment is setup to deploy using capistrano and to receive deploys via capistrano.  More
+#    information is provided when you run the script.
+# 2. Anytime you want to update, log into the concerto server as the concerto user and run:
+#      cd ~/projects/concerto
+#      cap deploy
+#    You are now up and running on the latest (official) version.  If you want the bleeding edge development
+#    version, run cap -S branch="master" deploy
 #
-# 1. Make sure you have the capistrano and capistrano-tags gems installed.  On the ubuntu virtual machine image
-#    I ran: `sudo apt-get install capistrano`  and: `sudo gem install capistrano-tags`
-#    a) Make sure the role :web, :app, and :db servers are set to your actual servers (below).
-#    b) Make sure the :deploy_to path points to your actual deploy location.
-#    c) If you need to, make sure the :user is set appropriately or comment it out.
-#    d) If you are running the site under a subdirectory instead of at the root of the web server then
-#       uncomment the :asset_env line and make sure the RAILS_RELATIVE_URL_ROOT is set appropriately.
-# 2. Do an initial setup on the production server(s) for the deploy by running: 
-#    a) Depending upon your environment, you may not need this-- however, if you are running on the vm image
-#       then you do:
-#         sudo mkdir /var/webapps && chown concerto:concerto /var/webapps && chmod g+w /var/webapps 
-#    b) cap deploy:setup 
-#       This will create directories and prompt you for the database password for the concerto user
-#       and set up the database.yml file.
-#    c) cap deploy:check
-# 3. Run: cap deploy
-# 4. If you're running on the vm image, and you haven't already done so, change the site configuration
-#    to point to the new location where capistrano pushed the files.  Edit your /etc/apache2/sites-enabled/concerto
-#    file to include these two changed lines, replacing their counterparts:
-#      DocumentRoot /var/webapps/concerto/current/public
-#      <Directory /var/webapps/concerto/current/public>
-#    And then reload apache to make the changes take effect: sudo service apache2 reload
-#
-# To update your site with future releases, simply come back here and run: 
-#   cap -S branch="releasename" deploy
-# and you're done! For example, to push out the 1.2.3.foobar release:
-#   cap -S branch="1.2.3.foobar" deploy
+# To deploy to another server:
+# 1. Make sure the role :web, :app, and :db servers are set to your actual servers (below).
+# 2. Make sure the :deploy_to path points to your actual deploy location.
+# 3. If you need to, make sure the :user (used for ssh) is set appropriately or comment it out.
+# 4. If you are running the site under a subdirectory instead of at the root of the web server then
+#    uncomment the :asset_env line and make sure the RAILS_RELATIVE_URL_ROOT is set appropriately.
+# 5. Run: cap deploy:setup && cap deploy:check
+# 6. Run: cap deploy                <=== this is all you need for subsequent deploys
 
 set :user, "concerto"
 
@@ -68,11 +56,18 @@ namespace :deploy do
   end
 end
 
+# make sure our vendor/bundle is linked to our shared bundle path
+# which is shared among deploys of only our application 
+namespace :bundler do
+  task :create_symlink, :roles => :app do
+    shared_dir = File.join(shared_path, 'bundle')
+    release_dir = File.join(current_release, 'vendor/bundle')
+    run("ln -s #{shared_dir} #{release_dir}")
+  end
+end
+before 'deploy:assets:precompile', 'bundler:create_symlink'
+
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'deploy')
-
-set :bundle_dir, "vendor/bundle"  # this uses separate bundles per release (and is very slow)
-
 require "capistrano-tags"       # needed to deploy tags that are not also branches
 require "bundler/capistrano"    # needed to be able to bundle stuff
 require "capistrano_database"   # needed to create and link database.yml
-
