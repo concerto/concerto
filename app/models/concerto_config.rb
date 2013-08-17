@@ -71,23 +71,30 @@ class ConcertoConfig < ActiveRecord::Base
   end
   
   # Creates a Concerto Config entry by taking the key and value desired
-  # Also takes the following options: value_type, value_default, name, group, description, plugin_config, and plugin_id
+  # Also takes the following options: value_type, value_default, name, group, seq_no, description, plugin_config, and plugin_id
   # If they're not specified, the type is assumed to be string and the default value the key that is set
+  # and seq_no to 99, and group to 'Miscellaneous'
   def self.make_concerto_config(config_key,config_value, options={})
     defaults = {
       :value_type => "string",
       :value_default => config_value,
-      :can_cache => true
+      :can_cache => true,
+      :seq_no => 99,
+      :group => 'Miscellaneous'
     }
     options = defaults.merge(options)
     
     CONFIG_ITEMS.push(config_key)
     
     # first_or_create: check whether first returns nil or not; if it does return nil, create is called
-    ConcertoConfig.where(:key => config_key).first_or_create(:key => config_key, :value => config_value,
+    entry = ConcertoConfig.where(:key => config_key).first_or_create(:key => config_key, :value => config_value,
       :value_default => options[:value_default], :value_type => options[:value_type], :name => options[:name], :group => options[:group],
       :description => options[:description], :plugin_config => options[:plugin_config], :plugin_id => options[:plugin_id], 
-      :hidden => options[:hidden], :can_cache => options[:can_cache])
+      :hidden => options[:hidden], :can_cache => options[:can_cache], :seq_no => options[:seq_no])
+    # resync the group and seqno if needed
+    if entry.group != options[:group] || entry.seq_no.nil? || entry.seq_no != options[:seq_no]
+      entry.update_attributes({ :group => options[:group], :seq_no => options[:seq_no] })
+    end
   end  
 
   # Update the config_last_updated entry to indicate the cached data is no longer valid.
