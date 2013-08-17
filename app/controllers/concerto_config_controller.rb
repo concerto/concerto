@@ -19,8 +19,6 @@ class ConcertoConfigController < ApplicationController
         config.update_column(:value, v)
       end
     end
-    
-    ConcertoConfig.delete_unused_configs()
 
     ConcertoConfig.cache_expire
     flash[:notice] = t(:settings_saved)
