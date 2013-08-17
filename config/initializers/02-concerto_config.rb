@@ -22,11 +22,11 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("min_content_duration", "4", :value_type => "integer", :group => 'Content')
 
     # access
-    ConcertoConfig.make_concerto_config("public_concerto", "true", :value_type => "boolean", :group => 'Permissions')
-    ConcertoConfig.make_concerto_config("allow_registration", "true", :value_type => "boolean", :group => 'Permissions')
-    ConcertoConfig.make_concerto_config("confirmable", "false", :value_type => "boolean", :group => 'Permissions')
-    ConcertoConfig.make_concerto_config("allow_user_screen_creation", "false", :value_type => "boolean", :group => 'Permissions')
-    ConcertoConfig.make_concerto_config("allow_user_feed_creation", "true", :value_type => "boolean", :group => 'Permissions')
+    ConcertoConfig.make_concerto_config("public_concerto", "true", :value_type => "boolean", :group => 'Permissions', :seq_no => 99)
+    ConcertoConfig.make_concerto_config("allow_registration", "true", :value_type => "boolean", :group => 'Permissions', :seq_no => 1)
+    ConcertoConfig.make_concerto_config("confirmable", "false", :value_type => "boolean", :group => 'Permissions', :seq_no => 2)
+    ConcertoConfig.make_concerto_config("allow_user_screen_creation", "false", :value_type => "boolean", :group => 'Permissions', :seq_no => 99)
+    ConcertoConfig.make_concerto_config("allow_user_feed_creation", "true", :value_type => "boolean", :group => 'Permissions', :seq_no => 99)
 
     # mail
     ConcertoConfig.make_concerto_config("mailer_protocol", "sendmail", :value_type => "string", :group => 'Mail')
