@@ -6,7 +6,7 @@ en:
         location: 'Location'
         owner: 'Owner'
         owner_id: 'Owned By'
-        is_public: 'Visibility'
+        is_public: 'This screen is publicly viewable'
 
   screens:
     index_body:
