@@ -6,5 +6,9 @@ module Concerto
     PRE = 'hotelhummingbird'
 
     STRING = [MAJOR, MINOR, TINY, PRE].compact.join('.')
+    
+    def self.dynamic
+      `git describe --always --tags`.strip rescue ""
+    end
   end
 end
