@@ -1,29 +1,29 @@
-# to deploy using cap
+# To update or deploy using capistrano:
 #
-# Make sure the appropriate servers are specified below.
-# Make sure the deploy_to path points to your deploy location.
-# Run the following two lines at the console (actually, I couldn't get this part to work, so I added 
-# them to the Gemfile and then ran bundle, and then continued with the cap commands...)
-#$ sudo apt-get install capistrano        (or you can gem install capistrano)
-#$ gem install capistrano-tags            (might need sudo)
-# might need to sudo gem install rails
-#$ cap deploy:setup
-#$ cap deploy:check
-# Make sure your database.yml file is correctly set up in your deploy_to location under the shared folder
-# deploy with the following command
-# cap deploy
+# To deploy from/to the concerto vm image:
+# 1. First, you have to run the prepvm_for_capistrano.sh script on the concerto server.  This is a one-time install
+#    that makes sure the environment is setup to deploy using capistrano and to receive deploys via capistrano.  More
+#    information is provided when you run the script.
+# 2. Anytime you want to update, log into the concerto server as the concerto user and run:
+#      cd ~/projects/concerto
+#      cap deploy
+#    You are now up and running on the latest (official) version.  If you want the bleeding edge development
+#    version, run cap -S branch="master" deploy
+#
+# To deploy to another server:
+# 1. Make sure the role :web, :app, and :db servers are set to your actual servers (below).
+# 2. Make sure the :deploy_to path points to your actual deploy location.
+# 3. If you need to, make sure the :user (used for ssh) is set appropriately or comment it out.
+# 4. If you are running the site under a subdirectory instead of at the root of the web server then
+#    uncomment the :asset_env line and make sure the RAILS_RELATIVE_URL_ROOT is set appropriately.
+# 5. Run: cap deploy:setup && cap deploy:check
+# 6. Run: cap deploy                <=== this is all you need for subsequent deploys
 
-# If your user account is not the one going to be used for ssh to those servers, then uncomment the following two
-# lines and specify the user that will be used.
-#set :user, "deploy"
-#set :group, "deploy"
-
-# if you want to clean up the old deploys (releases) run cap deploy:cleanup
+set :user, "concerto"
 
 set :application, "concerto"
 set :repository,  "https://github.com/concerto/concerto.git"
-#set :asset_env, "#{asset_env} RAILS_RELATIVE_URL_ROOT=/#{application}"  # only needed if not running at root of webserver
-set :deploy_via, :remote_cache
+#set :asset_env, "#{asset_env} RAILS_RELATIVE_URL_ROOT=/#{application}"  # only needed if running under sub-uri
 
 # this code will get the latest official release, unless a branch was specified in the command line
 # like: cap -S branch="master" deploy
@@ -33,33 +33,21 @@ set :branch do
   default_tag
 end unless exists?(:branch)
 
-role :web, "concerto.local"                   # Your HTTP server, Apache/etc
-role :app, "concerto.local"                   # This may be the same as your `Web` server
-role :db,  "concerto.local", :primary => true # This is where Rails migrations will run
+role :web, "concerto"                   # Your HTTP server, Apache/etc
+role :app, "concerto"                   # This may be the same as your `Web` server
+role :db,  "concerto", :primary => true # This is where Rails migrations will run
 
-#set :deploy_to, "/var/www/webapps/#{application}"
 set :deploy_to, "/var/webapps/#{application}"    # make sure this exists and is writable
 
 set :use_sudo, false
-
-# set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
-# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
-
-task :uname do
-  run "uname -a"
-end
 
 default_run_options[:pty] = true # must be true for password prompt from git or ssh to work
 
 # if you want to clean up old releases on each deploy uncomment this:
 after "deploy:restart", "deploy:cleanup"
 after "deploy:update_code", "deploy:migrate"
-#before "deploy:assets:precompile", "custom:plugins"  # this is already done in source control
 
-# if you're still using the script/reaper helper you will need
-# these http://github.com/rails/irs_process_scripts
-
-# If you are using Passenger mod_rails uncomment this:
+# If you are using Passenger mod_rails uncomment this so it restarts your webserver
 namespace :deploy do
   task :start do ; end
   task :stop do ; end
@@ -68,21 +56,18 @@ namespace :deploy do
   end
 end
 
-# task to run the install for the plugins and recompile the frontend_js
-# namespace :custom do
-#   task :plugins, :roles => [:app, :web] do
-#     run "cd #{release_path} && RAILS_ENV=#{rails_env} rails generate concerto_remote_video:install install
-#       && RAILS_ENV=#{rails_env} rails generate concerto_iframe:install install && cd public/frontend_js && ./compile.sh --debug"
-#   end
-# end
-
+# make sure our vendor/bundle is linked to our shared bundle path
+# which is shared among deploys of only our application 
+namespace :bundler do
+  task :create_symlink, :roles => :app do
+    shared_dir = File.join(shared_path, 'bundle')
+    release_dir = File.join(current_release, 'vendor/bundle')
+    run("ln -s #{shared_dir} #{release_dir}")
+  end
+end
+before 'deploy:assets:precompile', 'bundler:create_symlink'
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'deploy')
-
-#set :bundle_flags, "--deployment"   # override, if you want, so --quiet is not specified
-set :bundle_dir, "vendor/bundle"  # this uses separate bundles (as the application specifies, and is very slow)
-
 require "capistrano-tags"       # needed to deploy tags that are not also branches
 require "bundler/capistrano"    # needed to be able to bundle stuff
 require "capistrano_database"   # needed to create and link database.yml
-

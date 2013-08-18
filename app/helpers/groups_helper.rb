@@ -4,7 +4,7 @@ module GroupsHelper
     member_list = ordered_memberships.map do |membership|
       member_display = String.new
       if membership.level == Membership::LEVELS[:leader]
-        member_display = content_tag :i, '', {:class => 'concertocon-user-leader tooltip-basic', 'data-tooltip-tex' => t('.leader')}
+        member_display = content_tag(:i, '', {:class => 'concertocon-user-leader tooltip-basic', 'data-tooltip-tex' => t('.leader')}) + " "
       end
       if can? :read, membership.user
         member_display += link_to membership.user.name, user_path(membership.user)

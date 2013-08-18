@@ -12,7 +12,7 @@
           <% end %>">
           <h5><%= t ('.concerto_version') %></h5>
 
-          <h2><%= Concerto::VERSION::STRING %></h2>
+          <h2 title="<%= Concerto::VERSION.dynamic %>"><%= Concerto::VERSION::STRING %></h2>
           <% if @latest_version.nil? %>
               <i class="icon-exclamation-sign" style="font-size: 1.4em;"></i>
               <b><%= t('.cant_determine_latest_version') %></b>

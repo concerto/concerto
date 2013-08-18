@@ -1,3 +1,7 @@
+<%
+  dbpwd = fetch(:dbpwd, '') #Capistrano::CLI.password_prompt("Enter MySQL database password: "))
+  dbpwd = Capistrano::CLI.password_prompt("Enter MySQL database password: ") if dbpwd == ''
+%>
 development:
   adapter: sqlite3
   database: db/development.sqlite3
@@ -20,5 +24,5 @@ production:
   port: 3306
   database: <%=application%>_production
   username: concerto
-  password:  <%= Capistrano::CLI.password_prompt("Enter MySQL database password: ") %>
+  password:  <%= dbpwd %>
   timeout: 5000

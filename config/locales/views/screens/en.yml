@@ -6,7 +6,7 @@ en:
         location: 'Location'
         owner: 'Owner'
         owner_id: 'Owned By'
-        is_public: 'Is Public'
+        is_public: 'This screen is publicly viewable'
 
   screens:
     index_body:
@@ -25,11 +25,14 @@ en:
       dimensions: 'Dimensions'
       provide_details: 'Provide Details'
       select_template: 'Select Template'
-      visibility: 'Visibility'
       authentication: 'Authentication'
       connection_details: 'Connection Details'
       auth_action: 'Authentication Action'
-
+      no_auth: 'No authentication (unsecured)'
+      new_token: 'New token for a secure setup'
+      private_token: 'Secured by existing private token'
+      new_token_override: 'Secure with a new token (removing the existing authentication)'
+      existing_mac: 'Existing legacy MAC Address'
     thumbs:
       owner: 'owner'
 

@@ -181,4 +181,39 @@ class Content < ActiveRecord::Base
   def after_add_callback(unused_submission)
   end
 
+  def self.filter_all_content(params)
+    # Filter Concerto content by user, screen, feed, and/or type
+    filtered_contents = Array.new
+
+    query_conditions = {}
+    # If filtering by screen or feed, we must search through subscriptions
+    if params[:screen] || params[:feed]
+      query_conditions[:feed_id] = params[:feed] if params[:feed]
+      query_conditions[:screen_id] = params[:screen] if params[:screen]
+      subs = Subscription.all query_conditions
+      subs.each do |sub|
+        sub.contents.each do |content|
+          # If filtering by user or type, do not add (skip) content that 
+          # does not match filter criteria
+          next if params[:user] && content.user_id.to_s != params[:user]
+          next if params[:type] && content.type != params[:type]
+          filtered_contents.push(content)
+        end
+      end
+    else
+      # If filtering by user or type, we don't need to search through subscriptions, only contents
+      query_conditions[:user_id] = params[:user] if params[:user]
+      query_conditions[:type] = params[:type] if params[:type]
+      if query_conditions.empty?
+        # No filters are specified
+        filtered_contents = Content.all
+      else
+        # User and/or type filters are specified
+        filtered_contents = Content.all query_conditions
+      end
+    end
+
+    filtered_contents
+  end
+
 end
