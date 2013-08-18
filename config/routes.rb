@@ -86,7 +86,7 @@ Concerto::Application.routes.draw do
     resources :submissions, :only => [:index, :show, :update]
   end
 
-  match 'content/search' => 'contents#index'
+  get 'content/search' => 'contents#index'
   resources :contents, :except => [:index], :path => "content" do
     member do
       get :display
@@ -113,6 +113,12 @@ Concerto::Application.routes.draw do
     end
   end
 
+  # This is the catch-all path we use for people who type /content when they
+  # are semantically looking for all the feeds to show the content.  We put it
+  # here at the bottom to avoid capturing any of the restful content paths.
+  match 'content/' => 'feeds#index'
+  match 'browse/' => 'feeds#index'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -130,12 +136,12 @@ Concerto::Application.routes.draw do
   # Sample resource route with options:
   #   resources :products do
   #     member do
-  #       get :short
-  #       post :toggle
+  #       get 'short'
+  #       post 'toggle'
   #     end
   #
   #     collection do
-  #       get :sold
+  #       get 'sold'
   #     end
   #   end
 
@@ -149,7 +155,7 @@ Concerto::Application.routes.draw do
   #   resources :products do
   #     resources :comments
   #     resources :sales do
-  #       get :recent, :on => :collection
+  #       get 'recent', :on => :collection
   #     end
   #   end
 
@@ -160,15 +166,13 @@ Concerto::Application.routes.draw do
   #     resources :products
   #   end
 
-  # This is the catch-all path we use for people who type /content when they
-  # are semantically looking for all the feeds to show the content.  We put it
-  # here at the bottom to avoid capturing any of the restful content paths.
-  get 'content/' => 'feeds#index'
-  get 'browse/' => 'feeds#index'
+  # You can have the root of your site routed with "root"
+  # just remember to delete public/index.html.
+  # root :to => 'welcome#index'
 
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id(.:format)))'
+  # match ':controller(/:action(/:id))(.:format)'
 end
