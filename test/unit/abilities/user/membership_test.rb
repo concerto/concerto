@@ -8,7 +8,7 @@ class UserMembershipAbilityTest < ActiveSupport::TestCase
     assert ability.cannot?(:read, memberships(:katie_rpitv))    
   end
 
-  test "Regular users can only create pending" do
+  test "Regular users can only create pending for themselves" do
     kristen = users(:kristen)
     wtg = groups(:wtg)
     ability = Ability.new(kristen)
@@ -26,6 +26,10 @@ class UserMembershipAbilityTest < ActiveSupport::TestCase
     assert ability.cannot?(:create, m)
 
     m.level = Membership::LEVELS[:denied]
+    assert ability.cannot?(:create, m)
+
+    m.level = Membership::LEVELS[:pending]
+    m.user = users(:katie)
     assert ability.cannot?(:create, m)
   end
 

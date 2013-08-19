@@ -157,7 +157,7 @@
     <% end %>
     <br />
 
-    <% can_join = can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending])
+    <% can_join = can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending], :user => current_user)
          already_member = @group.made_request?(current_user) %>
       <% if can_join || already_member %>
         <div class="subblock bordered">
@@ -170,9 +170,7 @@
               <% end %>
             <% elsif can_join %>
               <p><b><%= t('.not_in_group') %></b></p>
-              <% if can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>
-                <%= link_to( t('.join_group'), group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
-              <% end %>
+              <%= link_to( t('.join_group'), group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
             <% end %>
           </div>
         </div>

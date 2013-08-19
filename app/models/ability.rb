@@ -176,7 +176,7 @@ class Ability
       membership.group.leaders.include?(user)
     end
     # Regular users can only create pending memberships.
-    can :create, Membership, :level => Membership::LEVELS[:pending] if user.persisted?
+    can :create, Membership, :level => Membership::LEVELS[:pending], :user => user if user.persisted?
     # Users can delete their own memberships.
     can :destroy, Membership, :user => user
     # Group members can read all other memberships
