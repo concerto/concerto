@@ -1,5 +1,5 @@
 if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
-  ActionMailer::Base.delivery_method = ConcertoConfig[:mailer_protocol].to_sym
+  ActionMailer::Base.delivery_method = ConcertoConfig[:mailer_protocol].to_sym if !ConcertoConfig[:mailer_protocol].nil?
   ActionMailer::Base.default_url_options = { :host => ConcertoConfig[:mailer_host] }
   
   if ConcertoConfig[:mailer_protocol] == 'smtp'
