@@ -3,6 +3,7 @@ goog.provide('concerto.frontend.Field');
 goog.require('concerto.frontend.ContentTypeRegistry');
 goog.require('concerto.frontend.ContentTypes');
 goog.require('concerto.frontend.Transition.Fade');
+goog.require('concerto.frontend.Transition.Slide');
 goog.require('goog.array');
 goog.require('goog.debug.Logger');
 goog.require('goog.dom');
@@ -88,7 +89,7 @@ concerto.frontend.Field = function(position, id, name, content_path,
    * @type {!Object}
    * @private
    */
-  this.transition_ = opt_transition || concerto.frontend.Transition.Fade;
+  this.transition_ = opt_transition || concerto.frontend.Transition.Slide;  // mjf was Fade
 
   /**
    * Alias to the XHR connection.
