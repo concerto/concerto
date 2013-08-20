@@ -49,14 +49,12 @@ concerto.frontend.Transition.Slide.prototype.logger_ = goog.debug.Logger.getLogg
  * @private
  */
 concerto.frontend.Transition.Slide.prototype.out_ = function() {
-  this.logger_.info('Field ' + this.field.id + ' is sliding out.');
-
   this.current_content_.dispatchEvent(
       concerto.frontend.Content.EventType.STOP_RENDER);
   var animOut = new goog.fx.dom.Slide(this.current_content_.div,
-      [this.field.position.div_.offsetLeft, this.field.position.div_.offsetTop],
-      [this.field.position.div_.offsetLeft - this.field.position.div_.clientWidth, this.field.position.div_.offsetTop],
-      this.duration, goog.fx.easing.easeOut);
+      [this.current_content_.div.offsetLeft, this.current_content_.div.offsetTop],
+      [0 - this.field.position.div_.clientWidth, this.current_content_.div.offsetTop],
+      this.duration, goog.fx.easing.easeIn);
   goog.events.listen(animOut, goog.fx.Animation.EventType.END,
       this.outDone_, false, this);
   animOut.play();
@@ -80,12 +78,9 @@ console.log(this.field);
   //this.next_content_.div.style.display = 'none';
   this.field.inject(this.next_content_.div);
 
-  this.logger_.info('Field ' + this.field.id + ' is sliding in to position ' + 
-    this.field.position.div_.offsetLeft.toString() + ', ' + this.field.position.div_.clientWidth.toString() );
-
   var animIn = new goog.fx.dom.Slide(this.next_content_.div,
-      [this.field.position.div_.offsetLeft + this.field.position.div_.clientWidth, this.field.position.div_.offsetTop],
-      [this.field.position.div_.offsetLeft, this.field.position.div_.offsetTop],
+      [this.field.position.div_.clientWidth, 0],
+      [0, 0],
       this.duration, goog.fx.easing.easeOut);
   goog.events.listen(animIn, goog.fx.Animation.EventType.END,
       this.inDone_, false, this);
