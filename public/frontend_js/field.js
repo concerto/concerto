@@ -2,8 +2,6 @@ goog.provide('concerto.frontend.Field');
 
 goog.require('concerto.frontend.ContentTypeRegistry');
 goog.require('concerto.frontend.ContentTypes');
-goog.require('concerto.frontend.Transition.Fade');
-goog.require('concerto.frontend.Transition.Slide');
 goog.require('goog.array');
 goog.require('goog.debug.Logger');
 goog.require('goog.dom');
@@ -28,8 +26,10 @@ goog.require('goog.structs.Queue');
  * @extends {goog.events.EventTarget}
  */
 concerto.frontend.Field = function(position, id, name, content_path,
-                                   opt_transition) {
+                                   opt_transition, config) {
   goog.events.EventTarget.call(this);
+
+  this.logger_.info('Field ' + id + ' has ' + (goog.isDefAndNotNull(config) ? 'some' : 'no') + ' config items');
 
   /**
    * Position showing this field.
@@ -89,7 +89,14 @@ concerto.frontend.Field = function(position, id, name, content_path,
    * @type {!Object}
    * @private
    */
-  this.transition_ = opt_transition || concerto.frontend.Transition.Slide;  // mjf was Fade
+  this.transition_ = opt_transition;
+
+  /**
+   * Configuration properties for the field
+   * @type {!Object}
+   * @private
+   */
+   this.config_ = (goog.isDefAndNotNull(config) ? config : null);
 
   /**
    * Alias to the XHR connection.
@@ -186,7 +193,7 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
 
         if (!xhr.isSuccess()) {
           // Error fetching content.
-          this.logger_.warning('Unable to fetch content. ' +
+          this.logger_.warning('Unable to fetch content for field ' + this.id + '. ' +
               xhr.getLastError());
           return setTimeout(
               goog.bind(function() {this.nextContent(true)}, this), 10);
