@@ -1,6 +1,8 @@
 goog.provide('concerto.frontend.Position');
 
 goog.require('concerto.frontend.Field');
+goog.require('concerto.frontend.Transition.Fade');
+goog.require('concerto.frontend.Transition.Slide');
 goog.require('goog.array');
 goog.require('goog.debug.Logger');
 goog.require('goog.dom');
@@ -109,12 +111,25 @@ concerto.frontend.Position.prototype.load = function(data) {
 
   this.draw();
 
+  transition = concerto.frontend.Transition.Fade;
+  config = null;
+  if (goog.isDefAndNotNull(data['field']['config'])) {
+    config = data['field']['config'];
+    if (goog.isDefAndNotNull(config.transition)) {
+      switch (config.transition.toLowerCase()) {
+        case "slide":
+          transition = concerto.frontend.Transition.Slide;
+          break;
+      }
+    }
+  }
+
   /**
    * Field in this position.
    * @type {concerto.frontend.Field}
    */
   this.field = new concerto.frontend.Field(this, data['field']['id'],
-      data['field']['name'], data['field_contents_path']);
+    data['field']['name'], data['field_contents_path'], transition, config);
 
   this.setProperties();
 };
@@ -226,4 +241,6 @@ concerto.frontend.Position.DEFAULT_STYLES = {
  * @type {Object.<string, (number|string)>} Default style-value mapping.
  * @const
  */
-concerto.frontend.Position.DEFAULT_CONTENT_STYLES = {};
+concerto.frontend.Position.DEFAULT_CONTENT_STYLES = {
+  'position': 'absolute'   /* slide transition requires absolution positioned elements */
+};
