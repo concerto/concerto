@@ -21,7 +21,7 @@
         <% @concerto_plugins.each do |concerto_plugin| %>
           <tr>
             <td><%= status_badge(concerto_plugin.enabled) %></td>
-            <td><%= concerto_plugin.name %></td>
+            <td><%= concerto_plugin.name.titleize %></td>
             <td><%= concerto_plugin.gem_version %></td>
             <td><%= plugin_source(concerto_plugin.source) %></td>
             <td>
