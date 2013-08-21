@@ -31,13 +31,16 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     # mail
     ConcertoConfig.make_concerto_config("mailer_protocol", "sendmail", :value_type => "string", :group => 'Mail', :seq_no => 1)
     ConcertoConfig.make_concerto_config("mailer_from", "concerto@localhost", :value_type => "string", :value_default => "concerto@localhost", :group => 'Mail', :seq_no => 2)
-    ConcertoConfig.make_concerto_config("mailer_host", concerto_hostname, :value_type => "string", :value_default => concerto_hostname, :group => 'Mail', :seq_no => 3)
+    ConcertoConfig.make_concerto_config("mailer_host", concerto_hostname, :value_type => "string", :value_default => concerto_hostname, :group => 'Mail', :seq_no => 3,
+      :description => "This is used to construct links in the email that point back to the concerto application.")
     ConcertoConfig.make_concerto_config("smtp_address", "", :value_type => "string", :group => 'Mail', :seq_no => 4)
     ConcertoConfig.make_concerto_config("smtp_port", "587", :value_type => "integer", :value_default => 587, :group => 'Mail', :seq_no => 5)
     ConcertoConfig.make_concerto_config("smtp_auth_type", "plain", :value_type => "string", :value_default => "plain", :group => 'Mail', :seq_no => 6)
-    ConcertoConfig.make_concerto_config("smtp_username", "", :value_type => "string", :group => 'Mail', :seq_no => 7)
+    ConcertoConfig.make_concerto_config("smtp_username", "", :value_type => "string", :group => 'Mail', :seq_no => 7,
+      :description => "If no SMTP authentication is required, this field should be blank.")
     ConcertoConfig.make_concerto_config("smtp_password", "", :value_type => "string", :group => 'Mail', :seq_no => 8)
-    ConcertoConfig.make_concerto_config("openssl_verify_mode_none", "false", :value_type => "boolean", :value_default => "false", :group => 'Mail', :seq_no => 9)
+    ConcertoConfig.make_concerto_config("openssl_verify_mode_none", "false", :value_type => "boolean", :value_default => "false", :group => 'Mail', :seq_no => 9,
+      :description => "If checked, sets the OpenSSL Verify mode to none which allows SSL encryption to occur even if the host's certificate cannot be verified.  Typically checked if using self-signed certificates on your SMTP server.")
 
     # background processing
     ConcertoConfig.make_concerto_config("worker_heartbeat", "0", :value_type => "integer", :group => 'Processing', :hidden => "true", :can_cache => false)

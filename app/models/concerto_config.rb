@@ -97,7 +97,7 @@ class ConcertoConfig < ActiveRecord::Base
     entry = ConcertoConfig.where(:key => config_key).first_or_create(options)
 
     # resync the following attributes - group and seqno 
-    resync_columns = [:group, :seq_no]
+    resync_columns = [:group, :seq_no, :description]
     options_to_resync = {}
     resync_columns.each do |column_key|
       if ConcertoConfig.columns_hash.has_key?(column_key.to_s)
