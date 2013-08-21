@@ -70,7 +70,6 @@ concerto.frontend.Transition.Slide.prototype.out_ = function() {
  */
 concerto.frontend.Transition.Slide.prototype.in_ = function() {
   this.logger_.info('Field ' + this.field.id + ' is sliding in.');
-console.log(this.field);  
 
   this.next_content_.dispatchEvent(
       concerto.frontend.Content.EventType.START_RENDER);
