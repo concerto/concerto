@@ -44,3 +44,7 @@ en:
         for_the: 'for the'
         feed: 'feed'
 
+    user:
+      create:
+        registered: 'registered'
+        added_a_new_user: 'added as new user'

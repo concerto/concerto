@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
+  #Newsfeed
+  include PublicActivity::Common if defined? PublicActivity::Common
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable,
