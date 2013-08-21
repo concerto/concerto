@@ -1,5 +1,5 @@
 <div class="clearfix duration">
-	<%= form.label :duration do %><%= t(:display_duration) %> <i class="icon-question-sign tooltip-basic" data-tooltip-text="Duration"></i><% end %> 
+	<%= form.label :duration %>
 	<div class="input">
 		<div class="leftseconds"><%= min %>s</div>
 		<%= form.range_field :duration, {:min =>min, :max=>max, :class=>"duration_range"} %>

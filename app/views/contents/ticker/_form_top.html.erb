@@ -9,7 +9,7 @@
         <span id="char_count">0</span> <%= t('.characters') %>
       </div>
       <div class="span6" style="text-align: right;">
-        <span class="tooltip-basic" data-tooltip-text="<%= t('.allowed_html') %>"><i class="icon-question-sign"></i> Some HTML is allowed in this field</span>
+        <%= tooltip_tag(t('.allowed_html'), "Some HTML is allowed in this field ", { :class => "tooltip-basic" }) %>
       </div>
     </div>
   </div>
