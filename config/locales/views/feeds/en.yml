@@ -15,6 +15,11 @@ en:
 
     no_feeds: "There are no feeds in the system that you can submit content to.  Please contact your system administrator for more information."
 
+    browse_body:
+      sign_in: 'Sign In'
+      no_content_heading: "I'm afraid we're not in Kansas anymore."
+      no_content_message: "There doesn't appear to be anything you can view on this Concerto network. You should "
+
     browse_header:
       browse_content: 'Browse Concerto Content'
 
