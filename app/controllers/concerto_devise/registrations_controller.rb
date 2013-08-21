@@ -40,7 +40,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
       if first_user_setup
         group = Group.where(:name => "Concerto Admins").first_or_create
         membership = Membership.create(:user_id => resource.id, :group_id => group.id, :level => Membership::LEVELS[:leader])
-        process_notification(membership, {:user => resource, :group => group}, :action => 'create', :owner => current_user)
+        process_notification(membership, {:user => resource, :group => group, :adder => resource}, :action => 'create', :owner => resource)
       end
 
       if resource.active_for_authentication?
