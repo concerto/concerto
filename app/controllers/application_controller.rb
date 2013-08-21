@@ -171,6 +171,9 @@ class ApplicationController < ActionController::Base
       rescue IOError, Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
         Rails.logger.debug "Mail delivery failed at #{Time.now.to_s} for #{options[:recipient]}: #{e.message}"
         ConcertoConfig.first.create_activity :action => :system_notification, :params => {:message => t(:smtp_send_error)}
+      rescue OpenSSL::SSL::SSLError => e
+        Rails.logger.debug "Mail delivery failed at #{Time.now.to_s} for #{options[:recipient]}: #{e.message} -- might need to disable SSL Verification in settings"
+        ConcertoConfig.first.create_activity :action => :system_notification, :params => {:message => t(:smtp_send_error_ssl)}
       end
     end
   end
