@@ -24,6 +24,7 @@ en:
     network:
       your_network: 'Your Network'
       groups: 'Groups'
+      no_membership: 'You are not yet a member of any group.'
 
     vitals:
       active: 'active'
