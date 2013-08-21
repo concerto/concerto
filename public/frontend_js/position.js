@@ -1,6 +1,7 @@
 goog.provide('concerto.frontend.Position');
 
 goog.require('concerto.frontend.Field');
+goog.require('concerto.frontend.Transition');
 goog.require('concerto.frontend.Transition.Fade');
 goog.require('concerto.frontend.Transition.Slide');
 goog.require('goog.array');
@@ -119,6 +120,9 @@ concerto.frontend.Position.prototype.load = function(data) {
       switch (config.transition.toLowerCase()) {
         case "slide":
           transition = concerto.frontend.Transition.Slide;
+          break;
+        default:
+          transition = concerto.frontend.Transition;
           break;
       }
     }
