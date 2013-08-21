@@ -38,18 +38,18 @@
             <div class="clearfix">
               <% if c.value_type == "string" %>
                 <% input_size = "input-large" %>
-                <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>
+                <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), :tip => c.description %>
                 <div class="input">
                   <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], :class => input_size, :placeholder => c.value_default %>
                 </div>
               <% elsif c.value_type == "integer" %>
                 <% input_size = "input-small" %>
-                <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>
+                <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), :tip => c.description %>
                 <div class="input">
                   <%= number_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], :class => input_size, :placeholder => c.value_default %>
                 </div>
               <% elsif c.value_type == "timezone" %>  
-                <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>  
+                <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), :tip => c.description %>  
                 <div class="input">
                   <%= select_tag "concerto_config[#{c.key}]", time_zone_options_for_select(ConcertoConfig[:system_time_zone], ActiveSupport::TimeZone.us_zones) %>
                 </div>
@@ -61,7 +61,7 @@
                   <% else %>
                       <%= check_box_tag "concerto_config[#{c.key}]", true %>
                   <% end %>
-                  <%= label "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}") %>
+                  <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), :tip => c.description %>
                 </div>
               <% end %>
             </div>
