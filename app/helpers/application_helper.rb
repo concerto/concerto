@@ -26,4 +26,17 @@ module ApplicationHelper
     end
   end
 
+  # render tooltip
+  def tooltip_tag(tip)
+    content_tag(:i, nil, { :class => "icon-question-sign muted tooltip-basic", :data => { :tooltip_text => tip } })
+  end
+
+  # render the label and the toolip beside it (passed in the options as :tip)
+  def label_tooltip(object_name, method, content_or_options = nil, options = nil)
+    return label object_name, method do
+      concat(content_or_options)
+      concat(" ")
+      concat(tooltip_tag (options[:tip])) if !options.nil? && options.has_key?(:tip) && !options[:tip].blank?
+    end
+  end
 end
