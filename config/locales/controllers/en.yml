@@ -1,5 +1,6 @@
 en:
   smtp_send_error: "A SMTP error occurred while sending a notification e-mail. Please check the Concerto SMTP settings."
+  smtp_send_error_ssl: "A SMTP error occurred while sending a notification e-mail. Please check the Concerto SMTP settings-- you might need to disable SSL Verification."
 
   #Contents controller
   content_created: "Content was successfully created."
