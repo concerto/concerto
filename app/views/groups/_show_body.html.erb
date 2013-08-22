@@ -2,7 +2,7 @@
 <div class="row-fluid">
   <div class="span12">
     <div class="default-padding">
-      <h2><%= t('.group_description') %></h2>
+      <h2><%= t('.group_description') if !@group.narrative.blank? %></h2>
       <p><%= @group.narrative.capitalize! %></p>
       <hr />
     </div>
