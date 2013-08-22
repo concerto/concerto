@@ -15,8 +15,8 @@ class ScreensController < ApplicationController
     end
     auth!
 
-    @templates = Template.all
-    auth!(:object => @templates)
+    # The screen index has a sidebar that shows all templates.
+    @templates = Template.where(:is_hidden => false)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -42,7 +42,6 @@ class ScreensController < ApplicationController
   def new
     @screen = Screen.new
     auth!
-    @templates = Template.all
     @users = User.order('last_name ASC').all
     @groups = Group.order('name ASC').all
     respond_to do |format|
@@ -55,7 +54,6 @@ class ScreensController < ApplicationController
   def edit
     @screen = Screen.find(params[:id])
     auth!
-    @template = Template.new
     
     @templates = Template.all
     #@templates_bestfit = Template.find(:all, :conditions => "width / height = #{screen_aspect_ratio}")
@@ -69,7 +67,6 @@ class ScreensController < ApplicationController
   def create
     @screen = Screen.new(screen_params)
     auth!
-    @templates = Template.all
     @users = User.all
     @groups = Group.all
 
@@ -97,7 +94,6 @@ class ScreensController < ApplicationController
   def update
     @screen = Screen.find(params[:id])
     auth!
-    @templates = Template.all
     @users = User.all
     @groups = Group.all
 

@@ -128,7 +128,7 @@
       <div class="input">
 
         <ul class="list-grid inset-selection small">
-          <% @templates.each do |template| %>
+          <% ::Template.where(:is_hidden => false).each do |template| %>
             <li>
 
               <div class="inp">
