@@ -182,7 +182,7 @@ class Ability
     # Regular users can only create pending memberships.
     can :create, Membership, :level => Membership::LEVELS[:pending], :user => user if user.persisted?
     # Users can delete their own memberships.
-    can :destroy, Membership, :user => user
+    can :delete, Membership, :user => user
     # Group members can read all other memberships
     can :read, Membership, :group => {:id => user.group_ids}
 

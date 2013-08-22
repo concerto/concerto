@@ -43,8 +43,21 @@
         <div class="clearfix">
           <%= f.label :owner %>
           <div class="input">
-            <% options = {User.model_name.human.pluralize => @users.map { |u| [u.name, "User-#{u.id}"] },
-                          Group.model_name.human.pluralize => @groups.map { |g| [g.name, "Group-#{g.id}"] }} %>
+            <% if current_user.is_admin?
+                 @users = User.order('last_name ASC')
+                 @groups = Group.order('name ASC')
+               else
+                 @users = [current_user]
+                 @groups = current_user.leading_groups + current_user.supporting_groups(:screen, [:all])
+               end
+               options = {}
+               if !@users.empty?
+                 options[User.model_name.human.pluralize] = @users.map { |u| [u.name, "User-#{u.id}"]}
+               end
+               if !@groups.empty?
+                 options[Group.model_name.human.pluralize] = @groups.map { |g| [g.name, "Group-#{g.id}"] }
+               end
+            %>
             <%= select_tag :owner, grouped_options_for_select(options, "#{@screen.owner_type}-#{@screen.owner_id}") %>
           </div>
         </div>
