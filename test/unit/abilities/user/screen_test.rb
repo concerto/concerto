@@ -17,6 +17,37 @@ class UserScreenAbilityTest < ActiveSupport::TestCase
     assert ability.cannot?(:create, Screen)
   end
 
+  test "Users can sometimes create screen they own" do
+    ConcertoConfig.set(:allow_user_screen_creation, true)
+    ability = Ability.new(users(:katie))
+    screen = Screen.new
+    assert ability.cannot?(:create, screen)
+    screen.owner = users(:katie)
+    assert ability.can?(:create, screen)
+    screen.owner = users(:kristen)
+    assert ability.cannot?(:create, screen)
+  end
+
+  test "Users can sometimes create screens for their groups" do
+    ConcertoConfig.set(:allow_user_screen_creation, true)
+    ability = Ability.new(users(:katie))
+    screen = Screen.new
+    assert ability.cannot?(:create, screen)
+    screen.owner = groups(:wtg)
+    assert ability.can?(:create, screen)
+    ability = Ability.new(users(:kristen))
+    assert ability.cannot?(:create, screen)
+
+    membership = memberships(:karen_wtg)
+    membership.perms[:screen] = :all
+    membership.save
+    ability = Ability.new(users(:karen))
+    assert ability.can?(:create, screen)
+    membership.perms[:screen] = :subscriptions
+    membership.save
+    assert ability.cannot?(:create, screen)
+  end
+
   test "Anyone can read public screens" do
     ability = Ability.new(User.new)
     assert ability.can?(:read, @sgs)

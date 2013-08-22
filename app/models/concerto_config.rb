@@ -35,6 +35,9 @@ class ConcertoConfig < ActiveRecord::Base
       setting = ConcertoConfig.new(:key => key)
       setting.save
     end
+    if setting.value_type == "boolean" and value
+      value == "true"
+    end
     setting.update_column(:value, value)
     ConcertoConfig.cache_expire if setting.can_cache?
   end  
@@ -57,7 +60,7 @@ class ConcertoConfig < ActiveRecord::Base
         raise "Concerto Config key #{key} not found!"
       end    
     if setting.value_type == "boolean"
-      setting.value == "true" ? (return true) : (return false)
+      ["true", "t"].include?(setting.value) ? (return true) : (return false)
     end
 
     # Rebuild the cache if there was a cache miss.
