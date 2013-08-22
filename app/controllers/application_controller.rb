@@ -240,7 +240,7 @@ class ApplicationController < ActionController::Base
       'edit' => :update,
       'create' => :create,
       'update' => :update,
-      'destroy' => :destroy,
+      'destroy' => :delete,
     }
 
     test_action = (opts[:action] || action_map[action_name])
