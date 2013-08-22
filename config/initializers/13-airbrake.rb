@@ -15,7 +15,7 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
           return nil
         end
       end
-      config.async = (RUBY_VERSION.to_f > 1.8)
+      #config.async = (RUBY_VERSION.to_f > 1.8)
       config.user_attributes = []
       config.secure = true
 
