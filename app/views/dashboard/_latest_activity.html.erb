@@ -3,6 +3,7 @@
     <h1 class="default-padding"><%= t('.latest_activity') %></h1>
   </header>
   <div class="viewblock-cont">
-    <%= render :partial => 'activities/show', :locals => {:activities => activities} %>
+    <%= render :partial => 'dashboard/activities', :locals => {:activities => activities} %>
+    <%= link_to "More", :controller => :dashboard, :action => :list_activities %>
   </div>
 </section>
