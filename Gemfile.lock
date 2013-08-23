@@ -23,6 +23,8 @@ GEM
       activesupport (= 3.2.14)
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
+    activerecord-postgresql-adapter (0.0.1)
+      pg
     activeresource (3.2.14)
       activemodel (= 3.2.14)
       activesupport (= 3.2.14)
@@ -125,6 +127,7 @@ GEM
     multipart-post (1.2.0)
     mysql2 (0.3.13)
     orm_adapter (0.4.0)
+    pg (0.16.0)
     polyglot (0.3.3)
     public_activity (1.4.0)
       actionpack (>= 3.0.0)
@@ -211,6 +214,7 @@ PLATFORMS
 
 DEPENDENCIES
   RedCloth
+  activerecord-postgresql-adapter
   airbrake
   attachable (>= 0.0.5)
   bootstrap-datepicker-rails

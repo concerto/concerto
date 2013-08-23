@@ -40,6 +40,7 @@ gem 'twitter-bootstrap-rails-confirm'
 # run `bundle install --without production` to ignore MySQL.
 gem "sqlite3", :group => [:development, :test]
 gem "mysql2", :group => [:production]
+gem "activerecord-postgresql-adapter"
 
 #RMagick is used for image resizing and processing
 gem "rmagick", ">= 2.12.2", :require => 'RMagick', :platforms => :ruby
