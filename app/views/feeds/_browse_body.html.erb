@@ -25,8 +25,8 @@
 <% if viewable == 0 %>
   <div class="default-padding">
     <div class="alert alert-block alert-zero">
-      <p class="alert-heading">I'm afraid we're not in Kansas anymore.</p>
-      There doesn't appear to be anything you can view on this Concerto network. You should <%= link_to t('.sign_in'), main_app.new_user_session_path %><% if can? :create, User %> or <%= link_to t('.sign_up'), main_app.new_user_registration_path %> and submit some content!<% end %>
+      <p class="alert-heading"><%=t('.no_content_heading')%></p>
+      <%= t('.no_content_message')%> <%= link_to t('.sign_in'), main_app.new_user_session_path %><% if can? :create, User %> or <%= link_to t('.sign_up'), main_app.new_user_registration_path %> and submit some content!<% end %>
     </div>
   </div>
 <% end %>

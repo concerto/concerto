@@ -1,8 +1,15 @@
+
 <section class="viewblock">
   <header class="viewblock-header">
+    <div class="viewblock-header_right">
+      <div class="button-padding">
+        <%= link_to "More", {:controller => :dashboard, :action => :list_activities}, :class => 'btn' %>
+      </div>
+    </div>
     <h1 class="default-padding"><%= t('.latest_activity') %></h1>
   </header>
   <div class="viewblock-cont">
-    <%= render :partial => 'activities/show', :locals => {:activities => activities} %>
+    <%= render :partial => 'dashboard/activities', :locals => {:activities => activities} %>
+    
   </div>
 </section>

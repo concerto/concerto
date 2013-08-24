@@ -17,6 +17,7 @@ en:
         mailer_host: "Concerto Server Name (FQDN)"
         mailer_protocol: "Mailer Protocol"
         min_content_duration: 'Minimum Content Duration (in seconds)'
+        openssl_verify_mode_none: 'No SMTP SSL Certificate Verification'
         public_concerto: "Public Concerto access"
         send_errors: "Notify Developers of Errors"
         setup_complete: "Concerto setup complete"

@@ -100,7 +100,11 @@ class Ability
     ## Screens
     # Authenticated users can create screens
     if ConcertoConfig[:allow_user_screen_creation]
-      can :create, Screen if user.persisted?
+      can :create, Screen, :owner_type => 'User', :owner_id => user.id
+      can :create, Screen do |screen|
+        screen.owner.is_a?(Group) && (screen.owner.leaders.include?(user) ||
+          screen.owner.user_has_permissions?(user, :regular, :screen, [:all]))
+      end
     end
     # Anyone can read public screens
     can :read, Screen, :is_public => true if (user.persisted? || ConcertoConfig[:public_concerto])
@@ -176,9 +180,9 @@ class Ability
       membership.group.leaders.include?(user)
     end
     # Regular users can only create pending memberships.
-    can :create, Membership, :level => Membership::LEVELS[:pending] if user.persisted?
+    can :create, Membership, :level => Membership::LEVELS[:pending], :user => user if user.persisted?
     # Users can delete their own memberships.
-    can :destroy, Membership, :user => user
+    can :delete, Membership, :user => user
     # Group members can read all other memberships
     can :read, Membership, :group => {:id => user.group_ids}
 

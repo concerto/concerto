@@ -1,13 +1,10 @@
-<%= render :partial => 'dashboard/admin_stats' %>
-
 <section class="viewblock">
   <header class="viewblock-header">
     <h1 class="default-padding">
       <%= t :new_model, :model => ConcertoPlugin.model_name.human %>
     </h1>
   </header>
-  <div class="viewblock-cont" style="min-height: 600px;">
-    <%= render :partial => 'plugins_navigation' %>
+  <div class="viewblock-cont">
     <%= form_for(@concerto_plugin) do |f| %>
       <% if @concerto_plugin.errors.any? %>
         <div class="alert alert-banner alert-error">

@@ -28,6 +28,7 @@ en:
       feed_permission:
         name: 'Feed Permission'
         tooltip: 'What you can change about the feeds owned by this group. You can change nothing, just moderate submissions, or everything (edit feed, moderate submissions).'
+      group_description: 'Group Description'
       group_leaders: 'Group Leaders'
       group_has_no_leaders: 'This group currently has no leaders.  You should promote a regular member in the table above.'
       no_pending_approvals: 'No Pending Approvals!'

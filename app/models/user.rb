@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
+  #Newsfeed
+  include PublicActivity::Common if defined? PublicActivity::Common
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable,
@@ -11,6 +13,7 @@ class User < ActiveRecord::Base
   devise *modules
          
   before_destroy :check_for_last_admin
+  before_create :auto_confirm
 
   has_many :contents
   has_many :submissions, :foreign_key => "moderator_id"
@@ -25,6 +28,12 @@ class User < ActiveRecord::Base
   validates :first_name, :presence => true
   
   scope :admin, -> { where :is_admin => true }
+
+  def auto_confirm
+    # set as confirmed if we are not confirming user accounts so that if that is ever turned on,
+    # this new user will not be locked out
+    self.confirmed_at = Date.new(1824, 11, 5) if !ConcertoConfig[:confirmable]
+  end
 
   def check_for_last_admin
     if User.admin.count == 1 && self.is_admin?

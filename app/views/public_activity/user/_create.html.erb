@@ -1,0 +1,13 @@
+<% if activity.owner_type == 'User' %>
+  <% owner = User.find(activity.owner) %>
+  <%= link_to owner.name, owner %> <%= t('.added_a_new_user') %> 
+  <% if activity.trackable %>
+    <%= link_to activity.trackable.name, activity.trackable %>
+  <% else %>
+    <%= t('public_activity.which_has_since_been_removed') %>
+  <% end %>
+<% else %>
+  <% if activity.trackable %>
+    <%= link_to activity.trackable.name, activity.trackable %> <%=t('.registered')%> 
+  <% end %>
+<% end %>

@@ -35,6 +35,9 @@ class ConcertoConfig < ActiveRecord::Base
       setting = ConcertoConfig.new(:key => key)
       setting.save
     end
+    if setting.value_type == "boolean" and value
+      value == "true"
+    end
     setting.update_column(:value, value)
     ConcertoConfig.cache_expire if setting.can_cache?
   end  
@@ -57,7 +60,7 @@ class ConcertoConfig < ActiveRecord::Base
         raise "Concerto Config key #{key} not found!"
       end    
     if setting.value_type == "boolean"
-      setting.value == "true" ? (return true) : (return false)
+      ["true", "t"].include?(setting.value) ? (return true) : (return false)
     end
 
     # Rebuild the cache if there was a cache miss.
@@ -86,14 +89,28 @@ class ConcertoConfig < ActiveRecord::Base
     
     CONFIG_ITEMS.push(config_key)
     
+    # push the key and value into the options set so we can pass them implicitly to the first_or_create
+    options[:key] = config_key
+    options[:value] = config_value
+
+    # if the model does not yet support the option (column) then remove it from the set
+    options = options.delete_if { |k, v| !ConcertoConfig.columns_hash.has_key?(k.to_s) }
+
     # first_or_create: check whether first returns nil or not; if it does return nil, create is called
-    entry = ConcertoConfig.where(:key => config_key).first_or_create(:key => config_key, :value => config_value,
-      :value_default => options[:value_default], :value_type => options[:value_type], :name => options[:name], :group => options[:group],
-      :description => options[:description], :plugin_config => options[:plugin_config], :plugin_id => options[:plugin_id], 
-      :hidden => options[:hidden], :can_cache => options[:can_cache], :seq_no => options[:seq_no])
-    # resync the group and seqno if needed
-    if entry.group != options[:group] || entry.seq_no.nil? || entry.seq_no != options[:seq_no]
-      entry.update_attributes({ :group => options[:group], :seq_no => options[:seq_no] })
+    entry = ConcertoConfig.where(:key => config_key).first_or_create(options)
+
+    # resync the following attributes - group and seqno 
+    resync_columns = [:group, :seq_no, :description]
+    options_to_resync = {}
+    resync_columns.each do |column_key|
+      if ConcertoConfig.columns_hash.has_key?(column_key.to_s)
+        if (entry[column_key].nil?) || (entry[column_key] != options[column_key])
+          options_to_resync[column_key] = options[column_key]
+        end
+      end
+    end
+    if !options_to_resync.empty?
+      entry.update_attributes(options_to_resync)
     end
   end  
 

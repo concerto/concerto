@@ -1,5 +1,6 @@
 en:
   smtp_send_error: "A SMTP error occurred while sending a notification e-mail. Please check the Concerto SMTP settings."
+  smtp_send_error_ssl: "A SMTP error occurred while sending a notification e-mail. Please check the Concerto SMTP settings-- you might need to disable SSL Verification."
 
   #Contents controller
   content_created: "Content was successfully created."
@@ -67,7 +68,7 @@ en:
   user_owns_screens: "This user cannot be deleted because they own one or more screens."
   
   #Dashboard controller
-  settings_saved: "Concerto settings saved."
+  settings_saved: "Concerto settings saved.  Some changes may not become effective until the webserver is restarted."
 
   #Concerto plugins
   plugin_created: "Concerto plugin was successfully created."

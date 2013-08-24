@@ -86,7 +86,7 @@ class Graphic < Content
 
   # Generate the path to the iamge to be displayed.
   def render_details
-    {:path => url_helpers.frontend_screen_field_content_path(self.screen, self.field, self)}
+    {:path => "#{Rails.application.config.relative_url_root}#{url_helpers.frontend_screen_field_content_path(self.screen, self.field, self)}"}
   end
 
   # Graphics also accept media attributes for the uploaded file.

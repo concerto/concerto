@@ -2,8 +2,11 @@
 <div class="row-fluid">
   <div class="span12">
     <div class="default-padding">
-      <h1 style="text-align: center"><%= @group.narrative.capitalize! %></h1>
-      <hr />
+      <h2><%= t('.group_description') %></h2>
+      <% paragraphs = @group.narrative.split("\n") %>
+      <% paragraphs.each do |p| %>
+      <p><%= p %></p>
+      <% end %>
     </div>
   </div>
 </div>
@@ -157,7 +160,7 @@
     <% end %>
     <br />
 
-    <% can_join = can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending])
+    <% can_join = can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending], :user => current_user)
          already_member = @group.made_request?(current_user) %>
       <% if can_join || already_member %>
         <div class="subblock bordered">
@@ -170,9 +173,7 @@
               <% end %>
             <% elsif can_join %>
               <p><b><%= t('.not_in_group') %></b></p>
-              <% if can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>
-                <%= link_to( t('.join_group'), group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
-              <% end %>
+              <%= link_to( t('.join_group'), group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn") %>
             <% end %>
           </div>
         </div>

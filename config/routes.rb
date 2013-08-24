@@ -12,7 +12,9 @@ Concerto::Application.routes.draw do
 
   root :to => 'feeds#index'
 
-  resource :dashboard, :controller => :dashboard, :only => [:show]
+  resource :dashboard, :controller => :dashboard, :only => [:show] do
+    get :list_activities
+  end
 
   resources :concerto_plugins
   post 'concerto_plugins/restart_for_plugin' => 'concerto_plugins#restart_for_plugin'

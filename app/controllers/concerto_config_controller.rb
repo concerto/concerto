@@ -12,11 +12,14 @@ class ConcertoConfigController < ApplicationController
     authorize! :update, @concerto_config
     params[:concerto_config].each  do |k,v|
       config = ConcertoConfig.where(:key => k).first
-      if config.nil?
-        config = ConcertoConfig.new(:key => k, :value => v)
-        config.save
-      else
-        config.update_column(:value, v)
+      # since all they can change is the value, only create/update if it changed
+      if config.nil? || config.value != v
+        if config.nil?
+          config = ConcertoConfig.new(:key => k, :value => v)
+          config.save
+        else
+          config.update_column(:value, v)
+        end
       end
     end
 

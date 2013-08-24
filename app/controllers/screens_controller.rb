@@ -15,8 +15,8 @@ class ScreensController < ApplicationController
     end
     auth!
 
-    @templates = Template.all
-    auth!(:object => @templates)
+    # The screen index has a sidebar that shows all templates.
+    @templates = Template.where(:is_hidden => false)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -40,11 +40,8 @@ class ScreensController < ApplicationController
   # GET /screens/new
   # GET /screens/new.xml
   def new
-    @screen = Screen.new
+    @screen = Screen.new(:owner => current_user)
     auth!
-    @templates = Template.all
-    @users = User.order('last_name ASC').all
-    @groups = Group.order('name ASC').all
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @screen }
@@ -55,30 +52,19 @@ class ScreensController < ApplicationController
   def edit
     @screen = Screen.find(params[:id])
     auth!
-    @template = Template.new
-    
-    @templates = Template.all
-    #@templates_bestfit = Template.find(:all, :conditions => "width / height = #{screen_aspect_ratio}")
-    #@templates_other = Template.find(:all, :conditions => "width / height != #{screen.aspect_ratio}")
-    @users = User.all
-    @groups = Group.all
   end
 
   # POST /screens
   # POST /screens.xml
   def create
     @screen = Screen.new(screen_params)
-    auth!
-    @templates = Template.all
-    @users = User.all
-    @groups = Group.all
-
     # Process the owner into something that makes sense
     owner = params[:owner].split('-')
     if Screen::SCREEN_OWNER_TYPES.include?(owner[0])
       @screen.owner_type = owner[0]
       @screen.owner_id = owner[1]
     end
+    auth!
     
     respond_to do |format|
       if @screen.save
@@ -96,17 +82,13 @@ class ScreensController < ApplicationController
   # PUT /screens/1.xml
   def update
     @screen = Screen.find(params[:id])
-    auth!
-    @templates = Template.all
-    @users = User.all
-    @groups = Group.all
-
     # Process the owner into something that makes sense
     owner = params[:owner].split('-')
     if Screen::SCREEN_OWNER_TYPES.include?(owner[0])
-      @screen.owner_type = owner[0]   
-      @screen.owner_id = owner[1] 
+      @screen.owner_type = owner[0]
+      @screen.owner_id = owner[1]
     end
+    auth!
 
     respond_to do |format|
       if @screen.update_attributes(screen_params)

@@ -13,6 +13,8 @@
                 <li><%= link_to group.name, group %></li>
               <% end %>
             </ul>
+          <% else %>
+            <p><%= t('.no_membership') %></p>
           <% end %>
         </div>
       </div>

@@ -29,6 +29,8 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
     end
 
     if resource.save
+      process_notification(resource, {}, :action => 'create', :owner => current_user)
+
       if ConcertoConfig["setup_complete"] == false
         ConcertoConfig.set("setup_complete", "true")
         # send_errors option is displayed in the form for first setup only
@@ -37,7 +39,8 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
 
       if first_user_setup
         group = Group.where(:name => "Concerto Admins").first_or_create
-        Membership.create(:user_id => resource.id, :group_id => group.id, :level => Membership::LEVELS[:leader])
+        membership = Membership.create(:user_id => resource.id, :group_id => group.id, :level => Membership::LEVELS[:leader])
+        process_notification(membership, {:user => resource, :group => group, :adder => resource}, :action => 'create', :owner => resource)
       end
 
       if resource.active_for_authentication?

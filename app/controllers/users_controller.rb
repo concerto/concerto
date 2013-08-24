@@ -45,6 +45,8 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+        process_notification(@user, {}, :action => 'create', :owner => current_user)
+
         format.html { redirect_to(@user, :notice => 'User was successfully created.') }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else
@@ -96,7 +98,7 @@ private
 
   # Restrict the allowed parameters to a select set defined in the model.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :receive_moderation_notifications)
   end
   
 end

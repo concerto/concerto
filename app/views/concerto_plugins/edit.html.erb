@@ -1,13 +1,10 @@
 <section class="viewblock">
   <header class="viewblock-header">
     <h1 class="default-padding">
-      <%= t :manage_model, :model => ConcertoPlugin.model_name.human.pluralize %>
+      <%= link_to t(:manage_model, :model => ConcertoPlugin.model_name.human.pluralize), concerto_plugins_path %> > <%= @concerto_plugin.name.titleize %>
     </h1>
   </header>
-  <div class="viewblock-cont" style="min-height: 600px;">
-
-    <%= link_to t(:manage_model, :model => ConcertoPlugin.model_name.human.pluralize), concerto_plugins_path %> > <%= link_to @concerto_plugin.name, @concerto_plugin %> > <%= t(:edit) %>
-    
+  <div class="viewblock-cont">
     <%= form_for(@concerto_plugin) do |f| %>
 
       <% if @concerto_plugin.errors.any? %>

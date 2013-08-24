@@ -7,6 +7,14 @@ class ConcertoConfigTest < ActiveSupport::TestCase
     assert_equal "graphic", ConcertoConfig.get("default_upload_type")
   end
 
+  test "Booleans work as expected" do
+    ConcertoConfig.set(:allow_user_screen_creation, true)
+    assert ConcertoConfig[:allow_user_screen_creation]
+
+    ConcertoConfig.set(:allow_user_screen_creation, false)
+    assert !ConcertoConfig[:allow_user_screen_creation]
+  end
+
   #Test that we can create config entries.
   test "Make ConcertoConfig" do
     ConcertoConfig.make_concerto_config("foo123", "bar")

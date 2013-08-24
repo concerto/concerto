@@ -8,7 +8,7 @@ class MembershipsControllerTest < ActionController::TestCase
   end
 
   test "should create pending membership" do
-    sign_in users(:katie)
+    sign_in users(:kristen)
     assert_difference('Membership.count', 1) do
       post :create, {:membership => {:user_id => users(:kristen).id}, :group_id => groups(:rpitv).id}
     end

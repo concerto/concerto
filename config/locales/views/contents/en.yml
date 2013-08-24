@@ -6,7 +6,7 @@ en:
     attributes:
       content:
         name: 'Name'
-        duration: 'Duration'
+        duration: 'Display Duration'
         start_time: 'Start Time'
         end_time: 'End Time'
 

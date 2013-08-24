@@ -4,15 +4,6 @@ en:
 
     browse: 
       submissions_to_moderate: { one: "You have %{count} submission to moderate", other: "You have %{count} submissions to moderate" }
-    vitals:
-      active: 'active'
-      offline: 'offline'
-      screen: 'screen'
-      template: 'template'
-      user: 'user'
-      plugin: 'plugin'
-      group: 'group'
-      active_content: 'active contents'
 
     admin_stats:
       system_info: "System Information"
@@ -26,3 +17,22 @@ en:
       start_stop: "How to Start/Stop"
       stopped: "Stopped"
       user_stats: "User Stats:"
+
+    latest_activity:
+      latest_activity: 'Latest Activity'
+
+    network:
+      your_network: 'Your Network'
+      groups: 'Groups'
+      no_membership: 'You are not yet a member of any group.'
+
+    vitals:
+      active: 'active'
+      active_content: 'active contents'
+      group: 'group'
+      network_vitals: 'Network Vitals'
+      offline: 'offline'
+      plugin: 'plugin'
+      screen: 'screen'
+      template: 'template'
+      user: 'user'

@@ -1,6 +1,6 @@
 <div id="content_holder clearfix">
 
-  <% if @templates.size == 0 %>
+  <% if @templates.empty? %>
   <div class="default-padding">
     <h3><%= t('.no_templates_html', :href => link_to(t('.add_one'), new_template_path)) %></h3>
   </div>
