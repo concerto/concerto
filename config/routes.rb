@@ -6,6 +6,8 @@ class LegacyRouteMatcher
 end
 
 Concerto::Application.routes.draw do
+  get "errors/error_404"
+
   v1_router = LegacyRouteMatcher.new
   match '/' => 'frontend/screens#index', :constraints => v1_router
   match '/screen' => 'frontend/screens#index', :constraints => v1_router, :as => 'legacy_frontend'
@@ -120,6 +122,10 @@ Concerto::Application.routes.draw do
   # here at the bottom to avoid capturing any of the restful content paths.
   match 'content/' => 'feeds#index'
   match 'browse/' => 'feeds#index'
+
+  unless Rails.application.config.consider_all_requests_local
+    match '*not_found', to: 'errors#error_404'
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
