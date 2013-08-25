@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130817223432) do
+ActiveRecord::Schema.define(:version => 20130823053346) do
 
   create_table "activities", :force => true do |t|
     t.integer  "trackable_id"
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(:version => 20130817223432) do
     t.string  "value_type"
     t.string  "value_default"
     t.string  "name"
-    t.string  "group"
+    t.string  "category"
     t.text    "description"
     t.boolean "plugin_config"
     t.integer "plugin_id"
