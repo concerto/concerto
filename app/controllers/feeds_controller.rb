@@ -5,9 +5,7 @@ class FeedsController < ApplicationController
   # GET /feeds.xml
   # GET /feeds.js
   def index
-    if !ConcertoConfig[:public_concerto]
-      redirect_to(new_user_session_path)
-    end
+    redirect_to(new_user_session_path) unless ConcertoConfig[:public_concerto]
     @feeds = Feed.roots
     auth!
     respond_to do |format|
@@ -78,7 +76,7 @@ class FeedsController < ApplicationController
     respond_to do |format|
       if @feed.save
         process_notification(@feed, {:public_owner => current_user.id}, :action => 'create')
-        format.html { redirect_to(:action => :index, :notice => t(:feed_created)) }
+        format.html { redirect_to(feeds_path, :notice => t(:feed_created)) }
         format.xml  { render :xml => @feed, :status => :created, :location => @feed }
       else
         format.html { render :action => "new" }
@@ -95,7 +93,7 @@ class FeedsController < ApplicationController
 
     respond_to do |format|
       if @feed.update_attributes(feed_params)
-        format.html { redirect_to(@feed, :notice => t(:feed_updated)) }
+        format.html { redirect_to(feed_submissions_path(@feed), :notice => t(:feed_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

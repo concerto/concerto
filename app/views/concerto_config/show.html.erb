@@ -26,12 +26,12 @@
       <fieldset class="global-prefs">
         
         <div class="tab-content">
-          <% last_group, i = "", 0 %>
+          <% last_category, i = "", 0 %>
           <% for c in @concerto_configs %>
-            <% if c.group != last_group %>
+            <% if c.category != last_category %>
               <%= "</div>".html_safe if i > 0 %>
               <div class="tab-pane <%= 'active' if i == 0 %>" id="tab<%= c.id %>">
-                <% last_group = c.group %>
+                <% last_category = c.category %>
             <% end %>
             <% i += 1 %>
 
