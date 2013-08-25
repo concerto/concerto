@@ -6,7 +6,6 @@
   <header class="viewblock-header">
     <div class="viewblock-header_right">
       <div class="button-padding">
-        <%= link_to t('.backup'), run_backup_tools_path, :class => "btn" %>
         <%= link_to t('.restart_webserver'), { :controller => :concerto_plugins, :action => "restart_for_plugin" }, :method => :post, :confirm => t('.restart_confirm'), :class => "btn" %>
       </div>
     </div>
