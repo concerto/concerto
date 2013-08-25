@@ -74,16 +74,16 @@ class ConcertoConfig < ActiveRecord::Base
   end
   
   # Creates a Concerto Config entry by taking the key and value desired
-  # Also takes the following options: value_type, value_default, name, group, seq_no, description, plugin_config, and plugin_id
+  # Also takes the following options: value_type, value_default, name, category, seq_no, description, plugin_config, and plugin_id
   # If they're not specified, the type is assumed to be string and the default value the key that is set
-  # and seq_no to 99, and group to 'Miscellaneous'
+  # and seq_no to 99, and category to 'Miscellaneous'
   def self.make_concerto_config(config_key,config_value, options={})
     defaults = {
       :value_type => "string",
       :value_default => config_value,
       :can_cache => true,
       :seq_no => 99,
-      :group => 'Miscellaneous'
+      :category => 'Miscellaneous'
     }
     options = defaults.merge(options)
     
@@ -99,8 +99,8 @@ class ConcertoConfig < ActiveRecord::Base
     # first_or_create: check whether first returns nil or not; if it does return nil, create is called
     entry = ConcertoConfig.where(:key => config_key).first_or_create(options)
 
-    # resync the following attributes - group and seqno 
-    resync_columns = [:group, :seq_no, :description]
+    # resync the following attributes - category and seqno 
+    resync_columns = [:category, :seq_no, :description]
     options_to_resync = {}
     resync_columns.each do |column_key|
       if ConcertoConfig.columns_hash.has_key?(column_key.to_s)
