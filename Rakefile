@@ -4,6 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-require 'rails-backup-migrate'
-
 Concerto::Application.load_tasks
