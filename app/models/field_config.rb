@@ -1,9 +1,6 @@
 #Key-value store for field-specific configurations
 class FieldConfig < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
-
-  VALUE_TYPES = %w"string boolean number"
-
   belongs_to :field
   belongs_to :screen
 
@@ -30,24 +27,13 @@ class FieldConfig < ActiveRecord::Base
       if setting.nil?
         raise "Field config key #{key} not found!"
       end    
-    if setting.value_type == "boolean"
-      setting.value == "true" ? (return true) : (return false)
-    end
     return setting.value
   end
   
   # Creates a Field Config entry by taking the key and value desired
-  # Also takes the options value_type and value_default
-  # If they're not specified, the type is assumed to be string and the default value the key that is set
-  def self.make_field_config(field_id, config_key,config_value, options={})
-    defaults = {
-      :value_type => "string",
-      :value_default => config_value
-    }
-    options = defaults.merge(options)
+  def self.make_field_config(field_id, config_key,config_value)
     # first_or_create: check whether first returns nil or not; if it does return nil, create is called
-    FieldConfig.where(:key => config_key).first_or_create(:field_id => field_id, :key => config_key, :value => config_value,
-      :value_default => options[:value_default], :value_type => options[:value_type])
+    FieldConfig.where(:key => config_key).first_or_create(:field_id => field_id, :key => config_key, :value => config_value)
   end  
     
 end
