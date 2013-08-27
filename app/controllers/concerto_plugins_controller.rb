@@ -129,8 +129,4 @@ private
   def concerto_plugin_params
     params.require(:concerto_plugin).permit(:source, :gem_name, :source_url, :enabled, :gem_version)
   end
-
-  def get_latest_version
-    @latest_version = VersionCheck.latest_version()
-  end
 end

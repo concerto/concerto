@@ -68,6 +68,49 @@
   </fieldset>
 
   <fieldset>
+    <legend><span><%= t('.select_template') %></span></legend>
+
+    <div class="clearfix">
+
+      <div class="input">
+        <%= link_to t(:add_model, :model => ::Template.model_name.human), new_template_path, :class => "btn", :target => "_blank" %>
+      </div>
+    </div>
+
+    <div id="template_selection" class="clearfix">
+      <label><%= t('.best_fit_templates') %></label>
+
+      <div class="input">
+
+        <ul class="list-grid inset-selection small">
+          <% ::Template.where(:is_hidden => false).each do |template| %>
+            <li>
+
+              <div class="inp">
+                <%= f.radio_button :template_id, template.id %>
+              </div>
+
+              <%= image_tag preview_template_path(template, :height => 60, :format => :png), :style => "margin: 0px;" %>
+
+              <div id="preview_<%= template.id %>" class="dd" style="display:none;">
+                <%= image_tag preview_template_path(template, :width => 540, :height => 310, :aspect_ratio => true, :format => :png), :style => "margin: 0px;", :class => "default-padding" %>
+              </div>
+
+              <div class="cont">
+                <p><b><%= template.name %></b></p>
+
+                <p>by <%= template.author %></p>
+              </div>
+
+            </li>
+          <% end %>
+        </ul>
+
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
     <legend><span><%= t('.connection_details') %></span></legend>
     <div class="clearfix">
       <label><%= t('.authentication') %></label>
@@ -117,53 +160,10 @@
       </div>
     </div>
 
-    <div class="clearfix" id="screen_new_temp_token_container">
+    <div class="clearfix sub-fields" id="screen_new_temp_token_container">
       <%= f.label :new_temp_token %>
       <div class="input">
         <%= f.text_field :new_temp_token, :class => "input-xlarge" %>
-      </div>
-    </div>
-  </fieldset>
-
-  <fieldset>
-    <legend><span><%= t('.select_template') %></span></legend>
-
-    <div class="clearfix">
-
-      <div class="input">
-        <%= link_to t(:add_model, :model => ::Template.model_name.human), new_template_path, :class => "btn", :target => "_blank" %>
-      </div>
-    </div>
-
-    <div id="template_selection" class="clearfix">
-      <label><%= t('.best_fit_templates') %></label>
-
-      <div class="input">
-
-        <ul class="list-grid inset-selection small">
-          <% ::Template.where(:is_hidden => false).each do |template| %>
-            <li>
-
-              <div class="inp">
-                <%= f.radio_button :template_id, template.id %>
-              </div>
-
-              <%= image_tag preview_template_path(template, :height => 60, :format => :png), :style => "margin: 0px;" %>
-
-              <div id="preview_<%= template.id %>" class="dd" style="display:none;">
-                <%= image_tag preview_template_path(template, :width => 540, :height => 310, :aspect_ratio => true, :format => :png), :style => "margin: 0px;", :class => "default-padding" %>
-              </div>
-
-              <div class="cont">
-                <p><b><%= template.name %></b></p>
-
-                <p>by <%= template.author %></p>
-              </div>
-
-            </li>
-          <% end %>
-        </ul>
-
       </div>
     </div>
   </fieldset>

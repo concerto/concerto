@@ -28,11 +28,11 @@ en:
       authentication: 'Authentication'
       connection_details: 'Connection Details'
       auth_action: 'Authentication Action'
-      no_auth: 'No authentication (unsecured)'
-      new_token: 'New token for a secure setup'
-      private_token: 'Secured by existing private token'
-      new_token_override: 'Secure with a new token (removing the existing authentication)'
-      existing_mac: 'Existing legacy MAC Address'
+      no_auth: 'None (Unsecured)'
+      new_token: 'Secure with a new token'
+      private_token: 'Secured by an existing private token'
+      new_token_override: 'Remove existing authentication and secure with a new token'
+      existing_mac: 'Use existing legacy MAC address'
     thumbs:
       owner: 'owner'
 

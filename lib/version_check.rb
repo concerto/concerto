@@ -44,7 +44,7 @@ private  # This doesn't actually work, we have to use private_class_method for c
     require 'open-uri'
     version = nil
     begin
-      file = open(VersionCheck::REMOTE_URL)
+      file = open(VersionCheck::REMOTE_URL, { :read_timeout => 3 })
       version = file.read.chomp!
     rescue => e
       Rails.logger.error("Could not determine version number at remote location #{e.message}")
@@ -66,6 +66,8 @@ private  # This doesn't actually work, we have to use private_class_method for c
         http.verify_mode = OpenSSL::SSL::VERIFY_PEER
         http.ca_file = Rails.root.join('config', 'cacert.pem').to_s
       end
+      http.open_timeout = 3
+      http.read_timeout = 3
       http.start {
         http.request_get(uri.path) do |res|
           versions = []
