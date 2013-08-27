@@ -85,7 +85,7 @@ private  # This doesn't actually work, we have to use private_class_method for c
         end
       }
     rescue => e # if for any reason we cannot determine the version then return an error condition
-      logger.error("Could not determine version number at github location #{e.message}")
+      Rails.logger.error("Could not determine version number at github location #{e.message}")
       return nil
     end
   end
