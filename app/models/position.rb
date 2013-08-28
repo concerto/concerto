@@ -75,7 +75,7 @@ class Position < ActiveRecord::Base
 
   # Remove any traces of important! from the styles. It breaks the frontend.
   def clean_styles
-    self.style.gsub!('!important', '')
+    self.style.gsub!('!important', '') if !self.style.nil?
   end
 
 end
