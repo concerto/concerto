@@ -29,7 +29,13 @@ concerto.frontend.Field = function(position, id, name, content_path,
                                    opt_transition, config) {
   goog.events.EventTarget.call(this);
 
-  this.logger_.info('Field ' + id + ' has ' + (goog.isDefAndNotNull(config) ? 'some' : 'no') + ' config items');
+  if(goog.isDefAndNotNull(config)) {
+    for (var prop in config) {
+      if (config.hasOwnProperty(prop)) {
+        this.logger_.info('Field ' + id + ' has configuration ' + prop + ': ' + config[prop]);
+      }
+    }
+  }
 
   /**
    * Position showing this field.
@@ -171,7 +177,7 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
       'name': 'System Time',
       'type': 'ClientTime',
       'render_details': {'data': null},
-      'field': {'size': this.position.getSize()}
+      'field': {'size': this.position.getSize(), 'config' : this.config_}
     };
     var clock = new concerto.frontend.ContentTypeRegistry['ClientTime'](options);
     this.next_contents_.enqueue(clock);
@@ -193,7 +199,7 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
 
         if (!xhr.isSuccess()) {
           // Error fetching content.
-          this.logger_.warning('Unable to fetch content for field ' + this.id + '. ' +
+          this.logger_.warning('Field ' + this.id + ' was unable to fetch content. ' +
               xhr.getLastError());
           return setTimeout(
               goog.bind(function() {this.nextContent(true)}, this), 10);
@@ -202,7 +208,7 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
 
         if (!contents_data.length) {
           // No content for this field.
-          this.logger_.info('No content to display here.');
+          this.logger_.info('Field ' + this.id + ' received empty content.');
           return setTimeout(
               goog.bind(function() {this.nextContent(true)}, this), 10);
         }
@@ -211,12 +217,15 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
           // Slip in some data about the field.  Content might want to know the
           // current size of the position it is being rendered in.
           content_data.field = {
-            'size': this.position.getSize()
+            'size': this.position.getSize(),
+            'config': this.config_
           };
           if (content_data['type'] in concerto.frontend.ContentTypeRegistry) {
             var content = new concerto.frontend.ContentTypeRegistry[
                     content_data['type']](content_data);
             this.next_contents_.enqueue(content);
+
+            this.logger_.info('Field ' + this.id + ' queued ' + content_data['type'] + ' content ' + content_data['id']);
 
             // When the content is loaded, we show it in the field,
             goog.events.listenOnce(content,
@@ -229,7 +238,7 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
                 concerto.frontend.Content.EventType.DISPLAY_END,
                 this.autoAdvance, false, this);
           } else {
-            this.logger_.warning('Unable to find ' + content_data['type'] +
+            this.logger_.warning('Field ' + this.id + ' Unable to find ' + content_data['type'] +
                                  ' renderer for content ' + content_data['id']);
           }
         }, this));
@@ -280,7 +289,7 @@ concerto.frontend.Field.prototype.nextContent = function(in_error_state) {
       ' (error state: ' + in_error_state + ' ).');
   // If a piece of content is already in the queue, use that.
   if (this.next_contents_.isEmpty()) {
-    this.logger_.info('Field ' + this.id + ' needs to look for more content.');
+    this.logger_.info('Field ' + this.id + ' needs to look for more content [queue is empty].');
     if (in_error_state) {
       var delay = concerto.frontend.Field.ERROR_DELAY;
       this.logger_.info('In error state, sleeping for ' + delay + ' seconds.');
@@ -290,6 +299,7 @@ concerto.frontend.Field.prototype.nextContent = function(in_error_state) {
       this.loadContent(true);
     }
   } else {
+    this.logger_.info('Field ' + this.id + ' is getting content from its queue.');
     this.next_contents_.peek().startLoad();
   }
 };
