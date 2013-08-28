@@ -79,6 +79,7 @@ concerto.frontend.Content.Graphic.prototype.load_ = function() {
  * @private
  */
 concerto.frontend.Content.Graphic.prototype.loaderFinish_ = function(e) {
+  this.logger_.info('Content ' + this.type_ + ' ' + this.id + ' is in .loaderFinish_');
   this.image = e.target;
   goog.dom.appendChild(this.div_, this.image);
 
@@ -96,7 +97,8 @@ concerto.frontend.Content.Graphic.prototype.loaderFinish_ = function(e) {
  * @override
  */
 concerto.frontend.Content.Graphic.prototype.applyStyles = function(styles) {
-  concerto.frontend.Content.Graphic.superClass_.applyStyles.call(this, styles);
+  concerto.frontend.Content.Graphic.superClass_.applyStyles.call(this, styles, goog.dom.getFirstElementChild(this.div_));
+  goog.style.setStyle(this.div_, 'position', 'absolute');
   goog.style.setBorderBoxSize(goog.dom.getFirstElementChild(this.div_),
       {width: this.image.width, height: this.image.height});
 };
