@@ -121,8 +121,11 @@ concerto.frontend.Position.prototype.load = function(data) {
         case "slide":
           transition = concerto.frontend.Transition.Slide;
           break;
-        default:
+        case "replace":
           transition = concerto.frontend.Transition;
+          break;
+        default:
+          transition = concerto.frontend.Transition.Fade;
           break;
       }
     }
@@ -246,5 +249,5 @@ concerto.frontend.Position.DEFAULT_STYLES = {
  * @const
  */
 concerto.frontend.Position.DEFAULT_CONTENT_STYLES = {
-  'position': 'absolute'   /* slide transition requires absolution positioned elements */
+  'position': 'absolute'   /* slide transition requires absolutely positioned elements */
 };
