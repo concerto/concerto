@@ -31,7 +31,7 @@ class Content < ActiveRecord::Base
   # By default, only find known content types.
   # This allows everything to keep working if a content type goes missing
   # or (more likely) gets removed.
-  default_scope { where(:type => Content.all_subclasses.collect { |s| s.name }) unless Rails.env.development? }
+  default_scope { where(:type => Content.all_subclasses.collect { |s| s.name })}
 
   # Easily query for active, expired, or future content
   # The scopes are defined as class methods to delay their resolution, defining them as proper scopes
@@ -147,7 +147,9 @@ class Content < ActiveRecord::Base
     self.subclasses.each do |subklass|
       sub.concat(subklass.all_subclasses)
     end
-    return sub
+    sub.concat(Concerto::Application.config.content_types)
+    sub.concat(Concerto::Application.config._unused_content_types_)
+    return sub.uniq { |klass| klass.name }
   end
 
   # Display the pretty name of the content type.
