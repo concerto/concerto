@@ -8,7 +8,9 @@ module Concerto
     STRING = [MAJOR, MINOR, TINY, PRE].compact.join('.')
     
     def self.dynamic
-      `git describe --always --tags`.strip rescue ""
+      Rails.cache.fetch('VERSION::dynamic') do
+        `git describe --always --tags`.strip rescue ""
+      end
     end
   end
 end
