@@ -1,7 +1,7 @@
 <div class="fluid-row">
   <div class="span2">
     <br />
-    <%= link_to t(:preview), frontend_screen_path(@screen), :class => "btn", :data => {'no-turbolink' => true} if can? :update, @screen %>
+    <%= link_to t(:preview), frontend_screen_path(@screen, :preview => "true"), :class => "btn", :data => {'no-turbolink' => true} if can? :update, @screen %>
     <br />
     <br />
 

@@ -123,7 +123,9 @@ class Frontend::ScreensController < ApplicationController
           )
         }
       end
-      @screen.mark_updated
+      unless params.has_key?(:preview) && params[:preview] == "true"
+        @screen.mark_updated
+      end
     end
   end
 end
