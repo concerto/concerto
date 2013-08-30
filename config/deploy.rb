@@ -40,7 +40,7 @@ role :db,  "concerto", :primary => true # This is where Rails migrations will ru
 set :deploy_to, "/var/webapps/#{application}"    # make sure this exists and is writable
 
 set :use_sudo, false
-
+ssh_options[:forward_agent] = true
 default_run_options[:pty] = true # must be true for password prompt from git or ssh to work
 
 # if you want to clean up old releases on each deploy uncomment this:
@@ -49,12 +49,23 @@ after "deploy:update_code", "deploy:migrate"
 
 # If you are using Passenger mod_rails uncomment this so it restarts your webserver
 namespace :deploy do
-  task :start do ; end
-  task :stop do ; end
+  %w[start stop restart].each do |command|
+    desc "#{command} concerto background services"
+    task command, roles: :app, except: { :no_release => true } do
+      sudo "invoke-rc.d concerto #{command}"
+    end
+  end
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
+
+  task :setup_service, :roles => :app do
+    sudo "ln -nfs #{current_path}/concerto-init.d /etc/init.d/concerto"
+    sudo "chmod +x /etc/init.d/concerto"
+    sudo "update-rc.d concerto defaults"
+  end
 end
+#after "deploy:setup", "deploy:setup_service"  # this wont work will it?  no code yet?
 
 # make sure our vendor/bundle is linked to our shared bundle path
 # which is shared among deploys of only our application 
