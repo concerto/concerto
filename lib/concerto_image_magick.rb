@@ -117,7 +117,9 @@ module ConcertoImageMagick
   #    the desired size.  When true, the content will be no smaller than the desired size.
   # @return [Image] The resized image.
   def self.resize(image, width, height, maintain_aspect_ratio=true, expand_to_fit=false)
-    unless width.nil? && height.nil?
+    if !width.nil? && !height.nil? && width <= 0 && height <= 0
+      image = self.new_image(0, 0)
+    elsif !width.nil? || !height.nil?
       options = {
         :maintain_aspect_ratio => maintain_aspect_ratio,
         :expand_to_fit => expand_to_fit
