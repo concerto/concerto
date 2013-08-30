@@ -43,7 +43,12 @@ class Frontend::ContentsController < ApplicationController
   def show
     @content = Content.find(params[:id])
     auth! :object=>@content
-    @file = @content.render(params)
-    send_data @file.file_contents, :filename => @file.file_name, :type => @file.file_type, :disposition => 'inline'
+    rendered = @content.render(params)
+    if rendered.is_a?(Media)
+      @file = rendered
+      send_data @file.file_contents, :filename => @file.file_name, :type => @file.file_type, :disposition => 'inline'
+    elsif rendered.is_a?(Hash)
+      render rendered
+    end
   end
 end

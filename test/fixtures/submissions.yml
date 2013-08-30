@@ -55,3 +55,10 @@ distant_child:
   moderation_flag: false
   moderator: kristen
   duration: 5
+
+approved_image:
+  content: sample_image
+  feed: service
+  moderation_flag: true
+  moderator: katie
+  duration: 1
