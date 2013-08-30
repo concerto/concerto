@@ -75,7 +75,7 @@ namespace :deploy do
       #{sudo} chmod +x #{current_path}/concerto-init.d && 
       #{sudo} chmod o-w #{current_path}/concerto-init.d && 
       #{sudo} update-rc.d concerto defaults ; 
-      else 
+      elif [ -f #{current_path}/concerto-init.d ]; then 
       #{sudo} chmod +x #{current_path}/concerto-init.d && 
       #{sudo} chmod o-w #{current_path}/concerto-init.d ;
       fi"
