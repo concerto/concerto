@@ -71,7 +71,8 @@ concerto.frontend.Content.prototype.logger_ = goog.debug.Logger.getLogger(
  * This dispatches the START_LOAD event.
  */
 concerto.frontend.Content.prototype.startLoad = function() {
-  this.logger_.info('Content ' + this.type_ + ' ' + this.id + ' is starting to load.');
+  this.logger_.info('Content ' + this.type_ + ' ' + this.id +
+    ' is starting to load.');
 
   /**
    * Time this content started loading.
@@ -94,12 +95,9 @@ concerto.frontend.Content.prototype.startLoad = function() {
  * @param {Object} styles The styles to be applied to this content.
  * @param {?Element} element to receive the styles - defaults to this.div_
  */
-concerto.frontend.Content.prototype.applyStyles = function(styles) {
-  var el = this.div_;
-  if (arguments.length > 1 && arguments[1] != null) {
-    el = arguments[1];
-  }
-  goog.style.setStyle(el, styles);
+concerto.frontend.Content.prototype.applyStyles = function(styles, element) {
+  element = element || this.div_;
+  goog.style.setStyle(element, styles);
 };
 
 

@@ -2,11 +2,11 @@ goog.provide('concerto.frontend.Transition.Slide');
 
 goog.require('concerto.frontend.Content.EventType');
 goog.require('concerto.frontend.Transition');
-goog.require('goog.events');
-goog.require('goog.fx.Animation.EventType');
-goog.require('goog.fx');
-goog.require('goog.fx.dom.Slide');
 goog.require('goog.debug.Logger');
+goog.require('goog.events');
+goog.require('goog.fx');
+goog.require('goog.fx.Animation.EventType');
+goog.require('goog.fx.dom.Slide');
 
 
 
@@ -37,8 +37,8 @@ goog.inherits(concerto.frontend.Transition.Slide, concerto.frontend.Transition);
  * @type {goog.debug.Logger}
  * @private
  */
-concerto.frontend.Transition.Slide.prototype.logger_ = goog.debug.Logger.getLogger(
-    'concerto.frontend.Transition.Slide');
+concerto.frontend.Transition.Slide.prototype.logger_ =
+  goog.debug.Logger.getLogger('concerto.frontend.Transition.Slide');
 
 
 /**
@@ -52,8 +52,10 @@ concerto.frontend.Transition.Slide.prototype.out_ = function() {
   this.current_content_.dispatchEvent(
       concerto.frontend.Content.EventType.STOP_RENDER);
   var animOut = new goog.fx.dom.Slide(this.current_content_.div,
-      [this.current_content_.div.offsetLeft, this.current_content_.div.offsetTop],
-      [0 - this.field.position.div_.clientWidth, this.current_content_.div.offsetTop],
+      [this.current_content_.div.offsetLeft,
+        this.current_content_.div.offsetTop],
+      [0 - this.field.position.div_.clientWidth,
+        this.current_content_.div.offsetTop],
       this.duration, goog.fx.easing.easeIn);
   goog.events.listen(animOut, goog.fx.Animation.EventType.END,
       this.outDone_, false, this);

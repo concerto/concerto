@@ -118,10 +118,10 @@ concerto.frontend.Position.prototype.load = function(data) {
     config = data['field']['config'];
     if (goog.isDefAndNotNull(config.transition)) {
       switch (config.transition.toLowerCase()) {
-        case "slide":
+        case 'slide':
           transition = concerto.frontend.Transition.Slide;
           break;
-        case "replace":
+        case 'replace':
           transition = concerto.frontend.Transition;
           break;
         default:
@@ -249,5 +249,6 @@ concerto.frontend.Position.DEFAULT_STYLES = {
  * @const
  */
 concerto.frontend.Position.DEFAULT_CONTENT_STYLES = {
-  'position': 'absolute'   /* slide transition requires absolutely positioned elements */
+  /* slide transition requires absolutely positioned elements */
+  'position': 'absolute'
 };

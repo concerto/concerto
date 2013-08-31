@@ -22,17 +22,21 @@ goog.require('goog.structs.Queue');
  * @param {string} content_path The URL to get information about the content
  *    that you would show here.
  * @param {Object=} opt_transition A transition to use between content.
+ * @param {Object=} opt_config Field configuration to pass on to the content.
  * @constructor
  * @extends {goog.events.EventTarget}
  */
 concerto.frontend.Field = function(position, id, name, content_path,
-                                   opt_transition, config) {
+                                   opt_transition, opt_config) {
   goog.events.EventTarget.call(this);
 
-  if(goog.isDefAndNotNull(config)) {
-    for (var prop in config) {
-      if (config.hasOwnProperty(prop)) {
-        this.logger_.info('Field ' + id + ' has configuration ' + prop + ': ' + config[prop]);
+  if (goog.DEBUG) {
+    if (goog.isDefAndNotNull(config)) {
+      for (var prop in opt_config) {
+        if (opt_config.hasOwnProperty(prop)) {
+          this.logger_.info('Field ' + id + ' has configuration ' +
+            prop + ': ' + opt_config[prop]);
+        }
       }
     }
   }
@@ -102,7 +106,7 @@ concerto.frontend.Field = function(position, id, name, content_path,
    * @type {!Object}
    * @private
    */
-   this.config_ = (goog.isDefAndNotNull(config) ? config : null);
+   this.config_ = opt_config;
 
   /**
    * Alias to the XHR connection.
@@ -199,8 +203,8 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
 
         if (!xhr.isSuccess()) {
           // Error fetching content.
-          this.logger_.warning('Field ' + this.id + ' was unable to fetch content. ' +
-              xhr.getLastError());
+          this.logger_.warning('Field ' + this.id +
+            ' was unable to fetch content. ' + xhr.getLastError());
           return setTimeout(
               goog.bind(function() {this.nextContent(true)}, this), 10);
         }
@@ -225,7 +229,8 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
                     content_data['type']](content_data);
             this.next_contents_.enqueue(content);
 
-            this.logger_.info('Field ' + this.id + ' queued ' + content_data['type'] + ' content ' + content_data['id']);
+            this.logger_.info('Field ' + this.id + ' queued ' +
+              content_data['type'] + ' content ' + content_data['id']);
 
             // When the content is loaded, we show it in the field,
             goog.events.listenOnce(content,
@@ -238,8 +243,9 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
                 concerto.frontend.Content.EventType.DISPLAY_END,
                 this.autoAdvance, false, this);
           } else {
-            this.logger_.warning('Field ' + this.id + ' Unable to find ' + content_data['type'] +
-                                 ' renderer for content ' + content_data['id']);
+            this.logger_.warning('Field ' + this.id +
+              ' Unable to find ' + content_data['type'] +
+              ' renderer for content ' + content_data['id']);
           }
         }, this));
         if (load_content_on_finish && !this.next_contents_.isEmpty()) {
@@ -289,7 +295,8 @@ concerto.frontend.Field.prototype.nextContent = function(in_error_state) {
       ' (error state: ' + in_error_state + ' ).');
   // If a piece of content is already in the queue, use that.
   if (this.next_contents_.isEmpty()) {
-    this.logger_.info('Field ' + this.id + ' needs to look for more content [queue is empty].');
+    this.logger_.info('Field ' + this.id +
+      ' needs to look for more content [queue is empty].');
     if (in_error_state) {
       var delay = concerto.frontend.Field.ERROR_DELAY;
       this.logger_.info('In error state, sleeping for ' + delay + ' seconds.');
@@ -299,7 +306,8 @@ concerto.frontend.Field.prototype.nextContent = function(in_error_state) {
       this.loadContent(true);
     }
   } else {
-    this.logger_.info('Field ' + this.id + ' is getting content from its queue.');
+    this.logger_.info('Field ' + this.id +
+      ' is getting content from its queue.');
     this.next_contents_.peek().startLoad();
   }
 };
