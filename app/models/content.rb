@@ -14,9 +14,9 @@ class Content < ActiveRecord::Base
   validates :name, :presence => true
   #validates :kind, :presence => true, :associated => true
   validates :user, :presence => true, :associated => true
-  validate :parent_id_cannot_be_this_content
+  validate :cannot_be_own_parent
 
-  def parent_id_cannot_be_this_content
+  def cannot_be_own_parent
     if !parent_id.blank? and parent_id == id
       errors.add(:parent_id, "can't be this content")
     end
