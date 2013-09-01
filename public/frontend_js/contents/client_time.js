@@ -37,6 +37,13 @@ concerto.frontend.Content.ClientTime = function(data) {
    * @type {?goog.i18n.TimeZone}
    */
   this.timezone = data['timezone'];
+
+  /**
+   * The datetime format.
+   * @type {?string}
+   * @private
+   */
+  this.format_ = (data.field['config'] ? data.field['config']['format'] : null);
 };
 goog.inherits(concerto.frontend.Content.ClientTime, concerto.frontend.Content);
 
@@ -57,6 +64,12 @@ concerto.frontend.Content.ClientTime.prototype.load_ = function() {
       goog.i18n.DateTimeFormat.Format.SHORT_TIME);
   var pretty_time = date_printer.format(now, this.timezone) +
       ' ' + time_printer.format(now, this.timezone);
+
+  if (this.format_ != null && this.format_.trim() != '') {
+    pretty_time = new goog.i18n.DateTimeFormat(this.format_).format(now,
+                                                          this.timezone);
+  }
+
   goog.dom.setTextContent(this.div_, pretty_time);
   this.div_ = concerto.frontend.Helpers.Autofit(this.div_, this.field_width_,
                                                 this.field_height_);
