@@ -112,12 +112,12 @@ concerto.frontend.Position.prototype.load = function(data) {
 
   this.draw();
 
-  transition = concerto.frontend.Transition.Fade;
-  config = null;
+  var transition = concerto.frontend.Transition.Fade;
+  var config = null;
   if (goog.isDefAndNotNull(data['field']['config'])) {
     config = data['field']['config'];
-    if (goog.isDefAndNotNull(config.transition)) {
-      switch (config.transition.toLowerCase()) {
+    if (goog.isDefAndNotNull(config['transition'])) {
+      switch (config['transition'].toLowerCase()) {
         case 'slide':
           transition = concerto.frontend.Transition.Slide;
           break;
