@@ -79,14 +79,16 @@ concerto.frontend.Content.Graphic.prototype.load_ = function() {
  * @private
  */
 concerto.frontend.Content.Graphic.prototype.loaderFinish_ = function(e) {
+  this.logger_.info('Content ' + this.type_ + ' ' +
+    this.id + ' is in .loaderFinish_');
   this.image = e.target;
   goog.dom.appendChild(this.div_, this.image);
 
   var side_margin = (this.field_width_ - this.image.width) / 2;
   var top_margin = (this.field_height_ - this.image.height) / 2;
-  goog.style.setStyle(this.div_, 'margin',
-      top_margin + 'px ' + side_margin + 'px');
-  goog.style.setSize(this.image, '100%', '100%');
+  goog.style.setStyle(this.image, 'margin',
+    top_margin + 'px ' + side_margin + 'px');
+  goog.style.setSize(this.div_, '100%', '100%');
   this.finishLoad();
 };
 
@@ -97,8 +99,10 @@ concerto.frontend.Content.Graphic.prototype.loaderFinish_ = function(e) {
  * @override
  */
 concerto.frontend.Content.Graphic.prototype.applyStyles = function(styles) {
-  concerto.frontend.Content.Graphic.superClass_.applyStyles.call(this, styles);
-  goog.style.setBorderBoxSize(this.div_,
+  concerto.frontend.Content.Graphic.superClass_.applyStyles.call(this, styles,
+      goog.dom.getFirstElementChild(this.div_));
+  goog.style.setStyle(this.div_, 'position', 'absolute');
+  goog.style.setBorderBoxSize(goog.dom.getFirstElementChild(this.div_),
       {width: this.image.width, height: this.image.height});
 };
 
