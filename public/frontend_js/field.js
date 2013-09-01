@@ -31,7 +31,7 @@ concerto.frontend.Field = function(position, id, name, content_path,
   goog.events.EventTarget.call(this);
 
   if (goog.DEBUG) {
-    if (goog.isDefAndNotNull(config)) {
+    if (goog.isDefAndNotNull(opt_config)) {
       for (var prop in opt_config) {
         if (opt_config.hasOwnProperty(prop)) {
           this.logger_.info('Field ' + id + ' has configuration ' +
