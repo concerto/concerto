@@ -15,7 +15,7 @@ en:
     select_feed: 'Select Feed'
 
     edit:
-      editing_content: "Editing Content"
+      edit_content: "Edit %{type} Content"
 
     form:
       provide_details: "Provide Basic Details"
@@ -53,7 +53,7 @@ en:
       design_graphic: "Design a Graphic"
       content: "Content"
       content_type: "Content type to add:"
-
+      add_content: "Add %{type} Content"
     show:
       display_from: "Display From"
       display_until: "Display Until"

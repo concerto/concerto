@@ -2,7 +2,7 @@
   <header class="viewblock-header">
     <div class="viewblock-header_right default-padding">  &nbsp;
     </div>
-    <h1 class="default-padding"><%= t(:add) + " " + @content.class.display_name + " " + Content.model_name.human %></h1>
+    <h1 class="default-padding"><%= t('.add_content', :type => @content.class.display_name)%></h1>
   </header>
   <div class="viewblock-cont">
 
