@@ -11,7 +11,7 @@ class Frontend::TemplatesController < ApplicationController
         image = ConcertoImageMagick.new_image(1,1)
         image.format = "PNG"
       else
-        image = ConcertoImageMagick.load_image(template.media.original.first.file_contents)
+        image = ConcertoImageMagick.load_image(template.media.preferred.first.file_contents)
       end
 
       width = params[:width].to_f
