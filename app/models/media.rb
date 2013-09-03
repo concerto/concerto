@@ -10,4 +10,6 @@ class Media < ActiveRecord::Base
   validates :file_size, :numericality => { :greater_than_or_equal_to => 0 }
   
   scope :original, where({:key => "original"})
+  scope :processed, where({:key => "processed"})
+  scope :preferred, where({:key => ["original", "processed"]}).order("key desc")   # processed before original
 end
