@@ -45,24 +45,28 @@ class TemplatesControllerTest < ActionController::TestCase
     get :preview, :id => t.id, :format => 'jpg'
 
     image = assigns(:image)
-    assert_equal image.rows, 1200
-    assert_equal image.columns, 1920
+    assert_equal image.rows, 750
+    assert_equal image.columns, 1000
   end
 
-  test "render resized template preview" do
+  test "render resized (fixed width) template preview" do
     t = templates(:one)
     sign_in users(:admin)
     get :preview, :id => t.id, :format => 'jpg', :width => 100
 
     image = assigns(:image)
-    assert_in_delta  image.rows, 63, 1
+    assert_in_delta  image.rows, 75, 1
     assert_equal image.columns, 100
+  end
 
+  test "render resized (fixed height) template preview" do
+    t = templates(:one)
+    sign_in users(:admin)
     get :preview, :id => t.id, :format => 'jpg', :height => 100
 
     image = assigns(:image)
-    assert_equal image.rows, 100
-    assert_in_delta image.columns, 160, 1
+    assert_in_delta image.columns, 133, 1
+    assert_in_delta image.rows, 100, 1
   end
 
 end
