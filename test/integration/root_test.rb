@@ -7,7 +7,7 @@ class RootTest < ActionController::IntegrationTest
     get "/"
 
     # The page always loads
-    assert :success
+    assert_response :success
 
     # And it should never ever ever redirect
     assert !redirect?
@@ -15,12 +15,14 @@ class RootTest < ActionController::IntegrationTest
 
   test "signed in root urls load" do
     post "/users/sign_in", :user => {:email => users(:katie).email, :password => 'katie'}
-    assert :success
+    assert_redirected_to dashboard_path
+    follow_redirect!
+    assert_response :success
 
     get "/feeds"
-    assert :success
+    assert_response :success
 
     get "/feeds/#{feeds(:service).id}/submissions"
-    assert :success
+    assert_response :success
   end
 end
