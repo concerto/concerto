@@ -43,7 +43,7 @@ unless Rails.env.test?
     #when the loop times out, "Timeout::Error: execution expired" is returned
     status = Timeout::timeout(60) {
       while File.exist?("tmp/migration_tempfile")
-        #just chill and wait for the timeout
+        sleep(5)
       end
     }
     
