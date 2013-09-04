@@ -1,0 +1,45 @@
+------WebKitFormBoundaryKmABZcqb0RlloQ2W
+Content-Disposition: form-data; name="utf8"
+
+âœ“
+------WebKitFormBoundaryKmABZcqb0RlloQ2W
+Content-Disposition: form-data; name="authenticity_token"
+
+VtUY4b8KEi+ZILsyBUU7C/xkr9KFlSqgEwPcW9jdmAA=
+------WebKitFormBoundaryKmABZcqb0RlloQ2W
+Content-Disposition: form-data; name="type"
+
+Ticker
+------WebKitFormBoundaryKmABZcqb0RlloQ2W
+Content-Disposition: form-data; name="ticker[data]"
+
+test7
+------WebKitFormBoundaryKmABZcqb0RlloQ2W
+Content-Disposition: form-data; name="ticker[name]"
+
+newtest
+------WebKitFormBoundaryKmABZcqb0RlloQ2W
+Content-Disposition: form-data; name="ticker[start_time[date]]"
+
+08/26/2013
+------WebKitFormBoundaryKmABZcqb0RlloQ2W
+Content-Disposition: form-data; name="ticker[start_time[time]]"
+
+2:00am
+------WebKitFormBoundaryKmABZcqb0RlloQ2W
+Content-Disposition: form-data; name="ticker[end_time[date]]"
+
+09/02/2013
+------WebKitFormBoundaryKmABZcqb0RlloQ2W
+Content-Disposition: form-data; name="ticker[end_time[time]]"
+
+11:00pm
+------WebKitFormBoundaryKmABZcqb0RlloQ2W
+Content-Disposition: form-data; name="ticker[duration]"
+
+8
+------WebKitFormBoundaryKmABZcqb0RlloQ2W
+Content-Disposition: form-data; name="commit"
+
+Submit Content
+------WebKitFormBoundaryKmABZcqb0RlloQ2W--

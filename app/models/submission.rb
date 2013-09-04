@@ -1,7 +1,7 @@
 class Submission < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
-  belongs_to :content
+  belongs_to :content, :autosave => true
   belongs_to :feed
   belongs_to :moderator, :class_name => "User"
 
