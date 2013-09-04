@@ -1,9 +1,7 @@
 class GraphicValidator < ActiveModel::Validator
   # Validator for Media associated with a Graphic.
   def validate(record)
-    #graphic_types = ["image/gif", "image/jpeg", "image/pjpeg", "image/png", "image/svg+xml", "image/tiff"]
     if !record.media.empty? && !Concerto::ContentConverter.handles?(record.media[0].file_type)
-    #!graphic_types.include?(record.media[0].file_type)
       record.errors.add :media, "file is #{record.media[0].file_type}, not a format we support."
     end
   end
