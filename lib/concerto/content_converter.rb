@@ -1,9 +1,8 @@
 module Concerto
 
   class ContentConverter
-    # To add another converter, add the array of what it handles here, and then in the handles? method 
+    # To add another converter, add the array of what it handles here, and then in the handles? method
     # check that array also.  In the convert method call your converter.
-    #
     NULL_TYPES = ["image/gif", "image/jpeg", "image/pjpeg", "image/png", "image/svg+xml", "image/tiff"]
     DOCSPLIT_TYPES = ["application/pdf"]
 
