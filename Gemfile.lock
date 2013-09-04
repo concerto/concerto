@@ -40,11 +40,6 @@ GEM
       extlib (>= 0.9.15)
       multi_json (>= 1.0.0)
     bcrypt-ruby (3.1.1)
-    better_errors (0.9.0)
-      coderay (>= 1.0.0)
-      erubis (>= 2.6.6)
-    binding_of_caller (0.7.2)
-      debug_inspector (>= 0.0.1)
     bootstrap-datepicker-rails (1.1.1.7)
       railties (>= 3.0)
     builder (3.0.4)
@@ -52,7 +47,6 @@ GEM
     clockwork (0.6.0)
       activesupport
       tzinfo (~> 0.3.35)
-    coderay (1.1.0)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -73,8 +67,6 @@ GEM
     concerto_weather (0.0.5)
       rails (~> 3.2.12)
     connection_pool (1.1.0)
-    daemons (1.1.9)
-    debug_inspector (0.0.2)
     delayed_job (4.0.0)
       activesupport (>= 3.0, < 4.1)
     delayed_job_active_record (4.0.0)
@@ -88,7 +80,6 @@ GEM
     docsplit (0.7.2)
     dotenv (0.8.0)
     erubis (2.7.0)
-    eventmachine (1.0.3)
     execjs (2.0.0)
     extlib (0.9.16)
     faraday (0.8.8)
@@ -198,10 +189,6 @@ GEM
     therubyracer (0.12.0)
       libv8 (~> 3.16.14.0)
       ref
-    thin (1.5.1)
-      daemons (>= 1.0.9)
-      eventmachine (>= 0.12.6)
-      rack (>= 1.0.0)
     thor (0.18.1)
     tilt (1.4.1)
     treetop (1.4.15)
@@ -225,8 +212,6 @@ DEPENDENCIES
   RedCloth
   airbrake
   attachable (>= 0.0.5)
-  better_errors
-  binding_of_caller
   bootstrap-datepicker-rails
   cancan
   clockwork
@@ -255,7 +240,6 @@ DEPENDENCIES
   sqlite3
   strong_parameters
   therubyracer
-  thin
   turbolinks
   twitter-bootstrap-rails-confirm
   uglifier (>= 1.0.3)
