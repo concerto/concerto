@@ -1,6 +1,8 @@
 
 en:
   at: 'at'
+  start_displaying: 'Start Displaying'
+  finish_displaying: 'Finish Displaying'
 
   activerecord:
     attributes:
@@ -12,7 +14,7 @@ en:
 
   contents:
     provide_details: 'Provide Details'
-    select_feed: 'Select Feed'
+    select_feeds: 'Select Feeds'
 
     edit:
       edit_content: "Edit %{type} Content"
