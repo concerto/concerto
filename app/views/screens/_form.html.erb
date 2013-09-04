@@ -20,14 +20,17 @@
             <%= f.text_field :location, :class => "input-xlarge" %>
           </div>
         </div>
-
-        <div class="clearfix">
-          <div class="input checkbox">
-            <ul class="inputs-list">
-              <li><%= f.check_box :is_public %> <%= f.label :is_public %></li>
-            </ul>
+        
+        <% if ConcertoConfig['public_concerto'] %>
+          <div class="clearfix">
+            <div class="input checkbox">
+              <ul class="inputs-list">
+                <li><%= f.check_box :is_public %> <%= f.label :is_public %></li>
+              </ul>
+            </div>
           </div>
-        </div>
+        <% end %>
+        
       </div>
       <div class="span4">
         <div class="clearfix">
