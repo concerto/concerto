@@ -13,6 +13,14 @@ template_one:
   file_size: 147266
   file_data: <%= binary_fixture_data('test/fixtures/files/concerto_background.jpg') %>
 
+template_one_processed:
+  attachable: one (Template)
+  key: processed
+  file_name: file.png
+  file_type: image/png
+  file_size: 5091
+  file_data: <%= binary_fixture_data('test/fixtures/files/smpte_color_bars.png') %>
+
 content_one:
   attachable: sample_image (Content)
   key: original

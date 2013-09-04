@@ -48,8 +48,8 @@ class Graphic < Content
     end
     Rails.logger.debug('Cache miss!')
 
-    original_media = self.media.original.first
-    file = original_media
+    preferred_media = self.media.preferred.first
+    file = preferred_media
 
     options[:crop] ||= false
 
@@ -61,13 +61,13 @@ class Graphic < Content
       end
 
       require 'concerto_image_magick'
-      image = ConcertoImageMagick.graphic_transform(original_media, options)
+      image = ConcertoImageMagick.graphic_transform(preferred_media, options)
       
       file = Media.new(
         :attachable => self,
         :file_data => image.to_blob,
         :file_type => image.mime_type,
-        :file_name => original_media.file_name
+        :file_name => preferred_media.file_name
       )
     end
 
