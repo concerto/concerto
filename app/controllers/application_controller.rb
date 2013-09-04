@@ -19,9 +19,6 @@ class ApplicationController < ActionController::Base
   # This matches CanCan's code but is here to be explicit,
   # since we modify @current_ability below for plugins.
   def current_ability
-    if @screen_api
-      @current_ability ||= ::Ability.new(current_accessor)
-    end
     @current_ability ||= ::Ability.new(current_accessor)
   end
 
