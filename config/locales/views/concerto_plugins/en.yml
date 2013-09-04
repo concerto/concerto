@@ -8,8 +8,6 @@ en:
         gem_name: 'Gem Name'
         gem_version: 'Gem Version'
         source_url: 'Source URL'
-        
-  install_plugin: 'Install Plugin'
 
   concerto_plugins:
     sources:
@@ -20,3 +18,6 @@ en:
     index:
       disabled: "disabled"
       enabled: "enabled"
+
+    new:
+      install_plugin: 'Install Plugin'
