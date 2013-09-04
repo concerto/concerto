@@ -39,9 +39,17 @@ unless Rails.env.test?
     #    and execution of those migrations with db:migrate, but the code
     #    below does not.
     
-    unless File.exist?("migration_tempfile")
+    require 'timeout'
+    #when the loop times out, "Timeout::Error: execution expired" is returned
+    status = Timeout::timeout(60) {
+      while File.exist?("tmp/migration_tempfile")
+        #just chill and wait for the timeout
+      end
+    }
+    
+    unless File.exist?("tmp/migration_tempfile")
       #write a temporary file to indicate a migration is in progress    
-      File.open("migration_tempfile", "w") {}
+      File.open("tmp/migration_tempfile", "w") {}
       
       begin
         current_version = ActiveRecord::Migrator.current_version
@@ -67,7 +75,7 @@ unless Rails.env.test?
         Rake::Task["db:seed"].invoke
         retry
       end
-      File.delete("migration_tempfile") if File.exist?("migration_tempfile")
+      File.delete("tmp/migration_tempfile") if File.exist?("tmp/migration_tempfile")
     end
   end
   
