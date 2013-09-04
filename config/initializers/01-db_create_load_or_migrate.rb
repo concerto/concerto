@@ -42,8 +42,12 @@ unless Rails.env.test?
     require 'timeout'
     #when the loop times out, "Timeout::Error: execution expired" is returned
     status = Timeout::timeout(60) {
-      while File.exist?("tmp/migration_tempfile")
-        sleep(5)
+      begin
+        while File.exist?("tmp/migration_tempfile")
+          sleep(5)
+        end
+      rescue Exception => e
+        Rails.logger.warn "Attempt to migrate in initializer 01 timed out"
       end
     }
     
