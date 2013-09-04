@@ -11,11 +11,16 @@ end
 class Graphic < Content
 
   after_initialize :set_kind
+  before_save :convert_media
 
   #Validations
   validates :duration, :numericality => { :greater_than => 0 }
   validates :media, :length => { :minimum => 1, :too_short => "file is required." }
   validates_with GraphicValidator
+
+  def convert_media
+    self.media = Concerto::ContentConverter.convert(self.media)
+  end
   
   # Automatically set the kind for the content
   # if it is new.
