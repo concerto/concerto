@@ -100,7 +100,7 @@ class ContentsController < ApplicationController
       rescue Concerto::ContentConverter::Unconvertable => e
         results = false
         flash.now[:error] = e.message
-       rescue StandardError => e
+      rescue StandardError => e
          results = false
          flash.now[:error] = e.message
       end
