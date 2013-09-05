@@ -1,16 +1,9 @@
 module Concerto
 
+  # Class to convert various mime types for content media
   class ContentConverter
-    # To add another converter, add the array of what it handles here, and then in the handles? method
-    # check that array also.  In the convert method call your converter.
-    NULL_TYPES = [
-      "image/gif",
-      "image/jpeg",
-      "image/pjpeg",
-      "image/png",
-      "image/svg+xml",
-      "image/tiff"
-    ]
+    # To add another converter, add the array of what it handles here, and then in 
+    # the supported_types method also.  Then in the convert method call your converter.
     DOCSPLIT_TYPES = [
       "application/msword",
       "application/pdf",
@@ -26,23 +19,30 @@ module Concerto
       "image/x-eps"
     ]
 
-    def self.handles? file_type
-      (NULL_TYPES + DOCSPLIT_TYPES).include? file_type
+    # Returns an array of all supported mime-types.
+    def self.supported_types
+      return DOCSPLIT_TYPES
     end
 
-    def self.convert media
-      # convert the media if no processed entries already exist
+    # Delegate the conversion of the media if no processed entries already exist,
+    #   and if there is a converter class that supports it's mime type.
+    # @param media [Media] the media to convert
+    # @return media [Media] the original media, along with any processed media
+    # @raise [Unconvertable] if there is no converter class that handles the media's mime type.
+    def self.convert(media)
       if media.any? { |m| m.key == 'processed' }
         Rails.logger.info('media already processed')
         return media
       end
 
-      return NullConverter.convert media if NULL_TYPES.include? media[0].file_type
-      return DocSplitConverter.convert media if DOCSPLIT_TYPES.include?(media[0].file_type)
+      if media.size > 0 && DOCSPLIT_TYPES.include?(media[0].file_type)
+        return DocSplitConverter.convert media 
+      end
 
       raise Unconvertable.new("Unable to convert the specified type #{media[0].file_type}") 
     end
 
+    # When a document cannot be converted, this exception will be raised.
     class Unconvertable < StandardError
       def initialize(message = nil)
         @message = message
@@ -53,15 +53,14 @@ module Concerto
       end
     end
 
-    class NullConverter
-      # do nothing, we handle these formats natively
-      def self.convert media
-        return media
-      end
-    end
-
+    # Class for converting various document types using the docsplit gem.
     class DocSplitConverter
-      def self.convert media
+      # Converts the first page of the original media to a png and loads it back into 
+      #   the media as a processed entry.
+      # @param media [Media] the media to convert
+      # @return media [Media] the original media, along with any processed media
+      # @raise [Unconvertable] if there is no converter class that handles the media's mime type.
+      def self.convert(media)
         # write the original media to a file so we can process it and pull it back into media
         original_media = media[0]
         original_filepath = File.join("/tmp", original_media.file_name)
