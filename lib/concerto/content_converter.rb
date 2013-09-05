@@ -3,7 +3,14 @@ module Concerto
   class ContentConverter
     # To add another converter, add the array of what it handles here, and then in the handles? method
     # check that array also.  In the convert method call your converter.
-    NULL_TYPES = ["image/gif", "image/jpeg", "image/pjpeg", "image/png", "image/svg+xml", "image/tiff"]
+    NULL_TYPES = [
+      "image/gif",
+      "image/jpeg",
+      "image/pjpeg",
+      "image/png",
+      "image/svg+xml",
+      "image/tiff"
+    ]
     DOCSPLIT_TYPES = [
       "application/msword",
       "application/pdf",
@@ -13,8 +20,8 @@ module Concerto
       "application/vnd.oasis.opendocument.presentation",
       "application/vnd.oasis.opendocument.spreadsheet",
       "application/vnd.oasis.opendocument.text",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       "image/x-eps"
     ]
@@ -57,13 +64,13 @@ module Concerto
       def self.convert media
         # write the original media to a file so we can process it and pull it back into media
         original_media = media[0]
-        original_filepath = File.join("tmp", original_media.file_name)
+        original_filepath = File.join("/tmp", original_media.file_name)
         File.open(original_filepath, 'wb') do |f|
           f.write original_media.file_data
         end
 
         # process it with docsplit
-        cmd = "docsplit images -p 1 -f png -o tmp '#{original_filepath}' 2>&1"
+        cmd = "docsplit images -p 1 -f png -o /tmp '#{original_filepath}' 2>&1"
         result = `#{cmd}`
         if $?.exitstatus == 0
           # if all went well, get the new filename... which has the _pageno appended to it
