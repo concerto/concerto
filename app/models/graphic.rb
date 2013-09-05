@@ -1,7 +1,10 @@
 class GraphicValidator < ActiveModel::Validator
   # Validator for Media associated with a Graphic.
   def validate(record)
-    if !record.media.empty? && !Concerto::ContentConverter.handles?(record.media[0].file_type)
+    graphic_types = ["image/gif", "image/jpeg", "image/pjpeg", "image/png", "image/svg+xml", "image/tiff"]
+
+    if !record.media.empty? && 
+        !(graphic_types + Concerto::ContentConverter.supported_types).include?(record.media[0].file_type)
       record.errors.add :media, "file is #{record.media[0].file_type}, not a format we support."
     end
   end
@@ -17,8 +20,11 @@ class Graphic < Content
   validates :media, :length => { :minimum => 1, :too_short => "file is required." }
   validates_with GraphicValidator
 
+  # Convert the media if it is supported by the converter.
   def convert_media
-    self.media = Concerto::ContentConverter.convert(self.media)
+    if self.media.size > 0 && Concerto::ContentConverter.supported_types.include?(self.media[0].file_type)
+      self.media = Concerto::ContentConverter.convert(self.media)
+    end
   end
   
   # Automatically set the kind for the content
