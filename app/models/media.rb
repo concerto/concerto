@@ -11,5 +11,5 @@ class Media < ActiveRecord::Base
   
   scope :original, where({:key => "original"})
   scope :processed, where({:key => "processed"})
-  scope :preferred, where({:key => ["original", "processed"]}).order("key desc")   # processed before original
+  scope :preferred, where({:key => ["original", "processed"]}).order("media.key desc")   # processed before original
 end
