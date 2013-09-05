@@ -6,7 +6,6 @@ en:
       field_config:
         key: 'Key'
         value: 'Value'
-        value_type: 'Value Type'
 
   subscriptions:
     approved_content:
@@ -20,7 +19,7 @@ en:
     add_subscription:
       add_a_new_feed:  'add a new feed'
       search_and_find_a_feed_to_add: "Search and Find a Feed to Add"
-      
+
     manage:
       field: 'field'
       make_changes: 'First make some changes above to save.'
