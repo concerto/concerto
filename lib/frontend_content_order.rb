@@ -7,7 +7,7 @@ module FrontendContentOrder
   #
   # @param [String] shuffler_name Class name of the shuffle algorithm to load.
   #    Defaults to a BaseShuffle algorithm.
-  # @returns [Class] Shuffle algorithm class.
+  # @return [Class] Shuffle algorithm class.
   def self.load_shuffler(shuffler_name='BaseShuffle')
     require shuffler_name.underscore unless defined? shuffler_name.constantize
     return shuffler_name.constantize

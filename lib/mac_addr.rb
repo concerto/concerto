@@ -21,7 +21,7 @@ module MacAddr
   # Expand a mac address to a full string.
   # Pad with 0s and add some colon delimiters.
   #
-  # @param mac_address [String] Condensed mac address.
+  # @param mac_addr [String] Condensed mac address.
   # @return [String] 12 character mac address with colons.
   def self.expand(mac_addr)
     mac_addr = mac_addr.rjust(12, '0')
