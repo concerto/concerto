@@ -123,9 +123,8 @@ class ContentsController < ApplicationController
 
     @feed_ids = feed_ids
 
-    remove_empty_media_param
     respond_to do |format|
-      if @content.update_attributes(content_params)
+      if @content.update_attributes(content_update_params)
         process_notification(@content, {}, :action => 'update', :owner => current_user)
         submissions = @content.submissions
         submissions.each do |submission|
@@ -225,6 +224,16 @@ class ContentsController < ApplicationController
       attributes = @content_const.form_attributes
     end
     # Reach into the model and grab the attributes to accept.
+    params.require(content_sym).permit(*attributes)
+  end
+
+  # User an extra restictive list of params for content updates.
+  def content_update_params
+    content_sym = :content
+    if !@content_const.nil?
+      content_sym = @content_const.model_name.singular.to_sym
+    end
+    attributes = [:name, :duration, {:start_time => [:time, :date]}, {:end_time => [:time, :date]}]
     params.require(content_sym).permit(*attributes)
   end
 
