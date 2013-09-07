@@ -59,6 +59,6 @@ gem 'simplecov', :require => false, :group => :test
 gem 'kaminari'  # Pagination
 
 # Enable the newsfeed for 1.9+ users.
-gem 'public_activity', :git => "git://github.com/pokonski/public_activity.git", :ref => '4e14f' if RUBY_VERSION >= "1.9"
+gem "public_activity", "~> 1.4.0"
 
 gem 'RedCloth'
