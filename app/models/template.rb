@@ -49,6 +49,7 @@ class Template < ActiveRecord::Base
 
   # Update the original_width and original_height
   # fields using the orignal image.
+  # !! this does not appear to be called from anywhere
   def update_original_sizes
     original_media = self.media.original.first
     unless original_media.nil?
@@ -80,7 +81,7 @@ class Template < ActiveRecord::Base
     if self.media.blank?
       image = ConcertoImageMagick.new_image(1024, 768);
     else
-      image = ConcertoImageMagick.load_image(self.media.original.first.file_contents)
+      image = ConcertoImageMagick.load_image(self.media.preferred.first.file_contents)
     end
 
     height = image.rows

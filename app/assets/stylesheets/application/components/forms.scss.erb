@@ -4,7 +4,7 @@
 
 // Groups of fields with labels on top (legends)
 fieldset {
-  margin: 0px 0px $baseline+5 0px;
+  //margin: 0px 0px $baseline+5 0px;
   padding: $baseline 18px 0px 18px;
 
   legend {
@@ -29,7 +29,7 @@ fieldset {
 
   // Parent element that clears floats and wraps labels and fields together
   .field, .clearfix {
-    margin-bottom: $baseline;
+    margin-bottom: 12px;
     @include clearfix();
   }
 }
@@ -445,62 +445,6 @@ textarea[readonly] {
   margin-left: 6px;
 }
 
-
-// Stacked Forms
-//------------------
-// These are not the default form designs but are used in certain places 
-// They place form labels on top of inputs to save horizontal space.
-// The .form-stacked class is usually appended to a form or fieldset element 
-// that encapsulates all of the inputs which should be stacked.
-
-.form-stacked {
-  legend > span {
-    padding-left: 0px;
-  }
-
-  fieldset {
-    padding-left: 20px;
-    padding-right: 20px;  
-  }
-  
-  .clearfix {
-    margin-bottom: $baseline / 2;
-    
-    label {
-      display: block;
-      float: none !important;
-      width: auto !important;
-      text-align: left !important;
-    }
-    
-    div.input {
-      margin-left: 0;
-    }
-  }
-  
-  .inputs-list {
-    margin-bottom: 0;
-    li {
-      padding-top: 0;
-      label {
-        font-weight: normal;
-        padding-top: 0;
-      }
-    }
-  }
-  div.clearfix.error {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    margin-top: 0;
-    margin-left: -10px;
-  }
-  
-  .actions {
-    padding-left: 20px;
-  }
-}
-
 .checkbox label {
   width: auto !important;
   text-align: left !important;
@@ -514,3 +458,13 @@ div.inline-inputs div.field_with_errors {
   display: inline!important;
 }
 
+/* Progressive Disclosure: this class should be applied to the 
+   containers for fields that are shown and hidden in response 
+   to a radio button or checkbox selection of a higher-order 
+   form field */
+.sub-fields {
+  border-left: solid 8px $grayLighter;
+  padding-left: 18px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}

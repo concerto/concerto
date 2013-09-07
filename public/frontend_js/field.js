@@ -2,7 +2,6 @@ goog.provide('concerto.frontend.Field');
 
 goog.require('concerto.frontend.ContentTypeRegistry');
 goog.require('concerto.frontend.ContentTypes');
-goog.require('concerto.frontend.Transition.Fade');
 goog.require('goog.array');
 goog.require('goog.debug.Logger');
 goog.require('goog.dom');
@@ -23,12 +22,24 @@ goog.require('goog.structs.Queue');
  * @param {string} content_path The URL to get information about the content
  *    that you would show here.
  * @param {Object=} opt_transition A transition to use between content.
+ * @param {Object=} opt_config Field configuration to pass on to the content.
  * @constructor
  * @extends {goog.events.EventTarget}
  */
 concerto.frontend.Field = function(position, id, name, content_path,
-                                   opt_transition) {
+                                   opt_transition, opt_config) {
   goog.events.EventTarget.call(this);
+
+  if (goog.DEBUG) {
+    if (goog.isDefAndNotNull(opt_config)) {
+      for (var prop in opt_config) {
+        if (opt_config.hasOwnProperty(prop)) {
+          this.logger_.info('Field ' + id + ' has configuration ' +
+            prop + ': ' + opt_config[prop]);
+        }
+      }
+    }
+  }
 
   /**
    * Position showing this field.
@@ -88,7 +99,14 @@ concerto.frontend.Field = function(position, id, name, content_path,
    * @type {!Object}
    * @private
    */
-  this.transition_ = opt_transition || concerto.frontend.Transition.Fade;
+  this.transition_ = opt_transition;
+
+  /**
+   * Configuration properties for the field
+   * @type {!Object}
+   * @private
+   */
+   this.config_ = opt_config;
 
   /**
    * Alias to the XHR connection.
@@ -163,7 +181,7 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
       'name': 'System Time',
       'type': 'ClientTime',
       'render_details': {'data': null},
-      'field': {'size': this.position.getSize()}
+      'field': {'size': this.position.getSize(), 'config' : this.config_}
     };
     var clock = new concerto.frontend.ContentTypeRegistry['ClientTime'](options);
     this.next_contents_.enqueue(clock);
@@ -185,8 +203,8 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
 
         if (!xhr.isSuccess()) {
           // Error fetching content.
-          this.logger_.warning('Unable to fetch content. ' +
-              xhr.getLastError());
+          this.logger_.warning('Field ' + this.id +
+            ' was unable to fetch content. ' + xhr.getLastError());
           return setTimeout(
               goog.bind(function() {this.nextContent(true)}, this), 10);
         }
@@ -194,7 +212,7 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
 
         if (!contents_data.length) {
           // No content for this field.
-          this.logger_.info('No content to display here.');
+          this.logger_.info('Field ' + this.id + ' received empty content.');
           return setTimeout(
               goog.bind(function() {this.nextContent(true)}, this), 10);
         }
@@ -203,12 +221,16 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
           // Slip in some data about the field.  Content might want to know the
           // current size of the position it is being rendered in.
           content_data.field = {
-            'size': this.position.getSize()
+            'size': this.position.getSize(),
+            'config': this.config_
           };
           if (content_data['type'] in concerto.frontend.ContentTypeRegistry) {
             var content = new concerto.frontend.ContentTypeRegistry[
                     content_data['type']](content_data);
             this.next_contents_.enqueue(content);
+
+            this.logger_.info('Field ' + this.id + ' queued ' +
+              content_data['type'] + ' content ' + content_data['id']);
 
             // When the content is loaded, we show it in the field,
             goog.events.listenOnce(content,
@@ -221,8 +243,9 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
                 concerto.frontend.Content.EventType.DISPLAY_END,
                 this.autoAdvance, false, this);
           } else {
-            this.logger_.warning('Unable to find ' + content_data['type'] +
-                                 ' renderer for content ' + content_data['id']);
+            this.logger_.warning('Field ' + this.id +
+              ' Unable to find ' + content_data['type'] +
+              ' renderer for content ' + content_data['id']);
           }
         }, this));
         if (load_content_on_finish && !this.next_contents_.isEmpty()) {
@@ -272,7 +295,8 @@ concerto.frontend.Field.prototype.nextContent = function(in_error_state) {
       ' (error state: ' + in_error_state + ' ).');
   // If a piece of content is already in the queue, use that.
   if (this.next_contents_.isEmpty()) {
-    this.logger_.info('Field ' + this.id + ' needs to look for more content.');
+    this.logger_.info('Field ' + this.id +
+      ' needs to look for more content [queue is empty].');
     if (in_error_state) {
       var delay = concerto.frontend.Field.ERROR_DELAY;
       this.logger_.info('In error state, sleeping for ' + delay + ' seconds.');
@@ -282,6 +306,8 @@ concerto.frontend.Field.prototype.nextContent = function(in_error_state) {
       this.loadContent(true);
     }
   } else {
+    this.logger_.info('Field ' + this.id +
+      ' is getting content from its queue.');
     this.next_contents_.peek().startLoad();
   }
 };

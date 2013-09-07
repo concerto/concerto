@@ -11,18 +11,25 @@ class Frontend::TemplatesController < ApplicationController
         image = ConcertoImageMagick.new_image(1,1)
         image.format = "PNG"
       else
-        image = ConcertoImageMagick.load_image(template.media.original.first.file_contents)
+        image = ConcertoImageMagick.load_image(template.media.preferred.first.file_contents)
+      end
+
+      width = params[:width].to_f
+      height = params[:height].to_f
+      if width <= 0 && height <= 0
+        render :status => 400, :text => "Bad request.", :content_type => Mime::TEXT
+        return
       end
 
       # Resize the image to a height and width if they are both being set.
-      image = ConcertoImageMagick.resize(image, params[:width].to_f, params[:height].to_f)
+      image = ConcertoImageMagick.resize(image, width, height)
       case request.format
         when Mime::Type.lookup_by_extension(:jpg)
           image.format = "JPG"
         when Mime::PNG
           image.format = "PNG"
         else
-          render :status => 406, :text => "Unacceptable image type." and return
+          render :status => 406, :text => "Unacceptable image type.", :content_type => Mime::TEXT and return
       end if !template.media.blank?
 
       send_data image.to_blob,

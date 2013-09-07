@@ -3,7 +3,7 @@
     <div class="clearfix datetime">
       <%= form.label :start_time, t(:start_displaying) %>
       <div class="input">
-        <div class="input-prepend" style="margin-bottom: 6px;">
+        <div class="input-prepend cursor-pointer" style="margin-bottom: 6px;">
           <span class="add-on"><i class="icon-calendar"></i></span>
           <%= form.text_field("start_time[date]", :id => "start_time_date", :maxlength => 20, :class => "datefield input-small", :value => (Clock.time + ConcertoConfig[:start_date_offset].to_i.days).strftime("%m/%d/%Y")) %>
         </div>
@@ -21,7 +21,7 @@
     <div class="clearfix datetime">
       <%= form.label :end_time, t(:finish_displaying) %>
       <div class="input">
-        <div class="input-prepend" style="margin-bottom: 6px;">
+        <div class="input-prepend cursor-pointer" style="margin-bottom: 6px;">
           <span class="add-on"><i class="icon-calendar"></i></span>
           <%= form.text_field("end_time[date]", :id => "end_time_date", :maxlength => 20, :class => "datefield input-small", :value => (Clock.time + ConcertoConfig[:default_content_run_time].to_i.days + ConcertoConfig[:start_date_offset].to_i.days).strftime("%m/%d/%Y")) %>
         </div>

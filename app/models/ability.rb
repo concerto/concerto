@@ -10,6 +10,12 @@ class Ability
     # Anything real can read a user
     can :read, User if accessor.persisted?
     
+    ## Content
+    # If any of the submissions can be read the content can be read too.
+    can :read, Content do |content|
+     content.submissions.any?{|s| can?(:read, s)}
+    end
+
     # Only define these permissive settings if concerto is set to be public
     if ConcertoConfig[:public_concerto]
       ## Users
@@ -28,10 +34,6 @@ class Ability
       ## Content
       # Content approved on public feeds is publcally accessible.
       can :read, Content, :submissions => {:feed => {:is_viewable => true}, :moderation_flag => true}
-      # If any of the submissions can be read the content can be read too.
-      can :read, Content do |content|
-        content.submissions.any?{|s| can?(:read, s)}
-      end
   
       ## Fields
       # Anything can read fields and positions.
@@ -94,8 +96,8 @@ class Ability
     ## Content
     # Authenticated users can create content
     can :create, Content if user.persisted?
-    # Users can update and delete their own content
-    can [:update, :delete], Content, :user_id => user.id
+    # Users can read and update and delete their own content
+    can [:read, :update, :delete], Content, :user_id => user.id
 
     ## Screens
     # Authenticated users can create screens

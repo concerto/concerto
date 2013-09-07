@@ -28,4 +28,10 @@ class UserContentAbilityTest < ActiveSupport::TestCase
     ability = Ability.new(users(:kristen))
     assert ability.cannot?(:delete, content)
   end
+
+  test "Content can be read by the owner" do
+    ability = Ability.new(users(:katie))
+    content = contents(:futuristic_ticker)
+    assert ability.can?(:read, content)
+  end
 end

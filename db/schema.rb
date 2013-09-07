@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130817222533) do
+ActiveRecord::Schema.define(version: 20130826025935) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20130817222533) do
     t.string  "value_type"
     t.string  "value_default"
     t.string  "name"
-    t.string  "group"
+    t.string  "category"
     t.text    "description"
     t.boolean "plugin_config"
     t.integer "plugin_id"
@@ -106,8 +106,6 @@ ActiveRecord::Schema.define(version: 20130817222533) do
     t.integer "field_id"
     t.string  "key"
     t.string  "value"
-    t.string  "value_type"
-    t.string  "value_default"
     t.integer "screen_id"
   end
 

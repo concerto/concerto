@@ -1,5 +1,5 @@
 class ContentsController < ApplicationController
-  before_filter :get_content_const, :only => [:new, :create, :preview]
+  before_filter :get_content_const, :only => [:new, :create, :update, :preview]
 
   # Grab the constant object for the type of
   # content we're working with.  Probably needs
@@ -66,10 +66,7 @@ class ContentsController < ApplicationController
       @content = @content_const.new()
       @content.duration = ConcertoConfig[:default_content_duration].to_i
       auth!
-
-      # Remove the feeds that would not take a submission.
-      @feeds = Feed.all
-      @feeds.reject! { |f| !can?(:create, Submission.new(:content => @content, :feed => f)) }
+      @feeds = submittable_feeds
 
       respond_to do |format|
         format.html {} # new.html.erb
@@ -82,6 +79,7 @@ class ContentsController < ApplicationController
   def edit
     @content = Content.find(params[:id])
     auth!
+    @feeds = submittable_feeds
   end
 
   # POST /contents
@@ -91,26 +89,14 @@ class ContentsController < ApplicationController
     @content.user = current_user
     auth!
 
-    @feed_ids = []
-    if params.has_key?("feed_id")
-      @feed_ids = params[:feed_id].values
-    end
+    @feed_ids = feed_ids
 
+    remove_empty_media_param
     respond_to do |format|
-      # remove the media entry added in the _form_top partial if it is completely empty
-      @content.media.reject! { |m| m.file_name.nil? && m.file_type.nil? && m.file_size.nil? && m.file_data.nil? }
       if @content.save
         process_notification(@content, {}, :action => 'create', :owner => current_user)
         # Copy over the duration to each submission instance
-        @feed_ids.each do |feed_id|
-          @feed = Feed.find(feed_id)
-          #If a user can moderate the feed in question the content is automatically approved with their imprimatur
-          if can?(:update, @feed)
-            @content.submissions << Submission.new({:feed_id => feed_id, :duration => @content.duration, :moderation_flag => true, :moderator_id => current_user.id})
-          else
-            @content.submissions << Submission.new({:feed_id => feed_id, :duration => @content.duration})
-          end
-        end
+        create_submissions
         @content.save #This second save adds the submissions
         if @feed_ids == []
           format.html { redirect_to(@content, :notice => t(:content_created_no_feeds)) }
@@ -135,15 +121,27 @@ class ContentsController < ApplicationController
     @content = Content.find(params[:id])
     auth!
 
+    @feed_ids = feed_ids
+
     respond_to do |format|
-      if @content.update_attributes(content_params)
+      if @content.update_attributes(content_update_params)
+        process_notification(@content, {}, :action => 'update', :owner => current_user)
         submissions = @content.submissions
         submissions.each do |submission|
-          submission.update_attributes(:moderation_flag => nil)
+          if @feed_ids.include? submission.feed_id
+            submission.update_attributes(:moderation_flag => nil)
+          else
+            submission.mark_for_destruction
+          end
         end
+        submitted_feeds = submissions.map { |s| s.feed_id }
+        @feed_ids.reject! { |id| submitted_feeds.include? id }
+        create_submissions
+        @content.save
         format.html { redirect_to(@content, :notice => t(:content_updated)) }
         format.xml { head :ok }
       else
+        @feeds = submittable_feeds
         format.html { render :action => "edit" }
         format.xml { render :xml => @content.errors, :status => :unprocessable_entity }
       end
@@ -230,4 +228,41 @@ class ContentsController < ApplicationController
     params.require(content_sym).permit(*attributes)
   end
 
+  # User an extra restictive list of params for content updates.
+  def content_update_params
+    content_sym = :content
+    if !@content_const.nil?
+      content_sym = @content_const.model_name.singular.to_sym
+    end
+    attributes = [:name, :duration, {:start_time => [:time, :date]}, {:end_time => [:time, :date]}]
+    params.require(content_sym).permit(*attributes)
+  end
+
+  def submittable_feeds
+    feeds = Feed.all
+
+    # Remove the feeds that would not take a submission.
+    feeds.reject { |f| !can?(:create, Submission.new(:content => @content, :feed => f)) }
+  end
+
+  def feed_ids
+    feed_ids = params[:feed_id].map { |i, n| n.to_i } if params.has_key?("feed_id")
+    feed_ids ||= []
+  end
+
+  def remove_empty_media_param
+    @content.media.reject! { |m| m.file_name.nil? && m.file_type.nil? && m.file_size.nil? && m.file_data.nil? }
+  end
+
+  def create_submissions
+    @feed_ids.each do |feed_id|
+      @feed = Feed.find(feed_id)
+      #If a user can moderate the feed in question the content is automatically approved with their imprimatur
+      if can?(:update, @feed)
+        @content.submissions << Submission.new({:feed_id => feed_id, :duration => @content.duration, :moderation_flag => true, :moderator_id => current_user.id})
+      else
+        @content.submissions << Submission.new({:feed_id => feed_id, :duration => @content.duration})
+      end
+    end
+  end
 end

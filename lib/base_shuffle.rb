@@ -37,7 +37,7 @@ class BaseShuffle
   # Since we can't directly access the session, the controller
   # will pull here for what should be saved.
   #
-  # @returns [Array<Integer>] Array of content ids in the timeline.
+  # @return [Array<Integer>] Array of content ids in the timeline.
   def save_session()
     @store
   end

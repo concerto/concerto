@@ -29,7 +29,7 @@
         <%= form_for([@screen, @this_field, @subscription], :url => save_all_screen_field_subscriptions_path(@screen, @this_field), :method => :put) do |f| %>
 
           <fieldset>
-            <legend><span><%= t(:subcriptions) %><span></legend>
+            <legend><span><%= t('.subscriptions') %><span></legend>
             <%= hidden_field_tag "new-subscription-index", @this_field.subscriptions.where(:screen_id => @screen.id).size %>
 
             <table id="subscriptions-list" class="no-padding-table">
@@ -79,9 +79,6 @@
               <div class="row-fluid">
                 <div class="span1">
                   <label><%= FieldConfig.human_attribute_name(:key) %></label>
-                </div>
-                <div class="span1">
-                  <label><%= FieldConfig.human_attribute_name(:value_type) %></label>
                 </div>
                 <div class="span4">
                   <label><%= FieldConfig.human_attribute_name(:value) %></label>

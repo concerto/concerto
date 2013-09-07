@@ -7,14 +7,18 @@ class ApplicationController < ActionController::Base
   around_filter :user_time_zone, :if => :user_signed_in?
   helper_method :webserver_supports_restart?
   helper_method :current_screen
+  
+  #We can do some clever stuff for 404-esque errors, but we'll leave 500's be
+  unless Rails.application.config.consider_all_requests_local
+    rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError,
+      ActionController::UnknownController, ActionController::UnknownAction,
+      ActionController::MethodNotAllowed, with: lambda { |exception| render_error 404, exception }
+  end
 
   # Current Ability for CanCan authorization
   # This matches CanCan's code but is here to be explicit,
   # since we modify @current_ability below for plugins.
   def current_ability
-    if @screen_api
-      @current_ability ||= ::Ability.new(current_accessor)
-    end
     @current_ability ||= ::Ability.new(current_accessor)
   end
 
@@ -295,4 +299,15 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     dashboard_path
   end
+  
+  private
+  
+  def render_error(status, exception)
+    respond_to do |format|
+      format.html { render template: "errors/error_#{status}", layout: 'layouts/application', status: status }
+      format.all { render nothing: true, status: status }
+    end
+  end
+
+  
 end

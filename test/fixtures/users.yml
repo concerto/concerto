@@ -4,6 +4,7 @@ admin:
   last_name: USER
   email: admin@admin.com
   is_admin: true
+  encrypted_password: $2a$04$xCwuqPq86MuGSvbWNZ8wlezo6UY3c1aTrgRG9uN4TKvq5ZwmHNJ.u
 
 katie:
   first_name: Katie

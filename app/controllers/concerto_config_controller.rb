@@ -3,7 +3,7 @@ class ConcertoConfigController < ApplicationController
   # GET /settings
   def show
     authorize! :read, ConcertoConfig
-    @concerto_configs = ConcertoConfig.where("hidden IS NULL").order("`group`, seq_no, `key`")
+    @concerto_configs = ConcertoConfig.where("hidden IS NULL").order("category, seq_no, concerto_configs.key")
   end
 
   # get a hash of concerto_config keys and values and update them using the ConcertoConfig setter

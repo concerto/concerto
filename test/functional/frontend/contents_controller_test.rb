@@ -15,4 +15,10 @@ class Frontend::ContentsControllerTest < ActionController::TestCase
     assert data.length > 0
   end
 
+  test "0x0 image gracefull fails" do
+    get(:show, {:screen_id => screens(:one).id, :field_id => fields(:one).id, :id => contents(:sample_image).id,
+                :height => 0, :width => 0})
+    assert_response 400
+  end
+
 end

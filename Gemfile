@@ -56,8 +56,6 @@ gem 'clockwork'
 # Test Coverage
 gem 'simplecov', :require => false, :group => :test
 
-gem 'rails-backup-migrate'
-
 gem 'kaminari'  # Pagination
 
 # Enable the newsfeed for 1.9+ users.

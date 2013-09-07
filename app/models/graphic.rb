@@ -26,7 +26,7 @@ class Graphic < Content
 
   # Responsible for display transformations on an image.
   # Resizes the image to fit a width and height specified (both required ATM).
-  # Returns a new (unsaved) Media instance.
+  # Returns a new (unsaved) Media instance OR a hash with text to render
   def render(options={})
     cache_key = options
     cache_key[:content_id] = self.id
@@ -48,20 +48,26 @@ class Graphic < Content
     end
     Rails.logger.debug('Cache miss!')
 
-    original_media = self.media.original.first
-    file = original_media
+    preferred_media = self.media.preferred.first
+    file = preferred_media
 
     options[:crop] ||= false
 
     if options.key?(:width) || options.key?(:height)
+
+      if options.key?(:width) && options.key?(:height) &&
+         options[:height].to_f == 0 && options[:width].to_f == 0
+        return {:status => 400, :text => "Bad Request.", :content_type => Mime::TEXT}
+      end
+
       require 'concerto_image_magick'
-      image = ConcertoImageMagick.graphic_transform(original_media, options)
+      image = ConcertoImageMagick.graphic_transform(preferred_media, options)
       
       file = Media.new(
         :attachable => self,
         :file_data => image.to_blob,
         :file_type => image.mime_type,
-        :file_name => original_media.file_name
+        :file_name => preferred_media.file_name
       )
     end
 
