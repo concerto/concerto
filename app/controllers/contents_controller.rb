@@ -141,6 +141,7 @@ class ContentsController < ApplicationController
         format.html { redirect_to(@content, :notice => t(:content_updated)) }
         format.xml { head :ok }
       else
+        @feeds = submittable_feeds
         format.html { render :action => "edit" }
         format.xml { render :xml => @content.errors, :status => :unprocessable_entity }
       end
