@@ -6,7 +6,7 @@
   <header class="viewblock-header">
     <div class="viewblock-header_right">
       <div class="button-padding">
-        <%= link_to t('.restart_webserver'), { :controller => :concerto_plugins, :action => "restart_for_plugin" }, :method => :post, :confirm => t('.restart_confirm'), :class => "btn" %>
+        <%= link_to t('.restart_webserver'), { :controller => :concerto_plugins, :action => "restart_for_plugin" }, :method => :post, :data => { :confirm => t('.restart_confirm') }, :class => "btn" %>
       </div>
     </div>
     <h1 class="default-padding">
@@ -66,6 +66,7 @@
             </div>
           <% end %>
           <%= "</div>".html_safe if i > 0 %>
+        </div>
         </div>
       </fieldset>
 
