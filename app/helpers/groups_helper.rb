@@ -1,6 +1,6 @@
 module GroupsHelper
   def member_list(group=nil)
-    orderedMemberships = group.memberships.approved.order('level DESC').includes(:user).to_a
+    ordered_memberships = group.memberships.approved.order('level DESC').includes(:user).to_a
     member_list = ordered_memberships.map do |membership|
       member_display = String.new
       if membership.level == Membership::LEVELS[:leader]
