@@ -4,6 +4,7 @@
 
 <div id="add-sub" style="display: none;">
   <% feeds = dfs_tree(Feed.roots) %>
+  <% feeds.reject!{ |feed| !allowed_feeds.include?(feed) && !current_feeds.include?(feed)} %>
     <% if feeds.empty? %>
       <p><%= t(:no_feeds) %></p>
     <% else %>
