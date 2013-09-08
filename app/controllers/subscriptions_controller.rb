@@ -26,11 +26,16 @@ class SubscriptionsController < ApplicationController
     @subscription = Subscription.new 
     #stub out the screen ID so that CanCan can find an owner to auth
     @subscription.screen_id = @screen.id
-    auth! 
+    auth!(:actions => :create)
+
+    @subscriptions = @screen.subscriptions.where(:field_id => @field.id)
+
+    # Build a list of allowed feeds
+    @feeds = Feed.all
+    auth!(:action => :read, :object => @feeds)
     
-    @this_field = Field.find(params[:field_id])
     @fields = @screen.template.positions.collect{|p| p.field}
-    @field_configs = @screen.field_configs.where(:field_id => @this_field.id)
+    @field_configs = @screen.field_configs.where(:field_id => @field.id)
     
     respond_to do |format|
       format.html # manage.html.erb
