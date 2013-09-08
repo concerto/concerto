@@ -11,3 +11,9 @@ two:
   field: one
   screen: one
   weight: 1
+
+three:
+  feed: service
+  field: one
+  screen: two
+  weight: 1

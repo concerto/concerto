@@ -116,8 +116,14 @@ class FeedTest < ActiveSupport::TestCase
   end
 
   test "subscribable lists unsubscribed feeds" do
+    f = Feed.subscribable(screens(:two), fields(:one))
+    assert f.include?(feeds(:boring_announcements))
+    assert !f.include?(feeds(:secret_announcements))  # This feed is private
+    assert !f.include?(feeds(:service))  # This feed already exists
+
     f = Feed.subscribable(screens(:one), fields(:one))
-    assert f.include?(feeds(:secret_announcements))
-    assert !f.include?(feeds(:announcements))
+    assert f.include?(feeds(:boring_announcements))
+    assert f.include?(feeds(:secret_announcements))  # This feed is private, but owned via a shared user
+    assert !f.include?(feeds(:service))  # This feed already exists
   end
 end
