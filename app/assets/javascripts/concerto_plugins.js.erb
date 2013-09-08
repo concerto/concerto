@@ -9,7 +9,7 @@ function setPlaceHolderToggleSource()
       if (source == 'git') {
         $(field).attr('placeholder', 'https://foo.bar/baz/repo.git');
       } else if (source == 'path') {
-        $(field).attr('placeholder', '/foo/bar/baz.gem');
+        $(field).attr('placeholder', '/path/to/extracted/gem');
       }
       $(field).parent().parent().show();
       $('input#concerto_plugin_gem_name').focus();
