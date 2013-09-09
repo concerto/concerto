@@ -32,6 +32,7 @@ en:
 
   concerto_config:
     show:
+      global_settings: 'Global Settings'
       edit_settings: "Edit Global Settings"
       restart_confirm: "Restarting the webserver may take a 10 to 20 seconds. Are you sure you'd like to restart?"
       restart_webserver: "Restart Webserver"

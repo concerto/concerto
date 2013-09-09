@@ -1,12 +1,10 @@
-<% content_for :title do %>
-  Global Settings
-<% end %>
+<% content_for :title, t('.global_settings') %>
 
 <section class="viewblock">
   <header class="viewblock-header">
     <div class="viewblock-header_right">
       <div class="button-padding">
-        <%= link_to t('.restart_webserver'), { :controller => :concerto_plugins, :action => "restart_for_plugin" }, :method => :post, :confirm => t('.restart_confirm'), :class => "btn" %>
+        <%= link_to t('.restart_webserver'), concerto_plugins_restart_for_plugin_path, :method => :post, :confirm => t('.restart_confirm'), :class => "btn" %>
       </div>
     </div>
     <h1 class="default-padding">
@@ -14,25 +12,24 @@
     </h1>
   </header>
   <div class="viewblock-cont">
- 
+
     <div class="subnav clearfix">
       <%= generate_tabs @concerto_configs %>
-    
+
     </div>
 
     <%= form_tag concerto_config_path, :method => :put do %>
 
       <fieldset class="global-prefs">
-        
+
         <div class="tab-content">
-          <% last_category, i = "", 0 %>
-          <% for c in @concerto_configs %>
+          <% last_category = "" %>
+          <% @concerto_configs.each_with_index do |c, i| %>
             <% if c.category != last_category %>
               <%= "</div>".html_safe if i > 0 %>
               <div class="tab-pane <%= 'active' if i == 0 %>" id="tab<%= c.id %>">
                 <% last_category = c.category %>
             <% end %>
-            <% i += 1 %>
 
             <div class="clearfix">
               <% if c.value_type == "string" %>
@@ -47,26 +44,22 @@
                 <div class="input">
                   <%= number_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], :class => input_size, :placeholder => c.value_default %>
                 </div>
-              <% elsif c.value_type == "timezone" %>  
-                <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), :tip => c.description %>  
+              <% elsif c.value_type == "timezone" %>
+                <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), :tip => c.description %>
                 <div class="input">
                   <%= select_tag "concerto_config[#{c.key}]", time_zone_options_for_select(ConcertoConfig[:system_time_zone], ActiveSupport::TimeZone.us_zones) %>
                 </div>
               <% elsif c.value_type == "boolean" %>
                 <div class="input checkbox">
                   <%= tag 'input', :type => 'hidden', :name => "concerto_config[#{c.key}]", :value => '0' %>
-                  <% if ConcertoConfig[c.key.to_sym] == true %>
-                      <%= check_box_tag "concerto_config[#{c.key}]", true, :checked => true %>
-                  <% else %>
-                      <%= check_box_tag "concerto_config[#{c.key}]", true %>
-                  <% end %>
+                  <%= check_box 'concerto_config', c.key, {:checked => ConcertoConfig[c.key.to_sym]}, true, false %>
                   <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), :tip => c.description %>
                 </div>
               <% end %>
             </div>
           <% end %>
-          <%= "</div>".html_safe if i > 0 %>
-        </div>
+          <%= "</div>".html_safe if @concerto_configs.count > 0 %>
+          </div>
       </fieldset>
 
       <div class="submit_bar actions">
