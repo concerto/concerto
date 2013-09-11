@@ -8,9 +8,9 @@ class Feed < ActiveRecord::Base
   serialize :content_types, Hash
 
   # Scoped relations for content approval states
-  has_many :approved_contents, :through => :submissions, :source => :content, :conditions => {"submissions.moderation_flag" => true}
-  has_many :pending_contents, :through => :submissions, :source => :content, :conditions => "submissions.moderation_flag IS NULL"
-  has_many :denied_contents, :through => :submissions, :source => :content, :conditions => {"submissions.moderation_flag" => false}
+  has_many :approved_contents, -> { where "submissions.moderation_flag" => true}, :through => :submissions, :source => :content
+  has_many :pending_contents, -> { where "submissions.moderation_flag IS NULL"}, :through => :submissions, :source => :content
+  has_many :denied_contents, -> { where "submissions.moderation_flag" => false}, :through => :submissions, :source => :content
 
   # Validations
   validates :name, :presence => true, :uniqueness => true
@@ -29,7 +29,7 @@ class Feed < ActiveRecord::Base
   # Feed Hierarchy
   belongs_to :parent, :class_name => "Feed"
   has_many :children, :class_name => "Feed", :foreign_key => "parent_id"
-  scope :roots, where(:parent_id => nil)
+  scope :roots, -> { where :parent_id => nil }
 
   # Test if this feed is a root feed or not
   def is_root?

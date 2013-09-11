@@ -4,6 +4,7 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 include Devise::TestHelpers
+load "#{Rails.root}/config/initializers/02-concerto_config.rb"
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.

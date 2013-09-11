@@ -1,7 +1,7 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'https://rubygems.org'
 
-gem "rails", "3.2.14"
+gem "rails", "~> 4.0.0"
 
 # Get the absolute path of this Gemfile so the includes below still work
 # when the current directory for a bundler command isn't the application's
@@ -19,15 +19,11 @@ group :concerto_plugins do
   eval File.read(basedir+'/Gemfile-plugins') if File.exists?(basedir+'/Gemfile-plugins')
 end
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails', "~> 3.2.3"
-  gem 'coffee-rails', "~> 3.2.1"
-  gem 'therubyracer', :platforms => :ruby
-  gem 'execjs'
-  gem 'uglifier', '>= 1.0.3'
-end
+# Gems used only for assets
+gem "sass-rails", "~> 4.0.0"
+gem 'therubyracer', :platforms => :ruby
+gem 'execjs'
+gem 'uglifier', '>= 1.3.0'
 
 gem 'jquery-rails'
 gem 'turbolinks'
@@ -41,7 +37,7 @@ gem 'twitter-bootstrap-rails-confirm'
 gem "sqlite3", :group => [:development, :test]
 gem "mysql2", :group => [:production]
 
-#RMagick is used for image resizing and processing
+# RMagick is used for image resizing and processing
 gem "rmagick", ">= 2.12.2", :require => 'RMagick', :platforms => :ruby
 
 # Attachable does all the file work.
@@ -60,11 +56,9 @@ gem 'clockwork'
 # Test Coverage
 gem 'simplecov', :require => false, :group => :test
 
-gem 'strong_parameters'
-
 gem 'kaminari'  # Pagination
 
 # Enable the newsfeed for 1.9+ users.
-gem 'public_activity' if RUBY_VERSION >= "1.9"
+gem "public_activity", "~> 1.4.0"
 
 gem 'RedCloth'

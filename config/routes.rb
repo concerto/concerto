@@ -7,8 +7,8 @@ end
 
 Concerto::Application.routes.draw do
   v1_router = LegacyRouteMatcher.new
-  match '/' => 'frontend/screens#index', :constraints => v1_router
-  match '/screen' => 'frontend/screens#index', :constraints => v1_router, :as => 'legacy_frontend'
+  get '/' => 'frontend/screens#index', :constraints => v1_router
+  get '/screen' => 'frontend/screens#index', :constraints => v1_router, :as => 'legacy_frontend'
 
   root :to => 'feeds#index'
 
@@ -17,13 +17,13 @@ Concerto::Application.routes.draw do
   end
 
   resources :concerto_plugins
-  match 'concerto_plugins/restart_for_plugin' => 'concerto_plugins#restart_for_plugin', :via => "post"
+  post 'concerto_plugins/restart_for_plugin' => 'concerto_plugins#restart_for_plugin'
 
   resources :activities
 
   #Custom route for the screen creation/admin form JS
   #TODO(bamnet): Clean this up
-  match "update_owners" => "screens#update_owners"
+  get "update_owners" => "screens#update_owners"
 
   # These routes control the frontend of Concerto used by screens.
   # You probably should not touch them without thinking very hard
@@ -113,11 +113,11 @@ Concerto::Application.routes.draw do
   # This is the catch-all path we use for people who type /content when they
   # are semantically looking for all the feeds to show the content.  We put it
   # here at the bottom to avoid capturing any of the restful content paths.
-  match 'content/' => 'feeds#index'
-  match 'browse/' => 'feeds#index'
+  get 'content/' => 'feeds#index'
+  get 'browse/' => 'feeds#index'
 
   unless Rails.application.config.consider_all_requests_local
-    match '*not_found', to: 'errors#error_404'
+    get '*not_found', to: 'errors#error_404'
   end
 
 end

@@ -9,6 +9,9 @@ rescue SocketError => e
   Rails.logger.debug "Socket error in trying to determine hostname: #{e}"
 end
 
+require 'yaml'
+concerto_base_config = YAML.load_file("./config/concerto.yml")
+
 if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
   if ConcertoConfig.columns_hash.has_key?("plugin_id")
     # defaults
@@ -52,7 +55,7 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
   end
 
   Rails.logger.debug "Completed 02-concerto_config.rb at #{Time.now.to_s}"
-  
+
   #Set the time here instead of in application.rb to get ConcertoConfig access
   Rails.application.config.time_zone = ConcertoConfig[:system_time_zone]
   #Set Time.zone specifically, because it's too late to derive it from config.

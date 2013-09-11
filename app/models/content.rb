@@ -49,9 +49,9 @@ class Content < ActiveRecord::Base
   end
 
   # Scoped relations for feed approval states
-  has_many :approved_feeds, :through => :submissions, :source => :feed, :conditions => {"submissions.moderation_flag" => true}
-  has_many :pending_feeds, :through => :submissions, :source => :feed, :conditions => "submissions.moderation_flag IS NULL"
-  has_many :denied_feeds, :through => :submissions, :source => :feed, :conditions => {"submissions.moderation_flag" => false}
+  has_many :approved_feeds, -> { where "submissions.moderation_flag" => true }, :through => :submissions, :source => :feed
+  has_many :pending_feeds, -> { where "submissions.moderation_flag IS NULL" }, :through => :submissions, :source => :feed
+  has_many :denied_feeds, -> { where "submissions.moderation_flag" => false }, :through => :submissions, :source => :feed
 
   # Magic to let us generate routes
   delegate :url_helpers, :to => 'Rails.application.routes'

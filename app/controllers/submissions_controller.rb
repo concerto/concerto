@@ -54,8 +54,8 @@ class SubmissionsController < ApplicationController
     @submission = Submission.find(params[:id])
     auth!
     
-    # IMPORTANT: .all must be at the end of the collection to eager load and prevent the actual object from being deleted!
-    @other_submissions = @submission.content.submissions.all
+    # IMPORTANT: .load must be at the end of the collection to eager load and prevent the actual object from being deleted!
+    @other_submissions = @submission.content.submissions.load
     
     # remove the current submission from the collection of its content's related submissions
     @other_submissions.delete(@submission)

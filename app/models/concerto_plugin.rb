@@ -14,8 +14,8 @@ class ConcertoPlugin < ActiveRecord::Base
 
   validates :gem_name, :presence => true
   validate :check_sources, :on => :create
-  
-  scope :enabled, where(:enabled => true)
+
+  scope :enabled, -> { where(:enabled => true) }
 
   # Find the Engine's module from among the installed engines.
   def engine
@@ -29,7 +29,7 @@ class ConcertoPlugin < ActiveRecord::Base
   def mod
     engine.parent
   end
- 
+
   def module_name
     engine.nil? ? "" : engine.parent.name
   end
@@ -117,8 +117,7 @@ class ConcertoPlugin < ActiveRecord::Base
           result += "\n"
         end
       else
-        logger.warn("ConcertoPlugin: Failed to check view hooks for "+
-                    "#{plugin.name}")
+        logger.warn("ConcertoPlugin: Failed to check view hooks for #{plugin.name}")
       end
     end
     return result.html_safe
@@ -137,8 +136,7 @@ class ConcertoPlugin < ActiveRecord::Base
           callbacks += controller_callbacks
         end
       else
-        logger.warn("ConcertoPlugin: failed to check #{plugin.name}" +
-                    " for callbacks")
+        logger.warn("ConcertoPlugin: failed to check #{plugin.name} for callbacks")
       end
     end
     callbacks.each do |callback|
@@ -148,7 +146,7 @@ class ConcertoPlugin < ActiveRecord::Base
 
 private
 
-  #custom validation for plugin URLs
+  # custom validation for plugin URLs
   def check_sources
     case self.source
       when "rubygems"
@@ -177,9 +175,9 @@ private
           errors.add(:source_url, "can't be blank")
           return false
         end
-        #get the directory of the provided gemfile
+        # get the directory of the provided gemfile
         plugin_path = File.dirname(self.source_url)
-        #user Dir to see if a gemfile exists in that directory
+        # user Dir to see if a gemfile exists in that directory
         if Dir.glob("#{plugin_path}/*.gemspec").empty?
           errors.add(:source_url, "Gemspec not found in #{plugin_path}")
         end
@@ -196,8 +194,8 @@ private
       # Let's get the gem's full path in the filesystem
       gpath = Gem.loaded_specs[gem_name].full_gem_path
       # Then match the path we've got to the path of an engine - 
-      #    which should have its Module Name (aka paydirt)
-      Rails::Application::Railties.engines.each do |engine| 
+      # which should have its Module Name (aka paydirt)
+      Rails::Application::Railties.engines.each do |engine|
         if engine.class.root.to_s == gpath
           # Get the class name from the engine hash
           result = engine.class

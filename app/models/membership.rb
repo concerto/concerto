@@ -45,13 +45,13 @@ class Membership < ActiveRecord::Base
   validates_uniqueness_of :user_id, :scope => :group_id
 
   # Scoping shortcuts for leaders/regular
-  scope :leader, where(:level => Membership::LEVELS[:leader])
-  scope :regular, where(:level => Membership::LEVELS[:regular])
+  scope :leader, -> { where :level => Membership::LEVELS[:leader] }
+  scope :regular, -> { where :level => Membership::LEVELS[:regular] }
 
   # Scoping shortcuts for workflow (approved/pending/denied)
-  scope :approved, where("level > #{Membership::LEVELS[:pending]}")
-  scope :pending, where(:level => Membership::LEVELS[:pending])
-  scope :denied, where(:level => Membership::LEVELS[:denied])
+  scope :approved, -> { where "level > #{Membership::LEVELS[:pending]}" }
+  scope :pending, -> { where :level => Membership::LEVELS[:pending] }
+  scope :denied, -> { where :level => Membership::LEVELS[:denied] }
 
   attr_accessor :perms
 

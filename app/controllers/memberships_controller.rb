@@ -8,7 +8,7 @@ class MembershipsController < ApplicationController
   # POST /groups/:group_id/memberships
   # POST /groups/:group_id/memberships.xml
   def create
-    @membership = Membership.find_or_create_by_user_id_and_group_id(params[:membership][:user_id], params[:group_id])
+    @membership = Membership.where(:user_id => params[:membership][:user_id], :group_id => params[:group_id]).first_or_create
 
     if params[:autoconfirm]
       @membership.update_attributes(:level => Membership::LEVELS[:regular])
