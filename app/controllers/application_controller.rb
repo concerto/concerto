@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   unless Rails.application.config.consider_all_requests_local
     rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError,
       ActionController::UnknownController, ActionController::UnknownAction,
-      ActionController::MethodNotAllowed, with: lambda { |exception| render_error 404, exception }
+      ActionController::MethodNotAllowed, :with => lambda { |exception| render_error 404, exception }
   end
 
   # Current Ability for CanCan authorization
@@ -304,8 +304,8 @@ class ApplicationController < ActionController::Base
   
   def render_error(status, exception)
     respond_to do |format|
-      format.html { render template: "errors/error_#{status}", layout: 'layouts/application', status: status }
-      format.all { render nothing: true, status: status }
+      format.html { render :template => "errors/error_#{status}", :layout => 'layouts/application', :status => status }
+      format.all { render :nothing => true, :status => status }
     end
   end
 
