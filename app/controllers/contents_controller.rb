@@ -85,13 +85,26 @@ class ContentsController < ApplicationController
   # POST /contents
   # POST /contents.xml
   def create
-    @content = @content_const.new(content_params)
+    prams = content_params
+    if prams.include?("media_attributes") && prams[:media_attributes]["0"].include?("id")
+      media_id = prams[:media_attributes]["0"][:id]
+      prams[:media_attributes]["0"].delete :id
+    end
+    @content = @content_const.new(prams)
     @content.user = current_user
     auth!
 
     @feed_ids = feed_ids
 
     remove_empty_media_param
+    if !media_id.blank?
+      @media = Media.find(media_id)
+      # only reassign if not already assigned
+      if @media[:key] == 'preview' && @media[:attachable_id] == 0
+        @media[:key] = 'original'
+        @content.media.concat(@media)
+      end
+    end
     respond_to do |format|
       if @content.save
         process_notification(@content, {}, :action => 'create', :owner => current_user)
@@ -166,9 +179,19 @@ class ContentsController < ApplicationController
   # Trigger the render function a piece of content and passes all the params
   # along for processing.  Should send an inline result of the processing.
   def display
-    @content = Content.find(params[:id])
+    # To support graphic preview where there isnt any content yet, use a new, empty one
+    # because the params contains the media_id that will be passed on to the graphic's
+    # render method for rendering the unattached media record.
+    if params[:id] == "0" && params[:type].present?
+      get_content_const
+      @content = @content_const.new()
+    else
+      @content = Content.find(params[:id])
+    end
+
     auth!(:action => :read)
-    if stale?(:etag => params, :last_modified => @content.updated_at.utc, :public => true)
+    # to support graphic preview, force a render
+    if params[:id] == "0" || stale?(:etag => params, :last_modified => @content.updated_at.utc, :public => true) 
       @file = nil
       data = nil
       benchmark("Content#render") do

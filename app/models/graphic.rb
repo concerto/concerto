@@ -17,6 +17,8 @@ class Graphic < Content
   validates :media, :length => { :minimum => 1, :too_short => "file is required." }
   validates_with GraphicValidator
   
+  attr_accessor :media_id
+
   # Automatically set the kind for the content
   # if it is new.
   def set_kind
@@ -48,7 +50,14 @@ class Graphic < Content
     end
     Rails.logger.debug('Cache miss!')
 
-    preferred_media = self.media.preferred.first
+    # If a media_id was passed in then use that media item (for graphic preview).  This
+    # happens when there is no graphic record yet, but a preview is requested on the 
+    # media that was uploaded.
+    if options.include?(:media_id)
+      preferred_media = Media.find(options[:media_id])
+    else
+      preferred_media = self.media.preferred.first
+    end
     file = preferred_media
 
     options[:crop] ||= false
@@ -98,13 +107,13 @@ class Graphic < Content
   # Graphics also accept media attributes for the uploaded file.
   def self.form_attributes
     attributes = super()
-    attributes.concat([{:media_attributes => [:file, :key]}])
+    attributes.concat([{:media_attributes => [:file, :key, :id]}])
   end
 
-  # return the cleaned input data
+  # returns an image tag that contains the src path to render the preview
   def self.preview(data)
-    # data { media_id:, preview_width:}
-    #clean_html(RedCloth.new(data.to_s).to_html)
+    # this seems wrong to return html here in the model
+    return "<img src='#{Rails.application.routes.url_helpers.display_content_path(0, :media_id => data['media_id'], :width => data['width'], :type => 'Graphic')}' />"
   end
 
 end

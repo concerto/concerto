@@ -1,23 +1,26 @@
 class MediaController < ApplicationController
+  skip_before_filter :verify_authenticity_token,  :only => [:create]
+
   # GET /media/1
   def show
+    # TODO this needs to be secured
     @media = Media.find(params[:id])
     send_data @media.file_contents, :filename => @media.file_name, :type => @media.file_type, :disposition => 'inline'
   end
 
   # POST /media
-  # be able to save the graphics that we are going to preview
-  # and return the id so we can use it
+  # Save the graphics that we are going to preview as media without a corresponding graphic model
+  # and return the id so we can use it for the preview process.  
+  # This is ajax posted from the graphic form.
   def create
+    auth!(:object => Media, :action => :create)
     @media = Media.new(:file => media_params[:graphic][:media_attributes]["0"][:file])
-    @media.attachable_id = 0
-    @media.attachable_type = 'Preview'
-    @media.key = 'Preview'  # use guid to send back to client
+    @media.attachable_id = 0  # this is assigned to the actual Graphic record when the graphic is saved
+    @media.attachable_type = 'Content'
+    @media.key = 'preview'
     if @media.save
-      respond_to do |format|
-        format.html { render :inline  => "<textarea data-type='application/json'>#{@media.to_json(:except => :file_data)}</textarea>" }
-        format.json { render :json => @media.to_json }
-      end
+      # jquery.iframe-transport requires result sent back in textarea
+      render :inline  => "<textarea data-type='application/json'>#{@media.to_json(:only => :id)}</textarea>" 
     else
       raise 'Problem saving media ' + @media.errors.full_messages.join("; ")
     end
