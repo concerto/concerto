@@ -87,6 +87,7 @@ class ContentsController < ApplicationController
   def create
     prams = content_params
     if prams.include?("media_attributes") && prams[:media_attributes]["0"].include?("id")
+      # pull out the media_id otherwise, new will try to find it even though it's not yet linked
       media_id = prams[:media_attributes]["0"][:id]
       prams[:media_attributes]["0"].delete :id
     end
@@ -98,6 +99,8 @@ class ContentsController < ApplicationController
 
     remove_empty_media_param
     if !media_id.blank?
+      # if the media_id was passed in then there is an existing media 
+      # record that needs to be attached to this content
       @media = Media.find(media_id)
       # only reassign if not already assigned
       if @media[:key] == 'preview' && @media[:attachable_id] == 0
@@ -190,7 +193,7 @@ class ContentsController < ApplicationController
     end
 
     auth!(:action => :read)
-    # to support graphic preview, force a render
+    # if handling graphic preview (the content id is 0), force a render
     if params[:id] == "0" || stale?(:etag => params, :last_modified => @content.updated_at.utc, :public => true) 
       @file = nil
       data = nil
