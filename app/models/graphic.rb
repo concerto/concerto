@@ -17,8 +17,6 @@ class Graphic < Content
   validates :media, :length => { :minimum => 1, :too_short => "file is required." }
   validates_with GraphicValidator
   
-  attr_accessor :media_id
-
   # Automatically set the kind for the content
   # if it is new.
   def set_kind
