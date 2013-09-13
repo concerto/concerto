@@ -101,5 +101,11 @@ class Graphic < Content
     attributes.concat([{:media_attributes => [:file, :key]}])
   end
 
+  # return the cleaned input data
+  def self.preview(data)
+    # data { media_id:, preview_width:}
+    #clean_html(RedCloth.new(data.to_s).to_html)
+  end
+
 end
 

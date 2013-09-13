@@ -9,8 +9,9 @@ end
     <label><%= t('.specify_file') %></label>
     <div class="input">
       <%= form.fields_for :media do |media| %>
-      <%= media.file_field :file %>
+      <%= media.file_field :file, :id => 'media_file', :data => { :preview_url => media_index_path } %>
       <%= media.hidden_field :key %>
+      <input type="hidden" id="preview_id" name="preview_id" value="0"/>
       <% end %>
     </div>
   </div>
