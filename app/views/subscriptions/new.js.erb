@@ -1,10 +1,2 @@
-$("#subscriptions-list").append("<%= escape_javascript(render :partial => 'subscriptions/new_subscription_tr', :locals => { :feed => @feed, :i => Time.now.nsec.to_i }) %>");
-
-initializeFrequencySliders();
-showSaveSubsAlert();
-
-$('#ui-tooltip-add-sub').qtip('hide');
-
-$(".qtip").hide();
-
-
+$('#add-sub-btn').qtip('api').set('content.text', '<%= escape_javascript(render :partial => 'subscriptions/add_subscription', :locals => {:allowed_feeds => Feed.subscribable(@screen, @field), :current_feeds => @subscriptions.collect {|s| s.feed}}) %>');
+initFeedFilters();
