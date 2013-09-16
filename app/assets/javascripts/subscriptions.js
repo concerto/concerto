@@ -1,10 +1,10 @@
 function addSubscriptionsUi(){
-  $('.dropdown-control.dd-add-sub').each(function() {
-    $(this).qtip( {
+  var title = $('#add-sub-btn').attr('title')
+  $('#add-sub-btn').qtip( {
       id: 'add-sub',
       content: {
         title: {
-          text: $(this).attr('title'),
+          text: title,
           button: true
         }
       },
@@ -21,13 +21,6 @@ function addSubscriptionsUi(){
             // Update the content of the tooltip on each show
             var target = $(event.originalEvent.target);
             
-            if(target.length) {
-              api.set('content.text', $("#add-sub").html() );
-            }
-            
-            var tooltip_content = api.elements.content;
-            initFeedListState(tooltip_content);
-
             $('.qtip-content input:first').focus(); }, 50);
           }
       },
@@ -38,28 +31,8 @@ function addSubscriptionsUi(){
       hide: 'unfocus',
       style: 'qtip-light qtip-shadow qtip-rounded qtip-nopadding qtip-minheight'
     });
-  }).click(function(e) {
-    e.preventDefault();
-  });
-
-  // bind click handler to all remove buttons, now and in the future, on subscription UI
-  $(document).on("click", "a.btnRemoveSubscription", function(e) {
-    $(this).parents("tbody").append("<tr><td></td></tr>");
-    $(this).parents("tr").remove();
-    showSaveSubsAlert();
-    return false;
-  });
-
-  $("#save-subscriptions-alert").find("input").attr("disabled", true);
 
   initializeFrequencySliders();
-  $("form .frequency_range").change(function() {
-    showSaveSubsAlert();
-  });
-
-  $(document).on("change", "input[type='text'], select", function() {
-    showSaveSubsAlert();
-  });
 
   if ($("#count_field_configs").val() <= 0) {
     toggleFieldConfigsCont();
@@ -93,7 +66,7 @@ function showSaveSubsAlert() {
 }
 
 function initializeFrequencySliders() {
-  $("form .frequency").each(function() {
+  $(".frequency").each(function() {
     var frequency_elem = $(this).find(".frequency_range");
     
     $(frequency_elem).rangeinput({
@@ -101,35 +74,19 @@ function initializeFrequencySliders() {
         handle: 'handle thin'
       }
     }).hide();
-    var range_elem = $(this).find(":range");
-    var handle_elem = $(this).find(".handle");
-    var api = $(range_elem).data("rangeinput");
 
+    // Manually propogate the new value down to the core input.
+    // This allows our AJAX to automatically do it's thing.
+    var range_elem = $(this).find(":range");
+    var api = $(range_elem).data("rangeinput");
+    api.change(function(evt, value) {
+      range_elem.val(value)
+      range_elem.trigger('change');
+    });
+
+    var handle_elem = $(this).find(".handle");
     $(handle_elem).html('&nbsp;');
     
-  });
-}
-
-function generateFeedIdArray() {
-  var feedIdArray = $("#new_subscription .marker-sub-feed").map(function(){
-    return $(this).val();
-  }).get();
-  return feedIdArray;
-}
-
-function initFeedListState(api_content) {
-  var feedIdArray = generateFeedIdArray();
-  $(api_content).find("a").parents("li").removeClass("checked");
-  
-  $.each(feedIdArray, function(i, feed_id) {
-    $(api_content).find("a[data-feed-id='"+feed_id+"']")
-      .parents("li").addClass("checked")
-      .end()
-      .contents().unwrap();
-  });
-
-  $(api_content).find(".feed_filter").each(function() {
-    $(this).listFilter();
   });
 }
 
@@ -146,11 +103,21 @@ function add_field_config_fields (link, association, content) {
   showSaveSubsAlert();
 }
 
+function remove_subscription_handler() {
+  $('#subscriptions-list tbody').on('ajax:success', '.btnRemoveSubscription', function(){
+    $(this).parents("tbody").append("<tr><td></td></tr>");
+    $(this).parents("tr").remove();
+  });
+}
+
 
 function initSubscriptions() {
-  if($('#new_subscription').length > 0){
+  if($('.dd-add-sub').length > 0){
     addSubscriptionsUi();
     $("#new_subscription").formSavior();
+  }
+  if($('.btnRemoveSubscription').length > 0){
+    remove_subscription_handler();
   }
 }
 

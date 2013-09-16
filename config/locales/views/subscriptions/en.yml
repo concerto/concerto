@@ -16,9 +16,9 @@ en:
     shown_frequently: 'Frequently shown'
     shown_rarely: 'Rarely shown'
 
-    add_subscription:
-      add_a_new_feed:  'add a new feed'
+    index:
       search_and_find_a_feed_to_add: "Search and Find a Feed to Add"
+      add_a_new_feed:  'add a new feed'
 
     manage:
       field: 'field'
