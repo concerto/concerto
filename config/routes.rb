@@ -52,7 +52,7 @@ Concerto::Application.routes.draw do
     resources :users
   end
 
-  resources :media, :only => [:show]
+  resources :media, :only => [:show, :create ]
 
   resources :templates do
     member do
