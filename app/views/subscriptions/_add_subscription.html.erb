@@ -1,8 +1,4 @@
-<%= link_to '#', :title => t('.search_and_find_a_feed_to_add'), :class => "btn dropdown-toggle dropdown-control dd-add-sub", :rel => "#add-sub" do %>
-  <i class="icon-plus"></i> <%= t('.add_a_new_feed').capitalize %>...
-<% end %>
-
-<div id="add-sub" style="display: none;">
+<div id="add-sub">
   <% feeds = dfs_tree(Feed.roots) %>
   <% feeds.reject!{ |feed| !allowed_feeds.include?(feed) && !current_feeds.include?(feed)} %>
     <% if feeds.empty? %>
@@ -16,11 +12,17 @@
     <div class="tooltip-scrollY">
       <ul class="filterable selector-list">
       <% feeds.each_with_index do |feed, i| %>
-        <li data-filter="<%= feed.name %>">
-          <%= link_to new_screen_field_subscription_path(@screen, @field, :feed_id => feed.id), :remote => true, :class => "link-hl", "data-feed-id" => feed.id do %>
+        <li data-filter="<%= feed.name %>" class="<%= "checked" if current_feeds.include?(feed) %>">
+          <% if current_feeds.include?(feed) %>
             <%= ("&nbsp;" * feed.depth).html_safe %>
             <i class="icon-ok-sign"></i>
-            <b><%= feed.name %></b>
+            <b><%= feed.name %></b
+          <% else %>
+            <%= link_to screen_field_subscriptions_path(@screen, @field, :subscription => {:feed_id => feed.id}), {:method => :post, :remote => true}, :class => "link-hl", "data-feed-id" => feed.id do %>
+              <%= ("&nbsp;" * feed.depth).html_safe %>
+              <i class="icon-ok-sign"></i>
+              <b><%= feed.name %></b>
+            <% end %>
           <% end %>
         </li>
       <% end %>

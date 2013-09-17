@@ -65,12 +65,7 @@ Concerto::Application.routes.draw do
 
   resources :screens do
     resources :fields, :only => [] do
-      resources :subscriptions do
-        collection do
-          get :manage
-          put :save_all
-        end
-      end
+      resources :subscriptions
     end
   end
 
@@ -117,7 +112,7 @@ Concerto::Application.routes.draw do
   get 'browse/' => 'feeds#index'
 
   unless Rails.application.config.consider_all_requests_local
-    get '*not_found', to: 'errors#error_404'
+    get '*not_found', :to => 'errors#error_404'
   end
 
 end

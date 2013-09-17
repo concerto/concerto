@@ -31,12 +31,12 @@ module ApplicationHelper
     results = []
     results << content_tag(:span, text, options) + " " if !text.nil? && !text.blank?
     results << content_tag(:i, nil, { :class => "icon-question-sign muted tooltip-basic", :data => { :tooltip_text => tip } })
-    return results.join.html_safe
+    results.join.html_safe
   end
 
   # render the label and the toolip beside it (passed in the options as :tip)
   def label_tooltip(object_name, method, content_or_options = nil, options = nil)
-    return label object_name, method do
+    label object_name, method do
       concat(content_or_options + " ") if !content_or_options.nil? && !content_or_options.blank?
       concat(tooltip_tag(options[:tip])) if !options.nil? && options.has_key?(:tip) && !options[:tip].blank?
     end
