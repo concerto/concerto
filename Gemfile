@@ -65,6 +65,6 @@ gem 'strong_parameters'
 gem 'kaminari'  # Pagination
 
 # Enable the newsfeed for 1.9+ users.
-gem 'public_activity' if RUBY_VERSION >= "1.9"
+gem 'public_activity', :platforms => [:ruby_19, :ruby_20]
 
 gem 'RedCloth'
