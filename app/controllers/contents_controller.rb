@@ -93,7 +93,18 @@ class ContentsController < ApplicationController
 
     remove_empty_media_param
     respond_to do |format|
-      if @content.save
+      # remove the media entry added in the _form_top partial if it is completely empty
+      @content.media.reject! { |m| m.file_name.nil? && m.file_type.nil? && m.file_size.nil? && m.file_data.nil? }
+      begin
+        results = @content.save
+      rescue Concerto::ContentConverter::Unconvertable => e
+        results = false
+        flash.now[:error] = e.message
+      rescue StandardError => e
+         results = false
+         flash.now[:error] = e.message
+      end
+      if results
         process_notification(@content, {}, :action => 'create', :owner => current_user)
         # Copy over the duration to each submission instance
         create_submissions
