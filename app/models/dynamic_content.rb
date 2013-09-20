@@ -254,7 +254,7 @@ class DynamicContent < Content
       return "Sorry, you don't have access to perform this action."
     end
     if refresh!
-      return "OK."
+      return "Content successfully refreshed."
     else
       return "Error refreshing."
     end
@@ -271,7 +271,7 @@ class DynamicContent < Content
     self.children.each do |c|
       c.destroy
     end
-    return "OK."
+    return "Content successfully deleted."
   end
 
   # Manually refresh the dynamic content each time it is
