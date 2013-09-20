@@ -12,4 +12,8 @@ module Clockwork
   every(5.minutes, 'Refresh Dynamic Content') do
     DynamicContent.delay.refresh
   end
+
+  every(5.minutes, 'Remove Abandoned Previews') do
+    Media.delay.cleanup_previews
+  end
 end
