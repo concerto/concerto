@@ -32,7 +32,7 @@
     <% end %>
 
   <% elsif @submission.moderation_flag %>
-    <h2><%= t(:approved) %></h2>
+    <h2><%= t('.approved') %></h2>
 
     <% if can? :update, @submission %>
 
