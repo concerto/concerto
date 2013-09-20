@@ -198,10 +198,23 @@ class ContentsController < ApplicationController
     action_name = params[:action_name].to_sym
     params[:current_user] = current_user
     result = @content.perform_action(action_name, params)
-    if result.nil?
-      render :text => 'Unable to perform action.', :status => 400
-    else
-      render :text => result, :status => 200
+
+    respond_to do |format|
+      format.html do 
+        # reload to get the updated information
+        @content = Content.find(params[:id])
+        @user = User.find(@content.user_id)
+
+        flash.now[:notice] = (result.nil? ? 'Unable to perform action' : result)
+        render :show 
+      end
+      format.js do
+        if result.nil?
+          render :text => 'Unable to perform action.', :status => 400
+        else
+          render :text => result, :status => 200
+        end
+      end
     end
   end
 
