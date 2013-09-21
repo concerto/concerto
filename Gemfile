@@ -62,3 +62,5 @@ gem 'kaminari'  # Pagination
 gem "public_activity", "~> 1.4.0", :platforms => [:ruby_19, :ruby_20]
 
 gem 'RedCloth'
+gem 'docsplit'   # for graphics and pdf, ppt conversion
+

@@ -2,8 +2,10 @@ class GraphicValidator < ActiveModel::Validator
   # Validator for Media associated with a Graphic.
   def validate(record)
     graphic_types = ["image/gif", "image/jpeg", "image/pjpeg", "image/png", "image/svg+xml", "image/tiff"]
-    if !record.media.empty? && !graphic_types.include?(record.media[0].file_type)
-      record.errors.add :media, "file is #{record.media[0].file_type}, not a graphic format we support."
+
+    if !record.media.empty? && 
+        !(graphic_types + Concerto::ContentConverter.supported_types).include?(record.media[0].file_type)
+      record.errors.add :media, "file is #{record.media[0].file_type}, not a format we support."
     end
   end
 end
@@ -11,11 +13,19 @@ end
 class Graphic < Content
 
   after_initialize :set_kind
+  before_save :convert_media
 
   #Validations
   validates :duration, :numericality => { :greater_than => 0 }
   validates :media, :length => { :minimum => 1, :too_short => "file is required." }
   validates_with GraphicValidator
+
+  # Convert the media if it is supported by the converter.
+  def convert_media
+    if self.media.size > 0 && Concerto::ContentConverter.supported_types.include?(self.media[0].file_type)
+      self.media = Concerto::ContentConverter.convert(self.media)
+    end
+  end
   
   # Automatically set the kind for the content
   # if it is new.
@@ -48,7 +58,14 @@ class Graphic < Content
     end
     Rails.logger.debug('Cache miss!')
 
-    preferred_media = self.media.preferred.first
+    # If a media_id was passed in then use that media item (for graphic preview).  This
+    # happens when there is no graphic record yet, but a preview is requested on the 
+    # media that was uploaded.
+    if options.include?(:media_id)
+      preferred_media = Media.find(options[:media_id])
+    else
+      preferred_media = self.media.preferred.first
+    end
     file = preferred_media
 
     options[:crop] ||= false
@@ -98,7 +115,13 @@ class Graphic < Content
   # Graphics also accept media attributes for the uploaded file.
   def self.form_attributes
     attributes = super()
-    attributes.concat([{:media_attributes => [:file, :key]}])
+    attributes.concat([{:media_attributes => [:file, :key, :id]}])
+  end
+
+  # returns an image tag that contains the src path to render the preview
+  def self.preview(data)
+    # this seems wrong to return html here in the model
+    return "<img src='#{Rails.application.routes.url_helpers.display_content_path(0, :media_id => data['media_id'], :width => data['width'], :type => 'Graphic')}' />"
   end
 
 end

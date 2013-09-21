@@ -18,7 +18,6 @@
 //= require twitter/bootstrap/rails/confirm
 //= require bootstrap-datepicker/core
 //  NOTE: right now only the English (default) is provided for the bootstrap-datepicker; if all internationalizations should be included, just remove the '/core' part of the line above and make it just 'require bootstrap-datepicker'
-
 //= require jquery.timepicker.js
-
+//= require jquery.iframe-transport
 //= require_tree .

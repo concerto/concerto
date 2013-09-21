@@ -43,6 +43,7 @@ en:
 
     show_body:
       also_appears_on: 'Also submitted to...'
+      approved: 'Approved'
 
     show_header:
       all_feeds: 'All Feeds'

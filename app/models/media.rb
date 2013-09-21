@@ -11,5 +11,12 @@ class Media < ActiveRecord::Base
 
   scope :original, -> { where :key => "original" }
   scope :processed, -> { where :key => "processed" }
-  scope :preferred, -> { where(:key => ["original", "processed"]).order("media.key desc")}   # processed before original
+  scope :preferred, -> { where(:key => ["original", "processed"]).order("media.key desc") } # processed before original
+
+  # remove preview records that have been abandoned
+  def self.cleanup_previews
+    Media.where("media.key = 'preview' and created_at < ?", 15.minutes.ago).each do |r|
+      r.destroy
+    end
+  end
 end
