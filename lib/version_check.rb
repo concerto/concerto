@@ -11,17 +11,11 @@ module VersionCheck
     if !version.nil? && !version_updated.nil? # Version is cached.
       if version_updated < Time.now - 86400 # Stale (older than 24 hours).
         Rails.logger.info "Downloading latest Concerto version information."
-        version = fetch_latest_version() 
-        Rails.cache.write("concerto_version", version)
-        Rails.cache.write("concerto_version_time", Time.now)
-        Rails.logger.info "Current version is #{version}."
+        version = fetch_latest_version
       end
     else # Fetch the latest version.
       Rails.logger.info "Downloading latest Concerto version information for the first time."
-      version = fetch_latest_version()
-      Rails.cache.write("concerto_version", version)
-      Rails.cache.write("concerto_version_time", Time.now)
-      Rails.logger.info "Current version is #{version}."
+      version = fetch_latest_version
     end
     return version
   end
@@ -31,11 +25,12 @@ module VersionCheck
   # to Github and try to find the latest tag.  If all else fails return nil.
   # @return [String, nil] String with the latest version, if available.
   def self.fetch_latest_version
-    version = remote_version()
-    if version.nil?
-      version = github_version()
-    end
-    return version
+    version = remote_version
+    version ||= github_version
+    Rails.cache.write("concerto_version", version)
+    Rails.cache.write("concerto_version_time", Time.now)
+    Rails.logger.info "Current version is #{version}."
+    version
   end
 
 private  # This doesn't actually work, we have to use private_class_method for class methods.
@@ -79,11 +74,7 @@ private  # This doesn't actually work, we have to use private_class_method for c
             Rails.logger.error("Unable to parse github version feed: #{e.message}.")
           end
           versions.sort! {|x,y| y <=> x }
-          if !versions.empty?
-            return versions[0]
-          else
-            return nil
-          end
+          return versions.first
         end
       }
     rescue => e # if for any reason we cannot determine the version then return an error condition
