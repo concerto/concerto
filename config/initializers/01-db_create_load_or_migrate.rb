@@ -52,7 +52,9 @@ unless Rails.env.test?
     }
     
     unless File.exist?("tmp/migration_tempfile")
-      #write a temporary file to indicate a migration is in progress    
+      #The Concerto Git repo doesn't include a tmp directory, and if it isn't created here, things crash
+      FileUtils.mkdir_p('tmp')
+      #write a temporary file to indicate a migration is in progress 
       File.open("tmp/migration_tempfile", "w") {}
       
       begin
