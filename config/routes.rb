@@ -66,6 +66,7 @@ Concerto::Application.routes.draw do
   resources :screens do
     resources :fields, :only => [] do
       resources :subscriptions
+      resources :field_configs
     end
   end
 

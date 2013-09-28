@@ -1,0 +1,60 @@
+<div class="row-fluid">
+  <div class="span12">
+    <section class="viewblock">
+      <header class="viewblock-header">
+        <h1 class="default-padding">
+          <%= link_to t(:all_model, :model => Screen.model_name.human.pluralize), screens_path %> &gt; 
+          <%= link_to @screen.name, @screen %> &gt; 
+          <%= t('.manage_model_for_field', { :model => "Parameters", :name => @field.name }) %>
+        </h1>
+      </header> 
+      
+      <div class="viewblock-cont" style="min-height: 550px;">
+
+        <%= hidden_field_tag "count_field_configs", @field_configs.size %>
+
+        <div class="subnav clearfix">
+          <ul class="nav nav-tabs">
+            <% @screen.template.positions.collect{|p| p.field}.each do |field| %>
+              <li<% if field.id == @field.id %> class="active"<% end %>>
+                <%= link_to screen_field_field_configs_path(@screen, field) do %>
+                  <%= image_tag(preview_template_path(@screen.template, :height => 80, :format => :png, :fields => field), :border => 0) %>
+                  <p class="caption"><%= field.kind.name %> <%= t('.field') %></p>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        <br />
+
+        <fieldset class="event-fieldConfigsDiv">
+          <legend><span><%= t(:parameters) %><span></legend>
+          <div class="field-configs">
+            <div class="row-fluid">
+              <div class="span1">
+                <label><%= FieldConfig.human_attribute_name(:key) %></label>
+              </div>
+              <div class="span4">
+                <label><%= FieldConfig.human_attribute_name(:value) %></label>
+              </div>
+              <div class="span1">
+              </div>
+            </div>
+            <!-- commented out temporarily - need to fix this -->
+            <%# @field_configs.each do |field_config_entry| %>
+              <%#= f.fields_for('field_config[]', field_config_entry, :hidden_field_id => true) do |builder| %>
+                <%# render 'field_config_fields', :p => builder %>
+              <%# end %>
+            <%# end %>
+
+          </div>
+          <%#= link_to_add_field_config_fields t(:add_model, :model => FieldConfig.model_name.human), f %>
+        </fieldset>
+
+        <br />
+
+      </div>
+    </section>
+  </div>
+</div>
