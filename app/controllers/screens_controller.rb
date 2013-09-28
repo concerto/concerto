@@ -41,6 +41,7 @@ class ScreensController < ApplicationController
   # GET /screens/new.xml
   def new
     @screen = Screen.new(:owner => current_user)
+    
     auth!
     respond_to do |format|
       format.html # new.html.erb
@@ -51,6 +52,7 @@ class ScreensController < ApplicationController
   # GET /screens/1/edit
   def edit
     @screen = Screen.find(params[:id])
+    
     auth!
   end
 

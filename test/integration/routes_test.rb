@@ -31,6 +31,6 @@ class RoutesTest < ActionDispatch::IntegrationTest
   test "screen urls OK" do
     assert_recognizes({:controller => 'screens', :action => 'index'}, 'screens')
     assert_recognizes({:controller => 'screens', :action => 'show', :id => '1'}, 'screens/1')
-    assert_equal screen_path(screens(:one)), "/screens/#{screens(:one).id}"
+    assert_equal "/screens/#{screens(:one).id}", screen_path(screens(:one))
   end
 end

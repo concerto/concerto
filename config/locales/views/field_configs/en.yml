@@ -1,0 +1,17 @@
+en:
+  activerecord:
+    models:
+      field_config: 'Config Parameters'
+    attributes:
+      field_config:
+        key: 'Key'
+        value: 'Value'
+
+  field_configs:
+
+    index:
+      field: 'field'
+      manage_model_for_field: 'Manage %{model} for %{name} Field'
+      save_changes_to_model: 'Save changes to %{model}'
+      no_configuration_yet: 'This field does not have any configuration.'
+      field_custom_configurations: 'Custom Field Configs'

@@ -54,10 +54,10 @@
 
         <div class="clearfix">
           <div class="pull-left">
-            <h3><%= field_configs.count %> Config Parameter<%= field_configs.count == 1 ? '' : 's' %></h3>
+            <h3><%= field_configs.count %> Parameter<%= field_configs.count == 1 ? '' : 's' %></h3>
           </div>
           <div class="pull-right">
-            &nbsp;&nbsp;&nbsp;<%= link_to t(:manage), screen_field_subscriptions_path(@screen, field), :class => "btn btn-info" %>
+            &nbsp;&nbsp;&nbsp;<%= link_to t(:manage), screen_field_field_configs_path(@screen, field), :class => "btn btn-info" %>
           </div>
         </div>
 

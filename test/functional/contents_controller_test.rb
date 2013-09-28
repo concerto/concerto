@@ -43,7 +43,7 @@ class ContentsControllerTest < ActionController::TestCase
        }, :feed_id => {"0" => feeds(:service).id}
     end
     assert_redirected_to content_path(assigns(:content))
-    assert_equal assigns(:content).submissions.length, 1
+    assert_equal 1, assigns(:content).submissions.length
     assert assigns(:content).submissions.first.moderation_flag
 
     get(:show, :id => assigns(:content).id)
@@ -87,7 +87,7 @@ class ContentsControllerTest < ActionController::TestCase
     sign_in users(:kristen)
     get(:new, {:type => "graphic"})
     assert_response :success
-    assert_equal assigns(:feeds).length, 4
+    assert_equal 4, assigns(:feeds).length
   end
 
   test "invalid content id should redirect to browse" do

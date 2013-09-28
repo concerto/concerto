@@ -1,7 +1,7 @@
 en:
   activerecord:
     models:
-      field_config: 'Field Configuration'
+      field_config: 'Field Config'
     attributes:
       field_config:
         key: 'Key'
@@ -19,8 +19,6 @@ en:
     index:
       search_and_find_a_feed_to_add: "Search and Find a Feed to Add"
       add_a_new_feed:  'add a new feed'
-
-    manage:
       field: 'field'
       make_changes: 'First make some changes above to save.'
       manage_model_for_field: 'Manage %{model} for %{name} Field'

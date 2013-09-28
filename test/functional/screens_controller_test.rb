@@ -10,15 +10,15 @@ class ScreensControllerTest < ActionController::TestCase
   test "not signed in user has no personal screens" do
     get :index
     assert assigns(:my_screens)
-    assert_equal assigns(:my_screens), []
-    assert_equal assigns(:screens), [screens(:two)]
+    assert_equal [], assigns(:my_screens)
+    assert_equal [screens(:two)], assigns(:screens)
   end
 
   test "signed in user has personal screens" do
     sign_in users(:katie)
     get :index
     assert assigns(:my_screens)
-    assert_equal assigns(:my_screens).count, 3
-    assert_equal assigns(:screens).count, 3
+    assert_equal 3, assigns(:my_screens).count
+    assert_equal 3, assigns(:screens).count
   end
 end

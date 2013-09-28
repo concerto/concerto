@@ -8,10 +8,10 @@ class ConcertoConfigTest < ActiveSupport::TestCase
   end
 
   test "Booleans work as expected" do
-    ConcertoConfig.set(:allow_user_screen_creation, true)
+    ConcertoConfig.set :allow_user_screen_creation, true
     assert ConcertoConfig[:allow_user_screen_creation]
 
-    ConcertoConfig.set(:allow_user_screen_creation, false)
+    ConcertoConfig.set :allow_user_screen_creation, false
     assert !ConcertoConfig[:allow_user_screen_creation]
   end
 
@@ -28,7 +28,7 @@ class ConcertoConfigTest < ActiveSupport::TestCase
 
   test "set and get with cache" do
     ConcertoConfig.set('foo', 'bar')
-    assert_equal 'bar', ConcertoConfig.get('foo')  # Trigger the cache rebuild.
+    assert_equal 'bar', ConcertoConfig.get('foo') # Trigger the cache rebuild.
     assert_equal 'bar', ConcertoConfig.cache_get('foo') # Verify the value.
 
     ConcertoConfig.set('foo', 'baz')
