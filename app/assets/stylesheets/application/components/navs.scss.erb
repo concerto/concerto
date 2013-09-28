@@ -386,8 +386,6 @@ ul.selector-list {
     border-bottom: solid 1px $grayLightest;
     color: black;
 
-    i { display: none; }
-
     &.checked {
       background: lighten($green, 50%);
       padding: 8px 10px;
@@ -403,6 +401,10 @@ ul.selector-list {
       padding: 8px 10px;
       display: block;
     }
+
+    p { margin: 0px; }
+
+    .row-fluid > div { min-height: 0px; }
   }
 }
 

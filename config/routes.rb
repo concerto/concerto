@@ -92,6 +92,7 @@ Concerto::Application.routes.draw do
     end
     collection do
       post :preview
+      get :add_feed
     end
   end
 

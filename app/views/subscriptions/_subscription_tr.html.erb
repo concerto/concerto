@@ -1,4 +1,9 @@
 <tr>
+  <td style="width: 50px;">
+    <%= link_to screen_field_subscription_path(@screen, @field, subscription), :method => :delete, :remote => true, :class => "btn btn-danger btnRemoveSubscription" do %>
+      <i class="icon-remove"></i>
+    <% end %>
+  </td>
   <td>
     <h2><%= subscription.feed.name %></h2>
     <h4 class="color-gray"><%= t('subscriptions.approved_content', :count => subscription.feed.approved_contents.size) %></h4>
@@ -10,10 +15,5 @@
            :data => {:remote => true, :url => screen_field_subscription_path(@screen, @field, subscription), :method => :put} } %>
       <div class="rightseconds" style="width: 50px;"><%= t('subscriptions.shown_frequently') %></div>
     </div>
-  </td>
-  <td>
-    <%= link_to screen_field_subscription_path(@screen, @field, subscription), :method => :delete, :remote => true, :class => "btn btn-danger btnRemoveSubscription" do %>
-      <i class="icon-remove"></i> <%= t(:remove_model, :model => Feed.model_name.human) %>
-    <% end %>
   </td>
 </tr>

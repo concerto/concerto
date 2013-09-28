@@ -46,6 +46,14 @@ class Feed < ActiveRecord::Base
     nodes
   end
 
+  def shown_on_screens
+    unique_screens = {}
+    subscriptions.each { |sub|
+      unique_screens[sub.screen.id] = sub.screen
+    }
+    unique_screens
+  end
+
   # Collect recursive list of child feeds.
   # Every feed the monkey could stop by as he
   # climbs down a tree.

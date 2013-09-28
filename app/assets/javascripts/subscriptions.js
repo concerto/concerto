@@ -80,7 +80,7 @@ function initializeFrequencySliders() {
     var range_elem = $(this).find(":range");
     var api = $(range_elem).data("rangeinput");
     api.change(function(evt, value) {
-      range_elem.val(value)
+      range_elem.val(value);
       range_elem.trigger('change');
     });
 

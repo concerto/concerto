@@ -1,7 +1,12 @@
+<h4 id="event-zeroFeedsMsg">No feeds have been selected yet for this submission.</h4>
+
+<div id="event-selectedFeedList"></div>
+
+<br />
 <div class="clearfix">
   <div class="pull-left" style="margin-right: 16px;">
-    <%= link_to '#', :title => t('.edit_feed_selections'), :class => "btn dropdown-toggle dropdown-control dd-select-feeds", :rel => "#select-feeds" do %>
-      <%= t('.edit_selections').capitalize %>...
+    <%= link_to '#', :title => t('.select_a_feed'), :class => "btn dropdown-toggle dropdown-control dd-select-feeds", :rel => "#select-feeds" do %>
+      <%= t('.select_a_feed').capitalize %>...
     <% end %>
   </div>
   <div id="marker-feed-list" class="pull-left">
@@ -20,15 +25,27 @@
       <input type="text" class="feed_filter fillWidth" placeholder="<%= t('.type_to_filter') %>"/>
     </div>
 
-    <div class="tooltip-scrollY" style="height: 300px; width: 250px;">
+    <div class="tooltip-scrollY" style="height: 300px; width: 100%;">
       <ul class="filterable selector-list">
         <% feeds.each_with_index do |feed, i| %>
         <% allowed_type = (feed.content_types[@content.class.name] == "1") %>
-        <li class="with-padding" data-filter="<%= feed.name %>">
-          <label class="checkbox">
-            <%= check_box_tag "feed_id[#{i}]", feed.id, @content.feeds.include?(feed), :class => "feed-select-checkbox", :disabled => !allowed_type, "data-feed-index" => i, "data-feed-name" => feed.name %>
-            <%= "- " * feed.depth + feed.name %>
-          </label>
+        <li data-filter="<%= feed.name %>">
+          
+          <%= link_to add_feed_contents_path(:feed_id => feed.id, :feed_index => i), :remote => true, :class => "link-hl", "data-feed-index" => i, "data-feed-name" => feed.name, "data-feed-id" => feed.id do %>
+            <div class="row-fluid">
+              <div class="span8">
+                <p>
+                  <%= ("&nbsp;" * feed.depth).html_safe %>
+                  <b><%= feed.name %></b>
+                  <br />
+                  <% if feed.description.length > 0 %><%= truncate(feed.description, :length => 75) %><% end %>
+                </p>
+              </div>
+              <div class="span4" style="text-align: right;">
+                <p style="color: #000;"><%= feed.shown_on_screens.count %> <i class="concertocon-controller-screens" style="line-height: 0px; font-size: 18px;"></i></p>
+              </div>
+            </div>
+          <% end %>
         </li>
         <% end %>
       </ul>

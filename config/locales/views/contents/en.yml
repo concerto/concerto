@@ -15,7 +15,7 @@ en:
 
   contents:
     provide_details: 'Provide Details'
-    select_feeds: 'Select Feeds'
+    submit_to_feeds: 'Submit to Feeds'
 
     edit:
       edit_content: "Edit %{type} Content"
@@ -31,8 +31,7 @@ en:
     form_elements:
       feeds:
         filter_feeds: 'Filter Feeds'
-        edit_selections: "Edit selections"
-        edit_feed_selections: "Edit Feed Selections"
+        select_a_feed: "Select a feed"
         type_to_filter: "Type here to filter"
 
     form_top:

@@ -75,6 +75,15 @@ class ContentsController < ApplicationController
     end
   end
 
+  def add_feed
+    @feed = Feed.find(params[:feed_id])
+    @feed_index = params[:feed_index]
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   # GET /contents/1/edit
   def edit
     @content = Content.find(params[:id])

@@ -36,50 +36,27 @@ function addContentFeedSelectUi(){
         solo: true // ...and hide all other tooltips...
       },
       hide: 'unfocus',
-      style: 'qtip-light qtip-shadow qtip-rounded qtip-nopadding'
+      style: 'qtip-light qtip-shadow qtip-fixedwidth-medium qtip-rounded qtip-nopadding'
     });
   }).click(function(e) {
     e.preventDefault();
   });
 
-  $(document).on("click", "#marker-feed-list .marker-feed a", function(e) {
+  $(document).on("click", "#event-selectedFeedList a.remove-feed", function(e) {
     e.preventDefault();
-    $(this).parents('.marker-feed').remove();
+    $(this).parents('.selected-feed-row').remove();
+    if ( $("#event-selectedFeedList .selected-feed-row").size() <= 0 ) {
+      $("#event-zeroFeedsMsg").show();
+    }
   });
-}
-
-function generateContentFeedIdArray() {
-  var feedIdArray = $("#marker-feed-list .marker-feed").map(function(){
-    return $(this).attr('data-feed-id');
-  }).get();
-  return feedIdArray;
 }
 
 function initContentFeedSelectState(api_content) {
-  var feedIdArray = generateContentFeedIdArray();
-  
   // first make sure all checkboxes are unchecked:
   $(api_content).find(".filterable.selector-list input.feed-select-checkbox").prop("checked", false);
-  
-  $.each(feedIdArray, function(i, feed_id) {
-    $(api_content).find("input[type='checkbox'][value='"+feed_id+"']")
-      .prop("checked", true);
-  });
 
   $(api_content).find(".feed_filter").each(function() {
     $(this).listFilter();
-  });
-
-  $(api_content).find(".filterable.selector-list input.feed-select-checkbox").change(function() {
-    var feedIdArray = generateContentFeedIdArray();
-    var feed_index = $(this).attr("data-feed-index");
-    var feed_id = $(this).val();
-    var feed_name = $(this).attr("data-feed-name");
-    if ($.inArray(feed_id, feedIdArray) === -1) {
-      $("#marker-feed-list").append("<span class='marker-feed' data-feed-id='" + feed_id + "' style='margin-right: 12px;'><input type='hidden' name='feed_id[" + feed_index + "]' value='" + feed_id + "' /><span class='label'>" + feed_name + "&nbsp;&nbsp;&nbsp;<a href='#'><i class='icon-remove'></i></a></span></span>");
-    } else {
-      $("#marker-feed-list").find(".marker-feed[data-feed-id='" + feed_id + "']").remove();
-    }
   });
 }
 
