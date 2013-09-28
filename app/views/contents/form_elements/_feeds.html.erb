@@ -5,12 +5,9 @@
 <br />
 <div class="clearfix">
   <div class="pull-left" style="margin-right: 16px;">
-    <%= link_to '#', :title => t('.select_a_feed'), :class => "btn dropdown-toggle dropdown-control dd-select-feeds", :rel => "#select-feeds" do %>
+    <%= link_to '#', :id => "select-feeds-btn", :title => t('.select_a_feed'), :class => "btn dropdown-toggle dropdown-control dd-select-feeds", :rel => "#select-feeds" do %>
       <%= t('.select_a_feed').capitalize %>...
     <% end %>
-  </div>
-  <div id="marker-feed-list" class="pull-left">
-    <%= feed_markers %>
   </div>
 </div>
 
