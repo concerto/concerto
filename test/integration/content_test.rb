@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ContentTest < ActionController::IntegrationTest
+class ContentIntegrationTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   test "signed in root urls load" do

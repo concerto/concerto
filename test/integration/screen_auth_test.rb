@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ScreenAuthTest < ActionController::IntegrationTest
+class ScreenAuthTest < ActionDispatch::IntegrationTest
   #fixtures :all
   fixtures :users, :screens, :groups, :templates
 
