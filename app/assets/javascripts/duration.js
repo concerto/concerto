@@ -27,9 +27,23 @@ function addDurationUi() {
   
 }
 
+function toggleDurationSelect() {
+  $(".event-toggleDurationSelect a").on("click", function(e) {
+    e.preventDefault();
+    $(this).parent().hide();
+    $(".event-durationSelectDiv").show();
+  });
+
+  $(".event-durationSelectDiv").hide();
+}
+
 function initDuration(){
   if($('form .duration').length > 0){
     addDurationUi();
+  }
+
+  if ( $(".event-toggleDurationSelect").length > 0 ) {
+    toggleDurationSelect();
   }
 }
 

@@ -118,10 +118,9 @@ class Graphic < Content
     attributes.concat([{:media_attributes => [:file, :key, :id]}])
   end
 
-  # returns an image tag that contains the src path to render the preview
+  # return the cleaned input data
   def self.preview(data)
-    # this seems wrong to return html here in the model
-    return "<img src='#{Rails.application.routes.url_helpers.display_content_path(0, :media_id => data['media_id'], :width => data['width'], :type => 'Graphic')}' />"
+    data
   end
 
 end
