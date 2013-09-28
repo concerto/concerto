@@ -14,7 +14,6 @@ class SubscriptionsController < ApplicationController
   def index
     @subscriptions = @screen.subscriptions.where(:field_id => @field.id)
 
-    @field_configs = @screen.field_configs.where(:field_id => @field.id)
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @subscriptions }
@@ -103,7 +102,7 @@ class SubscriptionsController < ApplicationController
     @subscription.destroy
 
     respond_to do |format|
-      format.html { redirect_to(manage_screen_field_subscriptions_url(@screen, @field)) }
+      format.html { redirect_to(screen_field_subscription_path(@screen, @field)) }
       format.xml  { head :ok }
       format.js { head :ok }
     end

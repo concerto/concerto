@@ -1,0 +1,25 @@
+<div class="approval">
+  <div class="row-fluid approval-info">
+    <div class="span3">
+      <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t(:status) %></b></small></p>
+      <p><% if screen.is_online? %>Online <% else %>Offline <% end %> </p>
+      <% if !screen.mac_address.nil? && can?(:edit, screen) %>
+        <p><small><%= t(:mac_address) %>: <%= screen.mac_address %></small>  </p>
+      <% end %>
+    </div>
+    <div class="span3">
+      <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= Screen.human_attribute_name(:owner_id) %></b></small></p>
+      <p><%= screen_owner(screen, false) %></p>
+    </div>
+    <div class="span3">
+      <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t(:template) %></b></small></p>
+      <p><%= screen.template.name unless screen.template.nil? %></p>
+    </div>
+    <div class="span3">
+      <% unless screen.location.blank? %>
+        <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= Screen.human_attribute_name(:location) %></b></small></p>
+        <p><%= screen.location %></p>
+      <% end %>
+    </div>
+  </div>
+</div>

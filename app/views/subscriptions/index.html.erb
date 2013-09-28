@@ -42,43 +42,6 @@
             <% end %>
           </fieldset>
 
-          <br />
-          
-          <%= hidden_field_tag "count_field_configs", @field_configs.size %>
-
-          <p class="default-padding"><%= link_to "Specify custom field configurations...", "#", :class => "event-toggleFieldConfigsDiv" %></p>
-
-          <fieldset class="event-fieldConfigsDiv">
-            <legend><span><%= t(:field_custom_configurations) %><span></legend>
-            <div class="field-configs">
-              <div class="row-fluid">
-                <div class="span1">
-                  <label><%= FieldConfig.human_attribute_name(:key) %></label>
-                </div>
-                <div class="span4">
-                  <label><%= FieldConfig.human_attribute_name(:value) %></label>
-                </div>
-                <div class="span1">
-                </div>
-              </div>
-              <%# @field_configs.each do |field_config_entry| %>
-                <%#= f.fields_for('field_config[]', field_config_entry, :hidden_field_id => true) do |builder| %>
-                  <%# render 'field_config_fields', :p => builder %>
-                <%# end %>
-              <%# end %>
-
-            </div>
-            <%#= link_to_add_field_config_fields t(:add_model, :model => FieldConfig.model_name.human), f %>
-          </fieldset>
-
-          <br />
-
-          <div id="save-subscriptions-alert" class="alert alert-block alert-removeborder alert-zero" style="display: table; text-align: right;">
-            <span class="save-msg" style="display:table-cell; vertical-align:middle; width: 100%;">
-              <%= t('.make_changes') %>
-            </span>
-            <%#= f.submit t('.save_changes_to_model', :model => Field.model_name.human), :class => "btn btn-large pull-right", :style => "margin-left: 12px;" %>
-          </div>
         <%# end %>
 
       </div>

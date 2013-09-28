@@ -1,26 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>We're sorry, but something went wrong (500)</title>
+  <title>500 Error - Concerto Panel</title>
   <style type="text/css">
-    body { background-color: #fff; color: #666; text-align: center; font-family: arial, sans-serif; }
-    div.dialog {
-      width: 25em;
-      padding: 0 4em;
-      margin: 4em auto 0 auto;
-      border: 1px solid #ccc;
-      border-right-color: #999;
-      border-bottom-color: #999;
-    }
-    h1 { font-size: 100%; color: #f00; line-height: 1.5em; }
+    body, html { background: #fff !important; }
   </style>
+  <link href="/assets/application.css" media="screen" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
   <!-- This file lives in public/500.html -->
-  <div class="dialog">
-    <h1>We're sorry, but something went wrong.</h1>
-    <p>We've been notified about this issue and we'll take a look at it shortly.</p>
+  <br />
+  <br />
+  <div class="row-fluid">
+    <div class="span4 center">
+      <img alt="404" src="/assets/miniscreen/500_screen.png" style="max-width: 90%;" width="298">
+      <h1 style="font-size: 6em; color: red; letter-spacing: -0.025em;">500</h1>
+      <br />
+    </div>
+    <div class="span8">
+      <h1 style="font-size: 4em; letter-spacing: -0.025em;">Something went wrong. Rest assured, you have been assigned 0% of the blame.</h1>
+      <br />
+      <h2>Sometimes a strategic retreat is the best option.</h2>
+      <br />
+      <a href="/" class="btn btn-large">Abort!</a>
+    </div>
   </div>
 </body>
 </html>

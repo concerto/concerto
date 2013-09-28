@@ -45,6 +45,35 @@ function initTemplateSelector() {
   });
 }
 
+function initScreenFieldTooltip() {
+  $('.dropdown-control.dd-fieldinfo').click(function(event) { event.preventDefault(); });
+  $('.dropdown-control.dd-fieldinfo').each(function() {
+    $(this).qtip( {
+      content: {
+        text: $("#field-info-content-" + $(this).attr('data-field-id') ).html(),
+        title: {
+          text: $(this).attr('data-title') + " Field"
+        }
+      },
+
+      position: {
+        at: 'center center', // Position the tooltip above the link
+        my: 'center center',
+        viewport: $(window) // Keep the tooltip on-screen at all times
+      },
+
+      show: {
+        event: 'mouseenter', // Show it on focus...
+        delay: 500,
+        solo: true
+      },
+
+      hide: 'unfocus',
+      style: 'qtip-light qtip-shadow qtip-rounded'
+    });
+  });
+}
+
 function initScreensViews() {
   // inset-selection gridlist: when a user clicks on an item in this
   // type of gridlist, auto-select the input that's inside of the item
@@ -62,6 +91,7 @@ function initScreensViews() {
 
   initTemplateSelector();
   initScreenAuthForm();
+  initScreenFieldTooltip();
 }
 
 $(document).ready(initScreensViews);
