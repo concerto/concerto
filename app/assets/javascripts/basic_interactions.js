@@ -110,9 +110,6 @@ function initBasicInteractions() {
   initCharCount();
 }
 
-$(document).ready(initBasicInteractions);
-$(document).on('page:change', initBasicInteractions);
-
 // bootstrap confirmation modal defaults
 $.fn.twitter_bootstrap_confirmbox.defaults = {
     fade: false,
@@ -122,3 +119,6 @@ $.fn.twitter_bootstrap_confirmbox.defaults = {
     proceed: "OK",
     proceed_class: "btn proceed btn-primary"
 };
+
+$(document).ready(initBasicInteractions);
+$(document).on('page:change', initBasicInteractions);

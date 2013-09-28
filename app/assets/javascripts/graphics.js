@@ -22,8 +22,8 @@ var initializeGraphicPreview = {
           type: 'POST',
         }).complete(function(data) {
           media_id.val(data.responseJSON.id);
-          preview.load(preview_url, { data: { media_id: data.responseJSON.id, 
-            width: preview.width() }, type: "Graphic" } );
+          var img_string = "<img src='/content/0/display?media_id=" + media_id.val() + "&type=Graphic&width=" + preview.width() + "' />";
+          preview.html(img_string);
         }).error(function() {
           preview.html("Unable to preview at this time.");
         });
@@ -34,13 +34,13 @@ var initializeGraphicPreview = {
       // Fire off the preview if we already have a media_id, which is the
       // case when validation errors in the form occur.
       var media_id = $("#graphic_media_attributes_0_id");
-      if (media_id.val() != "") {
+      if (media_id.val() !== "") {
         var preview = $('#preview_div');
         var file_input = $('#media_file');
         var preview_url = file_input.data('url');
 
-        preview.load(preview_url, { data: { media_id: media_id.val(), 
-          width: preview.width() }, type: "Graphic" } );
+        var img_string = "<img src='/content/0/display?media_id=" + media_id.val() + "&type=Graphic&width=" + preview.width() + "' />";
+        preview.html(img_string);
       }
     } else {
       // console.log('already initialized');
