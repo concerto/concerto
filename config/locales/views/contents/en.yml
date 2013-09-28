@@ -3,6 +3,7 @@ en:
   at: 'at'
   start_displaying: 'Start Displaying'
   finish_displaying: 'Finish Displaying'
+  second: 'second'
 
   activerecord:
     attributes:
