@@ -57,7 +57,7 @@ class ContentTest < ActiveSupport::TestCase
       dates.each_with_index do |end_time, col|
         content = Content.new(:start_time => start_time,
                                :end_time => end_time)
-        assert_equal content.is_active?, expected_results[row][col]
+        assert_equal expected_results[row][col], content.is_active?
       end
     end
   end
@@ -66,20 +66,20 @@ class ContentTest < ActiveSupport::TestCase
   # into a datetime object in addition to a string.
   test "start_time translation" do
     c = Content.new(:start_time => {:date => "4/12/2011", :time => "1:23 am"})
-    assert_equal c.start_time.utc.strftime('%Y-%m-%d %H:%M:%S'), "2011-04-12 01:23:00"
+    assert_equal "2011-04-12 01:23:00", c.start_time.utc.strftime('%Y-%m-%d %H:%M:%S')
 
     c = Content.new(:start_time => "2011-04-12 01:34:00")
-    assert_equal c.start_time.utc.strftime('%Y-%m-%d %H:%M:%S'), "2011-04-12 01:34:00"
+    assert_equal "2011-04-12 01:34:00", c.start_time.utc.strftime('%Y-%m-%d %H:%M:%S')
   end
 
   # end_time should correctly translate a hash
   # into a datetime object in addition to a string.
   test "end_time translation" do
     c = Content.new(:end_time => {:date => "4/12/2011", :time => "5:00 pm"})
-    assert_equal c.end_time.utc.strftime('%Y-%m-%d %H:%M:%S'), "2011-04-12 17:00:00"
+    assert_equal "2011-04-12 17:00:00", c.end_time.utc.strftime('%Y-%m-%d %H:%M:%S')
     
     c = Content.new(:end_time => "2011-01-01 00:00:00")
-    assert_equal c.end_time.utc.strftime('%Y-%m-%d %H:%M:%S'), "2011-01-01 00:00:00"
+    assert_equal "2011-01-01 00:00:00", c.end_time.utc.strftime('%Y-%m-%d %H:%M:%S')
   end
 
   test "content type scope works" do
@@ -96,7 +96,7 @@ class ContentTest < ActiveSupport::TestCase
   test "content scope does not propogate" do
     graphics = Graphic.active.all
     graphics.each do |g|
-      assert_equal g.class.name, "Graphic"
+      assert_equal "Graphic", g.class.name
     end
   end
 
@@ -117,6 +117,6 @@ class ContentTest < ActiveSupport::TestCase
 
   test "default content does no actions" do
     c = Content.new()
-    assert_equal c.perform_action(:save, {:current_user => users(:katie)}), nil
+    assert_equal nil, c.perform_action(:save, {:current_user => users(:katie)})
   end
 end

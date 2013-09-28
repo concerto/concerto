@@ -51,8 +51,8 @@ class TemplateTest < ActiveSupport::TestCase
     media = t.media.build(:file => file, :key => 'original')
     media.save
     assert t.update_original_sizes
-    assert_equal t.original_width, 1920
-    assert_equal t.original_height, 1200
+    assert_equal 1920, t.original_width
+    assert_equal 1200, t.original_height
   end
 
   test "template names must be unique" do

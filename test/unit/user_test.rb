@@ -16,11 +16,11 @@ class UserTest < ActiveSupport::TestCase
       membership.save
 
       groups = @karen.supporting_groups(:feed, [level])
-      assert_equal groups, [groups(:wtg)]
+      assert_equal [groups(:wtg)], groups
     end
 
     no_groups = @katie.supporting_groups(:feed, feed_levels)
-    assert_equal no_groups, []
+    assert_equal [], no_groups
   end
 
   test "cannot delete user that owns a screen" do

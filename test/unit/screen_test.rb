@@ -94,7 +94,7 @@ class ScreenTest < ActiveSupport::TestCase
     s = Screen.new()
     assert_equal nil, s.mac_address
     s.mac_address = 'abc123'
-    assert_equal s.mac_address, '00:00:00:ab:c1:23'
-    assert_equal s.authentication_token, 'mac:abc123'
+    assert_equal '00:00:00:ab:c1:23', s.mac_address
+    assert_equal 'mac:abc123', s.authentication_token
   end
 end

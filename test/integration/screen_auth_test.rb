@@ -13,7 +13,7 @@ class ScreenAuthTest < ActionController::IntegrationTest
     # Initial visit by screen to get token
     screen_session.get "/frontend"
     screen_session.assert_response :success
-    assert_equal screen_session.session[:screen_temp_token].length, 6
+    assert_equal(6, screen_session.session[:screen_temp_token].length)
     token_from_screen = screen_session.session[:screen_temp_token]
 
     # Admin logs in and sets up the screen using the token

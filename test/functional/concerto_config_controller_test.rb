@@ -27,7 +27,7 @@ class ConcertoConfigControllerTest < ActionController::TestCase
     put :update, :concerto_config => {"public_concerto"=>"false", "new_key"=>"new_value"}
     assert_redirected_to concerto_config_path
     assert !ConcertoConfig[:public_concerto]
-    assert_equal ConcertoConfig[:new_key], "new_value"
+    assert_equal "new_value", ConcertoConfig[:new_key]
   end
 
   test "regular cannot update" do
