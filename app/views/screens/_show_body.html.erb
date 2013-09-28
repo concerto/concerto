@@ -1,59 +1,74 @@
-<div class="fluid-row">
-  <div class="span2">
-    <br />
-    <%= link_to t(:preview), frontend_screen_path(@screen, :preview => "true"), :class => "btn", :data => {'no-turbolink' => true} if can? :update, @screen %>
-    <br />
-    <br />
+<%= render :partial => "screen_info", :locals => { :screen => @screen } %>
 
-    <% unless @screen.location.blank? %>
-      <p><b><%= Screen.human_attribute_name(:location) %>:</b> <%= @screen.location %></p>
-    <% end %>
+<h4 class="center">Hover over a field below to view its settings.</h4>
 
-    <p><b><%= Screen.human_attribute_name(:owner_id) %>:</b> <%= screen_owner(@screen, false) %></p>
-    <p><b><%= t(:template) %>:</b> <%= @screen.template.name unless @screen.template.nil? %></p>
-    <p><b><%= t(:status) %>:</b> <% if @screen.is_online? %>Online <% else %>Offline <% end %> </p>
-    <% if !@screen.mac_address.nil? && can?(:edit, @screen) %>
-      <p><b><%= t(:mac_address) %>:</b> <%= @screen.mac_address %></p>
-    <% end %>
-    
-    <p>
-      <b><%= t(:current_model, :model => Subscription.model_name.human.pluralize) %></b>
+<!-- <p>
+  <b><%#= t(:current_model, :model => Subscription.model_name.human.pluralize) %></b>
 
-      <ul>
-        <% @screen.fields.each do |field| %>
-          <% subscriptions = @screen.subscriptions.where(:field_id => field.id) %>
-          <li><%= field.name %></li>
-          <% if !subscriptions.empty? %>
-            <ul>
-              <% subscriptions.each do |subscription| %>
-                <li><%= link_to subscription.feed.name, subscription.feed %><%= " - #{subscription.weight}" unless subscription.weight.blank?%></li>
-              <% end %>
-            </ul>
-          <% end %>
-        <% end %>
-      </ul>
-    </p>
-    <%= ConcertoPlugin.render_view_hook self, :screen_details %>
-  </div>
-  <div class="span10">
+  <ul>
+    <%# @screen.fields.each do |field| %>
+      <%# subscriptions = @screen.subscriptions.where(:field_id => field.id) %>
+      <li><%#= field.name %></li>
+      <%# if !subscriptions.empty? %>
+        <ul>
+          <%# subscriptions.each do |subscription| %>
+            <li><%#= link_to subscription.feed.name, subscription.feed %><%#= " - #{subscription.weight}" unless subscription.weight.blank?%></li>
+          <%# end %>
+        </ul>
+      <%# end %>
+    <%# end %>
+  </ul>
+</p> -->
+<%= ConcertoPlugin.render_view_hook self, :screen_details %>
 
-    <div class="default-padding">
-      <% if !@screen.template.nil? %>
-      <div class="screen-model" style="height: 400px;">
-        <div class="bottom"><span class="brand">Concerto</span></div>
-        <div class="inset" style="background: url(<%= preview_template_path(@screen.template, :width => 800, :height => 450, :format => :png) %>) center center no-repeat; background-size: 100% 100%;">
-          <% @screen.template.positions.each do |pos| %>
-            <div class="pos" style="top: <%= pos.top * 100 %>%; left: <%= pos.left * 100 %>%; width: <%= (pos.right - pos.left) * 100 %>%; height: <%= (pos.bottom - pos.top) * 100 %>%;">
-              <% if can? :update, Subscription.new(:screen => @screen, :field => pos.field) %>
-                <%= link_to t(:manage_model, :model => Subscription.model_name.human.pluralize), screen_field_subscriptions_path(@screen, pos.field), :class => "btn btn-info" %>
-              <% end %>
-            </div>
-          <% end %>
+<br />
+
+<% if !@screen.template.nil? %>
+<div class="screen-model screens-show">
+  <div class="bottom"><span class="brand">Concerto</span></div>
+  <div class="inset" style="background: url(<%= preview_template_path(@screen.template, :width => 800, :height => 450, :format => :png) %>) center center no-repeat; background-size: 100% 100%;">
+    <% @screen.template.positions.each do |pos| %>
+      <% field = pos.field %>
+      <% subscriptions = @screen.subscriptions.where(:field_id => field.id) %>
+      <% field_configs = @screen.field_configs.where(:field_id => field.id) %>
+
+      <a href="#" class="pos dropdown-control dd-fieldinfo" style="top: <%= pos.top * 100 %>%; left: <%= pos.left * 100 %>%; width: <%= (pos.right - pos.left) * 100 %>%; height: <%= (pos.bottom - pos.top) * 100 %>%;" data-title="<%= field.name %>" data-field-id="<%= field.id %>">
+        &nbsp;
+      </a>
+
+      <div id="field-info-content-<%= field.id %>" style="display: none;">
+        <br />
+        <div class="clearfix">
+          <div class="pull-left">
+            <h3><%= subscriptions.count %> Subscription<%= subscriptions.count == 1 ? '' : 's' %></h3>
+          </div>
+          <div class="pull-right">
+            <% if can? :update, Subscription.new(:screen => @screen, :field => field) %>
+              &nbsp;&nbsp;&nbsp;<%= link_to t(:manage), screen_field_subscriptions_path(@screen, field), :class => "btn btn-info" %>
+            <% end %>
+          </div>
         </div>
-      </div>
-      <% end %>
-    </div>
-  </div>
+        <p>(<% subscriptions.each_with_index do |sub, i| %><%= sub.feed.name %><%= i < subscriptions.count - 1 ? ', ' : '' %><% end %>)</p>
+        
+        <hr />
 
-  
+        <div class="clearfix">
+          <div class="pull-left">
+            <h3><%= field_configs.count %> Config Parameter<%= field_configs.count == 1 ? '' : 's' %></h3>
+          </div>
+          <div class="pull-right">
+            &nbsp;&nbsp;&nbsp;<%= link_to t(:manage), screen_field_subscriptions_path(@screen, field), :class => "btn btn-info" %>
+          </div>
+        </div>
+
+        <br />
+      </div>
+
+    <% end %>
+  </div>
 </div>
+<% end %>
+<br />
+<br />
+<%= link_to t(:preview), frontend_screen_path(@screen, :preview => "true"), :class => "btn", :data => {'no-turbolink' => true} if can? :update, @screen %>
+<br />
