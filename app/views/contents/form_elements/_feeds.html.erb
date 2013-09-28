@@ -25,25 +25,29 @@
     <div class="tooltip-scrollY" style="height: 300px; width: 100%;">
       <ul class="filterable selector-list">
         <% feeds.each_with_index do |feed, i| %>
-        <% allowed_type = (feed.content_types[@content.class.name] == "1") %>
-        <li data-filter="<%= feed.name %>">
-          
-          <%= link_to add_feed_contents_path(:feed_id => feed.id, :feed_index => i), :remote => true, :class => "link-hl", "data-feed-index" => i, "data-feed-name" => feed.name, "data-feed-id" => feed.id do %>
-            <div class="row-fluid">
-              <div class="span8">
-                <p>
-                  <%= ("&nbsp;" * feed.depth).html_safe %>
-                  <b><%= feed.name %></b>
-                  <br />
-                  <% if feed.description.length > 0 %><%= truncate(feed.description, :length => 75) %><% end %>
-                </p>
+          <% allowed_type = (feed.content_types[@content.class.name] == "1") %>
+        
+          <% if allowed_type %>
+          <li data-filter="<%= feed.name %>">
+            
+            <%= link_to add_feed_contents_path(:feed_id => feed.id, :feed_index => i), :remote => true, :class => "link-hl", "data-feed-index" => i, "data-feed-name" => feed.name, "data-feed-id" => feed.id do %>
+              <div class="row-fluid">
+                <div class="span8">
+                  <p>
+                    <%= ("&nbsp;" * feed.depth).html_safe %>
+                    <b><%= feed.name %></b>
+                    <br />
+                    <% if feed.description.length > 0 %><%= truncate(feed.description, :length => 75) %><% end %>
+                  </p>
+                </div>
+                <div class="span4" style="text-align: right;">
+                  <p style="color: #000; line-height: 12px; "><%= feed.shown_on_screens.count %> <i class="concertocon-controller-screens" style="line-height: normal; font-size: 18px;"></i></p>
+                </div>
               </div>
-              <div class="span4" style="text-align: right;">
-                <p style="color: #000;"><%= feed.shown_on_screens.count %> <i class="concertocon-controller-screens" style="line-height: 0px; font-size: 18px;"></i></p>
-              </div>
-            </div>
+            <% end %>
+          </li>
           <% end %>
-        </li>
+
         <% end %>
       </ul>
     </div>

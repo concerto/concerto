@@ -51,9 +51,24 @@ function addContentFeedSelectUi(){
   });
 }
 
+function generateFeedIdArray() {
+  var feedIdArray = $("#event-selectedFeedList .selected-feed-input").map(function(){
+    return $(this).val();
+  }).get();
+
+  return feedIdArray;
+}
+
 function initContentFeedSelectState(api_content) {
-  // first make sure all checkboxes are unchecked:
-  $(api_content).find(".filterable.selector-list input.feed-select-checkbox").prop("checked", false);
+  var feedIdArray = generateFeedIdArray();
+  $(api_content).find("a").parents("li").removeClass("checked");
+  
+  $.each(feedIdArray, function(i, feed_id) {
+    $(api_content).find("a[data-feed-id='"+feed_id+"']")
+      .parents("li").addClass("checked")
+      .end()
+      .contents().unwrap();
+  });
 
   $(api_content).find(".feed_filter").each(function() {
     $(this).listFilter();
