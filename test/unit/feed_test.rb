@@ -38,7 +38,7 @@ class FeedTest < ActiveSupport::TestCase
   # A child feed should have a parent
   test "feed parent relationship" do
     assert_nil feeds(:announcements).parent
-    assert_equal feeds(:boring_announcements).parent, feeds(:announcements)
+    assert_equal feeds(:announcements), feeds(:boring_announcements).parent
   end
 
   # A feed should have children
@@ -48,7 +48,7 @@ class FeedTest < ActiveSupport::TestCase
     assert feeds(:announcements).children.include?(feeds(:boring_announcements))
     assert feeds(:announcements).children.include?(feeds(:important_announcements))
 
-    assert_equal feeds(:boring_announcements).children, [feeds(:sleepy_announcements)]
+    assert_equal [feeds(:sleepy_announcements)], feeds(:boring_announcements).children
   end
 
   # A root feed is_root?
@@ -71,31 +71,31 @@ class FeedTest < ActiveSupport::TestCase
 
     assert feeds(:announcements).ancestors.empty?
 
-    assert_equal feeds(:boring_announcements).ancestors, [feeds(:announcements)]
-    assert_equal feeds(:sleepy_announcements).ancestors, [feeds(:boring_announcements), feeds(:announcements)]
+    assert_equal [feeds(:announcements)], feeds(:boring_announcements).ancestors
+    assert_equal [feeds(:boring_announcements), feeds(:announcements)], feeds(:sleepy_announcements).ancestors
   end
 
   # Descendants are built and in order
   test "feed descendants" do
     assert feeds(:service).descendants.empty?
 
-    assert_equal feeds(:announcements).descendants.size, 3
+    assert_equal 3, feeds(:announcements).descendants.size
     assert feeds(:announcements).descendants.include?(feeds(:boring_announcements))
     assert feeds(:announcements).descendants.include?(feeds(:sleepy_announcements))
     assert feeds(:announcements).descendants.include?(feeds(:important_announcements))
 
     feed_list = [feeds(:boring_announcements), feeds(:sleepy_announcements), feeds(:important_announcements)]
-    assert_equal feeds(:announcements).descendants, feed_list
+    assert_equal feed_list, feeds(:announcements).descendants
 
-    assert_equal feeds(:boring_announcements).descendants, [feeds(:sleepy_announcements)]
+    assert_equal [feeds(:sleepy_announcements)], feeds(:boring_announcements).descendants
   end
 
   # Test feed depth
   test "feed depth" do
-    assert_equal feeds(:service).depth, 0
-    assert_equal feeds(:announcements).depth, 0
+    assert_equal 0, feeds(:service).depth
+    assert_equal 0, feeds(:announcements).depth
 
-    assert_equal feeds(:sleepy_announcements).depth, 2
+    assert_equal 2, feeds(:sleepy_announcements).depth
   end
 
   # Self and siblings works for children and roots
@@ -107,11 +107,11 @@ class FeedTest < ActiveSupport::TestCase
       end
     end
 
-    assert_equal feeds(:boring_announcements).self_and_siblings.size, 2
+    assert_equal 2, feeds(:boring_announcements).self_and_siblings.size
     assert feeds(:boring_announcements).self_and_siblings.include?(feeds(:boring_announcements))
     assert feeds(:boring_announcements).self_and_siblings.include?(feeds(:important_announcements))
 
-    assert_equal feeds(:sleepy_announcements).self_and_siblings.size, 1
+    assert_equal 1, feeds(:sleepy_announcements).self_and_siblings.size
     assert feeds(:sleepy_announcements).self_and_siblings.include?(feeds(:sleepy_announcements))
   end
 

@@ -16,6 +16,6 @@ class TickerTest < ActiveSupport::TestCase
   end
 
   test "ticker class has display name" do
-    assert_equal Ticker.display_name, "Ticker Text"
+    assert_equal "Ticker Text", Ticker.display_name
   end
 end

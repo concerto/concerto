@@ -13,7 +13,7 @@ class GraphicTest < ActiveSupport::TestCase
   # Verify the kind is getting auto-assigned
   test "kind should be auto set" do
     graphic = Graphic.new
-    assert_equal graphic.kind, Kind.where(:name => "Graphics").first
+    assert_equal Kind.where(:name => "Graphics").first, graphic.kind
   end
 
   # Graphics require imagess to be attached
@@ -46,6 +46,6 @@ class GraphicTest < ActiveSupport::TestCase
   end
 
   test "graphic class has display name" do
-    assert_equal Graphic.display_name, "Graphic"
+    assert_equal "Graphic", Graphic.display_name
   end
 end

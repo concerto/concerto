@@ -4,9 +4,9 @@ include ActionDispatch::TestProcess
 class DynamicContentTest < ActiveSupport::TestCase
   test "New config is created" do
     dynamic = DynamicContent.new
-    assert_equal dynamic.config.class, {}.class
+    assert_equal({}.class, dynamic.config.class)
     dynamic.config['var'] = 'foo'
-    assert_equal dynamic.config['var'], 'foo'
+    assert_equal 'foo', dynamic.config['var']
   end
 
   test "Save and load config" do
@@ -18,8 +18,8 @@ class DynamicContentTest < ActiveSupport::TestCase
     dynamic.config = nil
     dynamic.load_config
 
-    assert_equal dynamic.config['var'], 'foo'
-    assert_equal dynamic.config['other'], 123
+    assert_equal 'foo', dynamic.config['var']
+    assert_equal 123, dynamic.config['other']
   end
 
   test "Auto save and load" do
@@ -31,8 +31,8 @@ class DynamicContentTest < ActiveSupport::TestCase
     dynamic.save
 
     fresh = DynamicContent.find(dynamic.id)
-    assert_equal fresh.config['var'], 'foo'
-    assert_equal fresh.config['other'], 123
+    assert_equal 'foo', fresh.config['var']
+    assert_equal 123, fresh.config['other']
   end
   
   test "Expire children is called" do

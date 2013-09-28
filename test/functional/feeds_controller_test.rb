@@ -15,21 +15,21 @@ class FeedsControllerTest < ActionController::TestCase
   test "not signed in user has nothing to moderate" do
     get :index
     assert assigns(:pending_submissions_count)
-    assert_equal assigns(:pending_submissions_count), 0
+    assert_equal 0, assigns(:pending_submissions_count)
   end
 
   test "moderator has pending submissions" do
     sign_in users(:katie)
     get :index
     assert assigns(:pending_submissions_count)
-    assert_equal assigns(:pending_submissions_count), 3
+    assert_equal 3, assigns(:pending_submissions_count)
   end
 
   test "moderate index shows pending submissions" do
     sign_in users(:katie)
     get :moderate
     assert assigns(:feeds)
-    assert_equal assigns(:feeds), [feeds(:service)]
+    assert_equal [feeds(:service)], assigns(:feeds)
   end
 
   test "moderate page not allowed without sign in" do

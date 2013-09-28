@@ -81,7 +81,7 @@ class SubmissionTest < ActiveSupport::TestCase
 
     assert parent.is_approved?
     assert child.is_approved?
-    assert_equal submissions(:pending_child).moderator, users(:katie)
+    assert_equal users(:katie), submissions(:pending_child).moderator
     assert submissions(:distant_child).is_denied?
     assert submissions(:bad_child).is_denied?
   end

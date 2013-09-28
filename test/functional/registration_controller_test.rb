@@ -57,7 +57,7 @@ class ConcertoDeviseRegistrationsControllerTest < ActionController::TestCase
       post :create, {:user => {:first_name => "Name", :last_name => "Last", :email => "a@a.com", :password => 'pass1234', :password_confirmation => 'pass1234'}, :concerto_config => {:send_errors => "true"}}
     end
     assert_equal ConcertoConfig[:send_errors], true
-    assert_equal User.admin.count, 1
+    assert_equal 1, User.admin.count
   end
 
   test "new admin no errors" do
