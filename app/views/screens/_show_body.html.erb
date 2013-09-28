@@ -1,26 +1,11 @@
 <%= render :partial => "screen_info", :locals => { :screen => @screen } %>
+<%= ConcertoPlugin.render_view_hook self, :screen_details %>
 
 <h4 class="center">Hover over a field below to view its settings.</h4>
 
-<!-- <p>
-  <b><%#= t(:current_model, :model => Subscription.model_name.human.pluralize) %></b>
-
-  <ul>
-    <%# @screen.fields.each do |field| %>
-      <%# subscriptions = @screen.subscriptions.where(:field_id => field.id) %>
-      <li><%#= field.name %></li>
-      <%# if !subscriptions.empty? %>
-        <ul>
-          <%# subscriptions.each do |subscription| %>
-            <li><%#= link_to subscription.feed.name, subscription.feed %><%#= " - #{subscription.weight}" unless subscription.weight.blank?%></li>
-          <%# end %>
-        </ul>
-      <%# end %>
-    <%# end %>
-  </ul>
-</p> -->
-<%= ConcertoPlugin.render_view_hook self, :screen_details %>
-
+<div class="center">
+  <%= link_to t(:preview_screen), frontend_screen_path(@screen, :preview => "true"), :class => "btn", :data => {'no-turbolink' => true} if can? :update, @screen %>
+</div>
 <br />
 
 <% if !@screen.template.nil? %>
@@ -69,6 +54,4 @@
 </div>
 <% end %>
 <br />
-<br />
-<%= link_to t(:preview), frontend_screen_path(@screen, :preview => "true"), :class => "btn", :data => {'no-turbolink' => true} if can? :update, @screen %>
 <br />
