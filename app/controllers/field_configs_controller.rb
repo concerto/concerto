@@ -13,7 +13,7 @@ class FieldConfigsController < ApplicationController
   # GET /screens/:screen_id/fields/:field_id/subscriptions.xml
   def index
     @field_configs = @screen.field_configs.where(:field_id => @field.id)
-    
+    @subscription = Subscription.where(:field_id => @field.id, :screen_id => @screen.id).first
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @field_configs }

@@ -41,13 +41,14 @@
               <div class="span1">
               </div>
             </div>
+            <%= form_for([@screen, @field, @subscription]) do |f| %>
             <!-- commented out temporarily - need to fix this -->
-            <%# @field_configs.each do |field_config_entry| %>
-              <%#= f.fields_for('field_config[]', field_config_entry, :hidden_field_id => true) do |builder| %>
-                <%# render 'field_config_fields', :p => builder %>
-              <%# end %>
-            <%# end %>
-
+            <% @field_configs.each do |field_config_entry| %>
+              <%= f.fields_for('field_config[]', field_config_entry, :hidden_field_id => true) do |builder| %>
+                <% render 'subscriptions/field_config_fields', :p => builder %>
+              <% end %>
+            <% end %>
+<% end %>
           </div>
           <%#= link_to_add_field_config_fields t(:add_model, :model => FieldConfig.model_name.human), f %>
         </fieldset>
