@@ -20,6 +20,15 @@ class Feed < ActiveRecord::Base
   #Newsfeed
   include PublicActivity::Common if defined? PublicActivity::Common
 
+  # Generate a unique list of screens on which this feed appears
+  def shown_on_screens
+    unique_screens = {}
+    subscriptions.each { |sub|
+      unique_screens[sub.screen.id] = sub.screen
+    }
+    unique_screens
+  end
+
   def parent_id_cannot_be_this_feed
     if !parent_id.blank? and parent_id == id
       errors.add(:parent_id, "can't be this feed")
@@ -44,14 +53,6 @@ class Feed < ActiveRecord::Base
     node, nodes = self, []
     nodes << node = node.parent while node.parent
     nodes
-  end
-
-  def shown_on_screens
-    unique_screens = {}
-    subscriptions.each { |sub|
-      unique_screens[sub.screen.id] = sub.screen
-    }
-    unique_screens
   end
 
   # Collect recursive list of child feeds.

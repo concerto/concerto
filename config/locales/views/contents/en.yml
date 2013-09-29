@@ -33,6 +33,8 @@ en:
         filter_feeds: 'Filter Feeds'
         select_a_feed: "Select a feed"
         type_to_filter: "Type here to filter"
+      selected_feed_display:
+        appears_on_screens: "Appears on %{screens_count} screens"
 
     form_top:
       data: 'Data'
