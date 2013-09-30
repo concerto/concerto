@@ -22,11 +22,7 @@ class Feed < ActiveRecord::Base
 
   # Generate a unique list of screens on which this feed appears
   def shown_on_screens
-    unique_screens = {}
-    subscriptions.each { |sub|
-      unique_screens[sub.screen.id] = sub.screen
-    }
-    unique_screens
+    return subscriptions.collect{|s| s.screen }.uniq
   end
 
   def parent_id_cannot_be_this_feed

@@ -15,10 +15,8 @@
   <div class="span6">
     <p>
       <i class="concertocon-controller-screens" style="line-height: normal; font-size: 18px;"></i>&nbsp;
-      <b><%= t('.appears_on_screens', { :screens_count => feed.shown_on_screens.count }) %></b><% if feed.shown_on_screens.count > 0 %>: 
-        <% feed.shown_on_screens.each_with_index do |(screen_key, screen), i| %>
-          <%= screen.name %><%= i < feed.shown_on_screens.count - 1 ? ', ' : '' %>
-        <% end %>
+      <b><%= t('.appears_on_screens', { :screens_count => feed.shown_on_screens.count }) %></b><% if !feed.shown_on_screens.empty? %>: 
+        <%= feed.shown_on_screens.reject{|s| cannot? :read, s}.collect{|s| s.name}.join(', ') %>
       <% end %>
     </p>
   </div>
