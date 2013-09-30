@@ -25,7 +25,7 @@
         <br />
         <div class="clearfix">
           <div class="pull-left">
-            <h3><%= subscriptions.count %> Subscription<%= subscriptions.count == 1 ? '' : 's' %></h3>
+            <h3><%= pluralize(subscriptions.count, 'Subscription') %></h3>
           </div>
           <div class="pull-right">
             <% if can? :update, Subscription.new(:screen => @screen, :field => field) %>
@@ -33,16 +33,19 @@
             <% end %>
           </div>
         </div>
-        <p>(<% subscriptions.each_with_index do |sub, i| %><%= sub.feed.name %><%= i < subscriptions.count - 1 ? ', ' : '' %><% end %>)</p>
-        
+        <% if !subscriptions.empty? %>
+          <p>(<%= subscriptions.collect{ |s| s.feed.name }.join(', ')%>)</p>
+        <% end %> 
         <hr />
 
         <div class="clearfix">
           <div class="pull-left">
-            <h3><%= field_configs.count %> Parameter<%= field_configs.count == 1 ? '' : 's' %></h3>
+            <h3><%= pluralize(field_configs.count, 'Parameter') %></h3>
           </div>
           <div class="pull-right">
-            &nbsp;&nbsp;&nbsp;<%= link_to t(:manage), screen_field_field_configs_path(@screen, field), :class => "btn btn-info" %>
+            <% if can? :update, FieldConfig.new(:screen => @screen, :field => field) %>
+              &nbsp;&nbsp;&nbsp;<%= link_to t(:manage), screen_field_field_configs_path(@screen, field), :class => "btn btn-info" %>
+            <% end %>
           </div>
         </div>
 
