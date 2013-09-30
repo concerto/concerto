@@ -22,7 +22,7 @@ var initializeGraphicPreview = {
           type: 'POST',
         }).complete(function(data) {
           media_id.val(data.responseJSON.id);
-          var img_string = "<img src='/content/0/display?media_id=" + media_id.val() + "&type=Graphic&width=" + preview.width() + "' />";
+          var img_string = "<img src='/content/preview/display?media_id=" + media_id.val() + "&type=Graphic&width=" + preview.width() + "' />";
           preview.html(img_string);
         }).error(function() {
           preview.html("Unable to preview at this time.");
@@ -39,7 +39,7 @@ var initializeGraphicPreview = {
         var file_input = $('#media_file');
         var preview_url = file_input.data('url');
 
-        var img_string = "<img src='/content/0/display?media_id=" + media_id.val() + "&type=Graphic&width=" + preview.width() + "' />";
+        var img_string = "<img src='/content/preview/display?media_id=" + media_id.val() + "&type=Graphic&width=" + preview.width() + "' />";
         preview.html(img_string);
       }
     } else {
