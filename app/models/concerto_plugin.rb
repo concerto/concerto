@@ -167,7 +167,7 @@ private
         end
         require 'command_check'
         if command?('git')
-          git_ls = system("git ls-remote #{self.source_url}")
+          git_ls = system("git", "ls-remote", self.source_url)
           if git_ls != true
             errors.add(:source_url, "#{self.source_url} is not a valid git repository")
           end
@@ -177,11 +177,13 @@ private
           errors.add(:source_url, "can't be blank")
           return false
         end
-        #get the directory of the provided gemfile
-        plugin_path = File.dirname(self.source_url)
-        #user Dir to see if a gemfile exists in that directory
-        if Dir.glob("#{plugin_path}/*.gemspec").empty?
-          errors.add(:source_url, "Gemspec not found in #{plugin_path}")
+        # Use Dir to see if a gemfile exists in that directory, and protect
+        # it with File.directory? to keep out wildcards (resource hog).
+        # Make the two cases somewhat indistinguishable to avoid revealing
+        # irrelevant system properties.
+        if (!File.directory? self.source_url or
+            Dir.glob("#{self.source_url}/*.gemspec").empty?)
+          errors.add(:source_url, "Gemspec not found in #{self.source_url}")
         end
     end
   end
