@@ -34,35 +34,6 @@ function addSubscriptionsUi(){
 
   initializeFrequencySliders();
 
-  if ($("#count_field_configs").val() <= 0) {
-    toggleFieldConfigsCont();
-  } else {
-    $(".event-toggleFieldConfigsDiv").parent().hide();
-  }
-}
-
-function toggleFieldConfigsCont() {
-  $(".event-fieldConfigsDiv").hide();
-
-  $(".event-toggleFieldConfigsDiv").on("click", function(e) {
-    e.preventDefault();
-    $(this).parent().hide();
-    $(".event-fieldConfigsDiv").show();
-  });
-
-  $(".event-fieldConfigsDiv").hide();
-}
-
-function showSaveSubsAlert() {
-  $("#save-subscriptions-alert")
-    .removeClass("alert-zero")
-    .addClass("alert-info")
-    .find("input")
-      .addClass("btn-primary")
-      .attr("disabled", false)
-      .end()
-    .find(".save-msg")
-      .html("<b>You have made changes to the subscriptions or configuration for this field.</b><br />Please click this button to commit your changes, or exit this page to cancel.");
 }
 
 function initializeFrequencySliders() {
@@ -90,18 +61,6 @@ function initializeFrequencySliders() {
   });
 }
 
-function remove_field_config_fields (link) {
-  $(link).prev("input[type=hidden]").val("1");
-  $(link).closest(".field-config-fields").hide();
-  showSaveSubsAlert();
-}
-
-function add_field_config_fields (link, association, content) {
-  var new_id = new Date().getTime();
-  var regexp = new RegExp("new_" + association, "g");
-  $(link).parent().find('.field-configs').first().append(content.replace(regexp, new_id));
-  showSaveSubsAlert();
-}
 
 function remove_subscription_handler() {
   $('#subscriptions-list tbody').on('ajax:success', '.btnRemoveSubscription', function(){
