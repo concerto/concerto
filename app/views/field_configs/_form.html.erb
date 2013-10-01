@@ -1,0 +1,13 @@
+<div class="row-fluid field-config-fields">
+  <div class="span1">
+    <%= form.text_field :key, :class => 'fillWidth' %>
+  </div>
+  <div class="span4">
+    <%= form.text_field :value, :class => 'fillWidth' %>
+  </div>
+  <div class="span1">
+    <%= link_to t(:destroy), screen_field_field_config_path(@screen, @field, field_config.id), :method => :delete, :class => "btn btn-danger" %>
+  </div>
+</div>
+
+
