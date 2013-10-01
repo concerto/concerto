@@ -167,7 +167,7 @@ private
         end
         require 'command_check'
         if command?('git')
-          git_ls = system("git ls-remote #{self.source_url}")
+          git_ls = system("git", "ls-remote", self.source_url)
           if git_ls != true
             errors.add(:source_url, "#{self.source_url} is not a valid git repository")
           end
