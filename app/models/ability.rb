@@ -125,6 +125,17 @@ class Ability
         screen.owner.user_has_permissions?(user, :regular, :screen, [:all])) 
     end
 
+    ## FieldConfig
+    # Only the owning group or user can manage a screen's field configs.
+    can :manage, FieldConfig, :screen => { :owner_id => user.id, :owner_type => 'User'}
+    can :manage, FieldConfig do |field_config|
+      screen = field_config.screen
+      unless screen.nil?
+        screen.owner.is_a?(Group) && (screen.owner.leaders.include?(user) ||
+          screen.owner.user_has_permissions?(user, :regular, :screen, [:all]))
+      end
+    end
+
     ## Subscriptions
     # Only the owning group or user can manage screen subscriptions
     can :manage, Subscription, :screen => { :owner_id => user.id, :owner_type => 'User'}
@@ -218,5 +229,9 @@ class Ability
     # If any of the feeds the content is submitted can be read, the
     # content can be read too, as long as it is approved.
     can :read, Content, :submissions => {:feed => {:is_viewable => true}, :moderation_flag => true}
+
+    ## FieldConfig
+    # A screen can read any of it's FieldConfigs
+    can :read, FieldConfig, :screen_id => screen.id
   end
 end

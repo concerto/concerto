@@ -13,6 +13,7 @@ class FieldConfigsController < ApplicationController
   # GET /screens/:screen_id/fields/:field_id/field_configs.xml
   def index
     @field_configs = @screen.field_configs.where(:field_id => @field.id)
+    auth!(:object => @field_configs, :allow_empty => false)
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @field_configs }
@@ -21,6 +22,9 @@ class FieldConfigsController < ApplicationController
 
   # PUT /screens/:screen_id/fields/:field_id/field_configs
   def update
+    perm_check_field_config = FieldConfig.new(:screen => @screen, :field => @field)
+    auth!(:object => perm_check_field_config)
+
     @field_configs = FieldConfig.update(params[:field_configs].keys, params[:field_configs].values)
     respond_to do |format|
       if @field_configs.all?{ |fc| fc.errors.empty? }
