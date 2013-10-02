@@ -18,7 +18,7 @@
             <i class="icon-ok-sign"></i>
             <b><%= feed.name %></b
           <% else %>
-            <%= link_to screen_field_subscriptions_path(@screen, @field, :subscription => {:feed_id => feed.id}), {:method => :post, :remote => true}, :class => "link-hl", "data-feed-id" => feed.id do %>
+            <%= link_to screen_field_subscriptions_path(@screen, @field, :subscription => {:feed_id => feed.id, :weight => 1}), {:method => :post, :remote => true}, :class => "link-hl", "data-feed-id" => feed.id do %>
               <%= ("&nbsp;" * feed.depth).html_safe %>
               <i class="icon-ok-sign"></i>
               <b><%= feed.name %></b>
