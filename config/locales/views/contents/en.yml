@@ -31,6 +31,7 @@ en:
     form_elements:
       feeds:
         filter_feeds: 'Filter Feeds'
+        no_feeds: "No feeds have been selected yet for this submission."
         select_a_feed: "Select a feed"
         type_to_filter: "Type here to filter"
       selected_feed_display:
