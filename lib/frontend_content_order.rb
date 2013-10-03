@@ -9,7 +9,12 @@ module FrontendContentOrder
   #    Defaults to a BaseShuffle algorithm.
   # @return [Class] Shuffle algorithm class.
   def self.load_shuffler(shuffler_name='BaseShuffle')
-    require shuffler_name.underscore unless defined? shuffler_name.constantize
-    return shuffler_name.constantize
+    begin
+      require shuffler_name.underscore unless defined? shuffler_name.constantize
+      return shuffler_name.constantize
+    rescue
+      Rails.logger.error("Trouble loading shuffler: #{shuffler_name}.")
+      return BaseShuffle
+    end
   end
 end

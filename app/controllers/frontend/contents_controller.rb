@@ -4,6 +4,8 @@ class Frontend::ContentsController < ApplicationController
   before_filter :scope_setup
   before_filter :screen_api
 
+  DEFAULT_SHUFFLE = 'WeightedShuffle'
+
   def scope_setup
     @screen = Screen.find(params[:screen_id])
     @field = Field.find(params[:field_id])
@@ -12,7 +14,8 @@ class Frontend::ContentsController < ApplicationController
 
   def index
     require 'frontend_content_order'
-    shuffler_klass = FrontendContentOrder.load_shuffler('WeightedShuffle')
+    shuffle_config = FieldConfig.get(@screen, @field, 'shuffler') || DEFAULT_SHUFFLE
+    shuffler_klass = FrontendContentOrder.load_shuffler(shuffle_config)
     session_key = "frontend_#{@screen.id}_#{@field.id}".to_sym
     shuffler = shuffler_klass.new(@screen, @field, @subscriptions, session[session_key])
     @content = shuffler.next_contents()
