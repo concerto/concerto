@@ -33,6 +33,8 @@
     </div>
   </fieldset>
 
+  <%= image_tag preview_template_path(@template, :width=> 400, :format => :jpg) %>
+
   <fieldset>
     <legend><span><%= Position.model_name.humanize.pluralize %></span></legend>
     <div class="template-positions">

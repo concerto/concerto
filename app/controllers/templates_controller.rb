@@ -62,7 +62,7 @@ class TemplatesController < ApplicationController
 
     respond_to do |format|
       if @template.save
-        format.html { redirect_to(@template, :notice => t(:template_created)) }
+        format.html { redirect_to(edit_template_path(@template), :notice => t(:template_created)) }
         format.xml  { render :xml => @template, :status => :created, :location => @template }
       else
         @type = "create"
@@ -222,6 +222,6 @@ private
   end
 
   def template_params
-    params.require(:template).permit(:name, :author, :descriptor, :image, :is_hidden, :positions_attributes => [:field_id, :style, :top, :left, :bottom, :right, :id, :_destroy])
+    params.require(:template).permit(:name, :author, :descriptor, :image, :is_hidden, :positions_attributes => [:field_id, :style, :top, :left, :bottom, :right, :id, :_destroy], :media_attributes => [:file])
   end
 end
