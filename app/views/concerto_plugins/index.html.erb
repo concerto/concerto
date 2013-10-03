@@ -27,8 +27,8 @@
           <% gemspec = Gem.loaded_specs[concerto_plugin.gem_name] %>
           <tr>
             <td><%= status_badge(concerto_plugin.enabled) %>&nbsp;
-              <a href="<%= gemspec.homepage %>"><%= concerto_plugin.name.titleize %></a></td>
-            <td><%= gemspec.version.version %><% unless concerto_plugin.gem_version.nil? %>(Version locked to <%= concerto_plugin.gem_version %>)<% end %></td>
+              <a href="<%= !gemspec.nil? ? gemspec.homepage : "#" %>"><%= concerto_plugin.name.titleize %></a></td>
+            <td><%= !gemspec.nil? ? gemspec.version.version : "Unknown" %><% unless concerto_plugin.gem_version.nil? %>(Version locked to <%= concerto_plugin.gem_version %>)<% end %></td>
             <td>
               <%= link_to t(:edit), edit_concerto_plugin_path(concerto_plugin) %>
               <%= link_to t(:destroy), concerto_plugin, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => ConcertoPlugin.model_name.human, :key => concerto_plugin.name.titleize) }, :method => :delete %>
