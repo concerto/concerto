@@ -7,7 +7,7 @@
 # There is discussion to move this to a static array / config elsewhere,
 # but I don't have a solid grasp on the system-wide reprecussions of that
 # change at the moment.
-
+# Note: This is replicated in config/initializers/17-required_data.rb because an instance must have kinds.
 ["Graphics", "Ticker", "Text", "Dynamic"].each do |kind|
   Kind.find_or_create_by_name kind
 end
