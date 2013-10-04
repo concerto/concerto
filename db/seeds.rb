@@ -24,6 +24,7 @@ ConcertoPlugin.find_or_create_by_gem_name({:gem_name => "concerto_calendar", :en
 # up correct with the new Concerto 2 fields.  Magic will have to handle the other
 # 42% of fields with stranger names like "Graphics (Full-Screen)"
 
+# Note: This is replicated in config/initializers/17-required_data.rb because an instance must have fields.
 Kind.all.each do |kind|
   field = Field.find_or_create_by_name({:name => kind.name, :kind => Kind.where(:name => kind.name).first})
 end
