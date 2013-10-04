@@ -25,7 +25,9 @@ class FieldConfigsController < ApplicationController
     perm_check_field_config = FieldConfig.new(:screen => @screen, :field => @field)
     auth!(:object => perm_check_field_config)
 
-    @field_configs = FieldConfig.update(params[:field_configs].keys, params[:field_configs].values)
+    @field_configs = []
+    @field_configs = FieldConfig.update(params[:field_configs].keys, params[:field_configs].values) unless params[:field_config].nil?
+    
     respond_to do |format|
       if @field_configs.all?{ |fc| fc.errors.empty? }
         format.html { redirect_to(screen_field_field_configs_path(@screen, @field), :notice => t(:parameters_updated)) }
