@@ -1,6 +1,9 @@
-<%= content_tag :h4, t('.no_feeds'), :id=> "event-zeroFeedsMsg" %>
-
-<div id="event-selectedFeedList"></div>
+<div id="event-selectedFeedList">
+  <%= content_tag :h4, t('.no_feeds'), :id=> "event-zeroFeedsMsg" if @content.feeds.empty? %>
+  <% @content.feeds.each_with_index do |feed, i| %>
+    <%= render :partial => 'contents/form_elements/selected_feed_display', :locals => {:feed => feed, :feed_index => i} %>
+  <% end %>
+</div>
 
 <br />
 <div class="clearfix">
@@ -24,13 +27,13 @@
 
     <div class="tooltip-scrollY" style="height: 300px; width: 100%;">
       <ul class="filterable selector-list">
-        <% feeds.each_with_index do |feed, i| %>
+        <% feeds.each do |feed| %>
           <% allowed_type = (feed.content_types[@content.class.name] == "1") %>
         
           <% if allowed_type %>
           <li data-filter="<%= feed.name %>">
             
-            <%= link_to add_feed_contents_path(:feed_id => feed.id, :feed_index => i), :remote => true, :class => "link-hl", "data-feed-index" => i, "data-feed-name" => feed.name, "data-feed-id" => feed.id do %>
+            <%= link_to add_feed_contents_path(:feed_id => feed.id, :feed_index => feed.id), :remote => true, :class => "link-hl", "data-feed-index" => feed.id, "data-feed-name" => feed.name, "data-feed-id" => feed.id do %>
               <div class="row-fluid">
                 <div class="span8">
                   <p>
@@ -52,4 +55,7 @@
       </ul>
     </div>
   <% end %>
+</div>
+<div id="event-selectedFeedList">
+
 </div>
