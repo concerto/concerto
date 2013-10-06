@@ -33,10 +33,12 @@ class Frontend::ScreensController < ApplicationController
   # GET /frontend
   # Handles cases where the ID is not provided:
   #   public legacy screens screens - a MAC address is provided instead of an ID
-  #   private screens - authentication token from a cookie is used instead of an ID
-  #   private screen setup - a short token is stored in the session
+  #   private screens - send to ID based on authentication token from cookie or GET param
+  #   private screen setup - a short token is stored in the session or GET param
   def index
-    if params[:mac]
+    if !current_screen.nil?
+      redirect_to frontend_screen_path(current_screen), :status => :moved_permanently
+    elsif params[:mac]
       screen = Screen.find_by_mac(params[:mac])
       if screen
         if screen.is_public?
@@ -47,25 +49,41 @@ class Frontend::ScreensController < ApplicationController
       else
         render :text => "Screen not found.", :status => 404
       end
-    elsif session.has_key? :screen_temp_token
-      @temp_token = session[:screen_temp_token]
+    elsif @temp_token = (session[:screen_temp_token] || params[:screen_temp_token])
       screen = Screen.find_by_temp_token @temp_token
       if screen.nil?
-        render 'sign_in', :layout => "no-topmenu"
+        send_temp_token
       else
         sign_in_screen screen
-        redirect_to frontend_screen_path(screen), :status => :moved_permanently
+        complete_auth(screen)
       end
-    elsif !current_screen.nil?
-      redirect_to frontend_screen_path(current_screen), :status => :moved_permanently
     else
-      # We're going to store the temporary token in the session.
-      # We rely on rails's hash (based on a server-side key) to prevent spoofing,
-      # since it will otherwise be very easy to steal the token.
+      # We're going to store the temporary token in the session for
+      # browser clients, and send it via the body for API requests.
+      # Currently, the token is spoofable during the setup window,
+      # but the consequences are limited.
       @temp_token = Screen.generate_temp_token
       session[:screen_temp_token] = @temp_token
-      render 'sign_in', :layout => "no-topmenu"
+      send_temp_token
     end  
+  end
+  
+  def send_temp_token 
+    respond_to do |format|
+      format.html { render 'sign_in', :layout => "no-topmenu" }
+      format.json { render :json => {:screen_temp_token => @temp_token} }
+    end
+  end
+
+  def complete_auth(screen)
+    respond_to do |format|
+      format.html { redirect_to frontend_screen_path(screen), :status => :moved_permanently }
+      format.json { 
+        render :json => {
+          :screen_id => screen.id,
+          :screen_auth_token => screen.screen_token
+        } }
+    end
   end
 
   # GET /frontend/1/setup.json
