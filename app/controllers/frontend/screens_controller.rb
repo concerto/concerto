@@ -37,7 +37,7 @@ class Frontend::ScreensController < ApplicationController
   #   private screen setup - a short token is stored in the session or GET param
   def index
     if !current_screen.nil?
-      redirect_to frontend_screen_path(current_screen), :status => :moved_permanently
+      send_to_screen(current_screen)
     elsif params[:mac]
       screen = Screen.find_by_mac(params[:mac])
       if screen
@@ -67,6 +67,17 @@ class Frontend::ScreensController < ApplicationController
       send_temp_token
     end  
   end
+
+  def send_to_screen(screen)
+    respond_to do |format|
+      format.html { redirect_to frontend_screen_path(screen), :status => :moved_permanently }
+      format.json { render :json => {
+        :screen_id => screen.id,
+        :screen_url => screen_url(screen),
+        :frontend_url => frontend_screen_url(screen)
+     } }
+    end
+  end
   
   def send_temp_token 
     respond_to do |format|
@@ -78,11 +89,9 @@ class Frontend::ScreensController < ApplicationController
   def complete_auth(screen)
     respond_to do |format|
       format.html { redirect_to frontend_screen_path(screen), :status => :moved_permanently }
-      format.json { 
-        render :json => {
-          :screen_id => screen.id,
-          :screen_auth_token => screen.screen_token
-        } }
+      format.json { render :json => {
+        :screen_auth_token => screen.screen_token
+      } }
     end
   end
 
