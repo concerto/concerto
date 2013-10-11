@@ -109,7 +109,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-timepicker-rails (1.2.5.0)
       railties (>= 3.1.0)
-    json (1.8.0)
+    json (1.7.7)
     jwt (0.1.8)
       multi_json (>= 1.5)
     kaminari (0.14.1)
@@ -229,7 +229,7 @@ DEPENDENCIES
   girl_friday
   jquery-rails
   jquery-timepicker-rails
-  json
+  json (= 1.7.7)
   kaminari
   mysql2
   public_activity

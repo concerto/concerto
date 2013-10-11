@@ -50,7 +50,7 @@ gem 'attachable', '>= 0.0.5'
 gem 'devise', '~> 3.0.0'
 gem 'cancan'
 
-gem 'json'
+gem 'json', '1.7.7'
 
 # Process jobs in the background
 gem 'foreman', :group => :development
