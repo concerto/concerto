@@ -59,6 +59,6 @@ concerto.frontend.Content.Ticker.prototype.load_ = function() {
 
   this.div_ = concerto.frontend.Helpers.Autofit(this.div_, this.field_width_,
                                                 this.field_height_);
-  console.log(this.div_);
+  // console.log(this.div_);
   this.finishLoad();
 };

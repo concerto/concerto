@@ -240,4 +240,4 @@
 
 })(jQuery);
 
-console.log('loaded jquery-iframe-transport');
+// console.log('loaded jquery-iframe-transport');
