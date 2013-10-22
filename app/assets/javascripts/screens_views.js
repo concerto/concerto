@@ -16,11 +16,11 @@ function initScreenAuthForm() {
 }
 
 function initTemplateSelector() {
-  $('.template-selector.dropdown-control').click(function(event) { event.preventDefault(); });
-  $('.template-selector.dropdown-control').each(function() {
+  $('.dropdown-control.dd-templateselect').click(function(event) { event.preventDefault(); });
+  $('.dropdown-control.dd-templateselect').each(function() {
     $(this).qtip( {
       content: {
-        text: $( $(this).attr('rel') ).html(),
+        text: $("#preview_" + $(this).attr('data-template-id') ).html(),
         title: {
           text: 'Larger Preview',
           button: true
@@ -35,12 +35,12 @@ function initTemplateSelector() {
 
       show: {
         delay: 1000,
-        event: 'hover', // Show it on click...
+        event: 'mouseenter', // Show it on click...
         solo: true // ...and hide all other tooltips...
       },
 
       hide: 'unfocus',
-      style: 'ui-tooltip-dark ui-tooltip-bigenough ui-tooltip-shadow ui-tooltip-rounded'
+      style: 'qtip-dark qtip-bigenough qtip-shadow qtip-rounded'
     });
   });
 }
@@ -69,7 +69,7 @@ function initScreenFieldTooltip() {
       },
 
       hide: 'unfocus',
-      style: 'qtip-light qtip-shadow qtip-rounded'
+      style: 'qtip-light qtip-shadow qtip-rounded qtip-fixedwidth-small'
     });
   });
 }

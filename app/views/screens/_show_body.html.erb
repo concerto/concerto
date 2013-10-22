@@ -1,26 +1,11 @@
 <%= render :partial => "screen_info", :locals => { :screen => @screen } %>
+<%= ConcertoPlugin.render_view_hook self, :screen_details %>
 
 <h4 class="center">Hover over a field below to view its settings.</h4>
 
-<!-- <p>
-  <b><%#= t(:current_model, :model => Subscription.model_name.human.pluralize) %></b>
-
-  <ul>
-    <%# @screen.fields.each do |field| %>
-      <%# subscriptions = @screen.subscriptions.where(:field_id => field.id) %>
-      <li><%#= field.name %></li>
-      <%# if !subscriptions.empty? %>
-        <ul>
-          <%# subscriptions.each do |subscription| %>
-            <li><%#= link_to subscription.feed.name, subscription.feed %><%#= " - #{subscription.weight}" unless subscription.weight.blank?%></li>
-          <%# end %>
-        </ul>
-      <%# end %>
-    <%# end %>
-  </ul>
-</p> -->
-<%= ConcertoPlugin.render_view_hook self, :screen_details %>
-
+<div class="center">
+  <%= link_to t(:preview_screen), frontend_screen_path(@screen, :preview => "true"), :class => "btn", :data => {'no-turbolink' => true} if can? :update, @screen %>
+</div>
 <br />
 
 <% if !@screen.template.nil? %>
@@ -40,7 +25,7 @@
         <br />
         <div class="clearfix">
           <div class="pull-left">
-            <h3><%= subscriptions.count %> Subscription<%= subscriptions.count == 1 ? '' : 's' %></h3>
+            <h3><%= pluralize(subscriptions.count, 'Subscription') %></h3>
           </div>
           <div class="pull-right">
             <% if can? :update, Subscription.new(:screen => @screen, :field => field) %>
@@ -48,16 +33,19 @@
             <% end %>
           </div>
         </div>
-        <p>(<% subscriptions.each_with_index do |sub, i| %><%= sub.feed.name %><%= i < subscriptions.count - 1 ? ', ' : '' %><% end %>)</p>
-        
+        <% if !subscriptions.empty? %>
+          <p>(<%= subscriptions.collect{ |s| s.feed.name }.join(', ')%>)</p>
+        <% end %> 
         <hr />
 
         <div class="clearfix">
           <div class="pull-left">
-            <h3><%= field_configs.count %> Parameter<%= field_configs.count == 1 ? '' : 's' %></h3>
+            <h3><%= pluralize(field_configs.count, 'Parameter') %></h3>
           </div>
           <div class="pull-right">
-            &nbsp;&nbsp;&nbsp;<%= link_to t(:manage), screen_field_field_configs_path(@screen, field), :class => "btn btn-info" %>
+            <% if can? :update, FieldConfig.new(:screen => @screen, :field => field) %>
+              &nbsp;&nbsp;&nbsp;<%= link_to t(:manage), screen_field_field_configs_path(@screen, field), :class => "btn btn-info" %>
+            <% end %>
           </div>
         </div>
 
@@ -69,6 +57,4 @@
 </div>
 <% end %>
 <br />
-<br />
-<%= link_to t(:preview), frontend_screen_path(@screen, :preview => "true"), :class => "btn", :data => {'no-turbolink' => true} if can? :update, @screen %>
 <br />

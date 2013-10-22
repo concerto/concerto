@@ -75,6 +75,15 @@ class ContentsController < ApplicationController
     end
   end
 
+  def add_feed
+    @feed = Feed.find(params[:feed_id])
+    @feed_index = params[:feed_index]
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   # GET /contents/1/edit
   def edit
     @content = Content.find(params[:id])
@@ -196,7 +205,7 @@ class ContentsController < ApplicationController
     # To support graphic preview where there isnt any content yet, use a new, empty one
     # because the params contains the media_id that will be passed on to the graphic's
     # render method for rendering the unattached media record.
-    if params[:id] == "0" && params[:type].present?
+    if params[:id] == "preview" && params[:type].present?
       get_content_const
       @content = @content_const.new()
     else
@@ -205,7 +214,7 @@ class ContentsController < ApplicationController
 
     auth!(:action => :read)
     # if handling graphic preview (the content id is 0), force a render
-    if params[:id] == "0" || stale?(:etag => params, :last_modified => @content.updated_at.utc, :public => true) 
+    if params[:id] == "preview" || stale?(:etag => params, :last_modified => @content.updated_at.utc, :public => true) 
       @file = nil
       data = nil
       benchmark("Content#render") do

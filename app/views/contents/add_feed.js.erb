@@ -1,0 +1,3 @@
+$("#event-selectedFeedList").append("<%= escape_javascript(render :partial => 'contents/form_elements/selected_feed_display', :locals => { :feed => @feed, :feed_index => @feed_index }) %>");
+$("#event-zeroFeedsMsg").hide();
+$('#select-feeds-btn').qtip('api').hide();

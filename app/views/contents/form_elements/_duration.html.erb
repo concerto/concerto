@@ -1,5 +1,7 @@
-<div class="clearfix duration">
-	<%= form.label :duration %>
+<%= form.label :duration, "Show on Screen" %>
+<p style="font-size: 22px; line-height: normal;" class="event-toggleDurationSelect"><%= @content.duration %> <%= t('second') %><%= @content.duration == 1 ? '' : 's' %>&nbsp;&nbsp;<a href="#" style="font-size: 12px;">Change</a></p>
+
+<div class="clearfix duration event-durationSelectDiv">
 	<div class="input">
 		<div class="leftseconds"><%= min %>s</div>
 		<%= form.range_field :duration, {:min =>min, :max=>max, :class=>"duration_range"} %>

@@ -73,13 +73,6 @@
   <fieldset>
     <legend><span><%= t('.select_template') %></span></legend>
 
-    <div class="clearfix">
-
-      <div class="input">
-        <%= link_to t(:add_model, :model => ::Template.model_name.human), new_template_path, :class => "btn", :target => "_blank" %>
-      </div>
-    </div>
-
     <div id="template_selection" class="clearfix">
       <label><%= t('.best_fit_templates') %></label>
 
@@ -93,10 +86,10 @@
                 <%= f.radio_button :template_id, template.id %>
               </div>
 
-              <%= image_tag preview_template_path(template, :height => 60, :format => :png), :style => "margin: 0px;" %>
+              <%= image_tag preview_template_path(template, :height => 60, :format => :png), :style => "margin: 0px;", :class => "dd-templateselect dropdown-control", "data-template-id" => template.id %>
 
               <div id="preview_<%= template.id %>" class="dd" style="display:none;">
-                <%= image_tag preview_template_path(template, :width => 540, :height => 310, :aspect_ratio => true, :format => :png), :style => "margin: 0px;", :class => "default-padding" %>
+                <%= image_tag preview_template_path(template, :width => 400, :aspect_ratio => true, :format => :png), :style => "margin: 0px;", :class => "default-padding" %>
               </div>
 
               <div class="cont">

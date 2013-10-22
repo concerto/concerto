@@ -22,7 +22,7 @@ class TemplatesControllerTest < ActionController::TestCase
     actual.media.each do |media|
       assert_equal("original", media.key)
     end
-    assert_redirected_to template_path(actual)
+    assert_redirected_to edit_template_path(actual)
   end
   
   test "importing a simple template" do

@@ -125,6 +125,17 @@ class Ability
         screen.owner.user_has_permissions?(user, :regular, :screen, [:all])) 
     end
 
+    ## FieldConfig
+    # Only the owning group or user can manage a screen's field configs.
+    can :manage, FieldConfig, :screen => { :owner_id => user.id, :owner_type => 'User'}
+    can :manage, FieldConfig do |field_config|
+      screen = field_config.screen
+      unless screen.nil?
+        screen.owner.is_a?(Group) && (screen.owner.leaders.include?(user) ||
+          screen.owner.user_has_permissions?(user, :regular, :screen, [:all]))
+      end
+    end
+
     ## Subscriptions
     # Only the owning group or user can manage screen subscriptions
     can :manage, Subscription, :screen => { :owner_id => user.id, :owner_type => 'User'}
@@ -205,7 +216,8 @@ class Ability
   
     ## Feeds
     # If a screen is owned by the same group as the feed
-    # it can see content.
+    # it can see content, or if the feed is viewable.
+    can :read, Feed, :is_viewable => true
     can :read, Feed do |feed|
       if screen.owner.is_a?(Group)
         screen.owner == feed.group
@@ -214,9 +226,23 @@ class Ability
       end
     end
 
+    ## Submissions
+    # Submissions can be read if the content has been moderated,
+    # the screen can read the feed, and the screen has a valid subscription
+    # for that feed.
+    can :read, Submission do |s|
+      s.moderation_flag && can?(:read, s.feed) && 
+        !screen.subscriptions.where(:feed_id => s.feed).empty?
+    end
+
     ## Content
-    # If any of the feeds the content is submitted can be read, the
-    # content can be read too, as long as it is approved.
-    can :read, Content, :submissions => {:feed => {:is_viewable => true}, :moderation_flag => true}
+    # Content can be read if any of the submissions can be read.
+    can :read, Content do |content|
+      content.submissions.any?{|s| can?(:read, s)}
+    end
+
+    ## FieldConfig
+    # A screen can read any of it's FieldConfigs
+    can :read, FieldConfig, :screen_id => screen.id
   end
 end

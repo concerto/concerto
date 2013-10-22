@@ -20,6 +20,11 @@ class Feed < ActiveRecord::Base
   #Newsfeed
   include PublicActivity::Common if defined? PublicActivity::Common
 
+  # Generate a unique list of screens on which this feed appears
+  def shown_on_screens
+    return subscriptions.collect{|s| s.screen }.uniq
+  end
+
   def parent_id_cannot_be_this_feed
     if !parent_id.blank? and parent_id == id
       errors.add(:parent_id, "can't be this feed")

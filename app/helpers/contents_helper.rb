@@ -38,16 +38,4 @@ module ContentsHelper
                       "contents/render_#{options[:type]}",
                       {:content => content, :options => options})
   end
-
-  def feed_markers
-    markers = @content.submissions.map do |s|
-      content_tag('span', {:class => 'marker-feed', 'data-feed-id' => s.id, :style => 'margin-right: 12px;'}) do
-        hidden_field_tag("feed_id[#{s.feed_id}]", s.feed_id) +
-        content_tag('span', :class => 'label') do
-          "#{html_escape s.feed.name} #{link_to '<i class="icon-remove"></i>'.html_safe, '#'}".html_safe
-        end
-      end
-    end
-    markers.join.html_safe
-  end
 end

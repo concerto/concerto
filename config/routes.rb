@@ -66,7 +66,11 @@ Concerto::Application.routes.draw do
   resources :screens do
     resources :fields, :only => [] do
       resources :subscriptions
-      resources :field_configs
+      resources :field_configs, :only => [:index, :destroy] do
+        collection do
+          put :update
+        end
+      end
     end
   end
 
@@ -92,6 +96,7 @@ Concerto::Application.routes.draw do
     end
     collection do
       post :preview
+      get :add_feed
     end
   end
 

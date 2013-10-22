@@ -3,6 +3,7 @@ en:
   at: 'at'
   start_displaying: 'Start Displaying'
   finish_displaying: 'Finish Displaying'
+  second: 'second'
 
   activerecord:
     attributes:
@@ -14,7 +15,7 @@ en:
 
   contents:
     provide_details: 'Provide Details'
-    select_feeds: 'Select Feeds'
+    submit_to_feeds: 'Submit to Feeds'
 
     edit:
       edit_content: "Edit %{type} Content"
@@ -30,9 +31,11 @@ en:
     form_elements:
       feeds:
         filter_feeds: 'Filter Feeds'
-        edit_selections: "Edit selections"
-        edit_feed_selections: "Edit Feed Selections"
+        no_feeds: "No feeds have been selected yet for this submission."
+        select_a_feed: "Select a feed"
         type_to_filter: "Type here to filter"
+      selected_feed_display:
+        appears_on_screens: "Appears on %{screens_count} screens"
 
     form_top:
       data: 'Data'

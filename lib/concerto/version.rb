@@ -1,9 +1,9 @@
 module Concerto
   module VERSION
     MAJOR = 0
-    MINOR = 7
+    MINOR = 8
     TINY = 0
-    PRE = 'indiaibex'
+    PRE = 'julietjaguar'
 
     STRING = [MAJOR, MINOR, TINY, PRE].compact.join('.')
     

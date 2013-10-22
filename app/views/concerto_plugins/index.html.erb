@@ -17,20 +17,18 @@
     <table class="plugins-list">
       <thead>
         <tr>
-          <th><%= t(:status) %></th>
           <th><%= ConcertoPlugin.human_attribute_name(:name) %></th>
           <th><%= ConcertoPlugin.human_attribute_name(:version) %></th>
-          <th><%= ConcertoPlugin.human_attribute_name(:source) %></th>
           <th><%= t(:actions) %></th>
         </tr>
       </thead>
       <tbody>
         <% @concerto_plugins.each do |concerto_plugin| %>
+          <% gemspec = Gem.loaded_specs[concerto_plugin.gem_name] %>
           <tr>
-            <td><%= status_badge(concerto_plugin.enabled) %></td>
-            <td><%= concerto_plugin.name.titleize %></td>
-            <td><%= concerto_plugin.gem_version %></td>
-            <td><%= plugin_source(concerto_plugin.source) %></td>
+            <td><%= status_badge(concerto_plugin.enabled) %>&nbsp;
+              <a href="<%= !gemspec.nil? ? gemspec.homepage : "#" %>"><%= concerto_plugin.name.titleize %></a></td>
+            <td><%= !gemspec.nil? ? gemspec.version.version : "Unknown" %><% unless concerto_plugin.gem_version.nil? %>(Version locked to <%= concerto_plugin.gem_version %>)<% end %></td>
             <td>
               <%= link_to t(:edit), edit_concerto_plugin_path(concerto_plugin) %>
               <%= link_to t(:destroy), concerto_plugin, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => ConcertoPlugin.model_name.human, :key => concerto_plugin.name.titleize) }, :method => :delete %>

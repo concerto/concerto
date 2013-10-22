@@ -32,15 +32,29 @@ class ApplicationController < ActionController::Base
     @current_accessor ||= current_user
   end
 
+  # current_screen finds the currently authenticated screen based on
+  # a cookie or HTTP basic auth sent with the request. Remember,
+  # this is only used on actions with the screen_api filter. On all
+  # other actions, screen auth is ignored and the current_accessor
+  # is the logged in user or anonymous.
   def current_screen
     if @current_screen.nil?
-      if cookies.has_key? :concerto_screen_token
+      unless request.authorization.blank?
+        (user,pass) = http_basic_user_name_and_password
+        if user=="screen" and !pass.nil?
+          @current_screen = Screen.find_by_screen_token(pass)
+        end
+      end
+      if @current_screen.nil? and cookies.has_key? :concerto_screen_token
         token = cookies[:concerto_screen_token]
         @current_screen = Screen.find_by_screen_token(token)
       end
-    else
-       @current_screen
     end
+    @current_screen
+  end
+
+  def http_basic_user_name_and_password
+    ActionController::HttpAuthentication::Basic.user_name_and_password(request)
   end
 
   def sign_in_screen(screen)

@@ -1,0 +1,23 @@
+<div class="row-fluid selected-feed-row" style="margin-bottom: 14px;">
+  <div class="span6">
+    <div class="pull-left">
+      <%= link_to "#", :class => "btn btn-danger remove-feed" do %>
+        <i class="icon-remove"></i>
+      <% end %>
+      &nbsp;&nbsp;
+      <input type="hidden" class="selected-feed-input" name="feed_id[<%= feed_index %>]" value="<%= feed.id %>" />
+    </div>
+    <div class="pull-left">
+      <h2><%= feed.name %></h2>
+      <% if feed.description.length > 0 %><h4><%= feed.description %></h4><% end %>
+    </div>
+  </div>
+  <div class="span6">
+    <p>
+      <i class="concertocon-controller-screens" style="line-height: normal; font-size: 18px;"></i>&nbsp;
+      <b><%= t('.appears_on_screens', { :screens_count => feed.shown_on_screens.count }) %></b><% if !feed.shown_on_screens.empty? %>: 
+        <%= feed.shown_on_screens.reject{|s| cannot? :read, s}.collect{|s| s.name}.join(', ') %>
+      <% end %>
+    </p>
+  </div>
+</div>

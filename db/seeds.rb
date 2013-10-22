@@ -7,7 +7,7 @@
 # There is discussion to move this to a static array / config elsewhere,
 # but I don't have a solid grasp on the system-wide reprecussions of that
 # change at the moment.
-
+# Note: This is replicated in config/initializers/17-required_data.rb because an instance must have kinds.
 ["Graphics", "Ticker", "Text", "Dynamic"].each do |kind|
   Kind.find_or_create_by(:name => kind)
 end
@@ -24,6 +24,7 @@ ConcertoPlugin.where(:gem_name => "concerto_calendar", :enabled => true, :source
 # up correct with the new Concerto 2 fields.  Magic will have to handle the other
 # 42% of fields with stranger names like "Graphics (Full-Screen)"
 
+# Note: This is replicated in config/initializers/17-required_data.rb because an instance must have fields.
 Kind.all.each do |kind|
   field = Field.find_or_create_by(:name => kind.name, :kind => Kind.where(:name => kind.name).first)
 end

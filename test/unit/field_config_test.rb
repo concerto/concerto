@@ -23,4 +23,9 @@ class FieldConfigTest < ActiveSupport::TestCase
     dup.screen = screens(:two)
     assert dup.valid?
   end
+
+  test "fieldconfig get" do
+    assert FieldConfig.get(screens(:one), fields(:one), 'missing').nil?
+    assert_equal 'valuehere', FieldConfig.get(screens(:one), fields(:one), 'keyname')
+  end
 end
