@@ -9,20 +9,30 @@
   <% else %>
 
     <% if !@my_screens.empty? %>
-      <div class="subnav clearfix">
-        <h4><%= t('.my_screens') %></h4>
-      </div>
-      <%= render :partial => "thumbs", :object => @my_screens, 
+      <div class="clearfix default-padding">
+        <div class="header-with-icon">
+          <h3>
+            <%= t('.my_screens') %>
+          </h3>
+        </div>
+        <br />
+        <%= render :partial => "thumbs", :object => @my_screens, 
         :locals => { :show_field_count => true, :show_owner => true } %>
+      </div>
     <% end %>
 
     <% other_screens = @screens - @my_screens %>
     <% if other_screens.size > 0 %>
-      <div class="subnav clearfix">
-        <h4><%= t('.other_screens') %></h4>
-      </div>
-      <%= render :partial => "thumbs", :object => other_screens, 
+      <div class="clearfix default-padding">
+        <div class="header-with-icon">
+          <h3>
+            <%= t('.other_screens') %>
+          </h3>
+        </div>
+        <br />
+        <%= render :partial => "thumbs", :object => other_screens, 
         :locals => { :show_field_count => true, :show_owner => true }  %>
+      </div>
     <% end %>
     
   <% end %>
