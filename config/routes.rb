@@ -74,7 +74,11 @@ Concerto::Application.routes.draw do
     end
   end
 
-  resources :groups, :except => [:edit] do
+  resources :groups do
+    member do
+      get :manage_members
+    end
+
     resources :memberships, :only => [:create, :update, :destroy] do
     end
   end

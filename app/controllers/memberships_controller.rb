@@ -24,10 +24,10 @@ class MembershipsController < ApplicationController
     respond_to do |format|
       if @membership.save
         process_notification(@membership, {:level => @membership.level_name, :adder => current_user.id}, :action => 'create', :owner => @membership.user, :recipient => @membership.group)
-        format.html { redirect_to(@group, :notice => t(:membership_created)) }
+        format.html { redirect_to(manage_members_group_path(@group), :notice => t(:membership_created)) }
         format.xml { render :xml => @group, :status => :created, :location => @group }
       else
-        format.html { redirect_to @group }
+        format.html { redirect_to manage_members_group_path(@group) }
         format.xml { render :xml => @membership.errors, :status => :unprocessable_entity }
       end
     end
@@ -47,10 +47,10 @@ class MembershipsController < ApplicationController
       @membership.receive_emails = receive_emails unless (receive_emails.nil? || !success)
       # redirect to the users page if an email preference was specified since thats the only place it can come from
       if success && @membership.save
-        format.html { redirect_to (receive_emails.nil? ? @group : @membership.user), :notice => t(note) }
+        format.html { redirect_to (receive_emails.nil? ? manage_members_group_path(@group) : @membership.user), :notice => t(note) }
         format.xml { head :ok }
       else
-        format.html { redirect_to (receive_emails.nil? ? @group : @membership.user), :notice => t(note) }
+        format.html { redirect_to (receive_emails.nil? ? manage_members_group_path(@group) : @membership.user), :notice => t(note) }
         format.xml { render :xml => t(note), :status => :unprocessable_entity }
       end
     end
@@ -64,10 +64,10 @@ class MembershipsController < ApplicationController
     respond_to do |format|
       process_notification(@membership, {:group_name => @membership.group.name}, :action => 'destroy', :owner => current_user, :recipient => @membership.user)
       if @membership.destroy
-        format.html { redirect_to @group, :notice => t(:member_removed) }
+        format.html { redirect_to manage_members_group_path(@group), :notice => t(:member_removed) }
         format.xml { head :ok }
       else
-        format.html { redirect_to @group, :notice => t(:membership_denied) }
+        format.html { redirect_to manage_members_group_path(@group), :notice => t(:membership_denied) }
         format.xml { render :xml => @membership.errors, :status => :unprocessable_entity }
       end
     end

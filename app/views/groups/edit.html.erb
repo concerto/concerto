@@ -1,52 +1,8 @@
-<div class="row-fluid">
-  <div class="span2">
-
-    <section class="viewblock">
-      <header class="viewblock-header">
-        <h1 class="default-padding"><%= t(:edit_model, :model => Group.model_name.human) %></h1>
-      </header>
-      <div class="viewblock-cont clearfix">
-
-        <%= render :partial => "layouts/errors", :object => @group %>
-
-        <div class="form-stacked">
-        	<%= form_for(@group) do |f| %>
-        
-        		<fieldset>
-        			<div class="clearfix">
-        				<%= f.label :name %>
-        				<div class="input">
-        					<%= f.text_field :name, :class => "input-xlarge", :autofocus => true %>
-        				</div>
-        			</div>
-        
-        			<div class="clearfix">
-        				<%= f.label :narrative %>
-        				<div class="input">
-        					<%= f.text_area :narrative, :class => "input-xxlarge" %>
-        				</div>
-        			</div>
-        		</fieldset>
-        		
-        		<div class="submit_bar actions">
-        			<%= f.submit t(:update_model, :model => Group.model_name.human), :class => "btn btn-primary" %>
-        		</div>
-        	<% end %>
-        </div>
-      </div>
-    </section>
-
+<section class="viewblock">
+  <header class="viewblock-header">
+    <h1 class="default-padding"><%= t(:edit_model, :model => Group.model_name.human) %></h1>
+  </header>
+  <div class="viewblock-cont">
+    <%= render :partial => 'groups/form', :locals => { :button_text => t(:update_model, :model => Group.model_name.human) } %>
   </div>
-
-  <div class="span10">
-
-    <section class="viewblock no">
-      <header class="viewblock-header">
-        <h1 class="default-padding"><%= t('.change_group_memberships') %></h1>
-      </header>
-      <div class="viewblock-cont">
-        <%= render 'edit_memberships' %>
-      </div>
-    </section>
-  </div>
-</div>
+</section>
