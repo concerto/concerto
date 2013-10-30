@@ -17,6 +17,9 @@ class GroupsController < ApplicationController
   # GET /groups/1.xml
   def show
     @group = Group.find(params[:id])
+    @feeds_separated = @group.feeds.in_groups(2)
+    @feeds_left = @feeds_separated[0]
+    @feeds_right = @feeds_separated[1]
     auth!
 
     respond_to do |format|
@@ -33,6 +36,16 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
+      format.xml  { render :xml => @group }
+    end
+  end
+
+  def manage_members
+    @group = Group.find(params[:id])
+    auth!
+
+    respond_to do |format|
+      format.html # show.html.erb
       format.xml  { render :xml => @group }
     end
   end

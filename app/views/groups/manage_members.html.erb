@@ -1,0 +1,155 @@
+<section class="viewblock">
+  <header class="viewblock-header">
+    <h1 class="default-padding">
+      <%= link_to t(:all_model, :model => Group.model_name.human.pluralize), groups_path %> &gt; 
+      <%= link_to @group.name, @group %> &gt; 
+      <%= t('.manage_members') %>
+    </h1>
+  </header>
+  <div class="viewblock-cont">
+    <div class="second-level-padding" style="padding-top: 0px;">
+      <br />
+      <% total_members = @group.memberships.regular.size + @group.memberships.leader.size %>
+      <% if total_members > 0 %>
+      <table class="hover-highlight">
+        <thead>
+          <tr>
+            <th style="width: 25%;"><%= t(:name) %></th>
+            <th style="width: 25%;" class="tooltip-basic" data-tooltip-text="<%= t('.screen_permission.tooltip') %>"><%= t('.screen_permission.name') %></th>
+            <th style="width: 25%;" class="tooltip-basic" data-tooltip-text="<%= t('.feed_permission.tooltip') %>"><%= t('.feed_permission.name') %></th>
+            <th style="width: 25%;">&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @group.memberships.leader.each do |leader| %>
+          <tr>
+            <th style="width: 25%;">
+              <p>
+                <i class="concertocon-user-leader tooltip-basic" data-tooltip-text="<%= t('.leader') %>"></i>
+                <b><%= link_to_if can?(:read, leader.user), leader.user.name, leader.user %></b><br />
+              </p>
+            </th>
+            <th style="width: 25%;"> All </th>
+            <th style="width: 25%;"> All </th>
+            <th style="width: 25%;">
+              <% if can? :update, leader %>
+                <%= link_to t('.demote_to_regular'), group_membership_path(@group, leader, :perform => "demote"), :method => :put, :class => "btn btn-small btn-danger", :data => { :confirm => t(:are_you_sure_demote_user, :user => leader.user.name) } %>
+              <% end %>
+            </th>
+          </tr>
+          <% end %>
+          <%= form_for(@group) do |f| %>
+            <%= f.fields_for :memberships do |m| %>
+              <% if Membership::PERMISSIONS.include?(m.object.level_name.to_sym) %>
+                <tr>
+                  <td>
+                    <p>
+                      <b><%= link_to_if can?(:read, m.object.user), m.object.user.name, m.object.user %></b><br />
+                    </p>
+                  </td>
+                  <% Membership::PERMISSIONS[m.object.level_name.to_sym].each_pair do |perm, levels| %>
+                    <td>
+                      <ul class="inputs-list">
+                          <li> 
+                            <% if can? :update, m %>
+                              <%= select_tag "#{m.object_name}[perms][#{perm.to_s}]", options_for_select(levels.keys, m.object.perms[perm]) %>
+                            <% else %>
+                              <%= label_tag m.object.perms[perm] %>
+                             <% end %>
+                          </li> 
+                      </ul>
+                    </td>
+                  <% end %>
+                  <td>
+                    <% if can? :update, m.object %>
+                      <%= link_to t('.promote_to_leader'), group_membership_path(@group, m.object, :perform => "promote"), :method => :put, :class => "btn btn-small btn-success" %>
+                      <%= link_to t('.remove_from_group'), group_membership_path(@group , m.object), :method => :delete, :class => "btn btn-small btn-danger", :data => { :confirm => t(:are_you_sure_remove_user_group, :user => m.object.user.name, :group => @group.name) } %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+        <% if !@group.memberships.regular.empty? && (can? :update, Membership.new(:group => @group, :level => Membership::LEVELS[:pending])) %>
+            <%= f.submit t('.update_permissions'), :class => "btn btn-primary" %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <div class="alert alert-block alert-zero">
+          <p class="alert-heading"><%= t('.no_regular_members') %></p>
+        </div>
+      <% end %>
+      </div>
+
+      <br />
+
+        <% if can? :read, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>
+        <h3 class="default-padding"><%= t('.approve_requests') %></h3>
+        <% if @group.memberships.pending.size > 0 %>
+          <table class="hover-highlight">
+            <thead>
+              <tr>
+                <th><%= User.human_attribute_name(:name) %></th>
+                <th><%= t('.request_made_at') %></th>
+                <th>&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @group.memberships.pending.each do |pending_membership| %>
+                <tr>
+                  <th>
+                    <p>
+                      <b><%= link_to_if can?(:read, pending_membership.user), pending_membership.user.name, pending_membership.user %></b><br />
+                    </p>
+                  </th>
+                  <th><p><%= pending_membership.created_at.strftime("%I:%M %p on %D") %></p></th>
+                  <th>
+                    <% if can? :update, pending_membership %>
+                      <%= link_to t(:approve), group_membership_path(@group, pending_membership, :perform => "approve"), :method => :put, :class => "btn btn-small btn-success"%>
+                      <%= link_to t(:deny), group_membership_path(@group, pending_membership, :perform => "deny"), :method=> :put, :class => "btn btn-small btn-danger" %>
+                    <% end %>
+                  </th>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <div class="second-level-padding" style="padding-bottom: 0px; padding-top: 0px;">
+            <div class="alert alert-block alert-zero">
+              <p class="alert-heading"><%= t('.no_pending_approvals') %></p>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>
+        <% users_not_in_group = @group.users_not_in_group %>
+        <% unless users_not_in_group.empty? %>
+          <h3 class="default-padding"><%= t('.add_users_to_group') %></h3>
+          <div class="second-level-padding">
+            <table class="hover-highlight">
+            <%= form_for([@group, Membership.new]) do |f| %>
+              <thead>
+                <tr>
+                  <th style="width: 25%;"><%= f.label :name %></th>
+                  <th style="width: 25%;"><%= f.label :screen, t('.screen_permission.name'), :class => 'tooltip-basic', 'data-tooltip-text' => t('.screen_permission.tooltip') %></th>
+                  <th style="width: 25%;"><%= f.label :feed, t('.feed_permission.name'), :class => "tooltip-basic", 'data-tooltip-text' => t('.feed_permission.tooltip') %></th>
+                  <th style="width: 25%;">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>     
+                  <td> <%= f.collection_select(:user_id, users_not_in_group, :id, :name) %> <%= hidden_field_tag 'autoconfirm' %> </td>
+                  <td> <%= select_tag( :screen, options_for_select(Membership::PERMISSIONS[:regular][:screen].keys) ) %> </td>
+                  <td> <%= select_tag( :feed, options_for_select(Membership::PERMISSIONS[:regular][:feed].keys) ) %> </td>
+                  <td> <%= f.submit t('.add_member'), :class => "btn btn-primary" %> </td>
+                </tr>
+              </tbody>
+            <% end %>
+            </table>
+          </div>
+        <% end %>
+      <% end %>
+  </div>
+</section>

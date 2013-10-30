@@ -1,5 +1,11 @@
 <div class="viewblock-header_right">
   <div class="button-padding">
+    <% if can? :edit, @group.memberships %>
+      <%= link_to t(:manage_members), manage_members_group_path(@group), :class => "btn" %>
+    <% end %>
+    <% if can? :edit, @group %>
+      <%= link_to t(:edit_model, :model => Group), edit_group_path(@group), :class => "btn" %>
+    <% end %>
     <% if can? :delete, @group %>
       <%= link_to t(:destroy_model, :model => Group), @group, 
         :data => { :confirm => t(:are_you_sure_delete_model_key, :model =>Group.model_name.human, :key => @group.name) }, :method => :delete, :class => "btn" %>

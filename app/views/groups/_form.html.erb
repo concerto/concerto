@@ -18,7 +18,7 @@
         <%= f.text_area :narrative, :class => "input-xxlarge" %>
       </div>
     </div>
-  </fieldset>                       
+  </fieldset>
 
   <fieldset>
     <legend><span><%= t('.initial_leader') %></span></legend>
@@ -28,10 +28,10 @@
         <%= f.collection_select :new_leader, User.order(:last_name), :id, :name %>
       </div>
     </div>
-  </fieldset>        		        		
+  </fieldset>
 
   <div class="submit_bar actions">
-    <%= f.submit button_text, :class => "btn primary" %> 
-    <%= link_to t(:cancel), groups_path, :class => "btn" %>
+    <%= f.submit button_text, :class => "btn btn-primary" %> 
+    <%= link_to t(:cancel), (@group.persisted? ? group_path : groups_path), :class => "btn" %>
   </div>
 <% end %>
