@@ -9,11 +9,11 @@ class Ability
     ## Users
     # Anything real can read a user
     can :read, User if accessor.persisted?
-    
+
     ## Content
     # If any of the submissions can be read the content can be read too.
     can :read, Content do |content|
-     content.submissions.any?{|s| can?(:read, s)}
+      content.submissions.any? { |s| can?(:read, s) }
     end
 
     # Only define these permissive settings if concerto is set to be public
@@ -22,7 +22,7 @@ class Ability
       # A user is readable by the public if the user has
       # public content or public screens.
       can :read, User do |user|
-        user.contents.any?{|c| can?(:read, c)} || user.screens.any?{|s| can?(:read, s)}
+        user.contents.any? { |c| can?(:read, c) } || user.screens.any? { |s| can?(:read, s) }
       end
 
       ## Feeds
@@ -30,23 +30,23 @@ class Ability
       # the ability to 'read' a feed implies that
       # you can browse it's contents as well
       can :read, Feed, :is_viewable => true
-  
+
       ## Content
       # Content approved on public feeds is publcally accessible.
       can :read, Content, :submissions => {:feed => {:is_viewable => true}, :moderation_flag => true}
-  
+
       ## Fields
       # Anything can read fields and positions.
       # Only admin users can edit them.
       can :read, Field
-  
+
       ## Positions
       can :read, Position
-  
+
       ## Membership
       # Group leaders are public, anyone can view them.
       can :read, Membership, :level => Membership::LEVELS[:leader]
-  
+
       ## Groups
       # Groups are only public if something they manage is viewable.
       can :read, Group do |group|
@@ -55,13 +55,13 @@ class Ability
       can :read, Group do |group|
         group.screens.where(:is_public => true).exists?
       end
-  
+
       ## Templates
       # Oddly enough, templates store a hidden flag instead of public
       # like everything else.
       can [:read, :preview], Template, :is_hidden => false
     end
-     
+
     # Load abilities based on the type of object.
     # We should do this at the bottom to make sure to 
     # override any generic attributes we assigned above.
@@ -78,7 +78,7 @@ class Ability
     if user.is_admin?
       can :manage, :all
     end
-    
+
     ## Users
     # A user can read and update themselves.
     can [:read, :update], User, :id => user.id
@@ -86,7 +86,7 @@ class Ability
     if ConcertoConfig[:allow_registration]
       can :create, User unless user.persisted?
     end
-    
+
     # The User#index action requires a special setup.
     # By default, all the :read checks will pass because any
     # user can read at least 1 user.  We use this custom
@@ -122,12 +122,12 @@ class Ability
     # So can special supporters
     can [:update, :delete], Screen do |screen|
       screen.owner.is_a?(Group) && (screen.owner.leaders.include?(user) ||
-        screen.owner.user_has_permissions?(user, :regular, :screen, [:all])) 
+        screen.owner.user_has_permissions?(user, :regular, :screen, [:all]))
     end
 
     ## FieldConfig
     # Only the owning group or user can manage a screen's field configs.
-    can :manage, FieldConfig, :screen => { :owner_id => user.id, :owner_type => 'User'}
+    can :manage, FieldConfig, :screen => {:owner_id => user.id, :owner_type => 'User'}
     can :manage, FieldConfig do |field_config|
       screen = field_config.screen
       unless screen.nil?
@@ -138,23 +138,23 @@ class Ability
 
     ## Subscriptions
     # Only the owning group or user can manage screen subscriptions
-    can :manage, Subscription, :screen => { :owner_id => user.id, :owner_type => 'User'}
+    can :manage, Subscription, :screen => {:owner_id => user.id, :owner_type => 'User'}
     can :manage, Subscription do |subscription|
       screen = subscription.screen
       screen.owner.is_a?(Group) && (screen.owner.leaders.include?(user) ||
         screen.owner.user_has_permissions?(user, :regular, :screen, [:all, :subscriptions]))
     end
-    
+
     ## Submissions
     # An authenticated user can create a submission if
     # the feed is submittable or they are a member of the group.
     can :create, Submission, :feed => {:is_submittable => true} if user.persisted?
-    can :create, Submission, :feed => {:group => {:id => user.group_ids }}
+    can :create, Submission, :feed => {:group => {:id => user.group_ids}}
     # Users can read and delete their own submissions.
-    can [:read,  :delete], Submission, :content => {:user => {:id => user.id }}
+    can [:read, :delete], Submission, :content => {:user => {:id => user.id}}
     # Submissions can be read and updated by moderators.
     can [:read, :update], Submission do |submission|
-      (submission.feed.group.leaders.include?(user) || 
+      (submission.feed.group.leaders.include?(user) ||
         submission.feed.group.user_has_permissions?(user, :regular, :feed, [:all, :submissions]))
     end
     # Approved submissions can be read if they can read the feed.
@@ -162,15 +162,19 @@ class Ability
       s.moderation_flag && can?(:read, s.feed)
     end
 
+    ## Media
+    # Any authenticated user can create a submission if
+    can :create, Media if user.persisted?
+
     ## Feeds
     # A feed can be read if it's viewable
     can :read, Feed, :is_viewable => true if (user.persisted? || ConcertoConfig[:public_concerto])
     # Group members can read a feed they own
-    can :read, Feed, :group => {:id => user.group_ids }
+    can :read, Feed, :group => {:id => user.group_ids}
     # Group leaders can update / date a feed they own
     can [:update, :delete], Feed do |feed|
-      (feed.group.leaders.include?(user) || 
-         feed.group.user_has_permissions?(user, :regular, :feed, [:all]))
+      (feed.group.leaders.include?(user) ||
+        feed.group.user_has_permissions?(user, :regular, :feed, [:all]))
     end
     # A group leader or supporter can create feeds
     if ConcertoConfig[:allow_user_feed_creation]
@@ -178,7 +182,7 @@ class Ability
         can :create, Feed do |feed|
           if !feed.group.nil?
             (user.leading_groups.include?(feed.group) ||
-               user.supporting_groups(:feed, [:all]).include?(feed.group))
+              user.supporting_groups(:feed, [:all]).include?(feed.group))
           else
             true
           end
@@ -213,7 +217,7 @@ class Ability
     ## Screens
     # A Screen can read its own properties
     can :read, Screen, :id => screen.id
-  
+
     ## Feeds
     # If a screen is owned by the same group as the feed
     # it can see content, or if the feed is viewable.
@@ -231,14 +235,14 @@ class Ability
     # the screen can read the feed, and the screen has a valid subscription
     # for that feed.
     can :read, Submission do |s|
-      s.moderation_flag && can?(:read, s.feed) && 
+      s.moderation_flag && can?(:read, s.feed) &&
         !screen.subscriptions.where(:feed_id => s.feed).empty?
     end
 
     ## Content
     # Content can be read if any of the submissions can be read.
     can :read, Content do |content|
-      content.submissions.any?{|s| can?(:read, s)}
+      content.submissions.any? { |s| can?(:read, s) }
     end
 
     ## FieldConfig
