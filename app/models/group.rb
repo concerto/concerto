@@ -47,6 +47,10 @@ class Group < ActiveRecord::Base
     end
     return users
   end
+  
+  def is_deletable?
+    self.screens.size == 0 && self.feeds.size == 0
+  end
 
   # Test if a user is part of this group
   def has_member?(user)

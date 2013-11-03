@@ -19,6 +19,7 @@ en:
   #Groups controller
   group_created: "Group was successfully created."
   group_updated: "Group was successfully updated."
+  group_not_deletable: "A group owning screens and/or feeds cannot be deleted."
 
   #Memberships controller
   membership_created:          "Membership was successfully created."

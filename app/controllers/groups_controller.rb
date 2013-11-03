@@ -96,6 +96,11 @@ class GroupsController < ApplicationController
   def destroy
     @group = Group.find(params[:id])
     auth!
+    #we don't let groups owning screens or feeds get deleted
+    unless @group.is_deletable?
+      raise t(:group_not_deletable)
+    end
+    
     process_notification(@group, {:public_owner => current_user.id, :group_name => @group.name}, :action => 'destroy')
     @group.destroy
 
