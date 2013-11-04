@@ -57,3 +57,6 @@ en:
       feed_header: '%{number} Feed%{s_display}'
       screen_header: '%{number} Screen%{s_display}'
       member_header: '%{number} Member%{s_display}'
+
+    show_header:
+      group_cannot_be_deleted: "Group cannot be deleted"
