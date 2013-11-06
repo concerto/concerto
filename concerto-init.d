@@ -37,7 +37,7 @@ SCRIPTNAME=/etc/init.d/$NAME
 [ -r /lib/lsb/init-functions ] && . /lib/lsb/init-functions
 
 # Exit if clockwork (concerto) is not installed (package removed)
-if [ ! -x ${CONCERTODIR}/vendor/bundle/ruby/*/gems/clockwork-*/bin/clockwork ]; then
+if [ "$(find ${CONCERTODIR}/vendor/bundle/ruby/ -name clockwork -type f -executable -print -quit 2>/dev/null | wc -l)" -eq "0" ]; then
   echo "$NAME does not appear to be installed"
   exit 0
 fi
