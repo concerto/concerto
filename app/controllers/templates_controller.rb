@@ -100,6 +100,7 @@ class TemplatesController < ApplicationController
 
     unless @template.is_deletable?
       redirect_to(@template, :notice => t(:cannot_delete_template, :screens => @template.screens.collect { |s| s.name if can? :read, s}.join(", "))) 
+      return
     end
 
     @template.destroy
