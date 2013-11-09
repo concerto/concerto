@@ -98,7 +98,8 @@ class GroupsController < ApplicationController
     auth!
     #we don't let groups owning screens or feeds get deleted
     unless @group.is_deletable?
-      raise t(:group_not_deletable)
+      redirect_to(@group, :notice => t(:group_not_deletable)) 
+      return
     end
     
     process_notification(@group, {:public_owner => current_user.id, :group_name => @group.name}, :action => 'destroy')

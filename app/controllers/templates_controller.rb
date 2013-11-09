@@ -98,20 +98,17 @@ class TemplatesController < ApplicationController
     @template = Template.find(params[:id])
     auth!
 
-    begin
-      result = @template.destroy
-    rescue ActiveRecord::DeleteRestrictionError
-      result = false
+    unless @template.is_deletable?
+      redirect_to(@template, :notice => t(:cannot_delete_template, :screens => @template.screens.collect { |s| s.name if can? :read, s}.join(", "))) 
     end
-    if result 
-      respond_to do |format|
-        format.html { redirect_to(templates_url) }
-        format.xml  { head :ok }
-      end
-    else
-      redirect_to(@template, :notice => t(:cannot_delete_template, :screens => @template.screens.collect { |s| s.name if can? :read, s}.join(", ")))
-      return 
+
+    @template.destroy
+
+    respond_to do |format|
+      format.html { redirect_to(templates_url) }
+      format.xml  { head :ok }
     end
+
   end
   
   # GET /template/1/preview
