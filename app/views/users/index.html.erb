@@ -14,18 +14,34 @@
   <div class="viewblock-cont">
     <table>
       <tr>
-        <th><%= User.human_attribute_name(:first_name) %></th>
-        <th><%= User.human_attribute_name(:last_name) %></th>
+        <th>Name</th>
         <th><%= User.human_attribute_name(:email) %></th>
+        <th><%= User.human_attribute_name(:groups) %></th>
         <th><%= User.human_attribute_name(:actions) %></th>
       </tr>
 
       <% @users.each do |user| %>
           <tr>
-            <td><%= user.first_name %></td>
-            <td><%= user.last_name %></td>
+            <td><%= user.name %></td>
             <td><%= user.email %></td>
-            <td><%= link_to t(:show), user %> <%= link_to t(:edit), edit_user_path(user) %> <%= link_to t(:destroy), user, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => User.model_name.human, :key => user.name) }, :method => :delete %></td>
+            <td><%= user.groups.map(&:name).join(",") %></td>
+            
+            <td>
+              <% if can? :read, User %>
+                <%= link_to t(:show, :model => User.model_name.human), user, :class => "btn" %>
+              <% end %>
+              <% if can? :edit, User %>
+                <%= link_to t(:edit, :model => User.model_name.human), edit_user_path(user), :class => "btn" %>
+              <% end %>
+              <% if can? :delete, User %>
+                <% if user.is_deletable? %>
+                  <%= link_to t(:destroy, :model => User), user, 
+          :data => { :confirm => t(:are_you_sure_delete_model_key, :model =>User.model_name.human, :key => user.name) }, :method => :delete, :class => "btn" %>
+                <% else %>
+                  <%= link_to t(:destroy_model, :model => User), '#', :class => "btn disabled tooltip-basic", 'data-tooltip-text' => t(:user_not_deletable, :model =>User.model_name.human, :key => user.name) %>
+                <% end %>
+              <% end %>
+            </td>
           </tr>
       <% end %>
     </table>
