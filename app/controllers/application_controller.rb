@@ -43,6 +43,9 @@ class ApplicationController < ActionController::Base
         (user,pass) = http_basic_user_name_and_password
         if user=="screen" and !pass.nil?
           @current_screen = Screen.find_by_screen_token(pass)
+          if params.has_key? :request_cookie
+            cookies.permanent[:concerto_screen_token] = pass
+          end
         end
       end
       if @current_screen.nil? and cookies.has_key? :concerto_screen_token
@@ -304,9 +307,16 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def allow_cors(site='*')
-    headers['Access-Control-Allow-Origin'] = site
+  # Cross-Origin Resource Sharing for JS interfaces
+  # Browsers are very selective about allowing CORS when Authentication
+  # headers are present. They require us to use an origin by name, not *,
+  # and to specifically allow authorization credentials (twice).
+  def allow_cors
+    origin = request.headers['origin']
+    headers['Access-Control-Allow-Origin'] = origin || '*'
     headers['Access-Control-Allow-Methods'] = '*'
+    headers['Access-Control-Allow-Credentials'] = 'true'
+    headers['Access-Control-Allow-Headers'] = 'Authorization'
   end
 
   # Redirect the user to the dashboard after signing in.
