@@ -101,7 +101,7 @@ private
 
   # Restrict the allowed parameters to a select set defined in the model.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :receive_moderation_notifications)
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :receive_moderation_notifications, :locale, :time_zone)
   end
   
 end
