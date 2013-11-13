@@ -13,12 +13,13 @@ goog.require('goog.style');
  * Screen Frontend.
  *
  * @param {number} screen_id Screen ID number.
- * @param {String} setup_url URL we should hit for setup information.
  * @param {Element=} opt_div Optional load to put the screen in.  Defaults
  *   to document.body, so the screen will take over the entire body.
+ * @param {concerto.frontend.ScreenOptions} screen_options Options to set for
+ *   the screen.
  * @constructor
  */
-concerto.frontend.Screen = function(screen_id, setup_url, opt_div) {
+concerto.frontend.Screen = function(screen_id, opt_div, screen_options) {
   /**
    * Manages connections to the backend server.
    * @type {!goog.net.XhrManager}
@@ -35,7 +36,7 @@ concerto.frontend.Screen = function(screen_id, setup_url, opt_div) {
    * URL with setup info for this screen.
    * @type {string}
    */
-  this.setup_url = setup_url;
+  this.setup_url = screen_options.setupPath;
 
   /**
    * Screen name.
