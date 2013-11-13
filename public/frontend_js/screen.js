@@ -1,6 +1,7 @@
 goog.provide('concerto.frontend.Screen');
 
 goog.require('concerto.frontend.Template');
+goog.require('goog.Uri.QueryData');
 goog.require('goog.debug.FancyWindow');
 goog.require('goog.debug.Logger');
 goog.require('goog.dom');
@@ -33,10 +34,16 @@ concerto.frontend.Screen = function(screen_id, opt_div, screen_options) {
   this.id = screen_id;
 
   /**
+   * Screen Options.
+   * @type {concerto.frontend.ScreenOptions}
+   */
+  this.options = screen_options;
+
+  /**
    * URL with setup info for this screen.
    * @type {string}
    */
-  this.setup_url = screen_options.setupPath;
+  this.setup_url = this.options.setupPath;
 
   /**
    * Screen name.
@@ -78,7 +85,8 @@ concerto.frontend.Screen.prototype.setup = function() {
   goog.dom.appendChild(this.container_, div);
   this.div_ = div;
 
-  var url = this.setup_url;
+  var params = this.getQueryData();
+  var url = this.setup_url + '?' + params.toString();
   this.logger_.info('Requesting screen config from ' + url);
   this.connection.send('setup', url, 'GET', '', null, 1, goog.bind(function(e) {
     var xhr = e.target;
@@ -100,4 +108,20 @@ concerto.frontend.Screen.prototype.setup = function() {
  */
 concerto.frontend.Screen.prototype.inject = function(div) {
   goog.dom.appendChild(this.div_, div);
+};
+
+
+/**
+ * Get the URI parameters a screen mandates.
+ * These parameters will be included in all HTTP calls that originate from the
+ * frontend, not including calls defined in individual content loading requests.
+ *
+ * @return {goog.Uri.QueryData}
+ */
+concerto.frontend.Screen.prototype.getQueryData = function() {
+  var query_data = new goog.Uri.QueryData();
+  if (this.options.isPreview) {
+    query_data.add('preview', 'true');
+  }
+  return query_data;
 };

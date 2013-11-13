@@ -197,7 +197,9 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
   }
   /** END HACK HACK HACK */
 
-  this.connection_.send('field' + this.id, this.content_url, 'GET', '', null, 1,
+  var params = this.position.template.screen.getQueryData();
+  var url = this.content_url + '?' + params.toString();
+  this.connection_.send('field' + this.id, url, 'GET', '', null, 1,
       goog.bind(function(e) {
 
         var xhr = e.target;

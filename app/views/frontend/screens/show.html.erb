@@ -13,7 +13,8 @@
       <% end %>
       var div = document.getElementsByClassName('screen')[0];
       var screenOptions = {
-        setupPath: '<%=j setup_frontend_screen_path(@screen, :format => :json) %>'
+        setupPath: '<%=j setup_frontend_screen_path(@screen, :format => :json) %>',
+        <% if @preview %> isPreview: true, <% end %>
       };
       screen = new concerto.frontend.Screen(<%= @screen.id %>, div, screenOptions);
     }

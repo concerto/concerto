@@ -23,6 +23,7 @@ class Frontend::ScreensController < ApplicationController
     else
       @js_files = ['frontend.js']
       @debug = false
+      @preview = false || params[:preview]
       if params[:debug]
         @debug = true
         @js_files = ['frontend_debug.js']
