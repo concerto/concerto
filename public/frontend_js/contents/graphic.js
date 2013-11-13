@@ -80,14 +80,14 @@ concerto.frontend.Content.Graphic.prototype.load_ = function() {
  */
 concerto.frontend.Content.Graphic.prototype.loaderFinish_ = function(e) {
   this.logger_.info('Content ' + this.type_ + ' ' +
-    this.id + ' is in .loaderFinish_');
+      this.id + ' is in .loaderFinish_');
   this.image = e.target;
   goog.dom.appendChild(this.div_, this.image);
 
   var side_margin = (this.field_width_ - this.image.width) / 2;
   var top_margin = (this.field_height_ - this.image.height) / 2;
   goog.style.setStyle(this.image, 'margin',
-    top_margin + 'px ' + side_margin + 'px');
+      top_margin + 'px ' + side_margin + 'px');
   goog.style.setSize(this.div_, '100%', '100%');
   this.finishLoad();
 };

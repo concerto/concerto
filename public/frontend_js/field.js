@@ -35,7 +35,7 @@ concerto.frontend.Field = function(position, id, name, content_path,
       for (var prop in opt_config) {
         if (opt_config.hasOwnProperty(prop)) {
           this.logger_.info('Field ' + id + ' has configuration ' +
-            prop + ': ' + opt_config[prop]);
+              prop + ': ' + opt_config[prop]);
         }
       }
     }
@@ -106,7 +106,7 @@ concerto.frontend.Field = function(position, id, name, content_path,
    * @type {!Object}
    * @private
    */
-   this.config_ = opt_config;
+  this.config_ = opt_config;
 
   /**
    * Alias to the XHR connection.
@@ -183,7 +183,8 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
       'render_details': {'data': null},
       'field': {'size': this.position.getSize(), 'config' : this.config_}
     };
-    var clock = new concerto.frontend.ContentTypeRegistry['ClientTime'](options);
+    var clock_klass = concerto.frontend.ContentTypeRegistry['ClientTime'];
+    var clock = new clock_klass(options);
     this.next_contents_.enqueue(clock);
     goog.events.listenOnce(clock,
         concerto.frontend.Content.EventType.FINISH_LOAD,
@@ -204,7 +205,7 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
         if (!xhr.isSuccess()) {
           // Error fetching content.
           this.logger_.warning('Field ' + this.id +
-            ' was unable to fetch content. ' + xhr.getLastError());
+              ' was unable to fetch content. ' + xhr.getLastError());
           return setTimeout(
               goog.bind(function() {this.nextContent(true)}, this), 10);
         }
@@ -230,7 +231,7 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
             this.next_contents_.enqueue(content);
 
             this.logger_.info('Field ' + this.id + ' queued ' +
-              content_data['type'] + ' content ' + content_data['id']);
+                content_data['type'] + ' content ' + content_data['id']);
 
             // When the content is loaded, we show it in the field,
             goog.events.listenOnce(content,
@@ -244,8 +245,8 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
                 this.autoAdvance, false, this);
           } else {
             this.logger_.warning('Field ' + this.id +
-              ' Unable to find ' + content_data['type'] +
-              ' renderer for content ' + content_data['id']);
+                ' Unable to find ' + content_data['type'] +
+                ' renderer for content ' + content_data['id']);
           }
         }, this));
         if (load_content_on_finish && !this.next_contents_.isEmpty()) {
@@ -296,7 +297,7 @@ concerto.frontend.Field.prototype.nextContent = function(in_error_state) {
   // If a piece of content is already in the queue, use that.
   if (this.next_contents_.isEmpty()) {
     this.logger_.info('Field ' + this.id +
-      ' needs to look for more content [queue is empty].');
+        ' needs to look for more content [queue is empty].');
     if (in_error_state) {
       var delay = concerto.frontend.Field.ERROR_DELAY;
       this.logger_.info('In error state, sleeping for ' + delay + ' seconds.');
@@ -307,7 +308,7 @@ concerto.frontend.Field.prototype.nextContent = function(in_error_state) {
     }
   } else {
     this.logger_.info('Field ' + this.id +
-      ' is getting content from its queue.');
+        ' is getting content from its queue.');
     this.next_contents_.peek().startLoad();
   }
 };

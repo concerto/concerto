@@ -66,8 +66,8 @@ concerto.frontend.Content.ClientTime.prototype.load_ = function() {
       ' ' + time_printer.format(now, this.timezone);
 
   if (this.format_ != null && this.format_.trim() != '') {
-    pretty_time = new goog.i18n.DateTimeFormat(this.format_).format(now,
-                                                          this.timezone);
+    pretty_time = new goog.i18n.DateTimeFormat(this.format_).format(
+        now, this.timezone);
   }
 
   goog.dom.setTextContent(this.div_, pretty_time);

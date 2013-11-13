@@ -72,7 +72,7 @@ concerto.frontend.Content.prototype.logger_ = goog.debug.Logger.getLogger(
  */
 concerto.frontend.Content.prototype.startLoad = function() {
   this.logger_.info('Content ' + this.type_ + ' ' + this.id +
-    ' is starting to load.');
+      ' is starting to load.');
 
   /**
    * Time this content started loading.
