@@ -11,6 +11,10 @@ a:hover > .tile {
   * {
     @include opacity(90);
   }
+
+  .brand i[class*=icon-] {
+    @include opacity(0);
+  }
 }
 
 .tile {
@@ -196,6 +200,18 @@ a:hover > .tile {
               width: 100%;
               height: 100%;
           }
+      }
+
+      i[class*=icon-] {
+        padding: 2px;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        opacity: 0.8;
+        z-index: 2;
+        color: $white;
+        font-size: 40px;
+        @include transition(0.1s linear all);
       }
 
       & > img ~ .text {
