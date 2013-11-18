@@ -202,12 +202,12 @@ class ContentsController < ApplicationController
   # Trigger the render function a piece of content and passes all the params
   # along for processing.  Should send an inline result of the processing.
   def display
-    # To support graphic preview where there isnt any content yet, use a new, empty one
-    # because the params contains the media_id that will be passed on to the graphic's
-    # render method for rendering the unattached media record.
+    # To support graphic preview where there isnt any content yet, create an unsaved
+    # piece of content owned by the current user and associate the preview media with it.
     if params[:id] == "preview" && params[:type].present?
       get_content_const
-      @content = @content_const.new()
+      @content = @content_const.new(:user => current_user)
+      @content.media << Media.valid_preview(params[:media_id])
     else
       @content = Content.find(params[:id])
     end

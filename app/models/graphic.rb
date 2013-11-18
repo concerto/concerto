@@ -58,11 +58,12 @@ class Graphic < Content
     end
     Rails.logger.debug('Cache miss!')
 
-    # If a media_id was passed in then use that media item (for graphic preview).  This
-    # happens when there is no graphic record yet, but a preview is requested on the 
-    # media that was uploaded.
-    if options.include?(:media_id)
-      preferred_media = Media.find(options[:media_id])
+    # If we are rendering a preview, we prefer a preview file, either a real one
+    # that has been saved or one that if just associated with the model unsaved.
+    if options[:id] == 'preview' && !self.media.preview.empty? && params[:id]
+      preferred_media = self.media.preview.first
+    elsif options[:id] == 'preview' && self.media.any?{ |m| m.key == 'preview' }
+      preferred_media = self.media.detect {|m| m.key == 'preview'}
     else
       preferred_media = self.media.preferred.first
     end
