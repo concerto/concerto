@@ -1,10 +1,11 @@
 class Frontend::ScreensController < ApplicationController
   # Allow cross-origin resource sharing for screens#show.
-  before_filter :allow_cors, :only => [:show]
+  before_filter :allow_cors, :only => [:show, :show_options]
   before_filter :screen_api
   
   layout 'frontend'
 
+  # GET /frontend/:id
   def show
     begin
       @screen = Screen.find(params[:id])
@@ -13,10 +14,16 @@ class Frontend::ScreensController < ApplicationController
       # TODO: Could this just be a regular 404?
       render :text => "Screen not found.", :status => 404
     rescue CanCan::AccessDenied
-      render :text=> "Screen requires authentication.", :status => 403
+      if current_screen.nil?
+        headers['WWW-Authenticate']='Basic realm="Frontend Screen"'
+        render :text=> "Screen requires authentication.", :status => 401
+      else
+        render :text=> "Incorrect authorization.", :status => 403
+      end
     else
       @js_files = ['frontend.js']
       @debug = false
+      @preview = false || params[:preview]
       if params[:debug]
         @debug = true
         @js_files = ['frontend_debug.js']
@@ -28,6 +35,12 @@ class Frontend::ScreensController < ApplicationController
         format.html
       end
     end
+  end
+
+  # OPTIONS /frontend/:id
+  # Requested by browser to find CORS policy
+  def show_options
+    head :ok
   end
   
   # GET /frontend

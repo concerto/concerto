@@ -17,6 +17,9 @@ class GroupsController < ApplicationController
   # GET /groups/1.xml
   def show
     @group = Group.find(params[:id])
+    @feeds_separated = @group.feeds.in_groups(2)
+    @feeds_left = @feeds_separated[0]
+    @feeds_right = @feeds_separated[1]
     auth!
 
     respond_to do |format|
@@ -33,6 +36,16 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
+      format.xml  { render :xml => @group }
+    end
+  end
+
+  def manage_members
+    @group = Group.find(params[:id])
+    auth!
+
+    respond_to do |format|
+      format.html # show.html.erb
       format.xml  { render :xml => @group }
     end
   end
@@ -83,6 +96,12 @@ class GroupsController < ApplicationController
   def destroy
     @group = Group.find(params[:id])
     auth!
+    #we don't let groups owning screens or feeds get deleted
+    unless @group.is_deletable?
+      redirect_to(@group, :notice => t(:group_not_deletable)) 
+      return
+    end
+    
     process_notification(@group, {:public_owner => current_user.id, :group_name => @group.name}, :action => 'destroy')
     @group.destroy
 

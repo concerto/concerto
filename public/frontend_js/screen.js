@@ -1,6 +1,7 @@
 goog.provide('concerto.frontend.Screen');
 
 goog.require('concerto.frontend.Template');
+goog.require('goog.Uri.QueryData');
 goog.require('goog.debug.FancyWindow');
 goog.require('goog.debug.Logger');
 goog.require('goog.dom');
@@ -13,12 +14,13 @@ goog.require('goog.style');
  * Screen Frontend.
  *
  * @param {number} screen_id Screen ID number.
- * @param {String} setup_url URL we should hit for setup information.
  * @param {Element=} opt_div Optional load to put the screen in.  Defaults
  *   to document.body, so the screen will take over the entire body.
+ * @param {concerto.frontend.ScreenOptions} screen_options Options to set for
+ *   the screen.
  * @constructor
  */
-concerto.frontend.Screen = function(screen_id, setup_url, opt_div) {
+concerto.frontend.Screen = function(screen_id, opt_div, screen_options) {
   /**
    * Manages connections to the backend server.
    * @type {!goog.net.XhrManager}
@@ -32,10 +34,16 @@ concerto.frontend.Screen = function(screen_id, setup_url, opt_div) {
   this.id = screen_id;
 
   /**
+   * Screen Options.
+   * @type {concerto.frontend.ScreenOptions}
+   */
+  this.options = screen_options;
+
+  /**
    * URL with setup info for this screen.
    * @type {string}
    */
-  this.setup_url = setup_url;
+  this.setup_url = this.options.setupPath;
 
   /**
    * Screen name.
@@ -77,7 +85,8 @@ concerto.frontend.Screen.prototype.setup = function() {
   goog.dom.appendChild(this.container_, div);
   this.div_ = div;
 
-  var url = this.setup_url;
+  var params = this.getQueryData();
+  var url = this.setup_url + '?' + params.toString();
   this.logger_.info('Requesting screen config from ' + url);
   this.connection.send('setup', url, 'GET', '', null, 1, goog.bind(function(e) {
     var xhr = e.target;
@@ -99,4 +108,20 @@ concerto.frontend.Screen.prototype.setup = function() {
  */
 concerto.frontend.Screen.prototype.inject = function(div) {
   goog.dom.appendChild(this.div_, div);
+};
+
+
+/**
+ * Get the URI parameters a screen mandates.
+ * These parameters will be included in all HTTP calls that originate from the
+ * frontend, not including calls defined in individual content loading requests.
+ *
+ * @return {goog.Uri.QueryData}
+ */
+concerto.frontend.Screen.prototype.getQueryData = function() {
+  var query_data = new goog.Uri.QueryData();
+  if (this.options.isPreview) {
+    query_data.add('preview', 'true');
+  }
+  return query_data;
 };

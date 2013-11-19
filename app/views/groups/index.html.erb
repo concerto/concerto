@@ -1,60 +1,62 @@
-<div class="row-fluid">
-  <div class="span12">
-    <section class="viewblock">
-      <header class="viewblock-header">
-        <div class="viewblock-header_right">
-          <div class="button-padding">
-            <% if can? :create, Group %>
-              <%= link_to t(:new_model, :model => Group.model_name.human), new_group_path, :class => "btn" %>
-            <% end %>
-          </div>
-        </div>
-        <h1 class="default-padding">
-          <%= t(:all_model, :model => Group.model_name.human.pluralize) %>
-        </h1>
-      </header>
-      <div class="viewblock-cont">
-        <% if !@my_groups.empty? %>
-          <div class="subnav clearfix">
-            <h4><%= t(:my_model, :model => Group.model_name.human.pluralize) %></h4>
-          </div>
-          <ul class="list-stacked">
-            <% @my_groups.each do |group| %>
-              <li>
-                <h3>
-                  <%= link_to group.name, group, :class => "link-hl" %>
-                </h3>
-                <%= link_to t(:join), group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %>
-                <p class="indented">
-                  <%= member_list(group) %>
-                </p>
-              </li>
-            <% end %>
-          </ul>
+<section class="viewblock">
+  <header class="viewblock-header">
+    <div class="viewblock-header_right">
+      <div class="button-padding">
+        <% if can? :create, Group %>
+          <%= link_to t(:new_model, :model => Group.model_name.human), new_group_path, :class => "btn" %>
         <% end %>
-        <% other_groups = @groups - @my_groups %>
-        <% if !other_groups.empty? %>
-          <div class="subnav clearfix">
-            <h4><%= t(:other_model, :model => Group.model_name.human.pluralize) %></h4>
-          </div>
-          <ul class="list-stacked">
-            <% other_groups.each do |group| %>
-              <li>
-                <h3>
-                  <%= link_to group.name, group, :class => "link-hl" %>
-                  <small><%= link_to t(:join), group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></small>
-                </h3>
-                <p class="indented">
-                  <%= member_list(group) %>
-                </p>
-              </li>
-            <% end %>
-          </ul>
-        <% end %>
-
-        
       </div>
-    </section>
-  </div>
+    </div>
+    <h1 class="default-padding">
+      <%= t(:all_model, :model => Group.model_name.human.pluralize) %>
+    </h1>
+  </header>
+  <div class="viewblock-cont">
+    <% if !@my_groups.empty? %>
+      <div class="clearfix default-padding">
+        <div class="header-with-icon">
+          <h3>
+            <%= t(:my_model, :model => Group.model_name.human.pluralize) %>
+          </h3>
+        </div>
+      </div>
+      <ul class="list-stacked">
+        <% @my_groups.each do |group| %>
+          <li>
+            <h3>
+              <%= link_to group.name, group, :class => "link-hl" %>
+            </h3>
+            <%= link_to t(:join), group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %>
+            <p class="indented">
+              <%= member_list(group) %>
+            </p>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+    <% other_groups = @groups - @my_groups %>
+    <% if !other_groups.empty? %>
+      <div class="clearfix default-padding">
+        <div class="header-with-icon">
+          <h3>
+            <%= t(:other_model, :model => Group.model_name.human.pluralize) %>
+          </h3>
+        </div>
+      </div>
+      <ul class="list-stacked">
+        <% other_groups.each do |group| %>
+          <li>
+            <h3>
+              <%= link_to group.name, group, :class => "link-hl" %>
+              <small><%= link_to t(:join), group_memberships_path(:group_id => group.id, :membership => {:user_id => current_user.id}), :method => :post if user_signed_in? & !group.made_request?(current_user) %></small>
+            </h3>
+            <p class="indented">
+              <%= member_list(group) %>
+            </p>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
 
-</div>
+  </div>
+</section>

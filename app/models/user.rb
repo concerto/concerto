@@ -12,10 +12,10 @@ class User < ActiveRecord::Base
   end
   devise *modules
          
-  before_destroy :check_for_last_admin
+  before_destroy :dont_delete_last_admin
   before_create :auto_confirm
 
-  has_many :contents
+  has_many :contents, :dependent => :destroy
   has_many :submissions, :foreign_key => "moderator_id"
   has_many :memberships, :dependent => :destroy
   has_many :groups, :through => :memberships
@@ -34,9 +34,20 @@ class User < ActiveRecord::Base
     # this new user will not be locked out
     self.confirmed_at = Date.new(1824, 11, 5) if !ConcertoConfig[:confirmable]
   end
+  
+  #a user who isn't the last admin and owns no screens is deletable
+  def is_deletable?
+    self.screens.size == 0 && !is_last_admin?
+  end
+  
+  #when we only have one user in the system who is the admin
+  def is_last_admin?
+    User.admin.count == 1 && self.is_admin?
+  end
 
-  def check_for_last_admin
-    if User.admin.count == 1 && self.is_admin?
+  #last line of defense: return false so the before_destroy validation fails
+  def dont_delete_last_admin
+    if is_last_admin?
       return false
     end
   end

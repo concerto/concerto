@@ -19,6 +19,7 @@ en:
   #Groups controller
   group_created: "Group was successfully created."
   group_updated: "Group was successfully updated."
+  group_not_deletable: "A group owning screens and/or feeds cannot be deleted."
 
   #Memberships controller
   membership_created:          "Membership was successfully created."
@@ -66,6 +67,7 @@ en:
   user_updated: "User was successfully updated."
   cannot_delete_last_admin: "Cannot delete last admin user."
   user_owns_screens: "This user cannot be deleted because they own one or more screens."
+  user_not_deletable: "A user owning screens or who is the last remaining administrator cannot be deleted."
   
   #Dashboard controller
   settings_saved: "Concerto settings saved.  Some changes may not become effective until the webserver is restarted."

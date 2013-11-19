@@ -3,12 +3,12 @@ class Group < ActiveRecord::Base
 
   after_create :create_leader
 
-  has_many :feeds
+  has_many :feeds, :dependent => :restrict
   has_many :memberships, :dependent => :destroy
   accepts_nested_attributes_for :memberships
 
   has_many :users, -> { where ["memberships.level > ?", Membership::LEVELS[:pending]] }, :through => :memberships
-  has_many :screens, :as => :owner
+  has_many :screens, :as => :owner, :dependent => :restrict
 
   # Scoped relation for members and pending members
   has_many :all_users, -> { where ["memberships.level != ?", Membership::LEVELS[:denied]] }, :through => :memberships, :source => :user
@@ -46,6 +46,10 @@ class Group < ActiveRecord::Base
       users.delete_if { |key, value| key.id == m.user_id }
     end
     return users
+  end
+  
+  def is_deletable?
+    self.screens.size == 0 && self.feeds.size == 0
   end
 
   # Test if a user is part of this group

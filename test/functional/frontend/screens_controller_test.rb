@@ -13,7 +13,7 @@ class Frontend::ScreensControllerTest < ActionController::TestCase
 
   test "private screen frontend is not public" do
     get(:show, {:id => screens(:one).id})
-    assert_response 403
+    assert_response 401
   end
 
   test "private screen setup data is not public" do

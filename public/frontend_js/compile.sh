@@ -40,6 +40,7 @@ if [ $debug -eq 0 ]; then
   closure-library/closure/bin/build/closurebuilder.py \
     --root=closure-library/ --root=./ --namespace="concerto.frontend.Screen" \
     --output_mode=compiled --compiler_jar=compiler.jar \
+    --compiler_flags="--externs=screen_options.js" \
     --compiler_flags="--compilation_level=ADVANCED_OPTIMIZATIONS" \
      > frontend.js
 

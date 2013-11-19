@@ -136,7 +136,7 @@ concerto.frontend.Position.prototype.load = function(data) {
    * @type {concerto.frontend.Field}
    */
   this.field = new concerto.frontend.Field(this, data['field']['id'],
-    data['field']['name'], data['field_contents_path'], transition, config);
+      data['field']['name'], data['field_contents_path'], transition, config);
 
   this.setProperties();
 };

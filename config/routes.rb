@@ -39,6 +39,9 @@ Concerto::Application.routes.draw do
       end
       resources :templates, :only => [:show]
     end
+    # Special route for CORS preflight requests on #show
+    match ':id', :controller => :screens, :action=>'show_options',
+      :constraints => {:method => 'OPTIONS'}
   end
   # End really dangerous routes.
 
@@ -74,7 +77,11 @@ Concerto::Application.routes.draw do
     end
   end
 
-  resources :groups, :except => [:edit] do
+  resources :groups do
+    member do
+      get :manage_members
+    end
+
     resources :memberships, :only => [:create, :update, :destroy] do
     end
   end

@@ -46,7 +46,10 @@
 
 </div>
 
-
+<div class="clearfix default-padding">
+  <%= t('.moderated_by') %> 
+  <%= link_to @feed.group.name, group_path(@feed.group) %>.
+</div>
 
 <% if @can_moderate_feed and @feed.submissions.pending.count > 0 %>
 <!-- note that we do not show an alert banner when there are no pending contents; we just hide it altogether -->

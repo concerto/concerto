@@ -88,6 +88,7 @@ ul.list-grid {
 	  list-style: none;
     float: left;
     min-width: 200px;
+    height: 60px;
     width: 23%;
     margin: 8px 4px;
     display: table;
@@ -104,6 +105,12 @@ ul.list-grid {
 
         a {
           text-decoration: none;
+        }
+
+        i {
+          font-size: 45px;
+          color: $black;
+          line-height: 0.8em;
         }
       }
 
@@ -228,10 +235,10 @@ ul.list-grid {
 
 ul.list-stacked {
   margin-left: 0px;
+  margin-bottom: 12px;
 
   > li {
-    border-top: solid 1px $grayLighter;
-    padding: 12px;
+    padding: 12px 12px 0px 12px;
     list-style: none;
 
     // this is the second level of UL, which represents a nested list

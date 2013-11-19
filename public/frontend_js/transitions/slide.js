@@ -38,7 +38,7 @@ goog.inherits(concerto.frontend.Transition.Slide, concerto.frontend.Transition);
  * @private
  */
 concerto.frontend.Transition.Slide.prototype.logger_ =
-  goog.debug.Logger.getLogger('concerto.frontend.Transition.Slide');
+    goog.debug.Logger.getLogger('concerto.frontend.Transition.Slide');
 
 
 /**
