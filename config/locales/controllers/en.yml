@@ -39,6 +39,10 @@ en:
   position_created: "Position was successfully created."
   position_updated: "Position was successfully updated."
 
+  #Kinds controller
+  kind_created: "Kind was successfully created."
+  kind_updated: "Kind was successfully updated."
+
   #Screens controller
   screen_created: "Screen was successfully created."
   screen_updated: "Screen was successfully updated."

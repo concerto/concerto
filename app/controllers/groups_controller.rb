@@ -47,17 +47,11 @@ class GroupsController < ApplicationController
   def create
     @group = Group.new(group_params)
     auth!
-
-    respond_to do |format|
-      if @group.save
-        process_notification(@group, {:public_owner => current_user.id}, :action => 'create')
-        format.html { redirect_to(@group, :notice => t(:group_created)) }
-        format.xml  { render :xml => @group, :status => :created, :location => @group }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @group.errors, :status => :unprocessable_entity }
-      end
+    if @group.save
+      process_notification(@group, {:public_owner => current_user.id}, :action => 'create')
+      flash[:notice] = t(:group_created)
     end
+    respond_with(@group)
   end
 
   # PUT /groups/1
