@@ -81,10 +81,10 @@ unless Rails.env.test?
         Rake::Task["db:seed"].invoke
         retry
       end
-      File.delete("tmp/migration_tempfile") if File.exist?("tmp/migration_tempfile")
     end
   end
   
 end
 
+File.delete("tmp/migration_tempfile") if File.exist?("tmp/migration_tempfile")
 Rails.logger.debug "Completed 01-db_create_load_or_migrate.rb at #{Time.now.to_s}"
