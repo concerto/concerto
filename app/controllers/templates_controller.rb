@@ -1,5 +1,6 @@
 class TemplatesController < ApplicationController
   before_filter :get_type, :only => [:new, :create, :import]
+  respond_to :html, :json, :xml, :js
 
   # GET /templates
   # GET /templates.xml
@@ -7,12 +8,7 @@ class TemplatesController < ApplicationController
   def index
     @templates = Template.all
     auth!
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @template }
-      format.js { }
-    end
+    respond_with(@templates)
   end
 
   # GET /templates/1
@@ -21,11 +17,8 @@ class TemplatesController < ApplicationController
   def show
     @template = Template.find(params[:id])
     auth!
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @template.to_xml(:include => [:positions]) }
-      format.js { }
+    respond_with(@template) do |format|
+      format.xml { render :xml => @template.to_xml(:include => [:positions])  }
     end
   end
 
@@ -35,11 +28,7 @@ class TemplatesController < ApplicationController
     @template = Template.new
     auth!
     @template.media.build
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @template }
-    end
+    respond_with(@template)
   end
 
   # GET /templates/1/edit
@@ -80,16 +69,13 @@ class TemplatesController < ApplicationController
     @template.media.each do |media|
       media.key = "original"
     end
-
-    respond_to do |format|
-      if @template.update_attributes(template_params)
-        format.html { redirect_to(@template, :notice => t(:template_updated)) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
-      end
+    
+    if @template.update_attributes(template_params)
+      flash[:notice] = t(:template_updated)
     end
+    
+    respond_with(@template)
+
   end
 
   # DELETE /templates/1
@@ -104,12 +90,7 @@ class TemplatesController < ApplicationController
     end
 
     @template.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(templates_url) }
-      format.xml  { head :ok }
-    end
-
+    respond_with(@template)
   end
   
   # GET /template/1/preview
@@ -185,7 +166,7 @@ class TemplatesController < ApplicationController
     
     if xml_file.nil? || image_file.nil?
       @template.errors.add(:base, t(:template_import_requires_files))
-      respond_to do |format|
+      respond_with(@template) do |format|
         format.html { render :action => "new" }
         format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
       end
@@ -198,16 +179,12 @@ class TemplatesController < ApplicationController
       rescue REXML::ParseException
         raise t(:template_import_error)
       end
-
-      respond_to do |format|
-        if @template.save
-          format.html { redirect_to(@template, :notice => t(:template_created)) }
-          format.xml  { render :xml => @template, :status => :created, :location => @template }
-        else
-          format.html { render :action => "new" }
-          format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
-        end
+      
+      if @template.save
+        flash[:notice] = t(:template_created)
       end
+      
+      respond_with(@template)
     end
   end
 

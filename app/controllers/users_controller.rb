@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  respond_to :html, :json
+  respond_to :html, :json, :xml
    
   # GET /users
   def index
@@ -42,17 +42,13 @@ class UsersController < ApplicationController
       @user.is_admin = set_admin
     end
     auth!
-
-    respond_to do |format|
-      if @user.save
-        process_notification(@user, {}, :action => 'create', :owner => current_user)
-
-        format.html { redirect_to(@user, :notice => 'User was successfully created.') }
-        format.xml  { render :xml => @user, :status => :created, :location => @user }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
-      end
+    
+    if @user.save
+      flash[:notice] = t(:user_created)
+    end
+    #once an admin creates a user, don't go to the users page, go back to the user manage page
+    respond_with(@user) do |format|
+      format.html { redirect_to main_app.users_path }
     end
   end
 
@@ -88,7 +84,8 @@ class UsersController < ApplicationController
       return
     end
     
-    if @user.check_for_last_admin == false
+    #deleting the last admin is still forbidden in the model, but it's nice to catch it here too
+    if @user.is_last_admin?
       redirect_to(@user, :notice => t(:cannot_delete_last_admin))
       return    
     end
