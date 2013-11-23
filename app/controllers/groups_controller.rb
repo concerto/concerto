@@ -32,7 +32,7 @@ class GroupsController < ApplicationController
 
   def manage_members
     @group = Group.find(params[:id])
-    auth! action: :edit
+    auth! :action => :edit
     respond_with(@group)
   end
 
