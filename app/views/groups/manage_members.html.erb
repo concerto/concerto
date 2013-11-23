@@ -11,6 +11,7 @@
       <br />
       <% total_members = @group.memberships.regular.size + @group.memberships.leader.size %>
       <% if total_members > 0 %>
+      <%= form_for(@group) do |f| %>
       <table class="hover-highlight">
         <thead>
           <tr>
@@ -38,7 +39,6 @@
             </th>
           </tr>
           <% end %>
-          <%= form_for(@group) do |f| %>
             <%= f.fields_for :memberships do |m| %>
               <% if Membership::PERMISSIONS.include?(m.object.level_name.to_sym) %>
                 <tr>
@@ -128,8 +128,8 @@
         <% unless users_not_in_group.empty? %>
           <h3 class="default-padding"><%= t('.add_users_to_group') %></h3>
           <div class="second-level-padding">
-            <table class="hover-highlight">
             <%= form_for([@group, Membership.new]) do |f| %>
+            <table class="hover-highlight">
               <thead>
                 <tr>
                   <th style="width: 25%;"><%= f.label :name %></th>
