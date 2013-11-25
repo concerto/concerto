@@ -28,6 +28,7 @@ en:
       dont_receive_emails: "Don't receive emails"
       forever: 'forever'
       groups: 'Groups'
+      leader: 'User is a leader of one or more groups'
       my: 'My'
       name: 'Name'
       receive_emails: 'Receive emails'
