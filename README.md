@@ -22,3 +22,7 @@ The virtual server image contains a full-stack installation of the Concerto webs
 * Download at [https://dl.concerto-signage.org/concerto_server.ova](https://dl.concerto-signage.org/concerto_server.ova)
 
 Concerto 2 is licensed under the Apache License, Version 2.0.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/concerto/concerto/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
