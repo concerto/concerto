@@ -14,9 +14,15 @@
             </p>
           <% end %>
 
+          <p>
           <% if @user.is_admin? %>
-              <p><b><i class="concertocon-user-admin-blk tooltip-basic" data-tooltip-text="<%= t('.system_wide_admin') %>"></i> <%= t('.admin') %></b></p>
+            <i class="concertocon-user-admin tooltip-basic" data-tooltip-text="<%= t('.system_wide_admin') %>"></i>
           <% end %>
+
+          <% if !@user.leading_groups.empty? %>
+            <i class="concertocon-user-leader tooltip-basic" data-tooltip-text="<%= t('.leader') %>"></i>
+          <% end %>
+          </p>
 
           <% if can? :edit, @user %>
             <div class="inline-inputs">
@@ -36,7 +42,11 @@
               <li>
                 <div class="cont thumb-icon">
                   <%= link_to membership.group do %>
-                    <i class="icon-group"></i>
+                    <% if membership.is_leader? %>
+                      <i class="concertocon-controller-users-leader"></i>
+                    <% else %>
+                      <i class="icon-group"></i>
+                    <% end %>
                   <% end %>
                 </div>
                 <div class="cont">
@@ -83,6 +93,7 @@
         <h2><%= user_title @user.first_name, t('.content') %></h2>
 
         <% if !@contents.empty? %>
+          <%= paginate @contents %>
             <ul class="list-grid">
               <% @contents.each do |content| %>
                   <li>
