@@ -42,10 +42,10 @@ gem "sqlite3", :group => [:development, :test]
 
 require "#{Dir.getwd}/lib/command_check.rb"
 if system_has_mysql?
-  gem "mysql2"
+  gem "mysql2", :require => false
 end
 if system_has_postgres?
-  gem "pg"
+  gem "pg", :require => false
 end
 
 #RMagick is used for image resizing and processing
