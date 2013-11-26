@@ -66,7 +66,7 @@ GEM
       rails (~> 3.2.11)
     concerto_weather (0.0.6)
       rails (~> 3.2.12)
-    connection_pool (1.1.0)
+    connection_pool (1.2.0)
     delayed_job (4.0.0)
       activesupport (>= 3.0, < 4.1)
     delayed_job_active_record (4.0.0)
@@ -116,7 +116,7 @@ GEM
     kaminari (0.14.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-    launchy (2.4.0)
+    launchy (2.4.1)
       addressable (~> 2.3)
     libv8 (3.16.14.3)
     mail (2.5.4)
@@ -127,6 +127,7 @@ GEM
     multipart-post (1.2.0)
     mysql2 (0.3.14)
     orm_adapter (0.5.0)
+    pg (0.17.0)
     polyglot (0.3.3)
     public_activity (1.4.0)
       actionpack (>= 3.0.0)
@@ -234,6 +235,7 @@ DEPENDENCIES
   json (= 1.7.7)
   kaminari (= 0.14.1)
   mysql2
+  pg
   public_activity
   rails (~> 3.2.15)
   rmagick (>= 2.12.2)

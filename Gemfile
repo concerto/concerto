@@ -39,7 +39,14 @@ gem 'twitter-bootstrap-rails-confirm'
 # interested in development and don't want to bother with production,
 # run `bundle install --without production` to ignore MySQL.
 gem "sqlite3", :group => [:development, :test]
-gem "mysql2", :group => [:production]
+
+require "#{Dir.getwd}/lib/command_check.rb"
+if system_has_mysql?
+  gem "mysql2", :require => false, :group => :production
+end
+if system_has_postgres?
+  gem "pg", :require => false, :group => :production
+end
 
 #RMagick is used for image resizing and processing
 gem "rmagick", ">= 2.12.2", :require => 'RMagick', :platforms => :ruby
