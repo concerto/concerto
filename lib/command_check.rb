@@ -21,3 +21,11 @@ def command?(command)
     return false
   end
 end
+
+def system_has_mysql?
+  Gem::Specification::find_all_by_name('mysql2').any? || command?('mysql_config')
+end
+
+def system_has_postgres?
+  Gem::Specification::find_all_by_name('pg').any? || command?('pg_config')
+end
