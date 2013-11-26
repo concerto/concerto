@@ -40,12 +40,14 @@ gem 'twitter-bootstrap-rails-confirm'
 # run `bundle install --without production` to ignore MySQL.
 gem "sqlite3", :group => [:development, :test]
 
-require "#{Dir.getwd}/lib/command_check.rb"
-if system_has_mysql?
-  gem "mysql2", :require => false
-end
-if system_has_postgres?
-  gem "pg", :require => false
+group :production do
+  require "#{Dir.getwd}/lib/command_check.rb"
+  if system_has_mysql?
+    gem "mysql2", :require => false
+  end
+  if system_has_postgres?
+    gem "pg", :require => false
+  end
 end
 
 #RMagick is used for image resizing and processing
@@ -69,7 +71,7 @@ gem 'simplecov', :require => false, :group => :test
 
 gem 'strong_parameters'
 
-gem 'kaminari'  # Pagination
+gem 'kaminari', '0.14.1'  # Pagination
 
 # Enable the newsfeed for 1.9+ users.
 gem 'public_activity', :platforms => [:ruby_19, :ruby_20]
