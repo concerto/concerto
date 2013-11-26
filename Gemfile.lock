@@ -113,7 +113,7 @@ GEM
     json (1.7.7)
     jwt (0.1.8)
       multi_json (>= 1.5)
-    kaminari (0.15.0)
+    kaminari (0.14.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
     launchy (2.4.0)
@@ -232,7 +232,7 @@ DEPENDENCIES
   jquery-rails
   jquery-timepicker-rails
   json (= 1.7.7)
-  kaminari (>= 0.14.1)
+  kaminari (= 0.14.1)
   mysql2
   public_activity
   rails (~> 3.2.15)
