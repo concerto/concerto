@@ -62,7 +62,7 @@ gem 'simplecov', :require => false, :group => :test
 
 gem 'strong_parameters'
 
-gem 'kaminari'  # Pagination
+gem 'kaminari', '>= 0.14.1'  # Pagination
 
 # Enable the newsfeed for 1.9+ users.
 gem 'public_activity', :platforms => [:ruby_19, :ruby_20]

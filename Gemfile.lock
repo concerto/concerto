@@ -232,7 +232,7 @@ DEPENDENCIES
   jquery-rails
   jquery-timepicker-rails
   json (= 1.7.7)
-  kaminari
+  kaminari (>= 0.14.1)
   mysql2
   public_activity
   rails (~> 3.2.15)
