@@ -1,6 +1,7 @@
 class ContentsController < ApplicationController
   before_filter :get_content_const, :only => [:new, :create, :update, :preview]
-
+  respond_to :html, :json, :js
+  
   # Grab the constant object for the type of
   # content we're working with.  Probably needs
   # additional error checking.
@@ -15,10 +16,7 @@ class ContentsController < ApplicationController
   def index
     @content = Content.filter_all_content(params)
     @title = "Filtered Content"
-
-    respond_to do |format|
-      format.html
-    end
+    respond_with(@content)
   end
 
   # GET /contents/1
@@ -28,10 +26,7 @@ class ContentsController < ApplicationController
     @user = User.find(@content.user_id)
     auth!
 
-    respond_to do |format|
-      format.html #show.html.erb
-      format.xml { render :xml => @content }
-    end
+    respond_with(@content)
 
   rescue ActiveRecord::RecordNotFound
     # while it could be returned as a 404, we should keep the user in the application
@@ -67,11 +62,7 @@ class ContentsController < ApplicationController
       @content.duration = ConcertoConfig[:default_content_duration].to_i
       auth!
       @feeds = submittable_feeds
-
-      respond_to do |format|
-        format.html {} # new.html.erb
-        format.xml { render :xml => @content }
-      end
+      respond_with(@content)
     end
   end
 
@@ -173,9 +164,10 @@ class ContentsController < ApplicationController
         submitted_feeds = submissions.map { |s| s.feed_id }
         @feed_ids.reject! { |id| submitted_feeds.include? id }
         create_submissions
-        @content.save
-        format.html { redirect_to(@content, :notice => t(:content_updated)) }
-        format.xml { head :ok }
+        if @content.save
+          flash[:notice] = t(:content_updated)
+        end
+        respond_with(@content)
       else
         @feeds = submittable_feeds
         format.html { render :action => "edit" }

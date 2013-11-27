@@ -1,13 +1,12 @@
 class ConcertoPluginsController < ApplicationController
+  respond_to :html, :json
+
   # GET /concerto_plugins
   # GET /concerto_plugins.json
   def index
     authorize! :read, ConcertoPlugin
     @concerto_plugins = ConcertoPlugin.all
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @concerto_plugins }
-    end
+    respond_with(@concerto_plugins)
   end
 
   # GET /concerto_plugins/1
@@ -15,10 +14,7 @@ class ConcertoPluginsController < ApplicationController
   def show
     @concerto_plugin = ConcertoPlugin.find(params[:id])
     auth!
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render :json => @concerto_plugin }
-    end
+    respond_with(@concerto_plugin)
   end
 
   # GET /concerto_plugins/new
@@ -26,10 +22,7 @@ class ConcertoPluginsController < ApplicationController
   def new
     @concerto_plugin = ConcertoPlugin.new
     auth!
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render :json => @concerto_plugin }
-    end
+    respond_with(@concerto_plugin)
   end
 
   # GET /concerto_plugins/1/edit
@@ -44,20 +37,12 @@ class ConcertoPluginsController < ApplicationController
     @concerto_plugin = ConcertoPlugin.new(concerto_plugin_params)
     @concerto_plugin.enabled = true
     auth!
-    #if we're creating the plugin, install and enabled it by default
-    respond_to do |format|
-      if @concerto_plugin.save    
-        write_Gemfile()
-        restart_webserver()
-        flash[:notice] = t(:plugin_created)
-        format.html { redirect_to concerto_plugins_path}
-        format.json { render :json => @concerto_plugin, :status => :created, :location => @concerto_plugin }
-      else
-        flash[:notice] = t(:plugin_creation_failed)
-        format.html { render :action => :new }
-        format.json { render :json => @concerto_plugin.errors, :status => :unprocessable_entity }
-      end
+    if @concerto_plugin.save    
+      write_Gemfile()
+      restart_webserver()
+      flash[:notice] = t(:plugin_created)
     end
+    respond_with(@concerto_plugin)
   end
 
   # PUT /concerto_plugins/1
@@ -65,16 +50,11 @@ class ConcertoPluginsController < ApplicationController
   def update
     @concerto_plugin = ConcertoPlugin.find(params[:id])
     auth!
-    respond_to do |format|
-      if @concerto_plugin.update_attributes(concerto_plugin_params)
-        write_Gemfile()
-        format.html { redirect_to concerto_plugins_path, :notice => t(:plugin_updated)}
-        format.json { head :no_content }
-      else
-        format.html { render :action => :edit }
-        format.json { render :json => @concerto_plugin.errors, :status => :unprocessable_entity }
-      end
+    if @concerto_plugin.update_attributes(concerto_plugin_params)
+      write_Gemfile()
+      flash[:notice] = t(:plugin_updated)
     end
+    respond_with(@concerto_plugin)
   end
 
   # DELETE /concerto_plugins/1
@@ -85,10 +65,7 @@ class ConcertoPluginsController < ApplicationController
     @concerto_plugin.destroy
     write_Gemfile()
     restart_webserver()
-    respond_to do |format|
-      format.html { redirect_to concerto_plugins_url }
-      format.json { head :no_content }
-    end
+    respond_with(@concerto_plugin)
   end
   
   def write_Gemfile

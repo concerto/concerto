@@ -1,5 +1,6 @@
 class FeedsController < ApplicationController
   rescue_from ActionView::Template::Error, :with => :precompile_error_catch
+  respond_to :html, :json
   
   # GET /feeds
   # GET /feeds.xml
@@ -8,11 +9,7 @@ class FeedsController < ApplicationController
     redirect_to(new_user_session_path) unless ConcertoConfig[:public_concerto]
     @feeds = Feed.roots
     auth!
-    respond_to do |format|
-      format.html { } # index.html.erb
-      format.xml  { render :xml => @feeds }
-      format.js { render :layout => false }
-    end
+    respond_with(@feeds)
     @active_content = 0
     @feeds.each { |node| node.submissions.each { |submission| if submission.moderation_flag == true then @active_content += 1 end } }
   end
@@ -72,17 +69,11 @@ class FeedsController < ApplicationController
   def create
     @feed = Feed.new(feed_params)
     auth!
-
-    respond_to do |format|
-      if @feed.save
-        process_notification(@feed, {:public_owner => current_user.id}, :action => 'create')
-        format.html { redirect_to(feeds_path, :notice => t(:feed_created)) }
-        format.xml  { render :xml => @feed, :status => :created, :location => @feed }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @feed.errors, :status => :unprocessable_entity }
-      end
+    if @feed.save
+      process_notification(@feed, {:public_owner => current_user.id}, :action => 'create')
+      flash[:notice] = t(:feed_created)
     end
+    respond_with(@feed)
   end
 
   # PUT /feeds/1
@@ -109,10 +100,7 @@ class FeedsController < ApplicationController
     auth!
     process_notification(@feed, {:public_owner => current_user.id, :feed_name => @feed.name}, :action => 'destroy')
     @feed.destroy
-    respond_to do |format|
-      format.html { redirect_to(feeds_url) }
-      format.xml  { head :ok }
-    end
+    respond_with(@feed)
   end
 
 private
