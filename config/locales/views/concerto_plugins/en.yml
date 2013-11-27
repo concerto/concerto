@@ -18,6 +18,7 @@ en:
     index:
       disabled: "disabled"
       enabled: "enabled"
+      gem_description: "Description"
 
     new:
       install_plugin: 'Install Plugin'
