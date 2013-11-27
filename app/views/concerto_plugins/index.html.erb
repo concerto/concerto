@@ -27,7 +27,7 @@
           <% gemspec = Gem.loaded_specs[concerto_plugin.gem_name] %>
           <tr>
             <td><%= status_badge(concerto_plugin.enabled) %>&nbsp;
-              <a href="<%= !gemspec.nil? ? gemspec.homepage : "#" %>"><%= concerto_plugin.name.titleize %></a></td>
+              <a href="<%= gemspec.homepage if !gemspec.homepage.nil? %>"><%= concerto_plugin.name.titleize %></a></td>
             <td><%= !gemspec.nil? ? gemspec.version.version : "Unknown" %><% unless concerto_plugin.gem_version.nil? %>(Version locked to <%= concerto_plugin.gem_version %>)<% end %></td>
             <td>
               <%= link_to t(:edit), edit_concerto_plugin_path(concerto_plugin) %>
