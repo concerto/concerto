@@ -48,11 +48,13 @@ class ConcertoPluginsController < ApplicationController
     respond_to do |format|
       if @concerto_plugin.save    
         write_Gemfile()
-        flash[:error] = t(:restart_alert)
-        format.html { redirect_to concerto_plugins_path, :notice => t(:plugin_created) }
+        restart_webserver()
+        flash[:notice] = t(:plugin_created)
+        format.html { redirect_to concerto_plugins_path}
         format.json { render :json => @concerto_plugin, :status => :created, :location => @concerto_plugin }
       else
-        format.html { render :action => :new, :notice => t(:plugin_creation_failed) }
+        flash[:notice] = t(:plugin_creation_failed)
+        format.html { render :action => :new }
         format.json { render :json => @concerto_plugin.errors, :status => :unprocessable_entity }
       end
     end
@@ -82,6 +84,7 @@ class ConcertoPluginsController < ApplicationController
     auth!
     @concerto_plugin.destroy
     write_Gemfile()
+    restart_webserver()
     respond_to do |format|
       format.html { redirect_to concerto_plugins_url }
       format.json { head :no_content }
@@ -116,11 +119,6 @@ class ConcertoPluginsController < ApplicationController
 
     File.open("Gemfile-plugins", 'w') {|f| f.write(gemfile_content) }
 
-  end
-  
-  def restart_for_plugin
-    restart_webserver()
-    redirect_to :action => :index
   end
 
 private
