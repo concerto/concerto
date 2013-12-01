@@ -1,241 +1,146 @@
-a > .tile {
-  border: solid 1px darken($grayLighter, 5%);
-  
-  &, * { @include transition(0.1s all linear); }
-}
-
-a:hover > .tile {
-  background: $concerto-blue-5;
-  border-color: $concerto-blue-4;
-
-  * {
-    @include opacity(90);
-  }
-
-  .brand i[class*=icon-] {
-    @include opacity(0);
-  }
-}
-
-.tile {
+.tile {  /* container */
   display: block;
   float: left;
   background-color: lighten($grayLighter, 5%);
-  width: 200px;
-  height: 200px;
+  width: 202px;
+  height: 202px;
   cursor: pointer;
   box-shadow: inset 0px 0px 1px #FFFFCC;
   text-decoration: none;
   color: $white;
   margin: 0 10px 10px 0;
-  //overflow: hidden;
   position: relative;
   box-sizing: border-box;
-
-  // * {
-  //     color: $black;
-  // }
+  overflow: hidden;
 
   .tile-content {
+    width: 200px;
+    height: 200px;
+    display: block;
+    padding: 0;
+    padding-bottom: 30px;
+    vertical-align: top;
+    padding: 10px 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+    color: $black;
+    line-height: 16px;
+    padding: 0;
+    border: solid 1px darken($grayLighter, 5%);
+    
+    &, * { @include transition(0.1s all linear); }
+
+    & > img {
       width: 100%;
-      height: 100%;
-      padding: 0;
-      padding-bottom: 30px;
-      vertical-align: top;
-      padding: 10px 15px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      position: relative;
+      height : auto;
+      max-width: 100%;
+    }
 
-      color: $black;
-      line-height: 16px;
+    &:hover {
+      color: $linkColorHover;
+      text-decoration: none;
+      background: $concerto-blue-5;
+      border-color: $concerto-blue-4;
+      @include opacity(90);
+    }
 
-      padding: 0;
-
-      & > img {
-          width: 100%;
-          height : auto;
-          //min-height: 100%;
-          max-width: 100%;
-      }
-
-      &:hover {
-        color: $linkColorHover;
-      }
-
-      .default-padding { padding: 6px; }
-
-      h1 {
-        font-size: 150%;
-        text-align: center;
-      }
-
-      h2 {
-        font-size: 125%;
-      }
-
-      p {
-          color: $gray;
-          line-height: 16px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-/*          &:hover {
-              color: $white;
-          }
-*/          
-      }
-  }
-
-  &.icon {
-      & > .tile-content {
-          padding: 0;
-
-          & > img {
-              position: absolute;
-              width: 64px;
-              height: 64px;
-              top: 50%;
-              left: 50%;
-              margin-left: -32px;
-              margin-top: -32px;
-          }
-  
-          & > i {
-              position: absolute;
-              width: 64px;
-              height: 64px;
-              top: 50%;
-              left: 50%;
-              margin-left: -32px;
-              margin-top: -32px;
-              font-size: 64px;
-          }
-      }
-  }
-
-  &.image, &.image-slider {
-      & > .tile-content {
-          padding: 0;
-
-          & > img {
-              width: 100%;
-              height : auto;
-              //min-height: 100%;
-              max-width: 100%;
-          }
-      }
-  }
-
-  &.image-set {
-      & > .tile-content {
-          margin: 0;
-          padding: 0;
-          width: 25% !important;
-          height: 50%;
-          float: left;
-          border: 1px #1e1e1e solid;
-
-          & > img {
-              min-width: 100%;
-              width: 100%;
-              height : auto;
-              min-height: 100%;
-          }
-      }
-
-      .tile-content:first-child {
-          width: 50% !important;
-          float: left;
-          height: 100%;
-      }
-  }
-
-  .brand, .tile-status {
+    .tile-labels {
       position: absolute;
       bottom: 0;
-      left: 0;
       right: 0;
       min-height: 30px;
       background-color: transparent;
       @include clearfix();
 
-      & > .count {
-          background: $black;
-          position: absolute;
-          bottom: 0;
-          right: 0;
-          margin-bottom: 0;
-          color: $white;
-          width: 34px;
-          height: 28px;
-          text-align: center;
-          padding-top: 3px;
-      }
-
-      & > .name {
-          margin-bottom: 5px;
-          margin-left: 15px;
-          
-          color: $white;
-          &:hover {
-              color: $white;
-          }
-
-          & > [class*=icon-] {
-              font-size: 24px;
-          }
-
-      }
-
-      & > .icon {
-          margin: 5px 15px;
-          width: 32px;
-          height: 32px;
-
-          & > [class*=icon-] {
-              font-size: 32px;
-          }
-
-          & > img {
-              width: 100%;
-              height: 100%;
-          }
-      }
-
       i[class*=icon-] {
-        padding: 2px;
+        padding: 2px 5px;
         position: absolute;
         bottom: 0;
         right: 0;
-        opacity: 0.8;
+        @include opacity(70);
         z-index: 2;
         color: $white;
-        font-size: 40px;
+        font-size: 25px;
         @include transition(0.1s linear all);
       }
+    }
 
-      & > img ~ .text {
-          position: absolute;
-          left: 60px;
-          width: auto;
-      }
+    .default-padding { padding: 6px; }
 
-      & > .text {
-          position: relative;
-          left: 8px;
-          top: 5px;
-          right: 50px;
-          color: $white;
-          line-height: 14px;
-          width: 60%;
+    h1 {
+      font-size: 150%;
+      text-align: center;
+    }
 
-          &:hover {
-              color: $white;
-          }
-      }
+    h2 {
+      font-size: 125%;
+    }
+
+    p {
+      color: $gray;
+      line-height: 16px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
+  .tile-info {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    min-height: 30px;
+    @include clearfix();
+    @include transition(0.1s all linear);
+
+    .tile-moderate {
+      @include opacity(0);
+      text-align: center;
+      min-height: 30px;
+
+      .icon-check {
+        color: lighten($green, 10%);
+        font-size: 3em;
+        @include transition(0.1s all linear);
+      }
+      .icon-remove-sign {
+        color: lighten($red, 15%);
+        font-size: 3em;
+        @include transition(0.1s all linear);
+      }
+
+      a:hover {
+        text-decoration: none;
+        
+        .icon-check, .icon-remove-sign { color: #FFF !important; }
+      }
+    }
+  }
+
+  &:hover .tile-moderate {
+    background: rgba(0,0,0,0.7);
+    @include opacity(100);
+  }
+  &:hover .tile-labels i[class*=icon-] {
+    @include opacity(0);
+  }
+
+  .tile-overlay {
+    width: 202px;
+    height: 202px;
+    z-index: $zindexPopover;
+    position: absolute;
+    top: 202px; /* start the overlay so that it is hidden at the bottom of its tile container */
+    left: 0px;
+    display: none;
+
+    &.black {
+      background: rgba(0,0,0,0.7);
+    }
+  }
 }
+
 
 .tile-stack::before,
 .tile-stack::after {
