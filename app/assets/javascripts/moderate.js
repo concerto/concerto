@@ -1,4 +1,4 @@
-function addModerateUi(){
+function addModerateDropdownUi(){
   $('.dropdown-control').click(function(event) { event.preventDefault(); });
 
   $('.dropdown-control.dd-moderate').each(function() {
@@ -24,10 +24,47 @@ function addModerateUi(){
       });
   });
 }
+function addModerateTileUi(){
+  $("a.tile-moderate-approve").click(function(event) {
+    event.preventDefault();
+    var myTile = $(this).parents(".tile");
+    myTile.find(".tile-overlay > div").hide();
+    myTile.find(".approve-content-form-overlay form").submit();
+    myTile.find(".approve-content-confirm-overlay").show();
+    // now select and deal with .tile-overlay (the next element)
+    myTile.find(".tile-info").hide().next().show("fast").animate({
+      top: "0px",
+      opacity: 1
+    }, "300", "swing");
+  });
+  $("a.tile-moderate-deny").click(function(event) {
+    event.preventDefault();
+    var myTile = $(this).parents(".tile");
+    myTile.find(".tile-overlay > div").hide();
+    myTile.find(".deny-content-form-overlay").show();
+    // now select and deal with .tile-overlay (the next element)
+    myTile.find(".tile-info").hide().next().show("fast").animate({
+      top: "0px",
+      opacity: 1
+    }, "300", "swing");
+  });
+  $("a.moderate-cancel-btn").click(function(event) {
+    event.preventDefault();
+    var myTile = $(this).parents(".tile");
+    myTile
+      .find(".tile-overlay")
+      .hide()
+      .css("top", "202px")
+      .prev().show();
+  });
+}
 
 function initModerate() {
   if($('.dd-moderate').length > 0){
-    addModerateUi();
+    addModerateDropdownUi();
+  }
+  if($('.tile-moderate').length > 0){
+    addModerateTileUi();
   }
 }
 
