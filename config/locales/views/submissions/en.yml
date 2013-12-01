@@ -56,3 +56,7 @@ en:
       moderate: 'Moderate...'
       urgent: 'Urgent'
       urgent_tooltip: 'Hey! This content has already passed its requested start date and you should moderate it.'
+
+    submission_tile:
+      approve_this_content: "Approve this content"
+      deny_this_content: "Deny this content"

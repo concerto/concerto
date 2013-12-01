@@ -1,11 +1,5 @@
 <%= form_for([submission.feed, submission]) do |f| %>
   <% if moderate %>
-    <div class="clearfix">
-      <%= f.label :duration %>
-      <div class="input">
-        <%= f.number_field :duration, :style => "width: 50px;", :autofocus => true %>
-      </div>
-    </div>
     <%= f.hidden_field :moderation_flag, { :value => true }%>
   <% else %>
     <div class="clearfix">
@@ -17,4 +11,7 @@
     <%= f.hidden_field :moderation_flag, { :value => false }%>
   <% end %>
   <%= f.submit moderate ? t(:approve) : t(:deny) , :class => "btn btn-primary" "Moderate Content", :class => "btn btn-primary" %>
+  <% if show_cancel_button %>
+    <a href="#" class="btn moderate-cancel-btn"><%= t('.cancel') %></a>
+  <% end %>
 <% end %>
