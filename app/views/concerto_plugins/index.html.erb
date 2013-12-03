@@ -28,7 +28,9 @@
           <tr>
             
             <td>
-              <a href="<%= !gemspec.nil? ? gemspec.homepage : "#" %>"><%= concerto_plugin.name.titleize %></a></td>
+              <h3><%= concerto_plugin.name.titleize %></h3>
+              <p><%= link_to !gemspec.nil? ? gemspec.homepage : "#" do %><%= t('.visit_plugin_website') %><% end %></p>
+            </td>
             
             <td><%= !gemspec.nil? ? gemspec.description : "" %></td>
             
