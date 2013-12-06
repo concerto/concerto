@@ -29,7 +29,7 @@ class BaseShuffle
       @store += content.collect{|c| c.id}
     end
     return [] if @store.empty?
-    content_ids = @store.pop(count)
+    content_ids = @store.shift(count)
     return Content.where(:id => content_ids)
   end
 
