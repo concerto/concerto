@@ -6,6 +6,7 @@ en:
         location: 'Location'
         owner: 'Owner'
         owner_id: 'Owned By'
+        template_id: 'Template'
         is_public: 'This screen is publicly viewable'
 
   screens:
@@ -33,6 +34,11 @@ en:
       private_token: 'Secured by an existing private token'
       new_token_override: 'Remove existing authentication and secure with a new token'
       existing_mac: 'Use existing legacy MAC address'
+
+    show_body:
+      preview_screen: 'Preview Screen'
+      manage: 'Manage'
+
     thumbs:
       owner: 'owner'
 
