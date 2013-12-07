@@ -18,6 +18,8 @@ en:
     index:
       disabled: "disabled"
       enabled: "enabled"
+      gem_description: "Description"
+      visit_plugin_website: "Visit plugin website"
 
     new:
       install_plugin: 'Install Plugin'

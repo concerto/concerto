@@ -23,7 +23,7 @@ Concerto::Application.routes.draw do
 
   #Custom route for the screen creation/admin form JS
   #TODO(bamnet): Clean this up
-  get "update_owners" => "screens#update_owners"
+  get "upd  ate_owners" => "screens#update_owners"
 
   # These routes control the frontend of Concerto used by screens.
   # You probably should not touch them without thinking very hard
@@ -40,7 +40,7 @@ Concerto::Application.routes.draw do
       resources :templates, :only => [:show]
     end
     # Special route for CORS preflight requests on #show
-    match ':id', :controller => :screens, :action=>'show_options',
+    get ':id', :controller => :screens, :action=>'show_options',
       :constraints => {:method => 'OPTIONS'}
   end
   # End really dangerous routes.

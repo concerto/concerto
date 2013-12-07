@@ -16,4 +16,8 @@ module Clockwork
   every(5.minutes, 'Remove Abandoned Previews') do
     Media.delay.cleanup_previews
   end
+
+  every(1.day, 'Deny Expired Content Submissions') do
+    Submission.delay.deny_old_expired
+  end
 end

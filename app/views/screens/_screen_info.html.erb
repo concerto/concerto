@@ -12,7 +12,7 @@
       <p><%= screen_owner(screen, false) %></p>
     </div>
     <div class="span3">
-      <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t(:template) %></b></small></p>
+      <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= Screen.human_attribute_name(:template_id) %></b></small></p>
       <p><%= screen.template.name unless screen.template.nil? %></p>
     </div>
     <div class="span3">

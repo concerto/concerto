@@ -2,6 +2,7 @@ class ScreensController < ApplicationController
   # Define integration hooks for Concerto Plugins
   define_callbacks :show # controller callback for 'show' action
   ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
+  respond_to :html, :json, :xml
 
   # GET /screens
   # GET /screens.xml
@@ -18,10 +19,7 @@ class ScreensController < ApplicationController
     # The screen index has a sidebar that shows all templates.
     @templates = Template.where(:is_hidden => false)
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @screens }
-    end
+    respond_with(@screens)
   end
 
   # GET /screens/1
@@ -30,29 +28,20 @@ class ScreensController < ApplicationController
     @screen = Screen.find(params[:id])
     run_callbacks :show # Run plugin hooks
     auth!
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @screen }
-    end
+    respond_with(@screen)
   end
 
   # GET /screens/new
   # GET /screens/new.xml
   def new
     @screen = Screen.new(:owner => current_user)
-    
     auth!
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @screen }
-    end
+    respond_with(@screen)
   end
 
   # GET /screens/1/edit
   def edit
     @screen = Screen.find(params[:id])
-    
     auth!
   end
 
@@ -68,22 +57,19 @@ class ScreensController < ApplicationController
     end
     auth!
     
-    respond_to do |format|
-      if @screen.save
-        process_notification(@screen, {:public_owner => current_user.id}, :action => 'create')
-        format.html { redirect_to(@screen, :notice => t(:screen_created)) }
-        format.xml  { render :xml => @screen, :status => :created, :location => @screen }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @screen.errors, :status => :unprocessable_entity }
-      end
+    if @screen.save
+      process_notification(@screen, {:public_owner => current_user.id}, :action => 'create')
+      flash[:notice] = t(:screen_created)
     end
+    
+    respond_with(@screen)
   end
 
   # PUT /screens/1
   # PUT /screens/1.xml
   def update
     @screen = Screen.find(params[:id])
+    
     # Process the owner into something that makes sense
     owner = params[:owner].split('-')
     if Screen::SCREEN_OWNER_TYPES.include?(owner[0])
@@ -91,16 +77,11 @@ class ScreensController < ApplicationController
       @screen.owner_id = owner[1]
     end
     auth!
-
-    respond_to do |format|
-      if @screen.update_attributes(screen_params)
-        format.html { redirect_to(@screen, :notice => t(:screen_updated)) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @screen.errors, :status => :unprocessable_entity }
-      end
+    
+    if @screen.update_attributes(screen_params)
+      flash[:notice] = t(:screen_updated)
     end
+    respond_with(@screen)
   end
 
   # DELETE /screens/1
@@ -111,10 +92,7 @@ class ScreensController < ApplicationController
     process_notification(@screen, {:public_owner => current_user.id, :screen_name => @screen.name}, :action => 'destroy')
     @screen.destroy
 
-    respond_to do |format|
-      format.html { redirect_to(screens_url) }
-      format.xml  { head :ok }
-    end
+    respond_with(@screen)
   end
   
  def update_owners

@@ -110,10 +110,6 @@
     </h3>
   </div>
   <br />
-  <% if can? :update, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>
-  <%= link_to t('.manage_members'), manage_members_group_path(@group), :class => "btn" %>
-  <br /><br />
-  <% end %>
   <ul class="list-grid">
     <% @group.memberships.leader.each do |leader| %>
       <li>

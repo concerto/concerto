@@ -1,10 +1,10 @@
 rvm:
   - 1.9.3
   - 2.0.0
-  - 2.1.0-preview1
+  - 2.1.0
 
 before_script:
-  - cp config/database.yml.sample config/database.yml
+  - cp config/database.yml.sqlite config/database.yml
   - git submodule init
   - git submodule update
   - RAILS_ENV=test bundle exec rake db:migrate --trace

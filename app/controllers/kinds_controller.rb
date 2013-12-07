@@ -1,13 +1,12 @@
 class KindsController < ApplicationController
+  respond_to :html, :json, :xml
+  
   # GET /kinds
   # GET /kinds.xml
   def index
     authorize! :read, Kind
     @kinds = Kind.all
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml { render :xml => @kinds }
-    end
+    respond_with(:kinds)
   end
 
   # GET /kinds/1
@@ -15,9 +14,7 @@ class KindsController < ApplicationController
   def show
     @kind = Kind.find(params[:id])
     auth!
-
-    respond_to do |format|
-      format.html # show.html.erb
+    respond_with(@kind) do |format|
       format.xml { render :xml => @kind.to_xml(:include => [:fields]) }
     end
   end
@@ -27,11 +24,7 @@ class KindsController < ApplicationController
   def new
     @kind = Kind.new
     auth!
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml { render :xml => @kind }
-    end
+    respond_with(:kind)
   end
 
   # GET /kinds/1/edit
@@ -45,16 +38,13 @@ class KindsController < ApplicationController
   def create
     @kind = Kind.new(kind_params)
     auth!
-
-    respond_to do |format|
-      if @kind.save
-        format.html { redirect_to(@kind, :notice => 'Kind was successfully created.') }
-        format.xml { render :xml => @kind, :status => :created, :location => @kind }
-      else
-        format.html { render :action => "new" }
-        format.xml { render :xml => @kind.errors, :status => :unprocessable_entity }
-      end
+    
+    if @kind.save
+      flash[:notice] = t(:kind_created)
     end
+    
+    respond_with(@kind)
+
   end
 
   # PUT /kinds/1
@@ -62,16 +52,11 @@ class KindsController < ApplicationController
   def update
     @kind = Kind.find(params[:id])
     auth!
-
-    respond_to do |format|
-      if @kind.update_attributes(kind_params)
-        format.html { redirect_to(@kind, :notice => 'Kind was successfully updated.') }
-        format.xml { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml { render :xml => @kind.errors, :status => :unprocessable_entity }
-      end
+    
+    if @kind.update_attributes(kind_params)
+      flash[:notice] = t(:kind_updated)
     end
+    respond_with(@kind)
   end
 
   # DELETE /kinds/1
@@ -80,11 +65,7 @@ class KindsController < ApplicationController
     @kind = Kind.find(params[:id])
     auth!
     @kind.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(kinds_url) }
-      format.xml { head :ok }
-    end
+    respond_with(:kind)
   end
 
 private

@@ -54,9 +54,9 @@ en:
       leader: 'Leader'
       member: ' member'
       your_membership_role: 'You are currently a %{level}%{what} of this group.'
-      feed_header: '%{number} Feed%{s_display}'
-      screen_header: '%{number} Screen%{s_display}'
-      member_header: '%{number} Member%{s_display}'
+      feed_header: 'Moderates %{number} Feed%{s_display}'
+      screen_header: 'Manages %{number} Screen%{s_display}'
+      member_header: 'Contains %{number} Member%{s_display}'
 
     show_header:
       group_cannot_be_deleted: "Group cannot be deleted"

@@ -18,6 +18,7 @@ ConcertoPlugin.where(:gem_name => "concerto_remote_video", :enabled => true, :so
 ConcertoPlugin.where(:gem_name => "concerto_simple_rss", :enabled => true, :source => "rubygems").first_or_create
 ConcertoPlugin.where(:gem_name => "concerto_iframe", :enabled => true, :source => "rubygems").first_or_create
 ConcertoPlugin.where(:gem_name => "concerto_calendar", :enabled => true, :source => "rubygems").first_or_create
+ConcertoPlugin.where(:gem_name => "concerto-hardware", :enabled => false, :source => "rubygems").first_or_create
 
 # Establish the 4 major display areas a template usually has.
 # In my quick sample, this code will make 68% of the Concerto 1 fields match
@@ -73,6 +74,6 @@ Screen.where(:name => "Sample Screen", :location => "Cafe", :is_public => true, 
 #Create initial subscriptions for the sample Screen
 feed_id = Feed.first.id
 screen_id= Screen.first.id
-Field.where('name != ?', 'Dynamic').each do |f|
+Field.where('name NOT IN (?)', ['Dynamic', 'Time']).each do |f|
   Subscription.where(:feed_id => feed_id, :field_id => f.id, :screen_id => screen_id, :weight => 1).first_or_create
 end

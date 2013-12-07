@@ -10,7 +10,7 @@ class Submission < ActiveRecord::Base
   # Validations
   validates :feed, :presence => true, :associated => true
   validates :content, :presence => true, :associated => true
-  validates :moderator, :presence => { :unless => :is_pending? }, :associated => true
+  validates :moderator, :presence => { :unless => Proc.new { |s| s.is_pending? || s.content.is_expired? }}, :associated => true
   validates :duration, :numericality => { :greater_than => 0 }
   validates_uniqueness_of :content_id, :scope => :feed_id  #Enforce content can only be submitted to a feed once
 
@@ -69,4 +69,20 @@ class Submission < ActiveRecord::Base
       end
     end
   end
+
+  # Deny content which has previously expired.
+  # Any submission belonging to content which has expired but has not yet been
+  # reviewed is denied here.  We made a special exception to validations to allow
+  # submissions to not have a moderator_id if the content has expired.
+  def self.deny_old_expired
+    Submission.pending.expired.readonly(false).each do |submission|
+      submission.moderation_flag = false
+      submission.moderation_reason = 'Content expired before moderation could occur'
+      Rails.logger.info submission
+      print submission.to_yaml
+      print submission.errors.to_yaml
+      submission.save
+    end    
+  end
+
 end

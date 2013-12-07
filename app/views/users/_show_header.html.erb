@@ -1,5 +1,16 @@
-<h1 class="default-padding">
-  <%= link_to t(:all_model, :model => User.model_name.human.pluralize), users_path %> &gt;
-  <%= @user.name %>
-</h1>
+<div class="viewblock-header_right">
+  <div class="button-padding">
+    <% if can? :edit, @user %>
+      <%= link_to t(:edit_model, :model => User), edit_user_path, :class => "btn" %> 
+      <%= link_to t('users.change_password'), edit_user_registration_path, :class => "btn" if current_user == @user %> 
+      <%= link_to t(:destroy_model, :model => User), user_path(@user), :data => { :confirm => t(:are_you_sure_delete_model_key, :model => User.model_name.human, :key => @user.name)}, :method => :delete, :class => "btn" if current_user != @user %> 
+    <% end %>
+  </div>
+</div>
 
+<div class="default-padding">
+  <h1>
+    <%= link_to t(:all_model, :model => User.model_name.human.pluralize), users_path %> &gt;
+    <%= @user.name %>
+  </h1>
+</div>

@@ -4,7 +4,7 @@
 <h4 class="center">Hover over a field below to view its settings.</h4>
 
 <div class="center">
-  <%= link_to t(:preview_screen), frontend_screen_path(@screen, :preview => "true"), :class => "btn", :data => {'no-turbolink' => true} if can? :update, @screen %>
+  <%= link_to t('.preview_screen'), frontend_screen_path(@screen, :preview => "true"), :class => "btn", :data => {'no-turbolink' => true} if can? :update, @screen %>
 </div>
 <br />
 
@@ -29,7 +29,7 @@
           </div>
           <div class="pull-right">
             <% if can? :update, Subscription.new(:screen => @screen, :field => field) %>
-              &nbsp;&nbsp;&nbsp;<%= link_to t(:manage), screen_field_subscriptions_path(@screen, field), :class => "btn btn-info" %>
+              &nbsp;&nbsp;&nbsp;<%= link_to t('.manage'), screen_field_subscriptions_path(@screen, field), :class => "btn btn-info" %>
             <% end %>
           </div>
         </div>
@@ -44,7 +44,7 @@
           </div>
           <div class="pull-right">
             <% if can? :update, FieldConfig.new(:screen => @screen, :field => field) %>
-              &nbsp;&nbsp;&nbsp;<%= link_to t(:manage), screen_field_field_configs_path(@screen, field), :class => "btn btn-info" %>
+              &nbsp;&nbsp;&nbsp;<%= link_to t('.manage'), screen_field_field_configs_path(@screen, field), :class => "btn btn-info" %>
             <% end %>
           </div>
         </div>

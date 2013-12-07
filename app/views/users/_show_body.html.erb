@@ -1,11 +1,18 @@
 <div class="row-fluid">
   <div class="span4">
     <div class="default-padding">
-
       <div class="subblock bordered">
-        <div class="default-padding">
+        <div class="default-padding clearfix">
           <h2>
             <%= @user.first_name %> <%= @user.last_name %>
+            &nbsp;&nbsp;
+            <% if @user.is_admin? %>
+              <i class="concertocon-user-admin tooltip-basic" data-tooltip-text="<%= t('.system_wide_admin') %>"></i>
+            <% end %>
+
+            <% if !@user.leading_groups.empty? %>
+              <i class="concertocon-user-leader tooltip-basic" data-tooltip-text="<%= t('.leader') %>"></i>
+            <% end %>
           </h2>
 
           <% if user_signed_in? %>
@@ -13,118 +20,84 @@
               <%= mail_to @user.email, @user.email, :encode => "hex" if !@user.email.empty? %>
             </p>
           <% end %>
-
-          <% if @user.is_admin? %>
-              <p><b><i class="concertocon-user-admin-blk tooltip-basic" data-tooltip-text="<%= t('.system_wide_admin') %>"></i> <%= t('.admin') %></b></p>
-          <% end %>
-
-          <% if can? :edit, @user %>
-            <div class="inline-inputs">
-              <%= link_to t(:edit), edit_user_path, :class => "btn" %> 
-              <%= link_to t('users.change_password'), edit_user_registration_path, :class => "btn" if current_user == @user %> 
-              <%= link_to t(:destroy), user_path(@user), :data => { :confirm => t(:are_you_sure_delete_model_key, :model => User.model_name.human, :key => @user.name)}, :method => :delete, :class => "btn btn-danger" if current_user != @user %> 
-            </div>
-          <% end %>
         </div>
       </div>
-
-      <div class="subblock">
-        <h2><%= user_title @user, t('.groups') %></h2>
-        <% if !@memberships.empty? %>
-          <ul class="list-grid">
-            <% @memberships.each do |membership| %>
-              <li>
-                <div class="cont thumb-icon">
-                  <%= link_to membership.group do %>
-                    <i class="icon-group"></i>
-                  <% end %>
-                </div>
-                <div class="cont">
-                  <p><b><%= link_to membership.group.name, membership.group %></b></p>
-                  <p><%= membership.level_name.humanize %></p>
-
-                  <% if can? :edit, membership %>
-                    <%= form_for([membership.group, membership]) do |f| %>
-                      <div class="input checkbox">
-                        <%= hidden_field_tag :receive_emails, "0" %>
-                        <%= check_box_tag :receive_emails, nil, membership.receive_emails, { 
-                          :id => "email#{membership.group.id}",
-                          :data => { :autosubmit => true }} %> 
-                        <%= label_tag "email#{membership.group.id}", t('.receive_emails') %>
-                      </div>
-                    <% end %>
-                 <% end %>
-                </div>
-              </li>
-            <% end %>
-          </ul>
-        <% end %>
-      </div>
-
     </div>
   </div>
+</div>
 
-  <div class="span4">
-    <div class="default-padding">
-
-      <div class="subblock">
-        <h2><%= user_title @user, t('.screens') %></h2>
-        <%= render :partial => "screens/thumbs", :object => @screens, 
-          :locals => { :show_field_count => false, :show_owner => true } %>
-      </div>
-
-    </div>
+<!-- Begin Groups -->
+<div class="clearfix default-padding">
+  <div class="header-with-icon">
+    <h3>
+      <%= t('.group_header', :number => @memberships.count, :s_display => @memberships.count == 1 ? '' : 's') %>
+    </h3>
   </div>
+  <br />
 
-  <div class="span4">
-    <div class="default-padding">
-
-      <div class="subblock">
-        <h2><%= user_title @user.first_name, t('.content') %></h2>
-
-        <% if !@contents.empty? %>
-            <ul class="list-grid">
-              <% @contents.each do |content| %>
-                  <li>
-                    <div class="cont thumb-icon">
-                      <%= link_to content do %>
-                          <%= render_content(content, {:type => 'grid'}) %>
-                      <% end %>
-                      <% if content.is_orphan? %>
-                        <p class="is_orphan"><%= t('feeds.orphaned') %></p>
-                      <% elsif content.is_approved? %>
-                        <p class="is_approved"><%= t('feeds.approved') %></p>
-                      <% else %>
-                        <% if content.is_pending? %>
-                          <span class="is_pending"><%= t('feeds.pending') %></span>
-                        <% end %>
-                        <% if content.is_denied? %>
-                          <% if content.is_pending? %>
-                            <br>
-                          <% end %>
-                          <span class="is_denied"><%= t('feeds.denied') %></span>
-                        <% end %>
-                      <% end %>
-                    </div>
-                    <div class="cont">
-                      <p>
-                        <b><%= link_to content.name, content %></b>
-                      </p>
-                      <p><%= content.type %></p>
-                      <p>
-                        <%= content.start_time.nil? ? '-' : content.start_time.strftime("%m/%d") %> to <%= content.end_time.nil? ? t('.forever') : content.end_time.strftime("%m/%d") %>
-                      </p>
-                    </div>
-                  </li>
+  <% if !@memberships.empty? %>
+    <ul class="list-grid">
+      <% @memberships.each do |membership| %>
+        <li>
+          <div class="cont thumb-icon">
+            <%= link_to membership.group do %>
+              <% if membership.is_leader? %>
+                <i class="concertocon-controller-users-leader"></i>
+              <% else %>
+                <i class="icon-group"></i>
               <% end %>
-            </ul>
+            <% end %>
+          </div>
+          <div class="cont">
+            <p><b><%= link_to membership.group.name, membership.group %></b></p>
+            <p><%= membership.level_name.humanize %></p>
 
-        <% else %>
+            <% if can? :edit, membership %>
+              <%= form_for([membership.group, membership]) do |f| %>
+                <div class="input checkbox">
+                  <%= hidden_field_tag :receive_emails, "0" %>
+                  <%= check_box_tag :receive_emails, nil, membership.receive_emails, { 
+                    :id => "email#{membership.group.id}",
+                    :data => { :autosubmit => true }} %> 
+                  <%= label_tag "email#{membership.group.id}", t('.receive_emails') %>
+                </div>
+              <% end %>
+           <% end %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
 
-        <% end %>
+<!-- Begin Screens -->
+<div class="clearfix default-padding">
+  <div class="header-with-icon">
+    <h3>
+      <%= t('.screen_header', :number => @screens.count, :s_display => @screens.count == 1 ? '' : 's') %>
+    </h3>
+  </div>
+  <br />
+  <%= render :partial => "screens/thumbs", :object => @screens,
+ :locals => { :show_field_count => false, :show_owner => false } %>
+</div>
 
-      </div>
-
+<!-- Begin Contents -->
+<div class="clearfix default-padding">
+  <div class="header-with-icon clearfix">
+    <h3 style="float: left;">
+      <%= t('.content_header', :number => @contents_count, :s_display => @contents_count == 1 ? '' : 's') %>
+    </h3>
+    <div class="pagination-cont">
+      <%= paginate @contents unless @contents.empty? %>
     </div>
   </div>
+  <br />
+  
+  <% if !@contents.empty? %>
+    <% @contents.each do |content| %>
+      <%= render :partial => "contents/content_tile", :locals => { :content => content } %>
+    <% end %>
+  <% end %>
+
 </div>
