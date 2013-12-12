@@ -1,3 +1,5 @@
+require 'zip'
+
 class TemplatesController < ApplicationController
   before_filter :get_type, :only => [:new, :create, :import]
   respond_to :html, :json, :xml, :js
@@ -159,31 +161,44 @@ class TemplatesController < ApplicationController
   #
   # TODO - This should be cleaned up, we should throw smarter errors too.
   def import
-    xml_file = params[:descriptor]
-    image_file = params[:image]
-    @template = Template.new(template_params)
-    auth!
-    
-    if xml_file.nil? || image_file.nil?
-      @template.errors.add(:base, t(:template_import_requires_files))
+    @template = Template.new
+
+    archive = params[:package]
+    if archive.blank?
+      @template.errors.add(:base, t(:template_import_requires_archive))
       respond_with(@template) do |format|
         format.html { render :action => "new" }
         format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
       end
     else
-      begin
-        xml_data = xml_file.read
-        if !xml_data.blank? && @template.import_xml(xml_data)
-          @template.media.build({:key=>"original", :file => image_file})
-        end  
-      rescue REXML::ParseException
-        raise t(:template_import_error)
+      Rails.logger.debug "Archive: #{archive.tempfile.inspect}"
+      xml_file = image_file = nil
+      zip_file = Zip::File.open(archive.tempfile)
+      zip_file.each do |entry|
+        if entry.name.include? '.xml'
+          xml_file = entry.get_input_stream
+        else
+          image_file = entry
+        end
+        # use .get_input_stream(entry) to get a ZipInputStream for the entry
+        # entry can be the ZipEntry object or any object which has a to_s method that
+        # returns the name of the entry.
       end
-      
+      Rails.logger.debug "XML File is a #{xml_file.class}, image is a #{image_file.class}"
+      Rails.logger.debug 'Trying xml_file.read'
+      xml_data = xml_file.read
+      Rails.logger.debug "XML Data: #{xml_data}"
+      if !xml_data.blank? && @template.import_xml(xml_data)
+        image_media = @template.media.build({:key=>"original", :file_name => image_file.name, 
+          :file_type => MIME::Types.type_for(image_file.name).first.content_type})
+        image_media.file_size = image_file.size
+        image_media.file_data = image_file.get_input_stream.read
+      end
+
       if @template.save
         flash[:notice] = t(:template_created)
       end
-      
+
       respond_with(@template)
     end
   end
