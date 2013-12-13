@@ -125,6 +125,7 @@ GEM
     mime-types (1.25.1)
     multi_json (1.8.2)
     multipart-post (1.2.0)
+    mysql2 (0.3.14)
     orm_adapter (0.5.0)
     pg (0.17.0)
     polyglot (0.3.3)
@@ -234,6 +235,7 @@ DEPENDENCIES
   jquery-timepicker-rails
   json (= 1.7.7)
   kaminari (= 0.14.1)
+  mysql2
   pg
   public_activity
   rails (~> 3.2.15)
