@@ -30,7 +30,7 @@ class FieldConfigsController < ApplicationController
     
     respond_to do |format|
       if @field_configs.all?{ |fc| fc.errors.empty? }
-        format.html { redirect_to(screen_field_field_configs_path(@screen, @field), :notice => t(:parameters_updated)) }
+        format.html { redirect_to(screen_field_field_configs_path(@screen, @field), :notice => t(:parameter_updated)) }
         format.xml  { head :ok }
       else
         format.html { render :action => "index" }
