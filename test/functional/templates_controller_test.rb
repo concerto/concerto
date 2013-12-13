@@ -27,7 +27,7 @@ class TemplatesControllerTest < ActionController::TestCase
   
   test "importing a simple template" do
     sign_in users(:admin)
-    archive = fixture_file_upload("/files/archive.zip", 'application/zip')
+    archive = fixture_file_upload("/files/Archive.zip", 'application/zip')
     assert_difference('Template.count', 1) do
       put :import, {:template => { :is_hidden => false }, :package => archive}
     end
