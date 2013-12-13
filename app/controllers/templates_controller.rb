@@ -169,8 +169,9 @@ class TemplatesController < ApplicationController
         format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
       end
     else
+      archive = archive.tempfile unless archive.is_a? Rack::Test::UploadedFile
       xml_file = image_file = nil
-      zip_file = Zip::File.open(archive.tempfile)
+      zip_file = Zip::File.open(archive)
       zip_file.each do |entry|
         if entry.name.include? '.xml'
           xml_file = entry.get_input_stream
@@ -182,8 +183,8 @@ class TemplatesController < ApplicationController
       if !xml_data.blank? && @template.import_xml(xml_data)
         @template.media.build({:key=>"original", :file_name => image_file.name,
                                :file_type => MIME::Types.type_for(image_file.name).first.content_type})
-        @template.media.file_size = image_file.size
-        @template.media.file_data = image_file.get_input_stream.read
+        @template.media.first.file_size = image_file.size
+        @template.media.first.file_data = image_file.get_input_stream.read
       end
 
       if @template.save
