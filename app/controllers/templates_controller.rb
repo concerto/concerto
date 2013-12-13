@@ -71,11 +71,11 @@ class TemplatesController < ApplicationController
     @template.media.each do |media|
       media.key = "original"
     end
-    
+
     if @template.update_attributes(template_params)
       flash[:notice] = t(:template_updated)
     end
-    
+
     respond_with(@template)
 
   end
@@ -87,14 +87,14 @@ class TemplatesController < ApplicationController
     auth!
 
     unless @template.is_deletable?
-      redirect_to(@template, :notice => t(:cannot_delete_template, :screens => @template.screens.collect { |s| s.name if can? :read, s}.join(", "))) 
+      redirect_to(@template, :notice => t(:cannot_delete_template, :screens => @template.screens.collect { |s| s.name if can? :read, s}.join(", ")))
       return
     end
 
     @template.destroy
     respond_with(@template)
   end
-  
+
   # GET /template/1/preview
   # Generate a preview of the template based on the request format.
   def preview
@@ -120,7 +120,7 @@ class TemplatesController < ApplicationController
       if !params[:fields].nil?
         @only_fields = params[:fields].split(',').map{|i| i.to_i}
       end
-      
+
       jpg =  Mime::Type.lookup_by_extension(:jpg)  #JPG is getting defined elsewhere.
       if([jpg, Mime::PNG, Mime::HTML].include?(request.format))
         @image = nil
@@ -134,10 +134,10 @@ class TemplatesController < ApplicationController
         end
 
         case request.format
-        when jpg
-          @image.format = "JPG"
-        when Mime::PNG
-          @image.format = "PNG"
+          when jpg
+            @image.format = "JPG"
+          when Mime::PNG
+            @image.format = "PNG"
         end
 
         data = nil
@@ -158,8 +158,6 @@ class TemplatesController < ApplicationController
   # PUT /templates/import.xml
   # Import a template from an XML description and convert it to an actual
   # template model.
-  #
-  # TODO - This should be cleaned up, we should throw smarter errors too.
   def import
     @template = Template.new
 
@@ -171,7 +169,6 @@ class TemplatesController < ApplicationController
         format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
       end
     else
-      Rails.logger.debug "Archive: #{archive.tempfile.inspect}"
       xml_file = image_file = nil
       zip_file = Zip::File.open(archive.tempfile)
       zip_file.each do |entry|
@@ -180,19 +177,13 @@ class TemplatesController < ApplicationController
         else
           image_file = entry
         end
-        # use .get_input_stream(entry) to get a ZipInputStream for the entry
-        # entry can be the ZipEntry object or any object which has a to_s method that
-        # returns the name of the entry.
       end
-      Rails.logger.debug "XML File is a #{xml_file.class}, image is a #{image_file.class}"
-      Rails.logger.debug 'Trying xml_file.read'
       xml_data = xml_file.read
-      Rails.logger.debug "XML Data: #{xml_data}"
       if !xml_data.blank? && @template.import_xml(xml_data)
-        image_media = @template.media.build({:key=>"original", :file_name => image_file.name, 
-          :file_type => MIME::Types.type_for(image_file.name).first.content_type})
-        image_media.file_size = image_file.size
-        image_media.file_data = image_file.get_input_stream.read
+        @template.media.build({:key=>"original", :file_name => image_file.name,
+                               :file_type => MIME::Types.type_for(image_file.name).first.content_type})
+        @template.media.file_size = image_file.size
+        @template.media.file_data = image_file.get_input_stream.read
       end
 
       if @template.save
