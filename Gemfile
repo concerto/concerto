@@ -58,7 +58,7 @@ gem 'devise', '~> 3.0.0'
 gem 'cancan'
 
 gem 'json', '1.7.7'
-gem "rubyzip", "~> 1.1.0"
+gem "rubyzip", '< 1.0.0'
 
 # Process jobs in the background
 gem 'foreman', :group => :development

@@ -1,4 +1,4 @@
-require 'zip'
+require 'zip/zip'
 
 class TemplatesController < ApplicationController
   before_filter :get_type, :only => [:new, :create, :import]
@@ -171,7 +171,7 @@ class TemplatesController < ApplicationController
     else
       archive = archive.tempfile unless archive.is_a? Rack::Test::UploadedFile
       xml_file = image_file = nil
-      zip_file = Zip::File.open(archive)
+      zip_file = Zip::ZipFile.open(archive)
       zip_file.each do |entry|
         if entry.name.include? '.xml'
           xml_file = entry.get_input_stream

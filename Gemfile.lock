@@ -125,7 +125,6 @@ GEM
     mime-types (1.25.1)
     multi_json (1.8.2)
     multipart-post (1.2.0)
-    mysql2 (0.3.14)
     orm_adapter (0.5.0)
     pg (0.17.0)
     polyglot (0.3.3)
@@ -164,7 +163,7 @@ GEM
     rubinius-actor (0.0.2)
       rubinius-core-api
     rubinius-core-api (0.0.1)
-    rubyzip (1.1.0)
+    rubyzip (0.9.9)
     sass (3.2.12)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -235,12 +234,11 @@ DEPENDENCIES
   jquery-timepicker-rails
   json (= 1.7.7)
   kaminari (= 0.14.1)
-  mysql2
   pg
   public_activity
   rails (~> 3.2.15)
   rmagick (>= 2.12.2)
-  rubyzip (~> 1.1.0)
+  rubyzip (< 1.0.0)
   sass-rails (~> 3.2.3)
   simplecov
   sqlite3
