@@ -1,9 +1,2 @@
-gem 'concerto_simple_rss'
 
-gem 'concerto_remote_video'
-
-gem 'concerto_weather'
-
-gem 'concerto_iframe'
-
-gem 'concerto_calendar'
+gem "concerto-hardware"
