@@ -1,0 +1,9 @@
+var myOverlay = $(".tile[data-submission-id='<%= @submission.id %>'] .tile-overlay");
+myOverlay.show();
+if (<%= @submission.is_approved? %>) {
+  myOverlay.find(".approve-content-form-overlay").hide();
+  myOverlay.find(".approve-content-confirm-overlay").fadeIn('medium');
+} else if (<%= @submission.is_denied? %>) {
+  myOverlay.find(".deny-content-form-overlay").hide();
+  myOverlay.find(".deny-content-confirm-overlay").fadeIn('medium');
+}

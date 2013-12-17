@@ -1,4 +1,4 @@
-<div class="tile <% if not submission.content.children.empty? %>tile-stack<% end %>">
+<div class="tile<% if not submission.content.children.empty? %> tile-stack<% end %>" data-submission-id="<%= submission.id %>">
   <%= link_to [submission.feed, submission], :class => "tile-content" do %>
     <%= render_content(submission.content, {:type => 'tile'}) %>
 
@@ -44,7 +44,7 @@
       <h1 style="font-size: 5em;"><span class="icon-check"></span></h1>
       <h4>This content has been approved.</h4>
     </div>
-    <div class="deny-content-confirm-overlay default-padding" style="display: none;">
+    <div class="deny-content-confirm-overlay default-padding center" style="display: none;">
       <br /><br />
       <h1 style="font-size: 5em;"><span class="icon-remove-sign"></span></h1>
       <h4>This content has been denied.</h4>
