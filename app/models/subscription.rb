@@ -32,6 +32,6 @@ class Subscription < ActiveRecord::Base
 
   # Get an array of all the approved active content to be shown in a screen's field.
   def contents
-    self.feed.approved_contents.active.where(:kind_id => self.field.kind.id)
+    self.feed.approved_contents.active.where(:kind_id => self.field.kinds.collect { |k| k.id })
   end
 end

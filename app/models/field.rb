@@ -1,7 +1,7 @@
 class Field < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
-  belongs_to :kind
+  has_and_belongs_to_many :kinds
   has_many :subscriptions, :dependent => :destroy
   has_many :positions
   has_many :field_configs, :dependent => :destroy
