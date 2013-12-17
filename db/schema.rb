@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130826025935) do
+ActiveRecord::Schema.define(:version => 20131201052526) do
 
   create_table "activities", :force => true do |t|
     t.integer  "trackable_id"
@@ -46,6 +46,15 @@ ActiveRecord::Schema.define(:version => 20130826025935) do
   end
 
   add_index "concerto_configs", ["key"], :name => "index_concerto_configs_on_key", :unique => true
+
+  create_table "concerto_hardware_players", :force => true do |t|
+    t.string   "secret"
+    t.string   "ip_address"
+    t.integer  "screen_id"
+    t.boolean  "activated"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "concerto_plugins", :force => true do |t|
     t.boolean  "enabled"
@@ -136,7 +145,7 @@ ActiveRecord::Schema.define(:version => 20130826025935) do
     t.string   "file_name"
     t.string   "file_type"
     t.integer  "file_size"
-    t.binary   "file_data",       :limit => 10485760
+    t.binary   "file_data",       :limit => 16777215
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
   end
