@@ -16,7 +16,7 @@
               <li<% if field.id == @field.id %> class="active"<% end %>>
                 <%= link_to screen_field_field_configs_path(@screen, field) do %>
                   <%= image_tag(preview_template_path(@screen.template, :height => 80, :format => :png, :fields => field), :border => 0) %>
-                  <p class="caption"><%= field.kind.name %> <%= t('.field') %></p>
+                  <p class="caption"><%= field.name %> <%= t('.field') %></p>
                 <% end %>
               </li>
             <% end %>
