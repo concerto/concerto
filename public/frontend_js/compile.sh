@@ -11,7 +11,7 @@ fi
 # check for closure compiler and if not found try to download it
 if [ ! -f compiler.jar ];  then
   # try to download it automatically
-  curl -O http://closure-compiler.googlecode.com/files/compiler-latest.zip && unzip -qq compiler-latest.zip compiler.jar && rm compiler-latest.zip
+  curl -O http://dl.google.com/closure-compiler/compiler-latest.zip && unzip -qq compiler-latest.zip compiler.jar && rm compiler-latest.zip
   if [ ! -f compiler.jar ];  then
     echo -e 'compiler.jar not found.\nDownload it from http://closure-compiler.googlecode.com/files/compiler-latest.zip and drop it in this directory.'; exit 1;
   fi
