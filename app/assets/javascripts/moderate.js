@@ -4,11 +4,7 @@ function addModerateDropdownUi(){
   $('.dropdown-control.dd-moderate').each(function() {
     $(this).qtip( {
       content: {
-        text: $( $(this).attr('rel') ).html(),
-        title: {
-          text: $(this).attr('title'),
-          button: true
-        }
+        text: $( $(this).attr('rel') ).html()
       },
       position: {
           at: 'bottom center', // Position the tooltip above the link
@@ -22,6 +18,23 @@ function addModerateDropdownUi(){
         hide: 'unfocus',
         style: 'qtip-dark qtip-shadow qtip-rounded'
       });
+  });
+}
+function addModerateSubmissionShowUi(){
+  
+  $(document).on('click', 'a.btnModerateApprove', function(e) {
+    e.preventDefault();
+    ('#main form').trigger('submit.rails');
+  });
+
+  $(document).on('click', 'a.btnModerateDeny', function(e) {
+    e.preventDefault();
+    $('#main form').trigger('submit.rails');
+  });
+
+  $(document).on('click', 'a.btnShowDuration', function(e) {
+    e.preventDefault();
+    $(this).parents("p").hide().siblings(".editDurationCont").show();
   });
 }
 function addModerateTileUi(){
@@ -65,6 +78,9 @@ function initModerate() {
   }
   if($('.tile-moderate').length > 0){
     addModerateTileUi();
+  }
+  if ($('.btnModerateApprove').length > 0){
+    addModerateSubmissionShowUi();
   }
 }
 
