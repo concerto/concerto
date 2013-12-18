@@ -79,9 +79,10 @@ function initModerate() {
   if($('.tile-moderate').length > 0){
     addModerateTileUi();
   }
-  if ($('.btnModerateApprove').length > 0){
-    addModerateSubmissionShowUi();
-  }
+  addModerateSubmissionShowUi();
+  // if ($('.btnModerateApprove').length > 0){
+  //   addModerateSubmissionShowUi();
+  // }
 }
 
 $(document).ready(initModerate);
