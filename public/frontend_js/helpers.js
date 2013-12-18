@@ -16,6 +16,9 @@ concerto.frontend.Helpers.Autofit = function(dom, width, height) {
 
   var font_size = 100;
   var temp_dom = dom.cloneNode(true);
+  // constrain to width
+  goog.style.setStyle(temp_dom, 'width', (width - 1) + 'px');
+
   goog.style.showElement(temp_dom, false);
   document.body.appendChild(temp_dom);
   goog.style.setStyle(temp_dom, 'fontSize', font_size + 'px');
