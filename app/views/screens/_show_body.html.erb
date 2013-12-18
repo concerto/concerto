@@ -1,5 +1,21 @@
+    <div class="row-fluid">
+
+<% sd = ConcertoPlugin.render_view_hook self, :screen_details %>
+<% if !sd.blank? %>
+      <div class="span2">
+        <div class="default-padding">
+          <div class="subblock">
+            <%= ConcertoPlugin.render_view_hook self, :screen_details %>
+          </div>
+        </div>
+      </div>
+      <div class="span10">
+<% else %>
+      <div class="span12">
+<% end %>
+
+        <div class="default-padding">
 <%= render :partial => "screen_info", :locals => { :screen => @screen } %>
-<%= ConcertoPlugin.render_view_hook self, :screen_details %>
 
 <h4 class="center">Hover over a field below to view its settings.</h4>
 
@@ -58,3 +74,8 @@
 <% end %>
 <br />
 <br />
+
+
+</div>
+</div>
+</div>
