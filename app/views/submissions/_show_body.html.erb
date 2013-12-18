@@ -11,7 +11,7 @@
         <%= f.hidden_field :moderation_flag, { :value => true }%>
 
         <div class="moderate-select">
-          <%= link_to "#", :class => "btn btn-pronounced btnModerateApprove", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_approve_#{ @submission.id }" do %>
+          <%= link_to_submit(:class => "btn btn-pronounced btnModerateApprove", :title => t('submissions.moderate_title', :name => @submission.content.name)) do %>
             <span class="icon-check"></span> <%= t(:approve) %>
           <% end %>
           &nbsp;&nbsp;
@@ -19,11 +19,6 @@
             <span class="icon-remove-sign"></span> <%= t(:deny) %>
           <% end %>
         </div>
-
-<!--         <div id="moderate_approve_<%#= @submission.id %>" style="display:none;">
-          <div class="form-stacked form-dark">
-          </div>
-        </div> -->
 
         <div id="moderate_deny_<%= @submission.id %>" style="display:none;">
           <div class="form-stacked form-dark">
