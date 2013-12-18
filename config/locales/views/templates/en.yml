@@ -24,8 +24,12 @@ en:
       author: 'by'
 
     new:
-      template_type: "%{type} Template"
+      invalid_xml: 'The template descriptor file contains invalid XML'
+      template_import_requires_archive: 'You need to specify an archive (ZIP) file that contains your template'
+      template_import_requires_image: 'Your template package is missing a background image'
+      template_import_requires_xml: 'Your template package is missing an xml descriptor'
       template_method: 'Template method:'
+      template_type: "%{type} Template"
 
     show_header: 
       edit_template: 'Edit Template'

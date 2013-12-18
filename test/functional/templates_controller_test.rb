@@ -26,17 +26,19 @@ class TemplatesControllerTest < ActionController::TestCase
   end
   
   test "importing a simple template" do
-    sign_in users(:admin)
-    file = fixture_file_upload("/files/simple_template.xml", 'text/xml')
-    image = fixture_file_upload("/files/simple_template.xml", 'image')
-    assert_difference('Template.count', 1) do
-      put :import, {:template => { :is_hidden => false }, :descriptor => file, :image => image}
+    #Ruby 1.8.7 and lower can't convert Rack::Test::UploadedFile into String
+    if RUBY_VERSION > "1.8.7"
+	    sign_in users(:admin)
+	    archive = fixture_file_upload("/files/Archive.zip", 'application/zip')    
+	    assert_difference('Template.count', 1) do
+	      put :import, {:template => { :is_hidden => false }, :package => archive}
+	    end
+	    actual = assigns(:template).positions.first
+	    assert_small_delta 0.025, actual.left
+	    assert_small_delta 0.026, actual.top
+	    assert_small_delta 0.592, actual.right
+	    assert_small_delta 0.796, actual.bottom
     end
-    actual = assigns(:template).positions.first
-    assert_small_delta 0.025, actual.left
-    assert_small_delta 0.026, actual.top
-    assert_small_delta 0.592, actual.right
-    assert_small_delta 0.796, actual.bottom
   end
 
   test "render full template preview" do

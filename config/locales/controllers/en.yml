@@ -16,6 +16,9 @@ en:
   field_created: "Field was successfully created."
   field_updated: "Field was successfully updated."
 
+  #FieldConfig controller
+  parameter_updated: "Parameter was successfully updated."
+
   #Groups controller
   group_created: "Group was successfully created."
   group_updated: "Group was successfully updated."

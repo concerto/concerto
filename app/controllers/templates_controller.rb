@@ -1,3 +1,5 @@
+require 'zip/zip'
+
 class TemplatesController < ApplicationController
   before_filter :get_type, :only => [:new, :create, :import]
   respond_to :html, :json, :xml, :js
@@ -69,11 +71,11 @@ class TemplatesController < ApplicationController
     @template.media.each do |media|
       media.key = "original"
     end
-    
+
     if @template.update_attributes(template_params)
       flash[:notice] = t(:template_updated)
     end
-    
+
     respond_with(@template)
 
   end
@@ -85,14 +87,14 @@ class TemplatesController < ApplicationController
     auth!
 
     unless @template.is_deletable?
-      redirect_to(@template, :notice => t(:cannot_delete_template, :screens => @template.screens.collect { |s| s.name if can? :read, s}.join(", "))) 
+      redirect_to(@template, :notice => t(:cannot_delete_template, :screens => @template.screens.collect { |s| s.name if can? :read, s}.join(", ")))
       return
     end
 
     @template.destroy
     respond_with(@template)
   end
-  
+
   # GET /template/1/preview
   # Generate a preview of the template based on the request format.
   def preview
@@ -118,7 +120,7 @@ class TemplatesController < ApplicationController
       if !params[:fields].nil?
         @only_fields = params[:fields].split(',').map{|i| i.to_i}
       end
-      
+
       jpg =  Mime::Type.lookup_by_extension(:jpg)  #JPG is getting defined elsewhere.
       if([jpg, Mime::PNG, Mime::HTML].include?(request.format))
         @image = nil
@@ -132,10 +134,10 @@ class TemplatesController < ApplicationController
         end
 
         case request.format
-        when jpg
-          @image.format = "JPG"
-        when Mime::PNG
-          @image.format = "PNG"
+          when jpg
+            @image.format = "JPG"
+          when Mime::PNG
+            @image.format = "PNG"
         end
 
         data = nil
@@ -156,36 +158,15 @@ class TemplatesController < ApplicationController
   # PUT /templates/import.xml
   # Import a template from an XML description and convert it to an actual
   # template model.
-  #
-  # TODO - This should be cleaned up, we should throw smarter errors too.
   def import
-    xml_file = params[:descriptor]
-    image_file = params[:image]
-    @template = Template.new(template_params)
-    auth!
-    
-    if xml_file.nil? || image_file.nil?
-      @template.errors.add(:base, t(:template_import_requires_files))
-      respond_with(@template) do |format|
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
-      end
-    else
-      begin
-        xml_data = xml_file.read
-        if !xml_data.blank? && @template.import_xml(xml_data)
-          @template.media.build({:key=>"original", :file => image_file})
-        end  
-      rescue REXML::ParseException
-        raise t(:template_import_error)
-      end
-      
-      if @template.save
-        flash[:notice] = t(:template_created)
-      end
-      
-      respond_with(@template)
+    @template = Template.new
+    archive = params[:package]
+
+    if @template.import_archive(archive) && @template.save
+      flash[:notice] = t(:template_created)
     end
+
+    respond_with(@template)
   end
 
 private
