@@ -109,4 +109,44 @@ class Template < ActiveRecord::Base
     end
     return image
   end
+
+  def import_archive(archive)
+    if archive.blank?
+      self.errors.add(:base, I18n.t('templates.new.template_import_requires_archive'))
+      return false
+    end
+
+    file = archive.tempfile unless archive.is_a? Rack::Test::UploadedFile
+    file ||= archive
+
+    zip_file = Zip::ZipFile.open(file)
+    xml_data = image_file = nil
+    zip_file.each do |entry|
+      if entry.name.include? '.xml'
+        xml_data = entry.get_input_stream.read
+      else
+        image_file = entry
+      end
+    end
+
+    if xml_data.blank?
+      self.errors.add(:base, I18n.t('templates.new.template_import_requires_xml'))
+      return false
+    end
+
+    if image_file.blank?
+      self.errors.add(:base, I18n.t('templates.new.template_import_requires_image'))
+      return false
+    end
+
+    if import_xml(xml_data)
+      self.media.build({:key=>"original", :file_name => image_file.name,
+                             :file_type => MIME::Types.type_for(image_file.name).first.content_type})
+      self.media.first.file_size = image_file.size
+      self.media.first.file_data = image_file.get_input_stream.read
+    else
+      self.errors.add(:base, I18n.t('templates.new.invalid_xml'))
+      return false
+    end
+  end
 end

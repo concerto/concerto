@@ -160,39 +160,13 @@ class TemplatesController < ApplicationController
   # template model.
   def import
     @template = Template.new
-
     archive = params[:package]
-    if archive.blank?
-      @template.errors.add(:base, t(:template_import_requires_archive))
-      respond_with(@template) do |format|
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
-      end
-    else
-      archive = archive.tempfile unless archive.is_a? Rack::Test::UploadedFile
-      xml_file = image_file = nil
-      zip_file = Zip::ZipFile.open(archive)
-      zip_file.each do |entry|
-        if entry.name.include? '.xml'
-          xml_file = entry.get_input_stream
-        else
-          image_file = entry
-        end
-      end
-      xml_data = xml_file.read
-      if !xml_data.blank? && @template.import_xml(xml_data)
-        @template.media.build({:key=>"original", :file_name => image_file.name,
-                               :file_type => MIME::Types.type_for(image_file.name).first.content_type})
-        @template.media.first.file_size = image_file.size
-        @template.media.first.file_data = image_file.get_input_stream.read
-      end
 
-      if @template.save
-        flash[:notice] = t(:template_created)
-      end
-
-      respond_with(@template)
+    if @template.import_archive(archive) && @template.save
+      flash[:notice] = t(:template_created)
     end
+
+    respond_with(@template)
   end
 
 private
