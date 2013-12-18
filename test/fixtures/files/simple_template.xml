@@ -4,7 +4,7 @@
   <width>1920</width>
   <height>1080</height>
   <author>Testing Author</author>
-  <hidden>true</hidden>
+  <hidden>false</hidden>
   <field>
     <name>Graphics</name>
     <type>Graphics</type>
