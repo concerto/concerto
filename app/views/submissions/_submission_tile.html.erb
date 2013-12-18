@@ -33,11 +33,11 @@
     <!-- right now we don't collect any data about approved submissions, so we hide this form and only submit it on behalf of the user when they approve -->
     <div class="approve-content-form-overlay default-padding form-dark" style="display: none;">
       <legend><%= t('.approve_this_content') %></legend>
-      <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => true, :show_cancel_button => true } %>
+      <%= render :partial => "submissions/moderate_tile_form", :locals => { :submission => submission, :moderate => true, :show_cancel_button => true } %>
     </div>
     <div class="deny-content-form-overlay default-padding form-dark" style="display: none;">
       <legend><%= t('.deny_this_content') %></legend>
-      <%= render :partial => "submissions/moderate_form", :locals => { :submission => submission, :moderate => false, :show_cancel_button => true } %>
+      <%= render :partial => "submissions/moderate_tile_form", :locals => { :submission => submission, :moderate => false, :show_cancel_button => true } %>
     </div>
     <div class="approve-content-confirm-overlay default-padding center" style="display: none;">
       <br /><br />
