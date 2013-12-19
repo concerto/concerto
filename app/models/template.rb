@@ -117,6 +117,11 @@ class Template < ActiveRecord::Base
       return false
     end
 
+    unless archive.content_type.include? 'zip'
+      self.errors.add(:base, I18n.t('templates.new.template_import_requires_zip'))
+      return false
+    end
+
     file = archive.tempfile unless archive.is_a? Rack::Test::UploadedFile
     file ||= archive
 
