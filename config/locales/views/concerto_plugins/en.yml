@@ -4,9 +4,10 @@ en:
       concerto_plugin: 'Plugin'
     attributes:
       concerto_plugin:
-        source: 'Source'
+        enable: 'Enable Gem?'
         gem_name: 'Gem Name'
         gem_version: 'Gem Version'
+        source: 'Source'
         source_url: 'Source URL'
 
   concerto_plugins:
