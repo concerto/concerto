@@ -139,6 +139,10 @@ class Screen < ActiveRecord::Base
     self.authentication_token = ''
   end
 
+  def clear_temp_token
+    self.new_temp_token = ''
+  end
+
   # The token is first associated with a session, not a Screen, so
   # it is generated independent of a particular instance
   def self.generate_temp_token
@@ -176,6 +180,7 @@ class Screen < ActiveRecord::Base
 
   # Radio button default
   def auth_action
+    return AUTH_NEW_TOKEN if !self.new_temp_token.blank?
     return AUTH_NO_SECURITY if self.unsecured?
     return AUTH_KEEP_TOKEN if self.auth_in_progress? or self.auth_by_token?
     return AUTH_LEGACY_SCREEN if self.auth_by_mac?
@@ -196,6 +201,7 @@ class Screen < ActiveRecord::Base
   def update_authentication
     if @auth_action == AUTH_NO_SECURITY
       self.clear_screen_token
+      self.clear_temp_token
     elsif @auth_action == AUTH_NEW_TOKEN
       self.temp_token=@new_temp_token
     end
