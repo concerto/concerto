@@ -3,10 +3,6 @@ function addDateTimeUi() {
   // why dont we just look for the .datefield class and hookup that way?
   $('#start_time_date').datepicker({ autoclose: true });
   $('#end_time_date').datepicker({ autoclose: true });
-
-  // Setup the time pickers
-  $('#start_time_time').timepicker();
-  $("#end_time_time").timepicker();
 }
 
 function toggleTimeSelects() {
@@ -26,6 +22,10 @@ function initDateTime() {
   if ( $(".event-toggleTimeSelects").length > 0 ) {
     toggleTimeSelects();
   }
+
+  // Setup the time pickers
+  $('.timefield').timepicker();
+
 
   // make sure the icon-calendar's get wired up too
   // for each datepicker item (identified by having the datefield css class on it)
