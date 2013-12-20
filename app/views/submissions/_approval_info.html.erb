@@ -28,8 +28,8 @@
     <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.duration') %></b></small></p>
     <p>
       <%= submission.duration %> <%= t('.seconds') %>
-      &nbsp;
       <% if can? :update, submission and submission.moderation_flag.nil? and f %>
+        &nbsp;
         <%= link_to "#", :class => "tooltip-basic btnShowDuration", 'data-tooltip-text' => t('.edit_duration') do %>
           <span class="icon-pencil"></span>
         <% end %>
@@ -42,3 +42,7 @@
     <% end %>
   </div>
 </div>
+<br />
+<% if submission.moderation_flag != nil %>
+  <h2><%= submission.moderation_flag == true ? t('.approved') : t('.denied') %></h2>
+<% end %>

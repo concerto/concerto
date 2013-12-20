@@ -93,7 +93,7 @@ class SubmissionsController < ApplicationController
 private
 
   def submission_params
-    params.require(:submission).permit(:moderation_reason, :moderation_flag)
+    params.require(:submission).permit(:moderation_reason, :moderation_flag, :duration)
   end
 
 end
