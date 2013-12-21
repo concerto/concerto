@@ -8,6 +8,8 @@ class Screen < ActiveRecord::Base
   AUTH_NEW_TOKEN=3
   AUTH_NO_SECURITY=4
 
+  TEMP_TOKEN_LENGTH=6 # Must be even.
+
   # Allow screens to act as accessors for the Frontend API
   #devise
 
@@ -151,6 +153,10 @@ class Screen < ActiveRecord::Base
     if !token.nil? and !token.empty? #TODO: Validate
       self.authentication_token = "temp:#{token}"
     end
+  end
+
+  def temp_token
+    token_by_type('temp')
   end
 
   def self.find_by_temp_token(token)
