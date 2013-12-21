@@ -17,7 +17,7 @@ class ScreensController < ApplicationController
     auth!
 
     # The screen index has a sidebar that shows all templates.
-    @templates = Template.where(:is_hidden => false) #.find(:all, :order => "screens.size DESC")
+    @templates = Template.where(:is_hidden => false).sort_by{|t| t.screens.count}
 
     respond_with(@screens)
   end
