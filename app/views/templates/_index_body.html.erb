@@ -7,20 +7,7 @@
   <% else %>
   <div class="default-padding">
     <ul class="list-grid">
-      <% @templates[0..4].each do |template| %>
-      <li>
-        <div class="cont thumb-icon">
-          <%= link_to template do %>
-          <i class="concertocon-controller-templates"></i>
-          <% end %>
-        </div>
-        <div class="cont">
-          <p><b><%= link_to template.name, template %></b></p>
-          <p><%= t('.author') %> <%= template.author %></p>
-        </div>
-      </li>
-      <%= link_to "More Templates", templates_url %>
-      <% end %>
+      <%= render @templates[0..4] %>
     </ul>
     <% end %>
   </div>
