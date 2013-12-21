@@ -17,6 +17,7 @@
     <table class="plugins-list">
       <thead>
         <tr>
+          <th><%= t('.status') %></th>
           <th><%= ConcertoPlugin.human_attribute_name(:gem_name) %></th>
           <th><%= t('.gem_description')%></th>
           <th><%= t(:actions) %></th>
@@ -27,6 +28,15 @@
           <% gemspec = Gem.loaded_specs[concerto_plugin.gem_name] %>
           <tr>
             
+            <td>
+              <h1>
+                <% if concerto_plugin.enabled? %>
+                  <i class="icon-check tooltip-basic" data-tooltip-text="<%= t('.enabled_msg') %>"></i>
+                <% else %>
+                  <i class="icon-remove-sign tooltip-basic" data-tooltip-text="<%= t('.disabled_msg') %>"></i>
+                <% end %>
+              </h1>
+            </td>
             <td>
               <h3><%= concerto_plugin.name.titleize %></h3>
               <p><%= link_to !gemspec.nil? ? gemspec.homepage : "#" do %><%= t('.visit_plugin_website') %><% end %></p>
@@ -42,7 +52,7 @@
               <% if can? :destroy, ConcertoPlugin %>
                 <%= link_to t(:destroy, :model => ConcertoPlugin.model_name.human), concerto_plugin, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => ConcertoPlugin.model_name.human, :key => concerto_plugin.gem_name) }, :method => :delete, :class => "btn" %>
               <% end %>
-              <%= status_badge(concerto_plugin.enabled) %>&nbsp;
+
             </td>
           </tr>
         <% end %>

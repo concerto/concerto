@@ -18,6 +18,9 @@ en:
     index:
       disabled: "disabled"
       enabled: "enabled"
+      status: "Status"
+      enabled_msg: "This plugin is currently enabled."
+      disabled_msg: "This plugin is currently disabled."
       gem_description: "Description"
       visit_plugin_website: "Visit plugin website"
 

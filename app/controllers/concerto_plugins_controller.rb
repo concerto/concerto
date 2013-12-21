@@ -54,7 +54,7 @@ class ConcertoPluginsController < ApplicationController
       write_Gemfile()
       flash[:notice] = t(:plugin_updated)
     end
-    respond_with(@concerto_plugin)
+    redirect_to concerto_plugins_path
   end
 
   # DELETE /concerto_plugins/1
