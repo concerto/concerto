@@ -10,6 +10,9 @@ en:
         is_public: 'This screen is publicly viewable'
 
   screens:
+    index:
+      common_templates: "Common Templates"
+
     index_body:
       add_one: 'Why not add one?'
       my_screens: 'My Screens'
