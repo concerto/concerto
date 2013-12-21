@@ -9,7 +9,7 @@
 
       <div class="moderate-select">
         <% unless @submission.moderation_flag == true %>
-          <%= link_to_submit(:class => "btn btn-pronounced btnModerateApprove", :title => t('submissions.moderate_title', :name => @submission.content.name)) do %>
+          <%= link_to "#", :class => "btn btn-pronounced btnModerateApprove", :title => t('submissions.moderate_title', :name => @submission.content.name) do %>
             <span class="icon-check"></span> <%= t(:approve) %>
           <% end %>
         <% end %>
@@ -26,8 +26,8 @@
                   <%= f.text_area :moderation_reason, :rows => 5, :style => "width: 90%;", :autofocus => true %>
                 </div>
               </div>
-              <%= f.hidden_field :moderation_flag, { :value => false }%>
-              <%= link_to "#", :class => "btn btn-primary btnModerateDeny" do %>
+
+              <%= link_to "#", :class => "btn btn-primary btnModerateDeny", :title => t('submissions.moderate_title', :name => @submission.content.name) do %>
                 <%= t(:deny) %>
               <% end %>
             </div>
