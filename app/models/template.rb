@@ -34,6 +34,7 @@ class Template < ActiveRecord::Base
     
     self.name = data['template']['name']
     self.author = data['template']['author']
+    self.is_hidden = data['template']['hidden']
 
     if data['template'].has_key?('field')
       data['template']['field'] = [data['template']['field']] unless data['template']['field'].kind_of?(Array)
@@ -113,6 +114,11 @@ class Template < ActiveRecord::Base
   def import_archive(archive)
     if archive.blank?
       self.errors.add(:base, I18n.t('templates.new.template_import_requires_archive'))
+      return false
+    end
+
+    unless archive.content_type.include? 'zip'
+      self.errors.add(:base, I18n.t('templates.new.template_import_requires_zip'))
       return false
     end
 

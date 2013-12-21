@@ -1,8 +1,18 @@
-<h1 class="default-padding" id="contentlist">
-  <%= link_to t('.all_feeds'), feeds_path %> &gt; 
-  <% @submission.feed.ancestors.reverse.each do |ancestor_feed| %>
-  <%= link_to ancestor_feed.name, feed_submissions_path(ancestor_feed) %> &gt; 
-  <% end %>
-  <%= link_to @submission.feed.name, feed_submissions_path(@submission.feed) %> &gt; 
-  <%= @submission.content.name %>
-</h1>
+<div class="viewblock-header_right">
+  <div class="button-padding">
+    <% if can? :delete, @submission.content %>
+      <%= link_to t(:destroy_model, :model => Content), @submission.content, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => Content.model_name.human, :key => @submission.content.name) }, :method => :delete, :class => "btn danger" %>
+    <% end %>
+  </div>
+</div>
+
+<div class="default-padding">
+  <h1 id="contentlist">
+    <%= link_to t('.all_feeds'), feeds_path %> &gt; 
+    <% @submission.feed.ancestors.reverse.each do |ancestor_feed| %>
+    <%= link_to ancestor_feed.name, feed_submissions_path(ancestor_feed) %> &gt; 
+    <% end %>
+    <%= link_to @submission.feed.name, feed_submissions_path(@submission.feed) %> &gt; 
+    <%= @submission.content.name %>
+  </h1>
+</div>

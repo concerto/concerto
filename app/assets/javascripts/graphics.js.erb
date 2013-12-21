@@ -34,7 +34,7 @@ var initializeGraphicPreview = {
       // Fire off the preview if we already have a media_id, which is the
       // case when validation errors in the form occur.
       var media_id = $("#graphic_media_attributes_0_id");
-      if (media_id.val() !== "") {
+      if (media_id.val() !== "" && typeof media_id.val() !== "undefined") {
         var preview = $('#preview_div');
         var file_input = $('#media_file');
         var preview_url = file_input.data('url');

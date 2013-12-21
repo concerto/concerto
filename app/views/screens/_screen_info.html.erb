@@ -13,7 +13,13 @@
     </div>
     <div class="span3">
       <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= Screen.human_attribute_name(:template_id) %></b></small></p>
-      <p><%= screen.template.name unless screen.template.nil? %></p>
+      <% if !screen.template.blank? %>
+        <% if can?(:read, screen.template) %>
+          <p><%= link_to screen.template.name, screen.template %></p>
+        <% else %>
+          <p><%= screen.template.name %></p>
+        <% end %>
+      <% end %>
     </div>
     <div class="span3">
       <% unless screen.location.blank? %>
