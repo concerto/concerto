@@ -26,15 +26,8 @@
   <div class="span<%= player_span %>">
 
   	<% if !sd.blank? %>
-  	<section class="viewblock">
-  	  <header class="viewblock-header" id="screens-header">
-  	    <h1 class="default-padding"><%= t('.hardware_player') %></h1>
-  	  </header>
-  	  <div id="screens-body" class="viewblock-cont">
-  	    <%= ConcertoPlugin.render_view_hook self, :screen_details %>
-  	  </div>
-  	</section>
-  	<% end %>
+  		<%= ConcertoPlugin.render_view_hook self, :screen_details %>
+    <% end %>
 
   </div>
 </div>

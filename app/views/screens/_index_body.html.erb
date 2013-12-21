@@ -1,10 +1,12 @@
 <div>
   <% if @screens.empty? %>
-    <div class="default-padding">
-      <h3><%= t('.no_screens') %>
-          <%= if ConcertoConfig['allow_user_screen_creation']
-                user_signed_in? ? link_to( t('.add_one'), new_screen_path) : link_to( t(:sign_in), new_user_session_path) + t('.to_add')
-              end %></h3>
+    <div class="clearfix default-padding">
+      <div class="alert alert-block alert-zero">
+        <p class="alert-heading"><%= t('.no_screens') %></p>
+        <% if ConcertoConfig['allow_user_screen_creation'] %>
+          <%= user_signed_in? ? link_to( t('.add_one'), new_screen_path) : link_to( t(:sign_in), new_user_session_path) + t('.to_add') %>
+        <% end %>
+      </div>
     </div>
   <% else %>
 
