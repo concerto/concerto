@@ -7,7 +7,7 @@
   <% else %>
   <div class="default-padding">
     <ul class="list-grid">
-      <% @templates.each do |template| %>
+      <% @templates[0..4].each do |template| %>
       <li>
         <div class="cont thumb-icon">
           <%= link_to template do %>
@@ -19,6 +19,7 @@
           <p><%= t('.author') %> <%= template.author %></p>
         </div>
       </li>
+      <%= link_to "More Templates", templates_url %>
       <% end %>
     </ul>
     <% end %>
