@@ -42,7 +42,7 @@ class ConcertoPluginsController < ApplicationController
       restart_webserver()
       flash[:notice] = t(:plugin_created)
     end
-    respond_with(@concerto_plugin)
+    redirect_to concerto_plugins_path
   end
 
   # PUT /concerto_plugins/1
@@ -65,7 +65,7 @@ class ConcertoPluginsController < ApplicationController
     @concerto_plugin.destroy
     write_Gemfile()
     restart_webserver()
-    respond_with(@concerto_plugin)
+    redirect_to concerto_plugins_path
   end
   
   def write_Gemfile
