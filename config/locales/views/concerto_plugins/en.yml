@@ -23,3 +23,5 @@ en:
 
     new:
       install_plugin: 'Install Plugin'
+      path_instructions: 'This should be a path to a directory or file location for the plugin. Please note that on Mac OS X, directories inserted into /var/www/ should be prefixed with /private.'
+      source_url: "Source URL"
