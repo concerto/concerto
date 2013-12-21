@@ -7,6 +7,8 @@ class Template < ActiveRecord::Base
   
   accepts_nested_attributes_for :media
   accepts_nested_attributes_for :positions, :allow_destroy => true
+  
+  belongs_to :owner, :polymorphic => true
 
   # Validations
   validates :name, :presence => true, :uniqueness => true
