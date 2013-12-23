@@ -12,6 +12,7 @@ en:
   screens:
     index:
       common_templates: "Common Templates"
+      view_all: 'View All'
 
     index_body:
       add_one: 'Why not add one?'
