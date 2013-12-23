@@ -127,6 +127,7 @@ class Template < ActiveRecord::Base
     file = archive.tempfile unless archive.is_a? Rack::Test::UploadedFile
     file ||= archive
 
+    require 'zip/zip'
     zip_file = Zip::ZipFile.open(file)
     xml_data = image_file = nil
     zip_file.each do |entry|
