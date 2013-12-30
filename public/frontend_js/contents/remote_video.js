@@ -47,6 +47,27 @@ concerto.frontend.Content.RemoteVideo = function(data) {
   this.video_url = data['render_details']['path'];
 
   /**
+   * Extra parameters to include in the URL.
+   * @type {?string}
+   * @private
+   */
+  this.url_parms_ = (data.field['config'] ? data.field['config']['url_parms'] : null);
+  if (goog.isDefAndNotNull(this.url_parms_)) {
+    this.url_parms_ = this.url_parms_.trim();
+    if (goog.string.startsWith(this.url_parms_, '?'))
+      this.url_parms_ = goog.string.remove(this.url_parms_, '?');
+    if (goog.string.startsWith(this.url_parms_, '&'))
+      this.url_parms_ = goog.string.remove(this.url_parms_, '&');
+    if (goog.string.contains(this.video_url, '?')) {
+      this.url_parms_ = '&' + this.url_parms_;
+    } else {
+      this.url_parms_ = '?' + this.url_parms_;
+    }
+  } else {
+    this.url_parms_ = '';
+  }
+
+  /**
    * Bump the duration of this content by 1 second.
    * This attempts to account for 1 second of load time and should be
    * improved in the future.
@@ -66,7 +87,7 @@ concerto.frontend.ContentTypeRegistry['RemoteVideo'] =
  */
 concerto.frontend.Content.RemoteVideo.prototype.load_ = function() {
   this.iframe = goog.dom.createElement('iframe');
-  this.iframe.src = this.video_url;
+  this.iframe.src = this.video_url + this.url_parms_;
   this.iframe.frameborder = 0;
   goog.style.setSize(this.iframe, '100%', '100%');
   goog.style.setSize(this.div_, '100%', '100%');

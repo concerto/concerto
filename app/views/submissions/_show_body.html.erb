@@ -1,81 +1,36 @@
 <div class="approval">
-
-  <% if @submission.moderation_flag.nil? %>
-    <%= render :partial => "submissions/approval_info", :locals => { :submission => @submission } %>
-
-    <br />
-
-    <% if can? :update, @submission %>
-
+  <%= render :partial => "submissions/approval_info", :locals => { :submission => @submission } %>
+  <% if can? :update, @submission %>    
       <div class="moderate-select">
-        <%= link_to "#", :class => "btn btn-pronounced dropdown-control dd-moderate", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_approve_#{ @submission.id }" do %>
-          <span class="icon-check"></span> <%= t(:approve) %>
+        <% unless @submission.moderation_flag == true %>
+          <%= form_for([@submission.feed, @submission]) do |f| %>
+            <%= f.hidden_field :moderation_flag, { :value => true } %>
+            <%= f.hidden_field :moderation_reason, { :value => '' } %>
+            <%= f.submit t(:approve), :class => "btn btn-pronounced btnModerateApprove", :title => t('submissions.moderate_title', :name => @submission.content.name) %>
+          <% end %>
         <% end %>
-        &nbsp;&nbsp;
-        <%= link_to "#", :class => "btn btn-pronounced dropdown-control dd-moderate danger", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_deny_#{ @submission.id }" do %>
-          <span class="icon-remove-sign"></span> <%= t(:deny) %>
+        <% unless @submission.moderation_flag == false %>
+          <%= link_to "#", :class => "btn btn-pronounced dropdown-control dd-moderate danger", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_deny_#{ @submission.id }" do %>
+            <span class="icon-remove-sign"></span> <%= t(:deny) %>
+          <% end %>
+          <div id="moderate_deny_<%= @submission.id %>" style="display:none;">
+            <div class="form-stacked form-dark">
+              <%= form_for([@submission.feed, @submission]) do |f| %>
+                <div class="clearfix">
+                  <%= f.hidden_field :moderation_flag, { :value => false } %>
+                  <%= f.label :moderation_reason %>
+                  <div class="input">
+                    <%= f.text_area :moderation_reason, :rows => 5, :style => "width: 90%;", :autofocus => true %>
+                  </div>
+                </div>
+                <%= f.submit t(:deny), :class => "btn btn-primary btnModerateDeny", :title => t('submissions.moderate_title', :name => @submission.content.name) %>
+              <% end %>
+            </div>
+          </div>
         <% end %>
       </div>
-
-      <div id="moderate_approve_<%= @submission.id %>" style="display:none;">
-        <div class="form-stacked">
-          <%= render :partial => "submissions/moderate_form", :locals => { :submission => @submission, :moderate => true } %>
-        </div>
-      </div>
-
-      <div id="moderate_deny_<%= @submission.id %>" style="display:none;">
-        <div class="form-stacked">
-          <%= render :partial => "submissions/moderate_form", :locals => { :submission => @submission, :moderate => false } %>
-        </div>
-      </div>
-
-    <% end %>
-
-  <% elsif @submission.moderation_flag %>
-    <h2><%= t('.approved') %></h2>
-
-    <% if can? :update, @submission %>
-
-      <%= link_to "#", :class => "btn dropdown-control dd-moderate danger", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_deny_#{ @submission.id }" do %>
-        <span class="icon-remove-sign"></span> <%= t(:deny) %>
-      <% end %>
-
-      <div id="moderate_deny_<%= @submission.id %>" style="display:none;">
-        <div class="form-stacked">
-          <%= render :partial => "submissions/moderate_form", :locals => { :submission => @submission, :moderate => false } %>
-        </div>
-      </div>
-
-    <% end %>
-    
-    <% if can? :delete, @submission.content %>
-      <%= link_to t(:destroy_model, :model => Content), @submission.content, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => Content.model_name.human, :key => @submission.content.name) }, :method => :delete, :class => "btn danger" %>
-    <% end %>
-    
-    <br />
-
-    <%= render :partial => "submissions/approval_info", :locals => { :submission => @submission } %>
-  <% else %>
-    <h2><%= t(:denied) %></h2>
-
-    <% if can? :update, @submission %>
-
-      <%= link_to "#", :class => "btn btn-small dropdown-control dd-moderate", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_approve_#{ @submission.id }" do %>
-        <span class="icon-check"></span> <%= t(:approve) %>
-      <% end %>
-
-      <div id="moderate_approve_<%= @submission.id %>" style="display:none;">
-        <div class="form-stacked">
-          <%= render :partial => "submissions/moderate_form", :locals => { :submission => @submission, :moderate => true } %>
-        </div>
-      </div>
-
-    <% end %>
-
-    <br />
-
-    <%= render :partial => "submissions/approval_info", :locals => { :submission => @submission } %>
   <% end %>
+
 </div>
 
 <div class="default-padding">

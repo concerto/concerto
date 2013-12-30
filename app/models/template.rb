@@ -7,6 +7,8 @@ class Template < ActiveRecord::Base
   
   accepts_nested_attributes_for :media
   accepts_nested_attributes_for :positions, :allow_destroy => true
+  
+  belongs_to :owner, :polymorphic => true
 
   # Validations
   validates :name, :presence => true, :uniqueness => true
@@ -34,6 +36,7 @@ class Template < ActiveRecord::Base
     
     self.name = data['template']['name']
     self.author = data['template']['author']
+    self.is_hidden = data['template']['hidden']
 
     if data['template'].has_key?('field')
       data['template']['field'] = [data['template']['field']] unless data['template']['field'].kind_of?(Array)
@@ -116,9 +119,15 @@ class Template < ActiveRecord::Base
       return false
     end
 
+    unless archive.content_type.include? 'zip'
+      self.errors.add(:base, I18n.t('templates.new.template_import_requires_zip'))
+      return false
+    end
+
     file = archive.tempfile unless archive.is_a? Rack::Test::UploadedFile
     file ||= archive
 
+    require 'zip/zip'
     zip_file = Zip::ZipFile.open(file)
     xml_data = image_file = nil
     zip_file.each do |entry|

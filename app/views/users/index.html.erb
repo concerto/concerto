@@ -22,14 +22,17 @@
 
       <% @users.each do |user| %>
           <tr>
-            <td><%= user.name %></td>
+            <td>
+              <% if can? :read, User %>
+                <%= link_to user.name, user %>
+              <% else %>
+                <%= user.name %>
+              <% end %>
+            </td>
             <td><%= user.email %></td>
             <td><%= user.groups.map(&:name).join(",") %></td>
             
             <td>
-              <% if can? :read, User %>
-                <%= link_to t(:show, :model => User.model_name.human), user, :class => "btn" %>
-              <% end %>
               <% if can? :edit, User %>
                 <%= link_to t(:edit, :model => User.model_name.human), edit_user_path(user), :class => "btn" %>
               <% end %>
@@ -38,7 +41,7 @@
                   <%= link_to t(:destroy, :model => User), user, 
           :data => { :confirm => t(:are_you_sure_delete_model_key, :model =>User.model_name.human, :key => user.name) }, :method => :delete, :class => "btn" %>
                 <% else %>
-                  <%= link_to t(:destroy_model, :model => User), '#', :class => "btn disabled tooltip-basic", 'data-tooltip-text' => t(:user_not_deletable, :model =>User.model_name.human, :key => user.name) %>
+                  <%= link_to t(:destroy, :model => User), '#', :class => "btn disabled tooltip-basic", 'data-tooltip-text' => t(:user_not_deletable, :model =>User.model_name.human, :key => user.name) %>
                 <% end %>
               <% end %>
             </td>

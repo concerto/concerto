@@ -1,8 +1,34 @@
-<section class="viewblock">
-  <header class="viewblock-header" id="screens-header">
-    <%= render :partial => "screens/show_header" %>
-  </header>
-  <div id="screens-body" class="viewblock-cont">
-    <%= render :partial => "screens/show_body" %>    
+<% sd = ConcertoPlugin.render_view_hook self, :screen_details %>
+
+<%
+  # Hide screen hardware player controls from non-logged in users or when hardware is not defined 
+  screen_span = 9
+  player_span = 3
+  if !user_signed_in? or sd.blank?
+    screen_span = 12
+    player_span = 0
+  end
+%>
+
+<div class="row-fluid">
+  <div class="span<%= screen_span %>">
+
+  	<section class="viewblock">
+  	  <header class="viewblock-header" id="screens-header">
+  	    <%= render :partial => "screens/show_header" %>
+  	  </header>
+  	  <div id="screens-body" class="viewblock-cont">
+  	    <%= render :partial => "screens/show_body" %>
+  	  </div>
+  	</section>
+
   </div>
-</section>
+  <div class="span<%= player_span %>">
+
+  	<% if !sd.blank? %>
+  		<%= ConcertoPlugin.render_view_hook self, :screen_details %>
+    <% end %>
+
+  </div>
+</div>
+

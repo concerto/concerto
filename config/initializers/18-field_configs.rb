@@ -11,5 +11,6 @@ field_configs_array = []
 #put the dictionary hash into the Application object for global access
 Concerto::Application.config.field_configs = {
   :transition => {:type => :select, :values => ['fade','slide','replace']}, 
-  :time_format => {:type => "string"}
+  :time_format => {:type => "string"},
+  :url_parms => {:type => "string"}
 }

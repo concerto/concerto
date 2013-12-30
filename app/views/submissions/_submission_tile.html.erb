@@ -1,17 +1,55 @@
-<%= link_to [submission.feed, submission] do %>
-<div class="tile <% if not submission.content.children.empty? %>tile-stack<% end %>">
-  <div class="tile-content">
+<div class="tile<% if not submission.content.children.empty? %> tile-stack<% end %>" data-submission-id="<%= submission.id %>">
+  <%= link_to [submission.feed, submission], :class => "tile-content" do %>
     <%= render_content(submission.content, {:type => 'tile'}) %>
-  </div>
-  <div class="brand">
-    <% type_folder = "contents/#{submission.content.type.underscore}" %>
-    <%= render_partial_if("#{type_folder}/tab_icon") %>
 
-    <% # Note: The line below is extra verbose for performance reasons.  See #483. %>
-    <% if !submission.content.children.empty? &&
-          !submission.content.children.active.empty? %>
-      <div class="count">x <%= submission.content.children.active.size %></div>
-    <% end %>
+    <div class="tile-labels">
+      <% type_folder = "contents/#{submission.content.type.underscore}" %>
+      <%= render_partial_if("#{type_folder}/tab_icon") %>
+
+      <% # Note: The line below is extra verbose for performance reasons.  See #483. %>
+      <% if !submission.content.children.empty? &&
+            !submission.content.children.active.empty? %>
+        <div class="tile-count">x <%= submission.content.children.active.size %></div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if submission.is_pending? %>
+  <div class="tile-info">
+    <div class="tile-moderate">
+      <div class="default-padding">
+        <%= link_to [submission.feed, submission], :class => "tooltip-basic tile-moderate-approve", 'data-tooltip-text' => t('.approve_this_content') do %>
+          <span class="icon-check"></span>
+        <% end %>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <%= link_to "#", :class => "tooltip-basic tile-moderate-deny", 'data-tooltip-text' => t('.deny_this_content') do %>
+          <span class="icon-remove-sign"></span>
+        <% end %>
+      </div>
+    </div>
   </div>
+
+  <div class="tile-overlay black">
+    <!-- right now we don't collect any data about approved submissions, so we hide this form and only submit it on behalf of the user when they approve -->
+    <div class="approve-content-form-overlay default-padding form-dark" style="display: none;">
+      <legend><%= t('.approve_this_content') %></legend>
+      <%= render :partial => "submissions/moderate_tile_form", :locals => { :submission => submission, :moderate => true, :show_cancel_button => true } %>
+    </div>
+    <div class="deny-content-form-overlay default-padding form-dark" style="display: none;">
+      <legend><%= t('.deny_this_content') %></legend>
+      <%= render :partial => "submissions/moderate_tile_form", :locals => { :submission => submission, :moderate => false, :show_cancel_button => true } %>
+    </div>
+    <div class="approve-content-confirm-overlay default-padding center" style="display: none;">
+      <br /><br />
+      <h1 style="font-size: 5em;"><span class="icon-check"></span></h1>
+      <h4>This content has been approved.</h4>
+    </div>
+    <div class="deny-content-confirm-overlay default-padding center" style="display: none;">
+      <br /><br />
+      <h1 style="font-size: 5em;"><span class="icon-remove-sign"></span></h1>
+      <h4>This content has been denied.</h4>
+    </div>
+  </div>
+  <% end %>
+
 </div>
-<% end %>

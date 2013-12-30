@@ -1,60 +1,60 @@
-<%= render :partial => "screen_info", :locals => { :screen => @screen } %>
-<%= ConcertoPlugin.render_view_hook self, :screen_details %>
+<div class="default-padding">
+  <%= render :partial => "screen_info", :locals => { :screen => @screen } %>
 
-<h4 class="center">Hover over a field below to view its settings.</h4>
+  <h4 class="center">Hover over a field below to view its settings.</h4>
 
-<div class="center">
-  <%= link_to t('.preview_screen'), frontend_screen_path(@screen, :preview => "true"), :class => "btn", :data => {'no-turbolink' => true} if can? :update, @screen %>
-</div>
-<br />
-
-<% if !@screen.template.nil? %>
-<div class="screen-model screens-show">
-  <div class="bottom"><span class="brand">Concerto</span></div>
-  <div class="inset" style="background: url(<%= preview_template_path(@screen.template, :width => 800, :height => 450, :format => :png) %>) center center no-repeat; background-size: 100% 100%;">
-    <% @screen.template.positions.each do |pos| %>
-      <% field = pos.field %>
-      <% subscriptions = @screen.subscriptions.where(:field_id => field.id) %>
-      <% field_configs = @screen.field_configs.where(:field_id => field.id) %>
-
-      <a href="#" class="pos dropdown-control dd-fieldinfo" style="top: <%= pos.top * 100 %>%; left: <%= pos.left * 100 %>%; width: <%= (pos.right - pos.left) * 100 %>%; height: <%= (pos.bottom - pos.top) * 100 %>%;" data-title="<%= field.name %>" data-field-id="<%= field.id %>">
-        &nbsp;
-      </a>
-
-      <div id="field-info-content-<%= field.id %>" style="display: none;">
-        <br />
-        <div class="clearfix">
-          <div class="pull-left">
-            <h3><%= pluralize(subscriptions.count, 'Subscription') %></h3>
-          </div>
-          <div class="pull-right">
-            <% if can? :update, Subscription.new(:screen => @screen, :field => field) %>
-              &nbsp;&nbsp;&nbsp;<%= link_to t('.manage'), screen_field_subscriptions_path(@screen, field), :class => "btn btn-info" %>
-            <% end %>
-          </div>
-        </div>
-        <% if !subscriptions.empty? %>
-          <p>(<%= subscriptions.collect{ |s| s.feed.name }.join(', ')%>)</p>
-        <% end %> 
-        <hr />
-
-        <div class="clearfix">
-          <div class="pull-left">
-            <h3><%= pluralize(field_configs.count, 'Parameter') %></h3>
-          </div>
-          <div class="pull-right">
-            <% if can? :update, FieldConfig.new(:screen => @screen, :field => field) %>
-              &nbsp;&nbsp;&nbsp;<%= link_to t('.manage'), screen_field_field_configs_path(@screen, field), :class => "btn btn-info" %>
-            <% end %>
-          </div>
-        </div>
-
-        <br />
-      </div>
-
-    <% end %>
+  <div class="center">
+    <%= link_to t('.preview_screen'), frontend_screen_path(@screen, :preview => "true"), :class => "btn", :data => {'no-turbolink' => true} if can? :update, @screen %>
   </div>
+  <br />
+
+  <% if !@screen.template.nil? %>
+  <div class="screen-model screens-show">
+    <div class="bottom"><span class="brand">Concerto</span></div>
+    <div class="inset" style="background: url(<%= preview_template_path(@screen.template, :width => 800, :height => 450, :format => :png) %>) center center no-repeat; background-size: 100% 100%;">
+      <% @screen.template.positions.each do |pos| %>
+        <% field = pos.field %>
+        <% subscriptions = @screen.subscriptions.where(:field_id => field.id) %>
+        <% field_configs = @screen.field_configs.where(:field_id => field.id) %>
+
+        <a href="#" class="pos dropdown-control dd-fieldinfo" style="top: <%= pos.top * 100 %>%; left: <%= pos.left * 100 %>%; width: <%= (pos.right - pos.left) * 100 %>%; height: <%= (pos.bottom - pos.top) * 100 %>%;" data-title="<%= field.name %>" data-field-id="<%= field.id %>">
+          &nbsp;
+        </a>
+
+        <div id="field-info-content-<%= field.id %>" style="display: none;">
+          <br />
+          <div class="clearfix">
+            <div class="pull-left">
+              <h3><%= pluralize(subscriptions.count, 'Subscription') %></h3>
+            </div>
+            <div class="pull-right">
+              <% if can? :update, Subscription.new(:screen => @screen, :field => field) %>
+                &nbsp;&nbsp;&nbsp;<%= link_to t('.manage'), screen_field_subscriptions_path(@screen, field), :class => "btn btn-info" %>
+              <% end %>
+            </div>
+          </div>
+          <% if !subscriptions.empty? %>
+            <p>(<%=raw subscriptions.collect{ |s| link_to s.feed.name, s.feed }.join(', ')%>)</p>
+          <% end %> 
+          <hr />
+
+          <div class="clearfix">
+            <div class="pull-left">
+              <h3><%= pluralize(field_configs.count, 'Parameter') %></h3>
+            </div>
+            <div class="pull-right">
+              <% if can? :update, FieldConfig.new(:screen => @screen, :field => field) %>
+                &nbsp;&nbsp;&nbsp;<%= link_to t('.manage'), screen_field_field_configs_path(@screen, field), :class => "btn btn-info" %>
+              <% end %>
+            </div>
+          </div>
+
+          <br />
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+  <br />
 </div>
-<% end %>
-<br />
-<br />
