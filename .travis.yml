@@ -8,10 +8,11 @@ before_script:
   - cp config/database.yml.sqlite config/database.yml
   - git submodule init
   - git submodule update
-  - RAILS_ENV=test bundle exec rake db:migrate --trace
-  - bundle exec rake db:test:prepare
   - gem update --system 2.1.11
   - gem --version
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - bundle exec rake db:test:prepare
+
 branches:
   only:
     - master
