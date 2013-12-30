@@ -10,7 +10,8 @@ before_script:
   - git submodule update
   - RAILS_ENV=test bundle exec rake db:migrate --trace
   - bundle exec rake db:test:prepare
-
+  - gem update --system 2.1.11
+  - gem --version
 branches:
   only:
     - master
