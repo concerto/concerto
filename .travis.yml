@@ -1,3 +1,7 @@
+before_install:
+  - gem update --system 2.1.11
+  - gem --version
+
 rvm:
   - 1.8.7
   - 1.9.2
@@ -5,8 +9,6 @@ rvm:
   - 2.1.0
 
 before_script:
-  - gem update --system 2.1.11
-  - gem --version
   - cp config/database.yml.sqlite config/database.yml
   - git submodule init
   - git submodule update
