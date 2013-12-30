@@ -33,13 +33,14 @@
         <%= link_to "#", :class => "tooltip-basic btnShowDuration", 'data-tooltip-text' => t('.edit_duration') do %>
           <span class="icon-pencil"></span>
         <% end %>
+        <div class="editDurationCont" style="display: none;">
+          <%= form_for([@submission.feed, @submission]) do |f| %>
+            <%= f.number_field :duration, :class => "input-mini" %>
+            <%= f.submit t(:edit) %>
+          <% end %>
+        </div>
       <% end %>
     </p>
-    <% if can? :update, submission %>
-      <div class="editDurationCont" style="display: none;">
-        <%#= f.number_field :duration, :class => "input-mini" %>
-      </div>
-    <% end %>
   </div>
 </div>
 <br />
