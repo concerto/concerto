@@ -13,7 +13,7 @@ if [ ! -f compiler.jar ];  then
   # try to download it automatically
   curl -O http://dl.google.com/closure-compiler/compiler-latest.zip && unzip -qq compiler-latest.zip compiler.jar && rm compiler-latest.zip
   if [ ! -f compiler.jar ];  then
-    echo -e 'compiler.jar not found.\nDownload it from http://closure-compiler.googlecode.com/files/compiler-latest.zip and drop it in this directory.'; exit 1;
+    echo -e 'compiler.jar not found.\nDownload it from http://dl.google.com/closure-compiler/compiler-latest.zip and drop it in this directory.'; exit 1;
   fi
 fi
 
@@ -37,22 +37,40 @@ then
 fi
 
 if [ $debug -eq 0 ]; then
+  if [ -f frontend.js ]; then
+    rm frontend.js
+  fi
   closure-library/closure/bin/build/closurebuilder.py \
     --root=closure-library/ --root=./ --namespace="concerto.frontend.Screen" \
     --output_mode=compiled --compiler_jar=compiler.jar \
     --compiler_flags="--externs=screen_options.js" \
     --compiler_flags="--compilation_level=ADVANCED_OPTIMIZATIONS" \
-     > frontend.js
+   > frontend.js
+  if [ ! -s frontend.js ]; then
+    echo -e '\nfrontend.js was NOT produced!\n'
+  fi
 
 elif [ $debug -eq 1 ]; then
+  if [ -f frontend_debug.js ]; then
+    rm frontend_debug.js
+  fi
   closure-library/closure/bin/build/closurebuilder.py \
     --root=closure-library/ --root=./ --namespace="concerto.frontend.Screen" \
     --output_mode=compiled --compiler_jar=compiler.jar \
    > frontend_debug.js
+  if [ ! -s frontend_debug.js ]; then
+    echo -e '\nfrontend_debug.js was NOT produced!\n'
+  fi
 
 else
+  if [ -f frontend_superdebug.js ]; then
+    rm frontend_superdebug.js
+  fi
   closure-library/closure/bin/build/closurebuilder.py \
     --root=closure-library/ --root=./ --namespace="concerto.frontend.Screen" \
     --output_mode=script --compiler_jar=compiler.jar \
    > frontend_superdebug.js
+  if [ ! -s frontend_superdebug.js ]; then
+    echo -e '\nfrontend_superdebug.js was NOT produced!\n'
+  fi
 fi
