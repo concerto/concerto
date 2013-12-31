@@ -17,7 +17,6 @@ Concerto::Application.routes.draw do
   end
 
   resources :concerto_plugins
-  match 'concerto_plugins/restart_for_plugin' => 'concerto_plugins#restart_for_plugin', :via => "post"
 
   resources :activities
 
