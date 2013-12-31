@@ -48,6 +48,7 @@ if [ $debug -eq 0 ]; then
    > frontend.js
   if [ ! -s frontend.js ]; then
     echo -e '\nfrontend.js was NOT produced!\n'
+    exit 1
   fi
 
 elif [ $debug -eq 1 ]; then
@@ -60,6 +61,7 @@ elif [ $debug -eq 1 ]; then
    > frontend_debug.js
   if [ ! -s frontend_debug.js ]; then
     echo -e '\nfrontend_debug.js was NOT produced!\n'
+    exit 1
   fi
 
 else
@@ -72,5 +74,6 @@ else
    > frontend_superdebug.js
   if [ ! -s frontend_superdebug.js ]; then
     echo -e '\nfrontend_superdebug.js was NOT produced!\n'
+    exit 1
   fi
 fi
