@@ -5,7 +5,7 @@ echo "Type the release number for this release: [1.2.3.MooseBuild]"
 read version_str
 
 read -r -p "Proceed with bundle update? [Y/n] " bundle_update
-if [[ $bundle_update =~ ^([Yy])$ ]]
+if [[ ${bundle_update:-Y} =~ ^([Yy])$ ]]
 then
   bundle update
   git diff --quiet ../Gemfile.lock
@@ -18,9 +18,13 @@ then
 fi
 
 read -r -p "Proceed with frontend rebuild? [Y/n] " frontend_update
-if [[ $frontend_update =~ ^([Yy])$ ]]
+if [[ ${frontend_update:-Y} =~ ^([Yy])$ ]]
 then
   cd ../public/frontend_js/ && ./compile.sh && ./compile.sh --debug
+  if [ ! -s frontend.js -o ! -s frontend_debug.js ]; then
+    echo "The frontend was NOT rebuilt!"
+    exit 1
+  fi
   cd -
   git diff --quiet ../public/frontend_js/
   if [[ $? -ne 0 ]]
@@ -34,7 +38,7 @@ then
 fi
 
 read -r -p "Proceed with version bump? [Y/n] " version_bump
-if [[ $version_bump =~ ^([Yy])$ ]]
+if [[ ${version_bump:-Y} =~ ^([Yy])$ ]]
 then
   IFS='.' read -a version <<< "$version_str"
   version[3]=`echo ${version[3]} | tr '[A-Z]' '[a-z]'`
@@ -55,7 +59,7 @@ fi
 
 read -r -p "Proceed with tag creation? [Y/n] " create_tag
 tag=`echo ${version_str} | tr '[A-Z]' '[a-z]'`
-if [[ $create_tag  =~ ^([Yy])$ ]]
+if [[ ${create_tag:-Y}  =~ ^([Yy])$ ]]
 then
   if git show-ref --tags | egrep -q "refs/tags/$tag$"
   then

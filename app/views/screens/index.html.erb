@@ -1,5 +1,5 @@
 <%
-  # Hide the template are from non-logged in users.
+  # Hide the template from non-logged in users.
   # This is purely for aesthetics, we're not concerned
   # about the templates but anonymous users don't need them.
   screen_span = 9
@@ -33,10 +33,10 @@
       <header class="viewblock-header">
         <div class="viewblock-header_right">
           <div class="button-padding">
-            <%= link_to t(:new_model, :model => ::Template.model_name.human), new_template_path, :class => "btn" if can? :create, Template %>
+            <%= link_to t(".view_all"), templates_path, :class => "btn" %>
           </div>
         </div>
-        <h1 class="default-padding"><%= ::Template.model_name.human.pluralize %></h1>
+        <h1 class="default-padding"><%= t('.common_templates') %></h1>
       </header>
       <div class="viewblock-cont">
         <%= render :partial => "templates/index_body" %>

@@ -21,18 +21,6 @@ function addModerateDropdownUi(){
   });
 }
 function addModerateSubmissionShowUi(){
-  $(document).on('click', 'a.btnModerateApprove', function(e) {
-    e.preventDefault();
-    $("#submission_moderation_flag").val(true);
-    $('#main form').trigger('submit.rails');
-  });
-
-  $(document).on('click', 'a.btnModerateDeny', function(e) {
-    e.preventDefault();
-    $("#submission_moderation_flag").val(false);
-    $('#main form').trigger('submit.rails');
-  });
-
   $(document).on('click', 'a.btnShowDuration', function(e) {
     e.preventDefault();
     $(this).parents("p").hide().siblings(".editDurationCont").show();

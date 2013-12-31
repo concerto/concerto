@@ -28,21 +28,30 @@
     <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.duration') %></b></small></p>
     <p>
       <%= submission.duration %> <%= t('.seconds') %>
-      <% if can? :update, submission and submission.moderation_flag.nil? and f %>
+      <% if can? :update, submission %>
         &nbsp;
         <%= link_to "#", :class => "tooltip-basic btnShowDuration", 'data-tooltip-text' => t('.edit_duration') do %>
           <span class="icon-pencil"></span>
         <% end %>
+        <div class="editDurationCont" style="display: none;">
+          <%= form_for([@submission.feed, @submission]) do |f| %>
+            <%= f.number_field :duration, :class => "input-mini" %>
+            <%= f.submit t(:edit) %>
+          <% end %>
+        </div>
       <% end %>
     </p>
-    <% if can? :update, submission and submission.moderation_flag.nil? and f %>
-      <div class="editDurationCont" style="display: none;">
-        <%= f.number_field :duration, :class => "input-mini" %>
-      </div>
-    <% end %>
   </div>
 </div>
 <br />
 <% if submission.moderation_flag != nil %>
-  <h2><%= submission.moderation_flag == true ? t('.approved') : t('.denied') %></h2>
+  <% if submission.moderation_flag %>
+    <h2><%= t('.approved') %></h2>
+    <% if can? :update, submission %><h3>By <%= submission.moderator.name %></h3><% end %>
+  <% else %>
+    <h2><%= t('.denied')%></h2>
+    <% if can?(:update, submission) || can?(:update, submission.content) %>
+      <h3><%= submission.moderation_reason %> <% if can? :update, submission %>- <%= submission.moderator.name %><% end %></h3>
+    <% end %>
+  <% end %>
 <% end %>
