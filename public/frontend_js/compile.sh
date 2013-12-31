@@ -36,6 +36,12 @@ then
   chmod a+x closure-library/closure/bin/build/closurebuilder.py
 fi
 
+# cannot compile if frontend_superdebug.js exists due to base file namespace problem
+ADDL_INFO=""
+if [ -f frontend_superdebug.js ]; then
+  ADDL_INFO=" -- Remove frontend_superdebug.js and try again."
+fi
+
 if [ $debug -eq 0 ]; then
   if [ -f frontend.js ]; then
     rm frontend.js
@@ -47,7 +53,7 @@ if [ $debug -eq 0 ]; then
     --compiler_flags="--compilation_level=ADVANCED_OPTIMIZATIONS" \
    > frontend.js
   if [ ! -s frontend.js ]; then
-    echo -e '\nfrontend.js was NOT produced!\n'
+    echo -e "\nfrontend.js was NOT produced! ${ADDL_INFO}\n"
     exit 1
   fi
 
@@ -60,7 +66,7 @@ elif [ $debug -eq 1 ]; then
     --output_mode=compiled --compiler_jar=compiler.jar \
    > frontend_debug.js
   if [ ! -s frontend_debug.js ]; then
-    echo -e '\nfrontend_debug.js was NOT produced!\n'
+    echo -e "\nfrontend_debug.js was NOT produced! ${ADDL_INFO}\n"
     exit 1
   fi
 
@@ -73,7 +79,7 @@ else
     --output_mode=script --compiler_jar=compiler.jar \
    > frontend_superdebug.js
   if [ ! -s frontend_superdebug.js ]; then
-    echo -e '\nfrontend_superdebug.js was NOT produced!\n'
+    echo -e "\nfrontend_superdebug.js was NOT produced!\n"
     exit 1
   fi
 fi
