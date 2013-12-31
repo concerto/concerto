@@ -131,9 +131,13 @@ class Template < ActiveRecord::Base
     zip_file = Zip::ZipFile.open(file)
     xml_data = image_file = nil
     zip_file.each do |entry|
-      if entry.name.include? '.xml'
+      # Skip anything in the hidden __macosx directory.
+      next if entry.name.downcase.include?('__macosx/')
+
+      extension = entry.name.split('.')[-1].downcase
+      if extension == 'xml'
         xml_data = entry.get_input_stream.read
-      else
+      elsif ['jpg', 'png'].include?(extension) && !entry.name.include?('preview')
         image_file = entry
       end
     end
