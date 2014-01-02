@@ -62,6 +62,9 @@ class ScreensController < ApplicationController
       process_notification(@screen, {:public_owner => current_user.id}, :action => 'create')
       run_callbacks :change # Run plugin hooks
       flash[:notice] = t(:screen_created)
+    else
+      @screen.clear_screen_token
+      @screen.auth_action = screen_params[:auth_action]
     end
     
     respond_with(@screen)
