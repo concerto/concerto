@@ -52,7 +52,7 @@ nl:
   #Templates controller
   template_created: "Sjabloon maken geslaagd."
   template_updated: "Sjabloon aanpassen geslaagd."
-  template_import_error: "Fout bij importeren sjabloon. Zorg er voor dat dhet XML-bestand voor het sjabloon valide is.
+  template_import_error: "Fout bij importeren sjabloon. Zorg er voor dat dhet XML-bestand voor het sjabloon valide is."
   cannot_delete_template: "Kan sjabloon niet verwijderen. Het heeft een of meer schermen an zich gelinkt."
 
   #Users controller
