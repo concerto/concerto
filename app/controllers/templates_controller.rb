@@ -67,9 +67,9 @@ class TemplatesController < ApplicationController
     @template = Template.find(params[:id])
     auth!
     # don't stomp on the key, set elsewhere
-    @template.media.each do |media|
-     media.key = "original"
-    end
+    # @template.media.each do |media|
+    #   media.key = "original"
+    # end
 
     if @template.update_attributes(template_params)
       flash[:notice] = t(:template_updated)
