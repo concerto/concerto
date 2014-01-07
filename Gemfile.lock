@@ -30,9 +30,9 @@ GEM
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
     addressable (2.3.5)
-    airbrake (3.1.14)
+    airbrake (3.1.15)
       builder
-      json
+      multi_json
     arel (3.0.3)
     attachable (0.0.5)
     autoparse (0.3.3)
@@ -62,9 +62,10 @@ GEM
       rails (~> 3.2)
     concerto_remote_video (0.0.8)
       rails (~> 3.2)
-    concerto_simple_rss (0.0.8)
+    concerto_simple_rss (0.0.9)
       rails (~> 3.2.11)
-    concerto_weather (0.0.6)
+      ruby-xslt (~> 0.9)
+    concerto_weather (0.0.7)
       rails (~> 3.2.12)
     connection_pool (1.2.0)
     delayed_job (4.0.0)
@@ -129,7 +130,7 @@ GEM
     orm_adapter (0.5.0)
     pg (0.17.1)
     polyglot (0.3.3)
-    public_activity (1.4.0)
+    public_activity (1.4.1)
       actionpack (>= 3.0.0)
       activerecord (>= 3.0)
       i18n (>= 0.5.0)
@@ -164,6 +165,7 @@ GEM
     rubinius-actor (0.0.2)
       rubinius-core-api
     rubinius-core-api (0.0.1)
+    ruby-xslt (0.9.9)
     rubyzip (0.9.9)
     sass (3.2.13)
     sass-rails (3.2.6)
