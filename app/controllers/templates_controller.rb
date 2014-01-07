@@ -27,7 +27,9 @@ class TemplatesController < ApplicationController
   def new
     @template = Template.new
     auth!
-    @template.media.build
+    # one for the graphic background and one for the css file
+    @template.media.build()
+    @template.media.build()
     respond_with(@template)
   end
 
@@ -35,7 +37,7 @@ class TemplatesController < ApplicationController
   def edit
     @template = Template.find(params[:id])
     auth!
-    if(@template.media.empty?)
+    while @template.media.length < 2 do
       @template.media.build
     end
   end
@@ -45,9 +47,14 @@ class TemplatesController < ApplicationController
   def create
     @template = Template.new(template_params)
     auth!
+    # set key based on file extension
     @template.media.each do |media|
-      media.key = "original"
+      extension = (media.file_name.blank? ? nil : media.file_name.split('.')[-1].downcase)
+      media.key = (extension == "css" ? "css" : "original") unless extension.nil?
     end
+
+    # reject any empty media (key wont be set)
+    @template.media.reject! {|i| i.key.blank?}
 
     respond_to do |format|
       if @template.save
