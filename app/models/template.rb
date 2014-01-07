@@ -14,7 +14,7 @@ class Template < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
 
   #Placeholder attributes
-  attr_accessor :path
+  attr_accessor :path, :css_path
   
   def is_deletable?
     self.screens.size == 0
@@ -130,6 +130,7 @@ class Template < ActiveRecord::Base
     require 'zip/zip'
     zip_file = Zip::ZipFile.open(file)
     xml_data = image_file = nil
+    css_file = nil
     zip_file.each do |entry|
       # Skip anything in the hidden __macosx directory.
       next if entry.name.downcase.include?('__macosx/')
@@ -137,6 +138,8 @@ class Template < ActiveRecord::Base
       extension = entry.name.split('.')[-1].downcase
       if extension == 'xml'
         xml_data = entry.get_input_stream.read
+      elsif extension == 'css'
+        css_file = entry
       elsif ['jpg', 'png'].include?(extension) && !entry.name.include?('preview')
         image_file = entry
       end
@@ -157,6 +160,14 @@ class Template < ActiveRecord::Base
                              :file_type => MIME::Types.type_for(image_file.name).first.content_type})
       self.media.first.file_size = image_file.size
       self.media.first.file_data = image_file.get_input_stream.read
+
+      if !css_file.nil?
+        m = self.media.build({:key=>"css", :file_name => css_file.name,
+                               :file_type => MIME::Types.type_for(css_file.name).first.content_type})
+        m.file_size = css_file.size
+        m.file_data = css_file.get_input_stream.read
+      end
+      return true
     else
       self.errors.add(:base, I18n.t('templates.new.invalid_xml'))
       return false
