@@ -19,6 +19,7 @@ ConcertoPlugin.find_or_create_by_gem_name({:gem_name => "concerto_simple_rss", :
 ConcertoPlugin.find_or_create_by_gem_name({:gem_name => "concerto_iframe", :enabled => true, :source => "rubygems"})
 ConcertoPlugin.find_or_create_by_gem_name({:gem_name => "concerto_calendar", :enabled => true, :source => "rubygems"})
 ConcertoPlugin.find_or_create_by_gem_name({:gem_name => "concerto-hardware", :enabled => false, :source => "rubygems"})
+ConcertoPlugin.find_or_create_by_gem_name({:gem_name => "concerto-audio", :enabled => false, :source => "rubygems"})
 
 # Establish the 4 major display areas a template usually has.
 # In my quick sample, this code will make 68% of the Concerto 1 fields match
