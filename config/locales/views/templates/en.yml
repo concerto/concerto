@@ -45,7 +45,7 @@ en:
       template:
         name: 'Name'
         author: 'Author'
-        media: 'Background Image'
+        media: 'Background Image/CSS'
         is_hidden: 'Hide this template from being shown in lists'
     # submit:
     #   create: "Create %{model}"
