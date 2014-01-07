@@ -66,8 +66,9 @@ class TemplatesController < ApplicationController
   def update
     @template = Template.find(params[:id])
     auth!
+    # don't stomp on the key, set elsewhere
     @template.media.each do |media|
-      media.key = "original"
+     media.key = "original"
     end
 
     if @template.update_attributes(template_params)
