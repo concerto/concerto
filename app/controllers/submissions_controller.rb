@@ -82,8 +82,10 @@ class SubmissionsController < ApplicationController
       if @submission.update_attributes(submission_params)
         process_notification(@submission, {:status => @submission.moderation_flag}, :action => 'update', :owner => current_user, :recipient => @submission.content.user)
         format.html { redirect_to(feed_submissions_path, :notice => t(:content_moderated)) }
+        format.js
       else
         format.html { redirect_to(feed_submission_path, :notice => t(:content_failed_moderation)) }
+        format.js
       end
     end
   end
@@ -91,7 +93,7 @@ class SubmissionsController < ApplicationController
 private
 
   def submission_params
-    params.require(:submission).permit(:moderation_reason, :moderation_flag)
+    params.require(:submission).permit(:moderation_reason, :moderation_flag, :duration)
   end
 
 end

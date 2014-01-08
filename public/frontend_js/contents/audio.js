@@ -1,4 +1,4 @@
-goog.provide('concerto.frontend.Content.RemoteVideo');
+goog.provide('concerto.frontend.Content.Audio');
 
 goog.require('concerto.frontend.Content');
 goog.require('concerto.frontend.ContentTypeRegistry');
@@ -11,40 +11,26 @@ goog.require('goog.style');
 
 
 /**
- * Remote Video.
+ * Audio.
  *
  * @param {Object} data Properties for this piece of content.
  * @constructor
  * @extends {concerto.frontend.Content}
  */
-concerto.frontend.Content.RemoteVideo = function(data) {
+concerto.frontend.Content.Audio = function(data) {
   concerto.frontend.Content.call(this, data);
 
   /**
-   * The height of the field the image is being shown in.
-   * @type {number}
-   * @private
-   */
-  this.field_height_ = data.field.size.height;
-
-  /**
-   * The width of the field the image is being shown in.
-   * @type {number}
-   * @private
-   */
-  this.field_width_ = data.field.size.width;
-
-  /**
-   * The iframe being displayed.
+   * The audio control being created.
    * @type {Object}
    */
-  this.iframe = null;
+  this.audio_control = null;
 
   /**
-   * The URL for the video / iframe.
+   * The URL for the audio.
    * @type {string}
    */
-  this.video_url = data['render_details']['path'];
+  this.url = data['render_details']['path'];
 
   /**
    * Extra parameters to include in the URL.
@@ -67,31 +53,27 @@ concerto.frontend.Content.RemoteVideo = function(data) {
     this.url_parms_ = '';
   }
 
-  /**
-   * Bump the duration of this content by 1 second.
-   * This attempts to account for 1 second of load time and should be
-   * improved in the future.
-   */
-  this.duration = this.duration + 1;
+  this.duration = 60 * 60 * 24;  // 24 hours
 };
-goog.inherits(concerto.frontend.Content.RemoteVideo, concerto.frontend.Content);
+goog.inherits(concerto.frontend.Content.Audio, concerto.frontend.Content);
 
 // Register the content type.
-concerto.frontend.ContentTypeRegistry['RemoteVideo'] =
-    concerto.frontend.Content.RemoteVideo;
+concerto.frontend.ContentTypeRegistry['Audio'] =
+    concerto.frontend.Content.Audio;
 
 
 /**
  * Build the embed iframe and signal that we're ready to use it.
  * @private
  */
-concerto.frontend.Content.RemoteVideo.prototype.load_ = function() {
-  this.iframe = goog.dom.createElement('iframe');
-  this.iframe.src = this.video_url + this.url_parms_;
-  this.iframe.frameborder = 0;
-  goog.style.setSize(this.iframe, '100%', '100%');
-  goog.style.setSize(this.div_, '100%', '100%');
-  goog.style.setStyle(this.iframe, 'border', 0);
-  goog.dom.appendChild(this.div_, this.iframe);
+concerto.frontend.Content.Audio.prototype.load_ = function() {
+  this.audio_control = goog.dom.createElement('audio');
+  this.audio_control.src = this.url + this.url_parms_;
+  this.audio_control.autoplay = 'autoplay';
+  goog.style.setSize(this.audio_control, '0', '0');
+  goog.style.setSize(this.div_, '0', '0');
+  goog.style.setStyle(this.audio_control, 'display', 'hidden');
+  goog.style.setStyle(this.div_, 'display', 'hidden');
+  goog.dom.appendChild(this.div_, this.audio_control);
   this.finishLoad();
 };

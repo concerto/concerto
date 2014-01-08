@@ -6,22 +6,52 @@
   </div>
   <div class="span3">
     <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.display_from') %></b></small></p>
-    <% if !submission.content.start_time.nil? %>
-      <p><%= submission.content.start_time.strftime("%a %D") %> <%= submission.content.start_time.strftime("%I:%M %P") %></p>
-    <% else %>
-      <p><%= t('.the_dawn_of_time') %></p>
-    <% end %>
+    <p>
+      <% if !submission.content.start_time.nil? %>
+        <%= submission.content.start_time.strftime("%a %D") %> <%= submission.content.start_time.strftime("%I:%M %P") %>
+      <% else %>
+        <%= t('.the_dawn_of_time') %>
+      <% end %>
+    </p>
   </div>
   <div class="span3">
     <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.display_until') %></b></small></p>
-    <% if !submission.content.end_time.nil? %>
-      <p><%= submission.content.end_time.strftime("%a %D") %> <%= submission.content.end_time.strftime("%I:%M %P") %></p>
-    <% else %>
-      <p><%= t('.the_end_of_time') %></p>
-    <% end %>
+    <p>
+      <% if !submission.content.end_time.nil? %>
+        <%= submission.content.end_time.strftime("%a %D") %> <%= submission.content.end_time.strftime("%I:%M %P") %>
+      <% else %>
+        <%= t('.the_end_of_time') %>
+      <% end %>
+    </p>
   </div>
   <div class="span3">
     <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.duration') %></b></small></p>
-    <p><%= submission.duration %> <%= t('.seconds') %></p>
+    <p>
+      <%= submission.duration %> <%= t('.seconds') %>
+      <% if can? :update, submission %>
+        &nbsp;
+        <%= link_to "#", :class => "tooltip-basic btnShowDuration", 'data-tooltip-text' => t('.edit_duration') do %>
+          <span class="icon-pencil"></span>
+        <% end %>
+        <div class="editDurationCont" style="display: none;">
+          <%= form_for([@submission.feed, @submission]) do |f| %>
+            <%= f.number_field :duration, :class => "input-mini" %>
+            <%= f.submit t(:edit) %>
+          <% end %>
+        </div>
+      <% end %>
+    </p>
   </div>
 </div>
+<br />
+<% if submission.moderation_flag != nil %>
+  <% if submission.moderation_flag %>
+    <h2><%= t('.approved') %></h2>
+    <% if can? :update, submission %><h3>By <%= submission.moderator.name %></h3><% end %>
+  <% else %>
+    <h2><%= t('.denied')%></h2>
+    <% if can?(:update, submission) || can?(:update, submission.content) %>
+      <h3><%= submission.moderation_reason %> <% if can? :update, submission %>- <%= submission.moderator.name %><% end %></h3>
+    <% end %>
+  <% end %>
+<% end %>

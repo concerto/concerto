@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   before_destroy :dont_delete_last_admin
   before_create :auto_confirm
 
+  has_many :templates, :as => :owner
   has_many :contents, :dependent => :destroy
   has_many :submissions, :foreign_key => "moderator_id"
   has_many :memberships, :dependent => :destroy

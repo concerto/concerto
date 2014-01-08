@@ -7,12 +7,14 @@ class Template < ActiveRecord::Base
   
   accepts_nested_attributes_for :media
   accepts_nested_attributes_for :positions, :allow_destroy => true
+  
+  belongs_to :owner, :polymorphic => true
 
   # Validations
   validates :name, :presence => true, :uniqueness => true
 
   #Placeholder attributes
-  attr_accessor :path
+  attr_accessor :path, :css_path
   
   def is_deletable?
     self.screens.size == 0
@@ -34,6 +36,7 @@ class Template < ActiveRecord::Base
     
     self.name = data['template']['name']
     self.author = data['template']['author']
+    self.is_hidden = data['template']['hidden']
 
     if data['template'].has_key?('field')
       data['template']['field'] = [data['template']['field']] unless data['template']['field'].kind_of?(Array)
@@ -116,15 +119,28 @@ class Template < ActiveRecord::Base
       return false
     end
 
+    unless archive.content_type.include? 'zip'
+      self.errors.add(:base, I18n.t('templates.new.template_import_requires_zip'))
+      return false
+    end
+
     file = archive.tempfile unless archive.is_a? Rack::Test::UploadedFile
     file ||= archive
 
+    require 'zip/zip'
     zip_file = Zip::ZipFile.open(file)
     xml_data = image_file = nil
+    css_file = nil
     zip_file.each do |entry|
-      if entry.name.include? '.xml'
+      # Skip anything in the hidden __macosx directory.
+      next if entry.name.downcase.include?('__macosx/')
+
+      extension = entry.name.split('.')[-1].downcase
+      if extension == 'xml'
         xml_data = entry.get_input_stream.read
-      else
+      elsif extension == 'css'
+        css_file = entry
+      elsif ['jpg', 'png'].include?(extension) && !entry.name.include?('preview')
         image_file = entry
       end
     end
@@ -144,6 +160,14 @@ class Template < ActiveRecord::Base
                              :file_type => MIME::Types.type_for(image_file.name).first.content_type})
       self.media.first.file_size = image_file.size
       self.media.first.file_data = image_file.get_input_stream.read
+
+      if !css_file.nil?
+        m = self.media.build({:key=>"css", :file_name => css_file.name,
+                               :file_type => MIME::Types.type_for(css_file.name).first.content_type})
+        m.file_size = css_file.size
+        m.file_data = css_file.get_input_stream.read
+      end
+      return true
     else
       self.errors.add(:base, I18n.t('templates.new.invalid_xml'))
       return false

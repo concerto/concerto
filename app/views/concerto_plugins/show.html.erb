@@ -1,49 +1,59 @@
-<%= render :partial => 'dashboard/admin_stats' %>
-
 <section class="viewblock">
   <header class="viewblock-header">
-    <h1 class="default-padding">
-      <%= t(:manage_model, :model => ConcertoPlugin.model_name.human.pluralize) %>
-    </h1>
+    <div class="viewblock-header_right">
+      <div class="button-padding">
+        <% if can? :edit, @concerto_plugin %>
+          <%= link_to t(:edit_model, :model => ConcertoPlugin.model_name.human), edit_concerto_plugin_path(@concerto_plugin), :class => "btn" %>
+        <% end %>
+        <% if can? :delete, @concerto_plugin %>
+          <%= link_to t(:destroy_model, :model => ConcertoPlugin.model_name.human), @concerto_plugin, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => ConcertoPlugin.model_name.human, :key => @concerto_plugin.gem_name) }, :method => :delete, :class => "btn" %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="default-padding">
+      <h1>
+        <%= link_to t(:manage_model, :model => ConcertoPlugin.model_name.human.pluralize), concerto_plugins_path %> &gt; <%= @concerto_plugin.name %>
+      </h1>
+    </div>
   </header>
   <div class="viewblock-cont">
 
-    <%= render :partial => 'plugins_navigation' %>
-    <%= link_to t(:manage_model, :model => ConcertoPlugin.model_name.human.pluralize), concerto_plugins_path %> > <%= @concerto_plugin.name %>
+    <div class="default-padding">
+      <p>
+        <b>Module name:</b>
+        <%= @concerto_plugin.module_name %>
+      </p>
 
-    <p>
-      <b>Module name:</b>
-      <%= @concerto_plugin.module_name %>
-    </p>
+      <p>
+        <b>Enabled:</b>
+        <%= @concerto_plugin.enabled %>
+      </p>
 
-    <p>
-      <b>Enabled:</b>
-      <%= @concerto_plugin.enabled %>
-    </p>
+      <p>
+        <b>Gem name:</b>
+        <%= @concerto_plugin.gem_name %>
+      </p>
 
-    <p>
-      <b>Gem name:</b>
-      <%= @concerto_plugin.gem_name %>
-    </p>
+      <p>
+        <b>Gem version:</b>
+        <%= @concerto_plugin.gem_version %>
+      </p>
 
-    <p>
-      <b>Gem version:</b>
-      <%= @concerto_plugin.gem_version %>
-    </p>
+      <p>
+        <b>Source:</b>
+        <%= @concerto_plugin.source %>
+      </p>
 
-    <p>
-      <b>Source:</b>
-      <%= @concerto_plugin.source %>
-    </p>
+      <p>
+        <b>Source url:</b>
+        <%= @concerto_plugin.source_url %>
+      </p>
 
-    <p>
-      <b>Source url:</b>
-      <%= @concerto_plugin.source_url %>
-    </p>
-
-    <p>
-      <b>Installed:</b>
-      <%= @concerto_plugin.installed? ? "Yes" : "No" %>
-    </p>
+      <p>
+        <b>Installed:</b>
+        <%= @concerto_plugin.installed? ? "Yes" : "No" %>
+      </p>
+    </div>
   </div>
 </section>

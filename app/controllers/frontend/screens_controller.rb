@@ -130,6 +130,10 @@ class Frontend::ScreensController < ApplicationController
         template_format = nil
         @screen.template.path = nil
       end
+      css_media = @screen.template.media.where({:key => 'css'})
+      if !css_media.empty?
+        @screen.template.css_path = media_path(css_media.first)
+      end
       @screen.template.positions.each do |p|
         p.field_contents_path = frontend_screen_field_contents_path(@screen, p.field, :format => :json)
         p.field.config = {}
@@ -157,7 +161,7 @@ class Frontend::ScreensController < ApplicationController
                   },
                 },
                 :only => [:id, :name],
-                :methods => [:path]
+                :methods => [:path, :css_path]
               }
             }
           )

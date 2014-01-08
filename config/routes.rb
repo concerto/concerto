@@ -17,13 +17,12 @@ Concerto::Application.routes.draw do
   end
 
   resources :concerto_plugins
-  post 'concerto_plugins/restart_for_plugin' => 'concerto_plugins#restart_for_plugin'
 
   resources :activities
 
   #Custom route for the screen creation/admin form JS
   #TODO(bamnet): Clean this up
-  get "upd  ate_owners" => "screens#update_owners"
+  get "update_owners" => "screens#update_owners"
 
   # These routes control the frontend of Concerto used by screens.
   # You probably should not touch them without thinking very hard

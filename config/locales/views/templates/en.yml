@@ -28,6 +28,7 @@ en:
       template_import_requires_archive: 'You need to specify an archive (ZIP) file that contains your template'
       template_import_requires_image: 'Your template package is missing a background image'
       template_import_requires_xml: 'Your template package is missing an xml descriptor'
+      template_import_requires_zip: 'The selected file is not a ZIP file'
       template_method: 'Template method:'
       template_type: "%{type} Template"
 
@@ -44,7 +45,7 @@ en:
       template:
         name: 'Name'
         author: 'Author'
-        media: 'Background Image'
+        media: 'Background Image/CSS'
         is_hidden: 'Hide this template from being shown in lists'
     # submit:
     #   create: "Create %{model}"

@@ -9,6 +9,8 @@ class Group < ActiveRecord::Base
 
   has_many :users, -> { where ["memberships.level > ?", Membership::LEVELS[:pending]] }, :through => :memberships
   has_many :screens, :as => :owner, :dependent => :restrict
+  
+  has_many :templates, :as => :owner
 
   # Scoped relation for members and pending members
   has_many :all_users, -> { where ["memberships.level != ?", Membership::LEVELS[:denied]] }, :through => :memberships, :source => :user

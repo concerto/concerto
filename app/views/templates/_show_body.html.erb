@@ -1,7 +1,7 @@
 <article>
   <%= image_tag preview_template_path(@template, :width=> 600, :format => :jpg), :style => "width: 100%", :alt => t('.preview_alt', :name => @template.name) %>
 </article>
-<aside>
+<aside class="default-padding">
   <p>
     <b><%= t('.author') %></b>
     <%= @template.author %>

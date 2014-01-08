@@ -41,8 +41,10 @@ class ConcertoPluginsController < ApplicationController
       write_Gemfile()
       restart_webserver()
       flash[:notice] = t(:plugin_created)
+      redirect_to concerto_plugins_path
+    else
+      respond_with(@concerto_plugin)
     end
-    respond_with(@concerto_plugin)
   end
 
   # PUT /concerto_plugins/1
@@ -53,8 +55,10 @@ class ConcertoPluginsController < ApplicationController
     if @concerto_plugin.update_attributes(concerto_plugin_params)
       write_Gemfile()
       flash[:notice] = t(:plugin_updated)
+      redirect_to concerto_plugins_path
+    else
+      respond_with(@concerto_plugin)
     end
-    respond_with(@concerto_plugin)
   end
 
   # DELETE /concerto_plugins/1
@@ -65,7 +69,7 @@ class ConcertoPluginsController < ApplicationController
     @concerto_plugin.destroy
     write_Gemfile()
     restart_webserver()
-    respond_with(@concerto_plugin)
+    redirect_to concerto_plugins_path
   end
   
   def write_Gemfile

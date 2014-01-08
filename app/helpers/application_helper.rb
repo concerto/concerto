@@ -41,4 +41,10 @@ module ApplicationHelper
       concat(tooltip_tag(options[:tip])) if !options.nil? && options.has_key?(:tip) && !options[:tip].blank?
     end
   end
+
+  # Generate an <a> link tag that submits a Rails form, 
+  # instead of having to always use inputs or buttons.
+  def link_to_submit(*args, &block)
+    link_to_function (block_given? ? capture(&block) : args[0]), "$(this).closest('form').submit()", args.extract_options!
+  end
 end

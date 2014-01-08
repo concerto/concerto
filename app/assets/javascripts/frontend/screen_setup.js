@@ -1,8 +1,11 @@
+var screenInitTimer = null;
 function initScreenSetup() {
   if ($("#screen_temp_token").length) {
-	  setInterval(function(){
-		location.reload();
-	  },5000);
+    if (screenInitTimer == null) {
+      screenInitTimer = setInterval(function() {
+        location.reload();
+      },5000);
+    }
   }
 }
 

@@ -1,6 +1,7 @@
 class ScreensController < ApplicationController
   # Define integration hooks for Concerto Plugins
   define_callbacks :show # controller callback for 'show' action
+  define_callbacks :change # controller callback after 'create' or 'update'
   ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
   respond_to :html, :json, :xml
 
@@ -17,7 +18,7 @@ class ScreensController < ApplicationController
     auth!
 
     # The screen index has a sidebar that shows all templates.
-    @templates = Template.where(:is_hidden => false)
+    @templates = Template.where(:is_hidden => false).sort_by{|t| t.screens.count}.reverse
 
     respond_with(@screens)
   end
@@ -59,7 +60,11 @@ class ScreensController < ApplicationController
     
     if @screen.save
       process_notification(@screen, {:public_owner => current_user.id}, :action => 'create')
+      run_callbacks :change # Run plugin hooks
       flash[:notice] = t(:screen_created)
+    else
+      @screen.clear_screen_token
+      @screen.auth_action = screen_params[:auth_action]
     end
     
     respond_with(@screen)
@@ -79,6 +84,7 @@ class ScreensController < ApplicationController
     auth!
     
     if @screen.update_attributes(screen_params)
+      run_callbacks :change # Run plugin hooks
       flash[:notice] = t(:screen_updated)
     end
     respond_with(@screen)

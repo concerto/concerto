@@ -18,8 +18,13 @@ en:
     index:
       disabled: "disabled"
       enabled: "enabled"
+      status: "Status"
+      enabled_msg: "This plugin is currently enabled."
+      disabled_msg: "This plugin is currently disabled."
       gem_description: "Description"
       visit_plugin_website: "Visit plugin website"
 
     new:
       install_plugin: 'Install Plugin'
+      path_instructions: 'This should be a path to a directory or file location for the plugin. Please note that on Mac OS X, directories inserted into /var/www/ should be prefixed with /private.'
+      source_url: "Source URL"

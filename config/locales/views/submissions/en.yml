@@ -44,6 +44,11 @@ en:
     show_body:
       also_appears_on: 'Also submitted to...'
       approved: 'Approved'
+      approve_this_content: "Approve this content"
+      deny_this_content: "Deny this content"
+
+    approval_info:
+      edit_duration: "Edit duration"
 
     show_header:
       all_feeds: 'All Feeds'
@@ -56,3 +61,7 @@ en:
       moderate: 'Moderate...'
       urgent: 'Urgent'
       urgent_tooltip: 'Hey! This content has already passed its requested start date and you should moderate it.'
+
+    submission_tile:
+      approve_this_content: "Approve this content"
+      deny_this_content: "Deny this content"
