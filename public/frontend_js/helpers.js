@@ -21,11 +21,25 @@ concerto.frontend.Helpers.Autofit = function(dom, width, height) {
 
   goog.style.showElement(temp_dom, false);
   document.body.appendChild(temp_dom);
-  goog.style.setStyle(temp_dom, 'fontSize', font_size + 'px');
-  while (font_size > 1 &&
-         !goog.style.getSize(temp_dom).fitsInside(target_size)) {
-    goog.style.setStyle(temp_dom, 'fontSize', --font_size + 'px');
+
+  // use iterative binary search algorithm
+  var max = 100;
+  var min = 1;
+  while (max > min + 1) {
+    mid = Math.floor((max - min) / 2) + min;
+    goog.style.setStyle(temp_dom, 'fontSize', mid + 'px');
+    if (!goog.style.getSize(temp_dom).fitsInside(target_size)) {
+      max = mid;
+    } else {
+      min = mid;
+    }
   }
+  font_size = min;
+
+  // while (font_size > 1 &&
+  //        !goog.style.getSize(temp_dom).fitsInside(target_size)) {
+  //   goog.style.setStyle(temp_dom, 'fontSize', --font_size + 'px');
+  // }
   document.body.removeChild(temp_dom);
   delete temp_dom;
 
