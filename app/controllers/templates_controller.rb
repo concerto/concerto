@@ -168,8 +168,12 @@ class TemplatesController < ApplicationController
     @template = Template.new
     archive = params[:package]
 
-    if @template.import_archive(archive) && @template.save
-      flash[:notice] = t(:template_created)
+    if @template.import_archive(archive) 
+      # is_hidden checkbox supercedes xml
+      @template.is_hidden = template_params[:is_hidden]
+      if @template.save
+        flash[:notice] = t(:template_created)
+      end
     end
 
     respond_with(@template)
