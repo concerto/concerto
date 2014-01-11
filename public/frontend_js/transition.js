@@ -100,7 +100,7 @@ concerto.frontend.Transition.prototype.in_ = function() {
   this.next_content_.dispatchEvent(
       concerto.frontend.Content.EventType.START_RENDER);
 
-  this.field.inject(this.next_content_, this.next_content_.autosize_font);
+  this.field.inject(this.next_content_.div, this.next_content_.autosize_font);
   this.inDone_();
 };
 
