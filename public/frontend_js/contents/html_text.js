@@ -16,6 +16,8 @@ goog.require('goog.dom');
 concerto.frontend.Content.HtmlText = function(data) {
   concerto.frontend.Content.call(this, data);
 
+  this.autosize_font = true;
+
   /**
    * The height of the field the html is being shown in.
    * @type {number}
@@ -50,7 +52,5 @@ concerto.frontend.ContentTypeRegistry['HtmlText'] =
  */
 concerto.frontend.Content.HtmlText.prototype.load_ = function() {
   this.div_.innerHTML = this.html;
-  this.div_ = concerto.frontend.Helpers.Autofit(this.div_, this.field_width_,
-                                                this.field_height_);
   this.finishLoad();
 };
