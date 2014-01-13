@@ -43,7 +43,7 @@ concerto.frontend.Content.ClientTime = function(data) {
    * @type {?string}
    * @private
    */
-  this.format_ = (data.field['config'] ? data.field['config']['format'] : null);
+  this.format_ = (data.field['config'] ? data.field['config']['time_format'] : null);
 };
 goog.inherits(concerto.frontend.Content.ClientTime, concerto.frontend.Content);
 

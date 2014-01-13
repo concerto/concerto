@@ -3,12 +3,17 @@
     <div class="viewblock-header_right">
       <div class="button-padding">
         <% if can? :create, FieldConfig %>
-          <%= link_to t(:new_model, :model => FieldConfig.model_name.human), new_screen_field_field_config_path, :class => "btn" %>
+          <form action="<%= new_screen_field_field_config_path %>" method="GET">
+            <%= select_tag "key", options_for_select(Concerto::Application.config.field_configs.keys), :include_blank => true %>
+            <%= submit_tag t(:new_model, :model => FieldConfig.model_name.human), :class => "btn", :name=>nil %>
+          </form>
         <% end %>
       </div>
     </div>
     <h1 class="default-padding">
-      <%= t(:all_model, :model => FieldConfig.model_name.human.pluralize) %>
+      <%= link_to t(:all_model, :model => Screen.model_name.human.pluralize), screens_path %> &gt;
+      <%= link_to @screen.name, @screen %> &gt;
+      <%= t('.manage_model_for_field', { :model => FieldConfig.model_name.human.pluralize, :name => @field.name }) %>
     </h1>
   </header>
   <div class="viewblock-cont">
