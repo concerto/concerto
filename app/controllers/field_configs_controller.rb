@@ -1,6 +1,6 @@
 class FieldConfigsController < ApplicationController
   before_filter :get_screen, :get_field
-  
+
   def get_screen
     @screen = Screen.find(params[:screen_id])
   end
@@ -16,25 +16,62 @@ class FieldConfigsController < ApplicationController
     auth!(:object => @field_configs, :allow_empty => false)
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @field_configs }
+      format.xml { render :xml => @field_configs }
     end
   end
 
-  # PUT /screens/:screen_id/fields/:field_id/field_configs
-  def update
-    perm_check_field_config = FieldConfig.new(:screen => @screen, :field => @field)
-    auth!(:object => perm_check_field_config)
+  # GET /screens/:screen_id/fields/:field_id/field_configs/new
+  # GET /screens/:screen_id/fields/:field_id/field_configs/new.xml
+  def new
+    @field_config = FieldConfig.new(:screen => @screen, :field => @field)
 
-    @field_configs = []
-    @field_configs = FieldConfig.update(params[:field_configs].keys, params[:field_configs].values) unless params[:field_config].nil?
-    
+    auth!
+
     respond_to do |format|
-      if @field_configs.all?{ |fc| fc.errors.empty? }
-        format.html { redirect_to(screen_field_field_configs_path(@screen, @field), :notice => t(:parameter_updated)) }
-        format.xml  { head :ok }
+      format.html # new.html.erb
+      format.xml { render :xml => @field_config }
+    end
+  end
+
+  # GET /screens/:screen_id/fields/:field_id/field_configs/1/edit
+  def edit
+    @field_config = FieldConfig.find(params[:id])
+    auth!
+  end
+
+  # POST /screens/:screen_id/fields/:field_id/field_configs
+  # POST /screens/:screen_id/fields/:field_id/field_configs.xml
+  def create
+    @field_config = FieldConfig.new(field_config_params)
+    @field_config.screen = @screen
+    @field_config.field = @field
+
+    auth!
+
+    respond_to do |format|
+      if @field_config.save
+        format.html { redirect_to screen_field_field_configs_path(@screen, @field), :notice => 'Field config was successfully created.' }
+        format.xml { head :ok }
       else
-        format.html { render :action => "index" }
-        format.xml  { render :xml => @field_configs.errors, :status => :unprocessable_entity }
+        format.html { render :action => "new" }
+        format.xml { render :xml => @field_config.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /screens/:screen_id/fields/:field_id/field_configs/1
+  # PATCH/PUT /screens/:screen_id/fields/:field_id/field_configs/1.xml
+  def update
+    @field_config = FieldConfig.find(params[:id])
+    auth!
+
+    respond_to do |format|
+      if @field_config.update_attributes(field_config_params)
+        format.html { redirect_to screen_field_field_configs_path(@screen, @field), :notice => 'Field config was successfully updated.' }
+        format.xml { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml { render :xml => @field_config.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -43,13 +80,21 @@ class FieldConfigsController < ApplicationController
   # DELETE /screens/:screen_id/fields/:field_id/field_configs/1.xml
   def destroy
     @field_config = FieldConfig.find(params[:id])
-    auth!
     @field_config.destroy
+    auth!
 
     respond_to do |format|
-      format.html { redirect_to(screen_field_field_configs_path(@screen, @field)) }
-      format.xml  { head :ok }
+      format.html { redirect_to screen_field_field_configs_url }
+      format.xml { head :ok }
     end
   end
 
+  private
+
+    # Use this method to whitelist the permissible parameters. Example:
+    # params.require(:person).permit(:name, :age)
+    # Also, you can specialize this method with per-user checking of permissible attributes.
+    def field_config_params
+      params.require(:field_config).permit(:key, :value)
+    end
 end

@@ -1,13 +1,24 @@
-<div class="row-fluid field-config-fields">
-  <div class="span1">
-    <%= form.text_field :key, :class => 'fillWidth' %>
+<%= form_for([@screen, @field, @field_config]) do |f| %>
+  <%= render :partial => "layouts/errors", :object => @field_config %>
+  <fieldset>
+    <div class="row-fluid">
+      <div class="span4">
+        <div class="clearfix">
+          <%= f.label :key %>
+          <div class="input">
+            <%= f.text_field :key, :class => "input-xlarge", :autofocus => true %>
+          </div>
+        </div>
+        <div class="clearfix">
+          <%= f.label :value %>
+          <div class="input">
+            <%= f.text_field :value, :class => "input-xlarge" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <div class="submit_bar actions">
+    <%= f.submit :class => "btn btn-primary" %>
   </div>
-  <div class="span4">
-    <%= form.text_field :value, :class => 'fillWidth' %>
-  </div>
-  <div class="span1">
-    <%= link_to t(:destroy), screen_field_field_config_path(@screen, @field, field_config.id), :method => :delete, :class => "btn btn-danger" %>
-  </div>
-</div>
-
-
+<% end %>
