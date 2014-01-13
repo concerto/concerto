@@ -24,6 +24,9 @@ class FieldConfigsController < ApplicationController
   # GET /screens/:screen_id/fields/:field_id/field_configs/new.xml
   def new
     @field_config = FieldConfig.new(:screen => @screen, :field => @field)
+    if params[:key]
+      @field_config.key = params[:key]
+    end
 
     auth!
 

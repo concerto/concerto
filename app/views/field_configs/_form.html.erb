@@ -12,7 +12,14 @@
         <div class="clearfix">
           <%= f.label :value %>
           <div class="input">
-            <%= f.text_field :value, :class => "input-xlarge" %>
+            <% case @field_config.key_type %>
+              <% when :boolean %>
+                <%= f.check_box :value, :class => "input-xlarge" %>
+              <% when :select %>
+                <%= f.select :value, @field_config.key_options, :class => "input-xlarge" %>
+              <% else %>
+                <%= f.text_field :value, :class => "input-xlarge" %>
+              <% end %>
           </div>
         </div>
       </div>
