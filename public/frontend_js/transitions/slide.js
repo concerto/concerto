@@ -77,7 +77,7 @@ concerto.frontend.Transition.Slide.prototype.in_ = function() {
       concerto.frontend.Content.EventType.START_RENDER);
 
   //this.next_content_.div.style.display = 'none';
-  this.field.inject(this.next_content_.div);
+  this.field.inject(this.next_content_.div, this.next_content_.autosize_font);
 
   var animIn = new goog.fx.dom.Slide(this.next_content_.div,
       [this.field.position.div_.clientWidth, 0],
