@@ -1,7 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    RedCloth (4.2.9)
     actionmailer (3.2.16)
       actionpack (= 3.2.16)
       mail (~> 2.5.4)
@@ -128,7 +127,6 @@ GEM
     multipart-post (1.2.0)
     mysql2 (0.3.14)
     orm_adapter (0.5.0)
-    pg (0.17.1)
     polyglot (0.3.3)
     public_activity (1.4.1)
       actionpack (>= 3.0.0)
@@ -160,6 +158,7 @@ GEM
     rake (10.1.1)
     rdoc (3.12.2)
       json (~> 1.4)
+    redcarpet (2.3.0)
     ref (1.0.5)
     rmagick (2.13.2)
     rubinius-actor (0.0.2)
@@ -215,7 +214,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  RedCloth
   airbrake
   attachable (>= 0.0.5)
   bootstrap-datepicker-rails
@@ -238,9 +236,9 @@ DEPENDENCIES
   json (= 1.7.7)
   kaminari (= 0.14.1)
   mysql2
-  pg
   public_activity
   rails (~> 3.2.15)
+  redcarpet (~> 2.3.0)
   rmagick (>= 2.12.2)
   rubyzip (< 1.0.0)
   sass-rails (~> 3.2.3)
