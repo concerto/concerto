@@ -19,6 +19,8 @@ goog.require('goog.i18n.DateTimeFormat');
 concerto.frontend.Content.ClientTime = function(data) {
   concerto.frontend.Content.call(this, data);
 
+  this.autosize_font = true;
+
   /**
    * The height of the field the time is being shown in.
    * @type {number}
@@ -43,7 +45,7 @@ concerto.frontend.Content.ClientTime = function(data) {
    * @type {?string}
    * @private
    */
-  this.format_ = (data.field['config'] ? data.field['config']['format'] : null);
+  this.format_ = (data.field['config'] ? data.field['config']['time_format'] : null);
 };
 goog.inherits(concerto.frontend.Content.ClientTime, concerto.frontend.Content);
 
@@ -71,7 +73,5 @@ concerto.frontend.Content.ClientTime.prototype.load_ = function() {
   }
 
   goog.dom.setTextContent(this.div_, pretty_time);
-  this.div_ = concerto.frontend.Helpers.Autofit(this.div_, this.field_width_,
-                                                this.field_height_);
   this.finishLoad();
 };

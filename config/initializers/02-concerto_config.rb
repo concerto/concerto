@@ -1,6 +1,5 @@
 Rails.logger.debug "Starting 02-concerto_config.rb at #{Time.now.to_s}"
 
-#Initialize all core Concerto Config entries
 require 'socket'
 begin
   concerto_hostname = Socket.gethostbyname(Socket.gethostname).first
@@ -52,6 +51,8 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("setup_complete", "false", :value_type => "boolean", :value_default => "true", :hidden => "true", :category => 'System')
     ConcertoConfig.make_concerto_config("system_time_zone", 'Eastern Time (US & Canada)', :value_type => "timezone", :category => 'System') 
     ConcertoConfig.make_concerto_config("config_last_updated", "0", :value_type => "integer", :hidden => "true", :category => 'System')
+    ConcertoConfig.make_concerto_config("http_proxy_settings", "", :value_type => "string", :category => 'System', :description => 'http://username:password@hostname:port')   
+       
   end
 
   Rails.logger.debug "Completed 02-concerto_config.rb at #{Time.now.to_s}"
@@ -60,4 +61,9 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
   Rails.application.config.time_zone = ConcertoConfig[:system_time_zone]
   #Set Time.zone specifically, because it's too late to derive it from config.
   Time.zone = ConcertoConfig[:system_time_zone]
+  
+  if !ConcertoConfig[:http_proxy_settings].empty?
+    ENV['HTTP_PROXY'] = ConcertoConfig[:http_proxy_settings]
+  end
+  
 end

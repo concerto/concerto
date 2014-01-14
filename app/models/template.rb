@@ -36,7 +36,7 @@ class Template < ActiveRecord::Base
     
     self.name = data['template']['name']
     self.author = data['template']['author']
-    self.is_hidden = data['template']['hidden']
+    self.is_hidden = data['template']['hidden'] || false
 
     if data['template'].has_key?('field')
       data['template']['field'] = [data['template']['field']] unless data['template']['field'].kind_of?(Array)

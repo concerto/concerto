@@ -149,8 +149,14 @@ concerto.frontend.Field.prototype.createDiv = function() {
  *
  * @param {Element} div The thing to insert into the field.
  */
-concerto.frontend.Field.prototype.inject = function(div) {
+concerto.frontend.Field.prototype.inject = function(div, autosize_font) {
   goog.dom.appendChild(this.div_, div);
+
+  if (goog.isDefAndNotNull(autosize_font) && autosize_font == true) {
+    console.log("injected content size is " + goog.style.getSize(div));
+    concerto.frontend.Helpers.SizeToFit(div, this.div_);
+    console.log("adjusted content size is " + goog.style.getSize(div));
+  }
 };
 
 
