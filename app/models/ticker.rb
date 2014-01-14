@@ -2,7 +2,7 @@ class Ticker < Content
   DISPLAY_NAME = 'Ticker Text'
  
   after_initialize :set_kind
-  before_save :convert_textile
+  before_save :process_markdown
  
   # Validations
   validates :duration, :numericality => { :greater_than => 0 }
@@ -20,21 +20,29 @@ class Ticker < Content
     self.data = self.class.clean_html(self.data) unless self.data.nil?
   end
  
-  # if textile text is present in ticker, it will be converted to html
-  def convert_textile
-    self.data = RedCloth.new(self.data).to_html
+  # if markdown text is present in ticker, it will be converted to html
+  # and cleaned before it is saved
+  def process_markdown
+    self.data = self.class.convert_markdown(self.data)
     sanitize_html
   end
  
+  def self.convert_markdown(s)
+    md = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+    md.render(s)
+  end
+
   # clear out the unapproved html tags
   def self.clean_html(html)
     # sanitize gem erased '<<<'' whereas ActionView's was more discerning
-    ActionController::Base.helpers.sanitize(html, :tags => %w(b br i em li ol u ul p q small strong), :attributes => %w(style class)) unless html.nil?
+    ActionController::Base.helpers.sanitize(html, 
+      :tags => %w(h1 h2 h3 h4 div b br i em li ol u ul p q small strong), 
+      :attributes => %w(style class)) unless html.nil?
   end
  
   # return the cleaned input data
   def self.preview(data)
-    clean_html(RedCloth.new(data.to_s).to_html)
+    clean_html(convert_markdown(data.to_s))
   end
  
 end
