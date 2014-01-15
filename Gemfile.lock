@@ -127,6 +127,7 @@ GEM
     multipart-post (1.2.0)
     mysql2 (0.3.14)
     orm_adapter (0.5.0)
+    pg (0.17.1)
     polyglot (0.3.3)
     public_activity (1.4.1)
       actionpack (>= 3.0.0)
@@ -236,6 +237,7 @@ DEPENDENCIES
   json (= 1.7.7)
   kaminari (= 0.14.1)
   mysql2
+  pg
   public_activity
   rails (~> 3.2.15)
   redcarpet (~> 2.3.0)
