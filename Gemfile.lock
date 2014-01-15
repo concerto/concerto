@@ -1,7 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    RedCloth (4.2.9)
     actionmailer (3.2.16)
       actionpack (= 3.2.16)
       mail (~> 2.5.4)
@@ -78,13 +77,13 @@ GEM
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
       warden (~> 1.2.3)
-    docile (1.1.1)
+    docile (1.1.2)
     docsplit (0.7.2)
     dotenv (0.9.0)
     erubis (2.7.0)
     execjs (2.0.2)
     extlib (0.9.16)
-    faraday (0.8.8)
+    faraday (0.8.9)
       multipart-post (~> 1.2.0)
     foreman (0.63.0)
       dotenv (>= 0.7)
@@ -112,7 +111,7 @@ GEM
     jquery-timepicker-rails (1.2.5.0)
       railties (>= 3.1.0)
     json (1.7.7)
-    jwt (0.1.8)
+    jwt (0.1.10)
       multi_json (>= 1.5)
     kaminari (0.14.1)
       actionpack (>= 3.0.0)
@@ -124,7 +123,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.25.1)
-    multi_json (1.8.2)
+    multi_json (1.8.4)
     multipart-post (1.2.0)
     mysql2 (0.3.14)
     orm_adapter (0.5.0)
@@ -160,6 +159,7 @@ GEM
     rake (10.1.1)
     rdoc (3.12.2)
       json (~> 1.4)
+    redcarpet (2.3.0)
     ref (1.0.5)
     rmagick (2.13.2)
     rubinius-actor (0.0.2)
@@ -200,7 +200,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    turbolinks (2.1.0)
+    turbolinks (2.2.0)
       coffee-rails
     twitter-bootstrap-rails-confirm (1.0.2)
     tzinfo (0.3.38)
@@ -215,7 +215,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  RedCloth
   airbrake
   attachable (>= 0.0.5)
   bootstrap-datepicker-rails
@@ -241,6 +240,7 @@ DEPENDENCIES
   pg
   public_activity
   rails (~> 3.2.15)
+  redcarpet (~> 2.3.0)
   rmagick (>= 2.12.2)
   rubyzip (< 1.0.0)
   sass-rails (~> 3.2.3)

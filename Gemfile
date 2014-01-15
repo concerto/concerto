@@ -75,6 +75,6 @@ gem 'kaminari', '0.14.1'  # Pagination
 # Enable the newsfeed for 1.9+ users.
 gem 'public_activity', :platforms => [:ruby_19, :ruby_20]
 
-gem 'RedCloth'
+gem 'redcarpet', '~> 2.3.0'
 gem 'docsplit'   # for graphics and pdf, ppt conversion
 
