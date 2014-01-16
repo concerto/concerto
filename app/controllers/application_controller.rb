@@ -325,11 +325,16 @@ class ApplicationController < ActionController::Base
   end
   
   private
-  
+
+  # Handle a series of 404-like error that the application triggers.
+  # Usually these are when a controller throws a RecordNotFound or similiar.
+  # This is not where missing route 404s are handled.
   def render_error(status, exception)
+    # Only use a template if the error is a 404 to be safe.
+    layout = (status == 404) ? "layouts/application" : false
     respond_to do |format|
-      format.html { render :template => "errors/error_#{status}", :layout => 'layouts/application', :status => status }
-      format.all { render :nothing => true, :status => status }
+      format.html { render :template => "errors/error_#{status}", :layout => layout, :status => status }
+      format.any { render :nothing => true, :status => status }
     end
   end
 
