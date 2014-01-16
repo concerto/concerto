@@ -199,7 +199,11 @@ class ContentsController < ApplicationController
     if params[:id] == "preview" && params[:type].present?
       get_content_const
       @content = @content_const.new(:user => current_user)
-      @content.media << Media.valid_preview(params[:media_id])
+      media = Media.valid_preview(params[:media_id])
+      if media.nil?
+        raise ActiveRecord::RecordNotFound
+      end
+      @content.media << media
     else
       @content = Content.find(params[:id])
     end
