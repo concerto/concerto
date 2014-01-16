@@ -4,7 +4,10 @@
       <div class="button-padding">
         <% if can? :create, FieldConfig %>
           <form action="<%= new_screen_field_field_config_path %>" method="GET">
-            <%= select_tag "key", options_for_select(get_available_keys(@screen, @field)), :include_blank => true %>
+            <% keys = get_available_keys(@screen, @field) %>
+            <% if !keys.empty? %>
+              <%= select_tag "key", options_for_select(keys), :include_blank => true %>
+            <% end %>
             <%= submit_tag t(:new_model, :model => FieldConfig.model_name.human), :class => "btn", :name=>nil %>
           </form>
         <% end %>
