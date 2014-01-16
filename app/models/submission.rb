@@ -11,7 +11,7 @@ class Submission < ActiveRecord::Base
   validates :feed, :presence => true, :associated => true
   validates :content, :presence => true, :associated => true
   validates :moderator, :presence => { :unless => Proc.new { |s| s.is_pending? || s.content.is_expired? }}, :associated => true
-  validates :duration, :numericality => { :greater_than => ConcertoConfig[:min_content_duration].to_i,  :less_than => ConcertoConfig[:max_content_duration].to_i}
+  validates :duration, :numericality => { :greater_than => 0 }
   validates_uniqueness_of :content_id, :scope => :feed_id  #Enforce content can only be submitted to a feed once
 
   # Scoping shortcuts for approved/denied/pending
