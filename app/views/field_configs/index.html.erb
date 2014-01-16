@@ -21,12 +21,15 @@
   </header>
   <div class="viewblock-cont">
     <table>
-      <tr>
-        <th><%= FieldConfig.human_attribute_name(:key) %></th>
-        <th><%= FieldConfig.human_attribute_name(:value) %></th>
-        <th><%= FieldConfig.human_attribute_name(:actions) %></th>
-      </tr>
+      <thead>
+        <tr>
+          <th><%= FieldConfig.human_attribute_name(:key) %></th>
+          <th><%= FieldConfig.human_attribute_name(:value) %></th>
+          <th><%= FieldConfig.human_attribute_name(:actions) %></th>
+        </tr>
+      </thead>
 
+      <tbody>
       <% @field_configs.each do |field_config| %>
         <tr>
           <td><%= field_config.key %></td>
@@ -41,6 +44,7 @@
           </td>
         </tr>
       <% end %>
+      </tbody>
     </table>
   </div>
 </section>
