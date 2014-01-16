@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Your Concerto Submission: <%= "#{@activity.trackable.content.name}" %> has been <%= "#{@activity.parameters[:status] ? "approved" : "denied"}" %></title>
+	<title>Your Concerto Submission "<%= "#{@activity.trackable.content.name}" %>" has been <%= "#{@activity.parameters[:status] ? "approved" : "denied"}" %></title>
 <style type="text/css">
 
 body{margin:0; padding:0; font-family: 'Myriad Pro', Helvetica, Arial, sans-serif; height:100% !important; margin:0; padding:0; width:100% !important; background-image: url(<%= asset_path("/assets/layout/pagebg.gif") %>); background-repeat:repeat; background-repeat-x:repeat; background-repeat-y:repeat;}
@@ -38,6 +38,11 @@ border-radius: 8px 8px 0px 0px;
 
 	<%= t('.moderator')%> <%= link_to @activity.owner.name, url_for(user_url(@activity.owner.id)) if @activity.owner %>
 	<%= @activity.parameters[:status] ? t(".approved") : t(".denied") %>
+	
+	<% if @activity.parameters[:status] %>
+	  The content is scheduled to begin showing on <%= @activity.trackable.content.start_time.strftime("%A %B %e at %l:%m %p") %> and end on <%= @activity.trackable.content.end_time.strftime("%A %B %e at %l:%m %p") %>. It will be shown for <%= @activity.trackable.duration %> seconds.
+	<% end %>
+	
 	<%= link_to @activity.trackable.content.name, content_url(@activity.trackable.content.id) %> <%= t('.for_the')%> <%= link_to @activity.trackable.feed.name, feed_url(@activity.trackable.feed.id) %> <%= t('.feed')%>.
 </p>
 
