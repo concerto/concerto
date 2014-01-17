@@ -24,6 +24,7 @@ en:
       provide_details: "Provide Basic Details"
       select_feed: "Select Feed"
       select_content_type: "Select Content Type to Add"
+      preview: 'Preview'
 
     form_bottom:
       submit_content: 'Submit Content'
@@ -77,11 +78,14 @@ en:
 
     ticker:
       form_top:
-        type_your_message: "Type Your Message"
-        ticker_text: 'Ticker Text'
+        allowed_html: "Markdown and some simple formatting html is allowed here.  More information on markdown can be found at http://wikipedia.org/wiki/Markdown."
         characters: 'Characters'
+        display_format: 'Display Format'
+        display_format_tip: 'The ticker display format is used for a smaller amount of text usually along the bottom of the screen.  The text display format is used for major text and usually appears where weather and rss feeds appear.'
+        markdown_allowed: "Some markdown or HTML is allowed in this field "
         preview: 'Preview'
-        allowed_html: "Certain, simple formatting html is allowed, presentation on screens may vary from that shown in the preview here."
+        ticker_text: 'Ticker Text'
+        type_your_message: "Type Your Message"
 
   helpers:
     label:
