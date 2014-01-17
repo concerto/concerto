@@ -153,9 +153,9 @@ concerto.frontend.Field.prototype.inject = function(div, autosize_font) {
   goog.dom.appendChild(this.div_, div);
 
   if (goog.isDefAndNotNull(autosize_font) && autosize_font == true) {
-    console.log("injected content size is " + goog.style.getSize(div));
+    //console.log("injected content size is " + goog.style.getSize(div));
     concerto.frontend.Helpers.SizeToFit(div, this.div_);
-    console.log("adjusted content size is " + goog.style.getSize(div));
+    //console.log("adjusted content size is " + goog.style.getSize(div));
   }
 };
 
@@ -217,7 +217,13 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
           return setTimeout(
               goog.bind(function() {this.nextContent(true)}, this), 10);
         }
+
+        var refresh_request = xhr.getResponseHeader('X-Concerto-Screen-Refresh');
         var contents_data = xhr.getResponseJson();
+
+        if (refresh_request == 'true') {
+          return this.position.template.screen.refresh();
+        }
 
         if (!contents_data.length) {
           // No content for this field.
