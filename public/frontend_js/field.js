@@ -218,11 +218,15 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
               goog.bind(function() {this.nextContent(true)}, this), 10);
         }
 
-        var refresh_request = xhr.getResponseHeader('X-Concerto-Screen-Refresh');
+        var template_id = xhr.getResponseHeader('X-Concerto-Template-ID');
         var contents_data = xhr.getResponseJson();
 
-        if (refresh_request == 'true') {
-          return this.position.template.screen.refresh();
+        if (goog.isDefAndNotNull(template_id)) {
+          // if the template id that is in the header does not match the template
+          // id currently used by the screen, then tell the screen to refresh.
+          if (this.position.template.id != parseInt(template_id)) {
+            return this.position.template.screen.refresh();
+          }
         }
 
         if (!contents_data.length) {
