@@ -2,9 +2,9 @@
   <legend><span><%=t('.type_your_message')%></span></legend>
 
   <div class="clearfix">
-    <%= label_tooltip "ticker", :kind, t('.display_format'), :tip => t('.display_format_tip') %>
+    <%= label_tooltip "ticker", :kind_id, t('.display_format'), :tip => t('.display_format_tip') %>
     <div class="input">
-      <%= form.collection_select :kind, Kind.where(:name => ['Ticker', 'Text']), :id, :name %>
+      <%= form.collection_select :kind_id, Kind.where(:name => ['Ticker', 'Text']), :id, :name %>
     </div>
   </div>
 
