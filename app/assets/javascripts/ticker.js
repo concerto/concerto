@@ -8,8 +8,8 @@ function initializeTickerPreview() {
     }
   });
 
-  $('#ticker_kind').on('change', function(e) {
-    if ($('#ticker_kind').val() == '3') {
+  $('#ticker_kind_id').on('change', function(e) {
+    if ($('#ticker_kind_id').val() == '3') {
       // text
       $('#ticker_data').attr('rows', 9);
       $('#char_count').parent().hide();
