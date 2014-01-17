@@ -3,7 +3,7 @@ class Frontend::ContentsController < ApplicationController
 
   before_filter :scope_setup
   before_filter :screen_api
-  before_filter :request_screen_refresh, :only => [:index, :show]
+  before_filter :include_template_id, :only => [:index, :show]
 
   DEFAULT_SHUFFLE = 'WeightedShuffle'
 
@@ -41,12 +41,8 @@ class Frontend::ContentsController < ApplicationController
     @screen.sometimes_mark_updated
   end
 
-  # request a refresh of the screen, if needed
-  # this will usually occur when a template changes or emergency content exists
-  def request_screen_refresh
-    # if conditions_are_right
-    #   response.headers["X-Concerto-Screen-Refresh"] = 'true'
-    # end
+  def include_template_id
+    response.headers["X-Concerto-Template-ID"] = @screen.template.id.to_s
   end
 
   # GET /frontend/1/fields/1/contents/1
