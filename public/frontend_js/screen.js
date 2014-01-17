@@ -46,6 +46,12 @@ concerto.frontend.Screen = function(screen_id, opt_div, screen_options) {
   this.setup_url = this.options.setupPath;
 
   /**
+   * URL for refreshing this screen.
+   * @type {string}
+   */
+  this.refresh_url = this.options['refreshPath'];
+
+  /**
    * Screen name.
    * @type {string}
    */
@@ -70,6 +76,18 @@ goog.exportSymbol('concerto.frontend.Screen', concerto.frontend.Screen);
  */
 concerto.frontend.Screen.prototype.logger_ = goog.debug.Logger.getLogger(
     'concerto.frontend.Screen');
+
+/**
+ * Refresh the screen.
+ * Called typically when the content indicates a refresh is warranted
+ * (due to something like a template needing to be changed).
+ */
+concerto.frontend.Screen.prototype.refresh = function() {
+  var params = this.getQueryData();
+  var url = this.refresh_url + '?' + params.toString();
+  this.logger_.info('Refreshing screen from ' + url);
+  window.location.replace(url);
+};
 
 
 /**
