@@ -91,7 +91,13 @@ class ContentsController < ApplicationController
       media_id = prams[:media_attributes]["0"][:id]
       prams[:media_attributes]["0"].delete :id
     end
+    # some content, like the ticker_text, can have a kind other than it's model's default
+    if prams.include?("kind")
+      kind = Kind.find(prams[:kind])
+      prams.delete :kind
+    end
     @content = @content_const.new(prams)
+    @content.kind = kind if !kind.nil?
     @content.user = current_user
     auth!
 

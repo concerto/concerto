@@ -2,7 +2,7 @@ class Ticker < Content
   DISPLAY_NAME = 'Ticker Text'
  
   after_initialize :set_kind
-  before_save :process_markdown
+  before_save :process_markdown, :alter_type
  
   # Validations
   validates :duration, :numericality => { :greater_than => 0 }
@@ -27,6 +27,14 @@ class Ticker < Content
     sanitize_html
   end
  
+  # if the user has specified that the kind should be text then change the type
+  # so this is just like an HtmlText content item instead of a Ticker content item
+  def alter_type
+    if self.kind == Kind.where(:name => 'Text').first
+      self.type = 'HtmlText'
+    end
+  end
+
   def self.convert_markdown(s)
     md = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
     md.render(s)
@@ -43,6 +51,12 @@ class Ticker < Content
   # return the cleaned input data
   def self.preview(data)
     clean_html(convert_markdown(data.to_s))
+  end
+
+  # Ticker Text also accepts the kind because the user can change it to HtmlText
+  def self.form_attributes
+    attributes = super()
+    attributes.concat([:kind])
   end
  
 end
