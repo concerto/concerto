@@ -92,9 +92,9 @@ class ContentsController < ApplicationController
       prams[:media_attributes]["0"].delete :id
     end
     # some content, like the ticker_text, can have a kind other than it's model's default
-    if prams.include?("kind")
-      kind = Kind.find(prams[:kind])
-      prams.delete :kind
+    if prams.include?("kind_id")
+      kind = Kind.find(prams[:kind_id])
+      prams.delete :kind_id
     end
     @content = @content_const.new(prams)
     @content.kind = kind if !kind.nil?
