@@ -31,7 +31,7 @@ class ContentsControllerTest < ActionController::TestCase
     get(:new, {:type => "ticker"})
     assert_response :success
     assert_select("textarea")
-    assert_select "li.active > a", {:text => "Ticker Text"}
+    assert_select "li.active > a", {:text => "Text"}
   end
 
   test "should upload new ticker" do
