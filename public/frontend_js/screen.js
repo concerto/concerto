@@ -46,12 +46,6 @@ concerto.frontend.Screen = function(screen_id, opt_div, screen_options) {
   this.setup_url = this.options.setupPath;
 
   /**
-   * URL for refreshing this screen.
-   * @type {string}
-   */
-  this.refresh_url = this.options['refreshPath'];
-
-  /**
    * Screen name.
    * @type {string}
    */
@@ -78,15 +72,25 @@ concerto.frontend.Screen.prototype.logger_ = goog.debug.Logger.getLogger(
     'concerto.frontend.Screen');
 
 /**
- * Refresh the screen.
+ * Refresh the screen by setting it up again.
  * Called typically when the content indicates a refresh is warranted
  * (due to something like a template needing to be changed).
  */
 concerto.frontend.Screen.prototype.refresh = function() {
-  var params = this.getQueryData();
-  var url = this.refresh_url + '?' + params.toString();
-  this.logger_.info('Refreshing screen from ' + url);
-  window.location.replace(url);
+  // kill the outstanding xhr requests
+  requests = this.connection.getOutstandingRequestIds();
+  goog.array.forEach(requests, goog.bind(function(request) {
+    this.connection.abort(request, true);
+  }, this));
+
+  // mark all the fields as invalid (by making their positions null)
+  if (this.template) {
+    goog.array.forEach(this.template.positions, goog.bind(function(position) {
+      position.field.position = null;
+    }, this));
+  }
+
+  this.setup();
 };
 
 
