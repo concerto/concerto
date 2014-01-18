@@ -18,7 +18,6 @@ goog.require('goog.i18n.DateTimeFormat');
  */
 concerto.frontend.Content.ClientTime = function(data) {
   concerto.frontend.Content.call(this, data);
-
   this.autosize_font = true;
 
   /**
@@ -26,14 +25,15 @@ concerto.frontend.Content.ClientTime = function(data) {
    * @type {number}
    * @private
    */
-  this.field_height_ = data.field.size.height;
+  this.field_height_ = data['field']['size']['height'];
 
   /**
    * The width of the field the time is being shown in.
    * @type {number}
    * @private
    */
-  this.field_width_ = data.field.size.width;
+  this.field_width_ = data['field']['size']['width'];
+
   /**
    * The timezone.
    * @type {?goog.i18n.TimeZone}
@@ -45,7 +45,7 @@ concerto.frontend.Content.ClientTime = function(data) {
    * @type {?string}
    * @private
    */
-  this.format_ = (data.field['config'] ? data.field['config']['time_format'] : null);
+  this.format_ = (data['field']['config'] ? data['field']['config']['time_format'] : null);
 };
 goog.inherits(concerto.frontend.Content.ClientTime, concerto.frontend.Content);
 
