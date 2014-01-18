@@ -175,6 +175,11 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
 
   this.logger_.info('Field ' + this.id + ' is looking for new content.');
 
+  // if the position is no longer valid (like when a template changes) then abort
+  if (this.position == null) {
+    return;
+  }
+
   /**
    * HACK HACK HACK
    * Sideload ClientTime content for 'Time' fields.
