@@ -1,0 +1,35 @@
+  <fieldset>
+    <legend><span><%= t('.select_template') %></span></legend>
+
+    <div id="template_selection" class="clearfix">
+      <label><%= t('.best_fit_templates') %></label>
+
+      <div class="input">
+
+        <ul class="list-grid inset-selection small">
+          <% ::Template.where(:is_hidden => false).each do |template| %>
+            <li>
+
+              <div class="inp">
+                <%= f.radio_button :template_id, template.id %>
+              </div>
+
+              <%= image_tag preview_template_path(template, :height => 60, :format => :png), :style => "margin: 0px;", :class => "dd-templateselect dropdown-control", "data-template-id" => template.id %>
+
+              <div id="preview_<%= template.id %>" class="dd" style="display:none;">
+                <%= image_tag preview_template_path(template, :width => 400, :aspect_ratio => true, :format => :png), :style => "margin: 0px;", :class => "default-padding" %>
+              </div>
+
+              <div class="cont">
+                <p><b><%= template.name %></b></p>
+
+                <p>by <%= template.author %></p>
+              </div>
+
+            </li>
+          <% end %>
+        </ul>
+
+      </div>
+    </div>
+  </fieldset>
