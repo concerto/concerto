@@ -123,6 +123,7 @@ class Frontend::ScreensController < ApplicationController
 
       # Inject paths into fake attribute so they gets sent with the setup info.
       # Pretend that it's better not to change the format of the image, so we detect it's upload extension.
+      @screen.template = @screen.effective_template
       if !@screen.template.media.preferred.first.nil?
         template_format = File.extname(@screen.template.media.preferred.first.file_name)[1..-1]
         @screen.template.path = frontend_screen_template_path(@screen, @screen.template, :format => template_format)      
