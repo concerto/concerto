@@ -47,6 +47,8 @@ class UsersController < ApplicationController
     
     if @user.save
       flash[:notice] = t(:user_created)
+    else
+      flash[:error] = "t(:user_not_created): #{@user.errors.full_messages.first}"
     end
     #once an admin creates a user, don't go to the users page, go back to the user manage page
     respond_with(@user) do |format|
