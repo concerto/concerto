@@ -42,7 +42,7 @@ class Frontend::ContentsController < ApplicationController
   end
 
   def include_template_id
-    response.headers["X-Concerto-Template-ID"] = @screen.template.id.to_s
+    response.headers["X-Concerto-Template-ID"] = @screen.effective_template.id.to_s
   end
 
   # GET /frontend/1/fields/1/contents/1
