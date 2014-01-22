@@ -79,4 +79,4 @@ gem 'redcarpet', '~> 2.3.0'
 gem 'docsplit'   # for graphics and pdf, ppt conversion
 
 gem 'ice_cube'
-gem 'recurring_select'
+gem 'recurring_select', '~> 1.2.1rc3'
