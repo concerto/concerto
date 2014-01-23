@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   before_filter :check_for_initial_install
   before_filter :set_version
   before_filter :compute_pending_moderation
-  around_filter :user_time_zone, :if => :user_signed_in?
+  around_filter :set_time_zone
   helper_method :webserver_supports_restart?
   helper_method :current_screen
   
@@ -97,8 +97,12 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def user_time_zone(&block)
-   Time.use_zone(current_user.time_zone, &block)
+  def set_time_zone(&block)
+    if user_signed_in? && !current_user.time_zone.nil?
+      Time.use_zone(current_user.time_zone, &block)
+    else 
+      Time.use_zone(ConcertoConfig[:system_time_zone], &block)
+    end
   end  
   
   def webserver_supports_restart?
