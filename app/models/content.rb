@@ -96,7 +96,7 @@ class Content < ActiveRecord::Base
       #write_attribute(:start_time, Time.parse("#{_start_time[:date]} #{_start_time[:time]}").to_s(:db))
       # convert to time, strip off the timezone offset so it reflects local time
       t = DateTime.strptime("#{_start_time[:date]} #{_start_time[:time]}", "%m/%d/%Y %l:%M %p")
-      write_attribute(:start_time, Time.zone.parse(Time.iso8601(t.utc.to_s).to_s.slice(0, 19)).to_s(:db))
+      write_attribute(:start_time, Time.zone.parse(Time.iso8601(t.to_s.slice(0,19)).to_s).to_s(:db))
     else
       write_attribute(:start_time, _start_time)
     end
@@ -107,7 +107,7 @@ class Content < ActiveRecord::Base
     if _end_time.kind_of?(Hash)
       # convert to time, strip off the timezone offset so it reflects local time
       t = DateTime.strptime("#{_end_time[:date]} #{_end_time[:time]}", "%m/%d/%Y %l:%M %p")
-      write_attribute(:end_time, Time.zone.parse(Time.iso8601(t.utc.to_s).to_s.slice(0, 19)).to_s(:db))
+      write_attribute(:end_time, Time.zone.parse(Time.iso8601(t.to_s.slice(0,19)).to_s).to_s(:db))
     else
       write_attribute(:end_time, _end_time)
     end
