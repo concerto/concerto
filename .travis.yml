@@ -12,6 +12,8 @@ before_script:
   - cp config/database.yml.travis config/database.yml
   - git submodule init
   - git submodule update
+  - mysql -e 'create database concerto_test'
+  - psql -c 'create database concerto_test' -U postgres
   - RAILS_ENV=test bundle exec rake db:migrate --trace
   - bundle exec rake db:test:prepare
 
