@@ -10,4 +10,5 @@
  *
  *= require_self
  *= require application/index-manifest
+ *= require recurring_select
 */

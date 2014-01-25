@@ -149,8 +149,14 @@ concerto.frontend.Field.prototype.createDiv = function() {
  *
  * @param {Element} div The thing to insert into the field.
  */
-concerto.frontend.Field.prototype.inject = function(div) {
+concerto.frontend.Field.prototype.inject = function(div, autosize_font) {
   goog.dom.appendChild(this.div_, div);
+
+  if (goog.isDefAndNotNull(autosize_font) && autosize_font == true) {
+    //console.log("injected content size is " + goog.style.getSize(div));
+    concerto.frontend.Helpers.SizeToFit(div, this.div_);
+    //console.log("adjusted content size is " + goog.style.getSize(div));
+  }
 };
 
 
@@ -168,6 +174,11 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
   var load_content_on_finish = start_load || null;
 
   this.logger_.info('Field ' + this.id + ' is looking for new content.');
+
+  // if the position is no longer valid (like when a template changes) then abort
+  if (this.position == null) {
+    return;
+  }
 
   /**
    * HACK HACK HACK
@@ -211,7 +222,17 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
           return setTimeout(
               goog.bind(function() {this.nextContent(true)}, this), 10);
         }
+
+        var template_id = xhr.getResponseHeader('X-Concerto-Template-ID');
         var contents_data = xhr.getResponseJson();
+
+        if (goog.isDefAndNotNull(template_id)) {
+          // if the template id that is in the header does not match the template
+          // id currently used by the screen, then tell the screen to refresh.
+          if (this.position.template.id != parseInt(template_id)) {
+            return this.position.template.screen.refresh();
+          }
+        }
 
         if (!contents_data.length) {
           // No content for this field.

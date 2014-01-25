@@ -31,6 +31,13 @@ concerto.frontend.Content = function(data) {
   this.id = data['id'] || null;
 
   /**
+   * Should the font size be automatically adjusted to optimize 
+   * display within the field?
+   * @type {boolean}
+   */
+  this.autosize_font = false;
+
+  /**
    * The Content Type.
    * @type {?string}
    * @private
@@ -91,6 +98,7 @@ concerto.frontend.Content.prototype.startLoad = function() {
 
 /**
  * Apply the sanitized position styles to the content div.
+ * This also applies the content-type as a class name to content div.
  *
  * @param {Object} styles The styles to be applied to this content.
  * @param {?Element} element to receive the styles - defaults to this.div_
@@ -98,6 +106,7 @@ concerto.frontend.Content.prototype.startLoad = function() {
 concerto.frontend.Content.prototype.applyStyles = function(styles, element) {
   element = element || this.div_;
   goog.style.setStyle(element, styles);
+  goog.dom.classes.add(element, this.type_.toLowerCase());
 };
 
 

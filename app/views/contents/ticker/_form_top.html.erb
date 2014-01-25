@@ -2,14 +2,24 @@
   <legend><span><%=t('.type_your_message')%></span></legend>
 
   <div class="clearfix">
+    <%= label_tooltip "ticker", :kind_id, t('.display_format'), :tip => t('.display_format_tip') %>
+    <div class="input">
+      <%= form.collection_select :kind_id, Kind.where(:name => ['Ticker', 'Text']), :id, :name %>
+    </div>
+  </div>
 
+  <div class="clearfix">
     <%= form.text_area :data, :class => 'word_count fillWidth', :rows => 3, :autofocus => true, "data-url" => preview_contents_path %>
     <div class="row-fluid">
       <div class="span6">
-        <span id="char_count">0</span> <%= t('.characters') %>
+        <div>
+          <span id="char_count">0</span> <%= t('.characters') %>
+        </div>
       </div>
       <div class="span6" style="text-align: right;">
-        <%= tooltip_tag(t('.allowed_html'), "Some HTML is allowed in this field ", { :class => "tooltip-basic" }) %>
+        <a href="http://wikipedia.org/wiki/Markdown" target="_blank">
+          <%= tooltip_tag(t('.allowed_html'), t('.markdown_allowed'), { :class => "tooltip-basic" }) %>
+        </a>
       </div>
     </div>
   </div>

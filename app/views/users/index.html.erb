@@ -33,10 +33,10 @@
             <td><%= user.groups.map(&:name).join(",") %></td>
             
             <td>
-              <% if can? :edit, User %>
+              <% if can? :edit, user %>
                 <%= link_to t(:edit, :model => User.model_name.human), edit_user_path(user), :class => "btn" %>
               <% end %>
-              <% if can? :delete, User %>
+              <% if can? :delete, user %>
                 <% if user.is_deletable? %>
                   <%= link_to t(:destroy, :model => User), user, 
           :data => { :confirm => t(:are_you_sure_delete_model_key, :model =>User.model_name.human, :key => user.name) }, :method => :delete, :class => "btn" %>

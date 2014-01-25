@@ -71,6 +71,28 @@ goog.exportSymbol('concerto.frontend.Screen', concerto.frontend.Screen);
 concerto.frontend.Screen.prototype.logger_ = goog.debug.Logger.getLogger(
     'concerto.frontend.Screen');
 
+/**
+ * Refresh the screen by setting it up again.
+ * Called typically when the content indicates a refresh is warranted
+ * (due to something like a template needing to be changed).
+ */
+concerto.frontend.Screen.prototype.refresh = function() {
+  // kill the outstanding xhr requests
+  requests = this.connection.getOutstandingRequestIds();
+  goog.array.forEach(requests, goog.bind(function(request) {
+    this.connection.abort(request, true);
+  }, this));
+
+  // mark all the fields as invalid (by making their positions null)
+  if (this.template) {
+    goog.array.forEach(this.template.positions, goog.bind(function(position) {
+      position.field.position = null;
+    }, this));
+  }
+
+  this.setup();
+};
+
 
 /**
  * Setup the screen.

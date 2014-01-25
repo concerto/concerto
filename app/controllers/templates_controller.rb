@@ -1,4 +1,7 @@
 class TemplatesController < ApplicationController
+  define_callbacks :show # controller callback for 'show' action
+  ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
+
   before_filter :get_type, :only => [:new, :create, :import]
   respond_to :html, :json, :xml, :js
 
@@ -16,6 +19,7 @@ class TemplatesController < ApplicationController
   # GET /templates/1.js
   def show
     @template = Template.find(params[:id])
+    run_callbacks :show # Run plugin hooks
     auth!
     respond_with(@template) do |format|
       format.xml { render :xml => @template.to_xml(:include => [:positions])  }
@@ -27,7 +31,9 @@ class TemplatesController < ApplicationController
   def new
     @template = Template.new
     auth!
-    @template.media.build
+    # one for the graphic background and one for the css file
+    @template.media.build()
+    @template.media.build()
     respond_with(@template)
   end
 
@@ -35,7 +41,7 @@ class TemplatesController < ApplicationController
   def edit
     @template = Template.find(params[:id])
     auth!
-    if(@template.media.empty?)
+    while @template.media.length < 2 do
       @template.media.build
     end
   end
@@ -45,9 +51,14 @@ class TemplatesController < ApplicationController
   def create
     @template = Template.new(template_params)
     auth!
+    # set key based on file extension
     @template.media.each do |media|
-      media.key = "original"
+      extension = (media.file_name.blank? ? nil : media.file_name.split('.')[-1].downcase)
+      media.key = (extension == "css" ? "css" : "original") unless extension.nil?
     end
+
+    # reject any empty media (key wont be set)
+    @template.media.reject! {|i| i.key.blank?}
 
     respond_to do |format|
       if @template.save
@@ -66,9 +77,10 @@ class TemplatesController < ApplicationController
   def update
     @template = Template.find(params[:id])
     auth!
-    @template.media.each do |media|
-      media.key = "original"
-    end
+    # don't stomp on the key, set elsewhere
+    # @template.media.each do |media|
+    #   media.key = "original"
+    # end
 
     if @template.update_attributes(template_params)
       flash[:notice] = t(:template_updated)
@@ -160,8 +172,12 @@ class TemplatesController < ApplicationController
     @template = Template.new
     archive = params[:package]
 
-    if @template.import_archive(archive) && @template.save
-      flash[:notice] = t(:template_created)
+    if @template.import_archive(archive) 
+      # is_hidden checkbox supercedes xml
+      @template.is_hidden = template_params[:is_hidden]
+      if @template.save
+        flash[:notice] = t(:template_created)
+      end
     end
 
     respond_with(@template)

@@ -26,10 +26,8 @@ en:
       select_feed: "Select Feed"
 
     form:
-      best_fit_templates: "Best-Fit Templates"
       dimensions: 'Dimensions'
       provide_details: 'Provide Details'
-      select_template: 'Select Template'
       authentication: 'Authentication'
       connection_details: 'Connection Details'
       auth_action: 'Authentication Action'
@@ -42,6 +40,10 @@ en:
     show_body:
       preview_screen: 'Preview Screen'
       manage: 'Manage'
+
+    template_selection:
+      best_fit_templates: "Best-Fit Templates"
+      select_template: 'Select Template'
 
     thumbs:
       owner: 'owner'

@@ -1,0 +1,13 @@
+<%= @activity.recipient.name %>,
+
+<%= t('.moderator')%> <%= @activity.owner.name if @activity.owner %> <%= @activity.parameters[:status] ? t(".approved") : t(".denied") %> <%= @activity.trackable.content.name %> <%= t('.for_the')%> <%= @activity.trackable.feed.name %> <%= t('.feed')%>.
+
+<% if @activity.parameters[:status] %>
+The content is scheduled to begin showing on <%= @activity.trackable.content.start_time.strftime("%A %B %e at %l:%m %p") %> and end on <%= @activity.trackable.content.end_time.strftime("%A %B %e at %l:%m %p") %>. It will be shown for <%= @activity.trackable.duration %> seconds.
+<% end %>
+
+<% if @activity.parameters[:status] == false && !@activity.trackable.moderation_reason.blank? %>
+<%= t('.reason_rejected')%> <%= @activity.trackable.moderation_reason %>
+<% end %>
+
+<%= content_url(@activity.trackable.content.id) %>

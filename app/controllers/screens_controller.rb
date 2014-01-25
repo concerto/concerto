@@ -1,5 +1,6 @@
 class ScreensController < ApplicationController
   # Define integration hooks for Concerto Plugins
+  define_callbacks :destroy # controller callback for 'show' action
   define_callbacks :show # controller callback for 'show' action
   define_callbacks :change # controller callback after 'create' or 'update'
   ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
@@ -62,6 +63,9 @@ class ScreensController < ApplicationController
       process_notification(@screen, {:public_owner => current_user.id}, :action => 'create')
       run_callbacks :change # Run plugin hooks
       flash[:notice] = t(:screen_created)
+    else
+      @screen.clear_screen_token
+      @screen.auth_action = screen_params[:auth_action]
     end
     
     respond_with(@screen)
@@ -93,8 +97,10 @@ class ScreensController < ApplicationController
     @screen = Screen.find(params[:id])
     auth!
     process_notification(@screen, {:public_owner => current_user.id, :screen_name => @screen.name}, :action => 'destroy')
-    @screen.destroy
-
+    run_callbacks :destroy do
+      @screen.destroy
+    end 
+    
     respond_with(@screen)
   end
   

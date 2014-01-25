@@ -1,7 +1,14 @@
 <div id="event-selectedFeedList">
-  <%= content_tag :h4, t('.no_feeds'), :id=> "event-zeroFeedsMsg" if @content.feeds.empty? %>
-  <% @content.feeds.each_with_index do |feed, i| %>
-    <%= render :partial => 'contents/form_elements/selected_feed_display', :locals => {:feed => feed, :feed_index => i} %>
+  <%= content_tag :h4, t('.no_feeds'), :id=> "event-zeroFeedsMsg" if @content.feeds.empty? and not params.has_key?(:feed_id)  %>
+
+  <% if params.has_key?(:feed_id) %>
+    <% params[:feed_id].each do |key, value| %>
+      <%= render :partial => 'contents/form_elements/selected_feed_display', :locals => { :feed => Feed.find(value), :feed_index => value } %>
+    <% end %>
+  <% else %>
+    <% @content.feeds.each_with_index do |feed, i| %>
+      <%= render :partial => 'contents/form_elements/selected_feed_display', :locals => {:feed => feed, :feed_index => i} %>
+    <% end %>
   <% end %>
 </div>
 
@@ -57,5 +64,5 @@
   <% end %>
 </div>
 <div id="event-selectedFeedList">
-
+  
 </div>
