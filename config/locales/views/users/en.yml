@@ -38,7 +38,7 @@ en:
       this_is_you: 'This is you.'
       group_header: 'Belongs to %{number} Group%{s_display}'
       screen_header: 'Manages %{number} Screen%{s_display}'
-      content_header: 'Has Submitted %{number} Content%{s_display}'
+      content_header: 'Has Submitted %{number} Item%{s_display}'
 
   # helpers:
   #   label:

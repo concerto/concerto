@@ -1,7 +1,7 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
-#It's important to use find_or_create_by{attribute} so as to prevent duplicate creation of records
+#It's important to use where{attribute}.first_or_create so as to prevent duplicate creation of records
 
 # Populate the 3 major 'kinds' of content we know as of now.
 # There is discussion to move this to a static array / config elsewhere,
@@ -9,7 +9,7 @@
 # change at the moment.
 # Note: This is replicated in config/initializers/17-required_data.rb because an instance must have kinds.
 ["Graphics", "Ticker", "Text", "Dynamic"].each do |kind|
-  Kind.find_or_create_by(:name => kind)
+  Kind.find_or_create_by_name kind
 end
 
 #Default plugins
@@ -20,6 +20,7 @@ ConcertoPlugin.where(:gem_name => "concerto_iframe").first_or_create(:enabled =>
 ConcertoPlugin.where(:gem_name => "concerto_calendar").first_or_create(:enabled => true, :source => "rubygems")
 ConcertoPlugin.where(:gem_name => "concerto-hardware").first_or_create(:enabled => false, :source => "rubygems")
 ConcertoPlugin.where(:gem_name => "concerto-audio").first_or_create(:enabled => false, :source => "rubygems")
+ConcertoPlugin.where(:gem_name => "concerto_template_scheduling").first_or_create(:enabled => false, :source => "rubygems")
 
 # Establish the 4 major display areas a template usually has.
 # In my quick sample, this code will make 68% of the Concerto 1 fields match

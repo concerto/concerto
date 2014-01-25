@@ -1,4 +1,4 @@
-#Concerto 2 Digital Signage System
+#Concerto 2 Digital Signage System [![Build Status](https://travis-ci.org/concerto/concerto.png?branch=master)](https://travis-ci.org/concerto/concerto)
 Full Installation Instructions: [https://github.com/concerto/concerto/wiki/Installing-Concerto-2](http://goo.gl/4YIzK)
 
 ##What is Concerto?

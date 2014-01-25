@@ -91,7 +91,13 @@ class ContentsController < ApplicationController
       media_id = prams[:media_attributes]["0"][:id]
       prams[:media_attributes]["0"].delete :id
     end
+    # some content, like the ticker_text, can have a kind other than it's model's default
+    if prams.include?("kind_id")
+      kind = Kind.find(prams[:kind_id])
+      prams.delete :kind_id
+    end
     @content = @content_const.new(prams)
+    @content.kind = kind if !kind.nil?
     @content.user = current_user
     auth!
 
@@ -199,7 +205,11 @@ class ContentsController < ApplicationController
     if params[:id] == "preview" && params[:type].present?
       get_content_const
       @content = @content_const.new(:user => current_user)
-      @content.media << Media.valid_preview(params[:media_id])
+      media = Media.valid_preview(params[:media_id])
+      if media.nil?
+        raise ActiveRecord::RecordNotFound
+      end
+      @content.media << media
     else
       @content = Content.find(params[:id])
     end

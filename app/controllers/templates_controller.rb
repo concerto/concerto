@@ -1,4 +1,7 @@
 class TemplatesController < ApplicationController
+  define_callbacks :show # controller callback for 'show' action
+  ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
+
   before_filter :get_type, :only => [:new, :create, :import]
   respond_to :html, :json, :xml, :js
 
@@ -16,6 +19,7 @@ class TemplatesController < ApplicationController
   # GET /templates/1.js
   def show
     @template = Template.find(params[:id])
+    run_callbacks :show # Run plugin hooks
     auth!
     respond_with(@template) do |format|
       format.xml { render :xml => @template.to_xml(:include => [:positions])  }

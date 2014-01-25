@@ -1,5 +1,8 @@
-<h1>Editing Field Config</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Back', screen_field_field_configs_path(@screen, @field) %>
+<section class="viewblock">
+  <header class="viewblock-header">
+    <h1 class="default-padding"><%= t(:edit_model, :model => FieldConfig.model_name.human) %></h1>
+  </header>
+  <div class="viewblock-cont">
+    <%= render 'form' %>
+  </div>
+</section>

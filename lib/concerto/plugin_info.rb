@@ -114,7 +114,7 @@ module Concerto
             hooks << hook
           end
         end
-      end
+      end unless @view_hooks.nil?
       return hooks
     end # get_view_hooks
   end # PluginInfo

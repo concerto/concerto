@@ -65,21 +65,25 @@ class ContentTest < ActiveSupport::TestCase
   # start_time should correctly translate a hash
   # into a datetime object in addition to a string.
   test "start_time translation" do
-    c = Content.new(:start_time => {:date => "4/12/2011", :time => "1:23 am"})
-    assert_equal "2011-04-12 01:23:00", c.start_time.utc.strftime('%Y-%m-%d %H:%M:%S')
+    Time.use_zone("UTC") do
+      c = Content.new(:start_time => {:date => "4/12/2011", :time => "1:23 am"})
+      assert_equal "2011-04-12 01:23:00", c.start_time.utc.strftime('%Y-%m-%d %H:%M:%S')
 
-    c = Content.new(:start_time => "2011-04-12 01:34:00")
-    assert_equal "2011-04-12 01:34:00", c.start_time.utc.strftime('%Y-%m-%d %H:%M:%S')
+      c = Content.new(:start_time => "2011-04-12 01:34:00")
+      assert_equal "2011-04-12 01:34:00", c.start_time.utc.strftime('%Y-%m-%d %H:%M:%S')
+    end
   end
 
   # end_time should correctly translate a hash
   # into a datetime object in addition to a string.
   test "end_time translation" do
-    c = Content.new(:end_time => {:date => "4/12/2011", :time => "5:00 pm"})
-    assert_equal "2011-04-12 17:00:00", c.end_time.utc.strftime('%Y-%m-%d %H:%M:%S')
-    
-    c = Content.new(:end_time => "2011-01-01 00:00:00")
-    assert_equal "2011-01-01 00:00:00", c.end_time.utc.strftime('%Y-%m-%d %H:%M:%S')
+    Time.use_zone("UTC") do
+      c = Content.new(:end_time => {:date => "4/12/2011", :time => "5:00 pm"})
+      assert_equal "2011-04-12 17:00:00", c.end_time.utc.strftime('%Y-%m-%d %H:%M:%S')
+      
+      c = Content.new(:end_time => "2011-01-01 00:00:00")
+      assert_equal "2011-01-01 00:00:00", c.end_time.utc.strftime('%Y-%m-%d %H:%M:%S')
+    end
   end
 
   test "content type scope works" do

@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   before_filter :check_for_initial_install
   before_filter :set_version
   before_filter :compute_pending_moderation
-  around_filter :user_time_zone, :if => :user_signed_in?
+  around_filter :set_time_zone
   helper_method :webserver_supports_restart?
   helper_method :current_screen
   
@@ -97,8 +97,12 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def user_time_zone(&block)
-   Time.use_zone(current_user.time_zone, &block)
+  def set_time_zone(&block)
+    if user_signed_in? && !current_user.time_zone.nil?
+      Time.use_zone(current_user.time_zone, &block)
+    else 
+      Time.use_zone(ConcertoConfig[:system_time_zone], &block)
+    end
   end  
   
   def webserver_supports_restart?
@@ -179,7 +183,7 @@ class ApplicationController < ActionController::Base
   #pa_params - specifically params send to PA to be stored in the params column on the activities 
   #options - right now it only contains the action being performed (CRUD), but anything we don't want to send to PA can go here
   def process_notification(ar_instance, pa_params, options = {})
-    return if ar_instance.nil? || !ar_instance.respond_to?('create_activity')
+    return if ar_instance.nil? || !ar_instance.respond_to?('create_activity') || options[:recipient] == options[:owner]
     activity = ar_instance.create_activity(options[:action], :owner => options[:owner], :recipient => options[:recipient], :params => pa_params)
     #form the actionmailer method name by combining the class name with the action being performed (e.g. "submission_update")
     am_string = "#{ar_instance.class.name.downcase}_#{options[:action]}"
@@ -325,11 +329,16 @@ class ApplicationController < ActionController::Base
   end
   
   private
-  
+
+  # Handle a series of 404-like error that the application triggers.
+  # Usually these are when a controller throws a RecordNotFound or similiar.
+  # This is not where missing route 404s are handled.
   def render_error(status, exception)
+    # Only use a template if the error is a 404 to be safe.
+    layout = (status == 404) ? "layouts/application" : false
     respond_to do |format|
-      format.html { render :template => "errors/error_#{status}", :layout => 'layouts/application', :status => status }
-      format.all { render :nothing => true, :status => status }
+      format.html { render :template => "errors/error_#{status}", :layout => layout, :status => status }
+      format.any { render :nothing => true, :status => status }
     end
   end
 

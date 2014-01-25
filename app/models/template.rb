@@ -1,6 +1,11 @@
 class Template < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
+  # Define integration hooks for Concerto Plugins
+  define_callbacks :is_deletable
+  define_callbacks :screen_dependencies
+  ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
+
   has_many :screens, :dependent => :restrict_with_exception
   has_many :media, :as => :attachable, :dependent => :destroy
   has_many :positions, :dependent => :destroy
@@ -17,7 +22,19 @@ class Template < ActiveRecord::Base
   attr_accessor :path, :css_path
   
   def is_deletable?
-    self.screens.size == 0
+    # allow the template to see if any plugins have dependencies on it
+    run_callbacks :is_deletable do
+       @deletable = self.screens.size == 0
+    end
+    @deletable
+  end
+
+  # returns the screens that have dependencies on this template
+  def screen_dependencies
+    run_callbacks :screen_dependencies do
+       @dependencies = self.screens
+    end
+    @dependencies.uniq if !@dependencies.nil?
   end
     
   # Given a string from an XML descriptor, build the template

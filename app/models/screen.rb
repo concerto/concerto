@@ -1,6 +1,10 @@
 class Screen < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
+  # Define integration hooks for Concerto Plugins
+  define_callbacks :effective_template
+  ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
+
   # Define some actions for communication with the Screens form
   AUTH_NO_ACTION=0
   AUTH_KEEP_TOKEN=1
@@ -231,6 +235,19 @@ class Screen < ActiveRecord::Base
   def auth_by_mac? # Not really "authenticated", but you get the point
     !self.authentication_token.nil? and
        self.authentication_token.start_with? 'mac:'
+  end
+
+  def effective_template
+    # Callbacks should only set the @template if it has not already been set by another callback.
+    # Higher priority callbacks should register with the :prepend option.
+    @template = nil
+
+    # allow plugins such as the EMS or concerto template scheduler determine the template
+    run_callbacks :effective_template 
+    raise "@template is not a Template instance" if !@template.is_a? Template unless @template.nil?
+
+    # default to the screens assigned template if not set by a plugin
+    @template ||= self.template
   end
 
 private

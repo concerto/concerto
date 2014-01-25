@@ -4,7 +4,10 @@
       <div class="button-padding">
         <% if can? :create, FieldConfig %>
           <form action="<%= new_screen_field_field_config_path %>" method="GET">
-            <%= select_tag "key", options_for_select(get_available_keys(@screen, @field)), :include_blank => true %>
+            <% keys = get_available_keys(@screen, @field) %>
+            <% if !keys.empty? %>
+              <%= select_tag "key", options_for_select(keys), :include_blank => true %>
+            <% end %>
             <%= submit_tag t(:new_model, :model => FieldConfig.model_name.human), :class => "btn", :name=>nil %>
           </form>
         <% end %>
@@ -18,12 +21,15 @@
   </header>
   <div class="viewblock-cont">
     <table>
-      <tr>
-        <th><%= FieldConfig.human_attribute_name(:key) %></th>
-        <th><%= FieldConfig.human_attribute_name(:value) %></th>
-        <th><%= FieldConfig.human_attribute_name(:actions) %></th>
-      </tr>
+      <thead>
+        <tr>
+          <th><%= FieldConfig.human_attribute_name(:key) %></th>
+          <th><%= FieldConfig.human_attribute_name(:value) %></th>
+          <th><%= FieldConfig.human_attribute_name(:actions) %></th>
+        </tr>
+      </thead>
 
+      <tbody>
       <% @field_configs.each do |field_config| %>
         <tr>
           <td><%= field_config.key %></td>
@@ -38,6 +44,7 @@
           </td>
         </tr>
       <% end %>
+      </tbody>
     </table>
   </div>
 </section>
