@@ -3,6 +3,10 @@ rvm:
   - 1.9.2
   - 2.0.0
   - 2.1.0
+env:
+  - DB=postgres
+  - DB=mysql
+  - DB=sqlite
 
 before_script:
   - cp config/database.yml.travis config/database.yml
