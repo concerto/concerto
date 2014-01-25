@@ -9,7 +9,7 @@ mysql: &mysql
   username: travis
   encoding: utf8
 
-postgresql: &postgresql
+postgres: &postgres
   adapter: postgresql
   database: concerto_test
   username: postgres
