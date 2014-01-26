@@ -5,7 +5,7 @@
     <% 
     begin
       a = render_activity activity 
-    rescue => e
+    rescue ActionView::MissingTemplate => e
       Rails.logger.error('public_activity view not found ' + e.message)
       a = nil
     end
