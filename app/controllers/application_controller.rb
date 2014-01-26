@@ -187,7 +187,7 @@ class ApplicationController < ActionController::Base
     # build the hash to pass to create_activity so we can also pass in the custom key from plugins
     activity_args = {}
     activity_args[:action] = options[:action]
-    activity_args[:key] = options[:key]
+    activity_args[:key] = options[:key] unless options[:key].nil?
     activity_args[:owner] = options[:owner] unless options[:owner].nil?
     activity_args[:recipient] = options[:recipient] unless options[:recipient].nil?
     activity_args[:params] = pa_params unless pa_params.empty?
