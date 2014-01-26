@@ -8,12 +8,12 @@
   <% thumbs.each do |screen| %>
     <li>
       <div class="cont thumb-icon">
-        <%= link_to screen do %>
+        <%= link_to screen, :data => {'no-turbolink' => true} do %>
           <i class="concertocon-controller-screens"></i>
         <% end %>
       </div>
       <div class="cont">
-        <p><b><%= link_to screen.name, screen %></b></p>
+        <p><b><%= link_to screen.name, screen, :data => {'no-turbolink' => true} %></b></p>
         <p><%= screen.location %></p>
         
         <% if show_owner %>
