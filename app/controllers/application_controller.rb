@@ -184,12 +184,19 @@ class ApplicationController < ActionController::Base
   #pa_params - specifically params send to PA to be stored in the params column on the activities 
   #options - right now it only contains the action being performed (CRUD), but anything we don't want to send to PA can go here
   def process_notification(ar_instance, pa_params, options = {})
-    return if ar_instance.nil? || !ar_instance.respond_to?('create_activity') || options[:recipient] == options[:owner]
-    activity = ar_instance.create_activity(options[:action], :owner => options[:owner], :recipient => options[:recipient], :params => pa_params)
+    return if ar_instance.nil? || !ar_instance.respond_to?('create_activity')
+    # build the hash to pass to create_activity so we can also pass in the custom key from plugins
+    activity_args = {}
+    activity_args[:action] = options[:action]
+    activity_args[:key] = options[:key] unless options[:key].nil?
+    activity_args[:owner] = options[:owner] unless options[:owner].nil?
+    activity_args[:recipient] = options[:recipient] unless options[:recipient].nil?
+    activity_args[:params] = pa_params unless pa_params.empty?
+    activity = ar_instance.create_activity(activity_args)
     #form the actionmailer method name by combining the class name with the action being performed (e.g. "submission_update")
     am_string = "#{ar_instance.class.name.downcase}_#{options[:action]}"
     #If ActivityMailer can find a method by the formulated name, pass in the activity (everything we know about what was done)
-    if ActivityMailer.respond_to?(am_string)
+    if ActivityMailer.respond_to?(am_string) && (options[:recipient].nil? || options[:owner].nil? || options[:recipient] != options[:owner])
       #fulfilling bamnet's expansive notification ambitions via metaprogramming since 2013
       begin
         ActivityMailer.send(am_string, activity).deliver
