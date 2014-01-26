@@ -10,9 +10,10 @@ class ApplicationController < ActionController::Base
   
   #We can do some clever stuff for 404-esque errors, but we'll leave 500's be
   unless Rails.application.config.consider_all_requests_local
-    rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError,
+    rescue_from ActionController::RoutingError,
       ActionController::UnknownController, ActionController::UnknownAction,
       ActionController::MethodNotAllowed, :with => lambda { |exception| render_error 404, exception }
+    rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
   end
 
   # Current Ability for CanCan authorization
@@ -342,5 +343,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Handle RecordNotFound exceptions based on their source
+  # If the RecordNotFound exception bubbled up from a model-backed controller
+  # viewing a single object we return a 404. Otherwise we render a 500 error.
+  def record_not_found(exception)
+    Rails.logger.error(exception)
+    if ['edit', 'show', 'update', 'destroy'].include?(params[:action]) && !params[:controller].classify.safe_constantize.nil?
+       render_error(404, exception)
+     else
+       render :file => 'public/500.html', :status => 500, :layout => false
+     end
+  end
   
 end
