@@ -4,9 +4,9 @@ rvm:
   - 2.0.0
   - 2.1.0
 env:
-  <% if ENV['TRAVIS_BUILD_NUMBER'] % 5 = 0 %> - DB=postgres <% end %>
-  <% if ENV['TRAVIS_BUILD_NUMBER'] % 5 = 0 %> - DB=mysql <% end %>
   - DB=sqlite
+  <%= '- DB=postgres' if ENV['TRAVIS_BUILD_NUMBER'] % 8 == 0 %>
+  <%= '- DB=mysql' if ENV['TRAVIS_BUILD_NUMBER'] % 5 == 0 %>
 
 before_script:
   - cp config/database.yml.travis config/database.yml
