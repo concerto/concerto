@@ -78,6 +78,7 @@ goog.exportSymbol('concerto.frontend.Screen', concerto.frontend.Screen);
 concerto.frontend.Screen.prototype.logger_ = goog.debug.Logger.getLogger(
     'concerto.frontend.Screen');
 
+
 /**
  * Refresh the screen by setting it up again.
  * Called typically when the content indicates a refresh is warranted

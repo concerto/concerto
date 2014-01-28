@@ -203,8 +203,8 @@ concerto.frontend.Position.prototype.setProperties = function() {
  */
 concerto.frontend.Position.prototype.getContentStyles = function() {
   // Load the styles (if any) into a map.
-  var loaded_styles = (this.style_ == null) ? '' : 
-    goog.style.parseStyleAttribute(this.style_);
+  var loaded_styles = (this.style_ == null) ? '' :
+      goog.style.parseStyleAttribute(this.style_);
   // Filter out the locked properties.
   var clean_styles = goog.object.filter(loaded_styles, function(value, key, o) {
     return !goog.array.contains(concerto.frontend.Position.LOCKED_STYLES,

@@ -1,7 +1,7 @@
 goog.provide('concerto.frontend.Helpers');
 
-goog.require('goog.style');
 goog.require('goog.dom');
+goog.require('goog.style');
 
 
 /**
@@ -60,8 +60,6 @@ concerto.frontend.Helpers.SizeToFit = function(content, field) {
     }
   }
   var font_size = min;
-
-console.log('font-size = ' + font_size + 'px');
 
   goog.style.setStyle(content, 'fontSize', font_size + 'px');
   return font_size;

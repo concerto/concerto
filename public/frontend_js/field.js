@@ -148,6 +148,7 @@ concerto.frontend.Field.prototype.createDiv = function() {
  * Insert a div into the field.
  *
  * @param {Element} div The thing to insert into the field.
+ * @param {boolean} autosize_font Whether we should auto size the font or not.
  */
 concerto.frontend.Field.prototype.inject = function(div, autosize_font) {
   goog.dom.appendChild(this.div_, div);
@@ -175,7 +176,7 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
 
   this.logger_.info('Field ' + this.id + ' is looking for new content.');
 
-  // if the position is no longer valid (like when a template changes) then abort
+  // if the position is no longer valid, like when a template changes, abort
   if (this.position == null) {
     return;
   }
