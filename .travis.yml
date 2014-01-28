@@ -4,8 +4,8 @@ rvm:
   - 2.0.0
   - 2.1.0
 env:
-  - DB=postgres
-  - DB=mysql
+  <% if ENV['TRAVIS_BUILD_NUMBER'] % 5 = 0 %> - DB=postgres <% end %>
+  <% if ENV['TRAVIS_BUILD_NUMBER'] % 5 = 0 %> - DB=mysql <% end %>
   - DB=sqlite
 
 before_script:
