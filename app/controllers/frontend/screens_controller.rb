@@ -135,14 +135,17 @@ class Frontend::ScreensController < ApplicationController
       if !css_media.empty?
         @screen.template.css_path = media_path(css_media.first)
       end
+      field_configs = []
       @screen.template.positions.each do |p|
         p.field_contents_path = frontend_screen_field_contents_path(@screen, p.field, :format => :json)
         p.field.config = {}
-        FieldConfig.where(:screen_id => @screen.id, :field_id => p.field.id).each do |r|
-          p.field.config[r.key] = r.value
+        @screen.field_configs.where(:field_id => p.field_id).each do |fc|
+          p.field.config[fc.key] = fc.value
+          field_configs << fc
         end
       end
 
+      if stale?(:etag => @screen.frontend_cache_key(field_configs), :public => true)
       respond_to do |format|
         format.json {
           render :json => @screen.to_json(
@@ -167,6 +170,7 @@ class Frontend::ScreensController < ApplicationController
             }
           )
         }
+      end
       end
       unless params.has_key?(:preview) && params[:preview] == "true"
         @screen.mark_updated

@@ -250,6 +250,27 @@ class Screen < ActiveRecord::Base
     @template ||= self.template
   end
 
+  # Compute a cache key suitable for use in the frontend.
+  # Combines the updated information for the screen, template, positions,
+  # and fields to make a single key.
+  # 
+  # @param [Array<#updated_at>] args A list of object to factor in.  These objects should
+  #    respond to the `updated_at` method and are skipped if they do not.
+  # @return [String] The cache key for this frontend string.
+  def frontend_cache_key(*args)
+    max_updated_at = self.updated_at.try(:utc).try(:to_i)
+    max_updated_at = [self.template.updated_at.try(:utc).try(:to_i), max_updated_at].max
+    self.template.positions.each do |p|
+      max_updated_at = [p.updated_at.try(:utc).try(:to_i), p.field.updated_at.try(:utc).try(:to_i), max_updated_at].max
+    end
+    args.each do |ao|
+      if ao.methods.include? 'updated_at'
+        max_updated_at = [ao.updated_at.try(:utc).try(:to_i), max_updated_at].max
+      end
+    end
+    return "frontend-screen/#{self.id}-#{max_updated_at}"
+  end
+
 private
 
   # Right now there are three types of tokens
