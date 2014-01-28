@@ -58,6 +58,13 @@ concerto.frontend.Screen = function(screen_id, opt_div, screen_options) {
    */
   this.container_ = opt_div || document.body;
 
+  /**
+   * Hash of current setup information.
+   * @type {string}
+   * @private
+   */
+  this.setup_key_ = '';
+
   this.setup();
 };
 goog.exportSymbol('concerto.frontend.Screen', concerto.frontend.Screen);
@@ -107,6 +114,8 @@ concerto.frontend.Screen.prototype.setup = function() {
   goog.dom.appendChild(this.container_, div);
   this.div_ = div;
 
+  this.setup_key_ = '';
+
   var params = this.getQueryData();
   var url = this.setup_url + '?' + params.toString();
   this.logger_.info('Requesting screen config from ' + url);
@@ -146,4 +155,21 @@ concerto.frontend.Screen.prototype.getQueryData = function() {
     query_data.add('preview', 'true');
   }
   return query_data;
+};
+
+
+/**
+ * Trigger the refreshing the screen if the setup info has changed.
+ *
+ * @param {string} setup_key A key describing the current setup state.
+ * @return {undefined} stops the current processing.
+ */
+concerto.frontend.Screen.prototype.processSetupKey = function(setup_key) {
+  if (this.setup_key_ == '') {
+    this.setup_key_ = setup_key;
+  }
+  if (this.setup_key_ != setup_key) {
+    this.logger_.info('Triggering a screen refresh');
+    return this.refresh();
+  }
 };

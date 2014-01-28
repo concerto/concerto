@@ -6,7 +6,6 @@ class Frontend::ContentsController < ApplicationController
 
   before_filter :scope_setup
   before_filter :screen_api
-  before_filter :include_template_id, :only => [:index, :show]
 
   DEFAULT_SHUFFLE = 'WeightedShuffle'
 
@@ -39,6 +38,9 @@ class Frontend::ContentsController < ApplicationController
     rescue Exception => e
       logger.warn e.message
     end
+
+    response.headers["X-Concerto-Frontend-Setup-Key"] = Digest::MD5.hexdigest(@screen.frontend_cache_key)
+
     respond_to do |format|
       format.json {
         render :json => @content.to_json(
@@ -48,10 +50,6 @@ class Frontend::ContentsController < ApplicationController
       }
     end
     @screen.sometimes_mark_updated
-  end
-
-  def include_template_id
-    response.headers["X-Concerto-Template-ID"] = @screen.effective_template.id.to_s
   end
 
   # GET /frontend/1/fields/1/contents/1
