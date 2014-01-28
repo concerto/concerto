@@ -10,4 +10,9 @@ class ContentTest < ActionController::IntegrationTest
     get "/content/new?type=weather"
     assert :success
   end
+
+  test "missing content renders 404" do
+    get "/content/abc123"
+    assert :missing
+  end
 end

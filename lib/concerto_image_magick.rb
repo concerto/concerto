@@ -104,7 +104,7 @@ module ConcertoImageMagick
         output_width = output_width * upscale
       end
     end
-    return {:width => output_width, :height => output_height}
+    return {:width => output_width.ceil, :height => output_height.ceil}
   end
 
   # Resize an image to a height and width.

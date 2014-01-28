@@ -1,4 +1,7 @@
 class Frontend::ContentsController < ApplicationController
+  define_callbacks :index  # controller callback
+  ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
+
   layout false
 
   before_filter :scope_setup
@@ -15,11 +18,17 @@ class Frontend::ContentsController < ApplicationController
 
   def index
     require 'frontend_content_order'
+
     shuffle_config = FieldConfig.get(@screen, @field, 'shuffler') || DEFAULT_SHUFFLE
     shuffler_klass = FrontendContentOrder.load_shuffler(shuffle_config)
     session_key = "frontend_#{@screen.id}_#{@field.id}".to_sym
-    shuffler = shuffler_klass.new(@screen, @field, @subscriptions, session[session_key])
-    @content = shuffler.next_contents()
+    shuffler = nil
+
+    run_callbacks :index do # Run plugin hooks
+      shuffler = shuffler_klass.new(@screen, @field, @subscriptions, session[session_key])
+      @content = shuffler.next_contents()
+    end
+    
     auth! :object => @content
     session[session_key] = shuffler.save_session()
 
