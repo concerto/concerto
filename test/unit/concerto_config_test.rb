@@ -8,6 +8,7 @@ class ConcertoConfigTest < ActiveSupport::TestCase
   end
 
   test "Booleans work as expected" do
+    ConcertoConfig.make_concerto_config(:allow_user_screen_creation, nil, { :value_type => 'boolean' })
     ConcertoConfig.set :allow_user_screen_creation, true
     assert ConcertoConfig[:allow_user_screen_creation]
 

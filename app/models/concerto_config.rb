@@ -60,7 +60,7 @@ class ConcertoConfig < ActiveRecord::Base
         raise "Concerto Config key #{key} not found!"
       end    
     if setting.value_type == "boolean"
-      ["true", "t"].include?(setting.value) ? (return true) : (return false)
+      ["true", "t", "1"].include?(setting.value) ? (return true) : (return false)
     end
 
     # Rebuild the cache if there was a cache miss.

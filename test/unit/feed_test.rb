@@ -85,7 +85,7 @@ class FeedTest < ActiveSupport::TestCase
     assert feeds(:announcements).descendants.include?(feeds(:important_announcements))
 
     feed_list = [feeds(:boring_announcements), feeds(:sleepy_announcements), feeds(:important_announcements)]
-    assert_equal feed_list, feeds(:announcements).descendants
+    assert_equal feed_list.sort, feeds(:announcements).descendants.sort
 
     assert_equal [feeds(:sleepy_announcements)], feeds(:boring_announcements).descendants
   end
