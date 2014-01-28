@@ -259,8 +259,8 @@ class Screen < ActiveRecord::Base
   # @return [String] The cache key for this frontend string.
   def frontend_cache_key(*args)
     max_updated_at = self.updated_at.try(:utc).try(:to_i)
-    max_updated_at = [self.template.updated_at.try(:utc).try(:to_i), max_updated_at].max
-    self.template.positions.each do |p|
+    max_updated_at = [self.effective_template.updated_at.try(:utc).try(:to_i), max_updated_at].max
+    self.effective_template.positions.each do |p|
       max_updated_at = [p.updated_at.try(:utc).try(:to_i), p.field.updated_at.try(:utc).try(:to_i), max_updated_at].max
     end
     args.each do |ao|
@@ -268,7 +268,7 @@ class Screen < ActiveRecord::Base
         max_updated_at = [ao.updated_at.try(:utc).try(:to_i), max_updated_at].max
       end
     end
-    return "frontend-screen/#{self.id}-#{max_updated_at}"
+    return "frontend-screen/#{self.id}-#{self.effective_template.id}-#{max_updated_at}"
   end
 
 private
