@@ -24,10 +24,18 @@ class MembershipsController < ApplicationController
     respond_to do |format|
       if @membership.save
         process_notification(@membership, {:level => @membership.level_name, :adder => current_user.id}, :action => 'create', :owner => @membership.user, :recipient => @membership.group)
-        format.html { redirect_to(manage_members_group_path(@group), :notice => t(:membership_created)) }
+        if can? :update, @group
+          format.html { redirect_to(manage_members_group_path(@group), :notice => t(:membership_created)) }
+        else
+          format.html { redirect_to(group_path(@group), :notice => t(:membership_applied_for)) }
+        end
         format.xml { render :xml => @group, :status => :created, :location => @group }
       else
-        format.html { redirect_to manage_members_group_path(@group) }
+        if can? :update, @group
+          format.html { redirect_to manage_members_group_path(@group) }
+        else
+          format.html { redirect_to group_path(@group) }
+        end
         format.xml { render :xml => @membership.errors, :status => :unprocessable_entity }
       end
     end
