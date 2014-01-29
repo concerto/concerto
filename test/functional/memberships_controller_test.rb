@@ -15,7 +15,7 @@ class MembershipsControllerTest < ActionController::TestCase
     actual = assigns(:membership)
     group = assigns(:group)
     assert_equal(Membership::LEVELS[:pending], actual.level)
-    assert_redirected_to manage_members_group_path(group)
+    assert_redirected_to group_path(group)
   end
 
   test "should autoaprove members added by admins" do
