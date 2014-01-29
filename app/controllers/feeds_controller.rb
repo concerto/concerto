@@ -10,8 +10,6 @@ class FeedsController < ApplicationController
     @feeds = Feed.roots
     auth!
     respond_with(@feeds)
-    @active_content = 0
-    @feeds.each { |node| node.submissions.each { |submission| if submission.moderation_flag == true then @active_content += 1 end } }
   end
 
   # GET /moderate
