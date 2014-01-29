@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131231191640) do
+ActiveRecord::Schema.define(:version => 20131221173425) do
 
   create_table "activities", :force => true do |t|
     t.integer  "trackable_id"
@@ -46,15 +46,6 @@ ActiveRecord::Schema.define(:version => 20131231191640) do
   end
 
   add_index "concerto_configs", ["key"], :name => "index_concerto_configs_on_key", :unique => true
-
-  create_table "concerto_hardware_players", :force => true do |t|
-    t.string   "ip_address"
-    t.integer  "screen_id"
-    t.boolean  "activated"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-    t.string   "screen_on_off"
-  end
 
   create_table "concerto_plugins", :force => true do |t|
     t.boolean  "enabled"
