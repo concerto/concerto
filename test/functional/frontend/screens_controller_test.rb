@@ -41,6 +41,17 @@ class Frontend::ScreensControllerTest < ActionController::TestCase
     end
   end
 
+  test "frontend callback works" do
+    screens(:two).class.send(:set_callback, :frontend_display, :before) do
+      self.template = Template.where(:is_hidden => true).first
+    end
+    get(:setup, {:id => screens(:two).id, :format => :json})
+    assert_response :success
+    assert_not_nil assigns(:screen)
+    assert_equal assigns(:screen).template, templates(:hidden)
+    screens(:two).class.send(:reset_callbacks, :frontend_display)
+  end
+
   test "cannot setup missing screen" do
     get(:setup, {:id => 'abc', :format => :json})
     assert_response :missing

@@ -31,6 +31,7 @@ class Frontend::ScreensController < ApplicationController
       if params[:files]
         @js_files = params[:files].split(",")
       end
+      @screen.run_callbacks(:frontend_display)
       respond_to do |format|
         format.html
       end
@@ -121,27 +122,28 @@ class Frontend::ScreensController < ApplicationController
       render :json => {}, :status => 403
     else
 
-      # Inject paths into fake attribute so they gets sent with the setup info.
-      # Pretend that it's better not to change the format of the image, so we detect it's upload extension.
-      @screen.template = @screen.effective_template
-      if !@screen.template.media.preferred.first.nil?
-        template_format = File.extname(@screen.template.media.preferred.first.file_name)[1..-1]
-        @screen.template.path = frontend_screen_template_path(@screen, @screen.template, :format => template_format)      
-      else
-        template_format = nil
-        @screen.template.path = nil
-      end
-      css_media = @screen.template.media.where({:key => 'css'})
-      if !css_media.empty?
-        @screen.template.css_path = media_path(css_media.first)
-      end
-      field_configs = []
-      @screen.template.positions.each do |p|
-        p.field_contents_path = frontend_screen_field_contents_path(@screen, p.field, :format => :json)
-        p.field.config = {}
-        @screen.field_configs.where(:field_id => p.field_id).each do |fc|
-          p.field.config[fc.key] = fc.value
-          field_configs << fc
+      field_configs = []  # Cache the field_configs
+      @screen.run_callbacks(:frontend_display) do
+        # Inject paths into fake attribute so they gets sent with the setup info.
+        # Pretend that it's better not to change the format of the image, so we detect it's upload extension.
+        if !@screen.template.media.preferred.first.nil?
+          template_format = File.extname(@screen.template.media.preferred.first.file_name)[1..-1]
+          @screen.template.path = frontend_screen_template_path(@screen, @screen.template, :format => template_format)      
+        else
+          template_format = nil
+          @screen.template.path = nil
+        end
+        css_media = @screen.template.media.where({:key => 'css'})
+        if !css_media.empty?
+          @screen.template.css_path = media_path(css_media.first)
+        end
+        @screen.template.positions.each do |p|
+          p.field_contents_path = frontend_screen_field_contents_path(@screen, p.field, :format => :json)
+          p.field.config = {}
+          @screen.field_configs.where(:field_id => p.field_id).each do |fc|
+            p.field.config[fc.key] = fc.value
+            field_configs << fc
+          end
         end
       end
 
