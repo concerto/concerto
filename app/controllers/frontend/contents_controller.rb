@@ -11,8 +11,10 @@ class Frontend::ContentsController < ApplicationController
 
   def scope_setup
     @screen = Screen.find(params[:screen_id])
-    @field = Field.find(params[:field_id])
-    @subscriptions = @screen.subscriptions.where(:field_id => @field.id)
+    @screen.run_callbacks(:frontend_display) do
+      @field = Field.find(params[:field_id])
+      @subscriptions = @screen.subscriptions.where(:field_id => @field.id)
+    end
   end
 
   def index
