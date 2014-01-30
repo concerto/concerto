@@ -93,9 +93,8 @@ concerto.frontend.Screen.prototype.refresh = function() {
 
   // mark all the fields as invalid (by making their positions null)
   if (this.template) {
-    goog.array.forEach(this.template.positions, goog.bind(function(position) {
-      position.field.position = null;
-    }, this));
+    this.template.dispose();
+    delete this.template;
   }
 
   this.setup();

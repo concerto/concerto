@@ -221,6 +221,16 @@ concerto.frontend.Position.prototype.getContentStyles = function() {
 
 
 /**
+ * Clean up the position before deletion.
+ */
+concerto.frontend.Position.prototype.dispose = function() {
+  this.field.dispose();
+  goog.dom.removeNode(this.div_);
+  delete this.div_;
+};
+
+
+/**
  * Styles the field may not overwrite.
  * Names should be in lower case.
  *

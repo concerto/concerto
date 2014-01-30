@@ -146,3 +146,17 @@ concerto.frontend.Template.prototype.render_ = function() {
 concerto.frontend.Template.prototype.inject = function(div) {
   goog.dom.appendChild(this.div_, div);
 };
+
+
+/**
+ * Clean up before deleting.
+ */
+concerto.frontend.Template.prototype.dispose = function() {
+  goog.array.forEach(this.positions, goog.bind(function(position) {
+    position.dispose();
+  }, this));
+  this.positions.length = 0;
+
+  goog.dom.removeNode(this.div_);
+  delete this.div_;
+};
