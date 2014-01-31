@@ -21,7 +21,7 @@ en:
   current_model: 'Current %{model}'
   destroy: 'Delete'
   destroy_model: 'Delete %{model}'
-  destroy_the_model: 'destroyed the %{model}'
+  destroy_the_model: 'deleted the %{model}'
   deny: 'Deny'
   edit: 'Edit'
   edit_model: 'Edit %{model}'
