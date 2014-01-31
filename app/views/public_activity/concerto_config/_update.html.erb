@@ -1,5 +1,5 @@
 <%= get_activity_owner(activity) %>
-  <%= t(:update_the_model, :model => t(:setting)) %>
+  <%= t('public_activity.update_the_model', :model => t('public_activity.setting')) %>
   <%=
     if activity.trackable
       if can? :read, activity.trackable
