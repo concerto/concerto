@@ -60,7 +60,7 @@ class ScreensController < ApplicationController
     auth!
     
     if @screen.save
-      process_notification(@screen, {:public_owner => current_user.id}, :action => 'create')
+      process_notification(@screen, {:screen_name => @screen.name}, {:owner => current_user, :action => 'create' })
       run_callbacks :change # Run plugin hooks
       flash[:notice] = t(:screen_created)
     else
@@ -85,6 +85,8 @@ class ScreensController < ApplicationController
     auth!
     
     if @screen.update_attributes(screen_params)
+      process_notification(@screen, {:screen_name => @screen.name}, {:owner => current_user, :action => 'update' })
+
       run_callbacks :change # Run plugin hooks
       flash[:notice] = t(:screen_updated)
     end
@@ -96,7 +98,7 @@ class ScreensController < ApplicationController
   def destroy
     @screen = Screen.find(params[:id])
     auth!
-    process_notification(@screen, {:public_owner => current_user.id, :screen_name => @screen.name}, :action => 'destroy')
+    process_notification(@screen, {:screen_name => @screen.name}, {:owner => current_user, :action => 'destroy'})
     run_callbacks :destroy do
       @screen.destroy
     end 
