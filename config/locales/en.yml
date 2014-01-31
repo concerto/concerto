@@ -17,9 +17,11 @@ en:
   back: 'Back'
   cancel: 'Cancel'
   create_model: 'Create %{model}'
+  create_the_model: 'created the %{model}'
   current_model: 'Current %{model}'
   destroy: 'Delete'
   destroy_model: 'Delete %{model}'
+  destroy_the_model: 'destroyed the %{model}'
   deny: 'Deny'
   edit: 'Edit'
   edit_model: 'Edit %{model}'
@@ -38,6 +40,7 @@ en:
   status: "Status"
   type_to_filter: 'Type here to filter'
   update_model: 'Update %{model}'
+  update_the_model: 'updated the %{model}'
 
   is_viewable: "Viewable"
   is_submittable: "Submittable"
