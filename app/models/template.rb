@@ -1,5 +1,6 @@
 class Template < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
+  include PublicActivity::Common if defined? PublicActivity::Common
 
   # Define integration hooks for Concerto Plugins
   define_callbacks :is_deletable
