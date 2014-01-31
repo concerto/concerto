@@ -1,2 +1,1 @@
-<% public_owner = User.find(activity.parameters[:public_owner]) %>
-<%= link_to public_owner.name, public_owner %> <%= t('.deleted_the_feed')%> <%= activity.parameters[:feed_name] %>
+<%= generate_activity_view(activity) %>

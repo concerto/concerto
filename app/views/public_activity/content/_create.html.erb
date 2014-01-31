@@ -1,0 +1,4 @@
+<%= get_activity_owner(activity) %>
+  <%= t('public_activity.create_the_model', :model => Content.model_name.human.downcase) %>
+  <%= "(" + activity.parameters[:content_type].downcase + ")" if activity.parameters.include?(:content_type) %>
+  <%= get_activity_item(activity) %>  

@@ -80,7 +80,13 @@ class SubmissionsController < ApplicationController
 
     respond_to do |format|
       if @submission.update_attributes(submission_params)
-        process_notification(@submission, {:status => @submission.moderation_flag}, :action => 'update', :owner => current_user, :recipient => @submission.content.user)
+        process_notification(@submission, {}, process_notification_options({
+          :params => {
+            :status => @submission.moderation_flag,
+            :content_name => @submission.content.name,
+            :feed_name => @submission.feed.name
+            }, 
+          :recipient => @submission.content.user}))
         format.html { redirect_to(feed_submissions_path, :notice => t(:content_moderated)) }
         format.js
       else

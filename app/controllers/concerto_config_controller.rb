@@ -9,7 +9,7 @@ class ConcertoConfigController < ApplicationController
   # get a hash of concerto_config keys and values and update them using the ConcertoConfig setter
   # PUT /settings
   def update
-    authorize! :update, @concerto_config
+    authorize! :update, ConcertoConfig
     params[:concerto_config].each  do |k,v|
       config = ConcertoConfig.where(:key => k).first
       # since all they can change is the value, only create/update if it changed
@@ -20,6 +20,7 @@ class ConcertoConfigController < ApplicationController
         else
           config.update_column(:value, v)
         end
+        process_notification(config, {}, process_notification_options({:params => {:concerto_config_key => config.key}}))
       end
     end
 

@@ -11,6 +11,7 @@
 
 class ConcertoPlugin < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
+  include PublicActivity::Common if defined? PublicActivity::Common  
 
   validates :gem_name, :presence => true
   validate :check_sources, :on => :create

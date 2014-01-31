@@ -48,7 +48,7 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
     auth!
     if @group.save
-      process_notification(@group, {:public_owner => current_user.id}, :action => 'create')
+      process_notification(@group, {}, process_notification_options({:params => {:group_name => @group.name}}))
       flash[:notice] = t(:group_created)
     end
     respond_with(@group)
@@ -60,6 +60,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     auth!
     if @group.update_attributes(group_params)  
+      process_notification(@group, {}, process_notification_options({:params => {:group_name => @group.name}}))
       flash[:notice] = t(:group_updated) 
     end  
     respond_with(@group)  
@@ -76,7 +77,7 @@ class GroupsController < ApplicationController
       return
     end
     
-    process_notification(@group, {:public_owner => current_user.id, :group_name => @group.name}, :action => 'destroy')
+    process_notification(@group, {}, process_notification_options({:params => {:group_name => @group.name}}))
     @group.destroy
 
     respond_with(@group) 

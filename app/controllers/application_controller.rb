@@ -179,23 +179,25 @@ class ApplicationController < ActionController::Base
   def switch_to_main_app_ability
     @current_ability = @main_app_ability # it is okay if this is nil
   end
-  
-  #ar_instance - the Concerto class being passed in; for this to work, its class needs to include PA
-  #pa_params - specifically params send to PA to be stored in the params column on the activities 
-  #options - right now it only contains the action being performed (CRUD), but anything we don't want to send to PA can go here
+
+  # Record and send notification of an activity.
+  # 
+  # @param [ActiveRecord<#create_activity>] ar_instance Instance of the model on which activity
+  #   is being tracked; for this to work, its class needs to include PublicActivity::Common.
+  # @param [Hash] pa_params Any information you want to send to PublicActivity to be stored in the params column.
+  #   This is redundant since you can also include them in the options[:params].
+  # @param [Hash] options Options to send to PublicActivity like :key, :action, :owner, and :recipient
+  #   (see http://rubydoc.info/gems/public_activity/PublicActivity/Common:create_activity).
+  # @return [Model,nil] New activity if created successfully, otherwise nil.
   def process_notification(ar_instance, pa_params, options = {})
-    return if ar_instance.nil? || !ar_instance.respond_to?('create_activity')
-    # build the hash to pass to create_activity so we can also pass in the custom key from plugins
-    activity_args = {}
-    activity_args[:action] = options[:action]
-    activity_args[:key] = options[:key] unless options[:key].nil?
-    activity_args[:owner] = options[:owner] unless options[:owner].nil?
-    activity_args[:recipient] = options[:recipient] unless options[:recipient].nil?
-    activity_args[:params] = pa_params unless pa_params.empty?
-    activity = ar_instance.create_activity(activity_args)
-    #form the actionmailer method name by combining the class name with the action being performed (e.g. "submission_update")
+    return nil if ar_instance.nil? || !ar_instance.respond_to?('create_activity')
+
+    options[:params] ||= {}
+    options[:params].merge!(pa_params) unless pa_params.nil?
+    activity = ar_instance.create_activity(options)
+    # form the actionmailer method name by combining the class name with the action being performed (e.g. "submission_update")
     am_string = "#{ar_instance.class.name.downcase}_#{options[:action]}"
-    #If ActivityMailer can find a method by the formulated name, pass in the activity (everything we know about what was done)
+    # If ActivityMailer can find a method by the formulated name, pass in the activity (everything we know about what was done)
     if ActivityMailer.respond_to?(am_string) && (options[:recipient].nil? || options[:owner].nil? || options[:recipient] != options[:owner])
       #fulfilling bamnet's expansive notification ambitions via metaprogramming since 2013
       begin
@@ -209,6 +211,8 @@ class ApplicationController < ActionController::Base
         ConcertoConfig.first.create_activity :action => :system_notification, :params => {:message => t(:smtp_send_error_ssl)}
       end
     end
+
+    activity
   end
 
   # Expose a instance variable counting the number of pending submissions
@@ -361,5 +365,25 @@ class ApplicationController < ActionController::Base
        render :file => 'public/500.html', :status => 500, :layout => false
      end
   end
-  
+
+  protected
+
+  # Sets the default process notification options along with custom settings.
+  #
+  # @param [Hash] options Options for the process notification.
+  # @return [Hash] The options to pass along.
+  def process_notification_options(options = {})
+    opts = {}
+    opts[:params] = {
+      :owner_name => current_user.name
+    }
+    opts[:owner] = current_user
+    opts[:action] = action_name
+    if options.include?(:params)
+      opts[:params].merge!(options[:params])
+      options.delete(:params)
+    end
+    opts.merge!(options)
+  end
+ 
 end
