@@ -27,6 +27,7 @@ en:
   edit_model: 'Edit %{model}'
   error: 'error'
   import_model: 'Import %{model}'
+  import_the_model: 'imported the %{model}'
   join: "Join"
   manage_model: 'Manage %{model}'
   my_model: 'My %{model}'
