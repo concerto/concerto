@@ -365,5 +365,25 @@ class ApplicationController < ActionController::Base
        render :file => 'public/500.html', :status => 500, :layout => false
      end
   end
-  
+
+  protected
+
+  # Sets the default process notification options along with custom settings.
+  #
+  # @param [Hash] options Options for the process notification.
+  # @return [Hash] The options to pass along.
+  def process_notification_options(options = {})
+    opts = {}
+    opts[:params] = {
+      :owner_name => current_user.name
+    }
+    opts[:owner] = current_user
+    opts[:action] = action_name
+    if options.include?(:params)
+      opts[:params].merge!(options[:params])
+      options.delete(:params)
+    end
+    opts.merge!(options)
+  end
+ 
 end
