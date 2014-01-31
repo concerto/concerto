@@ -53,6 +53,13 @@ class FieldConfigsController < ApplicationController
 
     respond_to do |format|
       if @field_config.save
+        process_notification(@field_config, {}, process_notification_options({
+          :params => {
+            :field_config_name => @field_config.key,
+            :screen_name => @screen.name,
+            :field_name => @field.name
+            }
+          }))
         format.html { redirect_to screen_field_field_configs_path(@screen, @field), :notice => 'Field config was successfully created.' }
         format.xml { head :ok }
       else
@@ -70,6 +77,13 @@ class FieldConfigsController < ApplicationController
 
     respond_to do |format|
       if @field_config.update_attributes(field_config_params)
+        process_notification(@field_config, {}, process_notification_options({
+          :params => {
+            :field_config_name => @field_config.key,
+            :screen_name => @screen.name,
+            :field_name => @field.name
+            }
+          }))
         format.html { redirect_to screen_field_field_configs_path(@screen, @field), :notice => 'Field config was successfully updated.' }
         format.xml { head :ok }
       else
@@ -83,8 +97,16 @@ class FieldConfigsController < ApplicationController
   # DELETE /screens/:screen_id/fields/:field_id/field_configs/1.xml
   def destroy
     @field_config = FieldConfig.find(params[:id])
-    @field_config.destroy
     auth!
+
+    process_notification(@field_config, {}, process_notification_options({
+      :params => {
+        :field_config_name => @field_config.key,
+        :screen_name => @screen.name,
+        :field_name => @field.name
+        }
+      }))
+    @field_config.destroy
 
     respond_to do |format|
       format.html { redirect_to screen_field_field_configs_url }

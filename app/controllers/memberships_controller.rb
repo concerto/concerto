@@ -23,7 +23,15 @@ class MembershipsController < ApplicationController
 
     respond_to do |format|
       if @membership.save
-        process_notification(@membership, {:level => @membership.level_name, :adder => current_user.id}, :action => 'create', :owner => @membership.user, :recipient => @membership.group)
+        process_notification(@membership, {}, process_notification_options({
+          :params => {
+            :level => @membership.level_name, 
+            :member_id => @membership.user.id,
+            :member_name => @membership.user.name,
+            :group_id => @membership.group.id,
+            :group_name => @membership.group.name
+          }, 
+          :recipient => @membership.group}))
         if can? :update, @group
           format.html { redirect_to(manage_members_group_path(@group), :notice => t(:membership_created)) }
         else
@@ -70,7 +78,16 @@ class MembershipsController < ApplicationController
     @membership = Membership.find(params[:id])
     auth!
     respond_to do |format|
-      process_notification(@membership, {:group_name => @membership.group.name}, :action => 'destroy', :owner => current_user, :recipient => @membership.user)
+      process_notification(@membership, {}, process_notification_options({
+        :params => {
+          :level => @membership.level_name, 
+          :member_id => @membership.user.id,
+          :member_name => @membership.user.name,
+          :group_id => @membership.group.id,
+          :group_name => @membership.group.name
+        }, 
+        :recipient => @membership.user}))
+
       if @membership.destroy
         format.html { redirect_to manage_members_group_path(@group), :notice => t(:member_removed) }
         format.xml { head :ok }
