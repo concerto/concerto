@@ -1,7 +1,33 @@
-<%= link_to activity.owner.name, activity.owner if activity.owner %>
-<% if activity.trackable %>
+<%= get_activity_owner(activity) %>
   <%= activity.parameters[:status] ? t(".approved") : t(".denied") %>
-  <%= link_to activity.trackable.content.name, activity.trackable.content %> <%= t('.for_the') %> <%= link_to activity.trackable.feed.name, activity.trackable.feed %> <%= t('.feed') %>
-<% else %>
-  <%= t('public_activity.which_has_since_been_removed') %>
-<% end %>
+  <%= 
+    results = ""
+    if activity.trackable
+      if can? :read, activity.trackable.content
+        results += link_to(activity.trackable.content.name, activity.trackable.content)
+      else
+        results += activity.trackable.content.name
+      end
+      results += " " + t('.for_the') + " " 
+      if can? :read, activity.trackable.feed
+        results += link_to(activity.trackable.feed.name, activity.trackable.feed)
+      else
+        results += activity.trackable.feed.name
+      end
+      results += " " + t('.feed')
+    else
+      if activity.parameters.include?(:content_name)
+        results += " " + activity.parameters[:content_name]
+        if activity.parameters.include?(:feed_name)
+          results += " " + t('.for_the') + " " 
+          results += " " + activity.parameters[:feed_name]
+          results += " " + t('.feed')
+        end
+      else
+        results += " " + Content.model_name.human.downcase
+        results += " " + t('public_activity.which_has_since_been_removed')
+      end
+    end
+
+    results
+  %>

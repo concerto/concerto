@@ -37,7 +37,8 @@ class ConcertoPluginsController < ApplicationController
     @concerto_plugin = ConcertoPlugin.new(concerto_plugin_params)
     @concerto_plugin.enabled = true
     auth!
-    if @concerto_plugin.save    
+    if @concerto_plugin.save
+      process_notification(@concerto_plugin, {}, process_notification_options({:params => {:concerto_plugin_gem_name => @concerto_plugin.gem_name}}))
       write_Gemfile()
       restart_webserver()
       flash[:notice] = t(:plugin_created)
@@ -53,6 +54,7 @@ class ConcertoPluginsController < ApplicationController
     @concerto_plugin = ConcertoPlugin.find(params[:id])
     auth!
     if @concerto_plugin.update_attributes(concerto_plugin_params)
+      process_notification(@concerto_plugin, {}, process_notification_options({:params => {:concerto_plugin_gem_name => @concerto_plugin.gem_name}}))
       write_Gemfile()
       flash[:notice] = t(:plugin_updated)
       redirect_to concerto_plugins_path
@@ -66,6 +68,8 @@ class ConcertoPluginsController < ApplicationController
   def destroy
     @concerto_plugin = ConcertoPlugin.find(params[:id])
     auth!
+
+    process_notification(@concerto_plugin, {}, process_notification_options({:params => {:concerto_plugin_gem_name => @concerto_plugin.gem_name}}))
     @concerto_plugin.destroy
     write_Gemfile()
     restart_webserver()

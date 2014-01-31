@@ -37,6 +37,7 @@ en:
   preview: 'Preview'
   prohibited_save: "prevented this %{model} from being saved:"
   remove_model: 'Remove %{model}'
+  setting: 'setting'
   show: 'Show'
   status: "Status"
   type_to_filter: 'Type here to filter'

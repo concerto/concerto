@@ -127,7 +127,7 @@ class ContentsController < ApplicationController
          flash.now[:error] = e.message
       end
       if results
-        process_notification(@content, {}, :action => 'create', :owner => current_user)
+        process_notification(@content, {}, process_notification_options({:params => {:content_name => @content.name}}))
         # Copy over the duration to each submission instance
         create_submissions
         @content.save #This second save adds the submissions
@@ -158,7 +158,7 @@ class ContentsController < ApplicationController
     @feed_ids = feed_ids
 
     if @content.update_attributes(content_update_params)
-      process_notification(@content, {}, :action => 'update', :owner => current_user)
+      process_notification(@content, {}, process_notification_options({:params => {:content_name => @content.name}}))
       submissions = @content.submissions
       submissions.each do |submission|
         if @feed_ids.include? submission.feed_id
@@ -186,6 +186,7 @@ class ContentsController < ApplicationController
     @content = Content.find(params[:id])
     auth!
 
+    process_notification(@content, {}, process_notification_options({:params => {:content_name => @content.name}}))
     @content.destroy
 
     respond_to do |format|
