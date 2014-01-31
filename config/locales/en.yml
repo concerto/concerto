@@ -17,17 +17,14 @@ en:
   back: 'Back'
   cancel: 'Cancel'
   create_model: 'Create %{model}'
-  create_the_model: 'created the %{model}'
   current_model: 'Current %{model}'
   destroy: 'Delete'
   destroy_model: 'Delete %{model}'
-  destroy_the_model: 'deleted the %{model}'
   deny: 'Deny'
   edit: 'Edit'
   edit_model: 'Edit %{model}'
   error: 'error'
   import_model: 'Import %{model}'
-  import_the_model: 'imported the %{model}'
   join: "Join"
   manage_model: 'Manage %{model}'
   my_model: 'My %{model}'
@@ -37,12 +34,10 @@ en:
   preview: 'Preview'
   prohibited_save: "prevented this %{model} from being saved:"
   remove_model: 'Remove %{model}'
-  setting: 'setting'
   show: 'Show'
   status: "Status"
   type_to_filter: 'Type here to filter'
   update_model: 'Update %{model}'
-  update_the_model: 'updated the %{model}'
 
   is_viewable: "Viewable"
   is_submittable: "Submittable"
