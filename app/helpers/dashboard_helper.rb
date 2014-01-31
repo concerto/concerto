@@ -14,7 +14,7 @@ module DashboardHelper
   # @return [String] The possibly linkable owner of the activity.
   def get_activity_owner(activity)
     if activity.owner.nil?
-      activity.parameters.include?(:owner_name) ? activity.parameters[:owner_name] : 'An unknown user'
+      activity.parameters.include?(:owner_name) ? activity.parameters[:owner_name] : t('public_activity.unknown_user')
     else
       if can? :read, activity.owner
         link_to(activity.owner.name, activity.owner)
@@ -57,7 +57,7 @@ module DashboardHelper
   def generate_activity_view(activity, attr_name = 'name')
     action = activity.key.split(".").last
     results = get_activity_owner(activity) + 
-      " " + t((action + "_the_model").to_sym, :model => activity.trackable_type.classify.safe_constantize.model_name.human.downcase) +
+      " " + t('public_activity.' + action + '_the_model', :model => activity.trackable_type.classify.safe_constantize.model_name.human.downcase) +
       " " + get_activity_item(activity, attr_name)
     results.html_safe
   end
