@@ -2,7 +2,7 @@ class Screen < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
   # Define integration hooks for Concerto Plugins
-  define_callbacks :effective_template
+  define_model_callbacks :frontend_display
   ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
 
   # Define some actions for communication with the Screens form
@@ -237,17 +237,25 @@ class Screen < ActiveRecord::Base
        self.authentication_token.start_with? 'mac:'
   end
 
-  def effective_template
-    # Callbacks should only set the @template if it has not already been set by another callback.
-    # Higher priority callbacks should register with the :prepend option.
-    @template = nil
-
-    # allow plugins such as the EMS or concerto template scheduler determine the template
-    run_callbacks :effective_template 
-    raise "@template is not a Template instance" if !@template.is_a? Template unless @template.nil?
-
-    # default to the screens assigned template if not set by a plugin
-    @template ||= self.template
+  # Compute a cache key suitable for use in the frontend.
+  # Combines the updated information for the screen, template, positions,
+  # and fields to make a single key.
+  # 
+  # @param [Array<#updated_at>] args A list of object to factor in.  These objects should
+  #    respond to the `updated_at` method and are skipped if they do not.
+  # @return [String] The cache key for this frontend string.
+  def frontend_cache_key(*args)
+    max_updated_at = self.updated_at.try(:utc).try(:to_i)
+    max_updated_at = [self.template.updated_at.try(:utc).try(:to_i), max_updated_at].max
+    self.template.positions.each do |p|
+      max_updated_at = [p.updated_at.try(:utc).try(:to_i), p.field.updated_at.try(:utc).try(:to_i), max_updated_at].max
+    end
+    args.each do |ao|
+      if ao.methods.include? 'updated_at'
+        max_updated_at = [ao.updated_at.try(:utc).try(:to_i), max_updated_at].max
+      end
+    end
+    return "frontend-screen/#{self.id}-#{self.template.id}-#{max_updated_at}"
   end
 
 private

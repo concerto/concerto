@@ -173,6 +173,7 @@ DEPENDENCIES
   airbrake
   attachable (>= 0.0.5)
   bootstrap-datepicker-rails
+  bundler (>= 1.5.0)
   cancan
   clockwork
   delayed_job_active_record

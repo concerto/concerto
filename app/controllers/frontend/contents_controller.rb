@@ -1,9 +1,11 @@
 class Frontend::ContentsController < ApplicationController
+  define_callbacks :index  # controller callback
+  ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
+
   layout false
 
   before_filter :scope_setup
   before_filter :screen_api
-  before_filter :include_template_id, :only => [:index, :show]
 
   DEFAULT_SHUFFLE = 'WeightedShuffle'
 
@@ -15,11 +17,17 @@ class Frontend::ContentsController < ApplicationController
 
   def index
     require 'frontend_content_order'
+
     shuffle_config = FieldConfig.get(@screen, @field, 'shuffler') || DEFAULT_SHUFFLE
     shuffler_klass = FrontendContentOrder.load_shuffler(shuffle_config)
     session_key = "frontend_#{@screen.id}_#{@field.id}".to_sym
-    shuffler = shuffler_klass.new(@screen, @field, @subscriptions, session[session_key])
-    @content = shuffler.next_contents()
+    shuffler = nil
+
+    run_callbacks :index do # Run plugin hooks
+      shuffler = shuffler_klass.new(@screen, @field, @subscriptions, session[session_key])
+      @content = shuffler.next_contents()
+    end
+    
     auth! :object => @content
     session[session_key] = shuffler.save_session()
 
@@ -30,6 +38,9 @@ class Frontend::ContentsController < ApplicationController
     rescue Exception => e
       logger.warn e.message
     end
+
+    response.headers["X-Concerto-Frontend-Setup-Key"] = Digest::MD5.hexdigest(@screen.frontend_cache_key)
+
     respond_to do |format|
       format.json {
         render :json => @content.to_json(
@@ -39,10 +50,6 @@ class Frontend::ContentsController < ApplicationController
       }
     end
     @screen.sometimes_mark_updated
-  end
-
-  def include_template_id
-    response.headers["X-Concerto-Template-ID"] = @screen.effective_template.id.to_s
   end
 
   # GET /frontend/1/fields/1/contents/1

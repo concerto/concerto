@@ -1,6 +1,8 @@
 #Key-value store for field-specific configurations
 class FieldConfig < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
+  include PublicActivity::Common if defined? PublicActivity::Common
+  
   belongs_to :field
   belongs_to :screen
 

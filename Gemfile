@@ -2,6 +2,7 @@
 source 'https://rubygems.org'
 
 gem "rails", "~> 4.0.0"
+gem "bundler", ">= 1.5.0"
 
 # Get the absolute path of this Gemfile so the includes below still work
 # when the current directory for a bundler command isn't the application's
@@ -67,7 +68,7 @@ gem 'simplecov', :require => false, :group => :test
 gem 'kaminari', '0.14.1'  # Pagination
 
 # Enable the newsfeed for 1.9+ users.
-gem "public_activity", "~> 1.4.0", :platforms => [:ruby_19, :ruby_20]
+gem "public_activity", "~> 1.4.0", :platforms => [:ruby_19, :ruby_20, :ruby_21]
 
 gem 'redcarpet', '~> 2.3.0'
 gem 'docsplit'   # for graphics and pdf, ppt conversion

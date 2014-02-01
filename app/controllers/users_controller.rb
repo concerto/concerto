@@ -46,6 +46,7 @@ class UsersController < ApplicationController
     auth!
     
     if @user.save
+      process_notification(@user, {}, process_notification_options({:params => {:user_name => @user.name}}))
       flash[:notice] = t(:user_created)
     else
       flash[:error] = "#{t(:user_not_created)}: #{@user.errors.full_messages.first}"
@@ -74,6 +75,7 @@ class UsersController < ApplicationController
     end
     if !(set_admin.nil?) and can? :manage, User
       @user.update_attribute("is_admin", set_admin)
+      process_notification(@user, {}, process_notification_options({:params => {:user_name => @user.name}}))
     end
     respond_with(@user)
   end
@@ -94,6 +96,7 @@ class UsersController < ApplicationController
       return    
     end
 
+    process_notification(@user, {}, process_notification_options({:params => {:user_name => @user.name}}))
     @user.destroy
     respond_with(@user)
   end

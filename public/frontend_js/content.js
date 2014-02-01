@@ -31,7 +31,7 @@ concerto.frontend.Content = function(data) {
   this.id = data['id'] || null;
 
   /**
-   * Should the font size be automatically adjusted to optimize 
+   * Should the font size be automatically adjusted to optimize
    * display within the field?
    * @type {boolean}
    */

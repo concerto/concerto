@@ -127,7 +127,12 @@ class ContentsController < ApplicationController
          flash.now[:error] = e.message
       end
       if results
-        process_notification(@content, {}, :action => 'create', :owner => current_user)
+        process_notification(@content, {}, process_notification_options({
+          :params => {
+            :content_name => @content.name,
+            :content_type => @content.class.model_name.human
+          },
+          :key => "content.#{action_name}"}))
         # Copy over the duration to each submission instance
         create_submissions
         @content.save #This second save adds the submissions
@@ -152,33 +157,36 @@ class ContentsController < ApplicationController
   # PUT /contents/1.xml
   def update
     @content = Content.find(params[:id])
+    @user = User.find(@content.user_id)
     auth!
 
     @feed_ids = feed_ids
 
-    respond_to do |format|
-      if @content.update_attributes(content_update_params)
-        process_notification(@content, {}, :action => 'update', :owner => current_user)
-        submissions = @content.submissions
-        submissions.each do |submission|
-          if @feed_ids.include? submission.feed_id
-            submission.update_attributes(:moderation_flag => nil)
-          else
-            submission.mark_for_destruction
-          end
+    if @content.update_attributes(content_update_params)
+      process_notification(@content, {}, process_notification_options({
+        :params => {
+          :content_name => @content.name,
+          :content_type => @content.class.model_name.human
+        },
+        :key => "content.#{action_name}"}))
+      submissions = @content.submissions
+      submissions.each do |submission|
+        if @feed_ids.include? submission.feed_id
+          submission.update_attributes(:moderation_flag => nil)
+        else
+          submission.mark_for_destruction
         end
-        submitted_feeds = submissions.map { |s| s.feed_id }
-        @feed_ids.reject! { |id| submitted_feeds.include? id }
-        create_submissions
-        if @content.save
-          flash[:notice] = t(:content_updated)
-        end
-        respond_with(@content)
-      else
-        @feeds = submittable_feeds
-        format.html { render :action => "edit" }
-        format.xml { render :xml => @content.errors, :status => :unprocessable_entity }
       end
+      submitted_feeds = submissions.map { |s| s.feed_id }
+      @feed_ids.reject! { |id| submitted_feeds.include? id }
+      create_submissions
+      if @content.save
+        flash[:notice] = t(:content_updated)
+      end
+      respond_with(@content)
+    else
+      @feeds = submittable_feeds
+      respond_with(@content)
     end
   end
 
@@ -188,6 +196,12 @@ class ContentsController < ApplicationController
     @content = Content.find(params[:id])
     auth!
 
+    process_notification(@content, {}, process_notification_options({
+      :params => {
+        :content_name => @content.name,
+        :content_type => @content.class.model_name.human
+       },
+      :key => "content.#{action_name}"}))
     @content.destroy
 
     respond_to do |format|

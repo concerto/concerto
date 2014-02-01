@@ -26,6 +26,7 @@ en:
 
   #Memberships controller
   membership_created:          "Membership was successfully created."
+  membership_applied_for:      "Membership in group is now pending"
   membership_denied:           "Membership was successfully denied."
   membership_denied_failure:   "Membership was not successfully denied."
   membership_approved:         "Membership was successfully approved."

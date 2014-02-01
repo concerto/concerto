@@ -62,6 +62,7 @@ class TemplatesController < ApplicationController
 
     respond_to do |format|
       if @template.save
+        process_notification(@template, {}, process_notification_options({:params => {:template_name => @template.name}}))
         format.html { redirect_to(edit_template_path(@template), :notice => t(:template_created)) }
         format.xml  { render :xml => @template, :status => :created, :location => @template }
       else
@@ -83,6 +84,7 @@ class TemplatesController < ApplicationController
     # end
 
     if @template.update_attributes(template_params)
+      process_notification(@template, {}, process_notification_options({:params => {:template_name => @template.name}}))
       flash[:notice] = t(:template_updated)
     end
 
@@ -101,6 +103,7 @@ class TemplatesController < ApplicationController
       return
     end
 
+    process_notification(@template, {}, process_notification_options({:params => {:template_name => @template.name}}))
     @template.destroy
     respond_with(@template)
   end
@@ -176,6 +179,7 @@ class TemplatesController < ApplicationController
       # is_hidden checkbox supercedes xml
       @template.is_hidden = template_params[:is_hidden]
       if @template.save
+        process_notification(@template, {}, process_notification_options({:params => {:template_name => @template.name}}))
         flash[:notice] = t(:template_created)
       end
     end
