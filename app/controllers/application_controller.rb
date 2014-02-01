@@ -384,6 +384,17 @@ class ApplicationController < ActionController::Base
       options.delete(:params)
     end
     opts.merge!(options)
+
+    # if personal identifying information is to be redacted then wipeout the owner name
+    # and member_name
+    redact_pii = true # set accordingly from config
+    if opts.include?(:params) && redact_pii
+      opts[:params].delete(:user_name)  if opts[:params].include?(:user_name)
+      opts[:params].delete(:owner_name)  if opts[:params].include?(:owner_name)
+      opts[:params].delete(:member_name)  if opts[:params].include?(:member_name)
+    end
+
+    opts
   end
  
 end
