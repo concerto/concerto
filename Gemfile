@@ -2,6 +2,7 @@
 source 'https://rubygems.org'
 
 gem "rails", "~> 3.2.15"
+gem "bundler", ">= 1.5.0"
 
 # Get the absolute path of this Gemfile so the includes below still work
 # when the current directory for a bundler command isn't the application's

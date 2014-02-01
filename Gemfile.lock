@@ -228,6 +228,7 @@ DEPENDENCIES
   airbrake
   attachable (>= 0.0.5)
   bootstrap-datepicker-rails
+  bundler (>= 1.5.0)
   cancan
   clockwork
   coffee-rails (~> 3.2.1)
