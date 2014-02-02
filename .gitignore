@@ -17,3 +17,4 @@ doc/coverage/*
 .ruby-gemset
 .powrc
 Gemfile-plugins.bak
+Gemfile.local
