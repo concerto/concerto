@@ -20,4 +20,11 @@ module Clockwork
   every(1.day, 'Deny Expired Content Submissions') do
     Submission.delay.deny_old_expired
   end
+  
+  every(1.day, 'Remove old public activity entries') do  
+    activities = Activity.where("created_at > :days", {:days => ConcertoConfig[:keep_activity_log].days.ago}).destroy_all
+  end  
+  
 end
+
+
