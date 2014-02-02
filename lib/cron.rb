@@ -21,12 +21,14 @@ module Clockwork
     Submission.delay.deny_old_expired
   end
   
-  every(1.day, 'Remove old public activity entries') do  
-    unless ConcertoConfig[:keep_activity_log].to_i == 0
-      activities =  PublicActivity::Activity.where("created_at > :days", {:days => ConcertoConfig[:keep_activity_log].to_i.days.ago}).destroy_all
-    end
-  end  
-  
+  if RUBY_VERSION >= "1.9"  
+    every(1.day, 'Remove old public activity entries') do  
+      unless ConcertoConfig[:keep_activity_log].to_i == 0
+        activities =  PublicActivity::Activity.where("created_at > :days", {:days => ConcertoConfig[:keep_activity_log].to_i.days.ago}).destroy_all
+      end
+    end  
+  end
+
 end
 
 
