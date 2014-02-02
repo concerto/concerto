@@ -23,7 +23,7 @@ module Clockwork
   
   every(1.day, 'Remove old public activity entries') do  
     unless ConcertoConfig[:keep_activity_log].to_i == 0
-      activities = Activity.where("created_at > :days", {:days => ConcertoConfig[:keep_activity_log].to_i.days.ago}).destroy_all
+      activities =  PublicActivity::Activity.where("created_at > :days", {:days => ConcertoConfig[:keep_activity_log].to_i.days.ago}).destroy_all
     end
   end  
   
