@@ -20,6 +20,11 @@ group :concerto_plugins do
   eval File.read(basedir+'/Gemfile-plugins') if File.exists?(basedir+'/Gemfile-plugins')
 end
 
+# Load a local Gemfile if it exists
+if File.exists?(basedir+'/Gemfile.local')
+  eval File.read(basedir+'/Gemfile.local')
+end
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
