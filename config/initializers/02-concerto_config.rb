@@ -49,6 +49,7 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("system_time_zone", 'Eastern Time (US & Canada)', :value_type => "timezone", :category => 'System') 
     ConcertoConfig.make_concerto_config("config_last_updated", "0", :value_type => "integer", :hidden => "true", :category => 'System')
     ConcertoConfig.make_concerto_config("http_proxy_settings", "", :value_type => "string", :category => 'System', :description => 'http://username:password@hostname:port')   
+    ConcertoConfig.make_concerto_config("keep_activity_log", "90", :value_type => "integer", :value_default => "90", :category => 'System', :description => 'Days to keep activity log for (where 0 is forever)') 
        
   end
 
