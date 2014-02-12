@@ -1,7 +1,7 @@
 <div class="viewblock-header_right">
   <div class="button-padding">
     <% if can? :update, @group %>
-      <%= link_to t(:manage_members), manage_members_group_path(@group), :class => "btn" %>
+      <%= link_to t('.manage_members'), manage_members_group_path(@group), :class => "btn" %>
     <% end %>
     <% if can? :edit, @group %>
       <%= link_to t(:edit_model, :model => Group), edit_group_path(@group), :class => "btn" %>

@@ -26,6 +26,11 @@ gem 'therubyracer', :platforms => :ruby
 gem 'execjs'
 gem 'uglifier', '>= 1.3.0'
 
+# Load a local Gemfile if it exists
+if File.exists?(basedir+'/Gemfile.local')
+  eval File.read(basedir+'/Gemfile.local')
+end
+
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'bootstrap-datepicker-rails'
