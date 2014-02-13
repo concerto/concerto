@@ -1,5 +1,5 @@
 # Edit this Gemfile to bundle your application's dependencies.
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 gem "rails", "~> 3.2.15"
 
