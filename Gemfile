@@ -1,8 +1,7 @@
 # Edit this Gemfile to bundle your application's dependencies.
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 gem "rails", "~> 3.2.15"
-gem "bundler", ">= 1.5.0"
 
 # Get the absolute path of this Gemfile so the includes below still work
 # when the current directory for a bundler command isn't the application's
@@ -79,7 +78,9 @@ gem 'strong_parameters'
 gem 'kaminari', '0.14.1'  # Pagination
 
 # Enable the newsfeed for 1.9+ users.
-gem 'public_activity', :platforms => [:ruby_19, :ruby_20, :ruby_21]
+pa_platforms = [:ruby_19, :ruby_20, :ruby_21] 
+pa_platforms &= Bundler::Dependency::PLATFORM_MAP.keys
+gem 'public_activity', :platforms => pa_platforms
 
 gem 'redcarpet', '~> 2.3.0'
 gem 'docsplit'   # for graphics and pdf, ppt conversion
