@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131221173425) do
+ActiveRecord::Schema.define(:version => 20131230202517) do
 
   create_table "activities", :force => true do |t|
     t.integer  "trackable_id"
@@ -111,10 +111,16 @@ ActiveRecord::Schema.define(:version => 20131221173425) do
 
   create_table "fields", :force => true do |t|
     t.string   "name"
-    t.integer  "kind_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "fields_kinds", :id => false, :force => true do |t|
+    t.integer "field_id"
+    t.integer "kind_id"
+  end
+
+  add_index "fields_kinds", ["field_id", "kind_id"], :name => "index_fields_kinds_on_field_id_and_kind_id"
 
   create_table "groups", :force => true do |t|
     t.string   "name"

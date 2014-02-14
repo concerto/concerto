@@ -65,6 +65,14 @@ class Position < ActiveRecord::Base
     # purposes with v1 descriptors.
     if data.has_key?('name')
       self.field = Field.where(:name => data['name']).first
+      # if the field does not exist, then add it, and map it's kinds (from data['type'] - comma delimited)
+      # if no kinds can be determined for the new field then dont add the new field
+      if self.field.blank?
+        f = Field.create({ :name => data['name'] })
+        f.kinds = Kind.where(:name => data['type'].split(",").collect {|t| t.strip })
+
+        self.field = f if !f.kinds.blank?
+      end
       data.delete('name')
     end
     # Handle everything else...

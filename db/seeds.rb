@@ -27,10 +27,10 @@ ConcertoPlugin.find_or_create_by_gem_name({:gem_name => "concerto-hardware", :en
 
 # Note: This is replicated in config/initializers/17-required_data.rb because an instance must have fields.
 Kind.all.each do |kind|
-  field = Field.find_or_create_by_name({:name => kind.name, :kind => Kind.where(:name => kind.name).first})
+  field = Field.find_or_create_by_name({:name => kind.name, :kinds => Kind.where(:name => kind.name)})
 end
 # The time is just a special text field.
-Field.find_or_create_by_name({:name => 'Time', :kind => Kind.where(:name => 'Text').first})
+Field.find_or_create_by_name({:name => 'Time', :kinds => Kind.where(:name => 'Text')})
 
 #Create an initial group
 Group.find_or_create_by_name(:name => "Concerto Admins")
