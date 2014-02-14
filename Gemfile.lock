@@ -105,7 +105,6 @@ GEM
     hike (1.2.3)
     i18n (0.6.9)
     icalendar (1.5.0)
-    ice_cube (0.11.3)
     journey (1.0.4)
     jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
@@ -161,12 +160,6 @@ GEM
     rake (10.1.1)
     rdoc (3.12.2)
       json (~> 1.4)
-    recurring_select (1.2.1)
-      coffee-rails (>= 3.1)
-      ice_cube (>= 0.11)
-      jquery-rails (>= 3.0)
-      rails (>= 3.2)
-      sass-rails (>= 3.1)
     redcarpet (2.3.0)
     ref (1.0.5)
     retriable (1.4.1)
@@ -242,7 +235,6 @@ DEPENDENCIES
   execjs
   foreman
   girl_friday
-  ice_cube
   jquery-rails
   jquery-timepicker-rails
   json (= 1.7.7)
@@ -251,7 +243,6 @@ DEPENDENCIES
   pg
   public_activity
   rails (~> 3.2.15)
-  recurring_select (~> 1.2.1rc3)
   redcarpet (~> 2.3.0)
   rmagick (>= 2.12.2)
   rubyzip (< 1.0.0)

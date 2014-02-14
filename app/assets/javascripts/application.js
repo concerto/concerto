@@ -21,5 +21,4 @@
 //= require jquery.timepicker.js
 //= require datepair.js
 //= require jquery.iframe-transport
-//= require recurring_select
 //= require_tree .
