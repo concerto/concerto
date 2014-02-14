@@ -68,7 +68,7 @@ gem "rubyzip", '< 1.0.0'
 # Process jobs in the background
 gem 'foreman', :group => :development
 gem 'delayed_job_active_record'
-gem 'clockwork'
+gem 'clockwork', '0.7.0'
 
 # Test Coverage
 gem 'simplecov', :require => false, :group => :test
