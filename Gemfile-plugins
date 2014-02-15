@@ -1,9 +1,18 @@
-gem 'concerto_simple_rss'
 
-gem 'concerto_remote_video'
+gem "concerto_weather"
 
-gem 'concerto_weather'
+gem "concerto_remote_video"
 
-gem 'concerto_iframe'
+gem "concerto_simple_rss"
 
-gem 'concerto_calendar'
+gem "concerto_iframe"
+
+gem "concerto_calendar"
+
+gem "concerto-hardware"
+
+gem "concerto_audio"
+
+gem "concerto_template_scheduling"
+
+gem "concerto-emergency-broadcast", "0.0.1", :path => "/home/gabe/Programming/spring_2014/concerto-emergency"
