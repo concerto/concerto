@@ -1,5 +1,0 @@
-automatic_bundle_installation: true
-automatic_database_installation: true
-compile_production_assets: true
-airbrake_enabled_initially: true
-bundle_install_options: "--path vendor/bundle"

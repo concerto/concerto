@@ -1,10 +1,3 @@
-PATH
-  remote: ../concerto-emergency
-  specs:
-    concerto-emergency-broadcast (0.0.1)
-      concerto_simple_rss
-      rails (~> 3.2.9)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -46,7 +39,7 @@ GEM
       extlib (>= 0.9.15)
       multi_json (>= 1.0.0)
     bcrypt-ruby (3.1.2)
-    bootstrap-datepicker-rails (1.3.0.1)
+    bootstrap-datepicker-rails (1.1.1.11)
       railties (>= 3.0)
     builder (3.0.4)
     cancan (1.6.10)
@@ -60,10 +53,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
-    concerto-hardware (0.0.5)
-      rails (~> 3.2.9)
-    concerto_audio (0.0.2)
-      rails (~> 3.2.12)
     concerto_calendar (0.0.2)
       google-api-client
       icalendar
@@ -75,10 +64,6 @@ GEM
     concerto_simple_rss (0.1)
       rails (~> 3.2.11)
       ruby-xslt (~> 0.9)
-    concerto_template_scheduling (0.0.3)
-      ice_cube
-      rails (~> 3.2.16)
-      recurring_select (~> 1.2.1rc3)
     concerto_weather (0.0.7)
       rails (~> 3.2.12)
     connection_pool (1.2.0)
@@ -120,7 +105,6 @@ GEM
     hike (1.2.3)
     i18n (0.6.9)
     icalendar (1.5.0)
-    ice_cube (0.11.3)
     journey (1.0.4)
     jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
@@ -176,12 +160,6 @@ GEM
     rake (10.1.1)
     rdoc (3.12.2)
       json (~> 1.4)
-    recurring_select (1.2.1)
-      coffee-rails (>= 3.1)
-      ice_cube (>= 0.11)
-      jquery-rails (>= 3.0)
-      rails (>= 3.2)
-      sass-rails (>= 3.1)
     redcarpet (2.3.0)
     ref (1.0.5)
     retriable (1.4.1)
@@ -225,7 +203,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    turbolinks (2.2.1)
+    turbolinks (2.2.0)
       coffee-rails
     twitter-bootstrap-rails-confirm (1.0.2)
     tzinfo (0.3.38)
@@ -246,14 +224,10 @@ DEPENDENCIES
   cancan
   clockwork (= 0.7.0)
   coffee-rails (~> 3.2.1)
-  concerto-emergency-broadcast (= 0.0.1)!
-  concerto-hardware
-  concerto_audio
   concerto_calendar
   concerto_iframe
   concerto_remote_video
   concerto_simple_rss
-  concerto_template_scheduling
   concerto_weather
   delayed_job_active_record
   devise (~> 3.0.0)
