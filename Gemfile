@@ -40,19 +40,6 @@ gem 'bootstrap-datepicker-rails'
 gem 'jquery-timepicker-rails'
 gem 'twitter-bootstrap-rails-confirm'
 
-# In production we prefer MySQL over sqlite3.  If you are only
-# interested in development and don't want to bother with production,
-# run `bundle install --without production` to ignore MySQL.
-gem "sqlite3", :group => [:development, :test]
-
-require "#{Dir.getwd}/lib/command_check.rb"
-if system_has_mysql?
-  gem "mysql2", :require => false, :group => :production
-end
-if system_has_postgres?
-  gem "pg", :require => false, :group => :production
-end
-
 #RMagick is used for image resizing and processing
 gem "rmagick", ">= 2.12.2", :require => 'RMagick', :platforms => :ruby
 
@@ -76,6 +63,26 @@ gem 'simplecov', :require => false, :group => :test
 gem 'strong_parameters'
 
 gem 'kaminari', '0.14.1'  # Pagination
+
+require "#{Dir.getwd}/lib/command_check.rb"
+if system_has_mysql?
+  mysql_platforms = Bundler::Dependency::PLATFORM_MAP.keys
+else
+  mysql_platforms = []
+end
+if system_has_postgres?
+  postgres_platforms = Bundler::Dependency::PLATFORM_MAP.keys
+else
+  postgres_platforms = []
+end
+
+# In production we prefer MySQL over sqlite3.  If you are only
+# interested in development and don't want to bother with production,
+# run `bundle install --without production` to ignore MySQL.
+gem "sqlite3", :group => [:development, :test]
+
+gem "mysql2", :require => false, :group => :production, :platforms => mysql_platforms
+gem "pg", :require => false, :group => :production, :platforms => postgres_platforms
 
 # Enable the newsfeed for 1.9+ users.
 pa_platforms = [:ruby_19, :ruby_20, :ruby_21] 
