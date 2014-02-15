@@ -26,6 +26,7 @@ en:
 
   #Memberships controller
   membership_created:          "Membership was successfully created."
+  membership_applied_for:      "Membership in group is now pending"
   membership_denied:           "Membership was successfully denied."
   membership_denied_failure:   "Membership was not successfully denied."
   membership_approved:         "Membership was successfully approved."
@@ -71,6 +72,7 @@ en:
 
   #Users controller
   user_created: "User was successfully created."
+  user_not_created: "User not created"
   user_updated: "User was successfully updated."
   cannot_delete_last_admin: "Cannot delete last admin user."
   user_owns_screens: "This user cannot be deleted because they own one or more screens."

@@ -13,6 +13,15 @@ class RootTest < ActionController::IntegrationTest
     assert !redirect?
   end
 
+  test "root url shows login when not public" do
+    ConcertoConfig.set('public_concerto', false)
+    
+    get "/"
+    assert_redirected_to new_user_session_path
+
+    ConcertoConfig.set('public_concerto', true)
+  end
+
   test "signed in root urls load" do
     post "/users/sign_in", :user => {:email => users(:katie).email, :password => 'katie'}
     assert_redirected_to dashboard_path

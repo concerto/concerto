@@ -61,7 +61,7 @@ concerto.frontend.Transition.Fade.prototype.in_ = function() {
       concerto.frontend.Content.EventType.START_RENDER);
 
   this.next_content_.div.style.display = 'none';
-  this.field.inject(this.next_content_.div);
+  this.field.inject(this.next_content_.div, this.next_content_.autosize_font);
 
   var animIn = new goog.fx.dom.FadeInAndShow(this.next_content_.div,
       this.duration);

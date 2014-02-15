@@ -6,7 +6,7 @@
       <% if @template.is_deletable? %>
         <%= link_to t('.delete_template'), @template, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => ::Template.model_name.human, :key => @template.name) }, :method => :delete, :class => "btn"  %>
       <% else %>
-        <%= link_to t('.delete_template'), '#', :class => "btn disabled tooltip-basic", 'data-tooltip-text' => t(:cannot_delete_template, :screens => @template.screens.collect { |s| s.name if can? :read, s}.join(", ")) %>
+        <%= link_to t('.delete_template'), '#', :class => "btn disabled tooltip-basic", 'data-tooltip-text' => t(:cannot_delete_template, :screens => @template.screen_dependencies.collect { |s| s.name if can? :read, s}.join(", ")) %>
       <% end %>
     <% end %>	
   </div>

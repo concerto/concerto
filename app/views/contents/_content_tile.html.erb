@@ -2,16 +2,16 @@
 <div class="tile <% if not content.children.empty? %>tile-stack<% end %>">
   <div class="tile-content">
     <%= render_content(content, {:type => 'tile'}) %>
-  </div>
-  <div class="brand">
-    <% type_folder = "contents/#{content.type.underscore}" %>
-    <%= render_partial_if("#{type_folder}/tab_icon") %>
+    <div class="tile-labels">
+      <% type_folder = "contents/#{content.type.underscore}" %>
+      <%= render_partial_if("#{type_folder}/tab_icon") %>
 
-    <% # Note: The line below is extra verbose for performance reasons.  See #483. %>
-    <% if !content.children.empty? &&
-          !content.children.active.empty? %>
-      <div class="count">x <%= content.children.active.size %></div>
-    <% end %>
+      <% # Note: The line below is extra verbose for performance reasons.  See #483. %>
+      <% if !content.children.empty? &&
+            !content.children.active.empty? %>
+        <div class="tile-count">x <%= content.children.active.size %></div>
+      <% end %>
+    </div>
   </div>
 </div>
 <% end %>

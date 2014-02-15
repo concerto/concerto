@@ -58,6 +58,13 @@ concerto.frontend.Screen = function(screen_id, opt_div, screen_options) {
    */
   this.container_ = opt_div || document.body;
 
+  /**
+   * Hash of current setup information.
+   * @type {string}
+   * @private
+   */
+  this.setup_key_ = '';
+
   this.setup();
 };
 goog.exportSymbol('concerto.frontend.Screen', concerto.frontend.Screen);
@@ -73,6 +80,28 @@ concerto.frontend.Screen.prototype.logger_ = goog.debug.Logger.getLogger(
 
 
 /**
+ * Refresh the screen by setting it up again.
+ * Called typically when the content indicates a refresh is warranted
+ * (due to something like a template needing to be changed).
+ */
+concerto.frontend.Screen.prototype.refresh = function() {
+  // kill the outstanding xhr requests
+  requests = this.connection.getOutstandingRequestIds();
+  goog.array.forEach(requests, goog.bind(function(request) {
+    this.connection.abort(request, true);
+  }, this));
+
+  // mark all the fields as invalid (by making their positions null)
+  if (this.template) {
+    this.template.dispose();
+    delete this.template;
+  }
+
+  this.setup();
+};
+
+
+/**
  * Setup the screen.
  * Download the config, parse it, and start creating the template.
  */
@@ -84,6 +113,8 @@ concerto.frontend.Screen.prototype.setup = function() {
   goog.dom.removeChildren(this.container_);
   goog.dom.appendChild(this.container_, div);
   this.div_ = div;
+
+  this.setup_key_ = '';
 
   var params = this.getQueryData();
   var url = this.setup_url + '?' + params.toString();
@@ -124,4 +155,21 @@ concerto.frontend.Screen.prototype.getQueryData = function() {
     query_data.add('preview', 'true');
   }
   return query_data;
+};
+
+
+/**
+ * Trigger the refreshing the screen if the setup info has changed.
+ *
+ * @param {string} setup_key A key describing the current setup state.
+ * @return {undefined} stops the current processing.
+ */
+concerto.frontend.Screen.prototype.processSetupKey = function(setup_key) {
+  if (this.setup_key_ == '') {
+    this.setup_key_ = setup_key;
+  }
+  if (this.setup_key_ != setup_key) {
+    this.logger_.info('Triggering a screen refresh');
+    return this.refresh();
+  }
 };

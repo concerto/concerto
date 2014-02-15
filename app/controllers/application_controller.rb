@@ -4,15 +4,16 @@ class ApplicationController < ActionController::Base
   before_filter :check_for_initial_install
   before_filter :set_version
   before_filter :compute_pending_moderation
-  around_filter :user_time_zone, :if => :user_signed_in?
+  around_filter :set_time_zone
   helper_method :webserver_supports_restart?
   helper_method :current_screen
   
   #We can do some clever stuff for 404-esque errors, but we'll leave 500's be
   unless Rails.application.config.consider_all_requests_local
-    rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError,
+    rescue_from ActionController::RoutingError,
       ActionController::UnknownController, ActionController::UnknownAction,
       ActionController::MethodNotAllowed, :with => lambda { |exception| render_error 404, exception }
+    rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
   end
 
   # Current Ability for CanCan authorization
@@ -97,8 +98,12 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  def user_time_zone(&block)
-   Time.use_zone(current_user.time_zone, &block)
+  def set_time_zone(&block)
+    if user_signed_in? && !current_user.time_zone.nil?
+      Time.use_zone(current_user.time_zone, &block)
+    else 
+      Time.use_zone(ConcertoConfig[:system_time_zone], &block)
+    end
   end  
   
   def webserver_supports_restart?
@@ -174,17 +179,26 @@ class ApplicationController < ActionController::Base
   def switch_to_main_app_ability
     @current_ability = @main_app_ability # it is okay if this is nil
   end
-  
-  #ar_instance - the Concerto class being passed in; for this to work, its class needs to include PA
-  #pa_params - specifically params send to PA to be stored in the params column on the activities 
-  #options - right now it only contains the action being performed (CRUD), but anything we don't want to send to PA can go here
+
+  # Record and send notification of an activity.
+  # 
+  # @param [ActiveRecord<#create_activity>] ar_instance Instance of the model on which activity
+  #   is being tracked; for this to work, its class needs to include PublicActivity::Common.
+  # @param [Hash] pa_params Any information you want to send to PublicActivity to be stored in the params column.
+  #   This is redundant since you can also include them in the options[:params].
+  # @param [Hash] options Options to send to PublicActivity like :key, :action, :owner, and :recipient
+  #   (see http://rubydoc.info/gems/public_activity/PublicActivity/Common:create_activity).
+  # @return [Model,nil] New activity if created successfully, otherwise nil.
   def process_notification(ar_instance, pa_params, options = {})
-    return if ar_instance.nil? || !ar_instance.respond_to?('create_activity')
-    activity = ar_instance.create_activity(options[:action], :owner => options[:owner], :recipient => options[:recipient], :params => pa_params)
-    #form the actionmailer method name by combining the class name with the action being performed (e.g. "submission_update")
+    return nil if ar_instance.nil? || !ar_instance.respond_to?('create_activity')
+
+    options[:params] ||= {}
+    options[:params].merge!(pa_params) unless pa_params.nil?
+    activity = ar_instance.create_activity(options)
+    # form the actionmailer method name by combining the class name with the action being performed (e.g. "submission_update")
     am_string = "#{ar_instance.class.name.downcase}_#{options[:action]}"
-    #If ActivityMailer can find a method by the formulated name, pass in the activity (everything we know about what was done)
-    if ActivityMailer.respond_to?(am_string)
+    # If ActivityMailer can find a method by the formulated name, pass in the activity (everything we know about what was done)
+    if ActivityMailer.respond_to?(am_string) && (options[:recipient].nil? || options[:owner].nil? || options[:recipient] != options[:owner])
       #fulfilling bamnet's expansive notification ambitions via metaprogramming since 2013
       begin
         ActivityMailer.send(am_string, activity).deliver
@@ -197,6 +211,8 @@ class ApplicationController < ActionController::Base
         ConcertoConfig.first.create_activity :action => :system_notification, :params => {:message => t(:smtp_send_error_ssl)}
       end
     end
+
+    activity
   end
 
   # Expose a instance variable counting the number of pending submissions
@@ -325,13 +341,60 @@ class ApplicationController < ActionController::Base
   end
   
   private
-  
+
+  # Handle a series of 404-like error that the application triggers.
+  # Usually these are when a controller throws a RecordNotFound or similiar.
+  # This is not where missing route 404s are handled.
   def render_error(status, exception)
+    # Only use a template if the error is a 404 to be safe.
+    layout = (status == 404) ? "layouts/application" : false
     respond_to do |format|
-      format.html { render :template => "errors/error_#{status}", :layout => 'layouts/application', :status => status }
-      format.all { render :nothing => true, :status => status }
+      format.html { render :template => "errors/error_#{status}", :layout => layout, :status => status }
+      format.any { render :nothing => true, :status => status }
     end
   end
 
-  
+  # Handle RecordNotFound exceptions based on their source
+  # If the RecordNotFound exception bubbled up from a model-backed controller
+  # viewing a single object we return a 404. Otherwise we render a 500 error.
+  def record_not_found(exception)
+    Rails.logger.error(exception)
+    if ['edit', 'show', 'update', 'destroy'].include?(params[:action]) && !params[:controller].classify.safe_constantize.nil?
+       render_error(404, exception)
+     else
+       render :file => 'public/500.html', :status => 500, :layout => false
+     end
+  end
+
+  protected
+
+  # Sets the default process notification options along with custom settings.
+  #
+  # @param [Hash] options Options for the process notification.
+  # @return [Hash] The options to pass along.
+  def process_notification_options(options = {})
+    opts = {}
+    opts[:params] = {
+      :owner_name => current_user.name
+    }
+    opts[:owner] = current_user
+    opts[:action] = action_name
+    if options.include?(:params)
+      opts[:params].merge!(options[:params])
+      options.delete(:params)
+    end
+    opts.merge!(options)
+
+    # if personal identifying information is to be redacted then wipeout the owner name
+    # and member_name
+    redact_pii = true # set accordingly from config
+    if opts.include?(:params) && redact_pii
+      opts[:params].delete(:user_name)  if opts[:params].include?(:user_name)
+      opts[:params].delete(:owner_name)  if opts[:params].include?(:owner_name)
+      opts[:params].delete(:member_name)  if opts[:params].include?(:member_name)
+    end
+
+    opts
+  end
+ 
 end

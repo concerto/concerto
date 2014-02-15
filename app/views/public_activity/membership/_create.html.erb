@@ -1,7 +1,52 @@
-<% adder = User.find(activity.parameters[:adder]) %>
-<%= link_to adder.name, adder if adder%> <%= t('.added')%>
-<% if activity.trackable %>
-  <%= link_to activity.trackable.user.name, activity.trackable.user %> <%= t('.to_the')%> <%= link_to activity.trackable.group.name, activity.trackable.group %> <%= t('.group_as_a')%> <%= (activity.parameters[:level] == 9) ? t(".leader") : t(".regular_member") %>
-<% else %>
-  <%= t('.group_membership_removed')%>
-<% end %>
+<%= get_activity_owner(activity) %> 
+  <%= t('.added')%>
+  <%=
+    results = ""
+
+    group = nil
+    member = nil
+    if activity.trackable
+      group = activity.trackable.group
+      member = activity.trackable.user
+    end
+    # if we dont have them yet try to get them from the params
+    if !group && activity.parameters.include?(:group_id)
+      group = Group.find(activity.parameters[:group_id]) rescue nil
+    end
+    if !member && activity.parameters.include?(:member_id)
+      member = User.find(activity.parameters[:member_id]) rescue nil
+    end
+    
+    if member
+      if can? :read, member
+        results += " " + link_to(member.name, member) + " "
+      else
+        results += " " + member.name + " "
+      end
+    else
+      if activity.parameters.include?(:member_name)
+        results += " #{activity.parameters[:member_name]} "
+      else
+        results += " #{t('public_activity.a_member')} "
+      end
+    end
+
+    results += t('.to_the')
+    if group
+      if can? :read, group
+        results += " " + link_to(group.name, group) + " "
+      else
+        results += " #{group.name} "
+      end
+    else
+      if activity.parameters.include?(:group_name)
+        results += " #{activity.parameters[:group_name]} "
+      else
+        results += " #{t('public_activity.a_group_which_no_longer_exists')} "
+      end
+    end
+
+    results += " " + t('.group_as_a') + " " + ((activity.parameters[:level] == 'regular') ? t(".regular_member") : t(".leader"))
+
+    results.html_safe
+  %>

@@ -1,16 +1,10 @@
-# An array of hashes of all the possible field configs
-# Each entry has:
-#  the fieldconfig name (a string)
-#  the type of data it represents (boolean, text, select, checkbox) 
-#  and its possible values (array of values)
+# A hashes of some of the possible field configs.
+# Each hash entry represents a possible field config.
+# The entries must contain a Hash with :type set.
+# :type must be set to one of :string, :select, or :boolean.
+# If :type is set to :select. :values may also be provided.
 
-#start an empty array
-field_configs_array = []
-
-
-#put the dictionary hash into the Application object for global access
 Concerto::Application.config.field_configs = {
-  :transition => {:type => :select, :values => ['fade','slide','replace']}, 
-  :time_format => {:type => "string"},
-  :url_parms => {:type => "string"}
+  :transition => {:type => :select, :values => ['fade','slide','replace']},
+  :time_format => {:type => :string}
 }

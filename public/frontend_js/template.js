@@ -87,6 +87,7 @@ concerto.frontend.Template.prototype.createDiv_ = function() {
 concerto.frontend.Template.prototype.load = function(data) {
   this.id = data['id'];
   this.path_ = data['path'];
+  this.css_path_ = data['css_path'];
   goog.dom.setProperties(this.div_, {'id': 'template_' + this.id});
 
   this.render_();
@@ -122,6 +123,16 @@ concerto.frontend.Template.prototype.render_ = function() {
 
   goog.style.setStyle(this.div_, 'background-size', '100% 100%');
   goog.style.setStyle(this.div_, 'background-repeat', 'no-repeat');
+
+  if (goog.isDefAndNotNull(this.css_path_)) {
+    var css_link = goog.dom.createDom('link', {
+      href: this.css_path_,
+      media: 'screen',
+      rel: 'stylesheet',
+      type: 'text/css'
+    });
+    goog.dom.appendChild(document.head, css_link);
+  }
 };
 
 
@@ -134,4 +145,18 @@ concerto.frontend.Template.prototype.render_ = function() {
  */
 concerto.frontend.Template.prototype.inject = function(div) {
   goog.dom.appendChild(this.div_, div);
+};
+
+
+/**
+ * Clean up before deleting.
+ */
+concerto.frontend.Template.prototype.dispose = function() {
+  goog.array.forEach(this.positions, goog.bind(function(position) {
+    position.dispose();
+  }, this));
+  this.positions.length = 0;
+
+  goog.dom.removeNode(this.div_);
+  delete this.div_;
 };

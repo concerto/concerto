@@ -1,5 +1,11 @@
 class Template < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
+  include PublicActivity::Common if defined? PublicActivity::Common
+
+  # Define integration hooks for Concerto Plugins
+  define_callbacks :is_deletable
+  define_callbacks :screen_dependencies
+  ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
 
   has_many :screens, :dependent => :restrict
   has_many :media, :as => :attachable, :dependent => :destroy
@@ -14,10 +20,22 @@ class Template < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
 
   #Placeholder attributes
-  attr_accessor :path
+  attr_accessor :path, :css_path
   
   def is_deletable?
-    self.screens.size == 0
+    # allow the template to see if any plugins have dependencies on it
+    run_callbacks :is_deletable do
+       @deletable = self.screens.size == 0
+    end
+    @deletable
+  end
+
+  # returns the screens that have dependencies on this template
+  def screen_dependencies
+    run_callbacks :screen_dependencies do
+       @dependencies = self.screens
+    end
+    @dependencies.uniq if !@dependencies.nil?
   end
     
   # Given a string from an XML descriptor, build the template
@@ -36,7 +54,7 @@ class Template < ActiveRecord::Base
     
     self.name = data['template']['name']
     self.author = data['template']['author']
-    self.is_hidden = data['template']['hidden']
+    self.is_hidden = data['template']['hidden'] || false
 
     if data['template'].has_key?('field')
       data['template']['field'] = [data['template']['field']] unless data['template']['field'].kind_of?(Array)
@@ -130,6 +148,7 @@ class Template < ActiveRecord::Base
     require 'zip/zip'
     zip_file = Zip::ZipFile.open(file)
     xml_data = image_file = nil
+    css_file = nil
     zip_file.each do |entry|
       # Skip anything in the hidden __macosx directory.
       next if entry.name.downcase.include?('__macosx/')
@@ -137,6 +156,8 @@ class Template < ActiveRecord::Base
       extension = entry.name.split('.')[-1].downcase
       if extension == 'xml'
         xml_data = entry.get_input_stream.read
+      elsif extension == 'css'
+        css_file = entry
       elsif ['jpg', 'png'].include?(extension) && !entry.name.include?('preview')
         image_file = entry
       end
@@ -157,6 +178,14 @@ class Template < ActiveRecord::Base
                              :file_type => MIME::Types.type_for(image_file.name).first.content_type})
       self.media.first.file_size = image_file.size
       self.media.first.file_data = image_file.get_input_stream.read
+
+      if !css_file.nil?
+        m = self.media.build({:key=>"css", :file_name => css_file.name,
+                               :file_type => MIME::Types.type_for(css_file.name).first.content_type})
+        m.file_size = css_file.size
+        m.file_data = css_file.get_input_stream.read
+      end
+      return true
     else
       self.errors.add(:base, I18n.t('templates.new.invalid_xml'))
       return false

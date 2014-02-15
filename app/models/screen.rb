@@ -1,6 +1,10 @@
 class Screen < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
+  # Define integration hooks for Concerto Plugins
+  define_model_callbacks :frontend_display
+  ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
+
   # Define some actions for communication with the Screens form
   AUTH_NO_ACTION=0
   AUTH_KEEP_TOKEN=1
@@ -141,6 +145,10 @@ class Screen < ActiveRecord::Base
     self.authentication_token = ''
   end
 
+  def clear_temp_token
+    self.new_temp_token = ''
+  end
+
   # The token is first associated with a session, not a Screen, so
   # it is generated independent of a particular instance
   def self.generate_temp_token
@@ -182,6 +190,7 @@ class Screen < ActiveRecord::Base
 
   # Radio button default
   def auth_action
+    return AUTH_NEW_TOKEN if !self.new_temp_token.blank?
     return AUTH_NO_SECURITY if self.unsecured?
     return AUTH_KEEP_TOKEN if self.auth_in_progress? or self.auth_by_token?
     return AUTH_LEGACY_SCREEN if self.auth_by_mac?
@@ -202,6 +211,7 @@ class Screen < ActiveRecord::Base
   def update_authentication
     if @auth_action == AUTH_NO_SECURITY
       self.clear_screen_token
+      self.clear_temp_token
     elsif @auth_action == AUTH_NEW_TOKEN
       self.temp_token=@new_temp_token
     end
@@ -225,6 +235,27 @@ class Screen < ActiveRecord::Base
   def auth_by_mac? # Not really "authenticated", but you get the point
     !self.authentication_token.nil? and
        self.authentication_token.start_with? 'mac:'
+  end
+
+  # Compute a cache key suitable for use in the frontend.
+  # Combines the updated information for the screen, template, positions,
+  # and fields to make a single key.
+  # 
+  # @param [Array<#updated_at>] args A list of object to factor in.  These objects should
+  #    respond to the `updated_at` method and are skipped if they do not.
+  # @return [String] The cache key for this frontend string.
+  def frontend_cache_key(*args)
+    max_updated_at = self.updated_at.try(:utc).try(:to_i)
+    max_updated_at = [self.template.updated_at.try(:utc).try(:to_i), max_updated_at].max
+    self.template.positions.each do |p|
+      max_updated_at = [p.updated_at.try(:utc).try(:to_i), p.field.updated_at.try(:utc).try(:to_i), max_updated_at].max
+    end
+    args.each do |ao|
+      if ao.methods.include? 'updated_at'
+        max_updated_at = [ao.updated_at.try(:utc).try(:to_i), max_updated_at].max
+      end
+    end
+    return "frontend-screen/#{self.id}-#{self.template.id}-#{max_updated_at}"
   end
 
 private

@@ -60,3 +60,4 @@ en:
 
     show_header:
       group_cannot_be_deleted: "Group cannot be deleted"
+      manage_members: "Manage Members"

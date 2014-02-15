@@ -6,12 +6,13 @@ class FeedsController < ApplicationController
   # GET /feeds.xml
   # GET /feeds.js
   def index
-    redirect_to(new_user_session_path) unless ConcertoConfig[:public_concerto]
-    @feeds = Feed.roots
-    auth!
-    respond_with(@feeds)
-    @active_content = 0
-    @feeds.each { |node| node.submissions.each { |submission| if submission.moderation_flag == true then @active_content += 1 end } }
+    if !ConcertoConfig[:public_concerto]
+      redirect_to(new_user_session_path)
+    else
+      @feeds = Feed.roots
+      auth!
+      respond_with(@feeds)
+    end
   end
 
   # GET /moderate
@@ -70,7 +71,7 @@ class FeedsController < ApplicationController
     @feed = Feed.new(feed_params)
     auth!
     if @feed.save
-      process_notification(@feed, {:public_owner => current_user.id}, :action => 'create')
+      process_notification(@feed, {}, process_notification_options({:params => {:feed_name => @feed.name}}))
       flash[:notice] = t(:feed_created)
     end
     respond_with(@feed)
@@ -84,6 +85,7 @@ class FeedsController < ApplicationController
 
     respond_to do |format|
       if @feed.update_attributes(feed_params)
+        process_notification(@feed, {}, process_notification_options({:params => {:feed_name => @feed.name}}))
         format.html { redirect_to(feed_submissions_path(@feed), :notice => t(:feed_updated)) }
         format.xml  { head :ok }
       else
@@ -98,7 +100,7 @@ class FeedsController < ApplicationController
   def destroy
     @feed = Feed.find(params[:id])
     auth!
-    process_notification(@feed, {:public_owner => current_user.id, :feed_name => @feed.name}, :action => 'destroy')
+    process_notification(@feed, {}, process_notification_options({:params => {:feed_name => @feed.name}}))
     @feed.destroy
     respond_with(@feed)
   end

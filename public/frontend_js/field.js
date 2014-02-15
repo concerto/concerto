@@ -148,9 +148,16 @@ concerto.frontend.Field.prototype.createDiv = function() {
  * Insert a div into the field.
  *
  * @param {Element} div The thing to insert into the field.
+ * @param {boolean} autosize_font Whether we should auto size the font or not.
  */
-concerto.frontend.Field.prototype.inject = function(div) {
+concerto.frontend.Field.prototype.inject = function(div, autosize_font) {
   goog.dom.appendChild(this.div_, div);
+
+  if (goog.isDefAndNotNull(autosize_font) && autosize_font == true) {
+    //console.log("injected content size is " + goog.style.getSize(div));
+    concerto.frontend.Helpers.SizeToFit(div, this.div_);
+    //console.log("adjusted content size is " + goog.style.getSize(div));
+  }
 };
 
 
@@ -168,6 +175,11 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
   var load_content_on_finish = start_load || null;
 
   this.logger_.info('Field ' + this.id + ' is looking for new content.');
+
+  // if the position is no longer valid, like when a template changes, abort
+  if (this.position == null) {
+    return;
+  }
 
   /**
    * HACK HACK HACK
@@ -211,7 +223,15 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
           return setTimeout(
               goog.bind(function() {this.nextContent(true)}, this), 10);
         }
+
+        var setup_header = 'X-Concerto-Frontend-Setup-Key';
+        var frontend_setup_key = xhr.getResponseHeader(setup_header);
         var contents_data = xhr.getResponseJson();
+
+        if (goog.isDefAndNotNull(frontend_setup_key)) {
+          // Pass the frontend setup info to the screen to process as it wishes.
+          this.position.template.screen.processSetupKey(frontend_setup_key);
+        }
 
         if (!contents_data.length) {
           // No content for this field.
