@@ -65,7 +65,7 @@ module Concerto
         original_media = media[0]
         original_filepath = File.join("/tmp", original_media.file_name)
         File.open(original_filepath, 'wb') do |f|
-          f.write original_media.file_data
+          f.write original_media.file_contents
         end
 
         # process it with docsplit
