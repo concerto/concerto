@@ -90,4 +90,4 @@ pa_platforms &= Bundler::Dependency::PLATFORM_MAP.keys
 gem 'public_activity', :platforms => pa_platforms
 
 gem 'redcarpet', '~> 2.3.0'
-gem 'docsplit'   # for graphics and pdf, ppt conversion
+gem 'docsplit', :git => 'git://github.com/augustf/docsplit.git'
