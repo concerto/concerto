@@ -37,7 +37,6 @@ end
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'bootstrap-datepicker-rails'
-gem 'jquery-timepicker-rails', '1.2.5.0'
 gem 'twitter-bootstrap-rails-confirm'
 
 #RMagick is used for image resizing and processing
