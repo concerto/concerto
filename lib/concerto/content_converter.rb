@@ -94,7 +94,7 @@ module Concerto
           # command failed
           Rails.logger.error(cmd)
           Rails.logger.error(result)
-          raise Unconvertable.new("Unable to convert #{original_media.file_name}, see log for more details")
+          raise Unconvertable.new("Unable to convert #{original_media.file_name}")
         end
       end
     end
