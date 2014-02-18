@@ -36,6 +36,7 @@ end
 
 gem 'jquery-rails'
 gem 'turbolinks'
+gem 'jquery-timepicker-rails', '1.2.5.0'
 gem 'bootstrap-datepicker-rails'
 gem 'twitter-bootstrap-rails-confirm'
 
