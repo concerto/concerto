@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/augustf/docsplit.git
-  revision: 22a4d7e5bcb15c3c9a0a01950caaf45010c753d9
+  revision: b988e02903696dd9cde6d6b2b0f975624ea1b96f
+  branch: imagemagick
   specs:
     docsplit (0.7.4)
 
@@ -241,7 +242,7 @@ DEPENDENCIES
   foreman
   girl_friday
   jquery-rails
-  jquery-timepicker-rails
+  jquery-timepicker-rails (= 1.2.5.0)
   json (= 1.7.7)
   kaminari (= 0.14.1)
   mysql2

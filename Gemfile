@@ -37,7 +37,7 @@ end
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'bootstrap-datepicker-rails'
-gem 'jquery-timepicker-rails'
+gem 'jquery-timepicker-rails', '1.2.5.0'
 gem 'twitter-bootstrap-rails-confirm'
 
 #RMagick is used for image resizing and processing
@@ -90,4 +90,4 @@ pa_platforms &= Bundler::Dependency::PLATFORM_MAP.keys
 gem 'public_activity', :platforms => pa_platforms
 
 gem 'redcarpet', '~> 2.3.0'
-gem 'docsplit', :git => 'git://github.com/augustf/docsplit.git'
+gem 'docsplit', :git => 'git://github.com/augustf/docsplit.git', :branch => 'imagemagick'
