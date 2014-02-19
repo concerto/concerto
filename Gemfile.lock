@@ -60,6 +60,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
+    concerto-hardware (0.0.5)
+      rails (~> 3.2.9)
     concerto_calendar (0.0.2)
       google-api-client
       icalendar
@@ -230,6 +232,7 @@ DEPENDENCIES
   cancan
   clockwork (= 0.7.0)
   coffee-rails (~> 3.2.1)
+  concerto-hardware
   concerto_calendar
   concerto_iframe
   concerto_remote_video
