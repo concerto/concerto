@@ -7,23 +7,23 @@
       background.setAttribute("width", "100%");
       background.setAttribute("height", "100%");
     }
-  ]]></script>
+    ]]></script>
   <g>
     <image id="background" xlink:href="<%= url_for @media %>" height="100%" width="100%" x="0" y="0"
            preserveAspectRatio="none" />
     <% unless @hide_fields
          @template.positions.each do |position| %>
-    <g>
-      <rect x="<%= 100*position.left %>%" y="<%= 100*position.top %>%"
-            width="<%= 100*position.width %>%" height="<%= 100*position.height %>%" 
-            style="fill:grey; stroke:none; fill-opacity:0.6;"
-            id="position_<%= position.id %>" />
-      <text y="<%= 50*(position.top + position.bottom)+4%>%" x="<%= 50*(position.left + position.right)%>%" 
-            style="fill:black; stroke:black;" font-size="300%" text-anchor="middle">
-        <%= position.field.name %>
-      </text>
-    </g>
-    <%   end
-       end %>
+        <g>
+          <rect x="<%= 100*position.left %>%" y="<%= 100*position.top %>%"
+                width="<%= 100*position.width %>%" height="<%= 100*position.height %>%"
+                style="fill:grey; stroke:none; fill-opacity:0.6;"
+                id="position_<%= position.id %>" />
+          <text y="<%= 50*(position.top + position.bottom)+4%>%" x="<%= 50*(position.left + position.right)%>%"
+                style="fill:black; stroke:black;" font-size="300%" text-anchor="middle">
+            <%= position.field.name %>
+          </text>
+        </g>
+      <%   end
+           end %>
   </g>
 </svg>

@@ -39,6 +39,10 @@ en:
     show_body:
       preview_alt: '%{name} Preview'
       author: 'Author'
+      usage: 'Used by the following screens:'
+
+    template:
+      by: "by %{author}"
 
   helpers:
     label:
@@ -46,7 +50,5 @@ en:
         name: 'Name'
         author: 'Author'
         media: 'Background Image/CSS'
+        owner: 'owner'
         is_hidden: 'Hide this template from being shown in lists'
-    # submit:
-    #   create: "Create %{model}"
-    #   update: "Update %{model}"

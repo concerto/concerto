@@ -1,6 +1,6 @@
 <div class="viewblock-header_right">
   <div class="button-padding">
-	<%= link_to t('.edit_template'), edit_template_path(@template), :class => "btn" if can? :edit, @template %>
+    <%= link_to t('.edit_template'), edit_template_path(@template), :class => "btn" if can? :edit, @template %>
 
     <% if can? :delete, @template %>
       <% if @template.is_deletable? %>
@@ -8,13 +8,13 @@
       <% else %>
         <%= link_to t('.delete_template'), '#', :class => "btn disabled tooltip-basic", 'data-tooltip-text' => t(:cannot_delete_template, :screens => @template.screen_dependencies.collect { |s| s.name if can? :read, s}.join(", ")) %>
       <% end %>
-    <% end %>	
+    <% end %>
   </div>
 </div>
 
 <div class="default-padding">
-	<h1 id="contentlist">
-	  <%= link_to t(:all_model, :model => ::Template.model_name.human.pluralize), templates_path %> &gt; 
-	  <%= @template.name %>
-	</h1>
+  <h1 id="contentlist">
+    <%= link_to t(:all_model, :model => ::Template.model_name.human.pluralize), templates_path %> &gt;
+    <%= @template.name %>
+  </h1>
 </div>
