@@ -8,9 +8,9 @@ en:
         email: 'Email'
         password: 'Password'
         password_confirmation: 'Confirm Password'
-        actions: 'Actions'
         is_admin: 'Admin Status'
         receive_moderation_notifications: 'Receive Moderation Notifications'
+        time_zone: 'Time Zone'
 
   users:
     all_users: 'All Users'
@@ -22,6 +22,8 @@ en:
       first_label: "First"
       last_label: "Last"
       email_label: "user@domain.com"
+    index:
+      name: 'Name'
     show_body:
       admin: 'Admin'
       content: 'Content'
@@ -40,12 +42,14 @@ en:
       screen_header: 'Manages %{number} Screen%{s_display}'
       content_header: 'Has Submitted %{number} Item%{s_display}'
 
-  # helpers:
-  #   label:
-  #     user:
-  #       password: 'Password'
-  #       new_password: 'New Password'
-  #       password_confirmation: 'Confirm New Password'
-  #       submit:
-  #         create: 'Create'
-  #         update: 'Update'
+  helpers:
+    label:
+      user:
+        first_name: 'Name'
+        email: 'Email'
+        password: 'Password'
+        password_confirmation: 'Confirm Password'
+        locale: locale
+        time_zone: 'Time Zone'
+        receive_moderation_notifications: 'Receive Moderation Notifications'
+        #new_password: 'New Password'
