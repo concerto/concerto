@@ -119,8 +119,7 @@ Concerto::Application.routes.draw do
   match 'content/' => 'feeds#index'
   match 'browse/' => 'feeds#index'
 
-  unless Rails.application.config.consider_all_requests_local
-    match '*not_found', :to => 'errors#error_404'
-  end
-
+  # Note: 404 errors are currently not handled by routes.
+  # Rails' built-in handling will serve the error content from /public,
+  # when we're not in development mode.
 end
