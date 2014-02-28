@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/augustf/docsplit.git
+  remote: https://github.com/augustf/docsplit.git
   revision: b988e02903696dd9cde6d6b2b0f975624ea1b96f
   branch: imagemagick
   specs:

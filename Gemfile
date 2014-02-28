@@ -68,12 +68,12 @@ require "#{Dir.getwd}/lib/command_check.rb"
 if system_has_mysql?
   mysql_platforms = Bundler::Dependency::PLATFORM_MAP.keys
 else
-  mysql_platforms = []
+  mysql_platforms = [:mswin]
 end
 if system_has_postgres?
   postgres_platforms = Bundler::Dependency::PLATFORM_MAP.keys
 else
-  postgres_platforms = []
+  postgres_platforms = [:mswin]
 end
 
 # In production we prefer MySQL over sqlite3.  If you are only
@@ -90,4 +90,4 @@ pa_platforms &= Bundler::Dependency::PLATFORM_MAP.keys
 gem 'public_activity', :platforms => pa_platforms
 
 gem 'redcarpet', '~> 2.3.0'
-gem 'docsplit', :git => 'git://github.com/augustf/docsplit.git', :branch => 'imagemagick'
+gem 'docsplit', :git => 'https://github.com/augustf/docsplit.git', :branch => 'imagemagick'
