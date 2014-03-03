@@ -119,7 +119,7 @@ Concerto::Application.routes.draw do
   match 'content/' => 'feeds#index'
   match 'browse/' => 'feeds#index'
 
-  # Note: 404 errors are currently not handled by routes.
-  # Rails' built-in handling will serve the error content from /public,
-  # when we're not in development mode.
+  # Note: 404 errors are not handled by the router.
+  # Instead, they are caught by Rails Middleware and then redirected
+  # to Concerto's ErrorsController.
 end
