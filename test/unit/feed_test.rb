@@ -142,4 +142,10 @@ class FeedTest < ActiveSupport::TestCase
     ability = Ability.new(users(:karen))
     assert ability.cannot?(:create, feeds(:service)) # feed for group they dont lead or support
   end
+
+  test "list screens on which feeds appear" do
+    assert_equal feeds(:service).shown_on_screens.sort {|a,b| a.name <=> b.name }, 
+      [screens(:one), screens(:two)].sort {|a,b| a.name <=> b.name }
+    assert_equal feeds(:announcements).shown_on_screens, [screens(:one)]
+  end
 end
