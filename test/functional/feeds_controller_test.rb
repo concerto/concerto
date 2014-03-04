@@ -29,7 +29,7 @@ class FeedsControllerTest < ActionController::TestCase
     sign_in users(:katie)
     get :moderate
     assert assigns(:feeds)
-    assert_equal [feeds(:service)], assigns(:feeds)
+    assert assigns(:feeds).include?(feeds(:service))
   end
 
   test "moderate page not allowed without sign in" do
