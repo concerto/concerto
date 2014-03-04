@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
   def auto_confirm
     # set as confirmed if we are not confirming user accounts so that if that is ever turned on,
     # this new user will not be locked out
-    self.confirmed_at = Date.new(1824, 11, 5) if !ConcertoConfig[:confirmable]
+    self.confirmed_at = Time.zone.local(1824, 11, 5, 12, 00) if !ConcertoConfig[:confirmable]
   end
   
   #a user who isn't the last admin and owns no screens is deletable
