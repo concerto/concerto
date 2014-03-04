@@ -223,7 +223,7 @@ class ApplicationController < ActionController::Base
     if user_signed_in?
       feeds = current_user.owned_feeds
       feeds.each do |f|
-        @pending_submissions_count += f.submissions.pending.count
+        @pending_submissions_count += f.submissions_to_moderate.count
       end
     end
   end
