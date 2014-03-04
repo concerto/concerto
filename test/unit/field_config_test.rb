@@ -28,4 +28,14 @@ class FieldConfigTest < ActiveSupport::TestCase
     assert FieldConfig.get(screens(:one), fields(:one), 'missing').nil?
     assert_equal 'valuehere', FieldConfig.get(screens(:one), fields(:one), 'keyname')
   end
+
+  test "owning group or user can manage" do
+    fc = field_configs(:one)
+    ability = Ability.new(users(:katie))
+    assert ability.can?(:manage, field_configs(:one))  # owner
+    assert ability.can?(:manage, field_configs(:three))  # group leader
+
+    ability = Ability.new(users(:kristen))
+    assert ability.cannot?(:manage, field_configs(:one))
+  end
 end
