@@ -57,6 +57,6 @@ class UserTest < ActiveSupport::TestCase
       :password => 'bubkisbubkis'
     })
 
-    assert_equal Date.new(1824, 11, 5), bob.confirmed_at.to_date
+    assert_equal Time.zone.local(1824, 11, 5), bob.confirmed_at
   end
 end
