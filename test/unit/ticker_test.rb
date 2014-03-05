@@ -18,4 +18,15 @@ class TickerTest < ActiveSupport::TestCase
   test "ticker class has display name" do
     assert_equal "Text", Ticker.display_name
   end
+
+  test "ticker alters its 'type' to HtmlText" do
+    ticker = Ticker.new
+    ticker.kind = Kind.where(:name => "Text").first
+    ticker.alter_type
+    assert_equal "HtmlText", ticker.type
+  end
+
+  test "preview performs html sanitization" do
+    assert_equal "<p></p>", Ticker.preview("<p data='1'><frames></frames></p>").chomp
+  end
 end

@@ -38,4 +38,20 @@ class FieldConfigTest < ActiveSupport::TestCase
     ability = Ability.new(users(:kristen))
     assert ability.cannot?(:manage, field_configs(:one))
   end
+
+  test "identify type of key" do
+    fc = field_configs(:one)
+    assert fc.key_type.nil?
+
+    fc = field_configs(:three)
+    assert_equal :select, fc.key_type
+  end
+
+  test ":select key has options" do
+    fc = field_configs(:one)
+    assert fc.key_options.blank?
+
+    fc = field_configs(:three)
+    assert !fc.key_options.blank?
+  end
 end
