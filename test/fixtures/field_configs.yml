@@ -16,5 +16,5 @@ two: {}
 three:
   screen: two
   field: one
-  key: keyname
+  key: transition
   value: valuehere
