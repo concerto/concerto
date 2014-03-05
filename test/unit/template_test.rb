@@ -43,6 +43,13 @@ class TemplateTest < ActiveSupport::TestCase
     assert t.import_xml(file.read)
   end
 
+  test "importing a bogus archive" do
+    t = Template.new
+    assert !t.import_archive(nil)
+    tf = ActionDispatch::Http::UploadedFile.new({:tempfile => 'bogus', :filename => 'bogus.txt', :head => nil, :type => 'txt'})
+    assert !t.import_archive(tf)
+  end
+
   # Do we correctly find the original height and orignal width?
   test "find original height and width" do
     t = Template.new
@@ -62,5 +69,15 @@ class TemplateTest < ActiveSupport::TestCase
     assert !templ.valid?, "Names can't be equal"
     templ.name = "Fooasdasdasda"
     assert templ.valid?, "Unique name is OK"
+  end
+
+  test "can't delete template if in use" do
+    t = templates(:one)
+    assert !t.is_deletable?
+  end
+
+  test "get screens that use this template" do
+    t = templates(:one)
+    t.screen_dependencies.include?(screens(:one))
   end
 end

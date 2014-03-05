@@ -85,4 +85,10 @@ class SubmissionTest < ActiveSupport::TestCase
     assert submissions(:distant_child).is_denied?
     assert submissions(:bad_child).is_denied?
   end
+
+  test "submissions to moderate for feed doesn't include dynamic children" do
+    subs = feeds(:important_announcements).submissions_to_moderate
+    assert subs.include?(submissions(:important_dynamic))
+    assert !subs.include?(submissions(:important_dynamic_child))
+  end
 end
