@@ -123,4 +123,121 @@ class ContentTest < ActiveSupport::TestCase
     c = Content.new()
     assert_equal nil, c.perform_action(:save, {:current_user => users(:katie)})
   end
+
+  test "is_orphan? identifies content without submissions" do
+    c = Content.new(:name => "Sample Ticker",
+                :kind_id => kinds(:ticker).id,
+                :duration => 10,
+                :user => users(:katie))
+    assert c.save
+    assert c.is_orphan?
+  end
+
+  test "is_denied? detects if content denied on any feed" do
+    c = Content.new(:name => "TickerDeniedOnOne",
+                :kind_id => kinds(:ticker).id,
+                :duration => 10,
+                :user => users(:katie),
+                :start_time => 2.days.ago,
+                :end_time => Time.now.tomorrow)
+    assert c.save
+
+    Submission.create({:content => c, :duration => 5, :feed => feeds(:announcements)})
+    assert !c.is_denied?
+    assert Submission.create({
+                      :content => c, 
+                      :duration => 5, 
+                      :feed => feeds(:boring_announcements), 
+                      :moderator => users(:admin), 
+                      :moderation_flag => true})
+    assert !c.is_denied?
+    assert Submission.create({
+                      :content => c, 
+                      :duration => 5, 
+                      :feed => feeds(:important_announcements), 
+                      :moderator => users(:admin), 
+                      :moderation_flag => false})
+    assert c.is_denied?
+  end
+
+  test "is_pending? detects if content pending on any feed" do
+    c = Content.new(:name => "TickerPendingOnOne",
+                :kind_id => kinds(:ticker).id,
+                :duration => 10,
+                :user => users(:katie),
+                :start_time => 2.days.ago,
+                :end_time => Time.now.tomorrow)
+    assert c.save
+
+    assert Submission.create({
+                      :content => c, 
+                      :duration => 5, 
+                      :feed => feeds(:boring_announcements), 
+                      :moderator => users(:admin), 
+                      :moderation_flag => true})
+    assert !c.is_pending?
+    assert Submission.create({
+                      :content => c, 
+                      :duration => 5, 
+                      :feed => feeds(:important_announcements), 
+                      :moderator => users(:admin), 
+                      :moderation_flag => false})
+    assert !c.is_pending?
+    Submission.create({:content => c, :duration => 5, :feed => feeds(:announcements)})
+    assert c.is_pending?
+  end
+
+  test "is_approved? true only when content is approved on all feeds" do
+    c = Content.new(:name => "TickerApprovedOnAll",
+                :kind_id => kinds(:ticker).id,
+                :duration => 10,
+                :user => users(:katie),
+                :start_time => 2.days.ago,
+                :end_time => Time.now.tomorrow)
+    assert c.save
+
+    assert Submission.create({
+                      :content => c, 
+                      :duration => 5, 
+                      :feed => feeds(:boring_announcements), 
+                      :moderator => users(:admin), 
+                      :moderation_flag => true})
+    assert c.is_approved?
+    sub = Submission.create({
+                      :content => c, 
+                      :duration => 5, 
+                      :feed => feeds(:important_announcements), 
+                      :moderator => users(:admin), 
+                      :moderation_flag => false})
+    assert !c.is_approved?
+    sub.moderation_flag = true
+    sub.save
+    assert c.is_approved?
+    Submission.create({:content => c, :duration => 5, :feed => feeds(:announcements)})
+    assert !c.is_approved?
+  end
+
+  test "base preview is empty" do
+    assert_equal "", Content::preview
+  end
+
+  test "filter content by screen" do
+    assert_equal 1, Content::filter_all_content({ :screen => screens(:one) }).count
+  end
+
+  test "filter content by feed" do
+    assert_equal 2, Content::filter_all_content({ :feed => feeds(:service) }).count
+  end
+
+  test "filter content by user" do
+    assert_equal 10, Content::filter_all_content({ :user => users(:katie) }).count
+  end
+
+  test "filter content by type" do
+    assert_equal 9, Content::filter_all_content({ :type => 'Ticker' }).count
+  end
+
+  test "filter content by nothing returns all" do
+    assert_equal 11, Content::filter_all_content({}).count
+  end
 end

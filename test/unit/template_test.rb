@@ -43,11 +43,39 @@ class TemplateTest < ActiveSupport::TestCase
     assert t.import_xml(file.read)
   end
 
-  test "importing a bogus archive" do
+  test "calling import_archive with nil or non-zip file" do
     t = Template.new
     assert !t.import_archive(nil)
-    tf = ActionDispatch::Http::UploadedFile.new({:tempfile => 'bogus', :filename => 'bogus.txt', :head => nil, :type => 'txt'})
-    assert !t.import_archive(tf)
+    file = ActionDispatch::Http::UploadedFile.new({:tempfile => 'bogus', :filename => 'bogus.txt', :head => nil, :type => 'txt'})
+    assert !t.import_archive(file)
+  end
+
+  test "don't import package missing image" do
+    t = Template.new
+    file = fixture_file_upload("/files/ArchiveWithoutImage.zip", 'application/zip')
+    assert !t.import_archive(file)
+    assert t.errors.messages.values.detect { |m| m.join(",").include?('missing a background image') }
+  end
+
+  test "don't import package missing xml" do
+    t = Template.new
+    file = fixture_file_upload("/files/ArchiveWithoutXml.zip", 'application/zip')
+    assert !t.import_archive(file)
+    assert t.errors.messages.values.detect { |m| m.join(",").include?('missing an xml descriptor') }
+  end
+
+  test "package xml missing required values" do
+    t = Template.new
+    file = fixture_file_upload("/files/ArchiveWithEmptyXml.zip", 'application/zip')
+    assert !t.import_archive(file)
+    assert t.errors.messages.values.detect { |m| m.join(",").include?('invalid XML') }
+  end
+
+  test "package has invalid xml" do
+    t = Template.new
+    file = fixture_file_upload("/files/ArchiveWithInvalidXml.zip", 'application/zip')
+    assert !t.import_archive(file)
+    assert t.errors.messages.values.detect { |m| m.join(",").include?('invalid XML') }
   end
 
   # Do we correctly find the original height and orignal width?

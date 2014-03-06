@@ -33,4 +33,60 @@ class GroupTest < ActiveSupport::TestCase
     end
     assert !g.user_has_permissions?(u, :regular, :screen, [:all, :subscriptions])
   end
+
+  test "sole leader can't resign leadership" do
+    assert !groups(:wtg).can_resign_leadership?(memberships(:katie_wtg))
+  end
+
+  test "non-leader can resign leadership" do
+    assert groups(:wtg).can_resign_leadership?(memberships(:karen_wtg))
+  end
+
+  test "can delete if group owns nothing" do
+    assert groups(:unused).is_deletable?
+
+    assert !groups(:wtg).is_deletable?
+    Feed.delete_all
+    Screen.delete_all
+    assert groups(:wtg).is_deletable?
+  end
+
+  test "can't delete if group owns screens" do
+    Feed.delete_all
+    assert !groups(:wtg).is_deletable?
+  end
+
+  test "can't delete if group owns feeds" do
+    Screen.delete_all
+    assert !groups(:wtg).is_deletable?
+  end
+
+  test "creating a group with a new leader" do
+    u = users(:karen)
+    g = Group.create({:name => 'test group with leader', :new_leader => u.id})
+
+    assert g.leaders.include?(u)
+  end
+
+  test "users not in group" do
+    g = groups(:wtg)
+    u = g.users_not_in_group
+
+    assert u.count == 2
+    assert u.include?(users(:admin))
+    assert u.include?(users(:kristen))
+  end
+
+  test "run the update membership callbacks" do
+    g = groups(:wtg)
+    u = users(:kristen)
+
+    assert !g.has_member?(u)
+    m = Membership.new({:group => g, :user => u, :level => Membership::LEVELS[:regular]})
+    g.memberships << m
+    g.update_membership_perms
+
+    g = Group.where(:name => groups(:wtg).name).first
+    assert g.has_member?(u)
+  end
 end
