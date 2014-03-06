@@ -173,20 +173,26 @@ class Template < ActiveRecord::Base
       return false
     end
 
-    if import_xml(xml_data)
-      self.media.build({:key=>"original", :file_name => image_file.name,
-                             :file_type => MIME::Types.type_for(image_file.name).first.content_type})
-      self.media.first.file_size = image_file.size
-      self.media.first.file_data = image_file.get_input_stream.read
+    begin
+      if import_xml(xml_data)
+        self.media.build({:key=>"original", :file_name => image_file.name,
+                               :file_type => MIME::Types.type_for(image_file.name).first.content_type})
+        self.media.first.file_size = image_file.size
+        self.media.first.file_data = image_file.get_input_stream.read
 
-      if !css_file.nil?
-        m = self.media.build({:key=>"css", :file_name => css_file.name,
-                               :file_type => MIME::Types.type_for(css_file.name).first.content_type})
-        m.file_size = css_file.size
-        m.file_data = css_file.get_input_stream.read
+        if !css_file.nil?
+          m = self.media.build({:key=>"css", :file_name => css_file.name,
+                                 :file_type => MIME::Types.type_for(css_file.name).first.content_type})
+          m.file_size = css_file.size
+          m.file_data = css_file.get_input_stream.read
+        end
+        return true
+      else
+        self.errors.add(:base, I18n.t('templates.new.invalid_xml'))
+        return false
       end
-      return true
-    else
+    rescue REXML::ParseException => e
+      Rails.logger.error("invalid xml when importing template package - #{e.message}")
       self.errors.add(:base, I18n.t('templates.new.invalid_xml'))
       return false
     end
