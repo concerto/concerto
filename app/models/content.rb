@@ -66,7 +66,7 @@ class Content < ActiveRecord::Base
 
   # Determine if content is expired based on its end time.
   def is_expired?
-    (end_time < Clock.time)
+    (!end_time.nil? and end_time < Clock.time)
   end
 
   def is_orphan?
