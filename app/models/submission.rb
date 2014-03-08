@@ -78,9 +78,9 @@ class Submission < ActiveRecord::Base
     Submission.pending.expired.readonly(false).each do |submission|
       submission.moderation_flag = false
       submission.moderation_reason = 'Content expired before moderation could occur'
-      Rails.logger.info submission
-      print submission.to_yaml
-      print submission.errors.to_yaml
+      #Rails.logger.info submission
+      #print submission.to_yaml
+      #print submission.errors.to_yaml
       submission.save
     end    
   end

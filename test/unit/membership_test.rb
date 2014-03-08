@@ -75,4 +75,72 @@ class MembershipTest < ActiveSupport::TestCase
     end   
   end
 
+  test "is_denied? reflects members that have level 0" do
+    assert memberships(:kristen_rpitv).is_denied?
+    assert !memberships(:katie_wtg).is_denied?
+    assert !memberships(:karen_wtg).is_denied?
+    assert !memberships(:kristen_unused).is_denied?
+  end
+
+  test "is_pending? reflects members that are pending" do
+    assert !memberships(:kristen_rpitv).is_pending?
+    assert !memberships(:katie_wtg).is_pending?
+    assert !memberships(:karen_wtg).is_pending?
+    assert memberships(:kristen_unused).is_pending?
+  end
+
+  test "is_approved? reflects members not pending or denied" do
+    assert !memberships(:kristen_rpitv).is_approved?
+    assert memberships(:katie_wtg).is_approved?
+    assert memberships(:karen_wtg).is_approved?
+    assert !memberships(:kristen_unused).is_approved?
+  end
+
+  test "sole leader cannot resign leadership" do
+    assert !memberships(:katie_wtg).can_resign_leadership?
+  end
+
+  test "non-leader cannot resign leadership" do
+    assert !memberships(:karen_wtg).can_resign_leadership?
+  end
+
+  test "leader can resign if other leaders present" do
+    memberships(:karen_wtg).update_membership_level('promote')
+    assert memberships(:katie_wtg).can_resign_leadership?
+  end
+
+  test "can deny only pending memberships" do
+    result, msg = memberships(:karen_wtg).update_membership_level('deny')
+    assert !result
+    result, msg = memberships(:katie_wtg).update_membership_level('deny')
+    assert !result
+    result, msg = memberships(:kristen_rpitv).update_membership_level('deny')
+    assert !result
+    result, msg = memberships(:kristen_unused).update_membership_level('deny')
+    assert result
+  end
+
+  test "can approve only pending memberships" do
+    result, msg = memberships(:karen_wtg).update_membership_level('approve')
+    assert !result
+    result, msg = memberships(:katie_wtg).update_membership_level('approve')
+    assert !result
+    result, msg = memberships(:kristen_rpitv).update_membership_level('approve')
+    assert !result
+    result, msg = memberships(:kristen_unused).update_membership_level('approve')
+    assert result
+  end
+
+  test "can demote only leaders and only when more than one exists" do
+    result, msg = memberships(:katie_wtg).update_membership_level('demote')
+    assert !result
+
+    result, msg = memberships(:karen_wtg).update_membership_level('demote')
+    assert !result
+
+    memberships(:karen_wtg).update_membership_level('promote')
+    result, msg = memberships(:katie_wtg).update_membership_level('demote')
+    assert result
+  end
+
 end

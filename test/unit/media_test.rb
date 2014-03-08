@@ -16,4 +16,27 @@ class MediaTest < ActiveSupport::TestCase
     assert t.media.processed.first.key == 'processed', "processed media entry is missing"
     assert t.media.preferred.first.key == 'processed', "processed entry should come before original entry"
   end
+
+  test "cleanup previews" do
+    before_count = Media.where("media.key = 'preview'").count
+    recent = Media.create({:key => 'preview', :file_type => 'png', :file_size => 0})
+    old = Media.create({:key => 'preview', :file_type => 'png', :file_size => 0})
+    old.created_at = DateTime.new(2000, 1, 1)
+    old.save
+    after_count = Media.where("media.key = 'preview'").count
+    assert after_count == before_count + 2
+    Media.cleanup_previews
+    after_count = Media.where("media.key = 'preview'").count
+    assert after_count == before_count + 1
+  end
+
+  test "valid previews" do
+    recent = Media.create({:key => 'preview', :file_type => 'png', :file_size => 0, :attachable_id => 0})
+    old = Media.create({:key => 'preview', :file_type => 'png', :file_size => 0, :attachable_id => 0})
+    old.created_at = DateTime.new(2000, 1, 1)
+    old.save
+
+    assert Media::valid_preview(recent.id)
+    assert !Media::valid_preview(old.id)
+  end
 end

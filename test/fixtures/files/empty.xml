@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<template>
+  <name></name>
+  <width></width>
+  <height></height>
+  <author></author>
+  <field>
+    <name></name>
+    <type></type>
+    <style></style>
+    <left></left>
+    <top></top>
+    <width></width>
+    <height></height>
+  </field>
+</template>

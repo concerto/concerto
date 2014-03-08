@@ -91,4 +91,29 @@ class SubmissionTest < ActiveSupport::TestCase
     assert subs.include?(submissions(:important_dynamic))
     assert !subs.include?(submissions(:important_dynamic_child))
   end
+
+  test "moderation_text returns expected results" do
+    assert_equal "Approved", submissions(:approved_ticker).moderation_text
+    assert_equal "Rejected", submissions(:denied_ticker).moderation_text
+    assert_equal "Pending", submissions(:pending_ticker).moderation_text
+  end
+
+  test "deny expired pending content" do
+    assert submissions(:pending_ticker).is_pending?
+    assert submissions(:important_dynamic).is_pending?
+    assert submissions(:important_dynamic_child).is_pending?
+
+    # expire the content
+    c = Content.where(:name => contents(:sample_dynamic_content).name).first
+    c.end_time = 2.days.ago
+    c.save
+    c = Content.where(:name => contents(:dynamic_child_content).name).first
+    c.end_time = 2.days.ago
+    c.save
+
+    Submission::deny_old_expired
+    assert Submission.find(submissions(:pending_ticker).id).is_pending?
+    assert Submission.find(submissions(:important_dynamic).id).is_denied?
+    assert Submission.find(submissions(:important_dynamic_child).id).is_denied?
+  end
 end
