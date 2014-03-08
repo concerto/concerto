@@ -142,8 +142,7 @@ class Template < ActiveRecord::Base
       return false
     end
 
-    file = archive.tempfile unless archive.is_a? Rack::Test::UploadedFile
-    file ||= archive
+    file = archive.path
 
     require 'zip/zip'
     zip_file = Zip::ZipFile.open(file)
