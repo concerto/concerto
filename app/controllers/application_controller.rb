@@ -8,13 +8,9 @@ class ApplicationController < ActionController::Base
   helper_method :webserver_supports_restart?
   helper_method :current_screen
   
-  #We can do some clever stuff for 404-esque errors, but we'll leave 500's be
-  unless Rails.application.config.consider_all_requests_local
-    rescue_from ActionController::RoutingError,
-      ActionController::UnknownController, ActionController::UnknownAction,
-      ActionController::MethodNotAllowed, :with => lambda { |exception| render_error 404, exception }
-    rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
-  end
+  # Note on error handling: in general exceptions are caught by Rails
+  # Middleware and routed to Concerto's ErrorsController. Authorization
+  # errors, however, are handled by this file (further below).
 
   # Current Ability for CanCan authorization
   # This matches CanCan's code but is here to be explicit,
@@ -340,32 +336,6 @@ class ApplicationController < ActionController::Base
     dashboard_path
   end
   
-  private
-
-  # Handle a series of 404-like error that the application triggers.
-  # Usually these are when a controller throws a RecordNotFound or similiar.
-  # This is not where missing route 404s are handled.
-  def render_error(status, exception)
-    # Only use a template if the error is a 404 to be safe.
-    layout = (status == 404) ? "layouts/application" : false
-    respond_to do |format|
-      format.html { render :template => "errors/error_#{status}", :layout => layout, :status => status }
-      format.any { render :nothing => true, :status => status }
-    end
-  end
-
-  # Handle RecordNotFound exceptions based on their source
-  # If the RecordNotFound exception bubbled up from a model-backed controller
-  # viewing a single object we return a 404. Otherwise we render a 500 error.
-  def record_not_found(exception)
-    Rails.logger.error(exception)
-    if ['edit', 'show', 'update', 'destroy'].include?(params[:action]) && !params[:controller].classify.safe_constantize.nil?
-       render_error(404, exception)
-     else
-       render :file => 'public/500.html', :status => 500, :layout => false
-     end
-  end
-
   protected
 
   # Sets the default process notification options along with custom settings.

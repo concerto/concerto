@@ -1,0 +1,22 @@
+<section class="viewblock">
+  <div class="viewblock-cont">
+    <div class="default-padding" style="padding-top: 50px; padding-bottom: 50px;">
+      <div class="row-fluid">
+        <div class="span4 center">
+          <%= image_tag("miniscreen/500_screen.png", :alt => @status_code, :width => "298", :style => "max-width: 90%;") %>
+          <h1 style="font-size: 6em; color: red; letter-spacing: -0.025em;">
+            <%= @status_code %>
+          </h1>
+          <br />
+        </div>
+        <div class="span8">
+          <h1 style="font-size: 4em; letter-spacing: -0.025em;">Something went wrong. Rest assured, you have been assigned 0% of the blame.</h1>
+          <br />
+          <h2>Sometimes a strategic retreat is the best option.</h2>
+          <br />
+          <%= link_to "Abort!", :back, :class => "btn btn-large" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
