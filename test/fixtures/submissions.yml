@@ -62,3 +62,17 @@ approved_image:
   moderation_flag: true
   moderator: katie
   duration: 1
+
+important_dynamic:
+  content: sample_dynamic_content
+  feed: important_announcements
+  moderation_flag:
+  moderator:
+  duration: 5
+
+important_dynamic_child:
+  content: dynamic_child_content
+  feed: important_announcements
+  moderation_flag:
+  moderator:
+  duration: 5

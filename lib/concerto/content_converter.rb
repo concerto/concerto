@@ -65,13 +65,13 @@ module Concerto
         original_media = media[0]
         original_filepath = File.join("/tmp", original_media.file_name)
         File.open(original_filepath, 'wb') do |f|
-          f.write original_media.file_data
+          f.write original_media.file_contents
         end
 
-        # process it with docsplit
-        cmd = "docsplit images -p 1 -f png -o /tmp '#{original_filepath}' 2>&1"
-        result = `#{cmd}`
-        if $?.exitstatus == 0
+        # process it with docsplit via the api
+        begin
+          Docsplit.extract_images("#{original_filepath}", :pages => 1, :format => 'png', :output => "/tmp")
+
           # if all went well, get the new filename... which has the _pageno appended to it
           new_filename = "#{File.basename(original_filepath,".*")}_1.png"
           new_filepath = File.join( File.dirname(original_filepath), new_filename)
@@ -90,11 +90,9 @@ module Concerto
           File.delete(original_filepath) if File.exist?(original_filepath)
           File.delete(new_filepath) if File.exist?(new_filepath)
           return media
-        else
-          # command failed
-          Rails.logger.error(cmd)
-          Rails.logger.error(result)
-          raise Unconvertable.new("Unable to convert #{original_media.file_name}, see log for more details")
+        rescue Docsplit::ExtractionFailed => e
+          Rails.logger.error(e.message.chomp)
+          raise Unconvertable.new("Unable to convert #{original_media.file_name}")
         end
       end
     end

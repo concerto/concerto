@@ -1,7 +1,7 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'https://rubygems.org'
 
-gem "rails", "~> 3.2.15"
+gem "rails", "~> 3.2.17"
 
 # Get the absolute path of this Gemfile so the includes below still work
 # when the current directory for a bundler command isn't the application's
@@ -36,8 +36,8 @@ end
 
 gem 'jquery-rails'
 gem 'turbolinks'
+gem 'jquery-timepicker-rails', '~> 1.3'
 gem 'bootstrap-datepicker-rails'
-gem 'jquery-timepicker-rails'
 gem 'twitter-bootstrap-rails-confirm'
 
 #RMagick is used for image resizing and processing
@@ -68,12 +68,12 @@ require "#{Dir.getwd}/lib/command_check.rb"
 if system_has_mysql?
   mysql_platforms = Bundler::Dependency::PLATFORM_MAP.keys
 else
-  mysql_platforms = []
+  mysql_platforms = [:mswin]
 end
 if system_has_postgres?
   postgres_platforms = Bundler::Dependency::PLATFORM_MAP.keys
 else
-  postgres_platforms = []
+  postgres_platforms = [:mswin]
 end
 
 # In production we prefer MySQL over sqlite3.  If you are only
@@ -90,4 +90,4 @@ pa_platforms &= Bundler::Dependency::PLATFORM_MAP.keys
 gem 'public_activity', :platforms => pa_platforms
 
 gem 'redcarpet', '~> 2.3.0'
-gem 'docsplit'   # for graphics and pdf, ppt conversion
+gem 'docsplit', :git => 'https://github.com/augustf/docsplit.git', :branch => 'imagemagick'
