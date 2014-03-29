@@ -99,8 +99,10 @@ module Concerto
     # Returns an array of hashes specifying all of the requested
     # hooks into the given controller.
     def get_controller_hooks(controller_name)
-      return @controller_hooks.select do |h| 
-        h[:controller_name] == controller_name
+      if @controller_hooks
+        return @controller_hooks.select do |h| 
+          h[:controller_name] == controller_name
+        end
       end
     end
 
