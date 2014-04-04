@@ -7,7 +7,9 @@
     </h1>
     <div class="viewblock-header_right">
       <div class="button-padding">
-        <%= button_to t('.restart_webserver'), :action => :initiate_restart %>
+        <% if webserver_supports_restart? %>
+          <%= button_to t('.restart_webserver'), :action => :initiate_restart %>
+        <% end %>
       </div>
     </div>
 
