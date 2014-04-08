@@ -30,11 +30,11 @@
         <% end %>
       </div>
   <% end %>
-
 </div>
 
 <div class="default-padding">
   <div class="content-frame">
+  
     <%= link_to render_content(@submission.content), content_path(@submission.content)%>
     <%#= render :partial => 'contents/dynamic_content_tools', :locals => { :content => @submission.content } if @submission.content.is_a?(DynamicContent) && can?(:edit, @submission.content) %>
   </div>

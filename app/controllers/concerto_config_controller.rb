@@ -5,6 +5,11 @@ class ConcertoConfigController < ApplicationController
     authorize! :read, ConcertoConfig
     @concerto_configs = ConcertoConfig.where("hidden IS NULL").order("category, seq_no, concerto_configs.key")
   end
+  
+  def initiate_restart
+    restart_webserver()
+    redirect_to :action => :show
+  end
 
   # get a hash of concerto_config keys and values and update them using the ConcertoConfig setter
   # PUT /settings
