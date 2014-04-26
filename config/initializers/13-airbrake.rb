@@ -18,6 +18,7 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
       #config.async = (RUBY_VERSION.to_f > 1.8)
       config.user_attributes = []
       config.secure = true
+      config.environment_name = Concerto::VERSION::STRING
 
       # Uncomment the following to start reporting development mode errors.
       #config.development_environments = []
