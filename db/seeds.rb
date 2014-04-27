@@ -30,7 +30,10 @@ Kind.all.each do |kind|
   field = Field.find_or_create_by_name({:name => kind.name, :kind => Kind.where(:name => kind.name).first})
 end
 # The time is just a special text field.
-Field.find_or_create_by_name({:name => 'Time', :kind => Kind.where(:name => 'Text').first})
+time_field = Field.find_or_create_by_name({:name => 'Time', :kind => Kind.where(:name => 'Text').first})
+if !FieldConfig.default.where(:field_id => time_field.id, :key => 'transition').exists?
+  FieldConfig.create(:field_id => time_field.id, :screen_id => nil, :key => 'transition', :value => 'replace')
+end
 
 #Create an initial group
 Group.find_or_create_by_name(:name => "Concerto Admins")
