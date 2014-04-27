@@ -9,7 +9,7 @@
 # change at the moment.
 # Note: This is replicated in config/initializers/17-required_data.rb because an instance must have kinds.
 ["Graphics", "Ticker", "Text", "Dynamic"].each do |kind|
-  Kind.find_or_create_by_name kind
+  Kind.find_or_create_by :name => kind
 end
 
 #Default plugins
@@ -31,9 +31,7 @@ Kind.all.each do |kind|
 end
 # The time is just a special text field.
 time_field = Field.where(:name => 'Time').first_or_create(:kind => Kind.where(:name => 'Text').first)
-if !FieldConfig.default.where(:field_id => time_field.id, :key => 'transition').exists?
-  FieldConfig.create(:field_id => time_field.id, :screen_id => nil, :key => 'transition', :value => 'replace')
-end
+FieldConfig.default.where(:field_id => time_field.id, :key => 'transition').first_or_create(:value => 'replace')
 
 #Create an initial group
 Group.find_or_create_by(:name => "Concerto Admins")
@@ -72,11 +70,11 @@ Position.where(:field_id => Field.where(:name => "Text").first.id, :template_id 
 Position.where(:field_id => Field.where(:name => "Time").first.id, :template_id => concerto_template, :top => ".885", :left => ".024", :bottom => ".974", :right => ".18", :style => "color:#ccc; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important; letter-spacing:.12em !important;")
 
 #Create a sample Full-Screen
-Screen.where(:name => "Sample Screen", :location => "Cafe", :is_public => true, :owner_id => Group.first.id, :owner_type => "Group", :template_id => concerto_template, :width => 1024, :height => 768).first_or_create
+Screen.find_or_create_by(:name => "Sample Screen", :location => "Cafe", :is_public => true, :owner_id => Group.first.id, :owner_type => "Group", :template_id => concerto_template, :width => 1024, :height => 768)
 
 #Create initial subscriptions for the sample Screen
 feed_id = Feed.first.id
 screen_id= Screen.first.id
 Field.where('name NOT IN (?)', ['Dynamic', 'Time']).each do |f|
-  Subscription.where(:feed_id => feed_id, :field_id => f.id, :screen_id => screen_id, :weight => 1).first_or_create
+  Subscription.find_or_create_by(:feed_id => feed_id, :field_id => f.id, :screen_id => screen_id, :weight => 1)
 end
