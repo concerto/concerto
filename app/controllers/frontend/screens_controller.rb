@@ -140,6 +140,10 @@ class Frontend::ScreensController < ApplicationController
         @screen.template.positions.each do |p|
           p.field_contents_path = frontend_screen_field_contents_path(@screen, p.field, :format => :json)
           p.field.config = {}
+          FieldConfig.default.where(:field_id => p.field_id).each do |d_fc|
+            p.field.config[d_fc.key] = d_fc.value
+            field_configs << d_fc
+          end
           @screen.field_configs.where(:field_id => p.field_id).each do |fc|
             p.field.config[fc.key] = fc.value
             field_configs << fc

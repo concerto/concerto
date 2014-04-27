@@ -97,7 +97,10 @@ class Ability
     # Authenticated users can create content
     can :create, Content if user.persisted?
     # Users can read and update and delete their own content
-    can [:read, :update, :delete], Content, :user_id => user.id
+    can [:read, :delete], Content, :user_id => user.id
+    can :update, Content do |content|
+      content.is_approved? == false && content.user_id == user.id
+    end
 
     ## Screens
     # Authenticated users can create screens

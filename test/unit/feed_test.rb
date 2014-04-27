@@ -126,4 +126,26 @@ class FeedTest < ActiveSupport::TestCase
     assert f.include?(feeds(:secret_announcements))  # This feed is private, but owned via a shared user
     assert !f.include?(feeds(:service))  # This feed already exists
   end
+
+  test "a group leader or supporter can create feeds" do
+    katie = users(:katie)
+    ability = Ability.new(katie)
+    assert ability.can?(:create, feeds(:service)) # feed for group they lead
+    assert ability.can?(:create, Feed.new) # feed with nil group (for coverage)
+
+    membership = memberships(:katie_rpitv)
+    membership.perms[:feed] = :all
+    membership.save
+    assert katie.supporting_groups(:feed, :all).include?(groups(:rpitv))
+    assert ability.can?(:create, feeds(:secret_announcements)) # feed for group they support
+
+    ability = Ability.new(users(:karen))
+    assert ability.cannot?(:create, feeds(:service)) # feed for group they dont lead or support
+  end
+
+  test "list screens on which feeds appear" do
+    assert_equal feeds(:service).shown_on_screens.sort {|a,b| a.name <=> b.name }, 
+      [screens(:one), screens(:two)].sort {|a,b| a.name <=> b.name }
+    assert_equal feeds(:announcements).shown_on_screens, [screens(:one)]
+  end
 end

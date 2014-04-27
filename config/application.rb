@@ -65,6 +65,13 @@ module Concerto
       ConcertoDevise::RegistrationsController.skip_before_filter :check_for_initial_install
     end
 
-    
+    # Error Handling
+    # We will configure the Rails ShowErrors middleware to send all errors it 
+    # sees to a controller within Concerto so we can render a nice error. This
+    # will catch all exceptions not caught by ApplicationController. They will
+    # be routed as /404, /500, etc.
+    config.exceptions_app = lambda do |env|
+      ErrorsController.action(:render_error).call(env)
+   end
   end
 end

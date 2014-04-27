@@ -1,7 +1,9 @@
 <tr>
   <td style="width: 50px;">
-    <%= link_to screen_field_subscription_path(@screen, @field, subscription), :method => :delete, :remote => true, :class => "btn btn-danger btnRemoveSubscription" do %>
-      <i class="icon-remove"></i>
+    <% if can? :destroy, subscription %>
+      <%= link_to screen_field_subscription_path(@screen, @field, subscription), :method => :delete, :remote => true, :class => "btn btn-danger btnRemoveSubscription" do %>
+        <i class="icon-remove"></i>
+      <% end %>
     <% end %>
   </td>
   <td>
@@ -11,8 +13,9 @@
   <td>
     <div class="clearfix frequency">
       <div class="leftseconds" style="width: 50px;"><%= t('subscriptions.shown_rarely') %></div>
+      <% can_edit = can? :edit, subscription %>
       <%= range_field_tag 'subscription[weight]', subscription.weight, { :min => 1, :max => Subscription::WEIGHTS.size, :step => 1, :class => "frequency_range thin",
-           :data => {:remote => true, :url => screen_field_subscription_path(@screen, @field, subscription), :method => :put} } %>
+           :data => (can_edit ? {:remote => true, :url => screen_field_subscription_path(@screen, @field, subscription), :method => :put} : {}), :disabled => !can_edit } %>
       <div class="rightseconds" style="width: 50px;"><%= t('subscriptions.shown_frequently') %></div>
     </div>
   </td>

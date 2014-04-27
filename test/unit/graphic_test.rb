@@ -34,9 +34,9 @@ class GraphicTest < ActiveSupport::TestCase
 
   # Only a subset of files are valid graphics.
   test "graphics must be images" do
-        graphic = Graphic.new(:name => "Sample Graphic",
-                          :duration => 15,
-                          :user => users(:katie))
+    graphic = Graphic.new(:name => "Sample Graphic",
+                      :duration => 15,
+                      :user => users(:katie))
     file = fixture_file_upload("/files/concerto_background.jpg", 'text/plain', :binary)
     graphic.media.build({:key => "original"})
     graphic.media.first.file = file
@@ -47,5 +47,25 @@ class GraphicTest < ActiveSupport::TestCase
 
   test "graphic class has display name" do
     assert_equal "Graphic", Graphic.display_name
+  end
+
+  test "preview is reflexive" do
+    assert_equal "ABC", Graphic::preview("ABC")
+  end
+
+  test "form attributes include media attributes" do
+    Graphic.form_attributes.include?(:media_attributes)
+  end
+
+  test "render_details includes path" do
+    graphic = Graphic.new(:name => "Sample Graphic",
+                          :duration => 15,
+                          :user => users(:katie))
+    file = fixture_file_upload("/files/concerto_background.jpg", 'image/jpeg', :binary)
+    graphic.media.build({:key => "original"})
+    graphic.media.first.file = file
+    graphic.save
+    graphic.pre_render(screens(:one), fields(:one))
+    assert graphic.render_details.include?(:path)
   end
 end

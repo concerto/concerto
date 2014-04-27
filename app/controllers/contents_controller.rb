@@ -111,6 +111,7 @@ class ContentsController < ApplicationController
       # only reassign if not already assigned
       if @media[:key] == 'preview' && @media[:attachable_id] == 0
         @media[:key] = 'original'
+        @content.media.clear
         @content.media.concat(@media)
       end
     end

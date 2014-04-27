@@ -66,7 +66,7 @@ class Content < ActiveRecord::Base
 
   # Determine if content is expired based on its end time.
   def is_expired?
-    (end_time < Clock.time)
+    (!end_time.nil? and end_time < Clock.time)
   end
 
   def is_orphan?
@@ -222,4 +222,11 @@ class Content < ActiveRecord::Base
     filtered_contents
   end
 
+  # Determine if a piece of content should be displayed based on screen and field.
+  # By default content can be rendered in any Field which has the same Kind as the Content.
+  # This can be overridden by different content types which can be displayed in different
+  # fields or based on some dynamic criteria implemented in each Content subclass.
+  def can_display_in?(screen, field)
+    return self.kind == field.kind
+  end
 end

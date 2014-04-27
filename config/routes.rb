@@ -111,7 +111,9 @@ Concerto::Application.routes.draw do
   resources :html_texts, :controller => :contents, :except => [:index, :show], :path => "content"
   resources :client_times, :controller => :contents, :except => [:index, :show], :path => "content"
 
-  resource :concerto_config, :controller => :concerto_config, :only => [:show, :update], :path => "settings"
+  resource :concerto_config, :controller => :concerto_config, :only => [:show, :update], :path => "settings" do
+    post :initiate_restart
+  end
 
   # This is the catch-all path we use for people who type /content when they
   # are semantically looking for all the feeds to show the content.  We put it
@@ -119,8 +121,7 @@ Concerto::Application.routes.draw do
   get 'content/' => 'feeds#index'
   get 'browse/' => 'feeds#index'
 
-  unless Rails.application.config.consider_all_requests_local
-    get '*not_found', :to => 'errors#error_404'
-  end
-
+  # Note: 404 errors are not handled by the router.
+  # Instead, they are caught by Rails Middleware and then redirected
+  # to Concerto's ErrorsController.
 end

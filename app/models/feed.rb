@@ -87,4 +87,16 @@ class Feed < ActiveRecord::Base
     ability = Ability.new(screen)
     feeds.reject { |feed| !ability.can?(:read, feed) }
   end
+
+  # Figure out which submissions need to be moderated.
+  # This is a list of all the pending submissions minus dynamic content who have
+  # a parent pending moderation (since that moderation will propogate automatically).
+  def submissions_to_moderate
+    moderate = self.submissions.pending.all
+    moderate_content = moderate.collect{|s| s.content}
+    moderate.reject! do |s|
+      !s.content.parent.nil? && moderate_content.include?(s.content.parent)
+    end
+    return moderate
+  end
 end

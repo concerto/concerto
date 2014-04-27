@@ -51,12 +51,13 @@
   <%= link_to @feed.group.name, group_path(@feed.group) %>.
 </div>
 
-<% if @can_moderate_feed and @feed.submissions.pending.count > 0 %>
+<% submissions = @feed.submissions_to_moderate %>
+<% if @can_moderate_feed and submissions.count > 0 %>
 <!-- note that we do not show an alert banner when there are no pending contents; we just hide it altogether -->
 <div class="clearfix default-padding">
-  <h3 class="header-with-icon" style="color:#993333;"><i class="concertocon-header-pendingcontent"></i><%= t('.submissions_pending', :count => @feed.submissions.pending.count) %></h3>
+  <h3 class="header-with-icon" style="color:#993333;"><i class="concertocon-header-pendingcontent"></i><%= t('.submissions_pending', :count => submissions.count) %></h3>
   <br />
-  <% @feed.submissions.pending.select{|s| s.content.parent.nil?}.each do |submission| %>
+  <% submissions.each do |submission| %>
     <%= render :partial => "submissions/submission_tile", :locals => { :submission => submission } %>
   <% end %>
 </div>

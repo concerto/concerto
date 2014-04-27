@@ -5,7 +5,7 @@
 
 # Populate the 3 major 'kinds' of content we know as of now.
 # There is discussion to move this to a static array / config elsewhere,
-# but I don't have a solid grasp on the system-wide reprecussions of that
+# but I don't have a solid grasp on the system-wide repercussions of that
 # change at the moment.
 # Note: This is replicated in config/initializers/17-required_data.rb because an instance must have kinds.
 ["Graphics", "Ticker", "Text", "Dynamic"].each do |kind|
@@ -19,8 +19,6 @@ ConcertoPlugin.where(:gem_name => "concerto_simple_rss").first_or_create(:enable
 ConcertoPlugin.where(:gem_name => "concerto_iframe").first_or_create(:enabled => true, :source => "rubygems")
 ConcertoPlugin.where(:gem_name => "concerto_calendar").first_or_create(:enabled => true, :source => "rubygems")
 ConcertoPlugin.where(:gem_name => "concerto-hardware").first_or_create(:enabled => false, :source => "rubygems")
-ConcertoPlugin.where(:gem_name => "concerto-audio").first_or_create(:enabled => false, :source => "rubygems")
-ConcertoPlugin.where(:gem_name => "concerto_template_scheduling").first_or_create(:enabled => false, :source => "rubygems")
 
 # Establish the 4 major display areas a template usually has.
 # In my quick sample, this code will make 68% of the Concerto 1 fields match
@@ -32,7 +30,10 @@ Kind.all.each do |kind|
   field = Field.find_or_create_by(:name => kind.name, :kind => Kind.where(:name => kind.name).first)
 end
 # The time is just a special text field.
-Field.find_or_create_by(:name => 'Time', :kind => Kind.where(:name => 'Text').first)
+time_field = Field.where(:name => 'Time').first_or_create(:kind => Kind.where(:name => 'Text').first)
+if !FieldConfig.default.where(:field_id => time_field.id, :key => 'transition').exists?
+  FieldConfig.create(:field_id => time_field.id, :screen_id => nil, :key => 'transition', :value => 'replace')
+end
 
 #Create an initial group
 Group.find_or_create_by(:name => "Concerto Admins")

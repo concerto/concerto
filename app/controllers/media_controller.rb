@@ -15,9 +15,16 @@ class MediaController < ApplicationController
   def create
     auth!(:object => Media, :action => :create)
     @media = Media.new(:file => media_params[:graphic][:media_attributes]["0"][:file])
+
+    if @media.file_size > 0 && Concerto::ContentConverter.supported_types.include?(@media.file_type)
+       medias = Concerto::ContentConverter.convert([@media])
+       @media = medias.select { |m| m.key == 'processed' }.first
+    end
+
     @media.attachable_id = 0  # this is assigned to the actual Graphic record when the graphic is saved
     @media.attachable_type = 'Content'
     @media.key = 'preview'
+
     if @media.save
       # jquery.iframe-transport requires result sent back in textarea
       render :inline  => "<textarea data-type='application/json'>#{@media.to_json(:only => :id)}</textarea>" 

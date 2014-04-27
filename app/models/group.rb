@@ -37,7 +37,7 @@ class Group < ActiveRecord::Base
   end
 
   def create_leader
-    self.new_leader = Membership.create(:user_id => new_leader, :group_id => self.id, :level => 9) if new_leader.present?
+    self.new_leader = Membership.create(:user_id => new_leader, :group_id => self.id, :level => Membership::LEVELS[:leader]) if new_leader.present?
   end
 
   # Deliver a list of only users not currently in the group

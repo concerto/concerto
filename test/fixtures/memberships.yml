@@ -15,3 +15,13 @@ karen_wtg:
   group: wtg
   level: <%= Membership::LEVELS[:regular] %>
   permissions: 0
+
+kristen_rpitv:
+  user: kristen
+  group: rpitv
+  level: <%= Membership::LEVELS[:denied] %>
+
+kristen_unused:
+  user: kristen
+  group: unused
+  level: <%= Membership::LEVELS[:pending] %>

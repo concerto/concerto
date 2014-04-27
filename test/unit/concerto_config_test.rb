@@ -38,4 +38,25 @@ class ConcertoConfigTest < ActiveSupport::TestCase
 
     assert_equal nil, ConcertoConfig.cache_get('missing_key')
   end
+
+  test "entry whitelisting" do
+    # whitelisted entry persists, nonlisted entry gets removed
+    ConcertoConfig.make_concerto_config("whitelisted_key", "foo")
+    ConcertoConfig.make_concerto_config("nonwhitelisted_key", "bar")
+
+    ConcertoConfig::CONFIG_ITEMS.clear
+    ConcertoConfig::CONFIG_ITEMS << 'whitelisted_key'
+
+    ConcertoConfig::delete_unused_configs
+
+    assert !ConcertoConfig.where(:key => 'whitelisted_key').empty?
+    assert ConcertoConfig.where(:key => 'nonwhitelisted_key').empty?
+  end
+
+  test "key not found raises exception" do
+    exception = assert_raises(RuntimeError) do
+      ConcertoConfig[:this_key_doesnt_exist]
+    end
+    assert exception.message =~ /Concerto Config key .+ not found/
+  end
 end

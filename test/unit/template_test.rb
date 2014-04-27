@@ -43,6 +43,41 @@ class TemplateTest < ActiveSupport::TestCase
     assert t.import_xml(file.read)
   end
 
+  test "calling import_archive with nil or non-zip file" do
+    t = Template.new
+    assert !t.import_archive(nil)
+    file = ActionDispatch::Http::UploadedFile.new({:tempfile => 'bogus', :filename => 'bogus.txt', :head => nil, :type => 'txt'})
+    assert !t.import_archive(file)
+  end
+
+  test "don't import package missing image" do
+    t = Template.new
+    file = fixture_file_upload("/files/ArchiveWithoutImage.zip", 'application/zip')
+    assert !t.import_archive(file)
+    assert t.errors.messages.values.detect { |m| m.join(",").include?('missing a background image') }
+  end
+
+  test "don't import package missing xml" do
+    t = Template.new
+    file = fixture_file_upload("/files/ArchiveWithoutXml.zip", 'application/zip')
+    assert !t.import_archive(file)
+    assert t.errors.messages.values.detect { |m| m.join(",").include?('missing an xml descriptor') }
+  end
+
+  test "package xml missing required values" do
+    t = Template.new
+    file = fixture_file_upload("/files/ArchiveWithEmptyXml.zip", 'application/zip')
+    assert !t.import_archive(file)
+    assert t.errors.messages.values.detect { |m| m.join(",").include?('invalid XML') }
+  end
+
+  test "package has invalid xml" do
+    t = Template.new
+    file = fixture_file_upload("/files/ArchiveWithInvalidXml.zip", 'application/zip')
+    assert !t.import_archive(file)
+    assert t.errors.messages.values.detect { |m| m.join(",").include?('invalid XML') }
+  end
+
   # Do we correctly find the original height and orignal width?
   test "find original height and width" do
     t = Template.new
@@ -62,5 +97,15 @@ class TemplateTest < ActiveSupport::TestCase
     assert !templ.valid?, "Names can't be equal"
     templ.name = "Fooasdasdasda"
     assert templ.valid?, "Unique name is OK"
+  end
+
+  test "can't delete template if in use" do
+    t = templates(:one)
+    assert !t.is_deletable?
+  end
+
+  test "get screens that use this template" do
+    t = templates(:one)
+    t.screen_dependencies.include?(screens(:one))
   end
 end
