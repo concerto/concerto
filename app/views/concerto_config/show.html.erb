@@ -3,7 +3,7 @@
 <section class="viewblock">
   <header class="viewblock-header">
     <h1 class="default-padding">
-      <%= t('.edit_settings') %>
+      <%= t('.edit_settings') %><%= button_to t('.check_configuration'), {:action => :config_check}, {:method => :get } %>
     </h1>
     <div class="viewblock-header_right">
       <div class="button-padding">

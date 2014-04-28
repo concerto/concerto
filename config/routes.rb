@@ -111,8 +111,9 @@ Concerto::Application.routes.draw do
   resources :html_texts, :controller => :contents, :except => [:index, :show], :path => "content"
   resources :client_times, :controller => :contents, :except => [:index, :show], :path => "content"
 
-  resource :concerto_config, :controller => :concerto_config, :only => [:show, :update], :path => "settings" do
+  resource :concerto_config, :controller => :concerto_config, :only => [:show, :update,], :path => "settings" do
     post :initiate_restart
+    get :config_check
   end
 
   # This is the catch-all path we use for people who type /content when they

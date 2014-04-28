@@ -29,3 +29,11 @@ end
 def system_has_postgres?
   Gem::Specification::find_all_by_name('pg').any? || command?('pg_config')
 end
+
+def mysql_location
+  which('mysql_config').split('/bin').first
+end
+
+def postgres_location
+  which('pg_config').split('/bin').first
+end
