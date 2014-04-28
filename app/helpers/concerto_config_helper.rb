@@ -50,6 +50,10 @@ module ConcertoConfigHelper
     "#{Rails.root.join('log')} has permission #{File.stat(Rails.root.join('log')).mode.to_s(8)[-3,3]}" + "#{@rails_log_perms == 600 ? "" : " instead of 600"}"
   end
   
+  def rails_tmp_text
+    Rails.root.join('tmp').to_s + " " + (@rails_tmp_perms ? "is" : "should be") + " writable by the webserver."
+  end
+  
   def webserver_ownership_text
     Rails.root.to_s + (@webserver_ownership ? " is owned by the webserver" : " is not owned by the webserver")
   end

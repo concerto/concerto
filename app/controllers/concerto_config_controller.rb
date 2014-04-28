@@ -20,6 +20,7 @@ class ConcertoConfigController < ApplicationController
     #The logic here and in the view assumes a *nix system - no idea what other posix systems will return
     @rails_root_perms = File.stat(Rails.root).mode.to_s(8)[-3,3] == "700" #should be 700 on a shared box
     @rails_log_perms = File.stat(Rails.root.join('log')).mode.to_s(8)[-3,3] == "600" #should be 600 on a shared box
+    @rails_tmp_perms = File.stat(Rails.root.join('tmp')).writable?
     @webserver_ownership = File.stat(Rails.root).owned?
   end
 
