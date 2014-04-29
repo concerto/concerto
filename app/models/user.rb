@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable,
   # :lockable, :timeoutable and :omniauthable, :trackable
-  modules = [:database_authenticatable, :recoverable, :registerable, :rememberable, :validatable]
+  modules = [:database_authenticatable, :recoverable, :registerable, :rememberable, :validatable, :omniauthable]
   if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     modules << :confirmable if ConcertoConfig[:confirmable]
   end
