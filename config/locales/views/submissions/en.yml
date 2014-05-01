@@ -17,6 +17,7 @@ en:
     approval_info:
       submitted_by: 'Submitted By'
       the_dawn_of_time: 'The Dawn of Time.'
+      moderated_by: "By: %{moderator}"
       display_from: 'Display From:'
       display_until: 'Display Until:'
       the_end_of_time: 'The End of Time.'
@@ -65,3 +66,5 @@ en:
     submission_tile:
       approve_this_content: "Approve this content"
       deny_this_content: "Deny this content"
+      has_been_aproved: 'This content has been approved.'
+      has_been_denied: 'This content has been denied.'
