@@ -16,6 +16,7 @@ en:
   are_you_sure_leave_group: 'Are you sure you want to leave the group "%{group}"?'
   back: 'Back'
   cancel: 'Cancel'
+  concerto: 'Concerto'
   create_model: 'Create %{model}'
   current_model: 'Current %{model}'
   destroy: 'Delete'

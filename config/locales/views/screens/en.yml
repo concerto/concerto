@@ -37,9 +37,14 @@ en:
       new_token_override: 'Remove existing authentication and secure with a new token'
       existing_mac: 'Use existing legacy MAC address'
 
+    screen_info:
+      offline: 'Offline'
+      online: 'Online'
+
     show_body:
-      preview_screen: 'Preview Screen'
+      field_settings: 'Hover over a field below to view its settings.'
       manage: 'Manage'
+      preview_screen: 'Preview Screen'
 
     template_selection:
       best_fit_templates: "Best-Fit Templates"

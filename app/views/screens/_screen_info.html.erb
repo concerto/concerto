@@ -2,7 +2,7 @@
   <div class="row-fluid approval-info">
     <div class="span3">
       <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t(:status) %></b></small></p>
-      <p><% if screen.is_online? %>Online <% else %>Offline <% end %> </p>
+      <p><% if screen.is_online? %><%= t '.online' %><% else %><%= t '.offline' %><% end %> </p>
       <% if !screen.mac_address.nil? && can?(:edit, screen) %>
         <p><small><%= t(:mac_address) %>: <%= screen.mac_address %></small>  </p>
       <% end %>
@@ -13,7 +13,7 @@
     </div>
     <div class="span3">
       <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= Screen.human_attribute_name(:template_id) %></b></small></p>
-      <% if !screen.template.blank? %>
+      <% unless screen.template.blank? %>
         <% if can?(:read, screen.template) %>
           <p><%= link_to screen.template.name, screen.template %></p>
         <% else %>
