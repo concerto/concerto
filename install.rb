@@ -237,10 +237,10 @@ end
 
 def check_deb_pkg_depends
   #Concerto imagemagick package dependencies
-  pkg_depends = ['imagemagick', 'librmagick-ruby', 'libmagickcore-dev', 'libmagickwand-dev']
+  pkg_depends = ['imagemagick', 'ruby-rmagick', 'libmagickcore-dev', 'libmagickwand-dev']
   #Add additional MySQL package requirements (if -d mysql is invoked)
   if $database_type == "mysql"
-    pkg_depends << "mysql-server" << "mysql-client" << "libmysql-ruby1.9.1"
+    pkg_depends << "mysql-server" << "mysql-client" << "ruby-mysql"
   end
   #all unmet dependencies will be pushed onto this array
   unmet_depends = Array.new
