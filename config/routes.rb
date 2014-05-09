@@ -44,7 +44,6 @@ Concerto::Application.routes.draw do
   end
   # End really dangerous routes.
 
-
   devise_for :users,
              :controllers => {
                :registrations => 'concerto_devise/registrations',

@@ -76,4 +76,18 @@ class User < ActiveRecord::Base
     return supporting_groups
   end
 
+  # Return user 
+  def self.from_omniauth(cas_hash)
+    if user = User.find_by_email(cas_hash.uid + "@rpi.edu")
+      return user
+    else
+      user = User.new
+      user.first_name = cas_hash.uid
+      user.email = cas_hash.uid + "@rpi.edu"
+      user.password = Devise.friendly_token.first(8)
+      user.save
+      return user
+    end
+  end
+
 end
