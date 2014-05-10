@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable,
   # :lockable, :timeoutable and :omniauthable, :trackable
-  modules = [:database_authenticatable, :rememberable, :validatable, :omniauthable]
+  modules = [:database_authenticatable, :recoverable, :registerable, :rememberable, :validatable]
   if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     modules << :confirmable if ConcertoConfig[:confirmable]
   end
@@ -74,20 +74,6 @@ class User < ActiveRecord::Base
   def supporting_groups(type, permissions)
     supporting_groups =  groups.select{|g| g.user_has_permissions?(self, :regular, type, permissions)}
     return supporting_groups
-  end
-
-  # Return user 
-  def self.from_omniauth(cas_hash)
-    if user = User.find_by_email(cas_hash.uid + "@rpi.edu")
-      return user
-    else
-      user = User.new
-      user.first_name = cas_hash.uid
-      user.email = cas_hash.uid + "@rpi.edu"
-      user.password = Devise.friendly_token.first(8)
-      user.save
-      return user
-    end
   end
 
 end

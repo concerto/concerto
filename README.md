@@ -1,7 +1,4 @@
-#Concerto 2 Digital Signage System 
-
-Forked to use CAS Authentication for deployment at RPI.
-
+#Concerto 2 Digital Signage System [![Build Status](https://travis-ci.org/concerto/concerto.png?branch=master)](https://travis-ci.org/concerto/concerto)
 Full Installation Instructions: [https://github.com/concerto/concerto/wiki/Installing-Concerto-2](http://goo.gl/4YIzK)
 
 ##What is Concerto?
@@ -25,3 +22,7 @@ The virtual server image contains a full-stack installation of the Concerto webs
 * Download at [https://dl.concerto-signage.org/concerto_server.ova](https://dl.concerto-signage.org/concerto_server.ova)
 
 Concerto 2 is licensed under the Apache License, Version 2.0.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/concerto/concerto/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
