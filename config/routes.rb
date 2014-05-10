@@ -44,11 +44,11 @@ Concerto::Application.routes.draw do
   end
   # End really dangerous routes.
 
-
   devise_for :users,
              :controllers => {
                :registrations => 'concerto_devise/registrations',
-               :sessions => 'concerto_devise/sessions'}
+               :sessions => 'concerto_devise/sessions',
+               :omniauth_callbacks => 'omniauth_callbacks' }
 
   scope "/manage" do
     resources :users
