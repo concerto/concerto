@@ -6,6 +6,6 @@
 
 Concerto::Application.config.field_configs = {
   :transition => {:type => :select, :values => ['fade','slide','replace']},
-  :time_format => {:type => :string}
+  :time_format => {:type => :string},
   :autosize_text => {:type => :boolean}
 }
