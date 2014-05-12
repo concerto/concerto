@@ -64,9 +64,9 @@ GEM
     coffee-script-source (1.7.0)
     concerto-hardware (0.0.5)
       rails (~> 3.2.9)
-    concerto_calendar (0.0.3)
+    concerto_calendar (0.0.4)
       google-api-client
-      icalendar
+      icalendar (~> 1.5)
       rails
     concerto_iframe (0.0.2)
       rails (~> 3.2)
@@ -114,7 +114,7 @@ GEM
       uuidtools (>= 2.1.0)
     hike (1.2.3)
     i18n (0.6.9)
-    icalendar (2.0.1)
+    icalendar (1.5.4)
     journey (1.0.4)
     jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
