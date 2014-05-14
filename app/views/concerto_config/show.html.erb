@@ -2,18 +2,45 @@
 
 <section class="viewblock">
   <header class="viewblock-header">
-    <h1 class="default-padding">
-      <%= t('.edit_settings') %><%= button_to t('.check_configuration'), {:action => :config_check}, {:method => :get } %>
-    </h1>
     <div class="viewblock-header_right">
       <div class="button-padding">
+        <%= link_to t('.check_configuration'), {:action => :config_check}, {:class => "btn"} %>
         <% if webserver_supports_restart? %>
-          <%= button_to t('.restart_webserver'), :action => :initiate_restart %>
+          <%= link_to t('.restart_webserver'), {:action => :initiate_restart}, {:class => "btn"} %>
         <% end %>
       </div>
     </div>
+    <div class="default-padding">
+      <h1>
+        <%= t('.edit_settings') %>
+      </h1>
+    </div>
 
   </header>
+
+
+<!--
+  <header class="viewblock-header" id="screens-header">
+  	    <div class="viewblock-header_right">
+  <div class="button-padding">
+      <a href="/screens/1/edit" class="btn">Edit Screen</a>
+      <a href="/screens/1" class="btn" data-confirm="Are you sure you want to delete Screen &quot;Sample Screen&quot;?" data-method="delete" rel="nofollow">Delete Screen</a>
+  </div>
+</div>
+
+<div class="default-padding">
+  <h1>
+    <a href="/screens">All Screens</a> &gt;
+    Sample Screen
+  </h1>
+</div>
+  	  </header>
+-->
+
+
+
+
+
   <div class="viewblock-cont">
 
     <div class="subnav clearfix">
