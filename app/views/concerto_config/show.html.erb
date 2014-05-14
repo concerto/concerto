@@ -6,7 +6,7 @@
       <div class="button-padding">
         <%= link_to t('.check_configuration'), {:action => :config_check}, {:class => "btn"} %>
         <% if webserver_supports_restart? %>
-          <%= link_to t('.restart_webserver'), {:action => :initiate_restart}, {:class => "btn"} %>
+          <%= link_to t('.restart_webserver'), "settings/initiate_restart", :class =>'btn', method: :post %>
         <% end %>
       </div>
     </div>
