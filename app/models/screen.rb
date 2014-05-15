@@ -30,7 +30,7 @@ class Screen < ActiveRecord::Base
   # Validations
   validates :name, :presence => true, :uniqueness => true
   validates :template, :presence => true, :associated => true
-  #These two validations are used to solve problems with the polymorphic 
+  #These two validations are used to solve problems with the polymorphic
   #presence and associated tests.
   validates :owner_id, :presence => true
   validates_inclusion_of :owner_type, :in => %w( User Group )
@@ -43,7 +43,7 @@ class Screen < ActiveRecord::Base
 
   #Newsfeed
   include PublicActivity::Common if defined? PublicActivity::Common
- 
+
   # Scopes
   ONLINE_THRESHOLD = 5.minutes
   OFFLINE_THRESHOLD = 5.minutes
@@ -52,7 +52,7 @@ class Screen < ActiveRecord::Base
 
   # types of entities that may "own" a screen
   SCREEN_OWNER_TYPES = ["User", "Group"]
-  
+
   # Determine the screen's aspect ratio.  If it doesn't exist, calculate it
   def aspect_ratio
     if width.nil? || height.nil?
@@ -128,7 +128,7 @@ class Screen < ActiveRecord::Base
     rescue ActiveRecord::ActiveRecordError
       nil
     end
-  end 
+  end
 
   def generate_screen_token!
     require 'securerandom'
@@ -175,9 +175,9 @@ class Screen < ActiveRecord::Base
       nil
     end
   end
- 
+
   # System for controlling auth from a form
- 
+
   # Store the value for this fake param until the callback is run.
   def auth_action=(action)
     action = action.to_i
@@ -240,7 +240,7 @@ class Screen < ActiveRecord::Base
   # Compute a cache key suitable for use in the frontend.
   # Combines the updated information for the screen, template, positions,
   # and fields to make a single key.
-  # 
+  #
   # @param [Array<#updated_at>] args A list of object to factor in.  These objects should
   #    respond to the `updated_at` method and are skipped if they do not.
   # @return [String] The cache key for this frontend string.
@@ -249,7 +249,10 @@ class Screen < ActiveRecord::Base
     max_updated_at = [self.template.updated_at.try(:utc).try(:to_i), max_updated_at].max
     self.template.positions.each do |p|
       max_updated_at = [p.updated_at.try(:utc).try(:to_i), p.field.updated_at.try(:utc).try(:to_i), max_updated_at].max
-    end
+      p.field.field_configs.each do |field_config|
+        max_updated_at = [field_config.updated_at.try(:utc).try(:to_i),max_updated_at].max
+      end
+  end
     args.each do |ao|
       if ao.methods.include? 'updated_at'
         max_updated_at = [ao.updated_at.try(:utc).try(:to_i), max_updated_at].max
@@ -271,4 +274,3 @@ private
     return nil
   end
 end
-
