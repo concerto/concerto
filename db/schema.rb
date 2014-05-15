@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140219024718) do
+ActiveRecord::Schema.define(:version => 20140515164704) do
 
   create_table "activities", :force => true do |t|
     t.integer  "trackable_id"
@@ -112,10 +112,12 @@ ActiveRecord::Schema.define(:version => 20140219024718) do
   add_index "feeds", ["parent_id"], :name => "index_feeds_on_parent_id"
 
   create_table "field_configs", :force => true do |t|
-    t.integer "field_id"
-    t.string  "key"
-    t.string  "value"
-    t.integer "screen_id"
+    t.integer  "field_id"
+    t.string   "key"
+    t.string   "value"
+    t.integer  "screen_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "fields", :force => true do |t|
