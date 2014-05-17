@@ -2,18 +2,22 @@
 
 <section class="viewblock">
   <header class="viewblock-header">
-    <h1 class="default-padding">
-      <%= t('.edit_settings') %>
-    </h1>
     <div class="viewblock-header_right">
       <div class="button-padding">
+        <%= link_to t('.check_configuration'), {:action => :config_check}, {:class => "btn"} %>
         <% if webserver_supports_restart? %>
-          <%= button_to t('.restart_webserver'), :action => :initiate_restart %>
+          <%= link_to t('.restart_webserver'), {:action => :initiate_restart}, {method: :post, :class => "btn"}%>
         <% end %>
       </div>
     </div>
+    <div class="default-padding">
+      <h1>
+        <%= t('.edit_settings') %>
+      </h1>
+    </div>
 
   </header>
+
   <div class="viewblock-cont">
 
     <div class="subnav clearfix">

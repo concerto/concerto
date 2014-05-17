@@ -6,8 +6,10 @@ class FieldConfig < ActiveRecord::Base
   belongs_to :field
   belongs_to :screen
 
-  validates_presence_of :key, :field_id, :screen_id
+  validates_presence_of :key, :field_id
   validates_uniqueness_of :key, :scope => [:screen_id, :field_id]
+
+  scope :default, where(:screen_id => nil)
 
   def self.get(screen, field, key)
     field_config = FieldConfig.where(:screen_id => screen.id, :field_id => field.id, :key => key).first

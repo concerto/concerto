@@ -16,7 +16,13 @@ goog.require('goog.dom');
 concerto.frontend.Content.HtmlText = function(data) {
   concerto.frontend.Content.call(this, data);
 
-  this.autosize_font = true;
+/**
+ * Should the font size be automatically adjusted to optimize
+ * display within the field?
+ * @type {boolean}
+ */
+this.autosize_font = (data.field['config'] ?
+                      data.field['config']['autosize_text'] : false);
 
   /**
    * The height of the field the html is being shown in.

@@ -26,7 +26,7 @@
 
         <br />
         <fieldset>
-          <legend><span><%= t('.subscriptions') %><span></legend>
+          <legend><span><%= t('.subscriptions') %></span></legend>
 
           <table id="subscriptions-list" class="no-padding-table">
             <tbody>
@@ -38,12 +38,13 @@
 
           <br />
 
-          <%= link_to new_screen_field_subscription_path(@screen, @field), :title => t('.search_and_find_a_feed_to_add'), :remote => true,
-                      :id => "add-sub-btn", :class => "btn dropdown-toggle dropdown-control dd-add-sub", :rel => "#add-sub" do %>
-            <i class="icon-plus"></i> <%= t('.add_a_new_feed') %>...
+          <% if false || can?(:create, Subscription.new(:screen => @screen, :field => @field)) %>
+            <%= link_to new_screen_field_subscription_path(@screen, @field), :title => t('.search_and_find_a_feed_to_add'), :remote => true,
+                :id => "add-sub-btn", :class => "btn dropdown-toggle dropdown-control dd-add-sub", :rel => "#add-sub" do %>
+              <i class="icon-plus"></i> <%= t('.add_a_new_feed') %>
+            <% end %>
           <% end %>
         </fieldset>
-
       </div>
     </section>
   </div>

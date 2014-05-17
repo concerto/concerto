@@ -18,7 +18,7 @@ en:
 
     index:
       search_and_find_a_feed_to_add: "Search and Find a Feed to Add"
-      add_a_new_feed:  'Add A New Feed'
+      add_a_new_feed:  'Add A New Feed...'
       field: '%{kind} field'
       make_changes: 'First make some changes above to save.'
       manage_model_for_field: 'Manage %{model} for %{name} Field'

@@ -71,7 +71,7 @@ function remove_subscription_handler() {
 
 
 function initSubscriptions() {
-  if($('.dd-add-sub').length > 0){
+  if($('#subscriptions-list').length > 0){
     addSubscriptionsUi();
     $("#new_subscription").formSavior();
   }

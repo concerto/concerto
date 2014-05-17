@@ -36,4 +36,7 @@ en:
       edit_settings: "Edit Global Settings"
       restart_confirm: "Restarting the webserver may take a 10 to 20 seconds. Are you sure you'd like to restart?"
       restart_webserver: "Restart Webserver"
+      check_configuration: "Check Configuration"
       save_settings: "Save Settings"
+    config_check:
+      configuration_check: "Configuration Check"
