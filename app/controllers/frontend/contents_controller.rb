@@ -27,7 +27,7 @@ class Frontend::ContentsController < ApplicationController
       shuffler = shuffler_klass.new(@screen, @field, @subscriptions, session[session_key])
       @content = shuffler.next_contents()
     end
-    
+
     auth! :object => @content
     session[session_key] = shuffler.save_session()
 
@@ -57,13 +57,17 @@ class Frontend::ContentsController < ApplicationController
   # along for processing.  Should send an inline result of the processing.
   def show
     @content = Content.find(params[:id])
-    auth! :object=>@content
-    rendered = @content.render(params)
-    if rendered.is_a?(Media)
-      @file = rendered
-      send_data @file.file_contents, :filename => @file.file_name, :type => @file.file_type, :disposition => 'inline'
-    elsif rendered.is_a?(Hash)
-      render rendered
+    if @content.nil?
+      logger.warn e.message
+    else
+      auth! :object=>@content
+      rendered = @content.render(params)
+      if rendered.is_a?(Media)
+        @file = rendered
+        send_data @file.file_contents, :filename => @file.file_name, :type => @file.file_type, :disposition => 'inline'
+      elsif rendered.is_a?(Hash)
+        render rendered
+      end
     end
   end
 end
