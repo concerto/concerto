@@ -21,8 +21,8 @@ concerto.frontend.Content.Ticker = function(data) {
  * This is because we need to negate the variable for our internal code, which
  * was making javascript upset when it had to negate a numeric value.
  */
-var disable_text_autosize = !!+(data['field']['config'] ?
-                             data['field']['config']['disable_text_autosize'] : 0);
+var disable_text_autosize = !!+(data.field.config ?
+                                data.field.config['disable_text_autosize'] : 0);
 
 /**
  * Should the font size be automatically adjusted to optimize
