@@ -58,7 +58,7 @@ class Frontend::ContentsController < ApplicationController
   def show
     @content = Content.find(params[:id])
     if @content.nil?
-      logger.warn e.message
+      logger.info "Skipping Deleted Content with id " + params[:id]
     else
       auth! :object=>@content
       rendered = @content.render(params)
