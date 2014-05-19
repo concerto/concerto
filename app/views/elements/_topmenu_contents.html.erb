@@ -67,15 +67,15 @@
     <!-- End Menu for ADMIN -->
 
     <!-- Begin User Login Area -->
-    <section class="right">
+    <section class="right floatleft clearleft">
       <div id="top-menu-user" class="top-menu-sectop">
         <div class="pull-left">
           <% if current_user.is_admin? %><i class="concertocon-user-admin tooltip-basic" data-tooltip-text="<%= t('.system_admin') %>"></i><% end %>
           <% if user_leads_a_group? %><i class="concertocon-user-leader tooltip-basic" data-tooltip-text="<%= t('.leader') %>"></i><% end %>
         </div>
         <div class="pull-right">
-          <h2><%= link_to current_user.name, [main_app, current_user] %></h2>
-          <p style="margin: 0px;"><%= link_to t('.settings'), main_app.edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;<%= link_to t('.log_out'), main_app.destroy_user_session_path, :method => :delete %></p>
+          <h2 class="ilb"><%= link_to current_user.name, [main_app, current_user] %></h2>
+          <p class="ilb" style="margin: -3px 0 0 5px;"><%= link_to t('.settings'), main_app.edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;<%= link_to t('.log_out'), main_app.destroy_user_session_path, :method => :delete %></p>
         </div>
 
       </div>
