@@ -97,7 +97,7 @@ class TemplatesController < ApplicationController
       end
       # remove the html file from the attributes so it is not processed in the in the update_attributes below
       tps[:media_attributes].delete(k)
-    end
+    end if !tps[:media_attributes].nil?
 
     if @template.update_attributes(tps)
       process_notification(@template, {}, process_notification_options({:params => {:template_name => @template.name}}))
