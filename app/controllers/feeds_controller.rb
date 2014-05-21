@@ -9,7 +9,7 @@ class FeedsController < ApplicationController
     if !ConcertoConfig[:public_concerto]
       redirect_to(new_user_session_path)
     else
-      @feeds = Feed.roots
+      @feeds = Feed.accessible_by(current_ability).roots
       auth!
       respond_with(@feeds)
     end

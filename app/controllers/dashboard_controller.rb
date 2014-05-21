@@ -10,7 +10,7 @@ class DashboardController < ApplicationController
   def show
     if current_user
       # Browse + Vitals share feeds.
-      @feeds = Feed.roots
+      @feeds = Feed.accessible_by(current_ability).roots
       auth!(!:object => @feeds)
 
       # Latest Activities
