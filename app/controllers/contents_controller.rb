@@ -315,10 +315,7 @@ class ContentsController < ApplicationController
   end
 
   def submittable_feeds
-    feeds = Feed.all
-
-    # Remove the feeds that would not take a submission.
-    feeds.reject { |f| !can?(:create, Submission.new(:content => @content, :feed => f)) }
+    Feed.accessible_by(current_ability, :submit)
   end
 
   def feed_ids

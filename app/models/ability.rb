@@ -191,6 +191,11 @@ class Ability
       end
     end
 
+    # Create custom submit rules by coping submission creation rules
+    relevant_rules(:create, Submission).each do |rule|
+      can :submit, ::Feed, rule.conditions[:feed]
+    end
+
     ## Memberships
     # A group leader can manage all memberships
     # that belong to their group.
