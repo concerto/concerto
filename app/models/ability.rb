@@ -114,13 +114,11 @@ class Ability
     # Anyone can read public screens
     can :read, Screen, :is_public => true if (user.persisted? || ConcertoConfig[:public_concerto])
     # Users can read, update and delete their own screens
-    can [:read, :update, :delete], Screen do |screen|
-      screen.owner.is_a?(User) && screen.owner == user
-    end
+    can [:read, :update, :delete], Screen, :owner_type => 'User', :owner_id => user.id
+
     # Users can read group screens
-    can :read, Screen do |screen|
-      screen.owner.is_a?(Group) && screen.owner.users.include?(user)
-    end
+    can :read, Screen, :owner_type => 'Group', :owner_id => user.group_ids
+
     # Group leaders can create / delete their group screens.
     # So can special supporters
     can [:update, :delete], Screen do |screen|
