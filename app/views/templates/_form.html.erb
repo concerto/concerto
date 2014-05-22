@@ -52,6 +52,19 @@
 
   <%= image_tag preview_template_path(@template, :width=> 400, :format => :jpg) %>
 
+
+  <fieldset>
+    <div class="clearfix">
+      <%= f.label :media %>
+      <div class="input">
+        <%= f.fields_for :media do |media| %>
+          <%= media.file_field :file %>
+        <% end %>
+      </div>
+    </div>
+  </fieldset>
+
+
   <fieldset>
     <legend><span><%= Position.model_name.humanize.pluralize %></span></legend>
     <div class="template-positions">
