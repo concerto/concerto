@@ -18,7 +18,9 @@ class FeedsController < ApplicationController
   # GET /moderate
   # GET /moderate.js
   def moderate
-    @feeds = Feed.all
+    # We first get all feeds the accessor can index (update => index permission)
+    @feeds = Feed.accessible_by(current_ability, :index)
+    # Remove those feeds the accessor has index permission but not update
     auth!(:object => @feeds, :action => :update, :allow_empty => false)
     @feeds.reject!{|f| not f.pending_contents.count > 0}
     
