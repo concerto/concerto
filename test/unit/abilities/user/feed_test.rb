@@ -81,5 +81,23 @@ class UserFeedAbilityTest < ActiveSupport::TestCase
     end
   end
 
+  test "Admin can read all feeds" do
+    ability = Ability.new(users(:admin))
+    assert ability.can?(:create, Feed)
+    assert ability.can?(:read, Feed)
+    assert ability.can?(:submit_content, Feed)
+    assert ability.can?(:update, Feed)
+    assert ability.can?(:destroy, Feed)
+  end
+
+  test "Submission creation implies feed submit permission" do
+    User.find_each do |user|
+      ability = Ability.new(user)
+      Feed.find_each do |feed|
+        assert_equal ability.can?(:create, Submission.new(:feed => feed)), ability.can?(:submit_content, feed)
+      end
+    end
+  end
+
 end
 

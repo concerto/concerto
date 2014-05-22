@@ -193,7 +193,7 @@ class Ability
 
     # Create custom submit rules by coping submission creation rules
     relevant_rules(:create, Submission).each do |rule|
-      can :submit, ::Feed, rule.conditions[:feed]
+      can :submit_content, Feed, rule.conditions[:feed]
     end
 
     ## Memberships

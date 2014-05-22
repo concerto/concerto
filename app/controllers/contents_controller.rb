@@ -315,7 +315,7 @@ class ContentsController < ApplicationController
   end
 
   def submittable_feeds
-    Feed.accessible_by(current_ability, :submit)
+    Feed.accessible_by(current_ability, :submit_content)
   end
 
   def feed_ids
