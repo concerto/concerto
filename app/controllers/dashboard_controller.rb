@@ -11,7 +11,7 @@ class DashboardController < ApplicationController
     if current_user
       # Browse + Vitals share feeds.
       @feeds = Feed.accessible_by(current_ability).roots
-      auth!(!:object => @feeds)
+      auth!(:object => @feeds)
 
       # Latest Activities
       @activities = get_activities(10)
