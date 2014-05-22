@@ -36,7 +36,7 @@ GEM
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
     addressable (2.3.6)
-    airbrake (3.1.16)
+    airbrake (3.1.17)
       builder
       multi_json
     arel (3.0.3)
@@ -52,9 +52,9 @@ GEM
       railties (>= 3.0)
     builder (3.0.4)
     cancan (1.6.10)
-    clockwork (0.7.0)
+    clockwork (0.7.5)
       activesupport
-      tzinfo (~> 0.3.35)
+      tzinfo
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -121,9 +121,9 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-timepicker-rails (1.3.7)
       railties (>= 3.1.0)
-    json (1.7.7)
+    json (1.8.1)
     jwt (1.0.0)
-    kaminari (0.14.1)
+    kaminari (0.15.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
     launchy (2.4.2)
@@ -133,9 +133,9 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.25.1)
-    multi_json (1.10.0)
+    multi_json (1.10.1)
     multipart-post (2.0.0)
-    mysql2 (0.3.15)
+    mysql2 (0.3.16)
     orm_adapter (0.5.0)
     pg (0.17.1)
     polyglot (0.3.4)
@@ -166,10 +166,10 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
-    rake (10.3.1)
+    rake (10.3.2)
     rdoc (3.12.2)
       json (~> 1.4)
-    redcarpet (2.3.0)
+    redcarpet (3.1.2)
     ref (1.0.5)
     retriable (1.4.1)
     rmagick (2.13.2)
@@ -216,9 +216,9 @@ GEM
       coffee-rails
     twitter-bootstrap-rails-confirm (1.0.2)
     tzinfo (0.3.39)
-    uglifier (2.2.1)
+    uglifier (2.5.0)
       execjs (>= 0.3.0)
-      multi_json (~> 1.0, >= 1.0.2)
+      json (>= 1.8.0)
     uuidtools (2.1.4)
     warden (1.2.3)
       rack (>= 1.0)
@@ -228,11 +228,11 @@ PLATFORMS
 
 DEPENDENCIES
   airbrake
-  attachable (>= 0.0.5)
+  attachable
   bootstrap-datepicker-rails
   cancan
-  clockwork (= 0.7.0)
-  coffee-rails (~> 3.2.1)
+  clockwork
+  coffee-rails
   concerto-hardware
   concerto_calendar
   concerto_iframe
@@ -246,21 +246,21 @@ DEPENDENCIES
   foreman
   girl_friday
   jquery-rails
-  jquery-timepicker-rails (~> 1.3)
-  json (= 1.7.7)
-  kaminari (= 0.14.1)
+  jquery-timepicker-rails
+  json
+  kaminari
   mysql2
   pg
   public_activity
   rails (~> 3.2.17)
-  redcarpet (~> 2.3.0)
-  rmagick (>= 2.12.2)
+  redcarpet
+  rmagick
   rubyzip (< 1.0.0)
-  sass-rails (~> 3.2.3)
+  sass-rails
   simplecov
   sqlite3
   strong_parameters
   therubyracer
   turbolinks
   twitter-bootstrap-rails-confirm
-  uglifier (>= 1.0.3)
+  uglifier
