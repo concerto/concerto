@@ -145,9 +145,7 @@ class ContentsController < ApplicationController
           format.xml { render :xml => @content, :status => :created, :location => @content }
         end
       else
-        # Remove the feeds that would not take a submission.
-        @feeds = Feed.all
-        @feeds.reject! { |f| !can?(:create, Submission.new(:content => @content, :feed => f)) }
+        @feeds = submittable_feeds
         format.html { render :action => "new" }
         format.xml { render :xml => @content.errors, :status => :unprocessable_entity }
       end
