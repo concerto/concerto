@@ -1,0 +1,6 @@
+fr:
+  activerecord:
+    attributes:
+      kind:
+        name: 'Nom'
+        actions: 'Actions'

@@ -1,0 +1,52 @@
+fr:
+  activerecord:
+    attributes:
+      screen:
+        name: 'Nom'
+        location: 'Localisation'
+        owner: 'Propriétaire'
+        owner_id: 'Possédé par'
+        template_id: 'Modèle'
+        is_public: 'Cet écran est visible publiquement'
+
+  screens:
+    index:
+      common_templates: 'Modèle commun'
+      view_all: 'Voir tout'
+
+    index_body:
+      add_one: 'Pourquoi ne pas en ajouter un ?'
+      my_screens: 'Mes écrans'
+      no_screens: 'Oups - il n''y a pas d''écran à afficher.'
+      other_screens: 'Autres écrans'
+      to_add: 'Pour en ajouter un'
+
+    feeds:
+      filter_for_feeds: 'Filtre pour les fils'
+      select_feed: 'Sélectionner un fil'
+
+    form:
+      dimensions: 'Dimensions'
+      provide_details: 'Fournir les détails'
+      authentication: 'Autentification'
+      connection_details: 'Détails de la connection'
+      auth_action: 'Action d''autenfication'
+      no_auth: 'Aucune (non sécrisé)'
+      new_token: 'Sécuriser avec un noveau jeton'
+      private_token: 'Sécurisé par un jeton privé existant'
+      new_token_override: 'Supprimer l''autentification actuelle et sécuriser avec un noveau jeton'
+      existing_mac: 'Utiliser une adresse MAC existante'
+
+    show_body:
+      preview_screen: 'Prévisualiser l''écran'
+      manage: 'Gérer'
+
+    template_selection:
+      best_fit_templates: 'Modèles les plus appropriés'
+      select_template: 'Choisir le modèle'
+
+    thumbs:
+      owner: 'propriétaire'
+
+      #current_template: "Current Selection"
+      #other_templates: "Other Templates"
