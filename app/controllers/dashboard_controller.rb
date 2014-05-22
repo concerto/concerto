@@ -11,14 +11,13 @@ class DashboardController < ApplicationController
     if current_user
       # Browse + Vitals share feeds.
       @feeds = Feed.accessible_by(current_ability).roots
-      auth!(:object => @feeds)
 
       # Latest Activities
       @activities = get_activities(10)
 
       # Vitals
-      @screens = Screen.all
-      auth!(:object => @screens)
+      @screens = Screen.accessible_by(current_ability)
+
       @active_content = Content.active.joins(:submissions).merge(Submission.approved).count
       @templates = Template.where(:is_hidden => false)
       can?(:read, ConcertoPlugin) ? @concerto_plugins = ConcertoPlugin : @concerto_plugins = nil

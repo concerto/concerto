@@ -10,7 +10,6 @@ class FeedsController < ApplicationController
       redirect_to(new_user_session_path)
     else
       @feeds = Feed.accessible_by(current_ability).roots
-      auth!
       respond_with(@feeds)
     end
   end
