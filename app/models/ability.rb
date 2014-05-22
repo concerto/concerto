@@ -228,13 +228,9 @@ class Ability
     # If a screen is owned by the same group as the feed
     # it can see content, or if the feed is viewable.
     can :read, Feed, :is_viewable => true
-    can :read, Feed do |feed|
-      if screen.owner.is_a?(Group)
-        screen.owner == feed.group
-      elsif screen.owner.is_a?(User)
-        feed.group.users.include?(screen.owner)
-      end
-    end
+    can :read, Feed, :group_id => screen.owner if screen.owner.is_a? Group
+    can :read, Feed, :group_id => screen.owner.groups if screen.owner.is_a? User
+
 
     ## Submissions
     # Submissions can be read if the content has been moderated,
