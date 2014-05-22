@@ -1,0 +1,52 @@
+fr:
+  activerecord:
+    models:
+      template: 'Modèles'
+    attributes:
+      template:
+        name: 'Nom'
+        author: 'Auteur'
+        is_hidden: 'Caché?'
+
+
+  templates:
+    from_scratch: 'Créer à partir du début'
+    import_existing: 'Importer un modèle'
+
+    import_form:
+      package: 'Archive (ZIP)'
+      image: 'Image'
+      descriptor: 'Ficher descripteur'
+
+    index_body:
+      no_templates_html: 'Oups - Il n''y a pas de modèle. Pourquoi ne pas %{href} ?'
+      add_one: 'en ajouter un'
+      author: 'par'
+
+    new:
+      invalid_xml: 'Le fichier descripteur du modèle contient de l''XML invalide.'
+      template_import_requires_archive: 'Vous devez spécifier une archive (ZIP) qui contient votre modèle.'
+      template_import_requires_image: 'Il manque l''image de fond dans votre archive.'
+      template_import_requires_xml: 'Il manque le fichier descripteur (XML) dans votre archive.'
+      template_import_requires_zip: 'Le fichier sélectionné n''est pas une archive ZIP.'
+      template_method: 'Template method:'
+      template_type: 'Modèle %{type}'
+
+    show_header: 
+      edit_template: 'Edit Template'
+      delete_template: 'Delete Template'
+
+    show_body:
+      preview_alt: '%{name} Preview'
+      author: 'Author'
+
+  helpers:
+    label:
+      template:
+        name: 'Name'
+        author: 'Author'
+        media: 'Background Image/CSS'
+        is_hidden: 'Hide this template from being shown in lists'
+    # submit:
+    #   create: "Create %{model}"
+    #   update: "Update %{model}"
