@@ -9,18 +9,9 @@ class ScreensController < ApplicationController
   # GET /screens
   # GET /screens.xml
   def index
-    @screens = Screen.all
-    @my_screens = []
-    if !current_user.nil?
-      my_group_screens = current_user.groups.collect{ |g| g.screens }.flatten
-      my_screens = current_user.screens
-      @my_screens = my_group_screens + my_screens
-    end
-    auth!
-
-    # The screen index has a sidebar that shows all templates.
+    @screens = Screen.accessible_by(current_ability)
+    @my_screens = current_user.nil? ? [] : @screens.select{|s| s.owner == current_user || current_user.groups.include?(s.owner)}
     @templates = Template.where(:is_hidden => false).sort_by{|t| t.screens.count}.reverse
-
     respond_with(@screens)
   end
 
