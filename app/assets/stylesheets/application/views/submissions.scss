@@ -54,9 +54,13 @@
 
 .edit-content {
   position: absolute;
-  top: 30px;
+  top: 40%;
 //height: 100%;
-  width: 100%;  
+  width: 100%;
+
+  a:hover {
+    text-decoration: none;
+  }
 
   h1 {
     visibility: hidden;
@@ -66,6 +70,6 @@
     top: 50%;
     width: 100%;
     background: rgba(0,0,0,.3);
-    text-align: center;  
+    text-align: center;
 }
 }
