@@ -88,3 +88,6 @@ gem 'public_activity'
 
 gem 'redcarpet'
 gem 'docsplit', :git => 'https://github.com/augustf/docsplit.git', :branch => 'imagemagick'
+
+# NProgress provides progress bars for pages loaded via Turbolinks
+gem 'nprogress-rails', '~> 0.1.3.0'
