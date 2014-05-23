@@ -81,5 +81,51 @@ class UserFeedAbilityTest < ActiveSupport::TestCase
     end
   end
 
+  test "Admin can read all feeds" do
+    ability = Ability.new(users(:admin))
+    assert ability.can?(:create, Feed)
+    assert ability.can?(:read, Feed)
+    assert ability.can?(:submit_content, Feed)
+    assert ability.can?(:update, Feed)
+    assert ability.can?(:destroy, Feed)
+  end
+
+  test "Users have feed submit permission if and only if the have submission creation permission" do
+    User.find_each do |user|
+      ability = Ability.new(user)
+      Feed.find_each do |feed|
+        assert_equal ability.can?(:create, Submission.new(:feed => feed)), ability.can?(:submit_content, feed)
+      end
+    end
+  end
+
+  test "Feed update permission implies feed show permission" do
+    User.find_each do |user|
+      ability = Ability.new(user)
+      Feed.find_each do |feed|
+        assert ability.cannot?(:update, feed) || ability.can?(:show, feed), "Feed update permission does not imply show permission for user '#{user.email}' and feed '#{feed.name}' (Can update? #{ability.can?(:update, feed)}, Can index? #{ability.can?(:show, feed)})"
+      end
+    end
+  end
+
+  test "Feed show permission implies feed index permission" do
+    User.find_each do |user|
+      ability = Ability.new(user)
+      Feed.find_each do |feed|
+        assert ability.cannot?(:show, feed) || ability.can?(:index, feed), "Feed show permission does not imply index permission for user '#{user.email}' and feed '#{feed.name}' (Can show? #{ability.can?(:show, feed)}, Can index? #{ability.can?(:index, feed)})"
+      end
+    end
+  end
+
+  test "Feed update permission implies feed index permission" do
+    User.find_each do |user|
+      ability = Ability.new(user)
+      Feed.find_each do |feed|
+        assert ability.cannot?(:update, feed) || ability.can?(:index, feed), "Feed update permission does not imply index permission for user '#{user.email}' and feed '#{feed.name}' (Can update? #{ability.can?(:update, feed)}, Can index? #{ability.can?(:index, feed)})"
+      end
+    end
+  end
+
+
 end
 
