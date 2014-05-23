@@ -1,0 +1,30 @@
+fr:
+  activerecord:
+    models:
+      concerto_plugin: 'Plugin'
+    attributes:
+      concerto_plugin:
+        source: 'Source'
+        gem_name: 'Nome Gem'
+        gem_version: 'Version Gem'
+        source_url: 'URL Source'
+
+  concerto_plugins:
+    sources:
+      rubygems: 'RubyGems'
+      git: 'Répertoir Git'
+      path: 'Chemin du système de fichier'
+
+    index:
+      disabled: 'désactivé'
+      enabled: 'activé'
+      status: 'Status'
+      enabled_msg: 'Ce plugin est actuellement activé.'
+      disabled_msg: 'Ce plugin est actuellement désactivé.'
+      gem_description: 'Description'
+      visit_plugin_website: 'Visiter le site web du plugin'
+
+    new:
+      install_plugin: 'Installer le plugin'
+      path_instructions: 'Ceci devrait êtres un chemin vers un dossier ou un fichier pour le plugin. Notez que sur Mac OS X, les dossiers insérés dans /var/www/ devrait être préfixé avec /private.'
+      source_url: 'URL source'

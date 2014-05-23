@@ -1,0 +1,51 @@
+--- 
+fr: 
+  actions: Actions
+  active_content: "Contenut actif"
+  add: Ajouter
+  add_model: "Ajouter %{model}"
+  all_model: "Tout %{model}"
+  approve: Approuver
+  are_you_sure: "Etes vous sur ?"
+  are_you_sure_delete_model_key: "Etes vous sur de vouloir supprimer %{model} "%{key}" ?"
+  are_you_sure_demote_user: "Etes vous sur de vouloir redescendre l'utilisateur "%{user}" ?"
+  are_you_sure_leave_group: "Etes vous sur de vouloir quitter "%{group}" ?"
+  are_you_sure_remove_model_key: "Etes vous sur de vouloir retirer %{model} "%{key}" ?"
+  are_you_sure_remove_user_group: "Etes vous sur de vouloir retirer "%{user}" du groupe "%{group}" ?"
+  back: Retour
+  cancel: Annuler
+  create_model: "Créer %{model}"
+  current_model: "Actuel %{model}"
+  deny: Refuser
+  destroy: Supprimer
+  destroy_model: "Supprimer %{model}"
+  edit: Editer
+  edit_model: "Editer %{model}"
+  error: erreur
+  false: Non
+  import_model: "Importer %{model}"
+  is_submittable: "Ouvert au poste de contenu"
+  is_viewable: Visible
+  join: Rejoindre
+  manage_model: "Gérer %{model}"
+  membership_approved: Approuvée
+  membership_denied: Refusée
+  my_model: "Mon %{model}"
+  new_model: "Nouveau %{model}"
+  other_model: "Autre %{model}"
+  preview: Prévisualiser
+  prohibited_save: "a empêché %{model} d'êtres sauvegardé :"
+  remove_model: "Retirer %{model}"
+  show: Montrer
+  status: Status
+  type_to_filter: "Taper ici pour filtrer"
+  unauthorized: 
+    create: 
+      all: "Vous n'êtes pas autorisé à créer %{subject}."
+    delete: 
+      all: "Vous n'êtes pas autorisé à supprimer %{subject}."
+    read: 
+      all: "Vous n'êtes pas autorisé à lire %{subject}."
+    update: 
+      all: "Vous n'êtes pas autorisé à mettre à jour %{subject}."
+  update_model: "Mettre à jour %{model}"

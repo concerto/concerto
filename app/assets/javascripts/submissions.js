@@ -64,6 +64,12 @@ function addBrowseUi(){
 
 function initBrowse() {
   addBrowseUi();
+  $('.content-frame').mouseover(function() {
+    $('.edit-content').css("visibility","visible");
+  })
+  $('.content-frame').mouseout(function() {
+    $('.edit-content').css("visibility","hidden");
+  });
 }
 
 $(document).ready(initBrowse);

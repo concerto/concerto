@@ -1,0 +1,12 @@
+fr:
+  activerecord:
+    models:
+      position: 'Position'
+    attributes:
+      position:
+        top: 'Haut'
+        left: 'Gauche'
+        bottom: 'Bas'
+        right: 'Droite'
+        style: 'Style'
+        field: 'Champs'
