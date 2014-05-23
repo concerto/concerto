@@ -1,48 +1,41 @@
-fr:
-  activerecord:
-    models:
-      feed: 'Feed'
-
-  feeds:
-    # status of submissions
-    active: 'Active'
-    denied: 'Refusé'
-    expired: 'Expiré'
-    future: 'Future'
-    pending: 'En attente'
-    approved: 'Approuvé'
-    orphaned: 'Orphelin'
-
-    no_feeds: 'Il n''y a pas de fil dans le système dans lequel vous pouvez poster.  Contactez votre administrateur pour plus d''information.'
-
-    browse_body:
-      sign_in: 'Connexion'
-      sign_up: 'Inscription'
-      no_content_heading: 'I''m afraid we''re not in Kansas anymore.'
-      no_content_message: 'Il semble que vous ne puissez rien voir ici. Vous devriez '
-
-    browse_header:
-      browse_content: 'Parcourir les contenus'
-
-    moderate:
-      contents_pending_moderation: 'Contenus en attente de modération'
-      with_pending_content: 'avec contenus en modération'
-      no_pending_content: 'Tout est bon pour l''instant! Vous n''avez pas de contenu à modérer.'
-      nothing_to_moderate: 'Rien à modérer'
-
-    form:
-      allowed_types: 'Types autorisés'
-      other_options: 'Autres options'
-      prohibited_feed_save: 'Empèche ce fil d''être sauvegardé :'
-      settings: "Paramètres"
-      provide_details: "Fournir les détails"
- 
-  helpers:
-    label:
-      feed:
-        name: 'Nom'
-        description: 'Description'
-        parent: 'Parent'
-        group: 'Groupe'
-        is_viewable: 'Est visible'
-        is_submittable: 'Ouvert au poste de contenu'
+--- 
+fr: 
+  activerecord: 
+    models: 
+      feed: Feed
+  feeds: 
+    active: Active
+    approved: ApprouvÃ©
+    browse_body: 
+      no_content_heading: "I'm afraid we're not in Kansas anymore."
+      no_content_message: "Il semble que vous ne puissez rien voir ici. Vous devriez "
+      sign_in: Connexion
+      sign_up: Inscription
+    browse_header: 
+      browse_content: "Parcourir les contenus"
+    denied: RefusÃ©
+    expired: ExpirÃ©
+    form: 
+      allowed_types: "Types autorisÃ©s"
+      other_options: "Autres options"
+      prohibited_feed_save: "EmpÃ¨che ce fil d'Ãªtre sauvegardÃ© :"
+      provide_details: "Fournir les dÃ©tails"
+      settings: ParamÃ¨tres
+    future: Future
+    moderate: 
+      contents_pending_moderation: "Contenus en attente de modÃ©ration"
+      no_pending_content: "Tout est bon pour l'instant! Vous n'avez pas de contenu Ã  modÃ©rer."
+      nothing_to_moderate: "Rien Ã  modÃ©rer"
+      with_pending_content: "avec contenus en modÃ©ration"
+    no_feeds: "Il n'y a pas de fil dans le systÃ¨me dans lequel vous pouvez poster.  Contactez votre administrateur pour plus d'information."
+    orphaned: Orphelin
+    pending: "En attente"
+  helpers: 
+    label: 
+      feed: 
+        description: Description
+        group: Groupe
+        is_submittable: "Ouvert au poste de contenu"
+        is_viewable: "Est visible"
+        name: Nom
+        parent: Parent

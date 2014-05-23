@@ -1,31 +1,33 @@
-fr:
-  elements:
-    topmenu_contents:
-      accounts: 'Compte'
-      admin: 'Admin'
-      browse: 'Parcourir'
-      dashboard_tooltip: 'Voir le tableau de bord de concerto'
-      backup: 'Sauvegarde'
-      restart_webserver: 'Redémarrer le serveur web'
-      content: 'Contenu'
-      configuration: 'Configuration'
-      settings: 'Paramètres'
-      plugins: 'Plugins'
-      groups: 'Groupes'
-      leader: 'Vous êtes chef d''au moins un groupe'
-      log_out: 'Déconnexion'
-      moderate: 'Modéré'
-      network: 'Résau'
-      no_account: 'Pas de compte ?'
-      now: 'maintenant!'
-      screens: 'Ecrans'
-      users: 'Utilisateurs'
-      settings: 'Paramètres'
-      sign_in: 'Connexion'
-      sign_up: 'Inscription'
-      signin_login_spiel: 'Pour ajouter et géré du contenu.'  
-      submissions_to_moderate: { one: 'Vous avez %{count} post à modérer', other: 'Vous avez %{count} posts à modérer.' }
-      system_admin: 'Vous êtes un administrateur système'
-      templates: 'Modèles'
-      users_and_groups: 'Groupe d''utilisateur'
-      return_home_msg: 'Retour à l''accueil'
+--- 
+fr: 
+  elements: 
+    topmenu_contents: 
+      accounts: Compte
+      admin: Admin
+      backup: Sauvegarde
+      browse: Parcourir
+      configuration: Configuration
+      content: Contenu
+      dashboard_tooltip: "Voir le tableau de bord de concerto"
+      groups: Groupes
+      leader: "Vous Ãªtes chef d'au moins un groupe"
+      log_out: DÃ©connexion
+      moderate: ModÃ©rÃ©
+      network: RÃ©sau
+      no_account: "Pas de compte ?"
+      now: maintenant!
+      plugins: Plugins
+      restart_webserver: "RedÃ©marrer le serveur web"
+      return_home_msg: "Retour Ã  l'accueil"
+      screens: Ecrans
+      settings: ParamÃ¨tres
+      sign_in: Connexion
+      sign_up: Inscription
+      signin_login_spiel: "Pour ajouter et gÃ©rÃ© du contenu."
+      submissions_to_moderate: 
+        one: "Vous avez %{count} post Ã  modÃ©rer"
+        other: "Vous avez %{count} posts Ã  modÃ©rer."
+      system_admin: "Vous Ãªtes un administrateur systÃ¨me"
+      templates: ModÃ¨les
+      users: Utilisateurs
+      users_and_groups: "Groupe d'utilisateur"
