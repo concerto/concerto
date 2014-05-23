@@ -1,0 +1,38 @@
+fr:
+  dashboard:
+    global_preferences: 'Paramètres généraux'
+
+    browse: 
+      submissions_to_moderate: { one: 'Vous avez %{count} post à modérer', other: 'Vous avez %{count} posts à modérer' }
+
+    admin_stats:
+      system_info: 'Information système'
+      backup: 'Sauvegarde'
+      cant_determine_latest_version: 'Impossible de déterminer la dernière version.'
+      restart_webserver: 'Redémarrer le serveur'
+      concerto_version: 'Version Concerto:'
+      delayed_job_status: 'Moteur de tache de fond:'
+      new_version: 'Une nouvelle version (%{version}) est à présent disponible.'
+      running: 'Démmarré'
+      start_stop: 'Comment arrêter/démarrer'
+      stopped: 'Arrêter'
+      user_stats: 'Statistique utilisateur:'
+
+    latest_activity:
+      latest_activity: 'Dernière activité'
+
+    network:
+      your_network: 'Votre résau'
+      groups: 'Groupes'
+      no_membership: 'Vous n''êtes pas encore membre d''un groupe.'
+
+    vitals:
+      active: 'actif'
+      active_content: 'Contenu actif'
+      group: 'groupe'
+      network_vitals: 'Statistique résaux'
+      offline: 'offline'
+      plugin: 'plugin'
+      screen: 'écran'
+      template: 'modèle'
+      user: 'utilisateur'

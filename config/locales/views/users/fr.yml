@@ -1,0 +1,51 @@
+fr:
+  activerecord:
+    attributes:
+      user:
+        first_name: 'Prénom'
+        last_name: 'Nom'
+        locale: 'Langue'
+        email: 'Email'
+        password: 'Mot de passe'
+        password_confirmation: 'Confirmer le mot de passe'
+        actions: 'Actions'
+        is_admin: 'Administrateur'
+        receive_moderation_notifications: 'Recevoir les notifications de modération'
+
+  users:
+    all_users: 'Tous les utilisateurs'
+    change_password: "Changer le mot de passe"
+
+    form:
+      provide_details: "Description"
+      options: "Options"
+      first_label: "Premier"
+      last_label: "Dernier"
+      email_label: "user@domain.com"
+    show_body:
+      admin: 'Admin'
+      content: 'Contenu'
+      dont_receive_emails: "Ne pas recevoir les mails"
+      forever: 'Pour toujours'
+      groups: 'Groupes'
+      leader: 'L''utilisateur est chef d''au moins un groupe'
+      my: 'Mon'
+      name: 'Nom'
+      receive_emails: 'Recevoir les mails'
+      roles: 'Rôles'
+      screens: 'Ecrans'
+      system_wide_admin: 'Cet utilisateur est administrateur'
+      this_is_you: "C'est vous."
+      group_header: 'Appartient à %{number} groupe%{s_display}'
+      screen_header: 'Gère %{number} écran%{s_display}'
+      content_header: 'A envoyé %{number} item%{s_display}'
+
+  # helpers:
+  #   label:
+  #     user:
+  #       password: 'Password'
+  #       new_password: 'New Password'
+  #       password_confirmation: 'Confirm New Password'
+  #       submit:
+  #         create: 'Create'
+  #         update: 'Update'

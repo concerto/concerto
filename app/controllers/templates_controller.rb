@@ -41,6 +41,8 @@ class TemplatesController < ApplicationController
   def edit
     @template = Template.find(params[:id])
     auth!
+    # make sure that we only have two html file inputs, one for the graphic ("original") and one for the stylesheet ("css")
+    @template.media.reject! {|m| true}
     while @template.media.length < 2 do
       @template.media.build
     end
@@ -78,18 +80,31 @@ class TemplatesController < ApplicationController
   def update
     @template = Template.find(params[:id])
     auth!
-    # don't stomp on the key, set elsewhere
-    # @template.media.each do |media|
-    #   media.key = "original"
-    # end
 
-    if @template.update_attributes(template_params)
+    # get a copy of the params and remove the files as we process them
+    template_parameters = template_params
+    template_parameters[:media_attributes].each do |k, media|
+      if !media.empty?
+        # for the files that were uploaded, determine their media key based on their extension
+        new_media = @template.media.build(media)
+        extension = (new_media.file_name.blank? ? nil : new_media.file_name.split('.')[-1].downcase)
+        new_media.key = (extension == "css" ? "css" : "original") unless extension.nil?
+
+        # mark any existing @template.media with this same key as replaced (obsolete)
+        @template.media.each do |m|
+          m.key = 'replaced_' + m.key if m.key == new_media.key and m != new_media #!m.new_record?
+        end
+      end
+      # remove the html file from the attributes so it is not processed in the in the update_attributes below
+      template_parameters[:media_attributes].delete(k)
+    end unless template_parameters[:media_attributes].nil?
+
+    if @template.update_attributes(template_parameters)
       process_notification(@template, {}, process_notification_options({:params => {:template_name => @template.name}}))
       flash[:notice] = t(:template_updated)
     end
 
     respond_with(@template)
-
   end
 
   # DELETE /templates/1
