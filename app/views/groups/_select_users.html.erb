@@ -1,0 +1,34 @@
+<div id="selectedUser">
+  <%= link_to '#', :id => "select-users-btn", :title => "Select a User",
+      :class => "dropdown-toggle dropdown-control dd-select-users", 
+      :rel => "#select-users" do %> 
+      <%= "Select a User ... " %>
+  <% end %>
+</div>
+
+<div id="select-users" style="display: none;">
+  <% if users.empty? %>
+    <p> No users found. </p>
+  <% else %>
+
+    <div class="tooltip-filter-cont">
+      <input type="text" class="user_filter fillWidth" placeholder="Type to filter ..." />
+    </div>
+
+    <div class="tooltip-scrollY" style="height: 300px; width: 100%;">
+      <ul class="filterable selector-list">
+        <% users.each do |user| %>
+          <li class = "link-hl default-padding", style="padding: 10px",
+              onclick="addUser('<%=user.name%>', '<%= user.id%>', '<%= @group.id %>')",
+                    data-user-index = '<%= user.id %>',
+                    data-user-name = '<%=user.name%>',
+                    data-user-id = '<%=user.id%>',
+                    data-filter='<%= user.name %>'>
+            <b><%= user.name %></b>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+  <% end %>
+</div>

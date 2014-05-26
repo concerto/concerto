@@ -140,7 +140,9 @@
               </thead>
               <tbody>
                 <tr>     
-                  <td> <%= f.collection_select(:user_id, users_not_in_group, :id, :name) %> <%= hidden_field_tag 'autoconfirm' %> </td>
+                  <td> <%= render :partial => "select_users", :locals => { :users => @group.users_not_in_group } %> </td>
+                  <%= f.hidden_field :user_id %>
+                  <%= f.hidden_field :group_id %>
                   <td> <%= select_tag( :screen, options_for_select(Membership::PERMISSIONS[:regular][:screen].keys) ) %> </td>
                   <td> <%= select_tag( :feed, options_for_select(Membership::PERMISSIONS[:regular][:feed].keys) ) %> </td>
                   <td> <%= f.submit t('.add_member'), :class => "btn btn-primary" %> </td>
