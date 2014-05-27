@@ -25,7 +25,8 @@
     <div class="clearfix">
       <%= f.label :new_leader %>
       <div class="input">
-        <%= f.collection_select :new_leader, User.order(:last_name), :id, :name %>
+        <%= render :partial => "select_users", :locals => { :users => User.order(:last_name) } %>
+        <%= f.hidden_field :new_leader %>
       </div>
     </div>
   </fieldset>

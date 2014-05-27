@@ -19,7 +19,7 @@
       <ul class="filterable selector-list">
         <% users.each do |user| %>
           <li class = "link-hl default-padding", style="padding: 10px",
-              onclick="addUser('<%=user.name%>', '<%= user.id%>', '<%= @group.id %>')",
+              onclick="addUser('<%=user.name%>', '<%= user.id%>')",
                     data-user-index = '<%= user.id %>',
                     data-user-name = '<%=user.name%>',
                     data-user-id = '<%=user.id%>',

@@ -1,4 +1,5 @@
 function addUserSelectUi() {
+  // Create UI for user selection and filtering
   $('.dropdown-control.dd-select-users').each(function() {
     $(this).qtip( {
       id: 'select-users',
@@ -41,16 +42,26 @@ function addUserSelectUi() {
 }
 
 function initUserSelectState() {
+  // Filter user list by search input
   $('.user_filter').on('input', function() {
     $(this).listFilter();
   });
 }
 
-function addUser(name, user_id, group_id) {
+function addUser(name, user_id) {
+  // Show name of selected user
   $('#select-users-btn').text(name);
-  $('#selectedUser').attr('data-user-id', user_id);
-  $('#membership_user_id').val(user_id);
-  $('#membership_group_id').val(group_id);
+
+  // Check which type of page we are on
+  //  determines which form field we set
+  //   the user id for
+  if ($('#membership_user_id').length) {
+    // Submit membership user id
+    $('#membership_user_id').val(user_id);
+  } else if ($('#group_new_leader').length) {
+    // Submit group leader id
+    $('#group_new_leader').val(user_id);
+  }
 }
 
 function initUserSelect() {
