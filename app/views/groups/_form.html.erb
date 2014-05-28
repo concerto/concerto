@@ -25,8 +25,15 @@
     <div class="clearfix">
       <%= f.label :new_leader %>
       <div class="input">
-        <%= render :partial => "select_users", :locals => { :users => User.order(:last_name) } %>
-        <%= f.hidden_field :new_leader %>
+      <% 
+        users = User.order(:last_name)
+        options = {}
+        if !users.empty?
+          options[User.model_name.human.pluralize] = users.map { |u| [u.name, "#{u.id}"]}
+        end
+      %>        
+      <%= render :partial => "elements/owner_select", :locals => { :options => options } %>
+      <%= f.hidden_field :new_leader %>
       </div>
     </div>
   </fieldset>
