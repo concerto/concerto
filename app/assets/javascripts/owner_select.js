@@ -62,17 +62,15 @@ function addOwner(name, type, owner_id) {
     } else if ($('#group_new_leader').length) {
       // Submit group leader id
       $('#group_new_leader').val(owner_id);
-    } else if ($('#screen_owner').length) {
-      $('#screen_owner').val(owner_id);
-      console.log(owner_id.split("-")[0]);
-      console.log(owner_id.split("-")[1]);
+    } else if ($('#screen_owner_type').length && $('#screen_owner_id').length) {
+      $('#screen_owner_type').val(owner_id.split("-")[0]);
+      $('#screen_owner_id').val(owner_id.split("-")[1]);
     }
   } 
   else if (type == "group_select") {
-    if ($('#screen_owner').length) {
-      $('#screen_owner').val(owner_id);
-      console.log(owner_id.split("-")[0]);
-      console.log(owner_id.split("-")[1]);
+    if ($('#screen_owner_type').length && $('#screen_owner_id').length) {
+      $('#screen_owner_type').val(owner_id.split("-")[0]);
+      $('#screen_owner_id').val(owner_id.split("-")[1]);
     }
   }
 }

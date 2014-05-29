@@ -19,9 +19,7 @@
       <ul class="filterable selector-list">
 
         <% if !options["Groups"].nil? %>
-          <br>
           <b class="default-padding" style="text-align: center"> Groups </b>
-          <hr>
             <% options["Groups"].each do |group| %>
               <li class = "link-hl default-padding" style="padding: 10px"
                 onclick="addOwner('<%=group[0]%>', 'group_select', '<%=group[1]%>')"
@@ -33,11 +31,9 @@
               </li>
             <% end %>
         <% end %>
-        <br>
+ 
         <% if !options["Users"].nil? %>
-          <br>
           <b class="default-padding" style="text-align: center"> Users </b>
-          <hr>
             <% options["Users"].each do |user| %>
               <li class = "link-hl default-padding" style="padding: 10px"
                 onclick="addOwner('<%=user[0]%>', 'user_select', '<%= user[1]%>')"
