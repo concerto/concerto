@@ -19,14 +19,22 @@
       </div>
     </div>
   </fieldset>
-  <% unless params[:action] == "edit" %>
-    <fieldset>
-      <legend><span><%= t('.initial_leader') %></span></legend>
-      <div class="clearfix">
-        <%= f.label :new_leader %>
-        <div class="input">
-          <%= f.collection_select :new_leader, User.order(:last_name), :id, :name %>
-        </div>
+
+ <% unless params[:action] == "edit" %>
+  <fieldset>
+    <legend><span><%= t('.initial_leader') %></span></legend>
+    <div class="clearfix">
+      <%= f.label :new_leader %>
+      <div class="input">
+      <% 
+        users = User.order(:last_name)
+        options = {}
+        if !users.empty?
+          options[User.model_name.human.pluralize] = users.map { |u| [u.name, "#{u.id}"]}
+        end
+      %>        
+      <%= render :partial => "elements/owner_select", :locals => { :options => options } %>
+      <%= f.hidden_field :new_leader %>
       </div>
     </fieldset>
   <% end %>

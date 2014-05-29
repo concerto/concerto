@@ -51,8 +51,11 @@
                  options[Group.model_name.human.pluralize] = @groups.map { |g| [g.name, "Group-#{g.id}"] }
                end
             %>
-            <%= select_tag :owner, grouped_options_for_select(options, "#{@screen.owner_type}-#{@screen.owner_id}") %>
-          </div>
+            
+            <%= render :partial => "elements/owner_select", :locals => { :options => options } %>
+            <%= f.hidden_field :owner_type %>
+            <%= f.hidden_field :owner_id %>
+           </div>
         </div>
         
     <div class="clearfix">
