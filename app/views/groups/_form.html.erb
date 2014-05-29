@@ -19,7 +19,7 @@
       </div>
     </div>
   </fieldset>
-  <% if params[:action] != "edit" %>
+  <% unless params[:action] == "edit" %>
     <fieldset>
       <legend><span><%= t('.initial_leader') %></span></legend>
       <div class="clearfix">
