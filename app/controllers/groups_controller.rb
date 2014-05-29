@@ -32,6 +32,7 @@ class GroupsController < ApplicationController
 
   def manage_members
     @group = Group.find(params[:id])
+    @denied = Membership.where(:group_id => params[:id], :level => 0)
     auth! :action => :edit
     respond_with(@group)
   end
