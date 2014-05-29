@@ -34,16 +34,6 @@
       </div>
       <div class="span4">
         <div class="clearfix">
-          <%= f.label :dimensions %>
-          <div class="input">
-            <div class="inline-inputs">
-              <%= f.text_field :width, :class => "input-small" %> (W)
-              x <%= f.text_field :height, :class => "input-small" %> (H)
-            </div>
-          </div>
-        </div>
-
-        <div class="clearfix">
           <%= f.label :owner %>
           <div class="input">
             <% if current_user.is_admin?
@@ -64,16 +54,7 @@
             <%= select_tag :owner, grouped_options_for_select(options, "#{@screen.owner_type}-#{@screen.owner_id}") %>
           </div>
         </div>
-      </div>
-
-    </div>
-
-  </fieldset>
-
-  <%= render :partial => 'template_selection', :locals => { :f => f } %>
-
-  <fieldset>
-    <legend><span><%= t('.connection_details') %></span></legend>
+        
     <div class="clearfix">
       <label><%= t('.authentication') %></label>
 
@@ -127,8 +108,15 @@
       <div class="input">
         <%= f.text_field :new_temp_token, :class => "input-xlarge" %>
       </div>
+    </div>        
+        
+      </div>
+
     </div>
+
   </fieldset>
+
+  <%= render :partial => 'template_selection', :locals => { :f => f } %>
 
   <div class="submit_bar actions">
     <%= f.submit button_text, :class => "btn btn-primary" %>
