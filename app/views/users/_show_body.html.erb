@@ -10,14 +10,14 @@
               <i class="concertocon-user-admin tooltip-basic" data-tooltip-text="<%= t('.system_wide_admin') %>"></i>
             <% end %>
 
-            <% if !@user.leading_groups.empty? %>
+            <% unless @user.leading_groups.empty? %>
               <i class="concertocon-user-leader tooltip-basic" data-tooltip-text="<%= t('.leader') %>"></i>
             <% end %>
           </h2>
 
           <% if user_signed_in? %>
             <p>
-              <%= mail_to @user.email, @user.email, :encode => "hex" if !@user.email.empty? %>
+              <%= mail_to @user.email, @user.email, :encode => "hex" unless @user.email.empty? %>
             </p>
           <% end %>
         </div>
@@ -30,12 +30,12 @@
 <div class="clearfix default-padding">
   <div class="header-with-icon">
     <h3>
-      <%= t('.group_header', :number => @memberships.count, :s_display => @memberships.count == 1 ? '' : 's') %>
+      <%= t '.group_header', :count => @memberships.count %>
     </h3>
   </div>
   <br />
 
-  <% if !@memberships.empty? %>
+  <% unless @memberships.empty? %>
     <ul class="list-grid">
       <% @memberships.each do |membership| %>
         <li>
@@ -74,7 +74,7 @@
 <div class="clearfix default-padding">
   <div class="header-with-icon">
     <h3>
-      <%= t('.screen_header', :number => @screens.count, :s_display => @screens.count == 1 ? '' : 's') %>
+      <%= t '.screen_header', :count => @screens.count %>
     </h3>
   </div>
   <br />

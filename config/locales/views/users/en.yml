@@ -36,8 +36,12 @@ en:
       screens: 'Screens'
       system_wide_admin: 'This user is a system-wide admin'
       this_is_you: 'This is you.'
-      group_header: 'Belongs to %{number} Group%{s_display}'
-      screen_header: 'Manages %{number} Screen%{s_display}'
+      group_header:
+        one: 'Belongs to one Group'
+        many: 'Belongs to %{count} Groups'
+      screen_header:
+        one: 'Manages one Screen'
+        many: 'Manages %{count} Screens'
       content_header: 'Has Submitted %{number} Item%{s_display}'
 
   # helpers:

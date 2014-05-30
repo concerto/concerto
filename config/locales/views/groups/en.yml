@@ -54,8 +54,12 @@ en:
       leader: 'Leader'
       member: ' member'
       your_membership_role: 'You are currently a %{level}%{what} of this group.'
-      feed_header: 'Moderates %{number} Feed%{s_display}'
-      screen_header: 'Manages %{number} Screen%{s_display}'
+      feed_header:
+        one: 'Moderates one Feed'
+        many: 'Moderates %{number} Feeds'
+      screen_header:
+        one: 'Manages one Screen'
+        many: "Manages %{count} Screen"
       member_header: 'Contains %{number} Member%{s_display}'
 
     show_header:
