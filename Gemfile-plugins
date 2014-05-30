@@ -8,4 +8,4 @@ gem 'concerto_iframe'
 
 gem 'concerto_calendar'
 
-gem 'concerto-hardware'
+gem 'concerto_hardware'

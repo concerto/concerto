@@ -1,38 +1,36 @@
-fr:
-  dashboard:
-    global_preferences: 'Paramètres généraux'
-
+--- 
+fr: 
+  dashboard: 
+    admin_stats: 
+      backup: Sauvegarde
+      cant_determine_latest_version: "Impossible de dÃ©terminer la derniÃ¨re version."
+      concerto_version: "Version Concerto:"
+      delayed_job_status: "Moteur de tache de fond:"
+      new_version: "Une nouvelle version (%{version}) est Ã  prÃ©sent disponible."
+      restart_webserver: "RedÃ©marrer le serveur"
+      running: DÃ©mmarrÃ©
+      start_stop: "Comment arrÃªter/dÃ©marrer"
+      stopped: ArrÃªter
+      system_info: "Information systÃ¨me"
+      user_stats: "Statistique utilisateur:"
     browse: 
-      submissions_to_moderate: { one: 'Vous avez %{count} post à modérer', other: 'Vous avez %{count} posts à modérer' }
-
-    admin_stats:
-      system_info: 'Information système'
-      backup: 'Sauvegarde'
-      cant_determine_latest_version: 'Impossible de déterminer la dernière version.'
-      restart_webserver: 'Redémarrer le serveur'
-      concerto_version: 'Version Concerto:'
-      delayed_job_status: 'Moteur de tache de fond:'
-      new_version: 'Une nouvelle version (%{version}) est à présent disponible.'
-      running: 'Démmarré'
-      start_stop: 'Comment arrêter/démarrer'
-      stopped: 'Arrêter'
-      user_stats: 'Statistique utilisateur:'
-
-    latest_activity:
-      latest_activity: 'Dernière activité'
-
-    network:
-      your_network: 'Votre résau'
-      groups: 'Groupes'
-      no_membership: 'Vous n''êtes pas encore membre d''un groupe.'
-
-    vitals:
-      active: 'actif'
-      active_content: 'Contenu actif'
-      group: 'groupe'
-      network_vitals: 'Statistique résaux'
-      offline: 'offline'
-      plugin: 'plugin'
-      screen: 'écran'
-      template: 'modèle'
-      user: 'utilisateur'
+      submissions_to_moderate: 
+        one: "Vous avez %{count} post Ã  modÃ©rer"
+        other: "Vous avez %{count} posts Ã  modÃ©rer"
+    global_preferences: "ParamÃ¨tres gÃ©nÃ©raux"
+    latest_activity: 
+      latest_activity: "DerniÃ¨re activitÃ©"
+    network: 
+      groups: Groupes
+      no_membership: "Vous n'Ãªtes pas encore membre d'un groupe."
+      your_network: "Votre rÃ©sau"
+    vitals: 
+      active: actif
+      active_content: "Contenu actif"
+      group: groupe
+      network_vitals: "Statistique rÃ©saux"
+      offline: offline
+      plugin: plugin
+      screen: Ã©cran
+      template: modÃ¨le
+      user: utilisateur

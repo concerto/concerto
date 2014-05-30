@@ -1,12 +1,13 @@
-fr:
-  activerecord:
-    models:
-      position: 'Position'
-    attributes:
-      position:
-        top: 'Haut'
-        left: 'Gauche'
-        bottom: 'Bas'
-        right: 'Droite'
-        style: 'Style'
-        field: 'Champs'
+--- 
+fr: 
+  activerecord: 
+    attributes: 
+      position: 
+        bottom: Bas
+        field: Champs
+        left: Gauche
+        right: Droite
+        style: Style
+        top: Haut
+    models: 
+      position: Position

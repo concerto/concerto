@@ -1,9 +1,10 @@
+--- 
 fr: 
   activity_mailer: 
     submission_update: 
-      approved: aprouvé
-      denied: refusé
+      approved: aprouvÃ©
+      denied: refusÃ©
       feed: fil
       for_the: "pour le"
-      moderator: Modérateur
+      moderator: ModÃ©rateur
       reason_rejected: "La raison du refus est :"

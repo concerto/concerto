@@ -41,9 +41,10 @@ class ScreenAuthTest < ActionController::IntegrationTest
           :is_public => false,
           :auth_action => Screen::AUTH_NEW_TOKEN,
           :new_temp_token => temp_token,
-          :template_id => templates(:one).id
-        },
-        :owner => "User-"+users(:katie).id.to_s,
+          :template_id => templates(:one).id,
+          :owner_type => "User",
+          :owner_id => users(:katie).id.to_s
+        }
       }
       sess.assert_response :redirect
       assert sess.flash[:notice].include? "success"

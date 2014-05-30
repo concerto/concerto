@@ -30,4 +30,11 @@ class SubmissionsControllerTest < ActionController::TestCase
     get :index, :feed_id => @feed.id
     assert_select "a[href=?]", feed_submissions_path(@feed, :state => 'denied'), 1
   end
+
+  test "user can not show feed submissions when having no feed access"  do
+    sign_in users(:karen)
+    @feed = feeds(:secret_announcements)
+    get :index, :feed_id => @feed.id
+    assert_redirected_to root_path
+  end
 end
