@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140515164704) do
+ActiveRecord::Schema.define(:version => 20140523152217) do
 
   create_table "activities", :force => true do |t|
     t.integer  "trackable_id"
@@ -191,6 +191,7 @@ ActiveRecord::Schema.define(:version => 20140515164704) do
     t.integer  "height"
     t.datetime "frontend_updated_at"
     t.string   "authentication_token"
+    t.string   "locale"
   end
 
   create_table "submissions", :force => true do |t|

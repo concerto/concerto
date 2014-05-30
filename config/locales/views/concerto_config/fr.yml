@@ -1,0 +1,39 @@
+--- 
+fr: 
+  activerecord: 
+    attributes: 
+      concerto_config: 
+        allow_registration: "Autoriser les utilisateurs à s'inscrire"
+        allow_user_feed_creation: "Autoriser la création de fil par les utilisateurs"
+        allow_user_screen_creation: "Autoriser la création d'écran par les utilisateurs"
+        autostart_delayed_job: "Redémmarrer automatiquement le moteur de tache de fond"
+        confirmable: "Les utilisateurs doivent confirmer leur compte"
+        content_default_end_time: "Date de fin par défaut pour les contenus"
+        content_default_start_time: "Date de début par défaut pour les contenus"
+        default_content_duration: "Durée par défaut pour les contenus"
+        default_content_run_time: "Durée de publication par défaut (en jour)"
+        default_upload_type: "Type de contenu ajouté par défaut"
+        mailer_from: "Mail de "
+        mailer_host: "Concerto Server Name (FQDN)"
+        mailer_protocol: "Mailer Protocol"
+        max_content_duration: "Durée maximum d'affichage (en seconde)"
+        min_content_duration: "Durée minimum d'affichage (en seconde)"
+        openssl_verify_mode_none: "No SMTP SSL Certificate Verification"
+        public_concerto: "Concerto accessible publiquement"
+        send_errors: "Notify Developers of Errors"
+        setup_complete: "Concerto setup complete"
+        smtp_address: "SMTP Server"
+        smtp_auth_type: "SMTP Authentication Type"
+        smtp_password: "SMTP Password"
+        smtp_port: "SMTP Port"
+        smtp_username: "SMTP Username"
+        start_date_offset: "temps entre l'ajout de contenu et le démarrage."
+        system_time_zone: "Fuseaux horaire du système"
+        use_frontend_to_trigger_cron: "Utiliser l'affichage des écrans pour lancer les taches cron"
+  concerto_config: 
+    show: 
+      edit_settings: "Editer les paramètres généraux"
+      global_settings: "Paramètres généraux"
+      restart_confirm: "Redémarrer le serveur web peut prendre de 10 à 20 secondes. Etes vous sur de vouloir le redémarrer?"
+      restart_webserver: "Redémarrer le serveur web"
+      save_settings: "Enregistrer les paramètres"

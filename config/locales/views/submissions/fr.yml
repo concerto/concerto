@@ -1,0 +1,50 @@
+--- 
+fr: 
+  activerecord: 
+    attributes: 
+      submission: 
+        duration: Durée
+        moderation_reason: Raison
+  submissions: 
+    approval_info: 
+      edit_duration: "Editer la durée"
+    index_body: 
+      click_to_jump: "Cliquez sur pour aller à un fil"
+      items_in_state: 
+        one: "%{count} %{state} item"
+        other: "%{count} %{state} items"
+      jump_to_feed: "Aller au fil..."
+      no_state_content: "Pas de contenu %{state}"
+      no_sub_feeds: "pas de sous fil "
+      sub_feeds: "Sous fil :"
+      submissions_pending: 
+        one: "%{count} item en attente de votre modération"
+        other: "%{count} items en attente de votre modération"
+      submit_something: "poster quelque chose"
+      to_make_this_feed_happy: "pour faire de ce fil un endroit plus heureux ?"
+      toggle_content_states_to_display: "Toggle content states to display..."
+      would_you_kindly: "Pourriez vous gentillement"
+    index_header: 
+      all_feeds: "Tous les fils"
+      delete_feed: "Supprimer le fil"
+      edit_feed: "Editer le fil"
+      moderated_by: "Ce fil est modéré par"
+    moderate_title: "Modéré %{name}"
+    show_body: 
+      also_appears_on: "Aussi posté sur ..."
+      approve_this_content: "Approuver ce contenu"
+      approved: Approuvé
+      deny_this_content: "Refuser ce contenu"
+    show_header: 
+      all_feeds: "Tous les fils"
+    submission_listgriditem: 
+      change_to_approved: "Changer en approuvé"
+      change_to_denied: "Changer en refusé"
+      currently: actuellement
+      date_range: "%{start} à %{end}"
+      moderate: Modéré...
+      urgent: Urgent
+      urgent_tooltip: "Hey! Ce post devrait déjà avoir démarré et vous devriez peut-êtres le modérer."
+    submission_tile: 
+      approve_this_content: "Approuver ce post"
+      deny_this_content: "Refuser ce post"

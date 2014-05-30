@@ -9,18 +9,9 @@ class ScreensController < ApplicationController
   # GET /screens
   # GET /screens.xml
   def index
-    @screens = Screen.all
-    @my_screens = []
-    if !current_user.nil?
-      my_group_screens = current_user.groups.collect{ |g| g.screens }.flatten
-      my_screens = current_user.screens
-      @my_screens = my_group_screens + my_screens
-    end
-    auth!
-
-    # The screen index has a sidebar that shows all templates.
+    @screens = Screen.accessible_by(current_ability)
+    @my_screens = current_user.nil? ? [] : @screens.select{|s| s.owner == current_user || current_user.groups.include?(s.owner)}
     @templates = Template.where(:is_hidden => false).sort_by{|t| t.screens.count}.reverse
-
     respond_with(@screens)
   end
 
@@ -51,12 +42,7 @@ class ScreensController < ApplicationController
   # POST /screens.xml
   def create
     @screen = Screen.new(screen_params)
-    # Process the owner into something that makes sense
-    owner = params[:owner].split('-')
-    if Screen::SCREEN_OWNER_TYPES.include?(owner[0])
-      @screen.owner_type = owner[0]
-      @screen.owner_id = owner[1]
-    end
+
     auth!
     
     if @screen.save
@@ -75,13 +61,7 @@ class ScreensController < ApplicationController
   # PUT /screens/1.xml
   def update
     @screen = Screen.find(params[:id])
-    
-    # Process the owner into something that makes sense
-    owner = params[:owner].split('-')
-    if Screen::SCREEN_OWNER_TYPES.include?(owner[0])
-      @screen.owner_type = owner[0]
-      @screen.owner_id = owner[1]
-    end
+
     auth!
     
     if @screen.update_attributes(screen_params)
@@ -118,7 +98,7 @@ class ScreensController < ApplicationController
 private
 
   def screen_params
-    params.require(:screen).permit(:name, :location, :owner, :width, :height, :template_id, :is_public, :new_temp_token, :auth_action)
+    params.require(:screen).permit(:name, :location, :owner_id, :owner_type, :width, :height, :template_id, :is_public, :new_temp_token, :auth_action)
   end
  
 end

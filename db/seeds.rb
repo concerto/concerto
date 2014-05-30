@@ -18,7 +18,7 @@ ConcertoPlugin.where(:gem_name => "concerto_remote_video").first_or_create(:enab
 ConcertoPlugin.where(:gem_name => "concerto_simple_rss").first_or_create(:enabled => true, :source => "rubygems")
 ConcertoPlugin.where(:gem_name => "concerto_iframe").first_or_create(:enabled => true, :source => "rubygems")
 ConcertoPlugin.where(:gem_name => "concerto_calendar").first_or_create(:enabled => true, :source => "rubygems")
-ConcertoPlugin.where(:gem_name => "concerto_hardware").first_or_create(:enabled => false, :source => "rubygems")
+ConcertoPlugin.where(:gem_name => "concerto_hardware").first_or_create(:enabled => true, :source => "rubygems")
 
 # Establish the 4 major display areas a template usually has.
 # In my quick sample, this code will make 68% of the Concerto 1 fields match
@@ -39,16 +39,16 @@ Group.where(:name => "Concerto Admins").first_or_create
 
 #Determine installed content types for enabling them in the inital feed
 #This is not the ideal way but unfortunately they're not registered yet at this point
-installed_content_types = { :Graphic=>"1", :Ticker=>"1" } # these are native
+installed_content_types = { "Graphic"=>"1", "Ticker"=>"1" } # these are native
 # enables the content types if the gems are found (even if they aren't going to be registered, unfortunately)
 if Gem.loaded_specs.has_key? "concerto_simple_rss"
-  installed_content_types.merge!({ :SimpleRss => "1" })
+  installed_content_types.merge!({ "SimpleRss" => "1" })
 end
 if Gem.loaded_specs.has_key? "concerto_remote_video"
-  installed_content_types.merge!({ :RemoteVideo => "1" })
+  installed_content_types.merge!({ "RemoteVideo" => "1" })
 end
 if Gem.loaded_specs.has_key? "concerto_weather"
-  installed_content_types.merge!({ :Weather => "1" })
+  installed_content_types.merge!({ "Weather" => "1" })
 end
 
 #Create an initial feed

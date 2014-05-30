@@ -1,0 +1,55 @@
+--- 
+fr: 
+  public_activity: 
+    a_group_which_nolonger_exists: "qui n'existe plus"
+    a_member: "un membre"
+    create_the_model: "a créé %{model}"
+    destroy_the_model: "a supprimé %{model}"
+    feed: 
+      create: 
+        created_a_new_feed: "a créé un nouveau fil"
+      destroy: 
+        deleted_the_feed: "a supprimé le fil"
+    field_config: 
+      for_field: "pour le champ"
+      on_screen: "sur l'écran"
+    graphic: 
+      create: 
+        created_a_new_graphic: "a créé un nouveau post graphique"
+    group: 
+      create: 
+        created_a_new_group: "a créé un nouveau groupe"
+      destroy: 
+        deleted_the_group: "a supprimé un groupe"
+    import_the_model: "a importé %{model}"
+    membership: 
+      create: 
+        added: ajouté
+        group_as_a: "groupe en tant que"
+        group_membership_removed: "membre d'un groupe qui a été supprimé depuis."
+        leader: chef
+        regular_member: membre
+        to_the: au
+      destroy: 
+        from_the: "du groupe"
+        group: "."
+        removed: retiré
+    screen: 
+      create: 
+        created_a_new_screen: "a créé un nouvel écran"
+      destroy: 
+        deleted_the_screen: "a supprimé l'écran"
+    setting: paramètre
+    submission: 
+      update: 
+        approved: approuvé
+        denied: refusé
+        feed: "."
+        for_the: "pour le fil"
+    unknown_user: "Un utilisateur inconnu"
+    update_the_model: "a mis à jour %{model}"
+    user: 
+      create: 
+        added_a_new_user: "a ajouté un nouvel utilisateur"
+        registered: inscrit
+    which_has_since_been_removed: "qui a été retirée depuis"

@@ -114,13 +114,11 @@ class Ability
     # Anyone can read public screens
     can :read, Screen, :is_public => true if (user.persisted? || ConcertoConfig[:public_concerto])
     # Users can read, update and delete their own screens
-    can [:read, :update, :delete], Screen do |screen|
-      screen.owner.is_a?(User) && screen.owner == user
-    end
+    can [:read, :update, :delete], Screen, :owner_type => 'User', :owner_id => user.id
+
     # Users can read group screens
-    can :read, Screen do |screen|
-      screen.owner.is_a?(Group) && screen.owner.users.include?(user)
-    end
+    can :read, Screen, :owner_type => 'Group', :owner_id => user.group_ids
+
     # Group leaders can create / delete their group screens.
     # So can special supporters
     can [:update, :delete], Screen do |screen|
@@ -193,6 +191,11 @@ class Ability
       end
     end
 
+    # Create custom submit rules by coping submission creation rules
+    relevant_rules(:create, Submission).each do |rule|
+      can :submit_content, Feed, rule.conditions[:feed]
+    end
+
     ## Memberships
     # A group leader can manage all memberships
     # that belong to their group.
@@ -225,13 +228,9 @@ class Ability
     # If a screen is owned by the same group as the feed
     # it can see content, or if the feed is viewable.
     can :read, Feed, :is_viewable => true
-    can :read, Feed do |feed|
-      if screen.owner.is_a?(Group)
-        screen.owner == feed.group
-      elsif screen.owner.is_a?(User)
-        feed.group.users.include?(screen.owner)
-      end
-    end
+    can :read, Feed, :group_id => screen.owner if screen.owner.is_a? Group
+    can :read, Feed, :group_id => screen.owner.groups if screen.owner.is_a? User
+
 
     ## Submissions
     # Submissions can be read if the content has been moderated,

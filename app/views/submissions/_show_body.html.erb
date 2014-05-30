@@ -1,6 +1,6 @@
 <div class="approval">
   <%= render :partial => "submissions/approval_info", :locals => { :submission => @submission } %>
-  <% if can? :update, @submission %>    
+  <% if can? :update, @submission %>
       <div class="moderate-select">
         <% unless @submission.moderation_flag == true %>
           <%= form_for([@submission.feed, @submission]) do |f| %>
@@ -34,9 +34,13 @@
 
 <div class="default-padding">
   <div class="content-frame">
-  
-    <%= link_to render_content(@submission.content), content_path(@submission.content)%>
-    <%#= render :partial => 'contents/dynamic_content_tools', :locals => { :content => @submission.content } if @submission.content.is_a?(DynamicContent) && can?(:edit, @submission.content) %>
+      <%= link_to render_content(@submission.content), content_path(@submission.content)%>
+      <%#= render :partial => 'contents/dynamic_content_tools', :locals => { :content => @submission.content } if @submission.content.is_a?(DynamicContent) && can?(:edit, @submission.content) %>
+      <div class="edit-content">
+        <%= link_to content_path(@submission.content), class: "edit-content" do %>
+          <h1 class="edit-content">Edit content</h1>
+        <% end %>
+      </div>
   </div>
 
   <br />
@@ -46,7 +50,7 @@
     <ul>
       <% @other_submissions.each do |submission| %>
         <li><%= link_to submission.feed.name, [submission.feed, submission] %></li>
-      <% end %> 
+      <% end %>
     </ul>
   <% end %>
 

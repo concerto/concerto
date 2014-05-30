@@ -16,13 +16,20 @@ goog.require('goog.dom');
 concerto.frontend.Content.Ticker = function(data) {
   concerto.frontend.Content.call(this, data);
 
-  /**
-   * Should the font size be automatically adjusted to optimize
-   * display within the field?
-   * @type {boolean}
-   */
-  this.autosize_font = (data.field['config'] ?
-                        data.field['config']['autosize_text'] : false);
+/**
+ * We are casting the 0 or 1 into true or false with the !!+, do not remove it.
+ * This is because we need to negate the variable for our internal code, which
+ * was making javascript upset when it had to negate a numeric value.
+ */
+var disable_text_autosize = !!+(data.field.config ?
+                                data.field.config['disable_text_autosize'] : 0);
+
+/**
+ * Should the font size be automatically adjusted to optimize
+ * display within the field?
+ * @type {boolean}
+ */
+this.autosize_font = !disable_text_autosize;
 
   /**
    * The text.

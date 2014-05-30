@@ -51,3 +51,26 @@
     margin-left: 8px;
   }
 }
+
+.edit-content {
+  position: absolute;
+  top: 10%;
+//height: 100%;
+  width: 100%;
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  h1 {
+    visibility: hidden;
+    color: white;
+    font-size: 15vmin;
+    position: relative;
+    padding-top: 10px;
+    top: 50%;
+    width: 100%;
+    background: rgba(0,0,0,.4);
+    text-align: center;
+}
+}

@@ -1,0 +1,36 @@
+--- 
+fr: 
+  dashboard: 
+    admin_stats: 
+      backup: Sauvegarde
+      cant_determine_latest_version: "Impossible de déterminer la dernière version."
+      concerto_version: "Version Concerto:"
+      delayed_job_status: "Moteur de tache de fond:"
+      new_version: "Une nouvelle version (%{version}) est à présent disponible."
+      restart_webserver: "Redémarrer le serveur"
+      running: Démmarré
+      start_stop: "Comment arrêter/démarrer"
+      stopped: Arrêter
+      system_info: "Information système"
+      user_stats: "Statistique utilisateur:"
+    browse: 
+      submissions_to_moderate: 
+        one: "Vous avez %{count} post à modérer"
+        other: "Vous avez %{count} posts à modérer"
+    global_preferences: "Paramètres généraux"
+    latest_activity: 
+      latest_activity: "Dernière activité"
+    network: 
+      groups: Groupes
+      no_membership: "Vous n'êtes pas encore membre d'un groupe."
+      your_network: "Votre résau"
+    vitals: 
+      active: actif
+      active_content: "Contenu actif"
+      group: groupe
+      network_vitals: "Statistique résaux"
+      offline: offline
+      plugin: plugin
+      screen: écran
+      template: modèle
+      user: utilisateur

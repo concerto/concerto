@@ -1,0 +1,84 @@
+--- 
+fr: 
+  activerecord: 
+    attributes: 
+      content: 
+        duration: "Durée d'affichage"
+        end_time: "Heure de fin"
+        name: Nom
+        start_time: "Heure de démarrage"
+  at: à
+  contents: 
+    edit: 
+      edit_content: "Editer le contenu %{type}"
+    form: 
+      preview: Prévisualisation
+      provide_details: "Fournir les informations basiques"
+      select_content_type: "Sélectionner le type de contenu à ajouter"
+      select_feed: "Sélectioner un fil"
+    form_bottom: 
+      submit_content: "Envoyer le contenu"
+    form_elements: 
+      feeds: 
+        filter_feeds: "Filtre de fil"
+        no_feeds: "Aucun fil n'a encore été enregistré pour cet envoie."
+        select_a_feed: "Sélectioner un fil"
+        type_to_filter: "Taper ici pour filter"
+      selected_feed_display: 
+        appears_on_screens: "Apparait sur %{screens_count} écrans"
+    form_top: 
+      data: Donnée
+    graphic: 
+      form_top: 
+        accepted_filetypes: "Types de fichier acceptés"
+        specify_file: "Choisir le fichier"
+        upload_graphic: "Ajouter un contenu graphique"
+    index: 
+      browse_content: "Parcourir les contenus"
+      browse_content_by_feed: "Parcourir les contenus par fil"
+      browse_content_by_screen: "Trouver un contenu sur un écran particulier"
+      concerto_contents_search: Contenus
+      filtered_content: "Contenus filtrés"
+    new: 
+      add_content: "Ajouter un contenu %{type}"
+      content: Contenu
+      content_type: "Type de contenu à ajouter:"
+      design_graphic: "Design a Graphic"
+      select_type: "Selctionner le type"
+    provide_details: "Fournir les détails"
+    show: 
+      display_from: "Afficher de"
+      display_until: "Afficher jusqu'à"
+      feeds_moderation_status: "Statut du contenu"
+      not_submitted: "Ce contenu n'a été ajouté à aucun fil."
+      submitted_by: "Posté par"
+      the_dawn_of_time: "La nuit des temps."
+      the_end_of_time: "La fin des temps."
+    submit_to_feeds: "Insérer dans les fils"
+    table: 
+      description: Description
+      link: Lien
+      submitted: Posté
+      title: Titre
+      updated: "Mis à jour"
+    ticker: 
+      form_top: 
+        allowed_html: "Markdown et du html simple est autorisé. Plus d'information sur markdown est disponible sur http://wikipedia.org/wiki/Markdown."
+        characters: Caractères
+        display_format: "Format d'affichage"
+        display_format_tip: "Le format texte défilant est utilisé pour une petite quantité de texte habituellement affiché au bas de l'écran.  Le format texte est habituellement utilisé pour des informations plus conséquentes et affichées en zone principale de l'écran."
+        markdown_allowed: "L'usage de markdown ou d'HTML est autorisé dans ce champs. "
+        preview: Prévisualisation
+        ticker_text: "Texte défilant"
+        type_your_message: "Taper votre message"
+  finish_displaying: "Arrêter l'affichage"
+  helpers: 
+    label: 
+      graphic: 
+        name: Nom
+        submit: Envoyé
+    submit: 
+      create: "Créer %{model}"
+      update: "Mettre à jour %{model}"
+  second: seconde(s)
+  start_displaying: "Commencer l'affichage"

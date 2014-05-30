@@ -1,0 +1,13 @@
+--- 
+fr: 
+  activerecord: 
+    attributes: 
+      position: 
+        bottom: Bas
+        field: Champs
+        left: Gauche
+        right: Droite
+        style: Style
+        top: Haut
+    models: 
+      position: Position

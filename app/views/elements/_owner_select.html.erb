@@ -1,0 +1,53 @@
+<div id="selectedOwner">
+  <%= link_to '#', :id => "select-owner-btn", :title => "Select a User",
+      :class => "dropdown-toggle dropdown-control dd-select-owner", 
+      :rel => "#select-owner" do %> 
+      <%= "Select a User ... " %>
+  <% end %>
+</div>
+
+<div id="select-owner" style="display: none;">
+  <% if options.empty? %>
+    <p> No users found. </p>
+  <% else %>
+
+    <div class="tooltip-filter-cont">
+      <input type="text" class="owner_filter fillWidth" placeholder="Type to filter ..." />
+    </div>
+
+    <div class="tooltip-scrollY" style="height: 300px; width: 100%;">
+      <ul class="filterable selector-list">
+
+        <% if !options["Groups"].nil? %>
+          <b class="default-padding" style="text-align: center"> Groups </b>
+            <% options["Groups"].each do |group| %>
+              <li class = "link-hl default-padding" style="padding: 10px"
+                onclick="addOwner('<%=group[0]%>', 'group_select', '<%=group[1]%>')"
+                  data-group-index = '<%=group[1].split("-")[1]%>'
+                  data-group-name = '<%=group[0]%>'
+                  data-group-id = '<%=group[1].split("-")[1]%>'
+                  data-filter = '<%=group[0]%>'>
+                <b><%= group[0] %></b>
+              </li>
+            <% end %>
+        <% end %>
+ 
+        <% if !options["Users"].nil? %>
+          <b class="default-padding" style="text-align: center"> Users </b>
+            <% options["Users"].each do |user| %>
+              <li class = "link-hl default-padding" style="padding: 10px"
+                onclick="addOwner('<%=user[0]%>', 'user_select', '<%= user[1]%>')"
+                  data-user-index = '<%=user[1].split("-")[1]%>'
+                  data-user-name = '<%=user[0]%>'
+                  data-user-id = '<%=user[1].split("-")[1]%>'
+                  data-filter='<%= user[0] %>'>
+                <b><%= user[0] %></b>
+              </li>
+            <% end %>
+        <% end %>
+
+      </ul>
+    </div>
+
+  <% end %>
+</div>

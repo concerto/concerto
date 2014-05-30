@@ -20,7 +20,7 @@
 
 		// custom attributes:
 		@include border-radius(6px);
-    background: transparent image-url('layout/top-menu/button_top-menu_states.png') top left repeat-x;
+//   background: transparent image-url('layout/top-menu/button_top-menu_states.png') top left repeat-x;
     
     // IE fix: reset Microsoft filter attribute:
     filter: none;
@@ -34,7 +34,7 @@
 		float: left;
 
    	&:hover {
-      background: transparent image-url('layout/top-menu/button_top-menu_states.png') top left repeat-x;
+//      background: transparent image-url('layout/top-menu/button_top-menu_states.png') top left repeat-x;
      	text-shadow: 0 1px #eee;
    		background-position: 100% -31px;
    		border: solid 1px #2f84da;
@@ -50,7 +50,7 @@
 		}
 
     &:active {
-      background: transparent image-url('layout/top-menu/button_top-menu_states.png') top left repeat-x;
+//      background: transparent image-url('layout/top-menu/button_top-menu_states.png') top left repeat-x;
    		background-position: 100% -62px;
    		border: solid 1px #333;
 		}
@@ -60,10 +60,10 @@
 		}
 		
 		&.selected {
-			@include box-shadow(inset 0 0 10px #000);
+			@include box-shadow(inset 0 0 10px #444);
     	text-decoration: none;
-    	text-shadow: 0 -1px #333333;
-    	color: #FFF;
+//    	text-shadow: 0 -1px #333;
+    	color: #888;
     	background-position: 100% 100%;
     	border: solid 1px #333;
 	
@@ -72,7 +72,7 @@
       }
 
       &:hover {
-        color: $white !important;
+        color: black !important;
       }
 			
 		}
@@ -216,3 +216,36 @@
 	}
 	
 }
+
+
+@media (max-width: 662px) {
+	#top-menu-user {
+		text-align: center;
+		margin-left: .5em;
+	}
+	
+	.floatleft {
+		float: left !important;
+	}
+
+	.clearleft {
+		clear: left;
+	}
+
+	.pull-right {
+		padding-top: 9px !important;
+	}
+
+	.ilb {
+		display: inline-block;
+	}
+	
+	.wpadding1em {
+		padding-left: 1em;
+	}
+
+	.wpaddinghalfem {
+		padding-left: .5em;
+	}
+}
+

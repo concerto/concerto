@@ -4,6 +4,7 @@ class SubmissionsController < ApplicationController
 
   def get_feed
     @feed = Feed.find(params[:feed_id])
+    auth!(:action => :show, :object => @feed)
   end
 
   # GET /feeds/:feed_id/submissions
