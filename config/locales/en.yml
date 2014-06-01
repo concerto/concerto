@@ -15,11 +15,14 @@ en:
   are_you_sure_remove_user_group: 'Are you sure you want to remove user "%{user}" from group "%{group}"?'
   are_you_sure_leave_group: 'Are you sure you want to leave the group "%{group}"?'
   back: 'Back'
+  bad_request: 'Bad request.'
   cancel: 'Cancel'
   cant_be_blank: 'can't be blank'
   cant_be_this_content: 'can't be this content'
-  content_refreshed: 'Content successfully refreshed.'
+  cant_be_this_feed: 'can't be this feed'
   content_deleted: 'Content successfully deleted.'
+  content_expired_mod: 'Content expired before moderation could occur.'
+  content_refreshed: 'Content successfully refreshed.'
   create_model: 'Create %{model}'
   current_model: 'Current %{model}'
   destroy: 'Delete'
@@ -30,6 +33,8 @@ en:
   error: 'error'
   error_refreshing: 'Error refreshing.'
   failed: 'failed'
+  file_is: 'file is'
+  file_is_required: 'file is required'
   gem_not_found: 'is not a valid rubygem'
   gemspec_not_found: 'Gemspec not found in'
   import_model: 'Import %{model}'
@@ -38,6 +43,7 @@ en:
   my_model: 'My %{model}'
   new_model: 'New %{model}'
   no: 'No'
+  not_file_support: 'not a format we support'
   other_model: 'Other %{model}'
   preview: 'Preview'
   prohibited_save: "prevented this %{model} from being saved:"
@@ -53,6 +59,10 @@ en:
   is_submittable: "Submittable"
   membership_approved: "Approved"
   membership_denied: "Denied"
+
+  approved: 'Approved'
+  rejected: 'Rejected'
+  pending: 'Pending'
   
   #CanCan Exceptions localization (https://github.com/ryanb/cancan/wiki/exception-handling)
   unauthorized:
