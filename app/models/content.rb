@@ -26,7 +26,7 @@ class Content < ActiveRecord::Base
   include PublicActivity::Common if defined? PublicActivity::Common
 
   belongs_to :parent, :class_name => "Content", :counter_cache => :children_count
-  has_many :children, :class_name => "Content", :foreign_key => "parent_id"
+  has_many :children, :class_name => "Content", :foreign_key => "parent_id", :dependent => :destroy
 
   # By default, only find known content types.
   # This allows everything to keep working if a content type goes missing
