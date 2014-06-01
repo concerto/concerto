@@ -17,7 +17,7 @@ class Graphic < Content
 
   #Validations
   validates :duration, :numericality => { :greater_than => 0 }
-  validates :media, :length => { :minimum => 1, :too_short => "#{t(:file_is_required)}" }
+  validates :media, :length => { :minimum => 1, :too_short => t(:file_is_required) }
   validates_with GraphicValidator
 
   # Convert the media if it is supported by the converter.
@@ -75,7 +75,7 @@ class Graphic < Content
 
       if options.key?(:width) && options.key?(:height) &&
          options[:height].to_f == 0 && options[:width].to_f == 0
-        return {:status => 400, :text => "#{t(:bad_request)}", :content_type => Mime::TEXT}
+        return {:status => 400, :text => t(:bad_request), :content_type => Mime::TEXT}
       end
 
       require 'concerto_image_magick'
