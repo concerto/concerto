@@ -17,6 +17,10 @@ en:
   back: 'Back'
   cancel: 'Cancel'
   concerto: 'Concerto'
+  cant_be_blank: 'cant be blank'
+  cant_be_this_content: 'cant be this content'
+  content_refreshed: 'Content successfully refreshed.'
+  content_deleted: 'Content successfully deleted.'
   create_model: 'Create %{model}'
   current_model: 'Current %{model}'
   destroy: 'Delete'
@@ -25,6 +29,10 @@ en:
   edit: 'Edit'
   edit_model: 'Edit %{model}'
   error: 'error'
+  error_refreshing: 'Error refreshing.'
+  failed: 'failed'
+  gem_not_found: 'is not a valid rubygem'
+  gemspec_not_found: 'Gemspec not found in'
   import_model: 'Import %{model}'
   join: "Join"
   manage_model: 'Manage %{model}'
@@ -36,10 +44,11 @@ en:
   prohibited_save: "prevented this %{model} from being saved:"
   remove_model: 'Remove %{model}'
   show: 'Show'
+  sorry_access: 'Sorry, you dont have access to perform this action.'
   status: "Status"
   type_to_filter: 'Type here to filter'
   update_model: 'Update %{model}'
-
+  valid_git: 'is not a valid git repository'
   is_viewable: "Viewable"
   is_submittable: "Submittable"
   membership_approved: "Approved"

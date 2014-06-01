@@ -1,4 +1,4 @@
-# This class is a model for the ConcertoPlugin database table,
+\# This class is a model for the ConcertoPlugin database table,
 # which manages the available and enabled plugins for Concerto.
 #
 # It also includes the code that allows the rest of the application
@@ -157,25 +157,25 @@ private
         require 'net/http'
         begin
           r = Net::HTTP.get_response(URI.parse("http://rubygems.org/gems/#{self.gem_name}"))
-          Net::HTTPSuccess === r ? (return true) : errors.add(:gem_name, "#{self.gem_name} is not a valid rubygem")
+          Net::HTTPSuccess === r ? (return true) : errors.add(:gem_name, "#{self.gem_name} #{t(:gem_not_found)}")
         rescue
-          errors.add(:gem_name, "#{self.gem_name} failed.")
+          errors.add(:gem_name, "#{self.gem_name} #{t(:failed)}")
         end
       when "git"
         if self.source_url.empty?
-          errors.add(:source_url, "can't be blank")
+          errors.add(:source_url, "#{t(cant_be_blank)}")
           return false
         end
         require 'command_check'
         if command?('git')
           git_ls = system("git", "ls-remote", self.source_url)
           if git_ls != true
-            errors.add(:source_url, "#{self.source_url} is not a valid git repository")
+            errors.add(:source_url, "#{self.source_url} #{t(:valid_git)}")
           end
         end
       when "path"
         if self.source_url.empty?
-          errors.add(:source_url, "can't be blank")
+          errors.add(:source_url, "#{t(:cant_be_blank)}")
           return false
         end
         # Use Dir to see if a gemfile exists in that directory, and protect
@@ -184,7 +184,7 @@ private
         # irrelevant system properties.
         if (!File.directory? self.source_url or
             Dir.glob("#{self.source_url}/*.gemspec").empty?)
-          errors.add(:source_url, "Gemspec not found in #{self.source_url}")
+          errors.add(:source_url, "#{t(:gemspec_not_found)} #{self.source_url}")
         end
     end
   end
