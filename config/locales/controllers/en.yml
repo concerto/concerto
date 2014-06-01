@@ -1,8 +1,11 @@
 en:
   smtp_send_error: "A SMTP error occurred while sending a notification e-mail. Please check the Concerto SMTP settings."
   smtp_send_error_ssl: "A SMTP error occurred while sending a notification e-mail. Please check the Concerto SMTP settings-- you might need to disable SSL Verification."
+  asset_precomp_failed: "Asset precompilation failed. Please make sure the command rake assets:precompile works."
 
   #Contents controller
+  missing_default_type: "Missing Default Content Type"
+  unrecognized_type: "Unrecognized content type.""
   content_created: "Content was successfully created."
   content_created_no_feeds: "Content was successfully created. Since no feeds were supplied, content will remain in limbo."
   content_updated: "Content was successfully updated."
@@ -77,7 +80,7 @@ en:
   cannot_delete_last_admin: "Cannot delete last admin user."
   user_owns_screens: "This user cannot be deleted because they own one or more screens."
   user_not_deletable: "A user owning screens or who is the last remaining administrator cannot be deleted."
-  
+
   #Dashboard controller
   settings_saved: "Concerto settings saved.  Some changes may not become effective until the webserver is restarted."
 
