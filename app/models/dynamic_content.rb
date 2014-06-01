@@ -251,12 +251,12 @@ class DynamicContent < Content
     # Only someoneone who can edit the content can do this.
     owner = Ability.new(options[:current_user])
     if owner.cannot?(:edit, self)
-      return t(:sorry_access)
+      return "Sorry, you don't have access to perform this action."
     end
     if refresh!
-      return t(:content_refreshed)
+      return "Content successfully refreshed."
     else
-      return t(:error_refreshing)
+      return "Error refreshing."
     end
   end
 
@@ -266,12 +266,12 @@ class DynamicContent < Content
     # Only someoneone who can edit the content can do this.
     owner = Ability.new(options[:current_user])
     if owner.cannot?(:edit, self)
-      return t(:sorry_access)
+      return "Sorry, you don't have access to perform this action."
     end
     self.children.each do |c|
       c.destroy
     end
-    return t(:content_deleted)
+    return "Content successfully deleted."
   end
 
   # Manually refresh the dynamic content each time it is
