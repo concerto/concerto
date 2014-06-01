@@ -27,7 +27,7 @@ class Feed < ActiveRecord::Base
 
   def parent_id_cannot_be_this_feed
     if !parent_id.blank? and parent_id == id
-      errors.add(:parent_id, "can't be this feed")
+      errors.add(:parent_id, "#{t(:cant_be_this_feed)}")
     end
   end
 
