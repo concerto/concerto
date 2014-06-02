@@ -5,7 +5,7 @@ en:
 
   #Contents controller
   missing_default_type: "Missing Default Content Type"
-  unrecognized_type: "Unrecognized content type.""
+  unrecognized_type: "Unrecognized content type."
   content_created: "Content was successfully created."
   content_created_no_feeds: "Content was successfully created. Since no feeds were supplied, content will remain in limbo."
   content_updated: "Content was successfully updated."
