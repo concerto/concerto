@@ -1,4 +1,4 @@
-\# This class is a model for the ConcertoPlugin database table,
+# This class is a model for the ConcertoPlugin database table,
 # which manages the available and enabled plugins for Concerto.
 #
 # It also includes the code that allows the rest of the application

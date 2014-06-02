@@ -17,7 +17,7 @@ class Graphic < Content
 
   #Validations
   validates :duration, :numericality => { :greater_than => 0 }
-  validates :media, :length => { :minimum => 1, :too_short => t(:file_is_required) }
+  validates :media, :length => { :minimum => 1, :too_short => I18n.t(:file_is_required) }
   validates_with GraphicValidator
 
   # Convert the media if it is supported by the converter.
