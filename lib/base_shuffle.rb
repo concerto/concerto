@@ -2,7 +2,7 @@
 # A simple approach that just grabs all the content
 # without shuffling it or weighing it.
 class BaseShuffle
-  # Initialze all the variables, setup a store if needed.
+  # Initialize all the variables, setup a store if needed.
   #
   # @param [Screen] screen Screen showing the content.
   # @param [Field] field Field showing the content.
@@ -29,8 +29,9 @@ class BaseShuffle
       @store += content.collect{|c| c.id}
     end
     return [] if @store.empty?
+
     content_ids = @store.shift(count)
-    return Content.where(:id => content_ids)
+    Content.where(:id => content_ids).compact
   end
 
   # Return a timeline to be saved.
