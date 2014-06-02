@@ -34,7 +34,7 @@ class Submission < ActiveRecord::Base
       when false
         return t(:rejected)
       when nil
-        return {t(:pending)
+        return t(:pending)
       end  
   end
 
