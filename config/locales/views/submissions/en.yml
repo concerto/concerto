@@ -10,19 +10,21 @@ en:
 
     index_header:
       all_feeds: 'All Feeds'
-      moderated_by: 'This feed is moderated by'
-      edit_feed: 'Edit Feed'
       delete_feed: 'Delete Feed'
+      edit_feed: 'Edit Feed'
+      moderated_by: 'This feed is moderated by'
 
     approval_info:
-      submitted_by: 'Submitted By'
-      the_dawn_of_time: 'The Dawn of Time.'
-      moderated_by: "By: %{moderator}"
+      approved: 'Approved'
       display_from: 'Display From:'
       display_until: 'Display Until:'
-      the_end_of_time: 'The End of Time.'
       duration: 'Duration:'
+      edit_duration: "Edit duration"
+      moderated_by: 'By: %{moderator}'
       seconds: 'seconds'
+      submitted_by: 'Submitted By'
+      the_dawn_of_time: 'The Dawn of Time.'
+      the_end_of_time: 'The End of Time.'
 
     index_body:
       click_to_jump: 'Click on a feed to jump'
@@ -41,15 +43,13 @@ en:
       would_you_kindly: 'Would you kindly'
       submit_something: 'submit something'
       to_make_this_feed_happy: 'to make this feed a happier place?'
+      moderated_by: 'Moderated By'
 
     show_body:
       also_appears_on: 'Also submitted to...'
-      approved: 'Approved'
       approve_this_content: "Approve this content"
+      approved: 'Approved'
       deny_this_content: "Deny this content"
-
-    approval_info:
-      edit_duration: "Edit duration"
 
     show_header:
       all_feeds: 'All Feeds'

@@ -4,9 +4,9 @@ en:
       template: 'Template'
     attributes:
       template:
-        name: 'Name'
         author: 'Author'
         is_hidden: 'Hidden?'
+        name: 'Name'
 
 
   templates:
@@ -47,8 +47,8 @@ en:
   helpers:
     label:
       template:
-        name: 'Name'
         author: 'Author'
-        media: 'Background Image/CSS'
-        owner: 'owner'
         is_hidden: 'Hide this template from being shown in lists'
+        media: 'Background Image/CSS'
+        name: 'Name'
+        owner: 'owner'

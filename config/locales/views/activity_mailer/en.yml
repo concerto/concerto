@@ -1,9 +1,9 @@
 en:
   activity_mailer:
     submission_update:
-      moderator: 'Moderator'
       approved: 'approved'
       denied: 'denied'
-      for_the: 'for the'
       feed: 'feed'
+      for_the: 'for the'
+      moderator: 'Moderator'
       reason_rejected: 'The reason provided for the rejection is:'

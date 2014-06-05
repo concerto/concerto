@@ -2,13 +2,14 @@ en:
   activerecord:
     attributes:
       user:
+        actions: 'Actions'
+        email: 'Email'
         first_name: 'First Name'
+        is_admin: 'Admin Status'
         last_name: 'Last Name'
         locale: 'Locale'
-        email: 'Email'
         password: 'Password'
         password_confirmation: 'Confirm Password'
-        is_admin: 'Admin Status'
         receive_moderation_notifications: 'Receive Moderation Notifications'
         time_zone: 'Time Zone'
 
@@ -17,39 +18,39 @@ en:
     change_password: "Change Password"
 
     form:
-      provide_details: "Provide Details"
-      options: "Options"
+      email_label: "user@domain.com"
       first_label: "First"
       last_label: "Last"
-      email_label: "user@domain.com"
+      options: "Options"
+      provide_details: "Provide Details"
     index:
       name: 'Name'
     show_body:
       admin: 'Admin'
       content: 'Content'
+      content_header: 'Has Submitted %{number} Item%{s_display}'
       dont_receive_emails: "Don't receive emails"
       forever: 'forever'
+      group_header: 'Belongs to %{number} Group%{s_display}'
       groups: 'Groups'
       leader: 'User is a leader of one or more groups'
       my: 'My'
       name: 'Name'
       receive_emails: 'Receive emails'
       roles: 'Roles'
+      screen_header: 'Manages %{number} Screen%{s_display}'
       screens: 'Screens'
       system_wide_admin: 'This user is a system-wide admin'
       this_is_you: 'This is you.'
-      group_header: 'Belongs to %{number} Group%{s_display}'
-      screen_header: 'Manages %{number} Screen%{s_display}'
-      content_header: 'Has Submitted %{number} Item%{s_display}'
 
   helpers:
     label:
       user:
-        first_name: 'Name'
         email: 'Email'
+        first_name: 'Name'
+        locale: locale
+        #new_password: 'New Password'
         password: 'Password'
         password_confirmation: 'Confirm Password'
-        locale: locale
-        time_zone: 'Time Zone'
         receive_moderation_notifications: 'Receive Moderation Notifications'
-        #new_password: 'New Password'
+        time_zone: 'Time Zone'

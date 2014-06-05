@@ -1,14 +1,14 @@
 en:
   public_activity:
-    which_has_since_been_removed: 'which has since been removed'
+    a_group_which_nolonger_exists: 'a no longer existing'
+    a_member: 'a member'
     create_the_model: 'created the %{model}'
     destroy_the_model: 'deleted the %{model}'
     import_the_model: 'imported the %{model}'
     setting: 'setting'
-    update_the_model: 'updated the %{model}'
     unknown_user: 'An unknown user'
-    a_member: 'a member'
-    a_group_which_nolonger_exists: 'a no longer existing'
+    update_the_model: 'updated the %{model}'
+    which_has_since_been_removed: 'which has since been removed'
 
     field_config:
       for_field: 'for field'

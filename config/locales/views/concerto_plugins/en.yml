@@ -12,17 +12,17 @@ en:
 
   concerto_plugins:
     sources:
-      rubygems: 'RubyGems'
       git: 'Git Repository'
       path: 'Filesystem Path'
+      rubygems: 'RubyGems'
 
     index:
       disabled: "disabled"
-      enabled: "enabled"
-      status: "Status"
-      enabled_msg: "This plugin is currently enabled."
       disabled_msg: "This plugin is currently disabled."
+      enabled: "enabled"
+      enabled_msg: "This plugin is currently enabled."
       gem_description: "Description"
+      status: "Status"
       visit_plugin_website: "Visit plugin website"
 
     new:

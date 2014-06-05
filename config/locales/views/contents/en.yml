@@ -1,17 +1,17 @@
 
 en:
   at: 'at'
-  start_displaying: 'Start Displaying'
   finish_displaying: 'Finish Displaying'
   second: 'second'
+  start_displaying: 'Start Displaying'
 
   activerecord:
     attributes:
       content:
-        name: 'Name'
         duration: 'Display Duration'
-        start_time: 'Start Time'
         end_time: 'End Time'
+        name: 'Name'
+        start_time: 'Start Time'
 
   contents:
     provide_details: 'Provide Details'
@@ -21,10 +21,10 @@ en:
       edit_content: "Edit %{type} Content"
 
     form:
-      provide_details: "Provide Basic Details"
-      select_feed: "Select Feed"
-      select_content_type: "Select Content Type to Add"
       preview: 'Preview'
+      provide_details: "Provide Basic Details"
+      select_content_type: "Select Content Type to Add"
+      select_feed: "Select Feed"
 
     form_bottom:
       submit_content: 'Submit Content'
@@ -43,9 +43,9 @@ en:
 
     graphic:
       form_top:
-        upload_graphic: "Upload Graphic"
-        specify_file: "Specify File"
         accepted_filetypes: "Accepted Filetypes"
+        specify_file: "Specify File"
+        upload_graphic: "Upload Graphic"
 
     index:
       browse_content: "Browse Concerto Content"
@@ -55,25 +55,25 @@ en:
       filtered_content: "Filtered Content"
 
     new:
-      select_type: "Select Type"
-      design_graphic: "Design a Graphic"
+      add_content: "Add %{type} Content"
       content: "Content"
       content_type: "Content type to add:"
-      add_content: "Add %{type} Content"
+      design_graphic: "Design a Graphic"
+      select_type: "Select Type"
     show:
       display_from: "Display From"
       display_until: "Display Until"
+      feeds_moderation_status: "Submission Status"
+      not_submitted: 'This content has not been submitted to any feeds.'
       submitted_by: "Submitted by"
       the_dawn_of_time: 'The Dawn of Time.'
       the_end_of_time: 'The End of Time.'
-      feeds_moderation_status: "Submission Status"
-      not_submitted: 'This content has not been submitted to any feeds.'
 
     table:
-      title: "Title"
-      link: "Link"
       description: "Description"
+      link: "Link"
       submitted: "Submitted"
+      title: "Title"
       updated: "Updated"
 
     ticker:

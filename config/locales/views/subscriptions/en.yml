@@ -17,12 +17,12 @@ en:
     shown_rarely: 'Rarely shown'
 
     index:
-      search_and_find_a_feed_to_add: "Search and Find a Feed to Add"
       add_a_new_feed:  'Add A New Feed...'
       field: '%{kind} field'
+      field_custom_configurations: 'Custom Field Configurations'
       make_changes: 'First make some changes above to save.'
       manage_model_for_field: 'Manage %{model} for %{name} Field'
-      save_changes_to_model: 'Save changes to %{model}'
       no_configuration_yet: 'This field does not have any configuration.'
+      save_changes_to_model: 'Save changes to %{model}'
+      search_and_find_a_feed_to_add: "Search and Find a Feed to Add"
       subscriptions: 'Subscriptions'
-      field_custom_configurations: 'Custom Field Configurations'

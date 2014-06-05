@@ -2,12 +2,12 @@ en:
   activerecord:
     attributes:
       screen:
-        name: 'Name'
+        is_public: 'This screen is publicly viewable'
         location: 'Location'
+        name: 'Name'
         owner: 'Owner'
         owner_id: 'Owned By'
         template_id: 'Template'
-        is_public: 'This screen is publicly viewable'
 
   screens:
     index:
@@ -26,16 +26,16 @@ en:
       select_feed: "Select Feed"
 
     form:
-      dimensions: 'Dimensions'
-      provide_details: 'Provide Details'
+      auth_action: 'Authentication Action'
       authentication: 'Authentication'
       connection_details: 'Connection Details'
-      auth_action: 'Authentication Action'
-      no_auth: 'None (Unsecured)'
-      new_token: 'Secure with a new token'
-      private_token: 'Secured by an existing private token'
-      new_token_override: 'Remove existing authentication and secure with a new token'
+      dimensions: 'Dimensions'
       existing_mac: 'Use existing legacy MAC address'
+      new_token: 'Secure with a new token'
+      new_token_override: 'Remove existing authentication and secure with a new token'
+      no_auth: 'None (Unsecured)'
+      private_token: 'Secured by an existing private token'
+      provide_details: 'Provide Details'
 
     screen_info:
       offline: 'Offline'
