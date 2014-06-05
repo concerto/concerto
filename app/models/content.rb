@@ -18,7 +18,7 @@ class Content < ActiveRecord::Base
 
   def cannot_be_own_parent
     if !parent_id.blank? and parent_id == id
-      errors.add(:parent_id, "can't be this content")
+      errors.add(:parent_id, t(:cant_be_this_content))
     end
   end
 

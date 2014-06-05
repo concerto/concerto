@@ -2,13 +2,13 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-
   actions: "Actions"
   active_content: 'Active Content'
   add: 'Add'
   add_model: 'Add %{model}'
   all_model: 'All %{model}'
   approve: 'Approve'
+  approved: 'Approved'
   are_you_sure: 'Are you sure?'
   are_you_sure_delete_model_key: 'Are you sure you want to delete %{model} "%{key}"?'
   are_you_sure_demote_user: 'Are you sure you want to demote user "%{user}"?'
@@ -16,8 +16,16 @@ en:
   are_you_sure_remove_model_key: 'Are you sure you want to remove %{model} "%{key}"?'
   are_you_sure_remove_user_group: 'Are you sure you want to remove user "%{user}" from group "%{group}"?'
   back: 'Back'
+  bad_request: 'Bad request.'
   cancel: 'Cancel'
+  cant_be_blank: 'cant be blank'
+  cant_be_blank: 'cant be blank'
+  cant_be_this_feed: 'cant be this feed'
   concerto: 'Concerto'
+  content_deleted: 'Content successfully deleted.'
+  content_expired_mod: 'Content expired before moderation could occur.'
+  content_refreshed: 'Content successfully refreshed.'
+  content_refreshed: 'Content successfully refreshed.'
   create_model: 'Create %{model}'
   current_model: 'Current %{model}'
   deny: 'Deny'
@@ -26,6 +34,12 @@ en:
   edit: 'Edit'
   edit_model: 'Edit %{model}'
   error: 'error'
+  error_refreshing: 'Error refreshing.'
+  failed: 'failed'
+  file_is: 'file is'
+  file_is_required: 'file is required'
+  gem_not_found: 'is not a valid rubygem'
+  gemspec_not_found: 'Gemspec not found in'
   import_model: 'Import %{model}'
   is_submittable: "Submittable"
   is_viewable: "Viewable"
@@ -36,14 +50,19 @@ en:
   my_model: 'My %{model}'
   new_model: 'New %{model}'
   no: 'No'
+  not_file_support: 'not a format we support'
   other_model: 'Other %{model}'
+  pending: 'Pending'
   preview: 'Preview'
   prohibited_save: "prevented this %{model} from being saved:"
+  rejected: 'Rejected'
   remove_model: 'Remove %{model}'
   show: 'Show'
+  sorry_access: 'Sorry, you dont have access to perform this action.'
   status: "Status"
   type_to_filter: 'Type here to filter'
   update_model: 'Update %{model}'
+  valid_git: 'is not a valid git repository'
 
   #CanCan Exceptions localization (https://github.com/ryanb/cancan/wiki/exception-handling)
   unauthorized:

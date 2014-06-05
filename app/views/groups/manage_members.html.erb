@@ -87,33 +87,35 @@
         <% if can? :read, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>
         <h3 class="default-padding"><%= t('.approve_requests') %></h3>
         <% if @group.memberships.pending.size > 0 %>
-          <table class="hover-highlight">
-            <thead>
-              <tr>
-                <th><%= User.human_attribute_name(:name) %></th>
-                <th><%= t('.request_made_at') %></th>
-                <th>&nbsp;</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @group.memberships.pending.each do |pending_membership| %>
+          <div class="second-level-padding" style="padding-top: 0px;">
+            <table class="hover-highlight">
+              <thead>
                 <tr>
-                  <th>
-                    <p>
-                      <b><%= link_to_if can?(:read, pending_membership.user), pending_membership.user.name, pending_membership.user %></b><br />
-                    </p>
-                  </th>
-                  <th><p><%= pending_membership.created_at.strftime("%I:%M %p on %D") %></p></th>
-                  <th>
-                    <% if can? :update, pending_membership %>
-                      <%= link_to t(:approve), group_membership_path(@group, pending_membership, :perform => "approve"), :method => :put, :class => "btn btn-small btn-success"%>
-                      <%= link_to t(:deny), group_membership_path(@group, pending_membership, :perform => "deny"), :method=> :put, :class => "btn btn-small btn-danger" %>
-                    <% end %>
-                  </th>
+                  <th><%= User.human_attribute_name(:name) %></th>
+                  <th><%= t('.request_made_at') %></th>
+                  <th>&nbsp;</th>
                 </tr>
-              <% end %>
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                <% @group.memberships.pending.each do |pending_membership| %>
+                  <tr>
+                    <th>
+                      <p>
+                        <b><%= link_to_if can?(:read, pending_membership.user), pending_membership.user.name, pending_membership.user %></b><br />
+                      </p>
+                    </th>
+                    <th><p><%= pending_membership.created_at.strftime("%I:%M %p on %D") %></p></th>
+                    <th>
+                      <% if can? :update, pending_membership %>
+                        <%= link_to t(:approve), group_membership_path(@group, pending_membership, :perform => "approve"), :method => :put, :class => "btn btn-small btn-success"%>
+                        <%= link_to t(:deny), group_membership_path(@group, pending_membership, :perform => "deny"), :method=> :put, :class => "btn btn-small btn-danger" %>
+                      <% end %>
+                    </th>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
         <% else %>
           <div class="second-level-padding" style="padding-bottom: 0px; padding-top: 0px;">
             <div class="alert alert-block alert-zero">
@@ -121,6 +123,48 @@
             </div>
           </div>
         <% end %>
+
+        <% if @denied.size > 0 %>
+            <span onclick="toggle_prev_denied()"> 
+              <h3 class="default-padding">Previously Denied Members &nbsp;
+              <i class="icon-circle-arrow-up" id="icon_prev_denied"></i></h3> 
+            </span>
+            <div id="prev_denied" value="hidden" style="display: none">
+              <div class="second-level-padding" style="padding-top: 0px;">
+                <table class="hover-highlight">
+                  <thead>
+                    <tr>
+                      <th><%= t(:name) %></th>
+                      <th><%= t('.request_made_at') %></th>
+                      <th>&nbsp;</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @denied.each do |denied_membership| %>
+                      <tr>
+                        <th>
+                          <p>
+                            <b><%= link_to_if can?(:read, denied_membership.user.name), denied_membership.user.name, denied_membership.user %></b>
+                          </p>
+                        </th>
+                        <th>
+                          <p>
+                            <%= denied_membership.created_at.strftime("%I:%M %p on %D") %>
+                          </p>
+                        </th>
+                        <th>
+                          <% if can? :update, denied_membership %>
+                            <%= link_to t(:approve), group_membership_path(@group, denied_membership, :perform => "unblock"), :method => :put, :class => "btn btn-small btn-success" %>
+                          <% end %>
+                        </th>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+        <% end %>
+
       <% end %>
 
       <% if can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>

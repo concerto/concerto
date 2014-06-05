@@ -161,6 +161,12 @@ class Membership < ActiveRecord::Base
         return false, :membership_demoted_failure
         false
       end
+    when "unblock"
+      if self.level == Membership::LEVELS[:denied] && update_attributes({:level => Membership::LEVELS[:regular]})
+        return true, :membership_approved
+      else
+        return false, :membership_approved_failure
+      end
     end
     # default is failure
     return false, :membership_unknown_action
