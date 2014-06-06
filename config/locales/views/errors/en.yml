@@ -1,0 +1,12 @@
+en:
+  errors:
+    error_generic:
+      abort: 'Abort!'
+      error_message: 'Something went wrong. Rest assured, you have been assigned 0% of the blame.'
+      reset_message: 'Sometimes a strategic retreat is the best option.'
+    error_404:
+      abort: 'Abort!'
+      content_not_found: "I'm afraid we're not in Kansas anymore."
+      error_message: |-
+                     The Concerto content you were looking for could not be found.
+                     Sometimes a strategic retreat is the best option.

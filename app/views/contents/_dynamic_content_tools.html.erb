@@ -1,5 +1,5 @@
 <div class="subblock">
-  <h3>Owner Tools</h3>
+  <h3><%= t('.owner_tools') %></h3>
   <div>
     <%= link_to "Force Update", act_content_path(:action_name => 'manual_refresh'), :method => :put, :class => "btn info" %> 
     <%= link_to "Purge Children", act_content_path(:action_name => 'delete_children'), :method => :put, :class => "btn info" %>

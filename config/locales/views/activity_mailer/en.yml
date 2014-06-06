@@ -2,8 +2,10 @@ en:
   activity_mailer:
     submission_update:
       approved: 'approved'
+      content_schedule: 'The content is scheduled to begin showing on %{start} and end on %{end}. It will be shown for %{duration_seconds} seconds.'
       denied: 'denied'
       feed: 'feed'
       for_the: 'for the'
       moderator: 'Moderator'
-      reason_rejected: 'The reason provided for the rejection is:'
+      reason_rejected: 'The reason provided for the rejection is:' 
+      your_concerto_submission: 'Your Concerto Submission %{content_name} has been '

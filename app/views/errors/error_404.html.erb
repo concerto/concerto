@@ -8,11 +8,13 @@
           <br />
         </div>
         <div class="span8">
-          <h1 style="font-size: 4em; letter-spacing: -0.025em;">I'm afraid we're not in Kansas anymore.</h1>
+          <h1 style="font-size: 4em; letter-spacing: -0.025em;">
+            <%= t('.content_not_found') %>
+          </h1>
           <br />
-          <h2>The Concerto content you were looking for could not be found.<br />Sometimes a strategic retreat is the best option.</h2>
+          <h2><%= t('.error_message')%></h2>
           <br />
-          <%= link_to "Abort!", :back, :class => "btn btn-large" %>
+          <%= link_to t('.abort'), :back, :class => "btn btn-large" %>
         </div>
       </div>
     </div>

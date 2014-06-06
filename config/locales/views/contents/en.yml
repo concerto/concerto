@@ -17,6 +17,9 @@ en:
     provide_details: 'Provide Details'
     submit_to_feeds: 'Submit to Feeds'
 
+    dynamic_content_tools: 
+      owner_tools: 'Owner Tools'
+
     edit:
       edit_content: "Edit %{type} Content"
 

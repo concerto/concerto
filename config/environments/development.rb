@@ -20,7 +20,7 @@ Concerto::Application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
-  #Check if mailer sent successfully
+  # Check if mailer sent successfully
   config.action_mailer.raise_delivery_errors = true
 
   # Print deprecation notices to the Rails logger

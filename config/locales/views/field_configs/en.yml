@@ -15,3 +15,7 @@ en:
       manage_model_for_field: 'Manage %{model} for %{name} Field'
       no_configuration_yet: 'This field does not have any configuration.'
       save_changes_to_model: 'Save changes to %{model}'
+
+    show:
+      edit: 'Edit'
+      back: 'Back'
