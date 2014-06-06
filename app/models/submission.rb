@@ -30,11 +30,11 @@ class Submission < ActiveRecord::Base
   def moderation_text
     case self.moderation_flag
       when true
-        return '#{t(:approved)}'
+        return '#{I18n.t(:approved)}'
       when false
-        return '#{t(:rejected)}'
+        return '#{I18n.t(:rejected)}'
       when nil
-        return '#{t(:pending)}'
+        return '#{I18n.t(:pending)}'
       end  
   end
 
@@ -77,7 +77,7 @@ class Submission < ActiveRecord::Base
   def self.deny_old_expired
     Submission.pending.expired.readonly(false).each do |submission|
       submission.moderation_flag = false
-      submission.moderation_reason = t(:content_expired_mod)
+      submission.moderation_reason = I18n.t(:content_expired_mod)
       #Rails.logger.info submission
       #print submission.to_yaml
       #print submission.errors.to_yaml

@@ -5,7 +5,7 @@ class GraphicValidator < ActiveModel::Validator
 
     if !record.media.empty? && 
         !(graphic_types + Concerto::ContentConverter.supported_types).include?(record.media[0].file_type)
-      record.errors.add :media, "#{t(:file_is)} #{record.media[0].file_type}, #{t(:no_file_support)}."
+      record.errors.add :media, "#{I18n.t(:file_is)} #{record.media[0].file_type}, #{I18n.t(:no_file_support)}."
     end
   end
 end
@@ -75,7 +75,7 @@ class Graphic < Content
 
       if options.key?(:width) && options.key?(:height) &&
          options[:height].to_f == 0 && options[:width].to_f == 0
-        return {:status => 400, :text => t(:bad_request), :content_type => Mime::TEXT}
+        return {:status => 400, :text => I18n.t(:bad_request), :content_type => Mime::TEXT}
       end
 
       require 'concerto_image_magick'
