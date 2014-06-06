@@ -30,11 +30,11 @@ class Submission < ActiveRecord::Base
   def moderation_text
     case self.moderation_flag
       when true
-        return '#{I18n.t(:approved)}'
+        return I18n.t(:approved)
       when false
-        return '#{I18n.t(:rejected)}'
+        return I18n.t(:rejected)
       when nil
-        return '#{I18n.t(:pending)}'
+        return I18n.t(:pending)
       end  
   end
 

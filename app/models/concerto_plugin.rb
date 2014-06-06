@@ -163,7 +163,7 @@ private
         end
       when "git"
         if self.source_url.empty?
-          errors.add(:source_url, t(cant_be_blank))
+          errors.add(:source_url, I18n.t(:cant_be_blank))
           return false
         end
         require 'command_check'
