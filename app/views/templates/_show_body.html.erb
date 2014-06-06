@@ -3,18 +3,18 @@
 </article>
 <aside class="default-padding">
   <p>
-    <b><%= t('.author') %></b>
+    <b><%= t '.author' %></b>
     <%= @template.author %>
   </p>
   <% if !@template.screens.empty? %>
-    <p>Used by the following screens:
-      <ul>
-        <% @template.screens.each do |s| %>
-          <% if can? :read, s %>
-            <li><%= link_to s.name, s %></li>
-          <% end %>
+    <p><%= t '.usage' %>
+    <ul>
+      <% @template.screens.each do |s| %>
+        <% if can? :read, s %>
+          <li><%= link_to s.name, s %></li>
         <% end %>
-      </ul>
+      <% end %>
+    </ul>
     </p>
   <% end %>
   <%= ConcertoPlugin.render_view_hook self, :template_details %>

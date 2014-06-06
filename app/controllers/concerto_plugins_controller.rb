@@ -28,7 +28,7 @@ class ConcertoPluginsController < ApplicationController
   # GET /concerto_plugins/1/edit
   def edit
     @concerto_plugin = ConcertoPlugin.find(params[:id])
-    auth!    
+    auth!
   end
 
   # POST /concerto_plugins
@@ -75,12 +75,12 @@ class ConcertoPluginsController < ApplicationController
     restart_webserver()
     redirect_to concerto_plugins_path
   end
-  
+
   def write_Gemfile
     #slurp in the old Gemfile and write it to a backup file for use in config.ru
     old_gemfile = IO.read("Gemfile-plugins")
     File.open("Gemfile-plugins.bak", 'w') {|f| f.write(old_gemfile) }
-    
+
     #start a big string to put the Gemfile contents in until it's written to the filesystem
     gemfile_content = ""
     ConcertoPlugin.all.each do |plugin|

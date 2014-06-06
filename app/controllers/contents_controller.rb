@@ -1,7 +1,7 @@
 class ContentsController < ApplicationController
   before_filter :get_content_const, :only => [:new, :create, :update, :preview]
   respond_to :html, :json, :js
-  
+
   # Grab the constant object for the type of
   # content we're working with.  Probably needs
   # additional error checking.
@@ -42,12 +42,12 @@ class ContentsController < ApplicationController
   # If the object isn't valid (FooBar) or isn't a
   # child of Content (Feed) a 400 error is thrown.
   def new
-    # We might already have a content type, 
+    # We might already have a content type,
     if @content_const.nil? || !@content_const.ancestors.include?(Content)
       Rails.logger.debug "Content type #{@content_const} found not OK, trying default."
       default_upload_type = ConcertoConfig[:default_upload_type]
       if !default_upload_type
-        raise "Missing Default Content Type"
+        raise t(:missing_default_type)
       else
         @content_const = default_upload_type.camelize.constantize
       end
@@ -56,7 +56,7 @@ class ContentsController < ApplicationController
     # We don't recognize the requested content type, or
     # its not a child of Content so we'll return a 400.
     if @content_const.nil? || !@content_const.ancestors.include?(Content)
-      render :text => "Unrecognized content type.", :status => 400
+      render :text => t(:unrecognized_type), :status => 400
     else
       @content = @content_const.new()
       @content.duration = ConcertoConfig[:default_content_duration].to_i
@@ -105,7 +105,7 @@ class ContentsController < ApplicationController
 
     remove_empty_media_param
     if !media_id.blank?
-      # if the media_id was passed in then there is an existing media 
+      # if the media_id was passed in then there is an existing media
       # record that needs to be attached to this content
       @media = Media.find(media_id)
       # only reassign if not already assigned
@@ -229,7 +229,7 @@ class ContentsController < ApplicationController
 
     auth!(:action => :read)
     # if handling graphic preview (the content id is 0), force a render
-    if params[:id] == "preview" || stale?(:etag => params, :last_modified => @content.updated_at.utc, :public => true) 
+    if params[:id] == "preview" || stale?(:etag => params, :last_modified => @content.updated_at.utc, :public => true)
       @file = nil
       data = nil
       benchmark("Content#render") do
@@ -250,13 +250,13 @@ class ContentsController < ApplicationController
     result = @content.perform_action(action_name, params)
 
     respond_to do |format|
-      format.html do 
+      format.html do
         # reload to get the updated information
         @content = Content.find(params[:id])
         @user = User.find(@content.user_id)
 
         flash.now[:notice] = (result.nil? ? 'Unable to perform action' : result)
-        render :show 
+        render :show
       end
       format.js do
         if result.nil?
@@ -268,7 +268,7 @@ class ContentsController < ApplicationController
     end
   end
 
-  # returns the content types preview of the specified data or looked up by id 
+  # returns the content types preview of the specified data or looked up by id
   def preview
     data = ""
     if !params[:data].nil?

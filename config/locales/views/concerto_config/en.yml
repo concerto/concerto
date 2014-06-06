@@ -12,6 +12,8 @@ en:
         default_content_duration: "Default Content Duration"
         default_content_run_time: "Default content run time (in days)"
         default_upload_type: "Default content upload type"
+        http_proxy_settings: "Http Proxy Settings"
+        keep_activity_log: "Keep Activity Log"
         max_content_duration: 'Max Content Duration (in seconds)'
         mailer_from: 'Mailer From'
         mailer_host: "Concerto Server Name (FQDN)"
@@ -29,6 +31,8 @@ en:
         start_date_offset: "Time between submission and content start"
         system_time_zone: 'System Time Zone'
         use_frontend_to_trigger_cron: "Use Frontend to Trigger Cron"
+        dynamic_refresh_time: "Dynamic Content Refresh Time"
+        rubygem_executable: "Ruby Gem Executable"
 
   concerto_config:
     show:

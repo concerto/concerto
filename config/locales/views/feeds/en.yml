@@ -6,43 +6,42 @@ en:
   feeds:
     # status of submissions
     active: 'Active'
+    approved: 'Approved'
     denied: 'Denied'
     expired: 'Expired'
     future: 'Future'
-    pending: 'Pending'
-    approved: 'Approved'
-    orphaned: 'Orphaned'
-
     no_feeds: "There are no feeds in the system that you can submit content to.  Please contact your system administrator for more information."
+    orphaned: 'Orphaned'
+    pending: 'Pending'
 
     browse_body:
-      sign_in: 'Sign In'
-      sign_up: 'Sign Up'
       no_content_heading: "I'm afraid we're not in Kansas anymore."
       no_content_message: "There doesn't appear to be anything you can view on this Concerto network. You should "
+      sign_in: 'Sign In'
+      sign_up: 'Sign Up'
 
     browse_header:
       browse_content: 'Browse Concerto Content'
 
     moderate:
       contents_pending_moderation: 'Contents Pending Moderation'
-      with_pending_content: 'with pending content'
       no_pending_content: 'All good for now! None of the feeds you moderate have any pending contents.'
       nothing_to_moderate: 'Nothing to Moderate'
+      with_pending_content: 'with pending content'
 
     form:
       allowed_types: 'Allowed types'
       other_options: 'Other Options'
       prohibited_feed_save: 'prevented this feed from being saved:'
-      settings: "Settings"
       provide_details: "Provide Details"
- 
+      settings: "Settings"
+
   helpers:
     label:
       feed:
-        name: 'Name'
         description: 'Description'
-        parent: 'Parent'
         group: 'Group'
-        is_viewable: 'Is viewable'
         is_submittable: 'Is submittable'
+        is_viewable: 'Is viewable'
+        name: 'Name'
+        parent: 'Parent'

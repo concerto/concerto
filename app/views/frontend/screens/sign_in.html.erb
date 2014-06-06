@@ -3,7 +3,9 @@
     <div class="default-padding" style="padding: 40px 12px; text-align: center;">
       <%= image_tag("elements/logomark.png", :height => 100, :alt => "") %>
       <br /><br />
-      <h1 style="font-size: 4em; letter-spacing: -0.025em;">Coming Soon: Your New Screen.</h1>
+      <h1 style="font-size: 4em; letter-spacing: -0.025em;">
+        <%= t('.coming_soon') %>
+      </h1>
     </div>
   </header>
 
@@ -11,7 +13,9 @@
     <div class="default-padding">
 
       <div class="alert alert-block">
-        <p class="center">To configure this screen, you will need the following code:</p>
+        <p class="center">
+          <%= t('.configure') %>
+        </p>
         <p class="center" style="font-size: 4em; font-family: Courier New, monospace; line-height: 1em;">
           <%# The following span is used to identify this page to the javscript. %>
           <span id="screen_temp_token"><strong><%= @temp_token %></strong></span>
@@ -20,16 +24,17 @@
 
       <div style="margin: 20px auto; max-width: 850px;">
         <br />
-        <h2><b>Step One.</b><br />On your PC or mobile device, log into the Concerto Panel and visit the Screens page.</h2>
+        <h2><b><%= t('.step_one') %></b><br />
+          <%= t('.step_one_message') %>
+        </h2>
         <br />
-        <h2><b>Step Two.</b><br />If this is a completely new screen, click "New Screen" and fill out the relevant details.</h2>
-        <p>The screen should not be public. Use the code given above as the authorization code.<br />If this machine is being reconfigured or is replacing an existing screen, simply click on that screen, click edit, ensure that the screen is not public, and enter the authorization code.</p>
+        <h2><b><%= t('.step_two') %></b><br /><%= t('.step_two_header') %></h2>
+        <%= t('.step_two_details') %>
         <br />
-        <h2><b>Step Three.</b><br />Finally, take a look back at this screen. After a moment, your template should appear.</h2>
-        <p>You can add some content to the screen by editing the subscriptions in each field in the Concerto Panel.</p>
-
+        <h2><b><%= t('.step_three') %></b><br /><%= t('.step_three_header') %></h2>
+        <p><%= t('.step_three_details') %></p>
         <br />
-        <h1 class="center">Happy Advertising!</h1>
+        <h1 class="center"><%= t('.happy_advertising') %></h1>
       </div>
 
     </div>

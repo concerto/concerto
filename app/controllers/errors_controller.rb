@@ -10,7 +10,7 @@ class ErrorsController < ApplicationController
     @status_code = env["PATH_INFO"][1..-1]
     #@exception = env["action_dispatch.exception"]
     #@status_code = ActionDispatch::ExceptionWrapper.new(env, @exception).status_code
-    
+
     if @status_code == "404"
       template = :error_404
       layout = true # Default application layout

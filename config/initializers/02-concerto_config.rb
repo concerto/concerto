@@ -12,8 +12,8 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
   if ConcertoConfig.columns_hash.has_key?("plugin_id")
     # defaults
     ConcertoConfig.make_concerto_config("default_upload_type", "graphic", :category => 'Content')
-    ConcertoConfig.make_concerto_config("content_default_start_time", "12:00 am", :category => 'Content')
-    ConcertoConfig.make_concerto_config("content_default_end_time", "11:59 pm", :category => 'Content')
+    ConcertoConfig.make_concerto_config("content_default_start_time", "12:00 am", :value_type => "time", :category => 'Content')
+    ConcertoConfig.make_concerto_config("content_default_end_time", "11:59 pm", :value_type => "time", :category => 'Content')
     ConcertoConfig.make_concerto_config("start_date_offset", "0", :value_type => "integer", :category => 'Content')
     ConcertoConfig.make_concerto_config("default_content_run_time", "7", :value_type => "integer", :category => 'Content')
     ConcertoConfig.make_concerto_config("default_content_duration", "8", :value_type => "integer", :category => 'Content')

@@ -2,17 +2,17 @@
   <%= link_to '#', :id => "select-owner-btn", :title => "Select a User",
       :class => "dropdown-toggle dropdown-control dd-select-owner", 
       :rel => "#select-owner" do %> 
-      <%= "Select a User ... " %>
+      <%= t('.select_user') %>
   <% end %>
 </div>
 
 <div id="select-owner" style="display: none;">
   <% if options.empty? %>
-    <p> No users found. </p>
+    <p> <%= t('.no_users_found') %> </p>
   <% else %>
 
     <div class="tooltip-filter-cont">
-      <input type="text" class="owner_filter fillWidth" placeholder="Type to filter ..." />
+      <input type="text" class="owner_filter fillWidth" placeholder="<%= t('.type_to_filter') %>" />
     </div>
 
     <div class="tooltip-scrollY" style="height: 300px; width: 100%;">
