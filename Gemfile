@@ -47,7 +47,7 @@ gem "rmagick", :require => 'RMagick', :platforms => :ruby
 gem 'attachable'
 
 gem 'devise', '~> 3.0.0'
-gem 'cancan'
+gem 'cancancan'
 
 gem 'json'
 gem "rubyzip", '< 1.0.0'
