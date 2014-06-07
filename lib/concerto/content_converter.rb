@@ -78,6 +78,7 @@ module Concerto
 
           # ... and load into into the new media...
           image = Magick::Image::read(new_filepath).first
+	  image.alpha(Magick::DeactivateAlphaChannel)
           new_media = Media.new(
             :attachable => original_media.attachable,
             :key => 'processed',
