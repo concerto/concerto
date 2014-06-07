@@ -1,0 +1,4 @@
+#This file sets environment variables for Concerto. Any key/value pair will be instantiated at application boot at ENV[:key] = value
+
+#The toolchain key/value pair tells docsplit which image processing library to use, imagemagick or graphicsmagick
+toolchain: imagemagick

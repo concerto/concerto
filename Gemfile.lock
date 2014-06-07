@@ -1,9 +1,8 @@
 GIT
   remote: https://github.com/augustf/docsplit.git
-  revision: b988e02903696dd9cde6d6b2b0f975624ea1b96f
-  branch: imagemagick
+  revision: 1b2e21960b305f9a37346b5cc1363c3b66ff9bf1
   specs:
-    docsplit (0.7.4)
+    docsplit (0.7.5)
 
 GEM
   remote: https://rubygems.org/
