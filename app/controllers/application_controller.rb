@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   around_filter :set_time_zone
   helper_method :webserver_supports_restart?
   helper_method :current_screen
-  
+
   # Note on error handling: in general exceptions are caught by Rails
   # Middleware and routed to Concerto's ErrorsController. Authorization
   # errors, however, are handled by this file (further below).
@@ -78,12 +78,12 @@ class ApplicationController < ActionController::Base
   def screen_api
     @screen_api=true
   end
-  
+
   def restart_webserver
     unless webserver_supports_restart?
       flash[:notice] = t(:wont_write_restart_txt)
-      return false      
-    end    
+      return false
+    end
     begin
       File.open("tmp/restart.txt", "w") {}
       return true
@@ -93,19 +93,19 @@ class ApplicationController < ActionController::Base
       return false
     end
   end
-  
+
   def set_time_zone(&block)
     if user_signed_in? && !current_user.time_zone.nil?
       Time.use_zone(current_user.time_zone, &block)
-    else 
+    else
       Time.use_zone(ConcertoConfig[:system_time_zone], &block)
     end
-  end  
-  
+  end
+
   def webserver_supports_restart?
     #add any webservers that don't support tmp/restart.txt to this array
-    no_restart_txt = ["webrick"]  
-    no_restart_txt.each do |w|    
+    no_restart_txt = ["webrick"]
+    no_restart_txt.each do |w|
       #check if the server environment contains a webserver that doesn't support restart.txt
       #This is NOT foolproof - a webserver may elect not to send this
       server_match = /\S*#{w}/.match(env['SERVER_SOFTWARE'].to_s.downcase)
@@ -120,13 +120,13 @@ class ApplicationController < ActionController::Base
   def precompile_error_catch
     require 'yaml'
     concerto_base_config = YAML.load_file("./config/concerto.yml")
-    if concerto_base_config['compile_production_assets'] == true  
+    if concerto_base_config['compile_production_assets'] == true
       if File.exist?('public/assets/manifest.yml') == false && Rails.env.production?
         precompile_status = system("env RAILS_ENV=production bundle exec rake assets:precompile")
         if precompile_status == true
           restart_webserver()
         else
-          raise "Asset precompilation failed. Please make sure the command rake assets:precompile works."
+          raise t(:asset_precomp_failed)
         end
       end
     end
@@ -177,7 +177,7 @@ class ApplicationController < ActionController::Base
   end
 
   # Record and send notification of an activity.
-  # 
+  #
   # @param [ActiveRecord<#create_activity>] ar_instance Instance of the model on which activity
   #   is being tracked; for this to work, its class needs to include PublicActivity::Common.
   # @param [Hash] pa_params Any information you want to send to PublicActivity to be stored in the params column.
@@ -227,7 +227,7 @@ class ApplicationController < ActionController::Base
   def set_version
     require 'concerto/version'
   end
-  
+
   def set_locale
     if user_signed_in? && current_user.locale != ""
       session[:locale] = current_user.locale
@@ -246,12 +246,12 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-  
+
   #Don't break for CanCan exceptions; send the user to the front page with a Flash error message
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to main_app.root_url, :flash => { :notice => exception.message }
   end
-   
+
   # Authenticate using the current action and instance variables.
   # If the instance variable is an {Enumerable} or {ActiveRecord::Relation}
   # we remove anything that we cannot? from the array.
@@ -318,7 +318,7 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-  
+
   # Cross-Origin Resource Sharing for JS interfaces
   # Browsers are very selective about allowing CORS when Authentication
   # headers are present. They require us to use an origin by name, not *,
@@ -335,7 +335,7 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     dashboard_path
   end
-  
+
   protected
 
   # Sets the default process notification options along with custom settings.
@@ -366,5 +366,5 @@ class ApplicationController < ActionController::Base
 
     opts
   end
- 
+
 end

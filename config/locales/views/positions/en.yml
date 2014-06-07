@@ -4,9 +4,9 @@ en:
       position: 'Position'
     attributes:
       position:
-        top: 'Top'
-        left: 'Left'
         bottom: 'Bottom'
+        field: 'Field'
+        left: 'Left'
         right: 'Right'
         style: 'Style'
-        field: 'Field'
+        top: 'Top'

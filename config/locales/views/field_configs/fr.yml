@@ -1,17 +1,16 @@
-fr:
-  activerecord:
-    models:
-      field_config: 'Paramètres de configuration'
-    attributes:
-      field_config:
-        key: 'Clé'
-        value: 'Valeur'
-
-  field_configs:
-
-    index:
-      field: 'Champs'
-      manage_model_for_field: 'Gérer %{model} pour le champs %{name}'
-      save_changes_to_model: 'Enregistrer les changements de %{model}'
-      no_configuration_yet: 'Ce champs n''est pas configuré.'
-      field_custom_configurations: 'Configuration du champs personnalisées'
+--- 
+fr: 
+  activerecord: 
+    attributes: 
+      field_config: 
+        key: ClÃ©
+        value: Valeur
+    models: 
+      field_config: "ParamÃ¨tres de configuration"
+  field_configs: 
+    index: 
+      field: Champs
+      field_custom_configurations: "Configuration du champs personnalisÃ©es"
+      manage_model_for_field: "GÃ©rer %{model} pour le champs %{name}"
+      no_configuration_yet: "Ce champs n'est pas configurÃ©."
+      save_changes_to_model: "Enregistrer les changements de %{model}"

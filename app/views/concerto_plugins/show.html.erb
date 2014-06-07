@@ -21,38 +21,38 @@
 
     <div class="default-padding">
       <p>
-        <b>Module name:</b>
+        <b><%= t('.module_name') %></b>
         <%= @concerto_plugin.module_name %>
       </p>
 
       <p>
-        <b>Enabled:</b>
+        <b><%= t('.enabled') %></b>
         <%= @concerto_plugin.enabled %>
       </p>
 
       <p>
-        <b>Gem name:</b>
+        <b><%= t('.gem_name') %></b>
         <%= @concerto_plugin.gem_name %>
       </p>
 
       <p>
-        <b>Gem version:</b>
+        <b><%= t('.gem_version') %></b>
         <%= @concerto_plugin.gem_version %>
       </p>
 
       <p>
-        <b>Source:</b>
+        <b><%= t('.source') %></b>
         <%= @concerto_plugin.source %>
       </p>
 
       <p>
-        <b>Source url:</b>
+        <b><%= t('.source_url') %></b>
         <%= @concerto_plugin.source_url %>
       </p>
 
       <p>
-        <b>Installed:</b>
-        <%= @concerto_plugin.installed? ? "Yes" : "No" %>
+        <b><%= t('.installed') %></b>
+        <%= @concerto_plugin.installed? ? t('.installed_yes') : t('.installed_no') %>
       </p>
     </div>
   </div>

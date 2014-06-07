@@ -1,83 +1,84 @@
+--- 
 fr: 
   activerecord: 
     attributes: 
       content: 
-        duration: "Durée d'affichage"
+        duration: "DurÃ©e d'affichage"
         end_time: "Heure de fin"
         name: Nom
-        start_time: "Heure de démarrage"
-  at: à
+        start_time: "Heure de dÃ©marrage"
+  at: Ã 
   contents: 
     edit: 
       edit_content: "Editer le contenu %{type}"
     form: 
-      preview: Prévisualisation
+      preview: PrÃ©visualisation
       provide_details: "Fournir les informations basiques"
-      select_content_type: "Sélectionner le type de contenu à ajouter"
-      select_feed: "Sélectioner un fil"
+      select_content_type: "SÃ©lectionner le type de contenu Ã  ajouter"
+      select_feed: "SÃ©lectioner un fil"
     form_bottom: 
       submit_content: "Envoyer le contenu"
     form_elements: 
       feeds: 
         filter_feeds: "Filtre de fil"
-        no_feeds: "Aucun fil n'a encore été enregistré pour cet envoie."
-        select_a_feed: "Sélectioner un fil"
+        no_feeds: "Aucun fil n'a encore Ã©tÃ© enregistrÃ© pour cet envoie."
+        select_a_feed: "SÃ©lectioner un fil"
         type_to_filter: "Taper ici pour filter"
       selected_feed_display: 
-        appears_on_screens: "Apparait sur %{screens_count} écrans"
+        appears_on_screens: "Apparait sur %{screens_count} Ã©crans"
     form_top: 
-      data: Donnée
+      data: DonnÃ©e
     graphic: 
       form_top: 
-        accepted_filetypes: "Types de fichier acceptés"
+        accepted_filetypes: "Types de fichier acceptÃ©s"
         specify_file: "Choisir le fichier"
         upload_graphic: "Ajouter un contenu graphique"
     index: 
       browse_content: "Parcourir les contenus"
       browse_content_by_feed: "Parcourir les contenus par fil"
-      browse_content_by_screen: "Trouver un contenu sur un écran particulier"
+      browse_content_by_screen: "Trouver un contenu sur un Ã©cran particulier"
       concerto_contents_search: Contenus
-      filtered_content: "Contenus filtrés"
+      filtered_content: "Contenus filtrÃ©s"
     new: 
       add_content: "Ajouter un contenu %{type}"
       content: Contenu
-      content_type: "Type de contenu à ajouter:"
+      content_type: "Type de contenu Ã  ajouter:"
       design_graphic: "Design a Graphic"
       select_type: "Selctionner le type"
-    provide_details: "Fournir les détails"
+    provide_details: "Fournir les dÃ©tails"
     show: 
       display_from: "Afficher de"
-      display_until: "Afficher jusqu'à"
+      display_until: "Afficher jusqu'Ã "
       feeds_moderation_status: "Statut du contenu"
-      not_submitted: "Ce contenu n'a été ajouté à aucun fil."
-      submitted_by: "Posté par"
+      not_submitted: "Ce contenu n'a Ã©tÃ© ajoutÃ© Ã  aucun fil."
+      submitted_by: "PostÃ© par"
       the_dawn_of_time: "La nuit des temps."
       the_end_of_time: "La fin des temps."
-    submit_to_feeds: "Insérer dans les fils"
+    submit_to_feeds: "InsÃ©rer dans les fils"
     table: 
       description: Description
       link: Lien
-      submitted: Posté
+      submitted: PostÃ©
       title: Titre
-      updated: "Mis à jour"
+      updated: "Mis Ã  jour"
     ticker: 
       form_top: 
-        allowed_html: "Markdown et du html simple est autorisé. Plus d'information sur markdown est disponible sur http://wikipedia.org/wiki/Markdown."
-        characters: Caractères
+        allowed_html: "Markdown et du html simple est autorisÃ©. Plus d'information sur markdown est disponible sur http://wikipedia.org/wiki/Markdown."
+        characters: CaractÃ¨res
         display_format: "Format d'affichage"
-        display_format_tip: "Le format texte défilant est utilisé pour une petite quantité de texte habituellement affiché au bas de l'écran.  Le format texte est habituellement utilisé pour des informations plus conséquentes et affichées en zone principale de l'écran."
-        markdown_allowed: "L'usage de markdown ou d'HTML est autorisé dans ce champs. "
-        preview: Prévisualisation
-        ticker_text: "Texte défilant"
+        display_format_tip: "Le format texte dÃ©filant est utilisÃ© pour une petite quantitÃ© de texte habituellement affichÃ© au bas de l'Ã©cran.  Le format texte est habituellement utilisÃ© pour des informations plus consÃ©quentes et affichÃ©es en zone principale de l'Ã©cran."
+        markdown_allowed: "L'usage de markdown ou d'HTML est autorisÃ© dans ce champs. "
+        preview: PrÃ©visualisation
+        ticker_text: "Texte dÃ©filant"
         type_your_message: "Taper votre message"
-  finish_displaying: "Arrêter l'affichage"
+  finish_displaying: "ArrÃªter l'affichage"
   helpers: 
     label: 
       graphic: 
         name: Nom
-        submit: Envoyé
+        submit: EnvoyÃ©
     submit: 
-      create: "Créer %{model}"
-      update: "Mettre à jour %{model}"
+      create: "CrÃ©er %{model}"
+      update: "Mettre Ã  jour %{model}"
   second: seconde(s)
   start_displaying: "Commencer l'affichage"

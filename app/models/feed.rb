@@ -27,7 +27,7 @@ class Feed < ActiveRecord::Base
 
   def parent_id_cannot_be_this_feed
     if !parent_id.blank? and parent_id == id
-      errors.add(:parent_id, "can't be this feed")
+      errors.add(:parent_id, I18n.t(:cant_be_this_feed))
     end
   end
 
@@ -78,14 +78,13 @@ class Feed < ActiveRecord::Base
   end
 
   # The set of feeds available to be subscribed to a (screen, field) pair.
-  # [All feeds - currently subscribed]
+  # [All accessible feeds - currently subscribed]
   def self.subscribable(screen, field)
     subscriptions = Subscription.where(:screen_id => screen, :field_id => field)
     current_feeds = subscriptions.collect{ |s| s.feed }
-    feeds = Feed.all - current_feeds
-    # Remove feeds who we do not have permission to subscribe to
-    ability = Ability.new(screen)
-    feeds.reject { |feed| !ability.can?(:read, feed) }
+
+    accessible_feeds = Feed.accessible_by(Ability.new(screen), :read)
+    accessible_feeds - current_feeds
   end
 
   # Figure out which submissions need to be moderated.

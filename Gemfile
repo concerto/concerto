@@ -44,7 +44,7 @@ gem 'rmagick', :require => 'RMagick', :platforms => :ruby
 gem 'attachable'
 
 gem 'devise', '~> 3.0.0'
-gem 'cancan'
+gem 'cancancan'
 
 gem 'json'
 gem "rubyzip", '< 1.0.0'
@@ -82,4 +82,7 @@ gem 'pg', :require => false, :group => :production, :platforms => postgres_platf
 gem 'public_activity'
 
 gem 'redcarpet'
-gem 'docsplit', :git => 'https://github.com/augustf/docsplit.git', :branch => 'imagemagick'
+gem 'docsplit', :git => 'https://github.com/augustf/docsplit.git'
+
+# NProgress provides progress bars for pages loaded via Turbolinks
+gem 'nprogress-rails', '~> 0.1.3.0'

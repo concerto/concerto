@@ -10,11 +10,13 @@
           <br />
         </div>
         <div class="span8">
-          <h1 style="font-size: 4em; letter-spacing: -0.025em;">Something went wrong. Rest assured, you have been assigned 0% of the blame.</h1>
+          <h1 style="font-size: 4em; letter-spacing: -0.025em;">
+            <%= t('.error_message') %>
+          </h1>
           <br />
-          <h2>Sometimes a strategic retreat is the best option.</h2>
+          <h2><%= t('.reset_message') %></h2>
           <br />
-          <%= link_to "Abort!", :back, :class => "btn btn-large" %>
+          <%= link_to t('.abort'), :back, :class => "btn btn-large" %>
         </div>
       </div>
     </div>

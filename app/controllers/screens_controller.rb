@@ -42,12 +42,7 @@ class ScreensController < ApplicationController
   # POST /screens.xml
   def create
     @screen = Screen.new(screen_params)
-    # Process the owner into something that makes sense
-    owner = params[:owner].split('-')
-    if Screen::SCREEN_OWNER_TYPES.include?(owner[0])
-      @screen.owner_type = owner[0]
-      @screen.owner_id = owner[1]
-    end
+
     auth!
     
     if @screen.save
@@ -66,13 +61,7 @@ class ScreensController < ApplicationController
   # PUT /screens/1.xml
   def update
     @screen = Screen.find(params[:id])
-    
-    # Process the owner into something that makes sense
-    owner = params[:owner].split('-')
-    if Screen::SCREEN_OWNER_TYPES.include?(owner[0])
-      @screen.owner_type = owner[0]
-      @screen.owner_id = owner[1]
-    end
+
     auth!
     
     if @screen.update_attributes(screen_params)
@@ -109,7 +98,7 @@ class ScreensController < ApplicationController
 private
 
   def screen_params
-    params.require(:screen).permit(:name, :location, :owner, :width, :height, :template_id, :is_public, :new_temp_token, :auth_action)
+    params.require(:screen).permit(:name, :location, :owner_id, :owner_type, :width, :height, :template_id, :is_public, :new_temp_token, :auth_action)
   end
  
 end

@@ -9,8 +9,7 @@ class MembershipsController < ApplicationController
   # POST /groups/:group_id/memberships.xml
   def create
     @membership = Membership.where(:user_id => params[:membership][:user_id], :group_id => params[:group_id]).first_or_create
-
-    if params[:autoconfirm]
+    if params[:autoconfirm] || User.find(params[:membership][:user_id]).is_admin?
       @membership.update_attributes(:level => Membership::LEVELS[:regular])
     else
       @membership.update_attributes(:level => Membership::LEVELS[:pending])

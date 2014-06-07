@@ -62,6 +62,10 @@
                   <%= check_box 'concerto_config', c.key, {:checked => ConcertoConfig[c.key.to_sym]}, true, false %>
                   <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), :tip => c.description %>
                 </div>
+              <% elsif c.value_type == "time" %>
+                <div class="timefield input-small">
+                  <%= text_field("start_time[time]", :id => "start_time_time", :maxlength => 20, :class => "timefield input-small", :value => ConcertoConfig[:content_default_start_time]) %>
+                </div>
               <% end %>
             </div>
           <% end %>

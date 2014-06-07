@@ -10,14 +10,14 @@
               <i class="concertocon-user-admin tooltip-basic" data-tooltip-text="<%= t('.system_wide_admin') %>"></i>
             <% end %>
 
-            <% if !@user.leading_groups.empty? %>
+            <% unless @user.leading_groups.empty? %>
               <i class="concertocon-user-leader tooltip-basic" data-tooltip-text="<%= t('.leader') %>"></i>
             <% end %>
           </h2>
 
           <% if user_signed_in? %>
             <p>
-              <%= mail_to @user.email, @user.email, :encode => "hex" if !@user.email.empty? %>
+              <%= mail_to @user.email, @user.email, :encode => "hex" unless @user.email.empty? %>
             </p>
           <% end %>
         </div>
@@ -30,12 +30,12 @@
 <div class="clearfix default-padding">
   <div class="header-with-icon">
     <h3>
-      <%= t('.group_header', :number => @memberships.count, :s_display => @memberships.count == 1 ? '' : 's') %>
+      <%= t '.group_header', :count => @memberships.count %>
     </h3>
   </div>
   <br />
 
-  <% if !@memberships.empty? %>
+  <% unless @memberships.empty? %>
     <ul class="list-grid">
       <% @memberships.each do |membership| %>
         <li>
@@ -56,13 +56,13 @@
               <%= form_for([membership.group, membership]) do |f| %>
                 <div class="input checkbox">
                   <%= hidden_field_tag :receive_emails, "0" %>
-                  <%= check_box_tag :receive_emails, nil, membership.receive_emails, { 
+                  <%= check_box_tag :receive_emails, nil, membership.receive_emails, {
                     :id => "email#{membership.group.id}",
-                    :data => { :autosubmit => true }} %> 
+                    :data => { :autosubmit => true }} %>
                   <%= label_tag "email#{membership.group.id}", t('.receive_emails') %>
                 </div>
               <% end %>
-           <% end %>
+            <% end %>
           </div>
         </li>
       <% end %>
@@ -74,12 +74,12 @@
 <div class="clearfix default-padding">
   <div class="header-with-icon">
     <h3>
-      <%= t('.screen_header', :number => @screens.count, :s_display => @screens.count == 1 ? '' : 's') %>
+      <%= t '.screen_header', :count => @screens.count %>
     </h3>
   </div>
   <br />
   <%= render :partial => "screens/thumbs", :object => @screens,
- :locals => { :show_field_count => false, :show_owner => false } %>
+             :locals => { :show_field_count => false, :show_owner => false } %>
 </div>
 
 <!-- Begin Contents -->
@@ -93,7 +93,7 @@
     </div>
   </div>
   <br />
-  
+
   <% if !@contents.empty? %>
     <% @contents.each do |content| %>
       <%= render :partial => "contents/content_tile", :locals => { :content => content } %>

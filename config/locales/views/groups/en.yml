@@ -1,4 +1,6 @@
 en:
+  name: 'name'
+
   activerecord:
     models:
       group: 'Group'
@@ -17,47 +19,51 @@ en:
       change_group_memberships: "Change Group Memberships"
 
     manage_members:
-      manage_model: "Manage %{model}"
-      screen_permission:
-        name: 'Screen Permission'
-        tooltip: 'What you can change about the screens owned by this group. You can change nothing, just the subscriptions, or everything (edit screen, change template, and subscriptions).'
-      update_permissions: 'Update Permissions'
-      feed_permission:
-        name: 'Feed Permission'
-        tooltip: 'What you can change about the feeds owned by this group. You can change nothing, just moderate submissions, or everything (edit feed, moderate submissions).'
       add_member: 'Add Member'
       add_users_to_group: 'Add Users to Group'
       approve_requests: 'Approve Requests'
       demote_to_regular: "Demote to Regular"
+      feed_permission:
+        name: 'Feed Permission'
+        tooltip: 'What you can change about the feeds owned by this group. You can change nothing, just moderate submissions, or everything (edit feed, moderate submissions).'
       leader: 'Leader'
+      manage_model: "Manage %{model}"
+      manage_members: 'Manage Members'
       member: ' member'
-      
+      no_pending_approvals: 'No Pending Approvals'
+      promote_to_leader: 'Promote To Leader'
+      remove_from_group: 'Remove From Group'
+      screen_permission:
+        name: 'Screen Permission'
+        tooltip: 'What you can change about the screens owned by this group. You can change nothing, just the subscriptions, or everything (edit screen, change template, and subscriptions).'
+      update_permissions: 'Update Permissions'
+
     form:
-      provide_details: "Provide Details"
       initial_leader: "Initial Leader"
+      provide_details: "Provide Details"
 
     show_body:
-      group_description: 'Group Description'
-      group_leaders: 'Group Leaders'
-      group_has_no_leaders: 'This group currently has no leaders.  You should promote a regular member in the table above.'
-      no_pending_approvals: 'No Pending Approvals!'
-      no_regular_members: 'This group currently has no regular members.'
-      promote_to_leader: "Promote to Leader"
-      request_made_at: 'Request Made At'
-      regular_members: 'Regular Members'
-      remove_from_group: 'Remove from Group'
-      is_group_leader: "This user is a group leader."
-      join_group: 'Join Group'
-      leave_group: 'Leave Group'
       edit_group: 'Edit Group'
-      not_in_group: "You are not currently in this group."
+      feed_header:
+        one: 'Moderates one Feed'
+        other: 'Moderates %{number} Feeds'
+      group_description: 'Group Description'
+      group_has_no_leaders: 'This group currently has no leaders.  You should promote a regular member in the table above.'
+      group_leaders: 'Group Leaders'
       leader: 'Leader'
       member: ' member'
-      your_membership_role: 'You are currently a %{level}%{what} of this group.'
-      feed_header: 'Moderates %{number} Feed%{s_display}'
-      screen_header: 'Manages %{number} Screen%{s_display}'
       member_header: 'Contains %{number} Member%{s_display}'
-
+      no_pending_approvals: 'No Pending Approvals!'
+      no_regular_members: 'This group currently has no regular members.'
+      not_in_group: "You are not currently in this group."
+      promote_to_leader: "Promote to Leader"
+      regular_members: 'Regular Members'
+      request_made_at: 'Request Made At'
+      remove_from_group: 'Remove from Group'
+      screen_header:
+        one: 'Manages one Screen'
+        other: "Manages %{count} Screen"
+      your_membership_role: 'You are currently a %{level}%{what} of this group.'
     show_header:
       group_cannot_be_deleted: "Group cannot be deleted"
       manage_members: "Manage Members"

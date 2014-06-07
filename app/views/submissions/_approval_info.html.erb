@@ -7,7 +7,7 @@
   <div class="span3">
     <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.display_from') %></b></small></p>
     <p>
-      <% if !submission.content.start_time.nil? %>
+      <% unless submission.content.start_time.blank? %>
         <%= submission.content.start_time.strftime("%a %D") %> <%= submission.content.start_time.strftime("%I:%M %P") %>
       <% else %>
         <%= t('.the_dawn_of_time') %>
@@ -17,7 +17,7 @@
   <div class="span3">
     <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.display_until') %></b></small></p>
     <p>
-      <% if !submission.content.end_time.nil? %>
+      <% unless submission.content.end_time.nil? %>
         <%= submission.content.end_time.strftime("%a %D") %> <%= submission.content.end_time.strftime("%I:%M %P") %>
       <% else %>
         <%= t('.the_end_of_time') %>
@@ -44,14 +44,14 @@
   </div>
 </div>
 <br />
-<% if submission.moderation_flag != nil %>
+<% unless submission.moderation_flag.blank? %>
   <% if submission.moderation_flag %>
     <h2><%= t('.approved') %></h2>
-    <% if can? :update, submission %><h3>By <%= submission.moderator.name %></h3><% end %>
+    <% if can? :update, submission %><h3><%= t '.moderated_by', :moderator => submission.moderator.name %></h3><% end %>
   <% else %>
     <h2><%= t('.denied')%></h2>
     <% if can?(:update, submission) || can?(:update, submission.content) %>
-      <h3><%= submission.moderation_reason %> <% if can? :update, submission %>- <%= submission.moderator.name %><% end %></h3>
+      <h3><%= submission.moderation_reason %> <%= submission.moderator.name if can? :update, submission %></h3>
     <% end %>
   <% end %>
 <% end %>

@@ -2,5 +2,5 @@ en:
   activerecord:
     attributes:
       kind:
-        name: 'Name'
         actions: 'Actions'
+        name: 'Name'
