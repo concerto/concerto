@@ -27,14 +27,18 @@ fr:
       content_header: "A envoyé %{number} item%{s_display}"
       dont_receive_emails: "Ne pas recevoir les mails"
       forever: "Pour toujours"
-      group_header: "Appartient à %{number} groupe%{s_display}"
+      group_header:
+        one: "Appartient à un groupe"
+        many: "Appartient à %{count} groupes"
       groups: Groupes
       leader: "L'utilisateur est chef d'au moins un groupe"
       my: Mon
       name: Nom
       receive_emails: "Recevoir les mails"
       roles: Rôles
-      screen_header: "Gère %{number} écran%{s_display}"
+      screen_header:
+        one: "Gère un écran"
+        many: "Gère %{count} écrans"
       screens: Ecrans
       system_wide_admin: "Cet utilisateur est administrateur"
       this_is_you: "C'est vous."

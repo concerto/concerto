@@ -44,14 +44,13 @@ en:
 
     show_body:
       edit_group: 'Edit Group'
-      feed_header: 'Moderates %{number} Feed%{s_display}'
+      feed_header:
+        one: 'Moderates one Feed'
+        other: 'Moderates %{number} Feeds'
       group_description: 'Group Description'
       group_has_no_leaders: 'This group currently has no leaders.  You should promote a regular member in the table above.'
       group_leaders: 'Group Leaders'
-      is_group_leader: "This user is a group leader."
-      join_group: 'Join Group'
       leader: 'Leader'
-      leave_group: 'Leave Group'
       member: ' member'
       member_header: 'Contains %{number} Member%{s_display}'
       no_pending_approvals: 'No Pending Approvals!'
@@ -59,11 +58,12 @@ en:
       not_in_group: "You are not currently in this group."
       promote_to_leader: "Promote to Leader"
       regular_members: 'Regular Members'
-      remove_from_group: 'Remove from Group'
       request_made_at: 'Request Made At'
-      screen_header: 'Manages %{number} Screen%{s_display}'
+      remove_from_group: 'Remove from Group'
+      screen_header:
+        one: 'Manages one Screen'
+        other: "Manages %{count} Screen"
       your_membership_role: 'You are currently a %{level}%{what} of this group.'
-
     show_header:
       group_cannot_be_deleted: "Group cannot be deleted"
       manage_members: "Manage Members"

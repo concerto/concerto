@@ -1,18 +1,22 @@
 <%= @activity.recipient.name %>,
 
-<%= t('.moderator')%> <%= @activity.owner.name if @activity.owner %> <%= @activity.parameters[:status] ? t(".approved") : t(".denied") %> <%= @activity.trackable.content.name %> <%= t('.for_the')%> <%= @activity.trackable.feed.name %> <%= t('.feed')%>.
+<%= t '.moderator_text',
+  :moderator => @activity.owner ? @activity.owner.name : '',
+  :status => @activity.parameters[:status] ? t('.approved') : t('.denied'),
+  :content_name => @activity.trackable.content.name,
+  :feed => @activity.trackable.feed.name
+%>
 
 <% if @activity.parameters[:status] %>
-  <%= 
-    t('.content_schedule', 
-      :start => @activity.trackable.content.start_time.strftime("%A %B %e at %l:%m %p"),
-      :end => @activity.trackable.content.end_time.strftime("%A %B %e at %l:%m %p"),
-      :duration_seconds => @activity.trackable.duration)
+  <%= t '.content_schedule',
+    :start => @activity.trackable.content.start_time.strftime("%A %B %e at %l:%m %p"),
+    :end => @activity.trackable.content.end_time.strftime("%A %B %e at %l:%m %p"),
+    :duration_seconds => @activity.trackable.duration
   %>
 <% end %>
 
 <% if @activity.parameters[:status] == false && !@activity.trackable.moderation_reason.blank? %>
-<%= t('.reason_rejected')%> <%= @activity.trackable.moderation_reason %>
+    <%= t '.reason_rejected', :reason => @activity.trackable.moderation_reason %>
 <% end %>
 
 <%= content_url(@activity.trackable.content.id) %>
