@@ -46,7 +46,7 @@ en:
       edit_group: 'Edit Group'
       feed_header:
         one: 'Moderates one Feed'
-        many: 'Moderates %{number} Feeds'
+        other: 'Moderates %{number} Feeds'
       group_description: 'Group Description'
       group_has_no_leaders: 'This group currently has no leaders.  You should promote a regular member in the table above.'
       group_leaders: 'Group Leaders'
@@ -62,7 +62,7 @@ en:
       remove_from_group: 'Remove from Group'
       screen_header:
         one: 'Manages one Screen'
-        many: "Manages %{count} Screen"
+        other: "Manages %{count} Screen"
       your_membership_role: 'You are currently a %{level}%{what} of this group.'
     show_header:
       group_cannot_be_deleted: "Group cannot be deleted"
