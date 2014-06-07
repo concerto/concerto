@@ -3,12 +3,12 @@ class Group < ActiveRecord::Base
 
   after_create :create_leader
 
-  has_many :feeds, :dependent => :restrict
+  has_many :feeds, :dependent => :restrict_with_error
   has_many :memberships, :dependent => :destroy
   accepts_nested_attributes_for :memberships
 
   has_many :users, -> { where ["memberships.level > ?", Membership::LEVELS[:pending]] }, :through => :memberships
-  has_many :screens, :as => :owner, :dependent => :restrict
+  has_many :screens, :as => :owner, :dependent => :restrict_with_error
   
   has_many :templates, :as => :owner
 
