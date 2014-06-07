@@ -63,7 +63,7 @@ Feed.where(:name => "Concerto").first_or_create(
 @template = Template.where(:name => "BlueSwoosh").first_or_create(:author => "Concerto")
 
 #Taking care to make this file upload idempotent
-if Media.where(:file_name => "BlueSwooshNeo_16x9.jpg").empty?
+if Media.where(:file_name => "BlueSwooshNeo_16x9.jpg").to_a.empty?
   file = File.new("db/seed_assets/BlueSwooshNeo_16x9.jpg")
   @template.media.create(:file => file, :key => "original", :file_type => "image/jpg")
 end
@@ -76,7 +76,7 @@ Position.where(:field_id => Field.where(:name => "Text").first.id, :template_id 
 Position.where(:field_id => Field.where(:name => "Time").first.id, :template_id => concerto_template).first_or_create(:top => ".885", :left => ".024", :bottom => ".974", :right => ".18", :style => "color:#ccc; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important; letter-spacing:.12em !important;")
 
 @template = Template.where(:name => "Waves").first_or_create(:author => "Concerto")
-if Media.where(:file_name => "Waves_16x9.jpg").empty?
+if Media.where(:file_name => "Waves_16x9.jpg").to_a.empty?
   file = File.new("db/seed_assets/Waves_16x9.jpg")
   @template.media.create(:file => file, :key => "original", :file_type => "image/jpg")
 end
@@ -87,7 +87,7 @@ Position.where(:field_id => Field.where(:name => "Text").first.id, :template_id 
 Position.where(:field_id => Field.where(:name => "Time").first.id, :template_id => waves_template).first_or_create(:top => ".858", :left => ".691", :bottom => ".975", :right => ".938", :style => "font-family:Frobisher, sans-serif; font-size:0.8em; font-weight:bold;")
 
 @template = Template.where(:name => "Stoic").first_or_create(:author => "Concerto")
-if Media.where(:file_name => "Stoic_16x9.jpg").empty?
+if Media.where(:file_name => "Stoic_16x9.jpg").to_a.empty?
   file = File.new("db/seed_assets/Stoic_16x9.jpg")
   @template.media.create(:file => file, :key => "original", :file_type => "image/jpg")
 end
@@ -98,7 +98,7 @@ Position.where(:field_id => Field.where(:name => "Text").first.id, :template_id 
 Position.where(:field_id => Field.where(:name => "Time").first.id, :template_id => stoic_template).first_or_create(:top => ".903", :left => ".091", :bottom => ".995", :right => ".231", :style => "font-family:Frobisher, Arial, sans-serif; color:#FFF;")
 
 @template = Template.where(:name => "Simplicity").first_or_create(:author => "Concerto")
-if Media.where(:file_name => "Simplicity.jpg").empty?
+if Media.where(:file_name => "Simplicity.jpg").to_a.empty?
   file = File.new("db/seed_assets/Simplicity.jpg")
   @template.media.create(:file => file, :key => "original", :file_type => "image/jpg")
 end
@@ -106,7 +106,7 @@ simplicity_template = Template.where(:name => "Simplicity").first.id
 Position.where(:field_id => Field.where(:name => "Graphics").first.id, :template_id => simplicity_template).first_or_create(:top => "0", :left => "0", :bottom => "1", :right => "1", :style => "")
 
 @template = Template.where(:name => "Ruby").first_or_create(:author => "Concerto")
-if Media.where(:file_name => "Ruby_16x9.jpg").empty?
+if Media.where(:file_name => "Ruby_16x9.jpg").to_a.empty?
   file = File.new("db/seed_assets/Ruby_16x9.jpg")
   @template.media.create(:file => file, :key => "original", :file_type => "image/jpg")
 end
@@ -117,7 +117,7 @@ Position.where(:field_id => Field.where(:name => "Text").first.id, :template_id 
 Position.where(:field_id => Field.where(:name => "Time").first.id, :template_id => ruby_template).first_or_create(:top => ".011", :left => ".689", :bottom => ".074", :right => ".99", :style => "font-family:Frobisher, Arial, sans-serif; color:#FFF;")
 
 @template = Template.where(:name => "Ribbon").first_or_create(:author => "Concerto")
-if Media.where(:file_name => "Ribbon_16x9.jpg").empty?
+if Media.where(:file_name => "Ribbon_16x9.jpg").to_a.empty?
   file = File.new("db/seed_assets/Ribbon_16x9.jpg")
   @template.media.create(:file => file, :key => "original", :file_type => "image/jpg")
 end
@@ -128,7 +128,7 @@ Position.where(:field_id => Field.where(:name => "Text").first.id, :template_id 
 Position.where(:field_id => Field.where(:name => "Time").first.id, :template_id => ribbon_template).first_or_create(:top => ".033", :left => ".84", :bottom => ".233", :right => ".972", :style => "color:#ccc ; font-family:Arial, sans-serif ;")
 
 @template = Template.where(:name => "GraySwoosh").first_or_create(:author => "Concerto")
-if Media.where(:file_name => "GraySwoosh_16x9.jpg").empty?
+if Media.where(:file_name => "GraySwoosh_16x9.jpg").to_a.empty?
   file = File.new("db/seed_assets/GraySwoosh_16x9.jpg")
   @template.media.create(:file => file, :key => "original", :file_type => "image/jpg")
 end
