@@ -56,13 +56,13 @@
               <%= form_for([membership.group, membership]) do |f| %>
                 <div class="input checkbox">
                   <%= hidden_field_tag :receive_emails, "0" %>
-                  <%= check_box_tag :receive_emails, nil, membership.receive_emails, { 
+                  <%= check_box_tag :receive_emails, nil, membership.receive_emails, {
                     :id => "email#{membership.group.id}",
-                    :data => { :autosubmit => true }} %> 
+                    :data => { :autosubmit => true }} %>
                   <%= label_tag "email#{membership.group.id}", t('.receive_emails') %>
                 </div>
               <% end %>
-           <% end %>
+            <% end %>
           </div>
         </li>
       <% end %>
@@ -79,7 +79,7 @@
   </div>
   <br />
   <%= render :partial => "screens/thumbs", :object => @screens,
- :locals => { :show_field_count => false, :show_owner => false } %>
+             :locals => { :show_field_count => false, :show_owner => false } %>
 </div>
 
 <!-- Begin Contents -->
@@ -93,7 +93,7 @@
     </div>
   </div>
   <br />
-  
+
   <% if !@contents.empty? %>
     <% @contents.each do |content| %>
       <%= render :partial => "contents/content_tile", :locals => { :content => content } %>

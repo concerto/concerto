@@ -1,14 +1,14 @@
 <%= form_for(@template, :url => import_templates_path, :html => { :multipart => true }) do |f| %>
   <% if @template.errors.any? %>
-  <div class="alert alert-banner alert-error">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <h4><b><%= pluralize(@template.errors.count, t(:error)) + " "  + t(:prohibited_save, :model => ::Template.model_name.human.downcase) %></b></h4>
-    <ul>
-      <% @template.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
+    <div class="alert alert-banner alert-error">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <h4><b><%= pluralize @template.errors.count, t(:error) %> <%= t :prohibited_save, :model => ::Template.model_name.human.downcase %></b></h4>
+      <ul>
+        <% @template.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
   <% end %>
 
   <fieldset>

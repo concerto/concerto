@@ -14,38 +14,38 @@
   <div class="viewblock-cont">
     <table>
       <tr>
-        <th>Name</th>
+        <th><%= t '.name' %></th>
         <th><%= User.human_attribute_name(:email) %></th>
         <th><%= User.human_attribute_name(:groups) %></th>
-        <th><%= User.human_attribute_name(:actions) %></th>
+        <th><%= t 'actions' %></th>
       </tr>
 
       <% @users.each do |user| %>
-          <tr>
-            <td>
-              <% if can? :read, User %>
-                <%= link_to user.name, user %>
+        <tr>
+          <td>
+            <% if can? :read, User %>
+              <%= link_to user.name, user %>
+            <% else %>
+              <%= user.name %>
+            <% end %>
+          </td>
+          <td><%= user.email %></td>
+          <td><%= user.groups.map(&:name).join(",") %></td>
+
+          <td>
+            <% if can? :edit, user %>
+              <%= link_to t(:edit, :model => User.model_name.human), edit_user_path(user), :class => "btn" %>
+            <% end %>
+            <% if can? :delete, user %>
+              <% if user.is_deletable? %>
+                <%= link_to t(:destroy, :model => User), user,
+                            :data => { :confirm => t(:are_you_sure_delete_model_key, :model =>User.model_name.human, :key => user.name) }, :method => :delete, :class => "btn" %>
               <% else %>
-                <%= user.name %>
+                <%= link_to t(:destroy, :model => User), '#', :class => "btn disabled tooltip-basic", 'data-tooltip-text' => t(:user_not_deletable, :model =>User.model_name.human, :key => user.name) %>
               <% end %>
-            </td>
-            <td><%= user.email %></td>
-            <td><%= user.groups.map(&:name).join(",") %></td>
-            
-            <td>
-              <% if can? :edit, user %>
-                <%= link_to t(:edit, :model => User.model_name.human), edit_user_path(user), :class => "btn" %>
-              <% end %>
-              <% if can? :delete, user %>
-                <% if user.is_deletable? %>
-                  <%= link_to t(:destroy, :model => User), user, 
-          :data => { :confirm => t(:are_you_sure_delete_model_key, :model =>User.model_name.human, :key => user.name) }, :method => :delete, :class => "btn" %>
-                <% else %>
-                  <%= link_to t(:destroy, :model => User), '#', :class => "btn disabled tooltip-basic", 'data-tooltip-text' => t(:user_not_deletable, :model =>User.model_name.human, :key => user.name) %>
-                <% end %>
-              <% end %>
-            </td>
-          </tr>
+            <% end %>
+          </td>
+        </tr>
       <% end %>
     </table>
 
@@ -53,5 +53,5 @@
       <%= paginate @users %>
     </div>
   </div>
-  
+
 </section>

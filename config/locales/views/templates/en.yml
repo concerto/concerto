@@ -4,9 +4,9 @@ en:
       template: 'Template'
     attributes:
       template:
-        name: 'Name'
         author: 'Author'
         is_hidden: 'Hidden?'
+        name: 'Name'
 
 
   templates:
@@ -39,14 +39,16 @@ en:
     show_body:
       preview_alt: '%{name} Preview'
       author: 'Author'
+      usage: 'Used by the following screens:'
+
+    template:
+      by: "by %{author}"
 
   helpers:
     label:
       template:
-        name: 'Name'
         author: 'Author'
-        media: 'Background Image/CSS'
         is_hidden: 'Hide this template from being shown in lists'
-    # submit:
-    #   create: "Create %{model}"
-    #   update: "Update %{model}"
+        media: 'Background Image/CSS'
+        name: 'Name'
+        owner: 'owner'

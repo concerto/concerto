@@ -12,7 +12,9 @@ class WeightedShuffle < BaseShuffle
       @store += content.collect{|c| c.id}
     end
     return [] if @store.empty?
-    return @store.pop(count).collect{|id| Content.find(id)}
+
+    content_ids = @store.shift(count)
+    Content.where(:id => content_ids).compact
   end
 
   private

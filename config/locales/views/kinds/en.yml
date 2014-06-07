@@ -1,7 +1,6 @@
---- 
-fr: 
-  activerecord: 
-    attributes: 
-      kind: 
-        actions: Actions
-        name: Nom
+en:
+  activerecord:
+    attributes:
+      kind:
+        actions: 'Actions'
+        name: 'Name'
