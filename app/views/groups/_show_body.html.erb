@@ -1,37 +1,39 @@
 <div class="row-fluid">
-  <% if !@group.narrative.blank? %>
-  <div class="span8">
+  <% unless @group.narrative.blank? %>
+      <div class="span8">
 
-    <div class="default-padding" style="padding: 24px 24px 12px 24px;">
-      <% paragraphs = @group.narrative.split("\n") %>
-      <% paragraphs.each do |p| %>
-        <p><%= p %></p>
-      <% end %>
-    </div>
+        <div class="default-padding" style="padding: 24px 24px 12px 24px;">
+          <% paragraphs = @group.narrative.split '\n' %>
+          <% paragraphs.each do |p| %>
+              <p><%= p %></p>
+          <% end %>
+        </div>
 
-  </div>
+      </div>
   <% end %>
   <div class="span4">
 
     <div class="default-padding">
 
       <% can_join = can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending], :user => current_user)
-         already_member = @group.made_request?(current_user) %>
+         already_member = @group.made_request? current_user %>
       <% if can_join || already_member %>
-        <div class="subblock bordered">
-          <div class="default-padding clearfix">
-            <% if already_member %>
-              <% membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first %>
-              <% if @group.has_member?(current_user) %>
-                <%= link_to( t('.leave_group'), group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn pull-right", :data => { :confirm => t(:are_you_sure_leave_group, :group => @group.name)}) %>
+          <div class="subblock bordered">
+            <div class="default-padding clearfix">
+              <% if already_member %>
+                  <% membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first %>
+                  <% if @group.has_member?(current_user) %>
+                      <%= link_to(t('.leave_group'), group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn pull-right", :data => {:confirm => t(:are_you_sure_leave_group, :group => @group.name)}) %>
+                  <% end %>
+                  <p>
+                    <b><%= t('.your_membership_role', :level => membership.level_name, :what => (membership.level == Membership::LEVELS[:leader] ? "" : t('.member'))) %></b>
+                  </p>
+              <% elsif can_join %>
+                  <%= link_to(t('.join_group'), group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn pull-right") %>
+                  <p><b><%= t('.not_in_group') %></b></p>
               <% end %>
-              <p><b><%= t('.your_membership_role', :level => membership.level_name, :what => (membership.level == Membership::LEVELS[:leader] ? "" : t('.member'))) %></b></p>
-            <% elsif can_join %>
-              <%= link_to( t('.join_group'), group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn pull-right") %>
-              <p><b><%= t('.not_in_group') %></b></p>
-            <% end %>
+            </div>
           </div>
-        </div>
       <% end %>
 
     </div>
@@ -42,49 +44,49 @@
 <div class="clearfix default-padding">
   <div class="header-with-icon">
     <h3>
-      <%= t('.feed_header', :number => @group.feeds.count, :s_display => @group.feeds.count == 1 ? '' : 's') %>
+      <%= t '.feed_header', :number => @group.feeds.count, :count => @group.feeds.count %>
     </h3>
   </div>
 </div>
 <div class="row-fluid">
   <div class="span6">
-    <% if !@feeds_left.empty? %>
-      <% viewable = 0 %>
-      <ul class="list-stacked">
-        <% @feeds_left.each do |feed| %>
-          <% if feed && ( feed.approved_contents.size != 0 || feed.group.has_member?(current_user) ) %>
-            <% viewable+=1 %>
-            <li>
-              <h3>
-                <%= link_to feed_submissions_path(feed), :class => "link-hl" do %>
-                  <span class="badge"><%= feed.approved_contents.active.count %></span> <%= feed.name %>
-                <% end %>
-                <small>&nbsp;&nbsp;<%= feed.description %></small>
-              </h3>
-            </li>
+    <% unless @feeds_left.empty? %>
+        <% viewable = 0 %>
+        <ul class="list-stacked">
+          <% @feeds_left.each do |feed| %>
+              <% if feed && (feed.approved_contents.size != 0 || feed.group.has_member?(current_user)) %>
+                  <% viewable+=1 %>
+                  <li>
+                    <h3>
+                      <%= link_to feed_submissions_path(feed), :class => "link-hl" do %>
+                          <span class="badge"><%= feed.approved_contents.active.count %></span> <%= feed.name %>
+                      <% end %>
+                      <small>&nbsp;&nbsp;<%= feed.description %></small>
+                    </h3>
+                  </li>
+              <% end %>
           <% end %>
-        <% end %>
-      </ul>
+        </ul>
     <% end %>
   </div>
   <div class="span6">
-    <% if !@feeds_right.empty? %>
-      <% viewable = 0 %>
-      <ul class="list-stacked">
-        <% @feeds_right.each do |feed| %>
-          <% if feed && ( feed.approved_contents.size != 0 || feed.group.has_member?(current_user) ) %>
-            <% viewable+=1 %>
-            <li>
-              <h3>
-                <%= link_to feed_submissions_path(feed), :class => "link-hl" do %>
-                  <span class="badge"><%= feed.approved_contents.active.count %></span> <%= feed.name %>
-                <% end %>
-                <small>&nbsp;&nbsp;<%= feed.description %></small>
-              </h3>
-            </li>
+    <% unless @feeds_right.empty? %>
+        <% viewable = 0 %>
+        <ul class="list-stacked">
+          <% @feeds_right.each do |feed| %>
+              <% if feed && (feed.approved_contents.size != 0 || feed.group.has_member?(current_user)) %>
+                  <% viewable+=1 %>
+                  <li>
+                    <h3>
+                      <%= link_to feed_submissions_path(feed), :class => "link-hl" do %>
+                          <span class="badge"><%= feed.approved_contents.active.count %></span> <%= feed.name %>
+                      <% end %>
+                      <small>&nbsp;&nbsp;<%= feed.description %></small>
+                    </h3>
+                  </li>
+              <% end %>
           <% end %>
-        <% end %>
-      </ul>
+        </ul>
     <% end %>
   </div>
 </div>
@@ -93,12 +95,12 @@
 <div class="clearfix default-padding">
   <div class="header-with-icon">
     <h3>
-      <%= t('.screen_header', :number => @group.screens.count, :s_display => @group.screens.count == 1 ? '' : 's') %>
+      <%= t '.screen_header', :count => @group.screens.count %>
     </h3>
   </div>
-  <br />
+  <br/>
   <%= render :partial => "screens/thumbs", :object => @group.screens,
- :locals => { :show_field_count => false, :show_owner => false } %>
+             :locals => {:show_field_count => false, :show_owner => false} %>
 </div>
 
 <!-- Begin Members -->
@@ -109,32 +111,33 @@
       <%= t('.member_header', :number => total_members, :s_display => total_members == 1 ? '' : 's') %>
     </h3>
   </div>
-  <br />
+  <br/>
   <ul class="list-grid">
     <% @group.memberships.leader.each do |leader| %>
-      <li>
-        <div class="cont thumb-icon">
-          <%= link_to leader.user do %>
-            <i class="concertocon-controller-users-leader"></i>
-          <% end %>
-        </div>
-        <div class="cont">
-          <p><b><%= link_to_if can?(:read, leader.user), leader.user.name, leader.user %></b></p>
-          <p><%= t('.leader') %></p>
-        </div>
-      </li>
+        <li>
+          <div class="cont thumb-icon">
+            <%= link_to leader.user do %>
+                <i class="concertocon-controller-users-leader"></i>
+            <% end %>
+          </div>
+          <div class="cont">
+            <p><b><%= link_to_if can?(:read, leader.user), leader.user.name, leader.user %></b></p>
+
+            <p><%= t('.leader') %></p>
+          </div>
+        </li>
     <% end unless @group.memberships.regular.nil? %>
     <% @group.memberships.regular.each do |regular| %>
-      <li>
-        <div class="cont thumb-icon">
-          <%= link_to regular.user do %>
-            <i class="icon-user"></i>
-          <% end %>
-        </div>
-        <div class="cont">
-          <p><b><%= link_to_if can?(:read, regular.user), regular.user.name, regular.user %></b></p>
-        </div>
-      </li>
+        <li>
+          <div class="cont thumb-icon">
+            <%= link_to regular.user do %>
+                <i class="icon-user"></i>
+            <% end %>
+          </div>
+          <div class="cont">
+            <p><b><%= link_to_if can?(:read, regular.user), regular.user.name, regular.user %></b></p>
+          </div>
+        </li>
     <% end unless @group.memberships.regular.nil? %>
   </ul>
 </div>

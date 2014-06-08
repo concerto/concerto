@@ -34,6 +34,9 @@ fr:
     show_body: 
       edit_group: "Editer le groupe"
       feed_header: "Modère %{number} Fils%{s_display}"
+      feed_header:
+        one: 'Modère un Fils'
+        many: "Modère %{number} Fils"
       group_description: "Description du groupe"
       group_has_no_leaders: "Ce groupe n'a actuellment pas de chef.  Vous devriez promouvoir un des membres régulier."
       group_leaders: "Chef de groupe"
@@ -50,7 +53,9 @@ fr:
       regular_members: "Membres réguliers"
       remove_from_group: "Retirer du groupe"
       request_made_at: "Requête faite à"
-      screen_header: "Gère %{number} Ecrans%{s_display}"
+      screen_header:
+        one: "Gère un Ecran"
+        many: "Gère %{number} Ecrans"
       your_membership_role: "Vous êtes actuelllement  %{level}%{what} de ce groupe."
     show_header: 
       group_cannot_be_deleted: "Le groupe ne peut pas être supprimé"

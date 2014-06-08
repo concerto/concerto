@@ -31,18 +31,21 @@ en:
       content_header: 'Has Submitted %{number} Item%{s_display}'
       dont_receive_emails: "Don't receive emails"
       forever: 'forever'
-      group_header: 'Belongs to %{number} Group%{s_display}'
+      group_header:
+        one: 'Belongs to one Group'
+        other: 'Belongs to %{count} Groups'
       groups: 'Groups'
       leader: 'User is a leader of one or more groups'
       my: 'My'
       name: 'Name'
       receive_emails: 'Receive emails'
       roles: 'Roles'
-      screen_header: 'Manages %{number} Screen%{s_display}'
+      screen_header:
+        one: 'Manages one Screen'
+        other: 'Manages %{count} Screens'
       screens: 'Screens'
       system_wide_admin: 'This user is a system-wide admin'
       this_is_you: 'This is you.'
-
   helpers:
     label:
       user:
