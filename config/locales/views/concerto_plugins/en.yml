@@ -23,7 +23,6 @@ en:
       enabled_msg: "This plugin is currently enabled."
       gem_description: "Description"
       status: "Status"
-      visit_plugin_website: "Visit plugin website"
 
     new:
       install_plugin: 'Install Plugin'
@@ -35,8 +34,8 @@ en:
       gem_name: 'Gem name:'
       gem_version: 'Gem version:'
       installed: 'Installed:'
-      module_name: 'Module name:'
-      installed_no: 'No'
       source: 'Source:'
       source_url: 'Source url:'
       installed_yes: 'Yes'
+      visit_plugin_website: "Visit plugin website"
+      upgrade: "Upgrade"

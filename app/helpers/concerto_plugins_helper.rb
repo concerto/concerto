@@ -1,4 +1,17 @@
 module ConcertoPluginsHelper
+  def source_link
+    if @concerto_plugin.source == 'rubygems'
+      link_to(@concerto_plugin.source, "http://rubygems.org/gems/#{@concerto_plugin.gem_name}")
+    else
+      @concerto_plugin.source
+    end
+  end
+  
+  def rubygems_current_version
+    require 'open-uri'
+    JSON.load(open("https://rubygems.org/api/v1/versions/#{@concerto_plugin.gem_name}.json")).first['number']
+  end
+
   def plugin_sources
     t('concerto_plugins.sources').map { |key, value| [value, key] }
   end
