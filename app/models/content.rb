@@ -93,6 +93,7 @@ class Content < ActiveRecord::Base
   # times between 1.9.x and 1.8.x.
   def start_time=(_start_time)
     if _start_time.kind_of?(Hash)
+      return if _start_time[:date].empty?
       #write_attribute(:start_time, Time.parse("#{_start_time[:date]} #{_start_time[:time]}").to_s(:db))
       # convert to time, strip off the timezone offset so it reflects local time
       t = DateTime.strptime("#{_start_time[:date]} #{_start_time[:time]}", "%m/%d/%Y %l:%M %p")
@@ -105,6 +106,7 @@ class Content < ActiveRecord::Base
   # See start_time=.
   def end_time=(_end_time)
     if _end_time.kind_of?(Hash)
+      return if _end_time[:date].empty?
       # convert to time, strip off the timezone offset so it reflects local time
       t = DateTime.strptime("#{_end_time[:date]} #{_end_time[:time]}", "%m/%d/%Y %l:%M %p")
       write_attribute(:end_time, Time.zone.parse(Time.iso8601(t.to_s).to_s(:db)).to_s(:db))
