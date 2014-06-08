@@ -13,6 +13,7 @@ class ConcertoPluginsController < ApplicationController
   # GET /concerto_plugins/1.json
   def show
     @concerto_plugin = ConcertoPlugin.find(params[:id])
+    @gemspec = Gem.loaded_specs[@concerto_plugin.gem_name]
     auth!
     respond_with(@concerto_plugin)
   end
@@ -75,6 +76,12 @@ class ConcertoPluginsController < ApplicationController
     restart_webserver()
     redirect_to concerto_plugins_path
   end
+  
+  def update_gem
+    plugin = ConcertoPlugin.find(params[:id])
+    system("bundle update #{plugin.gem_name}")
+    redirect_to :action => :show, :id => plugin.id
+  end  
 
   def write_Gemfile
     #slurp in the old Gemfile and write it to a backup file for use in config.ru

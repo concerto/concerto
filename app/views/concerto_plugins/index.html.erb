@@ -20,7 +20,6 @@
           <th><%= t('.status') %></th>
           <th><%= ConcertoPlugin.human_attribute_name(:gem_name) %></th>
           <th><%= t('.gem_description')%></th>
-          <th><%= t(:actions) %></th>
         </tr>
       </thead>
       <tbody>
@@ -38,22 +37,10 @@
               </h1>
             </td>
             <td>
-              <h3><%= concerto_plugin.name.titleize %></h3>
-              <p><%= link_to !gemspec.nil? ? gemspec.homepage : "#" do %><%= t('.visit_plugin_website') %><% end %></p>
+              <h3><%= link_to(concerto_plugin.name.titleize, :action => :show, :id => concerto_plugin.id) %></h3>
             </td>
             
             <td><%= !gemspec.nil? ? gemspec.description : "" %></td>
-            
-            <td>
-              
-              <% if can? :edit, ConcertoPlugin %>
-                <%= link_to t(:edit, :model => ConcertoPlugin.model_name.human), edit_concerto_plugin_path(concerto_plugin), :class => "btn" %>
-              <% end %>
-              <% if can? :destroy, ConcertoPlugin %>
-                <%= link_to t(:destroy, :model => ConcertoPlugin.model_name.human), concerto_plugin, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => ConcertoPlugin.model_name.human, :key => concerto_plugin.gem_name) }, :method => :delete, :class => "btn" %>
-              <% end %>
-
-            </td>
           </tr>
         <% end %>
       </tbody>
