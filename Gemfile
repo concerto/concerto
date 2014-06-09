@@ -87,7 +87,7 @@ gem "pg", :require => false, :group => :production, :platforms => postgres_platf
 gem 'public_activity'
 
 gem 'redcarpet'
-gem 'docsplit', :git => 'https://github.com/augustf/docsplit.git'
+gem 'concerto_docsplit'
 
 # NProgress provides progress bars for pages loaded via Turbolinks
 gem 'nprogress-rails', '~> 0.1.3.0'
