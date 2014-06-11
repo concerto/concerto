@@ -10,14 +10,16 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     Airbrake.configure do |config|
       def config.api_key
         if ConcertoConfig[:send_errors] == true
-          return '52adf2979c2ab87c634612bef9deaaf2'
+          return '34e36775df3e89293c59efeba36f6c8f'
         else 
           return nil
         end
       end
       #config.async = (RUBY_VERSION.to_f > 1.8)
       config.user_attributes = []
-      config.secure = true
+      config.host = 'errors.concerto-signage.org'
+      config.port = 80
+      config.secure = config.port == 443
       config.environment_name = Concerto::VERSION::STRING
 
       # Uncomment the following to start reporting development mode errors.
