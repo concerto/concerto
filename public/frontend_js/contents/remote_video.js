@@ -25,14 +25,14 @@ concerto.frontend.Content.RemoteVideo = function(data) {
    * @type {number}
    * @private
    */
-  this.field_height_ = data.field.size.height;
+  this.field_height_ = parseFloat(data['field']['size']['height']);
 
   /**
    * The width of the field the image is being shown in.
    * @type {number}
    * @private
    */
-  this.field_width_ = data.field.size.width;
+  this.field_width_ = parseFloat(data['field']['size']['width']);
 
   /**
    * The iframe being displayed.
@@ -51,7 +51,7 @@ concerto.frontend.Content.RemoteVideo = function(data) {
    * @type {?string}
    * @private
    */
-  this.url_parms_ = (data.field['config'] ? data.field['config']['url_parms'] : null);
+  this.url_parms_ = (data['field']['config'] ? data['field']['config']['url_parms'] : null);
   if (goog.isDefAndNotNull(this.url_parms_)) {
     this.url_parms_ = this.url_parms_.trim();
     if (goog.string.startsWith(this.url_parms_, '?'))
