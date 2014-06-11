@@ -196,12 +196,12 @@ private
     result = nil
     # We already know the name of the gem from user input
     if Gem.loaded_specs.has_key? gem_name
-      # Let's get the gem's full path in the filesystem
-      gpath = Gem.loaded_specs[gem_name].full_gem_path
-      # Then match the path we've got to the path of an engine - 
+      # Let's get the gem's full name
+      name = Gem.loaded_specs[gem_name].full_name
+      # Then match the name we've got to the name of an engine -
       #    which should have its Module Name (aka paydirt)
-      Rails::Application::Railties.engines.each do |engine| 
-        if engine.class.root.to_s == gpath
+      Rails::Application::Railties.engines.each do |engine|
+        if engine.class.root.basename.to_s == name
           # Get the class name from the engine hash
           result = engine.class
           break
