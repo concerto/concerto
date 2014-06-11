@@ -66,6 +66,11 @@
                 <div class="timefield input-small">
                   <%= text_field("start_time[time]", :id => "start_time_time", :maxlength => 20, :class => "timefield input-small", :value => ConcertoConfig[:content_default_start_time]) %>
                 </div>
+              <% elsif c.value_type == "text" %>
+                <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), :tip => c.description %>
+                <div class="input">
+                  <%= text_area_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], :class => 'fillWidth', :placeholder => c.value_default %>
+                </div>
               <% end %>
             </div>
           <% end %>
