@@ -20,9 +20,6 @@ concerto.frontend.Content.Ticker = function(data) {
    * We are casting the 0 or 1 into true or false with the !!+, do not remove it.
    * This is because we need to negate the variable for our internal code, which
    * was making javascript upset when it had to negate a numeric value.
-   * Must use bracket notation and NOT dot notation.  This is because the
-   * we get 'cannot read property of undefined' when it is compiled for non-debug
-   * use (probably due to the compiler's obfuscation).
    */
   var disable_text_autosize = !!+(data['field']['config'] ?
                                data['field']['config']['disable_text_autosize'] : 0);
