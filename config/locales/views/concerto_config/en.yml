@@ -44,3 +44,7 @@ en:
       save_settings: "Save Settings"
     config_check:
       configuration_check: "Configuration Check"
+      file_permissions: "Necessary File Permissions"
+      performance: "Performance"
+      security: "Security"
+      software_prerequisites: "Software Prerequisites"
