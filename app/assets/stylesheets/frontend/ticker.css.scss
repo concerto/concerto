@@ -1,8 +1,5 @@
  
 .marquee {
-/* TODO: remove the font stuff and let it decide on size */
-  font-family: "Myriad Pro", sans-serif;
-  font-size: 20px;
   position: relative;
   display: inline-block;
 
@@ -17,11 +14,12 @@
 
     * {
       display: inline-block;
+      margin: 0;
     }
 
     span::after {
         display: inline-block;
-        margin: 10px;
+        margin: 2px;
         content: "*";
 /* TODO: use nicer image like dan had */
     }
