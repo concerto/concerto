@@ -15,8 +15,8 @@
     display: inline;
     white-space: nowrap;
 
-    p {
-      display: inline;
+    * {
+      display: inline-block;
     }
 
     span::after {
