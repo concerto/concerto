@@ -37,7 +37,7 @@ concerto.frontend.Content.Audio = function(data) {
    * @type {?string}
    * @private
    */
-  this.url_parms_ = (data.field['config'] ? data.field['config']['url_parms'] : null);
+  this.url_parms_ = (data['field']['config'] ? data['field']['config']['url_parms'] : null);
   if (goog.isDefAndNotNull(this.url_parms_)) {
     this.url_parms_ = this.url_parms_.trim();
     if (goog.string.startsWith(this.url_parms_, '?'))

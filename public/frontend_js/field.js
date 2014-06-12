@@ -243,7 +243,7 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
         goog.array.forEach(contents_data, goog.bind(function(content_data) {
           // Slip in some data about the field.  Content might want to know the
           // current size of the position it is being rendered in.
-          content_data.field = {
+          content_data['field'] = {
             'size': this.position.getSize(),
             'config': this.config_
           };
