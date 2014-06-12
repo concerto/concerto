@@ -24,8 +24,8 @@ concerto.frontend.Content.Ticker = function(data) {
   var disable_text_autosize = !!+(data['field']['config'] ?
                                data['field']['config']['disable_text_autosize'] : 0);
 
-  var scrolling = !!+(data['field']['config'] ?
-                               data['field']['config']['scrolling'] : 0);
+  var marquee = !!+(data['field']['config'] ?
+                               data['field']['config']['marquee'] : 0);
   /**
    * Should the font size be automatically adjusted to optimize
    * display within the field?
@@ -38,9 +38,10 @@ concerto.frontend.Content.Ticker = function(data) {
    * @type {boolean}
    * @private
    */
-  this.scrolling_ = scrolling;
+  this.marquee_ = marquee;
 
-  if (this.scrolling_) {
+  if (this.marquee_) {
+    // make sure appropriate css gets applied
     goog.dom.classes.add(this.div_, 'marquee');
     this.autosize_font = false;
   }
@@ -80,24 +81,10 @@ concerto.frontend.ContentTypeRegistry['Ticker'] =
 concerto.frontend.Content.Ticker.prototype.load_ = function() {
   goog.dom.removeChildren(this.div_);
   var frag = null;
-  if (this.scrolling_) {
+  if (this.marquee_) {
     frag = goog.dom.htmlToDocumentFragment(
-/* TODO: need to get all the stuff to scroll and add it here as spans */
-      '<div class="marquee-bundle">' + 
-        '<span>' + this.text + '</span>' +
-        '<span>' + this.text + '</span>' +
-        '<span>' + this.text + '</span>' +
-        '<span>' + this.text + '</span>' +
-        '<span>' + this.text + '</span>' +
-      '</div>' +
-
-      '<div class="marquee-bundle">' + 
-        '<span>' + this.text + '</span>' +
-        '<span>' + this.text + '</span>' +
-        '<span>' + this.text + '</span>' +
-        '<span>' + this.text + '</span>' +
-        '<span>' + this.text + '</span>' +
-      '</div>'
+      '<div class="marquee-bundle">' + this.text + '</div>' +
+      '<div class="marquee-bundle">' + this.text + '</div>'
       );
   } else {
     frag = goog.dom.htmlToDocumentFragment('<div>' + this.text + '</div>');
@@ -105,8 +92,9 @@ concerto.frontend.Content.Ticker.prototype.load_ = function() {
 
   goog.dom.appendChild(this.div_, frag);
 
-  if (this.scrolling_) {
-    this.setScrollDuration_(this.div_);
+  if (this.marquee_) {
+    // override the contents duration so it cycles twice before reloading
+    this.duration = this.setScrollDuration_(this.div_) * 2;
   }
 
   this.finishLoad();
@@ -115,15 +103,18 @@ concerto.frontend.Content.Ticker.prototype.load_ = function() {
 /**
  * Set the scroll animation duration based on length of text to scroll.
  * @param {Object} node Element to determine and set speed for.
+ * @return {number} duration of animation.
  * @private
  */
 concerto.frontend.Content.Ticker.prototype.setScrollDuration_ = function(node) {
-  var dur = Math.floor(goog.dom.getNodeTextLength(node) / 15);
+  var dur = Math.floor(goog.dom.getNodeTextLength(node) / 14);
 
   goog.style.setStyle(node, 'webkitAnimationDuration', dur + 's');
   goog.style.setStyle(node, 'mozAnimationDuration', dur + 's');
   goog.style.setStyle(node, 'msAnimationDuration', dur + 's');
   goog.style.setStyle(node, 'animationDuration', dur + 's');
+
+  return dur;
 };
 
 /**
@@ -133,7 +124,7 @@ concerto.frontend.Content.Ticker.prototype.setScrollDuration_ = function(node) {
  */
 concerto.frontend.Content.Ticker.prototype.applyStyles = function(styles) {
   concerto.frontend.Content.Ticker.superClass_.applyStyles.call(this, styles);
-  if (this.scrolling_) {
+  if (this.marquee_) {
     goog.style.setStyle(this.div_, 'position', 'relative');
   }
 };
