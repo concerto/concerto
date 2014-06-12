@@ -17,11 +17,17 @@
       margin: 0;
     }
 
-    span::after {
-        display: inline-block;
-        margin: 2px;
-        content: "*";
-/* TODO: use nicer image like dan had */
+    >span::after {
+      display: inline-block;
+      margin: 0 1em;
+      width: 1em;
+      height: 1em;
+      text-align: center;
+      content: "";
+      background: transparent url(image-path("elements/logomark.png")) no-repeat;
+      background-position: center center;
+      background-size: 1em 1em;
+      vertical-align: middle;
     }
 
   }
