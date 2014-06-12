@@ -42,6 +42,7 @@ concerto.frontend.Content.Ticker = function(data) {
 
   if (this.scrolling_) {
     goog.dom.classes.add(this.div_, 'marquee');
+    this.autosize_font = false;
   }
 
   /**
@@ -101,25 +102,28 @@ concerto.frontend.Content.Ticker.prototype.load_ = function() {
   } else {
     frag = goog.dom.htmlToDocumentFragment('<div>' + this.text + '</div>');
   }
-  goog.dom.appendChild(this.div_, frag);
-  this.finishLoad();
 
-  this.setScrollDuration_();
+  goog.dom.appendChild(this.div_, frag);
+
+  if (this.scrolling_) {
+    this.setScrollDuration_(this.div_);
+  }
+
+  this.finishLoad();
 };
 
 /**
  * Set the scroll animation duration based on length of text to scroll.
+ * @param {Object} node Element to determine and set speed for.
  * @private
  */
-concerto.frontend.Content.Ticker.prototype.setScrollDuration_ = function() {
-  /* TODO exclude html markup in count */
-  /* TODO field config the speed */
-  var dur = Math.floor(goog.dom.getNodeTextLength(this.div_)/15);
+concerto.frontend.Content.Ticker.prototype.setScrollDuration_ = function(node) {
+  var dur = Math.floor(goog.dom.getNodeTextLength(node) / 15);
 
-  goog.style.setStyle(this.div_, 'webkitAnimationDuration', dur + 's');
-  goog.style.setStyle(this.div_, 'mozAnimationDuration', dur + 's');
-  goog.style.setStyle(this.div_, 'msAnimationDuration', dur + 's');
-  goog.style.setStyle(this.div_, 'animationDuration', dur + 's');
+  goog.style.setStyle(node, 'webkitAnimationDuration', dur + 's');
+  goog.style.setStyle(node, 'mozAnimationDuration', dur + 's');
+  goog.style.setStyle(node, 'msAnimationDuration', dur + 's');
+  goog.style.setStyle(node, 'animationDuration', dur + 's');
 };
 
 /**
@@ -133,4 +137,3 @@ concerto.frontend.Content.Ticker.prototype.applyStyles = function(styles) {
     goog.style.setStyle(this.div_, 'position', 'relative');
   }
 };
-
