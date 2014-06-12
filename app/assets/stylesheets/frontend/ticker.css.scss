@@ -1,0 +1,50 @@
+ 
+.marquee {
+/* TODO: remove the font stuff and let it decide on size */
+  font-family: "Myriad Pro", sans-serif;
+  font-size: 20px;
+  position: relative;
+  display: inline-block;
+
+  -webkit-animation: marquee linear infinite;
+     -moz-animation: marquee linear infinite;
+      -ms-animation: marquee linear infinite;
+          animation: marquee linear infinite;
+
+  .marquee-bundle {
+    display: inline;
+    white-space: nowrap;
+
+    p {
+      display: inline;
+    }
+
+    span::after {
+        display: inline-block;
+        margin: 10px;
+        content: "*";
+/* TODO: use nicer image like dan had */
+    }
+
+  }
+}
+ 
+@-webkit-keyframes marquee {
+  0% { -webkit-transform: translateX(0%); }
+  100% { -webkit-transform: translateX(-50%); }
+}
+@-moz-keyframes marquee {
+  0% { -moz-transform: translateX(0%); }
+  100% { -moz-transform: translateX(-50%); }
+}
+@-ms-keyframes marquee {
+  0% { -ms-transform: translateX(0%); }
+  100% { -ms-transform: translateX(-50%); }
+}
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+
+
