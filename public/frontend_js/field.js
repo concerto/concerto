@@ -153,10 +153,11 @@ concerto.frontend.Field.prototype.createDiv = function() {
 concerto.frontend.Field.prototype.inject = function(div, autosize_font) {
   goog.dom.appendChild(this.div_, div);
 
-  if (goog.isDefAndNotNull(autosize_font) && autosize_font == true) {
-    //console.log("injected content size is " + goog.style.getSize(div));
+/* cheesy way of doing this, should fix at some point */
+  if (goog.dom.getElementByClass('marquee', this.div_)) {
+    concerto.frontend.Helpers.SizeToHeight(div, this.div_);
+  } else if (goog.isDefAndNotNull(autosize_font) && autosize_font == true) {
     concerto.frontend.Helpers.SizeToFit(div, this.div_);
-    //console.log("adjusted content size is " + goog.style.getSize(div));
   }
 };
 
