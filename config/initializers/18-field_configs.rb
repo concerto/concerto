@@ -7,5 +7,6 @@
 Concerto::Application.config.field_configs = {
   :transition => {:type => :select, :values => ['fade','slide','replace']},
   :time_format => {:type => :string},
-  :disable_text_autosize => {:type => :boolean}
+  :disable_text_autosize => {:type => :boolean},
+  :scrolling => {:type => :boolean}  # only applicable to ticker field
 }
