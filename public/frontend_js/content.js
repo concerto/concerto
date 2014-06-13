@@ -96,11 +96,11 @@ concerto.frontend.Content.prototype.startLoad = function() {
    */
   this.start_ = new goog.date.DateTime();
 
-  this.setupTimer();
-
   this.dispatchEvent(concerto.frontend.Content.EventType.START_LOAD);
 
   this.load_();
+
+  this.setupTimer();
 };
 
 

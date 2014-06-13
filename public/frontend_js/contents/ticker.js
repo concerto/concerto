@@ -24,12 +24,27 @@ concerto.frontend.Content.Ticker = function(data) {
   var disable_text_autosize = !!+(data['field']['config'] ?
                                data['field']['config']['disable_text_autosize'] : 0);
 
+  var marquee = !!+(data['field']['config'] ?
+                               data['field']['config']['marquee'] : 0);
   /**
    * Should the font size be automatically adjusted to optimize
    * display within the field?
    * @type {boolean}
    */
   this.autosize_font = !disable_text_autosize;
+
+  /**
+   * Should ticker be displayed as a scrolling marquee
+   * @type {boolean}
+   * @private
+   */
+  this.marquee_ = marquee;
+
+  if (this.marquee_) {
+    // make sure appropriate css gets applied
+    goog.dom.classes.add(this.div_, 'marquee');
+    this.autosize_font = false;
+  }
 
   /**
    * The text.
@@ -64,12 +79,52 @@ concerto.frontend.ContentTypeRegistry['Ticker'] =
  * @private
  */
 concerto.frontend.Content.Ticker.prototype.load_ = function() {
-  // plain text ticker
-  // goog.dom.setTextContent(this.div_, this.text);
-
-  // html ticker, wrapped in single node
   goog.dom.removeChildren(this.div_);
-  var frag = goog.dom.htmlToDocumentFragment('<div>' + this.text + '</div>');
+  var frag = null;
+  if (this.marquee_) {
+    frag = goog.dom.htmlToDocumentFragment(
+      '<div class="marquee-bundle">' + this.text + '</div>' +
+      '<div class="marquee-bundle">' + this.text + '</div>'
+      );
+  } else {
+    frag = goog.dom.htmlToDocumentFragment('<div>' + this.text + '</div>');
+  }
+
   goog.dom.appendChild(this.div_, frag);
+
+  if (this.marquee_) {
+    // override the contents duration so it cycles twice before reloading
+    this.duration = this.setScrollDuration_(this.div_) * 2;
+  }
+
   this.finishLoad();
+};
+
+/**
+ * Set the scroll animation duration based on length of text to scroll.
+ * @param {Object} node Element to determine and set speed for.
+ * @return {number} duration of animation.
+ * @private
+ */
+concerto.frontend.Content.Ticker.prototype.setScrollDuration_ = function(node) {
+  var dur = Math.floor(goog.dom.getNodeTextLength(node) / 14);
+
+  goog.style.setStyle(node, 'webkitAnimationDuration', dur + 's');
+  goog.style.setStyle(node, 'mozAnimationDuration', dur + 's');
+  goog.style.setStyle(node, 'msAnimationDuration', dur + 's');
+  goog.style.setStyle(node, 'animationDuration', dur + 's');
+
+  return dur;
+};
+
+/**
+ * Extend the default style application.
+ * We need to take into account relative positioning for scrolling
+ * @extends {concerto.frontend.Content.applyStyles}
+ */
+concerto.frontend.Content.Ticker.prototype.applyStyles = function(styles) {
+  concerto.frontend.Content.Ticker.superClass_.applyStyles.call(this, styles);
+  if (this.marquee_) {
+    goog.style.setStyle(this.div_, 'position', 'relative');
+  }
 };
