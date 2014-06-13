@@ -2,6 +2,8 @@
 .marquee {
   position: relative;
   display: inline-block;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
 
   -webkit-animation: marquee linear infinite;
      -moz-animation: marquee linear infinite;
@@ -15,7 +17,22 @@
     * {
       display: inline-block;
       margin: 0;
+      font-size: 1em;
     }
+
+    img, a, br { 
+      display: none;
+    }
+
+    h1, h2, h3, h4 {
+      padding: 0 1em 0 0;
+
+      &::after {
+        content: ": ";
+      }
+    }
+
+
 
     >span::after {
       display: inline-block;
