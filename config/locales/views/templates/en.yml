@@ -51,4 +51,4 @@ en:
         is_hidden: 'Hide this template from being shown in lists'
         media: 'Background Image/CSS'
         name: 'Name'
-        owner: 'owner'
+        owner: 'Owner'
