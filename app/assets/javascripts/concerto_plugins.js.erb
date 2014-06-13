@@ -4,14 +4,14 @@ function setPlaceHolderToggleSource()
   field = $('input#concerto_plugin_source_url');
   if (field.length > 0) {
     if (source == 'rubygems') {
-      $(field).parent().parent().hide();
+      $(field).closest('div.clearfix').hide();
     } else {
       if (source == 'git') {
         $(field).attr('placeholder', 'https://foo.bar/baz/repo.git');
       } else if (source == 'path') {
         $(field).attr('placeholder', '/path/to/extracted/gem');
       }
-      $(field).parent().parent().show();
+      $(field).closest('div.clearfix').show();
       $('input#concerto_plugin_gem_name').focus();
     }
   }
