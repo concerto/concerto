@@ -41,8 +41,10 @@ class ConcertoPluginsController < ApplicationController
     if @concerto_plugin.save
       process_notification(@concerto_plugin, {}, process_notification_options({:params => {:concerto_plugin_gem_name => @concerto_plugin.gem_name}}))
       write_Gemfile()
-      restart_webserver()
-      flash[:notice] = t(:plugin_created)
+      restarted = restart_webserver()
+      if restarted
+        flash[:notice] = t(:plugin_created)
+      end
       redirect_to concerto_plugins_path
     else
       respond_with(@concerto_plugin)
@@ -73,15 +75,18 @@ class ConcertoPluginsController < ApplicationController
     process_notification(@concerto_plugin, {}, process_notification_options({:params => {:concerto_plugin_gem_name => @concerto_plugin.gem_name}}))
     @concerto_plugin.destroy
     write_Gemfile()
-    restart_webserver()
+    restarted = restart_webserver()
+    if restarted
+      flash[:notice] = t(:plugin_removed)
+    end
     redirect_to concerto_plugins_path
   end
-  
+
   def update_gem
     plugin = ConcertoPlugin.find(params[:id])
     system("bundle update #{plugin.gem_name}")
     redirect_to :action => :show, :id => plugin.id
-  end  
+  end
 
   def write_Gemfile
     #slurp in the old Gemfile and write it to a backup file for use in config.ru
