@@ -3,9 +3,10 @@ require 'test_helper'
 class ConcertoPluginTest < ActiveSupport::TestCase
   test "check sources" do
 
-    # not a valid rubygem
+    # a duplicate rubygem
     p = ConcertoPlugin.new(:gem_name => 'concerto_weather', :source => 'rubygems')
-    assert p.valid?
+    assert !p.valid?
+    #not a valid rubygem
     p = ConcertoPlugin.new(:gem_name => 'concerto_invalidgem', :source => 'rubygems')
     assert !p.valid?
 
