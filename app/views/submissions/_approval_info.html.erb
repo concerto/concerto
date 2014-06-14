@@ -8,7 +8,7 @@
     <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.display_from') %></b></small></p>
     <p>
       <% unless submission.content.start_time.blank? %>
-        <%= submission.content.start_time.strftime("%a %D") %> <%= submission.content.start_time.strftime("%I:%M %P") %>
+        <%= l submission.content.start_time, :format => :short_date %> <%= l submission.content.start_time, :format => :twelve_hour_time %>
       <% else %>
         <%= t('.the_dawn_of_time') %>
       <% end %>
@@ -18,7 +18,7 @@
     <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.display_until') %></b></small></p>
     <p>
       <% unless submission.content.end_time.nil? %>
-        <%= submission.content.end_time.strftime("%a %D") %> <%= submission.content.end_time.strftime("%I:%M %P") %>
+        <%= l submission.content.end_time, :format => :short_date %> <%= l submission.content.end_time, :format => :twelve_hour_time %>
       <% else %>
         <%= t('.the_end_of_time') %>
       <% end %>
