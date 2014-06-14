@@ -1,12 +1,12 @@
-<% details = ConcertoPlugin.render_view_hook self, :details %>
+<% sidebar = ConcertoPlugin.render_view_hook self, :sidebar %>
 
 <%
-  # Hide details area from non-logged in users or when not defined 
+  # Hide sidebar area from non-logged in users or when not defined 
   main_span = 9
-  details_span = 3
-  if !user_signed_in? or details.blank?
+  sidebar_span = 3
+  if !user_signed_in? or sidebar.blank?
     main_span = 12
-    details_span = 0
+    sidebar_span = 0
   end
 %>
 
@@ -23,10 +23,10 @@
     </section>
 
   </div>
-  <div class="span<%= details_span %>">
+  <div class="span<%= sidebar_span %>">
 
-    <% if !details.blank? %>
-      <%= ConcertoPlugin.render_view_hook self, :details %>
+    <% if !sidebar.blank? %>
+      <%= ConcertoPlugin.render_view_hook self, :sidebar %>
     <% end %>
 
   </div>
