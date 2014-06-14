@@ -37,5 +37,7 @@ en:
       source: 'Source:'
       source_url: 'Source url:'
       installed_yes: 'Yes'
+      installed_no: 'No'
       visit_plugin_website: "Visit plugin website"
       upgrade: "Upgrade"
+      unknown: "Unknown"

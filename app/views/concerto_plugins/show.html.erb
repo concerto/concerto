@@ -31,9 +31,12 @@
         <b><%= t('.gem_version') %></b>
         <% if @concerto_plugin.gem_version %>
           <%= @concerto_plugin.gem_version %> (Locked)
-        <% else %>
+        <% elsif !@gemspec.nil? %>
           <%= @gemspec.version.to_s %>
-          <% if rubygems_current_version.to_s > @gemspec.version.to_s %>(Upgrade available to <%=rubygems_current_version%>) <% end %>
+          <% if rubygems_current_version.to_s > @gemspec.version.to_s %>(Upgrade available to <%=rubygems_current_version%>) 
+          <% end %>
+        <% else %>
+          <%= t('.unknown') %>
         <% end %>
       </p>
       <p>
