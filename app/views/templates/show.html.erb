@@ -1,9 +1,34 @@
-<section class="viewblock">
-  <header class="viewblock-header" id="templates-header">
-    <%= render :partial => "templates/show_header" %>
-  </header>
-  <div id="templates-body" class="viewblock-cont">
-    <%= render :partial => "templates/show_body" %>
+<% details = ConcertoPlugin.render_view_hook self, :details %>
+
+<%
+  # Hide details area from non-logged in users or when not defined 
+  main_span = 9
+  details_span = 3
+  if !user_signed_in? or details.blank?
+    main_span = 12
+    details_span = 0
+  end
+%>
+
+<div class="row-fluid">
+  <div class="span<%= main_span %>">
+
+    <section class="viewblock">
+      <header class="viewblock-header" id="templates-header">
+        <%= render :partial => "templates/show_header" %>
+      </header>
+      <div id="templates-body" class="viewblock-cont">
+        <%= render :partial => "templates/show_body" %>
+      </div>
+    </section>
 
   </div>
-</section>
+  <div class="span<%= details_span %>">
+
+    <% if !details.blank? %>
+      <%= ConcertoPlugin.render_view_hook self, :details %>
+    <% end %>
+
+  </div>
+</div>
+
