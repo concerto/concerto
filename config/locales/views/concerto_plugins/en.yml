@@ -34,10 +34,12 @@ en:
       gem_name: 'Gem name:'
       gem_version: 'Gem version:'
       installed: 'Installed:'
+      locked: '(Locked)'
       source: 'Source:'
       source_url: 'Source url:'
       installed_yes: 'Yes'
       installed_no: 'No'
       visit_plugin_website: "Visit plugin website"
       upgrade: "Upgrade"
+      upgrade_available: "(Upgrade available to %{version})"
       unknown: "Unknown"
