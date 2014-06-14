@@ -2,7 +2,7 @@
   <header class="viewblock-header">
     <div class="viewblock-header_right">
       <div class="button-padding">
-        <% if !@gemspec.nil? && (rubygems_current_version.to_s > @gemspec.version.to_s) %>
+        <% if !@gemspec.nil? && !@rubygems_current_version && (@rubygems_current_version.to_s > @gemspec.version.to_s) %>
           <%= link_to t('.upgrade'), update_gem_concerto_plugins_path(:id => @concerto_plugin.id), {method: :post, :class => "btn"}%>
         <% end %>
         <% if can? :edit, @concerto_plugin %>
@@ -30,10 +30,10 @@
       <p>
         <b><%= t('.gem_version') %></b>
         <% if @concerto_plugin.gem_version %>
-          <%= @concerto_plugin.gem_version %> (Locked)
+          <%= @concerto_plugin.gem_version %> <%= t('.locked') %>
         <% elsif !@gemspec.nil? %>
           <%= @gemspec.version.to_s %>
-          <% if rubygems_current_version.to_s > @gemspec.version.to_s %>(Upgrade available to <%=rubygems_current_version%>) 
+          <% if !@rubygems_current_version.nil? && @rubygems_current_version.to_s > @gemspec.version.to_s %> <%= t('.upgrade_available', :version => @rubygems_current_version) %>
           <% end %>
         <% else %>
           <%= t('.unknown') %>
