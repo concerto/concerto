@@ -23,7 +23,7 @@ Concerto::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
-  # Defaults to Rails.root.join("public/assets")
+  # Defaults to nil and saved in location specified by config.assets.prefix
   # config.assets.manifest = YOUR_PATH
 
   # Specifies the header that your server uses for sending files
@@ -42,12 +42,8 @@ Concerto::Application.configure do
   # Use a different logger for distributed setups
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
-  # Use a different cache store (file_store is the default) - options are memory_store, file_store, mem_cache_store, ehcache_store, and null_store
-  # config.cache_store = :memory_store, { size: 64.megabytes }
-  # config.cache_store = :file_store, "/path/to/cache/directory"
-  # config.cache_store = :mem_cache_store, "cache-1.example.com", "cache-2.example.com"
-  # config.cache_store = :ehcache_store
-  # config.cache_store = :null_store
+  # Use a different cache store in production
+  # config.cache_store = :mem_cache_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
