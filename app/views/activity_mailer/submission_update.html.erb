@@ -12,8 +12,6 @@
           padding: 0;
           font-family: 'Myriad Pro', Helvetica, Arial, sans-serif;
           height: 100% !important;
-          margin: 0;
-          padding: 0;
           width: 100% !important;
           background-image: url(<%= asset_path("/assets/layout/pagebg.gif") %>);
           background-repeat: repeat;
@@ -55,7 +53,7 @@
 <div id="messageblock">
   <table>
     <thead>
-    <tr><%= image_tag("/images/full_logo.png", :id => "logo") %></tr>
+    <tr><%= image_tag '/images/full_logo.png', :id => 'logo' %></tr>
     </thead>
     <tbody>
     <tr id="message">
@@ -64,15 +62,15 @@
         <br/>
         <br/>
 
-        <%= t('.moderator') %> <%= link_to @activity.owner.name, url_for(user_url(@activity.owner.id)) if @activity.owner %>
+        <%= t '.moderator' %> <%= link_to @activity.owner.name, url_for(user_url(@activity.owner.id)) if @activity.owner %>
         <%= @activity.parameters[:status] ? t(".approved") : t(".denied") %>
 
         <% if @activity.parameters[:status] %>
             <%=
                 t('.content_schedule',
-                  :start => @activity.trackable.content.start_time.strftime("%A %B %e at %l:%m %p"),
-                  :end => @activity.trackable.content.end_time.strftime("%A %B %e at %l:%m %p"),
-                  :duration_seconds => @activity.trackable.duration)
+                  :start => l(@activity.trackable.content.start_time, :format => :long_day),
+                  :end => l(@activity.trackable.content.end_time, :format => :long_day),
+                  :duration => @activity.trackable.duration)
             %>
         <% end %>
 

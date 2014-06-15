@@ -43,22 +43,22 @@ Concerto::Application.routes.draw do
       resources :templates, :only => [:show]
     end
     # Special route for CORS preflight requests on #show
-    get ':id', :controller => :screens, :action=>'show_options',
-      :constraints => {:method => 'OPTIONS'}
+    get ':id', :controller => :screens, :action => 'show_options',
+          :constraints => {:method => 'OPTIONS'}
   end
   # End really dangerous routes.
 
 
   devise_for :users,
              :controllers => {
-               :registrations => 'concerto_devise/registrations',
-               :sessions => 'concerto_devise/sessions'}
+                 :registrations => 'concerto_devise/registrations',
+                 :sessions => 'concerto_devise/sessions'}
 
   scope "/manage" do
     resources :users
   end
 
-  resources :media, :only => [:show, :create ]
+  resources :media, :only => [:show, :create]
 
   resources :templates do
     member do

@@ -6,16 +6,6 @@ Concerto::Application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
-  # Do not eager load code on boot.
-  config.eager_load = false
-
-  # Use a different cache store (file_store is the default) - options are memory_store, file_store, mem_cache_store, ehcache_store, and null_store
-  # config.cache_store = :memory_store, { size: 64.megabytes }
-  # config.cache_store = :file_store, "/path/to/cache/directory"
-  # config.cache_store = :mem_cache_store, "cache-1.example.com", "cache-2.example.com"
-  # config.cache_store = :ehcache_store
-  # config.cache_store = :null_store
-
   # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
 

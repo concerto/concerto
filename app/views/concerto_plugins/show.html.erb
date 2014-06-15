@@ -2,6 +2,9 @@
   <header class="viewblock-header">
     <div class="viewblock-header_right">
       <div class="button-padding">
+        <% if !@gemspec.nil? && !@rubygems_current_version && (@rubygems_current_version.to_s > @gemspec.version.to_s) %>
+          <%= link_to t('.upgrade'), update_gem_concerto_plugins_path(:id => @concerto_plugin.id), {method: :post, :class => "btn"}%>
+        <% end %>
         <% if can? :edit, @concerto_plugin %>
           <%= link_to t(:edit_model, :model => ConcertoPlugin.model_name.human), edit_concerto_plugin_path(@concerto_plugin), :class => "btn" %>
         <% end %>
@@ -27,28 +30,19 @@
       <p>
         <b><%= t('.gem_version') %></b>
         <% if @concerto_plugin.gem_version %>
-          <%= @concerto_plugin.gem_version %> (Locked)
-        <% else %>          
+          <%= @concerto_plugin.gem_version %> <%= t('.locked') %>
+        <% elsif !@gemspec.nil? %>
           <%= @gemspec.version.to_s %>
-          <% if rubygems_current_version.to_s > @gemspec.version.to_s %>(Upgrade available to <%=rubygems_current_version%>) <% end %>
+          <% if !@rubygems_current_version.nil? && @rubygems_current_version.to_s > @gemspec.version.to_s %> <%= t('.upgrade_available', :version => @rubygems_current_version) %>
+          <% end %>
+        <% else %>
+          <%= t('.unknown') %>
         <% end %>
       </p>
       <p>
         <b><%= t('.installed') %></b>
-        <%= @concerto_plugin.installed? ? t('.installed_yes') : t('.installed_no') %>
-      </p>  
-         
-      <% if can? :edit, ConcertoPlugin %>
-        <% if rubygems_current_version.to_s > @gemspec.version.to_s %>
-          <%= link_to t('.upgrade'), update_gem_concerto_plugins_path(:id => @concerto_plugin.id), {method: :post, :class => "btn"}%>
-        <% end %>
-        <%= link_to t(:edit, :model => ConcertoPlugin.model_name.human), edit_concerto_plugin_path(@concerto_plugin), :class => "btn" %>
-      <% end %>
-      <% if can? :destroy, ConcertoPlugin %>
-        <%= link_to t(:destroy, :model => ConcertoPlugin.model_name.human), @concerto_plugin, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => ConcertoPlugin.model_name.human, :key => @concerto_plugin.gem_name) }, :method => :delete, :class => "btn" %>
-      <% end %>    
+        <%= (@concerto_plugin.installed? && !@gemspec.nil?) ? t('.installed_yes') : t('.installed_no') %>
+      </p>
     </div>
   </div>
 </section>
-
-           

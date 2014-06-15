@@ -10,8 +10,8 @@
       a = nil
     end
     %>
-    <% if !a.nil? %>
-      <li><b><%= activity.created_at.strftime("%D, %l:%M") %>:</b> <%= a %></li>
+    <% unless a.nil? %>
+      <li><b><%= l activity.created_at, :format => :date_time %>:</b> <%= a %></li>
     <% end %>
   <% end %>
   </ul>

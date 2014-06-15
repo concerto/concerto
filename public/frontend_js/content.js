@@ -22,6 +22,14 @@ goog.require('goog.style');
 concerto.frontend.Content = function(data) {
   goog.events.EventTarget.call(this);
 
+  /*
+   * Must use bracket notation and NOT dot notation for all references into the data
+   * object because when the the closure compiler optimizes it also obfuscates
+   * (but not external objects like those that come back via ajax calls-- like the
+   * data object) therefore using dot notation may cause it to not be able to access
+   * the property.
+   */
+
   data = data || {};
 
   /**
@@ -88,11 +96,11 @@ concerto.frontend.Content.prototype.startLoad = function() {
    */
   this.start_ = new goog.date.DateTime();
 
-  this.setupTimer();
-
   this.dispatchEvent(concerto.frontend.Content.EventType.START_LOAD);
 
   this.load_();
+
+  this.setupTimer();
 };
 
 

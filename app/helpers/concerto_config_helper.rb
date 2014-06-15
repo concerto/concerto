@@ -27,7 +27,7 @@ module ConcertoConfigHelper
   end
   
   def test_symbol(test_boolean)
-    image_tag("elements/#{test_boolean ? "green" : "red"}_button.svg", :width => 15, :height => 15)
+    "<i class='icon-#{test_boolean ? "check" : "exclamation-sign"} #{test_boolean ? "is_approved" : "is_denied"} icon-large'></i> &nbsp;".html_safe
   end
     
   def imagemagick_text

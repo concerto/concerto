@@ -28,15 +28,15 @@
           <div class="subblock">
             <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.display_from') %></b></small></p>
             <% if !@content.start_time.nil? %>
-              <p><%= @content.start_time.strftime("%a %b %d %Y") %><br /><%= @content.start_time.strftime("%I:%M %P") %></p>
+              <p><%= l @content.start_time, :format => :short_day %><br /><%= l @content.start_time, :format => :twelve_hour_time %></p>
             <% else %>
               <p><%= t('.the_dawn_of_time') %></p>
             <% end %>
             <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.display_until') %></b></small></p>
             <% if !@content.end_time.nil? %>
-              <p><%= @content.end_time.strftime("%a %b %d %Y") %><br /><%= @content.end_time.strftime("%I:%M %P") %></p>
+              <p><%= l @content.end_time, :format => :short_day %><br /><%= l @content.end_time, :format => :twelve_hour_time %></p>
             <% else %>
-              <p><%= t('.the_end_of_time') %></p>
+              <p><%= t '.the_end_of_time' %></p>
             <% end %>
           </div>
           

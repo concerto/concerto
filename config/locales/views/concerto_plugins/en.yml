@@ -12,9 +12,9 @@ en:
 
   concerto_plugins:
     sources:
+      rubygems: 'RubyGems'
       git: 'Git Repository'
       path: 'Filesystem Path'
-      rubygems: 'RubyGems'
 
     index:
       disabled: "disabled"
@@ -29,13 +29,17 @@ en:
       path_instructions: 'This should be a path to a directory or file location for the plugin. Please note that on Mac OS X, directories inserted into /var/www/ should be prefixed with /private.'
       source_url: "Source URL"
 
-    show: 
+    show:
       enabled: 'Enabled:'
       gem_name: 'Gem name:'
       gem_version: 'Gem version:'
       installed: 'Installed:'
+      locked: '(Locked)'
       source: 'Source:'
       source_url: 'Source url:'
       installed_yes: 'Yes'
+      installed_no: 'No'
       visit_plugin_website: "Visit plugin website"
       upgrade: "Upgrade"
+      upgrade_available: "(Upgrade available to %{version})"
+      unknown: "Unknown"

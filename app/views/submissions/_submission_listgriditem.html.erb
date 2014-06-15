@@ -7,7 +7,7 @@
     <div class="cont">
       <p><b><%= link_to submission.content.name, [submission.feed, submission] %></b></p>
       
-      <p><%= t('.date_range', :start => submission.content.start_time.strftime("%m/%d"), :end => submission.content.end_time.strftime("%m/%d")) %>
+      <p><%= t '.date_range', :start => l(submission.content.start_time, :format => :month_day), :end => l(submission.content.end_time, :format => :month_day) %>
         <% if submission.is_pending? && submission.content.is_active? %>
         <%= link_to t('.urgent'), "#", :class => "tooltip-basic", 'data-tooltip-text' => t('.urgent_tooltip') %>
         <% end -%>

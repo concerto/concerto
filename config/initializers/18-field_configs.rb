@@ -5,7 +5,9 @@
 # If :type is set to :select. :values may also be provided.
 
 Concerto::Application.config.field_configs = {
-  :transition => {:type => :select, :values => ['fade','slide','replace']},
-  :time_format => {:type => :string},
-  :disable_text_autosize => {:type => :boolean}
+  :transition   => {:type => :select, :values => ['fade','slide','replace']},
+  :time_format  => {:type => :string},
+  :disable_text_autosize => {:type => :boolean},
+  :marquee      => {:type => :boolean},
+  :shuffler     => {:type => :select, :values => ['BaseShuffle', 'WeightedShuffle']}
 }

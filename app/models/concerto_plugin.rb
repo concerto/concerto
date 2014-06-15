@@ -11,9 +11,9 @@
 
 class ConcertoPlugin < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
-  include PublicActivity::Common if defined? PublicActivity::Common  
+  include PublicActivity::Common if defined? PublicActivity::Common
 
-  validates :gem_name, :presence => true
+  validates :gem_name, :presence => true, :uniqueness => true
   validate :check_sources, :on => :create
 
   scope :enabled, -> { where(:enabled => true) }
@@ -196,9 +196,15 @@ private
     if Gem.loaded_specs.has_key? gem_name
       # Let's get the gem's full path in the filesystem
       gem_path = Gem.loaded_specs[gem_name].full_gem_path
-      # Then match the path we've got to the path of an engine - 
-      # which should have its Module Name (aka paydirt)
-      result = Rails::Engine.find gem_path
+      # Then match the path we've got to the path of an engine -
+      #    which should have its Module Name (aka paydirt)
+      Rails::Application::Railties.engines.each do |engine|
+        if engine.class.root.to_s == gem_path
+          # Get the class name from the engine hash
+          result = engine.class
+          break
+        end
+      end
     end
     result
   end

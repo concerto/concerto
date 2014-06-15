@@ -11,6 +11,8 @@ goog.require('concerto.frontend.Content.ClientTime');
 goog.require('concerto.frontend.Content.Graphic');
 goog.require('concerto.frontend.Content.HtmlText');
 goog.require('concerto.frontend.Content.Ticker');
-goog.require('concerto.frontend.Content.RemoteVideo');
+
+//= plugins # DO NOT PUT CONTENT BELOW (WILL BE OVERWRITTEN BY AUTO-GENERATION)
+
 goog.require('concerto.frontend.Content.Iframe');
-goog.require('concerto.frontend.Content.Audio');
+goog.require('concerto.frontend.Content.RemoteVideo');

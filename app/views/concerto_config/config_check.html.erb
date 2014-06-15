@@ -1,31 +1,55 @@
 <section class="viewblock">
   <header class="viewblock-header">
-    <h1 class="default-padding">
-      <%= t('.configuration_check') %>
-    </h1>
-    <div class="viewblock-header_right">
-
+    <div class="default-padding">
+      <h1>
+        <%= t('.configuration_check') %>
+      </h1>
     </div>
-
   </header>
+
   <div class="viewblock-cont">
 
-    <div class="subnav clearfix">
-      <h3>Software Prerequisites:</h3>
-      <p><%= test_symbol(@imagemagick_installed) %><%=imagemagick_text%></p>
-      <p><%= test_symbol(@rmagick_installed) %><%= rmagick_text %></p>
+    <div class="clearfix default-padding">
+      <div class="header-with-icon">
+        <h3>
+          <%= t('.software_prerequisites') %>
+        </h3>
+      </div>
+      <ul class="list-stacked">
+        <li><%= test_symbol(@imagemagick_installed) %><%=imagemagick_text%></li>
+        <li><%= test_symbol(@rmagick_installed) %><%= rmagick_text %></li>
+      </ul>
+
+      <div class="header-with-icon">
+        <h3>
+          <%= t('.file_permissions') %>
+        </h3>
+      </div>
+      <ul class="list-stacked">
+        <li><%= test_symbol(@rails_log_perms) %><%= rails_log_text %></li>
+        <li><%= test_symbol(@rails_tmp_perms) %><%= rails_tmp_text %></li>
+      </ul>
+
+      <div class="header-with-icon">
+        <h3>
+          <%= t('.performance') %>
+        </h3>
+      </div>
+      <ul class="list-stacked">
+        <li><%= test_symbol(@not_using_sqlite) %><%= db_text %></li>
+      </ul>
+
+      <div class="header-with-icon">
+        <h3>
+          <%= t('.security') %>
+        </h3>
+      </div>
       
-      <h3>Necessary File Permissions:</h3>
-      <p><%= test_symbol(@rails_log_perms) %><%= rails_log_text %></p>
-      <p><%= test_symbol(@rails_tmp_perms) %><%= rails_tmp_text %></p>
-            
-      <h3>Performance:</h3>
-      <p><%= test_symbol(@not_using_sqlite) %><%= db_text %></p>
-      
-      <h3>Security:</h3>      
-      <p><%= test_symbol(@not_world_writable) %><%= world_writable_text %></p>
-      <p><%= test_symbol(@rails_root_perms) %><%= root_perms_text %></p>
-      <p><%= test_symbol(@webserver_ownership) %><%= webserver_ownership_text %></p>      
+      <ul class="list-stacked">
+        <li><%= test_symbol(@not_world_writable) %><%= world_writable_text %></li>
+        <li><%= test_symbol(@rails_root_perms) %><%= root_perms_text %></li>
+        <li><%= test_symbol(@webserver_ownership) %><%= webserver_ownership_text %></li>
+      </ul>
     </div>
 
   </div>

@@ -153,10 +153,11 @@ concerto.frontend.Field.prototype.createDiv = function() {
 concerto.frontend.Field.prototype.inject = function(div, autosize_font) {
   goog.dom.appendChild(this.div_, div);
 
-  if (goog.isDefAndNotNull(autosize_font) && autosize_font == true) {
-    //console.log("injected content size is " + goog.style.getSize(div));
+  /* size to height if using a scrolling marquee */
+  if (goog.dom.getElementByClass('marquee', this.div_)) {
+    concerto.frontend.Helpers.SizeToHeight(div, this.div_);
+  } else if (goog.isDefAndNotNull(autosize_font) && autosize_font == true) {
     concerto.frontend.Helpers.SizeToFit(div, this.div_);
-    //console.log("adjusted content size is " + goog.style.getSize(div));
   }
 };
 
@@ -213,6 +214,11 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
   var url = this.content_url + '?' + params.toString();
   this.connection_.send('field' + this.id, url, 'GET', '', null, 1,
       goog.bind(function(e) {
+        // if the position is no longer valid, like when a template changes, abort
+        if (this.position == null) {
+          return;
+        }
+
 
         var xhr = e.target;
 
@@ -240,10 +246,30 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
               goog.bind(function() {this.nextContent(true)}, this), 10);
         }
 
+        // A scrolling marquee field doesn't queue up items to display, rather
+        // it displays them all at once.  So collapse it into a one item array.
+        var marquee = !!+(this.config_ ?
+                              this.config_['marquee'] : 0);
+        if (marquee) {
+          var contents = "";
+          goog.array.forEach(contents_data, goog.bind(function(content_data) {
+            contents += "<span>" + content_data['render_details']['data'] + "</span>";
+          }));
+
+          var k = new Array();
+          k.push(contents_data[0]);
+          k[0]['render_details']['data'] = contents;
+          contents_data = k;
+        }
+
         goog.array.forEach(contents_data, goog.bind(function(content_data) {
+          // if the position is no longer valid, like when a template changes, abort
+          if (this.position == null) {
+            return;
+          }
           // Slip in some data about the field.  Content might want to know the
           // current size of the position it is being rendered in.
-          content_data.field = {
+          content_data['field'] = {
             'size': this.position.getSize(),
             'config': this.config_
           };
@@ -346,6 +372,18 @@ concerto.frontend.Field.prototype.autoAdvance = function() {
   } else {
     this.logger_.info('Field ' + this.id + ' is not advancing.');
   }
+};
+
+/**
+ * Clean up the field before deletion.
+ */
+concerto.frontend.Field.prototype.dispose = function() {
+    this.position = null;
+
+    if (this.current_content_) {
+        this.current_content_.dispose();
+    }
+    this.current_content_ = null;
 };
 
 
