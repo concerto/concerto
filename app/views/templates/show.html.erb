@@ -1,10 +1,10 @@
 <% sidebar = ConcertoPlugin.render_view_hook self, :sidebar %>
 
 <%
-  # Hide sidebar area from non-logged in users or when not defined 
+  # Hide sidebar area when not defined 
   main_span = 9
   sidebar_span = 3
-  if !user_signed_in? or sidebar.blank?
+  if sidebar.blank?
     main_span = 12
     sidebar_span = 0
   end
