@@ -214,6 +214,11 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
   var url = this.content_url + '?' + params.toString();
   this.connection_.send('field' + this.id, url, 'GET', '', null, 1,
       goog.bind(function(e) {
+        // if the position is no longer valid, like when a template changes, abort
+        if (this.position == null) {
+          return;
+        }
+
 
         var xhr = e.target;
 
@@ -258,6 +263,10 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
         }
 
         goog.array.forEach(contents_data, goog.bind(function(content_data) {
+          // if the position is no longer valid, like when a template changes, abort
+          if (this.position == null) {
+            return;
+          }
           // Slip in some data about the field.  Content might want to know the
           // current size of the position it is being rendered in.
           content_data['field'] = {
@@ -363,6 +372,18 @@ concerto.frontend.Field.prototype.autoAdvance = function() {
   } else {
     this.logger_.info('Field ' + this.id + ' is not advancing.');
   }
+};
+
+/**
+ * Clean up the field before deletion.
+ */
+concerto.frontend.Field.prototype.dispose = function() {
+    this.position = null;
+
+    if (this.current_content_) {
+        this.current_content_.dispose();
+    }
+    this.current_content_ = null;
 };
 
 
