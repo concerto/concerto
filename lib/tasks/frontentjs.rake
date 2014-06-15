@@ -66,12 +66,12 @@ namespace :frontendjs do
   end
 
   task :setup do
-    if !@closure_library.exist?
+    if !@closure_builder.exist?
       puts "Setting up closure library"
       `git submodule init`
       `git submodule update`
 
-      if !@closure_library.exist?
+      if !@closure_builder.exist?
         raise "Could not setup closure library"
       end
     end
