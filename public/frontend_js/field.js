@@ -109,6 +109,14 @@ concerto.frontend.Field = function(position, id, name, content_path,
   this.config_ = opt_config;
 
   /**
+   * Should this field act as a scrolling marquee?
+   * @type {boolean}
+   * @private
+   */
+  this.marquee_ = !!+(this.config_ ?
+                        this.config_['marquee'] : 0);
+
+  /**
    * Alias to the XHR connection.
    * @type {!goog.net.XhrManager}
    * @private
@@ -154,7 +162,7 @@ concerto.frontend.Field.prototype.inject = function(div, autosize_font) {
   goog.dom.appendChild(this.div_, div);
 
   /* size to height if using a scrolling marquee */
-  if (goog.dom.getElementByClass('marquee', this.div_)) {
+  if (this.marquee_) {
     concerto.frontend.Helpers.SizeToHeight(div, this.div_);
   } else if (goog.isDefAndNotNull(autosize_font) && autosize_font == true) {
     concerto.frontend.Helpers.SizeToFit(div, this.div_);
@@ -247,10 +255,9 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
         }
 
         // A scrolling marquee field doesn't queue up items to display, rather
-        // it displays them all at once.  So collapse it into a one item array.
-        var marquee = !!+(this.config_ ?
-                              this.config_['marquee'] : 0);
-        if (marquee) {
+        // it displays them all at once.  So collapse it into a one item array
+        // and treat it as a ticker item.
+        if (this.marquee_) {
           var contents = "";
           goog.array.forEach(contents_data, goog.bind(function(content_data) {
             contents += "<span>" + content_data['render_details']['data'] + "</span>";
@@ -259,6 +266,7 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
           var k = new Array();
           k.push(contents_data[0]);
           k[0]['render_details']['data'] = contents;
+          k[0]['type'] = 'Ticker';
           contents_data = k;
         }
 
