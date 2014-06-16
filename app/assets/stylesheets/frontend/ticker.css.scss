@@ -24,6 +24,12 @@
       display: none;
     }
 
+    br, p, div {
+      &::after {
+        content: " ";
+      }
+    }
+
     h1, h2, h3, h4 {
       padding: 0 1em 0 0;
 
@@ -31,8 +37,6 @@
         content: ": ";
       }
     }
-
-
 
     >span::after {
       display: inline-block;
