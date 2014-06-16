@@ -20,7 +20,7 @@ class Frontend::ContentsController < ApplicationController
 
     shuffle_config = FieldConfig.get(@screen, @field, 'shuffler') || DEFAULT_SHUFFLE
     shuffler_klass = FrontendContentOrder.load_shuffler(shuffle_config)
-    session_key = "frontend_#{@screen.id}_#{@field.id}".to_sym
+    session_key = "frontend_#{@screen.id}_#{@screen.template.id}_#{@field.id}".to_sym
     shuffler = nil
     count = 1
 
