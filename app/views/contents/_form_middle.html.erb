@@ -17,6 +17,10 @@
 </fieldset>
 
 <fieldset>
+  <%= ConcertoPlugin.render_view_hook self, :content_details %>
+</fieldset>
+
+<fieldset>
   <legend><span><%=t('contents.submit_to_feeds')%></span></legend>
   <div class="clearfix">
     <%= render :partial => 'contents/form_elements/feeds' %>
