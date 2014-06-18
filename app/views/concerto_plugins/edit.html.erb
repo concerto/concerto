@@ -6,7 +6,9 @@
   </header>
   <div class="viewblock-cont">
     <% if ENV['FROZEN'] == "1" %>
-      <%= t(:gems_frozen_warning) %>
+      <div id="gem-frozen">
+        <%= t(:gems_frozen_warning) %>
+      </div>
     <% end %>
     <%= form_for(@concerto_plugin) do |f| %>
       <% if @concerto_plugin.errors.any? %>

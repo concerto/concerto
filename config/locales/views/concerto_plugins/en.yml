@@ -1,5 +1,5 @@
 en:
-  gems_frozen_warning: "Bundler has been run on Concerto using a frozen gem configuration - likely due to a deployment tool using the --deployment option for Bundler. In this setup, Concerto cannot automatically update the Gemfile with any plugins added/removed here nor install or update Concerto gems automatically."
+  gems_frozen_warning: "Bundler has been run on Concerto using a frozen gem configuration—likely due to a deployment tool using the --deployment option for Bundler. In this setup, Concerto cannot automatically update the Gemfile with any plugins added/removed here nor install or update Concerto gems automatically."
 
   activerecord:
     models:
