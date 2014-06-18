@@ -9,6 +9,8 @@ class DashboardController < ApplicationController
   # GET /dashboard.js
   def show
     if current_user
+      @motd = ConcertoConfig.get(:motd_html)
+
       # Browse + Vitals share feeds.
       @feeds = Feed.accessible_by(current_ability).roots
 
