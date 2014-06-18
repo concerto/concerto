@@ -16,9 +16,7 @@
 
 </fieldset>
 
-<fieldset>
-  <%= ConcertoPlugin.render_view_hook self, :content_details %>
-</fieldset>
+<%= ConcertoPlugin.render_view_hook self, :content_form %>
 
 <fieldset>
   <legend><span><%=t('contents.submit_to_feeds')%></span></legend>
