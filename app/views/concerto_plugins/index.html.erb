@@ -28,13 +28,7 @@
           <tr>
             
             <td>
-              <h1>
-                <% if concerto_plugin.enabled? %>
-                  <i class="icon-check tooltip-basic" data-tooltip-text="<%= t('.enabled_msg') %>"></i>
-                <% else %>
-                  <i class="icon-remove-sign tooltip-basic" data-tooltip-text="<%= t('.disabled_msg') %>"></i>
-                <% end %>
-              </h1>
+              <h1><%= status_badge concerto_plugin.enabled %></h1>
             </td>
             <td>
               <h3><%= link_to(concerto_plugin.name.titleize, :action => :show, :id => concerto_plugin.id) %></h3>
