@@ -42,7 +42,7 @@ class ConcertoPluginsController < ApplicationController
     if @concerto_plugin.save
       process_notification(@concerto_plugin, {}, process_notification_options({:params => {:concerto_plugin_gem_name => @concerto_plugin.gem_name}}))
       #if boot.rb found a "frozen" bundler environment, don't try to write the Gemfile or bundle install
-      if ENV['FROZEN'] == true
+      if ENV['FROZEN'] == "1"
         flash[:notice] = t(:plugin_created_frozen_env)
       else
         write_Gemfile()
@@ -64,7 +64,7 @@ class ConcertoPluginsController < ApplicationController
     auth!
     if @concerto_plugin.update_attributes(concerto_plugin_params)
       process_notification(@concerto_plugin, {}, process_notification_options({:params => {:concerto_plugin_gem_name => @concerto_plugin.gem_name}}))
-      if ENV['FROZEN'] == true
+      if ENV['FROZEN'] == "1"
         flash[:notice] = t(:plugin_updated_frozen_env)
       else
         write_Gemfile()
@@ -84,7 +84,7 @@ class ConcertoPluginsController < ApplicationController
 
     process_notification(@concerto_plugin, {}, process_notification_options({:params => {:concerto_plugin_gem_name => @concerto_plugin.gem_name}}))
     @concerto_plugin.destroy
-    if ENV['FROZEN'] == true
+    if ENV['FROZEN'] == "1"
       flash[:notice] = t(:plugin_removed_frozen_env)
     else
       write_Gemfile()

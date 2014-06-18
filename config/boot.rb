@@ -33,13 +33,13 @@ bundle_config = YAML.load_file('.bundle/config')
 #This option forbids any difference between the Gemfile and Gemfile.lock
 #and causes dynamic plugin installation to break Concerto
 if bundle_config['BUNDLE_FROZEN'] == "1"
-  ENV['FROZEN'] = true
+  ENV['FROZEN'] = "1"
 end
 
 #To do automagical bundle installation, frozen gems must NOT be in use,
 #the eponymous option must be set in concerto.yml,
 #and Concerto cannot be running in the test environment (or at least not Travis')
-if ENV['FROZEN'] != true && concerto_base_config['automatic_bundle_installation'] == true && ENV['RAILS_ENV'] != 'test'
+if ENV['FROZEN'] != "1" && concerto_base_config['automatic_bundle_installation'] == true && ENV['RAILS_ENV'] != 'test'
   if command?('gem') == false && command?('bundle') == false
     raise "Gem and Bundler are required to run Concerto gem installation.\n" +
     	  "You can disable automatic gem installation in config/concerto.yml"
