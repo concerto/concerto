@@ -11,14 +11,14 @@ end
 if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
   if ConcertoConfig.columns_hash.has_key?("plugin_id")
     # defaults
-    ConcertoConfig.make_concerto_config("default_upload_type", "graphic", :category => 'Content')
-    ConcertoConfig.make_concerto_config("content_default_start_time", "12:00 am", :value_type => "time", :category => 'Content')
-    ConcertoConfig.make_concerto_config("content_default_end_time", "11:59 pm", :value_type => "time", :category => 'Content')
-    ConcertoConfig.make_concerto_config("start_date_offset", "0", :value_type => "integer", :category => 'Content')
-    ConcertoConfig.make_concerto_config("default_content_run_time", "7", :value_type => "integer", :category => 'Content')
-    ConcertoConfig.make_concerto_config("default_content_duration", "8", :value_type => "integer", :category => 'Content')
-    ConcertoConfig.make_concerto_config("max_content_duration", "12", :value_type => "integer", :category => 'Content')
-    ConcertoConfig.make_concerto_config("min_content_duration", "4", :value_type => "integer", :category => 'Content')
+    ConcertoConfig.make_concerto_config("default_upload_type", "graphic", :category => 'Content', :seq_no => 10)
+    ConcertoConfig.make_concerto_config("content_default_start_time", "12:00 am", :value_type => "time", :category => 'Content', :seq_no => 20)
+    ConcertoConfig.make_concerto_config("content_default_end_time", "11:59 pm", :value_type => "time", :category => 'Content', :seq_no => 30)
+    ConcertoConfig.make_concerto_config("start_date_offset", "0", :value_type => "integer", :category => 'Content', :seq_no => 40)
+    ConcertoConfig.make_concerto_config("default_content_run_time", "7", :value_type => "integer", :category => 'Content', :seq_no => 50)
+    ConcertoConfig.make_concerto_config("default_content_duration", "8", :value_type => "integer", :category => 'Content', :seq_no => 60)
+    ConcertoConfig.make_concerto_config("min_content_duration", "4", :value_type => "integer", :category => 'Content', :seq_no => 70)
+    ConcertoConfig.make_concerto_config("max_content_duration", "12", :value_type => "integer", :category => 'Content', :seq_no => 80)
 
     # access
     ConcertoConfig.make_concerto_config("public_concerto", "true", :value_type => "boolean", :category => 'Permissions', :seq_no => 99)
@@ -50,7 +50,7 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("config_last_updated", "0", :value_type => "integer", :hidden => "true", :category => 'System')
     ConcertoConfig.make_concerto_config("http_proxy_settings", "", :value_type => "string", :category => 'System', :description => 'http://username:password@hostname:port')   
     ConcertoConfig.make_concerto_config("keep_activity_log", "90", :value_type => "integer", :value_default => "90", :category => 'System', :description => 'Days to keep activity log for (where 0 is forever)') 
-       
+    ConcertoConfig.make_concerto_config("footer_html", "", :value_type => "text", :category => 'System', :description => 'HTML to display on the footer of every page.')   
   end
 
   Rails.logger.debug "Completed 02-concerto_config.rb at #{Time.now.to_s}"

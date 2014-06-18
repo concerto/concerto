@@ -104,7 +104,7 @@
                         <b><%= link_to_if can?(:read, pending_membership.user), pending_membership.user.name, pending_membership.user %></b><br />
                       </p>
                     </th>
-                    <th><p><%= pending_membership.created_at.strftime("%I:%M %p on %D") %></p></th>
+                    <th><p><%= l pending_membership.created_at, :format => :time_date %></p></th>
                     <th>
                       <% if can? :update, pending_membership %>
                         <%= link_to t(:approve), group_membership_path(@group, pending_membership, :perform => "approve"), :method => :put, :class => "btn btn-small btn-success"%>
@@ -149,7 +149,7 @@
                         </th>
                         <th>
                           <p>
-                            <%= denied_membership.created_at.strftime("%I:%M %p on %D") %>
+                            <%= l denied_membership.created_at, :format => :time_date %>
                           </p>
                         </th>
                         <th>

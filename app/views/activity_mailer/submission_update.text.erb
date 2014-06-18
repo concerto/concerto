@@ -9,9 +9,9 @@
 
 <% if @activity.parameters[:status] %>
   <%= t '.content_schedule',
-    :start => @activity.trackable.content.start_time.strftime("%A %B %e at %l:%m %p"),
-    :end => @activity.trackable.content.end_time.strftime("%A %B %e at %l:%m %p"),
-    :duration_seconds => @activity.trackable.duration
+    :start => l(@activity.trackable.content.start_time, :format => :long_day),
+    :end => l(@activity.trackable.content.end_time, :format => :long_day),
+    :duration => @activity.trackable.duration
   %>
 <% end %>
 

@@ -20,12 +20,15 @@ class Frontend::ContentsController < ApplicationController
 
     shuffle_config = FieldConfig.get(@screen, @field, 'shuffler') || DEFAULT_SHUFFLE
     shuffler_klass = FrontendContentOrder.load_shuffler(shuffle_config)
-    session_key = "frontend_#{@screen.id}_#{@field.id}".to_sym
+    session_key = "frontend_#{@screen.id}_#{@screen.template.id}_#{@field.id}".to_sym
     shuffler = nil
+    count = 1
+
+    count = 20 if FieldConfig.get(@screen, @field, 'marquee') == '1'
 
     run_callbacks :index do # Run plugin hooks
       shuffler = shuffler_klass.new(@screen, @field, @subscriptions, session[session_key])
-      @content = shuffler.next_contents()
+      @content = shuffler.next_contents(count)
     end
 
     auth! :object => @content

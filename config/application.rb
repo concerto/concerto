@@ -5,7 +5,7 @@ require 'rails/all'
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
   #Bundler.require(*Rails.groups(:assets => %w(development test)))
-  
+
   groups = {:assets => %w(development test production)}
   Bundler.require(:concerto_plugins,*Rails.groups(groups))
 
@@ -31,7 +31,7 @@ module Concerto
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    #config.time_zone = 'Eastern Time (US & Canada)'
+    # config.time_zone = 'Eastern Time (US & Canada)'
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     #config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
@@ -58,13 +58,13 @@ module Concerto
     # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
     # parameters by using an attr_accessible or attr_protected declaration.
     config.active_record.whitelist_attributes = false
-   
+
     # Enable the asset pipeline
     config.assets.enabled = true
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-    
+
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'concerto_env.yml')
       YAML.load(File.open(env_file)).each do |key, value|
@@ -79,7 +79,7 @@ module Concerto
     end
 
     # Error Handling
-    # We will configure the Rails ShowErrors middleware to send all errors it 
+    # We will configure the Rails ShowErrors middleware to send all errors it
     # sees to a controller within Concerto so we can render a nice error. This
     # will catch all exceptions not caught by ApplicationController. They will
     # be routed as /404, /500, etc.

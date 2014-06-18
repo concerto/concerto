@@ -1,9 +1,34 @@
-<section class="viewblock">
-  <header class="viewblock-header" id="templates-header">
-    <%= render :partial => "templates/show_header" %>
-  </header>
-  <div id="templates-body" class="viewblock-cont">
-    <%= render :partial => "templates/show_body" %>
+<% sidebar = ConcertoPlugin.render_view_hook self, :sidebar %>
+
+<%
+  # Hide sidebar area when not defined 
+  main_span = 9
+  sidebar_span = 3
+  if sidebar.blank?
+    main_span = 12
+    sidebar_span = 0
+  end
+%>
+
+<div class="row-fluid">
+  <div class="span<%= main_span %>">
+
+    <section class="viewblock">
+      <header class="viewblock-header" id="templates-header">
+        <%= render :partial => "templates/show_header" %>
+      </header>
+      <div id="templates-body" class="viewblock-cont">
+        <%= render :partial => "templates/show_body" %>
+      </div>
+    </section>
 
   </div>
-</section>
+  <div class="span<%= sidebar_span %>">
+
+    <% if !sidebar.blank? %>
+      <%= ConcertoPlugin.render_view_hook self, :sidebar %>
+    <% end %>
+
+  </div>
+</div>
+

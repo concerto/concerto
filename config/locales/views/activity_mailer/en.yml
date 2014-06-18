@@ -2,7 +2,7 @@ en:
   activity_mailer:
     submission_update:
       approved: 'approved'
-      content_schedule: 'The content is scheduled to begin showing on %{start} and end on %{end}. It will be shown for %{duration_seconds} seconds.'
+      content_schedule: 'The content is scheduled to begin showing on %{start} and end on %{end}. It will be shown for %{duration} seconds.'
       denied: 'denied'
       moderator: 'Moderator'
       moderator_text: 'moderator %{moderator} %{status} %{content_name} for the %{feed} feed'

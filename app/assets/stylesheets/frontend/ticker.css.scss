@@ -1,0 +1,75 @@
+ 
+.marquee {
+  position: relative;
+  display: inline-block;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+
+  -webkit-animation: marquee linear infinite;
+     -moz-animation: marquee linear infinite;
+      -ms-animation: marquee linear infinite;
+          animation: marquee linear infinite;
+
+  .marquee-bundle {
+    display: inline;
+    white-space: nowrap;
+
+    * {
+      display: inline-block;
+      margin: 0;
+      font-size: 1em;
+    }
+
+    img, a, br { 
+      display: none;
+    }
+
+    br, p, div {
+      &::after {
+        content: " ";
+      }
+    }
+
+    h1, h2, h3, h4 {
+      padding: 0 1em 0 0;
+
+      &::after {
+        content: ": ";
+      }
+    }
+
+    >span::after {
+      display: inline-block;
+      margin: 0 1em;
+      width: 1em;
+      height: 1em;
+      text-align: center;
+      content: "";
+      background: transparent url(image-path("elements/logomark.png")) no-repeat;
+      background-position: center center;
+      background-size: 1em 1em;
+      vertical-align: middle;
+    }
+
+  }
+}
+ 
+@-webkit-keyframes marquee {
+  0% { -webkit-transform: translateX(0%); }
+  100% { -webkit-transform: translateX(-50%); }
+}
+@-moz-keyframes marquee {
+  0% { -moz-transform: translateX(0%); }
+  100% { -moz-transform: translateX(-50%); }
+}
+@-ms-keyframes marquee {
+  0% { -ms-transform: translateX(0%); }
+  100% { -ms-transform: translateX(-50%); }
+}
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+
+

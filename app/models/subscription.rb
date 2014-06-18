@@ -1,6 +1,9 @@
 class Subscription < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
+  define_model_callbacks :filter_contents
+  ConcertoPlugin.install_callbacks(self)
+
   # Weight Levels
   WEIGHTS = {
     # A very frequent chance of content showing up.
@@ -32,8 +35,11 @@ class Subscription < ActiveRecord::Base
 
   # Get an array of all the approved active content to be shown in a screen's field.
   def contents
-    contents = self.feed.approved_contents.active.all
-    contents.reject!{|c| !c.can_display_in?(self.screen, self.field)}
-    return contents
+    @contents = self.feed.approved_contents.active.all
+    run_callbacks :filter_contents do
+      @contents.reject!{|c| !c.can_display_in?(self.screen, self.field)}
+    end
+
+    return @contents
   end
 end

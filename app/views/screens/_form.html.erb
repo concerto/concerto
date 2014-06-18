@@ -36,7 +36,7 @@
         <div class="clearfix">
           <%= f.label :owner %>
           <div class="input">
-            <% if current_user.is_admin?
+            <% if can?(:manage, :all)
                  @users = User.order('last_name ASC')
                  @groups = Group.order('name ASC')
                else

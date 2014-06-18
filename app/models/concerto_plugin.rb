@@ -11,11 +11,11 @@
 
 class ConcertoPlugin < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
-  include PublicActivity::Common if defined? PublicActivity::Common  
+  include PublicActivity::Common if defined? PublicActivity::Common
 
-  validates :gem_name, :presence => true
+  validates :gem_name, :presence => true, :uniqueness => true
   validate :check_sources, :on => :create
-  
+
   scope :enabled, where(:enabled => true)
 
   # Find the Engine's module from among the installed engines.
@@ -30,7 +30,7 @@ class ConcertoPlugin < ActiveRecord::Base
   def mod
     engine.parent
   end
- 
+
   def module_name
     engine.nil? ? "" : engine.parent.name
   end

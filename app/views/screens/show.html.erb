@@ -4,7 +4,7 @@
   # Hide screen hardware player controls from non-logged in users or when hardware is not defined 
   screen_span = 9
   player_span = 3
-  if !user_signed_in? or sd.blank?
+  if sd.blank?
     screen_span = 12
     player_span = 0
   end

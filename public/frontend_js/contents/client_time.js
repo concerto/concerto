@@ -39,14 +39,14 @@ concerto.frontend.Content.ClientTime = function(data) {
    * @type {number}
    * @private
    */
-  this.field_height_ = data['field']['size']['height'];
+  this.field_height_ = parseFloat(data['field']['size']['height']);
 
   /**
    * The width of the field the time is being shown in.
    * @type {number}
    * @private
    */
-  this.field_width_ = data['field']['size']['width'];
+  this.field_width_ = parseFloat(data['field']['size']['width']);
 
   /**
    * The timezone.

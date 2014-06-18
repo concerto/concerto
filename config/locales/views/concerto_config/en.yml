@@ -2,6 +2,9 @@ en:
   activerecord:
     attributes:
       concerto_config:
+        analytics_enabled: "Google Analytics enabled"
+        analytics_property_id: "Google Web Property ID (API Key)"
+        poll_interval: "Hardware player polling interval"
         allow_registration: "Allow open user registration"
         allow_user_feed_creation: "Allow user feed creation"
         allow_user_screen_creation: "Allow user screen creation"
@@ -44,3 +47,7 @@ en:
       save_settings: "Save Settings"
     config_check:
       configuration_check: "Configuration Check"
+      file_permissions: "Necessary File Permissions"
+      performance: "Performance"
+      security: "Security"
+      software_prerequisites: "Software Prerequisites"

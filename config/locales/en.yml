@@ -1,5 +1,5 @@
 # Sample localization file for English. Add more files in this directory for other locales.
-# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
   actions: "Actions"
@@ -62,7 +62,18 @@ en:
   type_to_filter: 'Type here to filter'
   update_model: 'Update %{model}'
   valid_git: 'is not a valid git repository'
-
+  time:
+    formats:
+      date: '%D'
+      date_time: '%D, %l:%M %p'
+      date_long_year: '%m/%d/%Y'
+      long_day: '%A %B %e at %l:%m %p'
+      month_day: '%m/%d'
+      short_month: '%b %d'
+      short_day: '%a %b %d %Y'
+      short_date: '%a %D'
+      twelve_hour_time: '%I:%M %P'
+      time_date: '%I:%M %p on %D'
   #CanCan Exceptions localization (https://github.com/ryanb/cancan/wiki/exception-handling)
   unauthorized:
     read:
@@ -70,6 +81,6 @@ en:
     create:
       all: "You're not authorized to create %{subject}."
     update:
-      all: "You're not authorized to update %{subject}."      
+      all: "You're not authorized to update %{subject}."
     delete:
       all: "You're not authorized to delete %{subject}."
