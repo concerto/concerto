@@ -12,7 +12,9 @@
     </h1>
   </header>
   <div class="viewblock-cont">
-
+    <% if ENV['FROZEN'] == "1" %>
+      <%= t(:gems_frozen_warning) %>
+    <% end %>
     <div class="default-padding">
     <table class="plugins-list">
       <thead>
@@ -26,7 +28,7 @@
         <% @concerto_plugins.each do |concerto_plugin| %>
           <% gemspec = Gem.loaded_specs[concerto_plugin.gem_name] %>
           <tr>
-            
+
             <td>
               <h1>
                 <% if concerto_plugin.enabled? %>
@@ -39,7 +41,7 @@
             <td>
               <h3><%= link_to(concerto_plugin.name.titleize, :action => :show, :id => concerto_plugin.id) %></h3>
             </td>
-            
+
             <td><%= !gemspec.nil? ? gemspec.description : "" %></td>
           </tr>
         <% end %>
