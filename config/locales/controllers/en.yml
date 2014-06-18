@@ -86,10 +86,13 @@ en:
 
   #Concerto plugins
   plugin_created: "Concerto plugin was successfully installed."
+  plugin_created_frozen_env: "The Concerto plugin was created, but Concerto is running in a frozen Bundler environment. The plugin must be added to the Gemfile and installed manually with bundler."
   plugin_removed: "Concerto plugin was successfully removed."
+  plugin_removed_frozen_env: "The Concerto plugin was removed, but Concerto is running in a frozen Bundler environment. The plugin must be removed from the Gemfile and bundler re-run."
   restart_alert: "A new plugin has been added.  Please restart the concerto application."
   plugin_creation_failed: "Concerto plugin creation failed."
   plugin_updated: "Concerto plugin was successfully updated."
+  plugin_removed_frozen_env: "The Concerto plugin was updated, but Concerto is running in a frozen Bundler environment. Bundler must be re-run."
   bundle_error: "An error occurred while running bundle install."
   wont_write_restart_txt: "Concerto does not support restarting your webserver. Please restart it manually."
   cant_write_restart_txt: "An error occurred while restarting the webserver. Please restart it manually."
