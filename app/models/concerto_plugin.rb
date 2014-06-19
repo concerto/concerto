@@ -141,7 +141,8 @@ class ConcertoPlugin < ActiveRecord::Base
         logger.warn("ConcertoPlugin: failed to check #{plugin.name}" +
                     " for callbacks")
       end
-    end
+    end if ActiveRecord::Base.connection.table_exists? 'concerto_plugins'
+
     callbacks.each do |callback|
       controller.set_callback(callback[:name], callback[:filter_list], callback[:block])
     end
