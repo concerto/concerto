@@ -1,6 +1,8 @@
 class Content < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
+  ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
+
   belongs_to :user
   belongs_to :kind
   has_many :submissions, :dependent => :destroy, :after_add => :after_add_callback
