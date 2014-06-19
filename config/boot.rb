@@ -27,15 +27,15 @@ require File.expand_path('../../lib/command_check.rb', __FILE__)
 #load low-level config yaml to check installation config params
 require 'yaml'
 concerto_base_config = YAML.load_file("./config/concerto.yml")
-bundle_config = YAML.load_file('.bundle/config')
-
-#If this bundle variable is set, bundler has been used with the --deployment option
-#This option forbids any difference between the Gemfile and Gemfile.lock
-#and causes dynamic plugin installation to break Concerto
-if bundle_config['BUNDLE_FROZEN'] == "1"
-  ENV['FROZEN'] = "1"
+if File.exists?('.bundle/config')
+  bundle_config = YAML.load_file('.bundle/config')
+  #If this bundle variable is set, bundler has been used with the --deployment option
+  #This option forbids any difference between the Gemfile and Gemfile.lock
+  #and causes dynamic plugin installation to break Concerto
+  if bundle_config['BUNDLE_FROZEN'] == "1"
+    ENV['FROZEN'] = "1"
+  end
 end
-
 #To do automagical bundle installation, frozen gems must NOT be in use,
 #the eponymous option must be set in concerto.yml,
 #and Concerto cannot be running in the test environment (or at least not Travis')
