@@ -32,5 +32,5 @@ en:
 
     owner_select:
       no_users_found: 'No users found.'
-      select_user: 'Select a User ...'
+      select_user: 'Select a User...'
       type_to_filter: 'Type to filter ...'
