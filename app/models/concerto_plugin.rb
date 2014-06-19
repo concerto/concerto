@@ -98,7 +98,7 @@ class ConcertoPlugin < ActiveRecord::Base
   # string.
   # This is very inefficient, especially for multiple hooks in one view.
   # However, the API is implementation-agnostic.
-  def self.render_view_hook(context, hook_name)
+  def self.render_view_hook(context, hook_name, local_options = nil)
     result = ""
     controller_name = context.controller.controller_name
     ConcertoPlugin.enabled.each do |plugin|
@@ -107,7 +107,7 @@ class ConcertoPlugin < ActiveRecord::Base
           # Make the authorization rules from the plugin available
           context.controller.switch_to_plugin_ability(plugin.mod)
           if hook[:type] == :partial
-            result += context.render :partial => hook[:hook]
+            result += context.render :partial => hook[:hook], :locals => local_options
           elsif hook[:type] == :text
             result += hook[:hook]
           elsif hook[:type] == :proc
