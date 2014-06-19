@@ -73,6 +73,8 @@ function addOwner(name, type, owner_id) {
       $('#screen_owner_id').val(owner_id.split("-")[1]);
     }
   }
+
+  $(".qtip-light").fadeOut().removeClass("active");
 }
 
 function initOwnerSelect() {
