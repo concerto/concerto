@@ -52,7 +52,7 @@
                end
             %>
             
-            <%= render :partial => "elements/owner_select", :locals => { :options => options } %>
+            <%= render :partial => "elements/owner_select", :locals => { :options => options, :screen => @screen} %>
             <%= f.hidden_field :owner_type %>
             <%= f.hidden_field :owner_id %>
            </div>
