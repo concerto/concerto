@@ -34,7 +34,7 @@ function addOwnerSelectUi() {
         solo: true
       },
       hide: 'unfocus',
-      style: 'qtip-light qtip-shadow qtip-fixedwidth-medium qtip-rounded qtip-nopadding'
+      style: 'ownerSelection qtip-light qtip-shadow qtip-fixedwidth-medium qtip-rounded qtip-nopadding'
     });
   }).click(function(e) {
     e.preventDefault();
@@ -73,6 +73,8 @@ function addOwner(name, type, owner_id) {
       $('#screen_owner_id').val(owner_id.split("-")[1]);
     }
   }
+
+  $(".ownerSelection").fadeOut().removeClass("active");
 }
 
 function initOwnerSelect() {
