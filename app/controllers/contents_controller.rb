@@ -2,9 +2,6 @@ class ContentsController < ApplicationController
   before_filter :get_content_const, :only => [:new, :create, :update, :preview]
   respond_to :html, :json, :js
 
-  define_callbacks :content_params
-  ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
-
   # Grab the constant object for the type of
   # content we're working with.  Probably needs
   # additional error checking.
@@ -295,16 +292,15 @@ class ContentsController < ApplicationController
   # Restrict the allowed parameters to a select set defined in the model.
   def content_params
     # First we need to figure out the model name.
-    @content_sym = :content
-    @attributes = Content.form_attributes
+    content_sym = :content
+    attributes = Content.form_attributes
     if !@content_const.nil?
-      @content_sym = @content_const.model_name.singular.to_sym
-      @attributes = @content_const.form_attributes
+      content_sym = @content_const.model_name.singular.to_sym
+      attributes = @content_const.form_attributes
     end
-    run_callbacks :content_params
 
     # Reach into the model and grab the attributes to accept.
-    params.require(@content_sym).permit(*@attributes)
+    params.require(content_sym).permit(*attributes)
   end
 
   # User an extra restictive list of params for content updates.
