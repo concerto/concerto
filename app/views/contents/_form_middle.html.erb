@@ -13,14 +13,4 @@
       <%= render :partial => 'contents/form_elements/duration', :locals => {:form => form, :min => ConcertoConfig[:min_content_duration].to_i, :max => ConcertoConfig[:max_content_duration].to_i} %>
     </div>
   </div>
-
-</fieldset>
-
-<%= ConcertoPlugin.render_view_hook self, :content_form, {:form => form} %>
-
-<fieldset>
-  <legend><span><%=t('contents.submit_to_feeds')%></span></legend>
-  <div class="clearfix">
-    <%= render :partial => 'contents/form_elements/feeds' %>
-  </div>
 </fieldset>
