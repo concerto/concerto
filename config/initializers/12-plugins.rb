@@ -23,6 +23,10 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_plugins'
       end
     end
   end
+
+  Rails.application.config.to_prepare do
+    ConcertoPlugin.extend_models
+  end
 end
 
 Rails.logger.debug "Completed 12-plugins.rb at #{Time.now.to_s}"
