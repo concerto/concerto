@@ -148,6 +148,22 @@ class ConcertoPlugin < ActiveRecord::Base
     end
   end
 
+  # Extends models by including modules (preferably ActiveSupport::Concern)
+  def self.extend_models
+    ConcertoPlugin.enabled.each do |plugin|
+      info = plugin.plugin_info
+      next if info.nil? || info.model_extensions.nil?
+
+      info.model_extensions.each do |model, extensions|
+        model.class_eval do
+          extensions.each do |extension|
+            include extension
+          end
+        end
+      end
+    end
+  end
+
   def self.install_cron_jobs(clockwork)
     ConcertoPlugin.enabled.each do |plugin|
       info = plugin.plugin_info
