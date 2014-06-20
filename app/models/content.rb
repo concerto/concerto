@@ -3,6 +3,9 @@ class Content < ActiveRecord::Base
 
   ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
 
+  # this should be done by the engine, if possible
+  attr_accessor :schedule_info
+
   belongs_to :user
   belongs_to :kind
   has_many :submissions, :dependent => :destroy, :after_add => :after_add_callback
