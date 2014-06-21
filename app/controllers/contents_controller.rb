@@ -298,6 +298,7 @@ class ContentsController < ApplicationController
       content_sym = @content_const.model_name.singular.to_sym
       attributes = @content_const.form_attributes
     end
+
     # Reach into the model and grab the attributes to accept.
     params.require(content_sym).permit(*attributes)
   end

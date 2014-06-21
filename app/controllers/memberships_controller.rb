@@ -9,8 +9,8 @@ class MembershipsController < ApplicationController
   # POST /groups/:group_id/memberships.xml
   def create
     @membership = Membership.where(:user_id => params[:membership][:user_id], :group_id => params[:group_id]).first_or_create
-    
-    if params[:autoconfirm] || User.find(params[:membership][:user_id]).is_admin?
+
+    if params[:autoconfirm] || current_user.is_admin?
       @membership.update_attributes(:level => Membership::LEVELS[:regular])
     else
       @membership.update_attributes(:level => Membership::LEVELS[:pending])
@@ -18,19 +18,19 @@ class MembershipsController < ApplicationController
 
     @membership.perms[:screen] = params[:screen]
     @membership.perms[:feed] = params[:feed]
-    
+
     auth!
 
     respond_to do |format|
       if @membership.save
         process_notification(@membership, {}, process_notification_options({
           :params => {
-            :level => @membership.level_name, 
+            :level => @membership.level_name,
             :member_id => @membership.user.id,
             :member_name => @membership.user.name,
             :group_id => @membership.group.id,
             :group_name => @membership.group.name
-          }, 
+          },
           :recipient => @membership.group}))
         if can? :update, @group
           format.html { redirect_to(manage_members_group_path(@group), :notice => t(:membership_created)) }
@@ -72,7 +72,7 @@ class MembershipsController < ApplicationController
     end
   end
 
-  # DELETE /groups/1 
+  # DELETE /groups/1
   # DELETE /groups/1.xml
   def destroy
     @membership = Membership.find(params[:id])
@@ -80,12 +80,12 @@ class MembershipsController < ApplicationController
     respond_to do |format|
       process_notification(@membership, {}, process_notification_options({
         :params => {
-          :level => @membership.level_name, 
+          :level => @membership.level_name,
           :member_id => @membership.user.id,
           :member_name => @membership.user.name,
           :group_id => @membership.group.id,
           :group_name => @membership.group.name
-        }, 
+        },
         :recipient => @membership.user}))
 
       if @membership.destroy

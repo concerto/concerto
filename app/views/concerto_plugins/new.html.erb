@@ -5,6 +5,11 @@
     </h1>
   </header>
   <div class="viewblock-cont">
+    <% if ENV['FROZEN'] == "1" %>
+      <div id="gem-frozen">
+        <%= t(:gems_frozen_warning) %>
+      </div>
+    <% end %>
     <%= form_for(@concerto_plugin) do |f| %>
       <% if @concerto_plugin.errors.any? %>
         <div class="alert alert-banner alert-error">
@@ -17,21 +22,21 @@
           </ul>
         </div>
       <% end %>
-    
-      <fieldset>       
+
+      <fieldset>
         <div class="clearfix">
           <%= f.label :source %>
           <div class="input">
             <%= f.select :source, plugin_sources %>
           </div>
         </div>
-        
+
         <div class="clearfix">
           <%= f.label :gem_name %>
           <div class="input">
             <%= f.text_field :gem_name, :autofocus => true, :class => "input-xlarge" %>
           </div>
-        </div>    
+        </div>
 
         <div class="clearfix">
           <label for="concerto_plugin_source_url"><%= t('.source_url') %> <span class="icon-question-sign tooltip-basic" data-tooltip-text="<%= t('.path_instructions') %>"></span></label>
@@ -40,12 +45,12 @@
           </div>
         </div>
       </fieldset>
-    
+
       <div class="submit_bar actions">
-        <%= f.submit t('.install_plugin'), :class => "btn btn-primary" %> 
+        <%= f.submit t('.install_plugin'), :class => "btn btn-primary" %>
         <%= link_to t(:cancel), concerto_plugins_path, :class => "btn" %>
       </div>
     <% end %>
-   
+
   </div>
 </section>

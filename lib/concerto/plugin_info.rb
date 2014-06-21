@@ -17,6 +17,7 @@ module Concerto
     attr_reader :mount_points
     attr_reader :configs
     attr_reader :init_block
+    attr_reader :model_extensions
 
     # Configuration API: Accessible by the engine via "new"
 
@@ -90,6 +91,13 @@ module Concerto
         :type => mytype,
         :hook => myhook
       }
+    end
+
+    # Extend the given model by including a ActiveSupport::Concern
+    def extend_model(model, extension)
+      @model_extensions ||= {}
+      @model_extensions[model] ||= []
+      @model_extensions[model] << extension
     end
 
     # Info Reading API
