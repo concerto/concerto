@@ -39,6 +39,8 @@
               <p><%= t '.the_end_of_time' %></p>
             <% end %>
           </div>
+
+          <%= ConcertoPlugin.render_view_hook self, :content_details %>
           
           <div class="subblock">
             <%= t('.submitted_by') %> <%= link_to @user.name, @user %>
