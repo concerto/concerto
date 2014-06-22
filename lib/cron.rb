@@ -29,6 +29,7 @@ module Clockwork
     end  
   end
 
+  ConcertoPlugin.install_cron_jobs(self)
 end
 
 

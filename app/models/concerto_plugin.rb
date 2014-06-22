@@ -164,6 +164,19 @@ class ConcertoPlugin < ActiveRecord::Base
     end
   end
 
+  def self.install_cron_jobs(clockwork)
+    ConcertoPlugin.enabled.each do |plugin|
+      info = plugin.plugin_info
+      next if info.nil? || info.cron_jobs.nil?
+
+      info.cron_jobs.each do |job|
+        clockwork.every(job[:period], job[:name], job[:options]) do
+          job[:block].call if job[:block]
+        end
+      end
+    end
+  end
+
 private
 
   #custom validation for plugin URLs
