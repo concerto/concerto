@@ -13,6 +13,8 @@ en:
         source_url: 'Source URL'
 
   concerto_plugins:
+    edit:
+      prohibited_plugin_save: 'prohibited plugin save'
     sources:
       rubygems: 'RubyGems'
       git: 'Git Repository'

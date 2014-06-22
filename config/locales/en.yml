@@ -20,6 +20,7 @@ en:
   cancel: 'Cancel'
   cant_be_blank: 'cant be blank'
   cant_be_blank: 'cant be blank'
+  cant_be_this_content: 'cant be this content'
   cant_be_this_feed: 'cant be this feed'
   concerto: 'Concerto'
   content_deleted: 'Content successfully deleted.'
