@@ -1,75 +1,77 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
+---
 nl:
-  add: 'Toevoegen'
-  add_model: '%{model} toevoegen'
-  all_model: 'Alle %{model}'
-  approve: 'Goedkeuren'
-  are_you_sure: 'Ben je zeker?'
-  back: 'Terug'
-  cancel: 'Annuleren'
-  create_model: '%{model} aanmaken'
-  current_model: 'Huidig %{model}'
-  destroy: 'Verwijderen'
-  deny: 'Weigeren'
-  edit: 'Bewerken'
-  edit_model: '%{model} bewerken'
-  error: 'fout'
-  import_model: '%{model} importeren'
-  join: "Deelnemen"
-  manage_model: '%{model} beheren'
-  my_model: 'Mijn %{model}'
-  new_model: 'Nieuw %{model}'
-  no: 'Nee'
-  other_model: 'Ander %{model}'
-  preview: 'Voorvertoning'
-  prohibited_save: "verhinderde dat dit %{model} bewaard werd:"
-  remove_model: '%{model} verwijderen'
-  show: 'Tonen'
-  type_to_filter: 'Typ hier om te filteren'
-  update_model: 'Update %{model}'
-
-  is_viewable: "Zichtbaar"
-  is_submittable: "Verstuurbaar"
-  membership_approved: "Goedgekeurd"
-  membership_denied: "Geweigerd"
-  
-  #CanCan Exceptions localization (https://github.com/ryanb/cancan/wiki/exception-handling)
-  unauthorized:
-    read:
-      all: "U bent niet bevoegd om %{subject} te lezen."
-    create:
-      all: "U bent niet bevoegd om %{subject} aan te maken."
-    update:
-      all: "U bent niet bevoegd om %{subject} up te daten."      
-    delete:
-      all: "U bent niet bevoegd om %{subject} te verwijderen."
-
+  add: Toevoegen
+  add_model: ! '%{model} toevoegen'
+  all_model: Alle %{model}
+  approve: Goedkeuren
+  are_you_sure: Ben je zeker?
+  back: Terug
+  cancel: Annuleren
+  create_model: ! '%{model} aanmaken'
+  destroy: Verwijderen
+  deny: Weigeren
+  edit: Bewerken
+  edit_model: ! '%{model} bewerken'
+  error: fout
+  import_model: ! '%{model} importeren'
+  join: Deelnemen
+  manage_model: ! '%{model} beheren'
+  my_model: Mijn %{model}
+  new_model: Nieuw %{model}
+  other_model: Ander %{model}
+  prohibited_save: ! 'verhinderde dat dit %{model} bewaard werd:'
+  remove_model: ! '%{model} verwijderen'
+  show: Tonen
+  update_model: Update %{model}
+  membership_denied: Lidmaatschap maken geweigerd.
   activerecord:
     attributes:
       concerto_config:
-        default_upload_type: "Standaard inhoud uploadtype"
-        public_concerto: "Publieke Concerto toegang"
-        content_default_start_time: "Standaard begintijd voor inhoud"
-        content_default_end_time: "Standaard eindtijd voor inhoud"
-        start_date_offset: "Tijd tussen indienen en begin inhoud"
-        default_content_run_time: "Standaard looptijd inhoud (in dagen)"
-        setup_complete: "Instellen Concerto voltooid"
-        allow_registration: "Sta open registratie gebruikers toe"
-        allow_user_screen_creation: "Sta toe dat gebruikers schermen aanmaken"
-        allow_user_feed_creation: "Sta toe dat gebruikers feeds aanmaken"
-        rubygem_executable: "Rubygem Executable"
-        autostart_delayed_job: "Start uitgestelde taken daemon uutomatisch"
-        dynamic_refresh_time: "Dynamisch verversinterval"
-        use_frontend_to_trigger_cron: "Schakel cron in via frontend"
-        min_content_duration: 'Minimum duur inhoud (in seconden)'
-
-        #send_errors: "Verstuur fouten"
-        #allow_remote_error_reporting: "Sta foutenrapportage op afstand toe"
-        #submit: "Verstuur"
-        #duration: "Duur"
-        #start_time: "Begintijd"
-        #end_time: "Eindtijd"
-        #content_default_duration: "Standaard duur inhoud (in dagen)"
-        #save_settings: "Instellingen opslaan"
+        default_upload_type: Standaard inhoud uploadtype
+        public_concerto: Publieke Concerto toegang
+        content_default_start_time: Standaard begintijd voor inhoud
+        content_default_end_time: Standaard eindtijd voor inhoud
+        start_date_offset: Tijd tussen indienen en begin inhoud
+        default_content_run_time: Standaard looptijd inhoud (in dagen)
+        setup_complete: Instellen Concerto voltooid
+        allow_registration: Sta open registratie gebruikers toe
+        allow_user_screen_creation: Sta toe dat gebruikers schermen aanmaken
+        allow_user_feed_creation: Sta toe dat gebruikers feeds aanmaken
+        rubygem_executable: Rubygem Executable
+        autostart_delayed_job: Start uitgestelde taken daemon uutomatisch
+        dynamic_refresh_time: Dynamisch verversinterval
+        use_frontend_to_trigger_cron: Schakel cron in via frontend
+        min_content_duration: Minimum duur inhoud (in seconden)
+  errors:
+    messages:
+      not_saved:
+        one: ! 'Een fout zorgde ervoor dat %{resource} niet kon worden opgeslagen:'
+        other: ! '%{count} fouten zorgde ervoor dat %{resource} niet kon worden opgeslagen:'
+  content_created: Inhoud maken geslaagd.
+  content_created_no_feeds: Inhoud maken geslaagd. Omdat geen feeds werden opgegeven,
+    zal de inhoud in limbo blijven.
+  content_updated: Inhoud aanpassen geslaagd.
+  feed_created: Feed maken geslaagd.
+  feed_updated: Feed aanpassen geslaagd.
+  group_created: Groep maken geslaagd.
+  group_updated: Groep aanpassen geslaagd.
+  membership_created: Lidmaatschap maken geslaagd.
+  member_removed: Lid verwijderd.
+  screen_created: Scherm maken geslaagd.
+  screen_updated: Scherm aanpassen geslaagd.
+  content_moderated: Inhoud gemodereerd.
+  content_failed_moderation: Inhoud niet gemodereerd.
+  subscription_created: Inschrijving maken geslaagd.
+  template_created: Sjabloon maken geslaagd.
+  template_updated: Sjabloon aanpassen geslaagd.
+  cannot_delete_template: Kan sjabloon niet verwijderen. Het heeft een of meer schermen
+    an zich gelinkt.
+  user_created: Gebruiker maken geslaagd.
+  user_updated: Gebruiker aanpassen geslaagd.
+  cannot_delete_last_admin: Kan de laatste beheerder niet verwijderen.
+  settings_saved: Concerto-instellingen opgeslagen.
+  plugin_created: Concerto plugin maken geslaagd.
+  plugin_updated: Concerto plugin aanpassen geslaagd.
+  wont_write_restart_txt: Concerto kan je webserver niet herstarten. Herstart manueel
+    a.u.b.
+  cant_write_restart_txt: Fout bij herstarten van de webserver. Herstart manueel a.u.b.
