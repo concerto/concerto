@@ -35,7 +35,7 @@ en:
   error: 'error'
   error_refreshing: 'Error refreshing.'
   failed: 'failed'
-  file_is: 'file is'
+  file_type_unsupported: 'file is of type %{type}, which is not supported.'
   file_is_required: 'file is required'
   gem_not_found: 'is not a valid rubygem'
   gemspec_not_found: 'Gemspec not found in'
