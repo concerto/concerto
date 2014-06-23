@@ -14,7 +14,7 @@
 <div class="input">
   <% feeds = dfs_tree(Feed.roots) %>
   <% if feeds.empty? %>
-    <p><%= t(:no_feeds)%></p>
+    <p><%= t('contents.form_elements.feeds.no_feeds')%></p>
   <% else %>
     <input type="search" class="feed_filter" placeholder="Type here to filter"/>
     <br />

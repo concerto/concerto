@@ -1,6 +1,6 @@
 en:
   public_activity:
-    a_group_which_nolonger_exists: 'a no longer existing'
+    a_group_which_no_longer_exists: 'a no longer existing group'
     a_member: 'a member'
     create_the_model: 'created the %{model}'
     destroy_the_model: 'deleted the %{model}'

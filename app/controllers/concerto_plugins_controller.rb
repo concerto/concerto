@@ -65,7 +65,7 @@ class ConcertoPluginsController < ApplicationController
     if @concerto_plugin.update_attributes(concerto_plugin_params)
       process_notification(@concerto_plugin, {}, process_notification_options({:params => {:concerto_plugin_gem_name => @concerto_plugin.gem_name}}))
       if ENV['FROZEN'] == "1"
-        flash[:notice] = t(:plugin_updated_frozen_env)
+        flash[:notice] = t :plugin_updated_frozen_env
       else
         write_Gemfile()
         flash[:notice] = t(:plugin_updated)

@@ -5,7 +5,7 @@ class GraphicValidator < ActiveModel::Validator
 
     if !record.media.empty? && 
         !(graphic_types + Concerto::ContentConverter.supported_types).include?(record.media[0].file_type)
-      record.errors.add :media, "#{I18n.t(:file_is)} #{record.media[0].file_type}, #{I18n.t(:no_file_support)}."
+      record.errors.add :media, I18n.t(:file_type_unsupported, :type => record.media[0].file_type)
     end
   end
 end

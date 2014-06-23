@@ -1,5 +1,5 @@
 <%= link_to content do %>
-<div class="tile <% if not content.children.empty? %>tile-stack<% end %>">
+<div class="tile <% unless content.children.empty? %>tile-stack<% end %>">
   <div class="tile-content">
     <%= render_content(content, {:type => 'tile'}) %>
     <div class="tile-labels">
