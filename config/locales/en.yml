@@ -104,7 +104,19 @@ en:
   subscription_created: Subscription was successfully created.
   template_created: Template was successfully created.
   template_updated: Template was successfully updated.
-  cannot_delete_template: ! 'Cannot delete template. It has one or more screens associated
+  time:
+    formats:
+      date: '%D'
+      date_time: '%D, %l:%M %p'
+      date_long_year: '%m/%d/%Y'
+      long_day: '%A %B %e at %l:%m %p'
+      month_day: '%m/%d'
+      short_month: '%b %d'
+      short_day: '%a %b %d %Y'
+      short_date: '%a %D'
+      twelve_hour_time: '%I:%M %P'
+      time_date: '%I:%M %p on %D'
+    cannot_delete_template: ! 'Cannot delete template. It has one or more screens associated
     with it: %{screens}'
   user_created: User was successfully created.
   user_not_created: User not created
