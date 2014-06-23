@@ -1,12 +1,12 @@
-<% sd = ConcertoPlugin.render_view_hook self, :screen_details %>
+<% sidebar = ConcertoPlugin.render_view_hook self, :screen_details %>
 
 <%
-  # Hide screen hardware player controls from non-logged in users or when hardware is not defined 
+  # Hide details sidebar when there is nothing to show
   screen_span = 9
-  player_span = 3
-  if sd.blank?
+  sidebar_span = 3
+  if sidebar.blank?
     screen_span = 12
-    player_span = 0
+    sidebar_span = 0
   end
 %>
 
@@ -23,12 +23,12 @@
   	</section>
 
   </div>
-  <div class="span<%= player_span %>">
 
-  	<% if !sd.blank? %>
-  		<%= ConcertoPlugin.render_view_hook self, :screen_details %>
-    <% end %>
-
+<% if !sidebar.blank? %>
+  <div class="span<%= sidebar_span %>">
+    <%= sidebar %>
   </div>
+<% end %>
+
 </div>
 
