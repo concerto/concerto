@@ -66,5 +66,5 @@ en:
     submission_tile:
       approve_this_content: "Approve this content"
       deny_this_content: "Deny this content"
-      has_been_aproved: 'This content has been approved.'
+      has_been_approved: 'This content has been approved.'
       has_been_denied: 'This content has been denied.'

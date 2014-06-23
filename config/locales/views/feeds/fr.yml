@@ -27,7 +27,7 @@ fr:
       no_pending_content: "Tout est bon pour l'instant! Vous n'avez pas de contenu à modérer."
       nothing_to_moderate: "Rien à modérer"
       with_pending_content: "avec contenus en modération"
-    no_feeds: "Il n'y a pas de fil dans le système dans lequel vous pouvez poster.  Contactez votre administrateur pour plus d'information."
+    no_availible_feeds: "Il n'y a pas de fil dans le système dans lequel vous pouvez poster.  Contactez votre administrateur pour plus d'information."
     orphaned: Orphelin
     pending: "En attente"
   helpers: 

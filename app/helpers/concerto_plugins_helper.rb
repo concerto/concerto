@@ -18,9 +18,12 @@ module ConcertoPluginsHelper
     source
   end
 
-  def status_badge (enabled)
-    content_tag :span, :class => "badge" + (!enabled ? " muted" : "") do 
-      enabled ? t('.enabled') : t('.disabled')
+  def status_badge(enabled)
+    puts enabled.inspect
+    if enabled
+      content_tag(:i, nil, :class => 'icon-check tooltip-basic', 'data-tooltip-text' => t('concerto_plugins.index.enabled_msg'))
+    else
+      content_tag(:i, nil, :class => 'icon-remove-sign tooltip-basic', 'data-tooltip-text' => t('concerto_plugins.index.disabled_msg'))
     end
   end
 end

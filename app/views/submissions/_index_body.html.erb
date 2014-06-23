@@ -7,7 +7,7 @@
     <div id="jump_to" style="display: none;">
       <% feeds = dfs_tree(Feed.roots) %>
       <% if feeds.empty? %>
-        <p><%= t('feeds.no_feeds') %></p>
+        <p><%= t('feeds.no_availible_feeds') %></p>
       <% else %>
 
       <div class="tooltip-filter-cont">
