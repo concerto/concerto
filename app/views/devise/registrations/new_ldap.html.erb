@@ -1,0 +1,39 @@
+<div class="viewblock">
+  <header class="viewblock-header">
+    <h1 class="default-padding">Register Account</h1>
+  </header>
+  <div class="viewblock-cont">  
+    <%= devise_error_messages! %>
+
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :autocomplete => 'off' }) do |f| %>
+      <fieldset>
+        <div class="clearfix">
+          <%= f.label :first_name %>
+          <div class="input">
+            <%= f.text_field :first_name, :autofocus => true, :class => "input-large" %> <%= f.text_field :last_name, :placeholder => 'Last', :class => "input-large" %>
+          </div>
+        </div>
+        <div class="clearfix">
+          <%= f.label :email %>
+          <div class="input">
+            <%= f.email_field :email, :class => "input-xlarge" %>
+          </div>
+        </div>
+        <div class="clearfix">
+          <%= f.label :password %>
+          <div class="input">
+            <%= f.password_field :password, :class => "input-medium" %>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="submit_bar actions">
+        <%= f.submit "Register Account", :class => "btn btn-primary" "Register Account" %>
+        &nbsp;&nbsp;&nbsp;
+        <%= render :partial => "devise/shared/links" %>
+      </div>
+
+    <% end %>
+
+  </div>    
+</div>
