@@ -93,3 +93,5 @@ gem 'concerto_docsplit'
 gem 'nprogress-rails', '~> 0.1.3.0'
 
 gem 'i18n-tasks', '~> 0.4.5', :group => :development
+
+gem "net-ldap"
