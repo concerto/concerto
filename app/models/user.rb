@@ -8,6 +8,9 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable, :trackable
   modules = [:database_authenticatable, :recoverable, :registerable, :rememberable, :validatable]
   if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
+    if !ConcertoConfig[:ldap_host].blank?
+      modules = [:database_authenticatable, :rememberable, :registerable]
+    end
     modules << :confirmable if ConcertoConfig[:confirmable]
   end
   devise *modules
