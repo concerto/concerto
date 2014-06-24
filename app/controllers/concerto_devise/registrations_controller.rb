@@ -30,8 +30,14 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
 
     if !ConcertoConfig[:ldap_host].blank?
       # must verify the user before registering them
-      if !Devise::Strategies::LdapAuthenticatable.verified?(resource.email, resource.password)
-        resource.errors.add(:base, t('devise.failure.invalid'))
+      begin
+        verified = Devise::Strategies::LdapAuthenticatable.verified?(resource.email, resource.password)
+        resource.errors.add(:base, t('devise.failure.invalid')) if !verified
+      rescue Net::LDAP::LdapError => e
+        resource.errors.add(:base, "#{t('devise.failure.ldap')}: #{e.message}")
+        verified = false
+      end
+      if !verified
         render_registration_form(resource)
         return
       else
