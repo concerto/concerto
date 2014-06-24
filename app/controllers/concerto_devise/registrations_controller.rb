@@ -37,6 +37,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
       else
         #obfuscate password since handled via ldap
         resource.password = SecureRandom.hex(64)
+        resource.confirmed_at = Date.today
       end
     end
 
