@@ -52,6 +52,7 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("keep_activity_log", "90", :value_type => "integer", :value_default => "90", :category => 'System', :description => 'Days to keep activity log for (where 0 is forever)')
     ConcertoConfig.make_concerto_config("footer_html", "", :value_type => "text", :category => 'System', :description => 'HTML to display on the footer of every page.')
     ConcertoConfig.make_concerto_config("secret_token", "", :value_type => "string", :value_default => "", :hidden => "true", :category => 'System')
+    ConcertoConfig.make_concerto_config("items_per_page", "50", :value_type => "integer", :value_default => "50", :category => 'System')
 
   end
 
