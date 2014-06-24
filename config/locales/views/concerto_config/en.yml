@@ -18,6 +18,8 @@ en:
         http_proxy_settings: "Http Proxy Settings"
         items_per_page: "Items per page"
         keep_activity_log: "Keep Activity Log"
+        ldap_host: "LDAP Host"
+        ldap_port: "LDAP Port"
         max_content_duration: 'Max Content Duration (in seconds)'
         mailer_from: 'Mailer From'
         mailer_host: "Concerto Server Name (FQDN)"

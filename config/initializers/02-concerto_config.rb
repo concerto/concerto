@@ -54,6 +54,9 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("secret_token", "", :value_type => "string", :value_default => "", :hidden => "true", :category => 'System')
     ConcertoConfig.make_concerto_config("items_per_page", "50", :value_type => "integer", :value_default => "50", :category => 'System')
 
+    ConcertoConfig.make_concerto_config("ldap_host", "", :value_type => "string", :category => 'System', 
+      :description => "Specify the host to enable LDAP authentication.")
+    ConcertoConfig.make_concerto_config("ldap_port", "389", :value_type => "integer", :category => 'System')
   end
 
   Rails.logger.debug "Completed 02-concerto_config.rb at #{Time.now.to_s}"
