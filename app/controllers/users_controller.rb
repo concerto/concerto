@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 
     @contents = @user.contents.where('parent_id IS NULL')
     @contents_count = @contents.count
-    @contents = Kaminari.paginate_array(@contents).page(params[:page]).per(8)
+    @contents = Kaminari.paginate_array(@contents).page(params[:page]).per(ConcertoConfig[:items_per_page])
     auth!({:action => :read, :object => @contents})
 
     @screens = @user.screens + @user.groups.collect{|g| g.screens}.flatten
