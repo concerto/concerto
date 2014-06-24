@@ -17,14 +17,19 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs' and !ConcertoC
         end
 
         def self.verified?(user, password)
-          ldap = Net::LDAP.new
-          if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
-            ldap.host = ConcertoConfig[:ldap_host] 
-            ldap.port = ConcertoConfig[:ldap_port] 
+          begin
+            ldap = Net::LDAP.new
+            if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
+              ldap.host = ConcertoConfig[:ldap_host] 
+              ldap.port = ConcertoConfig[:ldap_port] 
+            end
+            ldap.auth user, password
+            verified = ldap.bind
+          rescue => e
+            Rails.logger.error("Unable to authenticate using LDAP - #{e.message}")
+            verified = false
           end
-          ldap.auth user, password
-
-          return ldap.bind
+          return verified
         end
 
         def email
