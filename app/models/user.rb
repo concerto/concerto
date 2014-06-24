@@ -30,7 +30,8 @@ class User < ActiveRecord::Base
 
   # Validations
   validates :first_name, :presence => true
-  
+  validates_uniqueness_of :email
+
   scope :admin, where(:is_admin => true)
 
   def auto_confirm
