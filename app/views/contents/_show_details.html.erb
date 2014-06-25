@@ -1,0 +1,43 @@
+<div class="subblock">
+  <p class="uppercase"><small><b><%= t('.display_from') %></b></small></p>
+  <% if !content.start_time.nil? %>
+    <p><%= l content.start_time, :format => :short_day %><br /><%= l content.start_time, :format => :twelve_hour_time %></p>
+  <% else %>
+    <p><%= t('.the_dawn_of_time') %></p>
+  <% end %>
+  <p class="uppercase"><small><b><%= t('.display_until') %></b></small></p>
+  <% if !content.end_time.nil? %>
+    <p><%= l content.end_time, :format => :short_day %><br /><%= l content.end_time, :format => :twelve_hour_time %></p>
+  <% else %>
+    <p><%= t '.the_end_of_time' %></p>
+  <% end %>
+
+  <p class="uppercase"><small><b><%= t('.duration') %></b></small></p>
+  <p><%= content.duration %> <%= t('.seconds') %></p>
+
+  <p class="uppercase"><small><b><%= t('.submitted_by') %></b></small></p>
+  <p><%= link_to user.name, user %></p>
+</div>
+
+<%= ConcertoPlugin.render_view_hook self, :content_details, { :content => content, :user => user } %>
+
+<div class="subblock">
+  <p class="uppercase"><small><b><%= t('.feeds_moderation_status') %></b></small></p>
+  <% if content.submissions.all.count > 0 %>
+    <ul>
+      <% content.submissions.all.each do |submission| %>
+        <li>
+          <% if defined?(feed) and !feed.blank? and feed.id == submission.feed.id %>
+            <%= submission.feed.name %>
+          <% else %>
+            <%= link_to submission.feed.name, [submission.feed, submission] %>
+          <% end %> 
+           - <%= submission.moderation_text %>
+        </li>
+      <% end %> 
+    </ul>
+  <% else %>
+    <%= t('.not_submitted') %>
+  <% end %>
+</div>
+
