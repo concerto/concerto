@@ -30,6 +30,7 @@ en:
       manage_model: "Manage %{model}"
       manage_members: 'Manage Members'
       member: ' member'
+      name: 'Name'
       no_pending_approvals: 'No Pending Approvals'
       no_regular_members: 'This group currently has no regular members.'
       promote_to_leader: 'Promote To Leader'
@@ -52,9 +53,9 @@ en:
       group_description: 'Group Description'
       group_has_no_leaders: 'This group currently has no leaders.  You should promote a regular member in the table above.'
       group_leaders: 'Group Leaders'
-      join_group: 'join_group'
+      join_group: 'Join Group'
       leader: 'Leader'
-      leave_group: 'leave group'
+      leave_group: 'Leave Group'
       member: ' member'
       member_header: 'Contains %{number} Member%{s_display}'
       no_pending_approvals: 'No Pending Approvals!'
@@ -65,7 +66,7 @@ en:
       remove_from_group: 'Remove from Group'
       screen_header:
         one: 'Manages one Screen'
-        other: "Manages %{count} Screen"
+        other: "Manages %{count} Screens"
       your_membership_role: 'You are currently a %{level}%{what} of this group.'
     show_header:
       group_cannot_be_deleted: "Group cannot be deleted"

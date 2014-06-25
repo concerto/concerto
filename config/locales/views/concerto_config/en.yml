@@ -16,7 +16,6 @@ en:
         default_content_run_time: "Default content run time (in days)"
         default_upload_type: "Default content upload type"
         http_proxy_settings: "Http Proxy Settings"
-        items_per_page: "Items per page"
         keep_activity_log: "Keep Activity Log"
         max_content_duration: 'Max Content Duration (in seconds)'
         mailer_from: 'Mailer From'
