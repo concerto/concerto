@@ -22,7 +22,7 @@ en:
       to_add: " to add one"
 
     feeds:
-      filter_for_feeds: "Filter for Feeds"
+      filter_for_feed: "Filter for Feed"
       select_feed: "Select Feed"
 
     form:
@@ -40,6 +40,7 @@ en:
     screen_info:
       offline: 'Offline'
       online: 'Online'
+      mac_address: 'MAC Add ress: %{mac}'
 
     show_body:
       field_settings: 'Hover over a field below to view its settings.'

@@ -98,7 +98,7 @@ class ConcertoPlugin < ActiveRecord::Base
   # string.
   # This is very inefficient, especially for multiple hooks in one view.
   # However, the API is implementation-agnostic.
-  def self.render_view_hook(context, hook_name)
+  def self.render_view_hook(context, hook_name, local_options = nil)
     result = ""
     controller_name = context.controller.controller_name
     ConcertoPlugin.enabled.each do |plugin|
@@ -107,7 +107,7 @@ class ConcertoPlugin < ActiveRecord::Base
           # Make the authorization rules from the plugin available
           context.controller.switch_to_plugin_ability(plugin.mod)
           if hook[:type] == :partial
-            result += context.render :partial => hook[:hook]
+            result += context.render :partial => hook[:hook], :locals => local_options
           elsif hook[:type] == :text
             result += hook[:hook]
           elsif hook[:type] == :proc
@@ -141,9 +141,39 @@ class ConcertoPlugin < ActiveRecord::Base
         logger.warn("ConcertoPlugin: failed to check #{plugin.name}" +
                     " for callbacks")
       end
-    end
+    end if ActiveRecord::Base.connection.table_exists? 'concerto_plugins'
+
     callbacks.each do |callback|
       controller.set_callback(callback[:name], callback[:filter_list], callback[:block])
+    end
+  end
+
+  # Extends models by including modules (preferably ActiveSupport::Concern)
+  def self.extend_models
+    ConcertoPlugin.enabled.each do |plugin|
+      info = plugin.plugin_info
+      next if info.nil? || info.model_extensions.nil?
+
+      info.model_extensions.each do |model, extensions|
+        model.class_eval do
+          extensions.each do |extension|
+            include extension
+          end
+        end
+      end
+    end
+  end
+
+  def self.install_cron_jobs(clockwork)
+    ConcertoPlugin.enabled.each do |plugin|
+      info = plugin.plugin_info
+      next if info.nil? || info.cron_jobs.nil?
+
+      info.cron_jobs.each do |job|
+        clockwork.every(job[:period], job[:name], job[:options]) do
+          job[:block].call if job[:block]
+        end
+      end
     end
   end
 

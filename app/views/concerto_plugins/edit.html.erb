@@ -5,13 +5,17 @@
     </h1>
   </header>
   <div class="viewblock-cont">
+    <% if ENV['FROZEN'] == "1" %>
+      <div id="gem-frozen">
+        <%= t(:gems_frozen_warning) %>
+      </div>
+    <% end %>
     <%= form_for(@concerto_plugin) do |f| %>
-
       <% if @concerto_plugin.errors.any? %>
         <div class="alert alert-banner alert-error">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <h4><b><%= pluralize(@concerto_plugin.errors.count, t(:error)) %> <%= t(:prohibited_plugin_save) %></b></h4>
-    
+          <h4><b><%= pluralize(@concerto_plugin.errors.count, t(:error)) %> <%= t '.prohibited_plugin_save' %></b></h4>
+
           <ul>
           <% @concerto_plugin.errors.full_messages.each do |msg| %>
             <li><%= msg %></li>
@@ -19,7 +23,7 @@
           </ul>
         </div>
       <% end %>
-    
+
       <fieldset>
 
         <div class="clearfix">
@@ -27,39 +31,39 @@
             <%= f.check_box :enabled %> <%= f.label :enabled %>
           </div>
         </div>
-    
+
         <div class="clearfix">
           <%= f.label :gem_name %>
           <div class="input">
             <%= f.text_field :gem_name, :autofocus => true, :class => "input-xlarge" %>
           </div>
         </div>
-    
+
         <div class="clearfix">
           <%= f.label :gem_version %>
           <div class="input">
             <%= f.text_field :gem_version, :class => "input-small" %>
           </div>
         </div>
-    
+
         <div class="clearfix">
           <%= f.label :source %>
           <div class="input">
             <%= f.select :source, plugin_sources %>
           </div>
         </div>
-        
+
         <div class="clearfix">
           <%= f.label :source_url %>
           <div class="input">
             <%= f.text_field :source_url, :class => "input-xxlarge" %>
           </div>
         </div>
-    
+
       </fieldset>
-    
+
       <div class="submit_bar actions">
-        <%= f.submit t(:update_model, :model => ConcertoPlugin.model_name.human), :class => "btn btn-primary" %> 
+        <%= f.submit t(:update_model, :model => ConcertoPlugin.model_name.human), :class => "btn btn-primary" %>
         <%= link_to t(:cancel), concerto_plugins_path, :class => "btn" %>
       </div>
     <% end %>

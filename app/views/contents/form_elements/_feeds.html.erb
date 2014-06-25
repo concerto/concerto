@@ -25,7 +25,7 @@
   <% feeds = dfs_tree(Feed.roots) %>
     <% feeds.reject!{|f| !@feeds.include?(f) } %>
     <% if feeds.empty? %>
-      <p><%= t('.feeds.no_feeds')%></p>
+      <p><%= t('.no_feeds')%></p>
     <% else %>
 
     <div class="tooltip-filter-cont">

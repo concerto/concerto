@@ -30,9 +30,12 @@ en:
       manage_model: "Manage %{model}"
       manage_members: 'Manage Members'
       member: ' member'
+      name: 'Name'
       no_pending_approvals: 'No Pending Approvals'
+      no_regular_members: 'This group currently has no regular members.'
       promote_to_leader: 'Promote To Leader'
       remove_from_group: 'Remove From Group'
+      request_made_at: 'request_made_at'
       screen_permission:
         name: 'Screen Permission'
         tooltip: 'What you can change about the screens owned by this group. You can change nothing, just the subscriptions, or everything (edit screen, change template, and subscriptions).'
@@ -50,11 +53,12 @@ en:
       group_description: 'Group Description'
       group_has_no_leaders: 'This group currently has no leaders.  You should promote a regular member in the table above.'
       group_leaders: 'Group Leaders'
+      join_group: 'Join Group'
       leader: 'Leader'
+      leave_group: 'Leave Group'
       member: ' member'
       member_header: 'Contains %{number} Member%{s_display}'
       no_pending_approvals: 'No Pending Approvals!'
-      no_regular_members: 'This group currently has no regular members.'
       not_in_group: "You are not currently in this group."
       promote_to_leader: "Promote to Leader"
       regular_members: 'Regular Members'
@@ -62,7 +66,7 @@ en:
       remove_from_group: 'Remove from Group'
       screen_header:
         one: 'Manages one Screen'
-        other: "Manages %{count} Screen"
+        other: "Manages %{count} Screens"
       your_membership_role: 'You are currently a %{level}%{what} of this group.'
     show_header:
       group_cannot_be_deleted: "Group cannot be deleted"

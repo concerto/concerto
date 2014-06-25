@@ -11,7 +11,7 @@ fr:
         template_id: Modèle
   screens: 
     feeds: 
-      filter_for_feeds: "Filtre pour les fils"
+      filter_for_feeds: "Filtrer pour l'alimentation"
       select_feed: "Sélectionner un fil"
     form: 
       auth_action: "Action d'autenfication"

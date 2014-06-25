@@ -23,12 +23,12 @@
     </section>
 
   </div>
+
+<% if !sidebar.blank? %>
   <div class="span<%= sidebar_span %>">
-
-    <% if !sidebar.blank? %>
-      <%= ConcertoPlugin.render_view_hook self, :sidebar %>
-    <% end %>
-
+    <%= sidebar %>
   </div>
+<% end %>
+
 </div>
 

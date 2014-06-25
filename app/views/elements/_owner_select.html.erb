@@ -2,7 +2,11 @@
   <%= link_to '#', :id => "select-owner-btn", :title => "Select a User",
       :class => "dropdown-toggle dropdown-control dd-select-owner", 
       :rel => "#select-owner" do %> 
-      <%= t('.select_user') %>
+      <% if defined? screen and !screen.new_record? %>
+        <%= screen.owner.name %>
+      <% else %>
+        <%= t('.select_user') %>
+      <% end %>
   <% end %>
 </div>
 
@@ -19,9 +23,10 @@
       <ul class="filterable selector-list">
 
         <% if !options["Groups"].nil? %>
-          <b class="default-padding" style="text-align: center"> Groups </b>
+          <% if options["Groups"].length > 0 %>
+            <h4 class="default-padding" style="text-align: center"> Groups </h4>
             <% options["Groups"].each do |group| %>
-              <li class = "link-hl default-padding" style="padding: 10px"
+              <li id="ownerItem" class = "link-hl default-padding" style="padding: 10px"
                 onclick="addOwner('<%=group[0]%>', 'group_select', '<%=group[1]%>')"
                   data-group-index = '<%=group[1].split("-")[1]%>'
                   data-group-name = '<%=group[0]%>'
@@ -30,12 +35,14 @@
                 <b><%= group[0] %></b>
               </li>
             <% end %>
+          <% end %>
         <% end %>
  
         <% if !options["Users"].nil? %>
-          <b class="default-padding" style="text-align: center"> Users </b>
+          <% if options["Users"].length > 0 %>
+            <h4 class="default-padding" style="text-align: center"> Users </h4>
             <% options["Users"].each do |user| %>
-              <li class = "link-hl default-padding" style="padding: 10px"
+              <li id="ownerItem" class = "link-hl default-padding" style="padding: 10px"
                 onclick="addOwner('<%=user[0]%>', 'user_select', '<%= user[1]%>')"
                   data-user-index = '<%=user[1].split("-")[1]%>'
                   data-user-name = '<%=user[0]%>'
@@ -44,6 +51,7 @@
                 <b><%= user[0] %></b>
               </li>
             <% end %>
+          <% end %>
         <% end %>
 
       </ul>

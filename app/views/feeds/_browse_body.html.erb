@@ -12,7 +12,7 @@
         </h3>
         <% if feed.children.count > 0 %>
           <p class="indented">
-            <%= t(:sub_feeds) %>:
+            <%= t 'submissions.index_body.sub_feeds' %>:
             <% feed.children.each do |sub_feed| %>
               <%= link_to sub_feed.name, feed_submissions_path(sub_feed), :class => "link-hl" %>
             <% end %>
