@@ -22,47 +22,11 @@
 
     <div class="row-fluid">
       <div class="span2 content-details">
-
         <div class="default-padding">
+          <%= render :partial => "show_details", :locals => { :content => @content, :user => @user } %>
 
-          <div class="subblock">
-            <p class="uppercase"><small><b><%= t('.display_from') %></b></small></p>
-            <% if !@content.start_time.nil? %>
-              <p><%= l @content.start_time, :format => :short_day %><br /><%= l @content.start_time, :format => :twelve_hour_time %></p>
-            <% else %>
-              <p><%= t('.the_dawn_of_time') %></p>
-            <% end %>
-            <p class="uppercase"><small><b><%= t('.display_until') %></b></small></p>
-            <% if !@content.end_time.nil? %>
-              <p><%= l @content.end_time, :format => :short_day %><br /><%= l @content.end_time, :format => :twelve_hour_time %></p>
-            <% else %>
-              <p><%= t '.the_end_of_time' %></p>
-            <% end %>
-          </div>
-
-          <div class="subblock">
-            <p class="uppercase"><small><b><%= t('.submitted_by') %></b></small></p>
-            <p><%= link_to @user.name, @user %></p>
-          </div>
-          
-          <div class="subblock">
-            <p class="uppercase"><small><b><%= t('.feeds_moderation_status') %></b></small></p>
-            <% if @content.submissions.all.count > 0 %>
-              <ul>
-                <% @content.submissions.all.each do |submission| %>
-                  <li><%= link_to submission.feed.name, [submission.feed, submission] %> - <%= submission.moderation_text %></li>
-                <% end %> 
-              </ul>
-            <% else %>
-              <%= t('.not_submitted') %>
-            <% end %>
-          </div>
-
-          <%= ConcertoPlugin.render_view_hook self, :content_details %>
-        
           <%= render :partial => 'dynamic_content_tools', :locals => { :content => @content } if @content.is_a?(DynamicContent) && can?(:edit, @content) %>
         </div>
- 
       </div>
 
       <div class="span10">
@@ -72,6 +36,5 @@
       </div>
 
     </div>
-    
   </div>
 </section>
