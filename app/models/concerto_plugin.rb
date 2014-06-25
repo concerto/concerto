@@ -177,6 +177,28 @@ class ConcertoPlugin < ActiveRecord::Base
     end
   end
 
+  def self.add_header_tags(context)
+    result = ""
+    ConcertoPlugin.enabled.each do |plugin|
+      info = plugin.plugin_info
+      if info && info.header_tags
+        info.header_tags.each do |hook|
+          if hook[:type] == :partial
+            result += context.render :partial => hook[:hook]
+          elsif hook[:type] == :text
+            result += hook[:hook]
+          elsif hook[:type] == :proc
+            result += context.instance_eval(&hook[:hook])
+          end
+          # Cleanup
+          result += "\n"
+        end
+      end
+    end
+    return result.html_safe
+
+  end
+
 private
 
   #custom validation for plugin URLs
