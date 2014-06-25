@@ -52,7 +52,7 @@ en:
       group_description: 'Group Description'
       group_has_no_leaders: 'This group currently has no leaders.  You should promote a regular member in the table above.'
       group_leaders: 'Group Leaders'
-      join_group: 'join_group'
+      join_group: 'Join Group'
       leader: 'Leader'
       leave_group: 'leave group'
       member: ' member'
