@@ -48,9 +48,14 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("setup_complete", "false", :value_type => "boolean", :value_default => "true", :hidden => "true", :category => 'System')
     ConcertoConfig.make_concerto_config("system_time_zone", 'Eastern Time (US & Canada)', :value_type => "timezone", :category => 'System')
     ConcertoConfig.make_concerto_config("config_last_updated", "0", :value_type => "integer", :hidden => "true", :category => 'System')
-    ConcertoConfig.make_concerto_config("http_proxy_settings", "", :value_type => "string", :category => 'System', :description => 'http://username:password@hostname:port')
-    ConcertoConfig.make_concerto_config("keep_activity_log", "90", :value_type => "integer", :value_default => "90", :category => 'System', :description => 'Days to keep activity log for (where 0 is forever)')
-    ConcertoConfig.make_concerto_config("footer_html", "", :value_type => "text", :category => 'System', :description => 'HTML to display on the footer of every page.')
+    ConcertoConfig.make_concerto_config("http_proxy_settings", "", :value_type => "string", :category => 'System', 
+      :description => 'http://username:password@hostname:port')
+    ConcertoConfig.make_concerto_config("keep_activity_log", "90", :value_type => "integer", :value_default => "90", :category => 'System', 
+      :description => 'Days to keep activity log for (where 0 is forever)')
+    ConcertoConfig.make_concerto_config("motd_html", "", :value_type => "text", :category => 'System', 
+      :description => 'HTML to display as the \'message of the day\' on the dashboard and browse page.', :seq_no => 90)
+    ConcertoConfig.make_concerto_config("footer_html", "", :value_type => "text", :category => 'System', 
+      :description => 'HTML to display on the footer of every page.', :seq_no => 91)
     ConcertoConfig.make_concerto_config("secret_token", "", :value_type => "string", :value_default => "", :hidden => "true", :category => 'System')
 
   end
