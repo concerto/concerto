@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 
     @contents = @user.contents.where('parent_id IS NULL')
     @contents_count = @contents.count
-    @contents = Kaminari.paginate_array(@contents).page(params[:page]).per(8)
+    @contents = Kaminari.paginate_array(@contents).page(params[:page])
     auth!({:action => :read, :object => @contents})
 
     @screens = @user.screens + @user.groups.collect{|g| g.screens}.flatten
@@ -72,10 +72,11 @@ class UsersController < ApplicationController
     set_admin = params[:user].delete("is_admin")
     if @user.update_attributes(user_params)
       flash[:notice] = t(:user_updated)
-    end
-    if !(set_admin.nil?) and can? :manage, User
-      @user.update_attribute("is_admin", set_admin)
-      process_notification(@user, {}, process_notification_options({:params => {:user_name => @user.name}}))
+    
+      if !(set_admin.nil?) and can? :manage, User
+        @user.update_attribute("is_admin", set_admin)
+        process_notification(@user, {}, process_notification_options({:params => {:user_name => @user.name}}))
+      end
     end
     respond_with(@user)
   end

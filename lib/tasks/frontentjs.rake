@@ -26,6 +26,7 @@ namespace :frontendjs do
         namespace: "concerto.frontend.Screen",
         compiler_jar: @compiler_jar,
     }
+    compiler_flags = {}
 
     options[:root] = [@closure_library, @base_path + @frontend_js_path]
 
@@ -37,13 +38,12 @@ namespace :frontendjs do
                              when DEBUG_SUPER then "script"
                            end
 
-    if debug_mode == DEBUG_NONE
-      compiler_flags = {
-          externs:  @base_path + @frontend_js_path + Pathname("screen_options.js"),
-          compilation_level: "ADVANCED_OPTIMIZATIONS"
-      }
 
-      options[:compiler_flags] = compiler_flags
+    if debug_mode == DEBUG_NONE
+      compiler_flags.merge!({
+          externs:  @base_path + @frontend_js_path + Pathname("screen_options.js"),
+          compilation_level: "ADVANCED_OPTIMIZATIONS",
+      })
     end
 
     debug_suffix = case debug_mode
@@ -56,13 +56,27 @@ namespace :frontendjs do
     frontend_file = @base_path + @frontend_js_path + frontend_file_name
     frontend_file.delete if frontend_file.exist?
 
+    # Add source map
+    compiler_flags.merge!({
+      source_map_format: "V3",
+      create_source_map: frontend_file.to_s + ".map",
+    })
+
+    options[:compiler_flags] = compiler_flags if !compiler_flags.empty?
+
     find_and_require_content_types(plugins)
 
     puts "WARNING: Remove frontend_superdebug.js and try again " if (@base_path + @frontend_js_path + Pathname("frontend_superdebug.js")).exist?
 
     `#{@closure_builder} #{serialize_options(options).join(' ')} > #{frontend_file}`
-
     raise "Could not build #{frontend_file_name}" unless frontend_file.exist?
+
+    correct_source_map_paths compiler_flags[:create_source_map]
+    # Append source map annotation to generated js file
+    File.open(frontend_file, "a") do |f|
+      f.write("//# sourceMappingURL=#{frontend_file_name}.map")
+    end
+
   end
 
   task :setup do
@@ -142,6 +156,22 @@ namespace :frontendjs do
 
     File.open(content_types_file, 'w') do |file|
       file.write(content)
+    end
+  end
+
+  def correct_source_map_paths(file)
+    source_map = JSON.parse(File.read(file))
+    relative_frontend_js_path = Pathname("frontend_js")
+
+    source_map["sources"].map!{|p| p.sub(@closure_library.to_s, "closure-library")}
+    source_map["sources"].map!{|p| p.sub("#{@base_path + @frontend_js_path}/", "") }
+    
+    # Correct paths proforma for other sources outside of the public directory (e.g. plugin js files)
+    # You need to copy/link those files to the main public folder for debugging
+    source_map["sources"].map!{|p| p.sub(/.*\/#{relative_frontend_js_path}\//, "") }
+
+    File.open(file, "w") do |f|
+      f.write(JSON.generate(source_map))
     end
   end
 end

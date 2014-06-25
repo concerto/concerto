@@ -87,3 +87,5 @@ gem 'concerto_docsplit'
 
 # NProgress provides progress bars for pages loaded via Turbolinks
 gem 'nprogress-rails', '~> 0.1.3.0'
+
+gem 'i18n-tasks', '~> 0.4.5', :group => :development

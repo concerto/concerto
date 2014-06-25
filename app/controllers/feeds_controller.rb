@@ -9,6 +9,7 @@ class FeedsController < ApplicationController
     if !ConcertoConfig[:public_concerto]
       redirect_to(new_user_session_path)
     else
+      @motd = ConcertoConfig.get(:motd_html)
       @feeds = Feed.accessible_by(current_ability).roots
       respond_with(@feeds)
     end

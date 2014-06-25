@@ -10,6 +10,8 @@
       <div class="span8">
         <%= render_partial_if("#{type_folder}/form_top", "form_top", {:form => f}) %>
         <%= render_partial_if("#{type_folder}/form_middle", "form_middle", {:form => f}) %>
+        <%= ConcertoPlugin.render_view_hook self, :content_form, {:form => f} %>
+        <%= render_partial_if("#{type_folder}/form_submit_feeds", "form_submit_feeds", {:form => f}) %>
       </div>
       <div class="span4">
         <fieldset>

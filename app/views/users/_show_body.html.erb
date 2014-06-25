@@ -94,7 +94,7 @@
   </div>
   <br />
 
-  <% if !@contents.empty? %>
+  <% unless @contents.empty? %>
     <% @contents.each do |content| %>
       <%= render :partial => "contents/content_tile", :locals => { :content => content } %>
     <% end %>

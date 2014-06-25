@@ -1,7 +1,7 @@
 <% viewable = 0 %>
 <ul class="list-stacked">
   <% @feeds.each do |feed| %>
-    <% if feed.approved_contents.size != 0 || feed.group.has_member?(current_user) || (!current_user.nil? && current_user.is_admin?) %>
+    <% if feed.approved_contents.size != 0 || feed.group.has_member?(current_user) || can?(:manage, :all) %>
       <% viewable+=1 %>
       <li>
         <h3>
@@ -12,7 +12,7 @@
         </h3>
         <% if feed.children.count > 0 %>
           <p class="indented">
-            <%= t(:sub_feeds) %>:
+            <%= t 'submissions.index_body.sub_feeds' %>:
             <% feed.children.each do |sub_feed| %>
               <%= link_to sub_feed.name, feed_submissions_path(sub_feed), :class => "link-hl" %>
             <% end %>

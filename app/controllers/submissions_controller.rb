@@ -39,7 +39,7 @@ class SubmissionsController < ApplicationController
     else
       @paginated_submissions = @submissions
     end
-    @paginated_submissions = @paginated_submissions.page(params[:page]).per(100)
+    @paginated_submissions = @paginated_submissions.page(params[:page])
 
     @state = state
 

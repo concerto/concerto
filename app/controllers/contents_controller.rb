@@ -2,6 +2,9 @@ class ContentsController < ApplicationController
   before_filter :get_content_const, :only => [:new, :create, :update, :preview]
   respond_to :html, :json, :js
 
+  define_callbacks :update_params
+  ConcertoPlugin.install_callbacks(self)
+
   # Grab the constant object for the type of
   # content we're working with.  Probably needs
   # additional error checking.
@@ -298,18 +301,21 @@ class ContentsController < ApplicationController
       content_sym = @content_const.model_name.singular.to_sym
       attributes = @content_const.form_attributes
     end
+
     # Reach into the model and grab the attributes to accept.
     params.require(content_sym).permit(*attributes)
   end
 
-  # User an extra restictive list of params for content updates.
+  # Use an extra restrictive list of params for content updates.
   def content_update_params
-    content_sym = :content
-    if !@content_const.nil?
-      content_sym = @content_const.model_name.singular.to_sym
+    run_callbacks :update_params do
+      @content_sym = :content
+      if !@content_const.nil?
+        @content_sym = @content_const.model_name.singular.to_sym
+      end
+      @attributes = [:name, :duration, {:start_time => [:time, :date]}, {:end_time => [:time, :date]}]
     end
-    attributes = [:name, :duration, {:start_time => [:time, :date]}, {:end_time => [:time, :date]}]
-    params.require(content_sym).permit(*attributes)
+    params.require(@content_sym).permit(*@attributes)
   end
 
   def submittable_feeds

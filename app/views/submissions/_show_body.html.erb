@@ -1,34 +1,33 @@
 <div class="approval">
   <%= render :partial => "submissions/approval_info", :locals => { :submission => @submission } %>
   <% if can? :update, @submission %>
-      <div class="moderate-select">
-        <% unless @submission.moderation_flag == true %>
+    <div class="moderate-select">
+      <% if @submission.moderation_flag %>
+        <%= link_to "#", :class => "btn btn-pronounced dropdown-control dd-moderate danger", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_deny_#{ @submission.id }" do %>
+          <span class="icon-remove-sign"></span> <%= t(:deny) %>
+        <% end %>
+      <div id="moderate_deny_<%= @submission.id %>" style="display:none;">
+        <div class="form-stacked form-dark">
           <%= form_for([@submission.feed, @submission]) do |f| %>
-            <%= f.hidden_field :moderation_flag, { :value => true } %>
-            <%= f.hidden_field :moderation_reason, { :value => '' } %>
-            <%= f.submit t(:approve), :class => "btn btn-pronounced btnModerateApprove", :title => t('submissions.moderate_title', :name => @submission.content.name) %>
-          <% end %>
-        <% end %>
-        <% unless @submission.moderation_flag == false %>
-          <%= link_to "#", :class => "btn btn-pronounced dropdown-control dd-moderate danger", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_deny_#{ @submission.id }" do %>
-            <span class="icon-remove-sign"></span> <%= t(:deny) %>
-          <% end %>
-          <div id="moderate_deny_<%= @submission.id %>" style="display:none;">
-            <div class="form-stacked form-dark">
-              <%= form_for([@submission.feed, @submission]) do |f| %>
-                <div class="clearfix">
-                  <%= f.hidden_field :moderation_flag, { :value => false } %>
-                  <%= f.label :moderation_reason %>
-                  <div class="input">
-                    <%= f.text_area :moderation_reason, :rows => 5, :style => "width: 90%;", :autofocus => true %>
-                  </div>
-                </div>
-                <%= f.submit t(:deny), :class => "btn btn-primary btnModerateDeny", :title => t('submissions.moderate_title', :name => @submission.content.name) %>
-              <% end %>
+            <div class="clearfix">
+              <%= f.hidden_field :moderation_flag, { :value => false } %>
+              <%= f.label :moderation_reason %>
+              <div class="input">
+                <%= f.text_area :moderation_reason, :rows => 5, :style => "width: 90%;", :autofocus => true %>
+              </div>
             </div>
-          </div>
-        <% end %>
+            <%= f.submit t(:deny), :class => "btn btn-primary btnModerateDeny", :title => t('submissions.moderate_title', :name => @submission.content.name) %>
+          <% end %>
+        </div>
       </div>
+      <% elsif !@submission.moderation_flag %>
+        <%= form_for([@submission.feed, @submission]) do |f| %>
+          <%= f.hidden_field :moderation_flag, { :value => true } %>
+          <%= f.hidden_field :moderation_reason, { :value => '' } %>
+          <%= f.submit t(:approve), :class => "btn btn-pronounced btnModerateApprove", :title => t('submissions.moderate_title', :name => @submission.content.name) %>
+        <% end %>
+      <% end %>
+    </div>
   <% end %>
 </div>
 

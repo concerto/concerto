@@ -21,7 +21,11 @@
     </div>
   </header>
   <div class="viewblock-cont">
-
+    <% if ENV['FROZEN'] == "1" %>
+      <div id="gem-frozen">
+        <%= t(:gems_frozen_warning) %>
+      </div>
+    <% end %>
     <div class="default-padding">
       <h3>
         <%= @concerto_plugin.module_name %> via <%= source_link %><% if @concerto_plugin.source != "rubygems" %> (<%= @concerto_plugin.source_url %>) <% end %>
