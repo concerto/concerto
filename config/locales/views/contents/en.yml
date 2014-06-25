@@ -63,11 +63,14 @@ en:
       content_type: "Content type to add:"
       design_graphic: "Design a Graphic"
       select_type: "Select Type"
-    show:
+
+    show_details:
       display_from: "Display From"
       display_until: "Display Until"
+      duration: "Duration"
       feeds_moderation_status: "Submission Status"
       not_submitted: 'This content has not been submitted to any feeds.'
+      seconds: 'seconds'
       submitted_by: "Submitted by"
       the_dawn_of_time: 'The Dawn of Time.'
       the_end_of_time: 'The End of Time.'
