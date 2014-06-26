@@ -53,6 +53,16 @@ class ApplicationController < ActionController::Base
     @current_screen
   end
 
+  # This method allows the Frontend to circumvent normal screen auth
+  # in order to support legacy unsecured screens. Should not be used
+  # outside the Frontend controllers.
+  def allow_screen_if_unsecured (screen)
+    if screen.unsecured? || screen.auth_by_mac?
+      @current_screen = screen
+      @current_ability = nil
+    end
+  end
+
   def http_basic_user_name_and_password
     ActionController::HttpAuthentication::Basic.user_name_and_password(request)
   end

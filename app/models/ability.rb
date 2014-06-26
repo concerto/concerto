@@ -121,7 +121,7 @@ class Ability
 
     # Group leaders can create / delete their group screens.
     # So can special supporters
-    can [:update, :delete], Screen do |screen|
+    can [:update, :delete, :preview], Screen do |screen|
       screen.owner.is_a?(Group) && (screen.owner.leaders.include?(user) ||
         screen.owner.user_has_permissions?(user, :regular, :screen, [:all]))
     end
@@ -223,6 +223,9 @@ class Ability
     ## Screens
     # A Screen can read its own properties
     can :read, Screen, :id => screen.id
+    # A logged-in screen can display its full frontend.
+    # Note that noone else can do this, even if it is a public screen.
+    can :display, Screen, :id => screen.id
 
     ## Feeds
     # If a screen is owned by the same group as the feed
