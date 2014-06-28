@@ -56,8 +56,8 @@ en:
     registrations:
       edit:
         change_password_for: change password for
-        confirm_password: confirm password
-        new_password: new password
+        confirm_password: Confirm password
+        new_password: New password
   errors:
     messages:
       not_saved:
