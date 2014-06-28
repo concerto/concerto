@@ -55,7 +55,7 @@ en:
   devise:
     registrations:
       edit:
-        change_password_for: change password for
+        change_password_for: Change password for
         confirm_password: Confirm password
         new_password: New password
   errors:
