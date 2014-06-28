@@ -96,11 +96,12 @@ concerto.frontend.Content.prototype.startLoad = function() {
    */
   this.start_ = new goog.date.DateTime();
 
+  this.setupTimer();
+
   this.dispatchEvent(concerto.frontend.Content.EventType.START_LOAD);
 
   this.load_();
 
-  this.setupTimer();
 };
 
 
@@ -171,14 +172,6 @@ concerto.frontend.Content.prototype.render = function() {
  * when the COMPLETE_RENDER event is dispatched.
  */
 concerto.frontend.Content.prototype.setupTimer = function() {
-  var duration = this.duration * 1000;
-
-  /**
-   * A timer for the content's duration.
-   * @type {goog.async.Delay}
-   * @private
-   */
-  this.timer_ = new goog.async.Delay(this.finishTimer, duration, this);
 
   goog.events.listenOnce(this,
       concerto.frontend.Content.EventType.COMPLETE_RENDER,
@@ -190,6 +183,14 @@ concerto.frontend.Content.prototype.setupTimer = function() {
  * Start the content timer.
  */
 concerto.frontend.Content.prototype.startTimer = function() {
+  var duration = this.duration * 1000;
+
+  /**
+   * A timer for the content's duration.
+   * @type {goog.async.Delay}
+   * @private
+   */
+  this.timer_ = new goog.async.Delay(this.finishTimer, duration, this);
   this.timer_.start();
 };
 
