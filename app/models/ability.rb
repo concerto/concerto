@@ -224,8 +224,8 @@ class Ability
     # A Screen can read its own properties
     can :read, Screen, :id => screen.id
     # A logged-in screen can display its full frontend.
-    # Note that noone else can do this, even if it is a public screen.
-    can :display, Screen, :id => screen.id
+    # Note that no one else can do this, even if it is a public screen.
+    can [:display, :preview], Screen, :id => screen.id
 
     ## Feeds
     # If a screen is owned by the same group as the feed

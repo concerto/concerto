@@ -40,6 +40,13 @@ class Screen < ActiveRecord::Base
   validates :owner, :presence => true, :associated => true, :if => Proc.new { ["User", "Group"].include?(owner_type) }
   # Authentication token must be unique, prevents mac address collisions with legacy screens.
   validates :authentication_token, :uniqueness => {:allow_nil => true, :allow_blank => true}
+  validate :unsecured_screens_must_be_public
+
+  def unsecured_screens_must_be_public
+    if !is_public? and (unsecured? or auth_by_mac?)
+      errors.add(:base, 'Screens must be publicly viewable if they are not secured by a token.')
+    end
+  end
 
   #Newsfeed
   include PublicActivity::Common if defined? PublicActivity::Common
