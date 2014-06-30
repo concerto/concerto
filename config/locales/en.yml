@@ -52,12 +52,6 @@ en:
   status: Status
   update_model: Update %{model}
   valid_git: is not a valid git repository
-  devise:
-    registrations:
-      edit:
-        change_password_for: Change password for
-        confirm_password: Confirm password
-        new_password: New password
   errors:
     messages:
       not_saved:
