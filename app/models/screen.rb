@@ -257,7 +257,9 @@ class Screen < ActiveRecord::Base
     self.template.positions.each do |p|
       max_updated_at = [p.updated_at.try(:utc).try(:to_i), p.field.updated_at.try(:utc).try(:to_i), max_updated_at].max
       p.field.field_configs.each do |field_config|
-        max_updated_at = [field_config.updated_at.try(:utc).try(:to_i),max_updated_at].max
+        if !field_config.updated_at.nil?
+          max_updated_at = [field_config.updated_at.try(:utc).try(:to_i),max_updated_at].max
+        end
       end
   end
     args.each do |ao|
