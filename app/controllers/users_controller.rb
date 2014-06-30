@@ -48,12 +48,14 @@ class UsersController < ApplicationController
     if @user.save
       process_notification(@user, {}, process_notification_options({:params => {:user_name => @user.name}}))
       flash[:notice] = t(:user_created)
+      #once an admin creates a user, don't go to the users page, go back to the user manage page
+      respond_with(@user) do |format|
+        format.html { redirect_to main_app.users_path }
+      end
     else
+      # user could not be saved, return new user form with validation errors
       flash[:error] = "#{t(:user_not_created)}: #{@user.errors.full_messages.first}"
-    end
-    #once an admin creates a user, don't go to the users page, go back to the user manage page
-    respond_with(@user) do |format|
-      format.html { redirect_to main_app.users_path }
+      render "new"
     end
   end
 
