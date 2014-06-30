@@ -22,8 +22,8 @@ en:
         mailer_from: 'Mailer From'
         mailer_host: "Concerto Server Name (FQDN)"
         mailer_protocol: "Mailer Protocol"
-        motd_html: "'Message of the Day' HTML"
         min_content_duration: 'Minimum Content Duration (in seconds)'
+        motd_html: "'Message of the Day' HTML"
         openssl_verify_mode_none: 'No SMTP SSL Certificate Verification'
         public_concerto: "Public Concerto access"
         send_errors: "Notify Developers of Errors"
