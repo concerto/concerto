@@ -488,18 +488,20 @@ fr:
     show_body:
       feed_header:
         one: Modère un Fils
-        many: Modère %{number} Fils
+        many: Modère %{count} Fils
       is_group_leader: Cet utilisateur est un chef de groupe.
       join_group: Rejoindre le groupe
       leader: Chef
       leave_group: Quitter le groupe
       member: ! ' Membre'
-      member_header: Contient %{number} Membres%{s_display}
+      member_header:
+        one: Contient un Membre
+        other: Contient %{count} Membres
       no_regular_members: Ce groupe n'a actuellement pas d'utilisateur régulier.
       not_in_group: Vous n'êtes pas actuellment dans ce groupe.
       screen_header:
         one: Gère un Ecran
-        many: Gère %{number} Ecrans
+        many: Gère %{count} Ecrans
       your_membership_role: Vous êtes actuelllement  %{level}%{what} de ce groupe.
       edit_group: Editer le groupe
       group_description: Description du groupe
@@ -525,7 +527,9 @@ fr:
       options: Options
       provide_details: Description
     show_body:
-      content_header: A envoyé %{number} item%{s_display}
+      content_header:
+        one: A envoyé un item
+        other: A envoyé %{count} items
       group_header:
         one: Appartient à un groupe
         many: Appartient à %{count} groupes
