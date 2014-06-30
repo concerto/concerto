@@ -28,7 +28,9 @@ en:
     show_body:
       admin: 'Admin'
       content: 'Content'
-      content_header: 'Has Submitted %{number} Item%{s_display}'
+      content_header:
+        one: 'Has Submitted one Item'
+        other: 'Has Submitted %{count} Items'
       dont_receive_emails: "Don't receive emails"
       forever: 'forever'
       group_header:

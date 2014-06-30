@@ -453,12 +453,14 @@ en:
     show_body:
       feed_header:
         one: Moderates one Feed
-        other: Moderates %{number} Feeds
+        other: Moderates %{count} Feeds
       join_group: join_group
       leader: Leader
       leave_group: leave group
       member: ! ' member'
-      member_header: Contains %{number} Member%{s_display}
+      member_header:
+        one: Contains one Member
+        other: Contains %{count} Members
       not_in_group: You are not currently in this group.
       screen_header:
         one: Manages one Screen
@@ -477,7 +479,9 @@ en:
     index:
       name: Name
     show_body:
-      content_header: Has Submitted %{number} Item%{s_display}
+      content_header:
+        one: Has Submitted one item
+        other: Has Submitted %{count} items
       group_header:
         one: Belongs to one Group
         other: Belongs to %{count} Groups
