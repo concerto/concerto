@@ -51,7 +51,7 @@ en:
       user:
         email: 'Email'
         first_name: 'Name'
-        locale: locale
+        locale: 'Locale'
         #new_password: 'New Password'
         password: 'Password'
         password_confirmation: 'Confirm Password'
