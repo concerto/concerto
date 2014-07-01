@@ -24,6 +24,17 @@ fr:
   edit: Editer
   edit_model: Editer %{model}
   error: erreur
+  formats:
+    date: '%d/%m/%y'
+    date_time: '%d/%m/%y, %H h %M'
+    date_long_year: '%d/%m/%Y'
+    long_day: '%A %B %e at %l:%m %p'
+    month_day: '%d/%m'
+    short_month: '%b %d'
+    short_day: '%a %b %d %Y'
+    short_date: '%a %D'
+    twelve_hour_time: '%I:%M %P'
+    time_date: '%I:%M %p on %D'
   import_model: Importer %{model}
   join: Rejoindre
   manage_model: G�rer %{model}
