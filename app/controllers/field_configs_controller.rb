@@ -13,7 +13,7 @@ class FieldConfigsController < ApplicationController
   # GET /screens/:screen_id/fields/:field_id/field_configs.xml
   def index
     @field_configs = @screen.field_configs.where(:field_id => @field.id)
-    auth!(:object => @field_configs, :allow_empty => false)
+    auth!(:object => @field_configs)
     respond_to do |format|
       format.html # index.html.erb
       format.xml { render :xml => @field_configs }
