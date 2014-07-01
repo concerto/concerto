@@ -127,7 +127,7 @@ class TemplatesController < ApplicationController
   # Generate a preview of the template based on the request format.
   def preview
     @template = Template.find(params[:id])
-    auth!(:action => :read)
+    auth!(:action => :preview)
 
     if stale?(:last_modified => @template.last_modified.utc, :etag => @template, :public => true)
       # Hide the fields if the hide_fields param is set,
