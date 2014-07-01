@@ -54,7 +54,6 @@ class UsersController < ApplicationController
       end
     else
       # user could not be saved, return new user form with validation errors
-      flash[:error] = "#{t(:user_not_created)}: #{@user.errors.full_messages.first}"
       render "new"
     end
   end
