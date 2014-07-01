@@ -24,7 +24,9 @@ fr:
     show_body: 
       admin: Admin
       content: Contenu
-      content_header: "A envoyé %{number} item%{s_display}"
+      content_header:
+        one:  "A envoyé un item"
+        other:  "A envoyé %{count} items"
       dont_receive_emails: "Ne pas recevoir les mails"
       forever: "Pour toujours"
       group_header:

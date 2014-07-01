@@ -49,7 +49,7 @@ en:
       edit_group: 'Edit Group'
       feed_header:
         one: 'Moderates one Feed'
-        other: 'Moderates %{number} Feeds'
+        other: 'Moderates %{count} Feeds'
       group_description: 'Group Description'
       group_has_no_leaders: 'This group currently has no leaders.  You should promote a regular member in the table above.'
       group_leaders: 'Group Leaders'
@@ -57,7 +57,9 @@ en:
       leader: 'Leader'
       leave_group: 'Leave Group'
       member: ' member'
-      member_header: 'Contains %{number} Member%{s_display}'
+      member_header:
+        one:  'Contains one Member'
+        other: 'Contains %{count} Members'
       no_pending_approvals: 'No Pending Approvals!'
       not_in_group: "You are not currently in this group."
       promote_to_leader: "Promote to Leader"

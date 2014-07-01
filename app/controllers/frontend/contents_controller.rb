@@ -13,6 +13,7 @@ class Frontend::ContentsController < ApplicationController
     @screen = Screen.find(params[:screen_id])
     @field = Field.find(params[:field_id])
     @subscriptions = @screen.subscriptions.where(:field_id => @field.id)
+    allow_screen_if_unsecured @screen
   end
 
   def index
