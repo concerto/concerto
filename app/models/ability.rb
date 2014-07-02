@@ -126,6 +126,9 @@ class Ability
         screen.owner.user_has_permissions?(user, :regular, :screen, [:all]))
     end
 
+    ## Template Preview
+    can [:preview], Template, :is_hidden => false
+
     ## FieldConfig
     # Only the owning group or user can manage a screen's field configs.
     can :manage, FieldConfig, :screen => {:owner_id => user.id, :owner_type => 'User'}
