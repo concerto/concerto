@@ -132,7 +132,7 @@
     }
 
     function hasEvent(el) {
-        var e = el.data("events");
+        var e = $._data(el[0], "events");
         return e && e.onSlide;
     }
 
