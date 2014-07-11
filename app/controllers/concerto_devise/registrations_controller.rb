@@ -28,6 +28,25 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
       resource.confirmed_at = Date.today
     end
 
+    if !ConcertoConfig[:ldap_host].blank?
+      # must verify the user before registering them
+      begin
+        verified = Devise::Strategies::LdapAuthenticatable.verified?(resource.email, resource.password)
+        resource.errors.add(:base, t('devise.failure.invalid')) if !verified
+      rescue Net::LDAP::LdapError => e
+        resource.errors.add(:base, "#{t('devise.failure.ldap')}: #{e.message}")
+        verified = false
+      end
+      if !verified
+        render_registration_form(resource)
+        return
+      else
+        #obfuscate password since handled via ldap
+        resource.password = SecureRandom.hex(64)
+        resource.confirmed_at = Date.today
+      end
+    end
+
     if resource.save
       process_notification(resource, {}, :action => 'create', :owner => current_user)
 
@@ -76,7 +95,13 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
   def render_registration_form(resource)
     clean_up_passwords resource
     if ConcertoConfig[:setup_complete]
-      respond_with resource
+      if ConcertoConfig[:ldap_host].blank?
+        respond_with resource
+      else
+        respond_with resource do |format|
+          format.html { render "new_ldap", :layout => "no-topmenu" }
+        end
+      end
     else
       @concerto_config = ConcertoConfig.new # for send_errors field
       respond_with resource do |format|
