@@ -1,65 +1,67 @@
-<div class="approval">
-  <%= render :partial => "submissions/approval_info", :locals => { :submission => @submission } %>
-  <% if can? :update, @submission %>
-    <div class="moderate-select">
-      <% if @submission.moderation_flag %>
-        <%= link_to "#", :class => "btn btn-pronounced dropdown-control dd-moderate danger", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_deny_#{ @submission.id }" do %>
-          <span class="icon-remove-sign"></span> <%= t(:deny) %>
-        <% end %>
-      <div id="moderate_deny_<%= @submission.id %>" style="display:none;">
-        <div class="form-stacked form-dark">
-          <%= form_for([@submission.feed, @submission]) do |f| %>
-            <div class="clearfix">
-              <%= f.hidden_field :moderation_flag, { :value => false } %>
-              <%= f.label :moderation_reason %>
-              <div class="input">
-                <%= f.text_area :moderation_reason, :rows => 5, :style => "width: 90%;", :autofocus => true %>
-              </div>
-            </div>
-            <%= f.submit t(:deny), :class => "btn btn-primary btnModerateDeny", :title => t('submissions.moderate_title', :name => @submission.content.name) %>
-          <% end %>
-        </div>
-      </div>
-      <% elsif !@submission.moderation_flag %>
-        <%= form_for([@submission.feed, @submission]) do |f| %>
-          <%= f.hidden_field :moderation_flag, { :value => true } %>
-          <%= f.hidden_field :moderation_reason, { :value => '' } %>
-          <%= f.submit t(:approve), :class => "btn btn-pronounced btnModerateApprove", :title => t('submissions.moderate_title', :name => @submission.content.name) %>
-        <% end %>
-      <% end %>
+<div class="row-fluid">
+  <div class="span2 content-details">
+    <div class="default-padding">
+      <%= render :partial => "contents/show_details", :locals => {
+        :content => @submission.content,
+        :user => @submission.content.user,
+        :feed => @submission.feed } %>
     </div>
-  <% end %>
-</div>
+  </div>
+  <div class="span10">
+    <div class="default-padding">
 
-<div class="default-padding">
-  <div class="content-frame">
-      <%= link_to render_content(@submission.content), content_path(@submission.content)%>
-      <%#= render :partial => 'contents/dynamic_content_tools', :locals => { :content => @submission.content } if @submission.content.is_a?(DynamicContent) && can?(:edit, @submission.content) %>
-      <div class="edit-content">
-        <%= link_to content_path(@submission.content), class: "edit-content" do %>
-          <h1 class="edit-content">Edit content</h1>
+      <div class="approval">
+        <%= render :partial => "submissions/approval_info", :locals => { :submission => @submission } %>
+        <% if can? :update, @submission %>
+            <div class="moderate-select">
+              <% unless @submission.moderation_flag == true %>
+                <%= form_for([@submission.feed, @submission]) do |f| %>
+                  <%= f.hidden_field :moderation_flag, { :value => true } %>
+                  <%= f.hidden_field :moderation_reason, { :value => '' } %>
+                  <%= f.submit t(:approve), :class => "btn btn-pronounced btnModerateApprove", :title => t('submissions.moderate_title', :name => @submission.content.name) %>
+                <% end %>
+              <% end %>
+              <% unless @submission.moderation_flag == false %>
+                <%= link_to "#", :class => "btn btn-pronounced dropdown-control dd-moderate danger", :title => t('submissions.moderate_title', :name => @submission.content.name), :rel => "#moderate_deny_#{ @submission.id }" do %>
+                  <span class="icon-remove-sign"></span> <%= t(:deny) %>
+                <% end %>
+                <div id="moderate_deny_<%= @submission.id %>" style="display:none;">
+                  <div class="form-stacked form-dark">
+                    <%= form_for([@submission.feed, @submission]) do |f| %>
+                      <div class="clearfix">
+                        <%= f.hidden_field :moderation_flag, { :value => false } %>
+                        <%= f.label :moderation_reason %>
+                        <div class="input">
+                          <%= f.text_area :moderation_reason, :rows => 5, :style => "width: 90%;", :autofocus => true %>
+                        </div>
+                      </div>
+                      <%= f.submit t(:deny), :class => "btn btn-primary btnModerateDeny", :title => t('submissions.moderate_title', :name => @submission.content.name) %>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
         <% end %>
       </div>
+    </div>
+
+    <div class="default-padding">
+      <div class="content-frame">
+        <%#= link_to render_content(@submission.content), content_path(@submission.content)%>
+        <%= render_content(@submission.content) %>
+      </div>
+
+      <% if !@submission.content.children.empty? %>
+        <% @submission.content.children.active.each do |child| %>
+          <% child_submissions = child.submissions.where(:feed_id => @submission.feed_id) %>
+          <% child_submissions.each do |child_submission| %>
+            <%= render :partial => "submissions/submission_tile", :locals => { :submission => child_submission } %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+    </div>
+
+    </div>
   </div>
-
-  <br />
-
-  <% if @other_submissions.count > 0 %>
-    <h3><%= t('.also_appears_on') %></h3>
-    <ul>
-      <% @other_submissions.each do |submission| %>
-        <li><%= link_to submission.feed.name, [submission.feed, submission] %></li>
-      <% end %>
-    </ul>
-  <% end %>
-
-  <% if !@submission.content.children.empty? %>
-    <% @submission.content.children.active.each do |child| %>
-      <% child_submissions = child.submissions.where(:feed_id => @submission.feed_id) %>
-      <% child_submissions.each do |child_submission| %>
-        <%= render :partial => "submissions/submission_tile", :locals => { :submission => child_submission } %>
-      <% end %>
-    <% end %>
-  <% end %>
-
 </div>
