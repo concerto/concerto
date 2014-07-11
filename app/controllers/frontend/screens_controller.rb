@@ -7,9 +7,11 @@ class Frontend::ScreensController < ApplicationController
 
   # GET /frontend/:id
   def show
+    @preview = params.has_key?(:preview) && params[:preview] == "true"
     begin
       @screen = Screen.find(params[:id])
-      auth!
+      allow_screen_if_unsecured @screen
+      auth! :action => (@preview ? :preview : :display)
     rescue ActiveRecord::ActiveRecordError
       # TODO: Could this just be a regular 404?
       render :text => "Screen not found.", :status => 404
@@ -23,7 +25,6 @@ class Frontend::ScreensController < ApplicationController
     else
       @js_files = ['frontend.js']
       @debug = false
-      @preview = false || params[:preview]
       if params[:debug]
         @debug = true
         @js_files = ['frontend_debug.js']
@@ -113,9 +114,11 @@ class Frontend::ScreensController < ApplicationController
   # Get information required to setup the screen
   # and display the template with positions.
   def setup
+    @preview = params.has_key?(:preview) && params[:preview] == "true"
     begin
       @screen = Screen.find(params[:id])
-      auth! :action => :read
+      allow_screen_if_unsecured @screen
+      auth! :action => (@preview ? :preview : :display)
     rescue ActiveRecord::ActiveRecordError
       render :json => {}, :status => 404
     rescue CanCan::AccessDenied
@@ -178,7 +181,7 @@ class Frontend::ScreensController < ApplicationController
         }
       end
       end
-      unless params.has_key?(:preview) && params[:preview] == "true"
+      unless @preview
         @screen.mark_updated
       end
     end

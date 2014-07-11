@@ -114,17 +114,20 @@ class Ability
     # Anyone can read public screens
     can :read, Screen, :is_public => true if (user.persisted? || ConcertoConfig[:public_concerto])
     # Users can read, update and delete their own screens
-    can [:read, :update, :delete], Screen, :owner_type => 'User', :owner_id => user.id
+    can [:read, :preview, :update, :delete], Screen, :owner_type => 'User', :owner_id => user.id
 
     # Users can read group screens
     can :read, Screen, :owner_type => 'Group', :owner_id => user.group_ids
 
     # Group leaders can create / delete their group screens.
     # So can special supporters
-    can [:update, :delete], Screen do |screen|
+    can [:update, :delete, :preview], Screen do |screen|
       screen.owner.is_a?(Group) && (screen.owner.leaders.include?(user) ||
         screen.owner.user_has_permissions?(user, :regular, :screen, [:all]))
     end
+
+    ## Template Preview
+    can [:preview], Template, :is_hidden => false
 
     ## FieldConfig
     # Only the owning group or user can manage a screen's field configs.
@@ -223,6 +226,9 @@ class Ability
     ## Screens
     # A Screen can read its own properties
     can :read, Screen, :id => screen.id
+    # A logged-in screen can display its full frontend.
+    # Note that no one else can do this, even if it is a public screen.
+    can [:display, :preview], Screen, :id => screen.id
 
     ## Feeds
     # If a screen is owned by the same group as the feed

@@ -19,6 +19,7 @@ module Concerto
     attr_reader :init_block
     attr_reader :model_extensions
     attr_reader :cron_jobs
+    attr_reader :header_tags
 
     # Configuration API: Accessible by the engine via "new"
 
@@ -66,7 +67,7 @@ module Concerto
     end
 
     # Add code into the main application's UI where a hook has been
-    # defined. The hook nay take a number of forms, including static
+    # defined. The hook may take a number of forms, including static
     # text, a partial, or a code block for later execution.
     def add_view_hook(controller_name, hook_sym, options={})
       @view_hooks ||= []
@@ -91,6 +92,33 @@ module Concerto
         :sym => hook_sym, 
         :type => mytype,
         :hook => myhook
+      }
+    end
+
+    # Add code into the main application's header.
+    # The hook may take a number of forms, including static
+    # text, a partial, or a code block for later execution.
+    def add_header_tags(options={})
+      @header_tags ||= []
+      if options.has_key? :partial
+        type = :partial
+        hook = options[:partial]
+      elsif options.has_key? :text
+        type = :text
+        hook = options[:text]
+      elsif options.has_key? :proc
+        type = :proc
+        hook = options[:proc]
+      elsif block_given?
+        type = :proc
+        hook = Proc.new # takes the value of the passed block
+      else
+        raise "error: add_header_tags missing a block, partial, or text!"
+      end
+
+      @header_tags << {
+          :type => type,
+          :hook => hook
       }
     end
 

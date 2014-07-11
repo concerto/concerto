@@ -86,7 +86,7 @@
 <div class="clearfix default-padding">
   <div class="header-with-icon clearfix">
     <h3 style="float: left;">
-      <%= t('.content_header', :number => @contents_count, :s_display => @contents_count == 1 ? '' : 's') %>
+      <%= t '.content_header', :count => @contents_count %>
     </h3>
     <div class="pagination-cont">
       <%= paginate @contents unless @contents.empty? %>
