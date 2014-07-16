@@ -1,3 +1,18 @@
+<% sidebar = ConcertoPlugin.render_view_hook self, :content_sidebar, :locals => { :content => @content } %>
+
+<%
+   # Hide details sidebar when there is nothing to show
+   content_span = 9
+   sidebar_span = 3
+   if sidebar.blank?
+     content_span = 12
+     sidebar_span = 0
+   end
+%>
+
+<div class="row-fluid">
+  <div class="span<%= content_span %>">
+
 <section class="viewblock">
   <header class="viewblock-header">
     <div class="viewblock-header_right">
@@ -38,3 +53,10 @@
     </div>
   </div>
 </section>
+</div>
+    <% if !sidebar.blank? %>
+        <div class="span<%= sidebar_span %>">
+          <%= sidebar %>
+        </div>
+    <% end %>
+</div>
