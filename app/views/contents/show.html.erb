@@ -13,50 +13,50 @@
 <div class="row-fluid">
   <div class="span<%= content_span %>">
 
-<section class="viewblock">
-  <header class="viewblock-header">
-    <div class="viewblock-header_right">
-      <div class="button-padding">
-        <% if can? :update, @content %>
-          <%= link_to t(:edit_model, :model => Content), edit_content_path(@content), :class => "btn" %>
-        <% end %>
-        <% if can? :delete, @content %>
-          <%= link_to t(:destroy_model, :model => Content), @content, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => Content.model_name.human, :key => @content.name) }, :method => :delete, :class => "btn" %>
-        <% end %>
-      </div>
-    </div>
+    <section class="viewblock">
+      <header class="viewblock-header">
+        <div class="viewblock-header_right">
+          <div class="button-padding">
+            <% if can? :update, @content %>
+              <%= link_to t(:edit_model, :model => Content), edit_content_path(@content), :class => "btn" %>
+            <% end %>
+            <% if can? :delete, @content %>
+              <%= link_to t(:destroy_model, :model => Content), @content, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => Content.model_name.human, :key => @content.name) }, :method => :delete, :class => "btn" %>
+            <% end %>
+          </div>
+        </div>
 
-    <div class="default-padding">
-      <h1>
-        <%= link_to possessive(@content.user.name.strip) + " " + Content.model_name.human.pluralize, @content.user %> &gt;
-        <%= @content.name %>
-      </h1>
-    </div>
-  </header>
-  <div class="viewblock-cont">
-
-    <div class="row-fluid">
-      <div class="span2 content-details">
         <div class="default-padding">
-          <%= render :partial => "show_details", :locals => { :content => @content, :user => @user } %>
+          <h1>
+            <%= link_to possessive(@content.user.name.strip) + " " + Content.model_name.human.pluralize, @content.user %> &gt;
+            <%= @content.name %>
+          </h1>
+        </div>
+      </header>
+      <div class="viewblock-cont">
 
-          <%= render :partial => 'dynamic_content_tools', :locals => { :content => @content } if @content.is_a?(DynamicContent) && can?(:edit, @content) %>
+        <div class="row-fluid">
+          <div class="span2 content-details">
+            <div class="default-padding">
+              <%= render :partial => "show_details", :locals => { :content => @content, :user => @user } %>
+
+              <%= render :partial => 'dynamic_content_tools', :locals => { :content => @content } if @content.is_a?(DynamicContent) && can?(:edit, @content) %>
+            </div>
+          </div>
+
+          <div class="span10">
+            <div class="default-padding">
+              <%= render_content(@content) %>
+            </div>
+          </div>
+
         </div>
       </div>
-
-      <div class="span10">
-        <div class="default-padding">
-          <%= render_content(@content) %>
-        </div>
-      </div>
-
-    </div>
+    </section>
   </div>
-</section>
-</div>
-    <% if !sidebar.blank? %>
-        <div class="span<%= sidebar_span %>">
-          <%= sidebar %>
-        </div>
-    <% end %>
+  <% if !sidebar.blank? %>
+    <div class="span<%= sidebar_span %>">
+        <%= sidebar %>
+    </div>
+  <% end %>
 </div>
