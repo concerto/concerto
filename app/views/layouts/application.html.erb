@@ -9,6 +9,7 @@
   <link rel="icon" type="image/png" href="/favicon.png" />
   <%= stylesheet_link_tag "application" %>
   <%= javascript_include_tag "application" %>
+  <%= ConcertoPlugin.add_header_tags(self) %>
   
   <%= csrf_meta_tag %>
   <%= render :partial => 'elements/head' %>

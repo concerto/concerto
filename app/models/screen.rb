@@ -40,6 +40,13 @@ class Screen < ActiveRecord::Base
   validates :owner, :presence => true, :associated => true, :if => Proc.new { ["User", "Group"].include?(owner_type) }
   # Authentication token must be unique, prevents mac address collisions with legacy screens.
   validates :authentication_token, :uniqueness => {:allow_nil => true, :allow_blank => true}
+  validate :unsecured_screens_must_be_public
+
+  def unsecured_screens_must_be_public
+    if !is_public? and (unsecured? or auth_by_mac?)
+      errors.add(:base, 'Screens must be publicly viewable if they are not secured by a token.')
+    end
+  end
 
   #Newsfeed
   include PublicActivity::Common if defined? PublicActivity::Common
@@ -250,7 +257,9 @@ class Screen < ActiveRecord::Base
     self.template.positions.each do |p|
       max_updated_at = [p.updated_at.try(:utc).try(:to_i), p.field.updated_at.try(:utc).try(:to_i), max_updated_at].max
       p.field.field_configs.each do |field_config|
-        max_updated_at = [field_config.updated_at.try(:utc).try(:to_i),max_updated_at].max
+        if !field_config.updated_at.nil?
+          max_updated_at = [field_config.updated_at.try(:utc).try(:to_i),max_updated_at].max
+        end
       end
   end
     args.each do |ao|

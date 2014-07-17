@@ -33,10 +33,9 @@ fr:
       update_permissions: "Mettre les permissions à jour"
     show_body: 
       edit_group: "Editer le groupe"
-      feed_header: "Modère %{number} Fils%{s_display}"
       feed_header:
         one: 'Modère un Fils'
-        many: "Modère %{number} Fils"
+        many: "Modère %{count} Fils"
       group_description: "Description du groupe"
       group_has_no_leaders: "Ce groupe n'a actuellment pas de chef.  Vous devriez promouvoir un des membres régulier."
       group_leaders: "Chef de groupe"
@@ -45,7 +44,9 @@ fr:
       leader: Chef
       leave_group: "Quitter le groupe"
       member: " Membre"
-      member_header: "Contient %{number} Membres%{s_display}"
+      member_header: 
+        one: "Contient un Membre"
+        many: "Contient %{count} Membres"
       no_pending_approvals: "Pas d'approbation en attente!"
       no_regular_members: "Ce groupe n'a actuellement pas d'utilisateur régulier."
       not_in_group: "Vous n'êtes pas actuellment dans ce groupe."
@@ -55,7 +56,7 @@ fr:
       request_made_at: "Requête faite à"
       screen_header:
         one: "Gère un Ecran"
-        many: "Gère %{number} Ecrans"
+        many: "Gère %{count} Ecrans"
       your_membership_role: "Vous êtes actuelllement  %{level}%{what} de ce groupe."
     show_header: 
       group_cannot_be_deleted: "Le groupe ne peut pas être supprimé"

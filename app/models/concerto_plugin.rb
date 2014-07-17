@@ -175,6 +175,38 @@ class ConcertoPlugin < ActiveRecord::Base
     end
   end
 
+  def self.add_header_tags(context)
+    result = ''
+    ConcertoPlugin.enabled.each do |plugin|
+      begin
+        info = plugin.plugin_info
+        if info && info.header_tags
+          info.header_tags.each do |hook|
+            hook_content = case hook[:type]
+                              when :partial
+                               context.render :partial => hook[:hook]
+                             when :text
+                               hook[:hook]
+                             when :proc
+                               context.instance_eval(&hook[:hook])
+                             else
+                               logger.warn("ConcertoPlugin: failed to add header tags for #{plugin.name}: Unsupported hook type #{hook[:type]}")
+                               nil
+                           end
+            if hook_content
+              result += hook_content
+              result += "\n"
+            end
+          end
+        end
+      rescue Exception => e
+        logger.warn("ConcertoPlugin: failed to add header tags for #{plugin.name}: #{e}\n#{e.backtrace.join("\n")}")
+      end
+    end
+    return result.html_safe
+
+  end
+
 private
 
   # custom validation for plugin URLs
@@ -224,12 +256,12 @@ private
     result = nil
     # We already know the name of the gem from user input
     if Gem.loaded_specs.has_key? gem_name
-      # Let's get the gem's full path in the filesystem
-      gem_path = Gem.loaded_specs[gem_name].full_gem_path
-      # Then match the path we've got to the path of an engine -
+      # Let's get the gem's basename in the filesystem
+      gem_basename = Pathname(Gem.loaded_specs[gem_name].full_gem_path).basename
+      # Then match the name we've got to the name of an engine -
       #    which should have its Module Name (aka paydirt)
       Rails::Application::Railties.engines.each do |engine|
-        if engine.class.root.to_s == gem_path
+        if engine.class.root.basename == gem_basename
           # Get the class name from the engine hash
           result = engine.class
           break

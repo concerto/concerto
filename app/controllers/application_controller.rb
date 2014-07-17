@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_filter :check_for_initial_install
   before_filter :set_version
   before_filter :compute_pending_moderation
+  before_filter :apply_relative_root
   around_filter :set_time_zone
   helper_method :webserver_supports_restart?
   helper_method :current_screen
@@ -51,6 +52,16 @@ class ApplicationController < ActionController::Base
       end
     end
     @current_screen
+  end
+
+  # This method allows the Frontend to circumvent normal screen auth
+  # in order to support legacy unsecured screens. Should not be used
+  # outside the Frontend controllers.
+  def allow_screen_if_unsecured (screen)
+    if screen.unsecured? || screen.auth_by_mac?
+      @current_screen = screen
+      @current_ability = nil
+    end
   end
 
   def http_basic_user_name_and_password
@@ -250,6 +261,14 @@ class ApplicationController < ActionController::Base
   #Don't break for CanCan exceptions; send the user to the front page with a Flash error message
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to main_app.root_url, :flash => { :notice => exception.message }
+  end
+
+
+  # Ensure that any Relative URL Root applied by the webserver is available
+  # to engine routing logic. This should not be needed once we go to Rails 4,
+  # per Rails ticket #6933
+  def apply_relative_root
+    Rails.application.routes.default_url_options[:script_name] = ENV['RAILS_RELATIVE_URL_ROOT']
   end
 
   # Authenticate using the current action and instance variables.
