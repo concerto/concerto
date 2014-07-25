@@ -4,7 +4,7 @@
    #   view for plugins, where the Concerto controller's routing
    #   helpers will not be in scope. Therefore, we refer to these links
    #   using the "main_app" object.
-   #   
+   #
    #   For example: main_app.feeds_path yields the path to the normal
    #  feeds controller, and works both from Concerto and plugins.
 %>
@@ -12,9 +12,15 @@
   <% if not user_signed_in? %>
     <%= link_to "Concerto", main_app.root_url, :id => "top-menu-logobutton" %>
     <p id="top-menu-logintext">
-      <%= link_to t('.sign_in'), main_app.new_user_session_path, :id => "login-dropdown" %> <%=t('.signin_login_spiel') %>
-      <% if can? :create, User %>
-        <%= t('.no_account') %> <%= link_to t('.sign_up'), main_app.new_user_registration_path %> <%= t('.now') %>
+      <!-- Check if a plugin is attempting to override authentication method for sign in links -->
+      <% if ConcertoPlugin.render_view_hook self, :signin_hook %>
+        <%= ConcertoPlugin.render_view_hook self, :signin_hook %>
+      <% else %>
+      <!-- No alternate authentication plugin, use Devise and core registration sign in links -->
+        <%= link_to t('.sign_in'), main_app.new_user_session_path, :id => "login-dropdown" %> <%=t('.signin_login_spiel') %>
+        <% if can? :create, User %>
+          <%= t('.no_account') %> <%= link_to t('.sign_up'), main_app.new_user_registration_path %> <%= t('.now') %>
+        <% end %>
       <% end %>
     </p>
   <% else %>
