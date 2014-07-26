@@ -27,7 +27,7 @@
     <div class="alert alert-block alert-zero">
       <p class="alert-heading"><%=t('.no_content_heading')%></p>
         <%= t('.no_content_message')%>
-        <% if ConcertoPlugin.render_view_hook self, :signin_hook %>
+        <% if !ConcertoPlugin.render_view_hook(self, :signin_hook).empty? %>
           <!-- Authentication plugins can override sign in links -->
           <%= ConcertoPlugin.render_view_hook self, :signin_hook %>
         <% else %>

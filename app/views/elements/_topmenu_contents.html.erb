@@ -13,7 +13,7 @@
     <%= link_to "Concerto", main_app.root_url, :id => "top-menu-logobutton" %>
     <p id="top-menu-logintext">
       <!-- Check if a plugin is attempting to override authentication method for sign in links -->
-      <% if ConcertoPlugin.render_view_hook self, :signin_hook %>
+      <% if !ConcertoPlugin.render_view_hook(self, :signin_hook).empty? %>
         <%= ConcertoPlugin.render_view_hook self, :signin_hook %>
       <% else %>
       <!-- No alternate authentication plugin, use Devise and core registration sign in links -->
