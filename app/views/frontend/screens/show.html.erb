@@ -4,7 +4,6 @@
     <script src="<%= frontend_js_path js_file %>" type="text/javascript"></script>
   <% end %>
   <script type="text/javascript">
-    var thescreen;
     function init() {
       <% if @debug %>
         var debugWindow = new goog.debug.FancyWindow('main');
@@ -16,7 +15,7 @@
         setupPath: '<%=j setup_frontend_screen_path(@screen, :format => :json) %>',
         <% if @preview %> isPreview: true, <% end %>
       };
-      thescreen = new concerto.frontend.Screen(<%= @screen.id %>, div, screenOptions);
+      window.concertoScreen = new concerto.frontend.Screen(<%= @screen.id %>, div, screenOptions);
     }
     window.addEventListener('load', init, false);
   </script>
