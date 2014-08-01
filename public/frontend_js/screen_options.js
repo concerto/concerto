@@ -24,3 +24,8 @@ concerto.frontend.ScreenOptions.prototype.setupPath;
  * @type {boolean}
  */
 concerto.frontend.ScreenOptions.prototype.isPreview;
+
+/**
+ * @type {Object}
+ */
+concerto.frontend.ScreenOptions.prototype.hooks;

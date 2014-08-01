@@ -65,6 +65,14 @@ concerto.frontend.Screen = function(screen_id, opt_div, screen_options) {
    */
   this.setup_key_ = '';
 
+  /**
+   * Hooks.
+   * @type {Object}
+   * @private
+   */
+  this.hooks = {};
+
+
   this.setup();
 };
 goog.exportSymbol('concerto.frontend.Screen', concerto.frontend.Screen);
@@ -129,6 +137,11 @@ concerto.frontend.Screen.prototype.setup = function() {
       this.template.load(data['template']);
     }
   }, this));
+
+  if(typeof this.options.hooks === 'object') {
+    this.logger_.info('Setting up hooks');
+    this.addHook(this.options.hooks)
+  }
 };
 
 
@@ -172,4 +185,74 @@ concerto.frontend.Screen.prototype.processSetupKey = function(setup_key) {
     this.logger_.info('Triggering a screen refresh');
     return this.refresh();
   }
+};
+
+/**
+ * Adds one or multiple hooks.
+ *
+ * @param {!string|!Object} name Name of the hook or object containing multiple hooks
+ * @param {?function(...)} fn Function taken arbitrary amount of arguments (see hook documentation)
+ */
+concerto.frontend.Screen.prototype.addHook = function(name, fn) {
+
+    if (arguments.length === 1 && typeof name === 'object') {
+        var r = {}
+        for (var k in name) { // `name` is a hash of hookName->hookFn
+            r[k] = this.addHook(k, name[k]);
+        }
+        return r;
+    }
+
+    if(!this.hooks[name]) {
+        this.hooks[name] = []
+    }
+    this.hooks[name].push(fn);
+    return fn;
+};
+goog.exportProperty(concerto.frontend.Screen.prototype, 'addHook', concerto.frontend.Screen.prototype.addHook);
+
+/**
+ * Removes one or multiple hooks.
+ *
+ * @param {!string|!Object} name Name of the hook or object containing multiple hooks
+ * @param {boolean|Object} fn Function taken arbitrary amount of arguments (see hook documentation)
+ */
+concerto.frontend.Screen.prototype.removeHook = function(name, fn) {
+
+    if (arguments.length === 1 && typeof name === 'object') {
+        var r = {}
+        for (var k in name) { // `name` is a hash of hookName->hookFn
+            r[k] = this.removeHook(k, name[k]);
+        }
+        return r;
+    }
+
+    if(!this.hooks[name]) {
+        return false;
+    }
+
+    return goog.array.remove(this.hooks[name], fn);
+};
+goog.exportProperty(concerto.frontend.Screen.prototype, 'removeHook', concerto.frontend.Screen.prototype.removeHook);
+
+/**
+ * Runs hooks by name
+ *
+ * @param {!string} name Name of hook
+ * @param var_args Arguments depending on hook
+ */
+concerto.frontend.Screen.prototype.runHook = function(name) {
+    if (typeof this.hooks[name] === 'undefined') {
+        return;
+    }
+
+    var self = this;
+    var hookArgs = [];
+    for(var i=1; i < arguments.length; ++i) {
+        hookArgs.push(arguments[i]);
+    }
+
+    goog.array.forEach(this.hooks[name], function(hook) {
+        hook.apply(self, hookArgs);
+    });
 };
