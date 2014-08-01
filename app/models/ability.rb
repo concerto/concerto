@@ -63,7 +63,7 @@ class Ability
     end
 
     # Load abilities based on the type of object.
-    # We should do this at the bottom to make sure to 
+    # We should do this at the bottom to make sure to
     # override any generic attributes we assigned above.
     type = accessor.class.to_s.downcase + "_abilities"
     if respond_to?(type.to_sym)
@@ -86,6 +86,9 @@ class Ability
     if ConcertoConfig[:allow_registration]
       can :create, User unless user.persisted?
     end
+
+    #users can view pages (which are created by admins)
+    can :read, Page
 
     # The User#index action requires a special setup.
     # By default, all the :read checks will pass because any

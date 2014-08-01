@@ -129,4 +129,7 @@ Concerto::Application.routes.draw do
   # Note: 404 errors are not handled by the router.
   # Instead, they are caught by Rails Middleware and then redirected
   # to Concerto's ErrorsController.
+  
+  resources :pages
+
 end
