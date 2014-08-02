@@ -9,7 +9,6 @@
       <th>Body</th>
       <th></th>
       <th></th>
-      <th></th>
     </tr>
   </thead>
 
@@ -19,11 +18,9 @@
         <td><%= page.category %></td>
         <td><%= page.language%></td>
         <td><%= page.title %></td>
-        <td><%= page.summary %></td>
         <td><%= page.body %></td>
         <td><%= link_to 'Show', page %></td>
         <td><%= link_to 'Edit', edit_page_path(page) %></td>
-        <td><%= link_to 'Destroy', page, method: :delete, data => { confirm => 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
