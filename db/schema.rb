@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140523152217) do
+ActiveRecord::Schema.define(:version => 20140801202550) do
 
   create_table "activities", :force => true do |t|
     t.integer  "trackable_id"
@@ -165,6 +165,15 @@ ActiveRecord::Schema.define(:version => 20140523152217) do
   end
 
   add_index "memberships", ["receive_emails"], :name => "index_memberships_on_receive_emails"
+
+  create_table "pages", :force => true do |t|
+    t.string   "category"
+    t.string   "title"
+    t.string   "language"
+    t.text     "body"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "positions", :force => true do |t|
     t.text     "style"

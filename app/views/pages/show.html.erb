@@ -1,0 +1,12 @@
+<% @markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true) %>
+
+<p id="notice"><%= notice %></p>
+
+<h1><%= @page.title %></h1>
+<h2><%= @page.category %></h2>
+
+<%=raw @markdown.render(@page.body) %>
+
+
+<%= link_to 'Edit', edit_page_path(@page) %> |
+<%= link_to 'Back', pages_path %>

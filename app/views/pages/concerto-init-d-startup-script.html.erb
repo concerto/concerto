@@ -1,0 +1,12 @@
+<%
+some_markdown = %{
+# Init Script Installation
+
+The concerto-init.d script should be copied to /etc/init.d/concerto and installed with update-rc.d and concerto defaults
+invoke-rc.d concerto start
+
+}
+%>
+
+<% @markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true) %>
+<%=raw @markdown.render(some_markdown) %>
