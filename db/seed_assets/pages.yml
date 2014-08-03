@@ -1,4 +1,3 @@
   pages:
       -   title: "Concerto Init.d Startup Script"
           category: Setup
-          body: "The concerto-init.d script should be installed to /etc/init.d/concerto"

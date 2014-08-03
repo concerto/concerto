@@ -8,7 +8,7 @@ class PagesController < ApplicationController
   # GET /pages/1
   def show
     @page = Page.find(params[:id])
-    @markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true)
+    render "#{@page.title.parameterize}", :layout => true, :locals => { :page => @page } rescue nil
     auth!
   end
 
