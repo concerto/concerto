@@ -1,3 +1,4 @@
   pages:
       -   title: "Concerto Init.d Startup Script"
           category: Setup
+          language: en

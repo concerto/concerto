@@ -8,7 +8,7 @@ class PagesController < ApplicationController
   # GET /pages/1
   def show
     @page = Page.find(params[:id])
-    @file_path = File.join(Rails.root, "app", "views", "pages", @page.title.parameterize + ".md")
+    @file_path = File.join(Rails.root, "app", "views", "pages", @page.title.parameterize + ".#{@page.language}" +".md")
     @markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true)
     auth!
   end
