@@ -1,13 +1,13 @@
 class PagesController < ApplicationController
   # GET /pages
   def index
-    @pages = Page.all
+    @pages = Page.page(params[:page]).per(20)
     auth!
   end
 
   # GET /pages/1
   def show
-    @page = Page.find(params[:id])
+    @page = Page.find_by_slug(params[:id])
     @file_path = File.join(Rails.root, "app", "views", "pages", @page.title.parameterize + ".#{@page.language}" +".md")
     @markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true)
     auth!
@@ -21,7 +21,8 @@ class PagesController < ApplicationController
 
   # GET /pages/1/edit
   def edit
-    @page = Page.find(params[:id])
+    @page = Page.find_by_slug(params[:id])
+    @file_path = File.join(Rails.root, "app", "views", "pages", @page.title.parameterize + ".#{@page.language}" +".md")
     auth!
   end
 
@@ -38,7 +39,7 @@ class PagesController < ApplicationController
 
   # PATCH/PUT /pages/1
   def update
-    @page = Page.find(params[:id])
+    @page = Page.find_by_slug(params[:id])
     auth!
     if @page.update(page_params)
       redirect_to @page, :notice => 'Page was successfully updated.'
@@ -49,7 +50,7 @@ class PagesController < ApplicationController
 
   # DELETE /pages/1
   def destroy
-    @page = Page.find(params[:id])
+    @page = Page.find_by_slug(params[:id])
     auth!
     @page.destroy
     redirect_to pages_url, :notice => 'Page was successfully destroyed.'
