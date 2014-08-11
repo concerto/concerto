@@ -117,8 +117,9 @@ namespace :import do
           :description => f.description,
           :group_id => groups[f.group.id],
           :is_viewable => subscribe,
-          :is_submittable => submit
-        )
+          :is_submittable => submit,
+          :content_types => {"Graphic" => "1", "Ticker" => "1"}
+	)
         if new_feed.save
           mapping[f.id] = new_feed.id
           #puts "Created feed #{new_feed.name} (#{new_feed.id})"
