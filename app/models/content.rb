@@ -190,35 +190,28 @@ class Content < ActiveRecord::Base
   end
 
   def self.filter_all_content(params)
-    # Filter Concerto content by user, screen, feed, and/or type
-    filtered_contents = Array.new
+    # Retrieve all contents
+    filtered_contents = Content.all
 
-    query_conditions = {}
-    # If filtering by screen or feed, we must search through subscriptions
-    if params[:screen] || params[:feed]
-      query_conditions[:feed_id] = params[:feed] if params[:feed]
-      query_conditions[:screen_id] = params[:screen] if params[:screen]
-      subs = Subscription.all(:conditions => query_conditions)
-      subs.each do |sub|
-        sub.contents.each do |content|
-          # If filtering by user or type, do not add (skip) content that 
-          # does not match filter criteria
-          next if params[:user] && content.user_id.to_s != params[:user]
-          next if params[:type] && content.type != params[:type]
-          filtered_contents.push(content)
-        end
-      end
-    else
-      # If filtering by user or type, we don't need to search through subscriptions, only contents
-      query_conditions[:user_id] = params[:user] if params[:user]
-      query_conditions[:type] = params[:type] if params[:type]
-      if query_conditions.empty?
-        # No filters are specified
-        filtered_contents = Content.all
-      else
-        # User and/or type filters are specified
-        filtered_contents = Content.all(:conditions => query_conditions)
-      end
+    if !params[:type].nil? and !params[:type].empty?
+      # Filter contents by content type/kind
+      filtered_contents.select! {|content| content.kind_id == params[:type].to_i}
+    end
+    if !params[:user].nil? and !params[:user].empty?
+      # Filter contents by user id 
+      filtered_contents.select! {|content| content.user_id == params[:user].to_i}
+    end
+    if !params[:feed].nil? and !params[:feed].empty?
+      # Filter contents by feed id 
+      filtered_contents.select! {|content| 
+        Submission.find_by_content_id(content.id).feed_id == params[:feed].to_i}
+    end
+    if !params[:screen].nil? and !params[:screen].empty?
+      # Filter contents by screen id
+      filtered_contents.select! {|content| 
+        Subscription.where(
+          :feed_id => Submission.find_by_content_id(content.id).feed_id, 
+          :screen_id => params[:screen].to_i).length > 0 }
     end
 
     filtered_contents

@@ -1,12 +1,43 @@
 <section class="viewblock">
   <header class="viewblock-header" id="browse-header">
-    <h1 class="default-padding"><%= t '.concerto_contents_search' %> </h1>
+    <h1 class="default-padding"><%= t '.contents_search' %> </h1>
   </header>
   <div id="browse-body" class="viewblock-cont">
     <div class="clearfix default-padding">
       <div class="header-with-icon clearfix">
-        <h3 style="float: left;"><%= t '.filtered_content' %></h3>
-        <br>
+        <div style="display: inline-block">
+          <!-- Fields to enter content search parameters -->
+          <form action="<%= content_search_path %>" method="get">
+            <!-- filter by type -->
+            <%= label_tag :type, t('.type'), :style => "display:inline"%>
+            <%= select_tag :type,
+              options_from_collection_for_select(Kind.all, :id, :name, params[:type]),
+              :include_blank => true %>
+            <!-- filter by user -->
+            <%= label_tag :user, t('.user'), :style => "display:inline" %>
+            <%= select_tag :user,
+              options_from_collection_for_select(
+                User.all.sort_by!{ |user| user.name.downcase}, 
+                :id, :name, params[:user]),
+                :include_blank => true %>
+            <!-- filter by feed -->
+            <%= label_tag :feed, t('.feed'), :style => "display:inline" %>
+            <%= select_tag :feed, 
+              options_from_collection_for_select(
+                Feed.all.sort_by!{|feed| feed.name.downcase},
+                :id, :name, params[:feed]), 
+                :include_blank => true %>
+            <!-- filter by screen -->
+            <%= label_tag :screen, t('.screen'), :style => "display:inline" %>
+            <%= select_tag :screen,
+              options_from_collection_for_select(
+                Screen.all.sort_by!{|screen| screen.name.downcase},
+                :id, :name, params[:screen]),
+                :include_blank => true
+            %>
+            <%= submit_tag t('.search'), :name => nil, :class => "btn btn-default" %>
+          </form>
+        </div>
         <hr>
         <% @content.each do |c| %>
           <%= link_to c do %>

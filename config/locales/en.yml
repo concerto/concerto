@@ -304,8 +304,12 @@ en:
         specify_file: Specify File
         upload_graphic: Upload Graphic
     index:
-      concerto_contents_search: Concerto Content
-      filtered_content: Filtered Content
+      content_search: Content Search
+      feed: Feed
+      screen: Screen
+      search: Search
+      user: User
+      type: Type
     new:
       add_content: Add %{type} Content
     show:
