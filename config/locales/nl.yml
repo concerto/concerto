@@ -847,41 +847,6 @@ nl:
       performance: Performance
       security: Security
       software_prerequisites: Software Prerequisites
-  dashboard:
-    global_preferences: Global Settings
-    browse:
-      submissions_to_moderate:
-        one: You have %{count} submission to moderate
-        other: You have %{count} submissions to moderate
-    admin_stats:
-      cant_determine_latest_version: Unable to determine latest available version.
-      delayed_job_status: ! 'Background Job Engine:'
-      new_version: A new version (%{version}) is now available.
-      running: Running
-      start_stop: How to Start/Stop
-      stopped: Stopped
-      system_info: System Information
-      backup: Backup
-      concerto_version: ! 'Concerto Version:'
-      restart_webserver: Restart Webserver
-      user_stats: ! 'User Stats:'
-    list_activities:
-      latest_activity: Latest Activity
-    network:
-      groups: Groups
-      no_membership: You are not yet a member of any group.
-      screens: Screens
-      your_network: Your Network
-    vitals:
-      active: active
-      active_content: active contents
-      group: group
-      network_vitals: Network Vitals
-      offline: offline
-      plugin: plugin
-      screen: screen
-      template: template
-      user: user
   parameter_updated: Parameter was successfully updated.
   preferences_updated: Email preferences have been updated.
   template_import_requires_files: Importing a template requires an xml file and an
