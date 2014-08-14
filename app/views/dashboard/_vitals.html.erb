@@ -8,19 +8,19 @@
         <ul class="list-stacked condensed">
           <li>
             <h3>
-              <%= link_to_if can?(:list, Feed), pluralize(feeds.count, Feed.model_name.human.downcase), feeds_path %>
+              <%= link_to_if can?(:read, Feed), pluralize(feeds.count, Feed.model_name.human.downcase), feeds_path %>
               <small>&nbsp;&nbsp;<%= pluralize active_content, t('.active_content', content: Content.model_name.human(count: active_content).downcase) %></small>
             </h3>
           </li>
           <li>
             <h3>
-              <%= link_to_if can?(:list, Screen), pluralize(screens.count, Screen.model_name.human.downcase), screens_path %>
+              <%= link_to_if can?(:read, Screen), pluralize(screens.count, Screen.model_name.human.downcase), screens_path %>
               <small>&nbsp;&nbsp;<%= screens.count { |s| s.is_online? } %> <%= t('.active') %>, <%= screens.count { |s| s.is_offline? } %> <%= t('.offline') %></small>
             </h3>
           </li>
           <li>
             <h3>
-              <%= link_to_if can?(:list, ::Template), pluralize(templates.count, ::Template.model_name.human.downcase), templates_path %>
+              <%= link_to_if can?(:read, ::Template), pluralize(templates.count, ::Template.model_name.human.downcase), templates_path %>
             </h3>
           </li>
         </ul>
@@ -28,7 +28,7 @@
       <div class="span6">
         <ul class="list-stacked condensed">
           <li>
-            <h3><%= link_to_if can?(:list, Group), pluralize(groups.count, Group.model_name.human.downcase), groups_path %></h3>
+            <h3><%= link_to_if can?(:read, Group), pluralize(groups.count, Group.model_name.human.downcase), groups_path %></h3>
           </li>
           <li>
             <h3><%= link_to_if can?(:list, User), pluralize(users.count, User.model_name.human.downcase), users_path %></h3>
