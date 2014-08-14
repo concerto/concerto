@@ -6,19 +6,36 @@
     <div class="row-fluid">
       <div class="span6">
         <ul class="list-stacked condensed">
-          <li><h3><%= link_to feeds_path do %><%= pluralize(feeds.count, Feed.model_name.human.capitalize.downcase) %><% end %> <small>&nbsp;&nbsp;<%= active_content.to_s %> <%= t('.active_content') %></small></h3></li>
-          <li><h3><%= link_to screens_path do %><%= pluralize screens.count, t('.screen') %><% end %> <small>&nbsp;&nbsp;<%= screens.count{|s| s.is_online? } %> <%= t('.active') %>, <%= screens.count{|s| s.is_offline? } %> <%= t('.offline') %></small></h3></li>
-          <li><h3><%= link_to templates_path do %><%= pluralize templates.count, t('.template') %><% end %></h3></li>
+          <li>
+            <h3>
+              <%= link_to_if can?(:list, Feed), pluralize(feeds.count, Feed.model_name.human.downcase), feeds_path %>
+              <small>&nbsp;&nbsp;<%= pluralize active_content, t('.active_content', content: Content.model_name.human(count: active_content).downcase) %></small>
+            </h3>
+          </li>
+          <li>
+            <h3>
+              <%= link_to_if can?(:list, Screen), pluralize(screens.count, Screen.model_name.human.downcase), screens_path %>
+              <small>&nbsp;&nbsp;<%= screens.count { |s| s.is_online? } %> <%= t('.active') %>, <%= screens.count { |s| s.is_offline? } %> <%= t('.offline') %></small>
+            </h3>
+          </li>
+          <li>
+            <h3>
+              <%= link_to_if can?(:list, ::Template), pluralize(templates.count, ::Template.model_name.human.downcase), templates_path %>
+            </h3>
+          </li>
         </ul>
       </div>
       <div class="span6">
         <ul class="list-stacked condensed">
-          <li><h3><%= link_to groups_path do %><%= pluralize Group.count, t('.group') %><% end %></h3></li>
-          <% if can? :list, User %>
-            <li><h3><%= link_to users_path do %><%= pluralize User.count, t('.user') %><% end %></h3></li>
-          <% end %>
-          <% if can? :read, ConcertoPlugin %>
-            <li><h3><%= link_to concerto_plugins_path do %><%= pluralize ConcertoPlugin.count, t('.plugin') %><% end %></h3></li>
+          <li>
+            <h3><%= link_to_if can?(:list, Group), pluralize(groups.count, Group.model_name.human.downcase), groups_path %></h3>
+          </li>
+          <li>
+            <h3><%= link_to_if can?(:list, User), pluralize(users.count, User.model_name.human.downcase), users_path %></h3>
+          </li>
+
+          <% if can? :list, ConcertoPlugin %>
+            <li><h3><%= link_to pluralize(ConcertoPlugin.count, ConcertoPlugin.model_name.human.downcase), concerto_plugins_path %></h3></li>
           <% end %>
         </ul>
       </div>

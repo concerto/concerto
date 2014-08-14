@@ -106,6 +106,10 @@ class Ability
     end
 
     ## Screens
+
+    # Users can list visible screen
+    can :list, Screen
+
     # Authenticated users can create screens
     if ConcertoConfig[:allow_user_screen_creation]
       can :create, Screen, :owner_type => 'User', :owner_id => user.id
@@ -216,6 +220,10 @@ class Ability
     can :read, Membership, :group => {:id => user.group_ids}
 
     ## Groups
+
+    # User can list visible groups
+    can :list, Group
+
     # A group member can read their group
     can :read, Group, :id => user.group_ids
     # Group leaders can edit the group

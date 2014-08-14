@@ -19,6 +19,8 @@ class DashboardController < ApplicationController
 
       # Vitals
       @screens = Screen.accessible_by(current_ability)
+      @groups = Group.accessible_by(current_ability)
+      @users = Group.accessible_by(current_ability)
 
       @active_content = Content.active.joins(:submissions).merge(Submission.approved).count
       @templates = Template.where(:is_hidden => false)
