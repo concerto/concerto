@@ -26,11 +26,6 @@ fr:
       your_network: "Votre résau"
     vitals: 
       active: actif
-      active_content: "Contenu actif"
-      group: groupe
+      active_content: "%{content} actif"
       network_vitals: "Statistique résaux"
       offline: offline
-      plugin: plugin
-      screen: écran
-      template: modèle
-      user: utilisateur
