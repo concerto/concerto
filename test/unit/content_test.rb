@@ -222,19 +222,19 @@ class ContentTest < ActiveSupport::TestCase
   end
 
   test "filter content by screen" do
-    assert_equal 1, Content::filter_all_content({ :screen => screens(:one) }).count
+    assert_equal 9, Content::filter_all_content({ :screen => screens(:one).id }).count
   end
 
   test "filter content by feed" do
-    assert_equal 2, Content::filter_all_content({ :feed => feeds(:service) }).count
+    assert_equal 7, Content::filter_all_content({ :feed => feeds(:service).id }).count
   end
 
   test "filter content by user" do
-    assert_equal 10, Content::filter_all_content({ :user => users(:katie) }).count
+    assert_equal 10, Content::filter_all_content({ :user => users(:katie).id }).count
   end
 
   test "filter content by type" do
-    assert_equal 9, Content::filter_all_content({ :type => 'Ticker' }).count
+    assert_equal 9, Content::filter_all_content({ :type => kinds(:ticker).id }).count
   end
 
   test "filter content by nothing returns all" do
