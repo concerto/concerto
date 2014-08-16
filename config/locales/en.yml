@@ -304,6 +304,7 @@ en:
         specify_file: Specify File
         upload_graphic: Upload Graphic
     index:
+      active: Hide expired & future content?
       content_search: Content Search
       feed: Feed
       screen: Screen

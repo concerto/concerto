@@ -189,34 +189,6 @@ class Content < ActiveRecord::Base
   def after_add_callback(unused_submission)
   end
 
-  def self.filter_all_content(params)
-    # Retrieve all contents
-    filtered_contents = Content.all
-
-    if !params[:type].nil? and !params[:type].empty?
-      # Filter contents by content type/kind
-      filtered_contents.select! {|content| content.kind_id == params[:type].to_i}
-    end
-    if !params[:user].nil? and !params[:user].empty?
-      # Filter contents by user id 
-      filtered_contents.select! {|content| content.user_id == params[:user].to_i}
-    end
-    if !params[:feed].nil? and !params[:feed].empty?
-      # Filter contents by feed id 
-      filtered_contents.select! {|content| 
-        Submission.find_by_content_id(content.id).feed_id == params[:feed].to_i}
-    end
-    if !params[:screen].nil? and !params[:screen].empty?
-      # Filter contents by screen id
-      filtered_contents.select! {|content| 
-        Subscription.where(
-          :feed_id => Submission.find_by_content_id(content.id).feed_id, 
-          :screen_id => params[:screen].to_i).length > 0 }
-    end
-
-    filtered_contents
-  end
-
   # Determine if a piece of content should be displayed based on screen and field.
   # By default content can be rendered in any Field which has the same Kind as the Content.
   # This can be overridden by different content types which can be displayed in different
@@ -224,4 +196,53 @@ class Content < ActiveRecord::Base
   def can_display_in?(screen, field)
     return self.kind == field.kind
   end
+
+  def self.filter_all_content(params)
+    # Check which content, screen, and feed parameters the user has specified
+    content_params, subscription_params = {}, {}, {}
+
+    # check user and type parameters
+    content_params[:user_id] = params[:user].to_i if params[:user].present?
+    content_params[:kind_id] = params[:type].to_i if params[:type].present?
+    # check screen and feed parameters
+    subscription_params[:screen_id] = params[:screen].to_i if params[:screen].present?
+    subscription_params[:feed_id] = params[:feed].to_i if params[:feed].present?
+
+    # Screen parameter is set
+    if params[:screen].present?
+      # Store all unique subscribed feeds based on requested screen
+      #   and store all contents from these feeds
+      filtered_contents, screen_feeds = [], []
+      # Get screen subscriptions matching search parameters
+      Subscription.where(subscription_params).each do |subscription|
+        screen_feeds.push(subscription.feed) unless screen_feeds.include?(subscription.feed)
+      end
+      # Get contents from the screen's feeds
+      screen_feeds.each do |feed|
+        # Filter out expired and future contents
+        if params[:is_active].present?
+          filtered_contents += feed.contents.where(content_params).active
+        # Allow expired and future contents
+        else
+          filtered_contents += feed.contents.where(content_params)
+        end
+      end
+      return filtered_contents
+    # find contents with feed specified (user and type are optional)
+    elsif params[:feed].present?
+      filtered_contents = Feed.find(params[:feed].to_i).contents.where(content_params)
+    # find contents with user and/or type specified
+    else
+      filtered_contents = Content.where(content_params)
+    end
+
+    # return only active content
+    if params[:is_active].present?
+      return filtered_contents.active
+    # return content regardless of active status
+    else
+      return filtered_contents
+    end
+  end
+
 end
