@@ -248,6 +248,9 @@ class Ability
     can :read, Feed, :group_id => screen.owner_id if screen.owner.is_a? Group
     can :read, Feed, :group_id => screen.owner.group_ids if screen.owner.is_a? User
 
+    # Screen must be able to read all feeds it has subscriptions for
+    can :read, Feed, :id => screen.subscriptions.map{|s| s.feed_id}.uniq
+
 
     ## Submissions
     # Submissions can be read if the content has been moderated,
