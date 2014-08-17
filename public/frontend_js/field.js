@@ -254,6 +254,11 @@ concerto.frontend.Field.prototype.loadContent = function(start_load) {
               goog.bind(function() {this.nextContent(true)}, this), 10);
         }
 
+        var screen = this.position.template.screen;
+        goog.array.forEach(contents_data, function(content_data) {
+            screen.runHook("loadContent", content_data);
+        });
+
         // A scrolling marquee field doesn't queue up items to display, rather
         // it displays them all at once.  So collapse it into a one item array
         // and treat it as a ticker item.
