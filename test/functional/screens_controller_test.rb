@@ -18,7 +18,7 @@ class ScreensControllerTest < ActionController::TestCase
     sign_in users(:katie)
     get :index
     assert assigns(:my_screens)
-    assert_equal 3, assigns(:my_screens).count
-    assert_equal 3, assigns(:screens).count
+    assert_equal 4, assigns(:my_screens).count
+    assert_equal 4, assigns(:screens).count
   end
 end

@@ -25,3 +25,12 @@ rpitv:
   owner: rpitv (Group)
   template: one
   authentication_token: mac:deadbeef
+
+
+three:
+  name: Third Screen
+  location: SGS
+  is_public: false
+  owner: rpitv (Group)
+  template: one
+  authentication_token: auth:0123456789

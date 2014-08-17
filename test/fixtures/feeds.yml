@@ -49,3 +49,9 @@ secret_announcements:
   group: rpitv
   is_submittable: false
   is_viewable: false
+
+invisible_feed:
+  name: Invisible
+  group: wtg
+  is_submittable: false
+  is_viewable: false
