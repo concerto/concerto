@@ -9,7 +9,7 @@ class Template < ActiveRecord::Base
 
   has_many :screens, :dependent => :restrict
   has_many :media, :as => :attachable, :dependent => :destroy
-  has_many :positions, :dependent => :destroy
+  has_many :positions, :dependent => :destroy, :order => :id
   
   accepts_nested_attributes_for :media
   accepts_nested_attributes_for :positions, :allow_destroy => true
