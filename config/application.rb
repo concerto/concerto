@@ -80,8 +80,5 @@ module Concerto
       ErrorsController.action(:render_error).call(env)
    end
 
-
-   # Load the modules and classes in /lib
-   config.autoload_paths << Rails.root.join('lib')
   end
 end
