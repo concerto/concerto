@@ -9,7 +9,7 @@ class Group < ActiveRecord::Base
 
   has_many :users, -> { where ["memberships.level > ?", Membership::LEVELS[:pending]] }, :through => :memberships
   has_many :screens, :as => :owner, :dependent => :restrict_with_error
-  
+
   has_many :templates, :as => :owner
 
   # Scoped relation for members and pending members
@@ -43,13 +43,13 @@ class Group < ActiveRecord::Base
   # Deliver a list of only users not currently in the group
   # Used for adding new users to a group and avoiding duplication
   def users_not_in_group
-    users = User.all
+    users = User.all.to_a
     self.memberships.each do |m|
       users.delete_if { |key, value| key.id == m.user_id }
     end
     return users
   end
-  
+
   def is_deletable?
     self.screens.size == 0 && self.feeds.size == 0
   end
