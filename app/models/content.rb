@@ -217,7 +217,7 @@ class Content < ActiveRecord::Base
         filtered_contents = Content.all
       else
         # User and/or type filters are specified
-        filtered_contents = Content.all(:conditions => query_conditions)
+        filtered_contents = Content.where(:conditions => query_conditions)
       end
     end
 
