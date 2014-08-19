@@ -63,7 +63,7 @@ class Ability
     end
 
     # Load abilities based on the type of object.
-    # We should do this at the bottom to make sure to 
+    # We should do this at the bottom to make sure to
     # override any generic attributes we assigned above.
     type = accessor.class.to_s.downcase + "_abilities"
     if respond_to?(type.to_sym)
@@ -87,6 +87,9 @@ class Ability
       can :create, User unless user.persisted?
     end
 
+    #users can view pages (which are created by admins)
+    can :read, Page
+
     # The User#index action requires a special setup.
     # By default, all the :read checks will pass because any
     # user can read at least 1 user.  We use this custom
@@ -103,6 +106,10 @@ class Ability
     end
 
     ## Screens
+
+    # Users can list visible screen
+    can :list, Screen
+
     # Authenticated users can create screens
     if ConcertoConfig[:allow_user_screen_creation]
       can :create, Screen, :owner_type => 'User', :owner_id => user.id
@@ -213,6 +220,10 @@ class Ability
     can :read, Membership, :group => {:id => user.group_ids}
 
     ## Groups
+
+    # User can list visible groups
+    can :list, Group
+
     # A group member can read their group
     can :read, Group, :id => user.group_ids
     # Group leaders can edit the group
@@ -234,8 +245,11 @@ class Ability
     # If a screen is owned by the same group as the feed
     # it can see content, or if the feed is viewable.
     can :read, Feed, :is_viewable => true
-    can :read, Feed, :group_id => screen.owner if screen.owner.is_a? Group
-    can :read, Feed, :group_id => screen.owner.groups if screen.owner.is_a? User
+    can :read, Feed, :group_id => screen.owner_id if screen.owner.is_a? Group
+    can :read, Feed, :group_id => screen.owner.group_ids if screen.owner.is_a? User
+
+    # Screen must be able to read all feeds it has subscriptions for
+    can :read, Feed, :id => screen.subscriptions.map{|s| s.feed_id}.uniq
 
 
     ## Submissions

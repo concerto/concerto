@@ -1,0 +1,47 @@
+<section class="viewblock">
+  <header class="viewblock-header">
+    <div class="viewblock-header_right">
+      <div class="button-padding">
+        <% if can? :create, Page %>
+          <%= link_to t(:new_model, :model => Page.model_name.human), new_page_path, :class => "btn" %>
+        <% end %>
+      </div>
+    </div>
+    <h1 class="default-padding">
+      <%= t(:all_model, :model => Page.model_name.human.pluralize) %>
+    </h1>
+  </header>
+  <div class="viewblock-cont">
+    <table>
+      <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Language</th>
+        <th><%= t 'actions' %></th>
+      </tr>
+
+      <% @pages.each do |page| %>
+        <tr>
+          <td><%= link_to page.title, page %></td>
+          <td><%= page.category %></td>
+          <td><%= page.language %></td>
+          <td>
+            <% if can? :edit, page %>
+              <%= link_to t(:edit, :model => Page.model_name.human), edit_page_path(page), :class => "btn" %>
+            <% end %>
+            <% if can? :delete, page %>
+
+                <%= link_to t(:destroy, :model => Page), page, :data => { :confirm => t(:are_you_sure_delete_model_key, :model =>Page.model_name.human, :key => page.title) }, :method => :delete, :class => "btn" %>
+
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+
+    <div class="pagination-cont default-padding" style="padding-top: 0px; padding-bottom: 0px;">
+      <%= paginate @pages %>
+    </div>
+  </div>
+
+</section>

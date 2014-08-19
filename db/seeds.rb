@@ -147,3 +147,8 @@ screen_id= Screen.first.id
 Field.where('name NOT IN (?)', ['Dynamic', 'Time']).each do |f|
   Subscription.where(:feed_id => feed_id, :field_id => f.id, :screen_id => screen_id).first_or_create(:weight => 1)
 end
+
+#Page import
+seed_file = File.join(Rails.root, 'db', 'seed_assets' ,'pages.yml')
+seeds = YAML::load_file(seed_file)
+Page.create(seeds["pages"])

@@ -51,9 +51,9 @@ do_start()
   mkdir -p /var/log/concerto
   chown $USERNAME: /var/log/concerto
   # START APPLICATION: concerto
-  
+
     # START PROCESS: clock
-    
+
       # START CONCURRENT: 1
         # Start: concerto.clock.1
         # Create $PIDDIR/clock.1.pid
@@ -63,12 +63,12 @@ do_start()
         if [ $RUNNING -eq 0 ]; then
           log_daemon_msg "$DAEMON_DESC already running"
         else
-          su - $USERNAME -c "cd $CONCERTODIR; export PORT=5000; RAILS_ENV=$RAILS_ENVIRONMENT bundle exec clockwork lib/cron.rb >> /var/log/concerto/clock-1.log 2>&1 & echo \$!" > $PIDDIR/clock.1.pid
+          su - $USERNAME --shell=/bin/sh -c "cd $CONCERTODIR; export PORT=5000; RAILS_ENV=$RAILS_ENVIRONMENT bundle exec clockwork lib/cron.rb >> /var/log/concerto/clock-1.log 2>&1 & echo \$!" > $PIDDIR/clock.1.pid
         fi
-    
-  
+
+
     # START PROCESS: worker
-    
+
       # START CONCURRENT: 1
         # Start: concerto.worker.1
         # Create $PIDDIR/worker.1.pid
@@ -77,7 +77,7 @@ do_start()
         if [ $RUNNING -eq 0 ]; then
           log_daemon_msg "$WORKER_DESC already running"
         else
-          su - $USERNAME -c "cd $CONCERTODIR; export PORT=5100; RAILS_ENV=$RAILS_ENVIRONMENT bundle exec rake jobs:work >> /var/log/concerto/worker-1.log 2>&1 & echo \$!" > $PIDDIR/worker.1.pid
+          su - $USERNAME --shell=/bin/sh -c "cd $CONCERTODIR; export PORT=5100; RAILS_ENV=$RAILS_ENVIRONMENT bundle exec rake jobs:work >> /var/log/concerto/worker-1.log 2>&1 & echo \$!" > $PIDDIR/worker.1.pid
         fi
 
 }
@@ -88,9 +88,9 @@ do_start()
 do_stop()
 {
   # STOP APPLICATION: concerto
-  
+
     # STOP PROCESS: clock
-    
+
       # STOP CONCURRENT: 1
         # Stop: concerto.clock.1
         if [ -f $PIDDIR/clock.1.pid ]; then
@@ -99,7 +99,7 @@ do_stop()
         fi
 
     # STOP PROCESS: worker
-    
+
       # STOP CONCURRENT: 1
         # Stop: concerto.worker.1
         if [ -f $PIDDIR/worker.1.pid ]; then

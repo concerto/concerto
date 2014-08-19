@@ -29,11 +29,6 @@ en:
 
     vitals:
       active: 'active'
-      active_content: 'active contents'
-      group: 'group'
+      active_content: 'active %{content}'
       network_vitals: 'Network Vitals'
       offline: 'offline'
-      plugin: 'plugin'
-      screen: 'screen'
-      template: 'template'
-      user: 'user'

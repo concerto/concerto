@@ -1,0 +1,18 @@
+<section class="viewblock">
+  <header class="viewblock-header" id="users-header">
+    <h1><%= @page.title %></h1>
+  </header>
+  <div id="users-body" class="viewblock-cont">
+
+    <h3><%= @page.category %></h3>
+
+    <% if File.exist?(@file_path) %>
+      <%=raw @markdown.render(File.read(@file_path)) %>
+    <% else %>
+      <%=raw @markdown.render(@page.body) %>
+    <% end %>
+
+    <%= link_to 'Edit', edit_page_path(@page) %> |
+    <%= link_to 'Back', pages_path %>
+  </div>
+</section>

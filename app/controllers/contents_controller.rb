@@ -18,8 +18,12 @@ class ContentsController < ApplicationController
 
   def index
     @content = Content.filter_all_content(params)
-    @title = "Filtered Content"
-    respond_with(@content)
+    @content = Kaminari.paginate_array(@content).page(params[:page])
+
+    respond_to do |format|
+      format.html
+      format.js {render :json => @content}
+    end
   end
 
   # GET /contents/1

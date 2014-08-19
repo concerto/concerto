@@ -26,6 +26,8 @@ class Subscription < ActiveRecord::Base
 
   # Validations
   validates :feed, :presence => true, :associated => true
+  validates :screen, :presence => true, :associated => true
+  validates :field, :presence => true, :associated => true
   validates_uniqueness_of :feed_id, :scope => [:screen_id, :field_id]
 
   # Get weight name of a subscription

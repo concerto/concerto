@@ -20,6 +20,21 @@ class DashboardController < ApplicationController
       # Vitals
       @screens = Screen.accessible_by(current_ability)
 
+      if ConcertoConfig[:public_concerto]
+        # In public concerto case there are some block based rules that do not work with accessible_by
+        # se we need to do the hard work ourselves
+
+        @groups = Group.all
+        auth!(action: :index, object: @groups)
+
+        @users = User.all
+        auth!(action: :index, object: @users)
+
+      else
+        @groups = Group.accessible_by(current_ability)
+        @users = User.accessible_by(current_ability)
+      end
+
       @active_content = Content.active.joins(:submissions).merge(Submission.approved).count
       @templates = Template.where(:is_hidden => false)
       can?(:read, ConcertoPlugin) ? @concerto_plugins = ConcertoPlugin : @concerto_plugins = nil

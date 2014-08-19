@@ -32,7 +32,7 @@
             <% else %>
                 <i class="icon-stop"></i> <%= t('.stopped') %>
             <% end %>
-            <small style="font-size: 0.4em; padding-left: 16px;"><%= link_to t('.start_stop'), "#", :style => "text-decoration: underline;" %></small>
+            <small style="font-size: 0.4em; padding-left: 16px;"><%= link_to t('.start_stop'), {:controller => :pages, :action => :show, :id => "concerto-init-d-startup-script"}, :style => "text-decoration: underline;" %></small>
           </h2>
         </div>
       </div>
