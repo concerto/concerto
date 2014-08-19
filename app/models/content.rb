@@ -198,10 +198,10 @@ class Content < ActiveRecord::Base
     if params[:screen] || params[:feed]
       query_conditions[:feed_id] = params[:feed] if params[:feed]
       query_conditions[:screen_id] = params[:screen] if params[:screen]
-      subs = Subscription.all(:conditions => query_conditions)
+      subs = Subscription.where(:conditions => query_conditions)
       subs.each do |sub|
         sub.contents.each do |content|
-          # If filtering by user or type, do not add (skip) content that 
+          # If filtering by user or type, do not add (skip) content that
           # does not match filter criteria
           next if params[:user] && content.user_id.to_s != params[:user]
           next if params[:type] && content.type != params[:type]
