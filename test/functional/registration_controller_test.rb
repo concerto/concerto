@@ -56,7 +56,7 @@ class ConcertoDeviseRegistrationsControllerTest < ActionController::TestCase
     assert_difference('User.count', 1) do
       post :create, {:user => {:first_name => "Name", :last_name => "Last", :email => "a@a.com", :password => 'pass1234', :password_confirmation => 'pass1234'}, :concerto_config => {:send_errors => "true"}}
     end
-    assert_equal ConcertoConfig[:send_errors], true
+    assert_equal true, ConcertoConfig[:send_errors]
     assert_equal 1, User.admin.count
   end
 
@@ -66,6 +66,6 @@ class ConcertoDeviseRegistrationsControllerTest < ActionController::TestCase
     assert_difference('User.count', 1) do
       post :create, {:user => {:first_name => "Name", :last_name => "Last", :email => "a@a.com", :password => 'pass1234', :password_confirmation => 'pass1234'}, :concerto_config => {:send_errors => "false"}}
     end
-    assert_equal ConcertoConfig[:send_errors], false
+    assert_equal false, ConcertoConfig[:send_errors]
   end
 end

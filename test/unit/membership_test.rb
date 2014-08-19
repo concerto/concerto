@@ -29,14 +29,14 @@ class MembershipTest < ActiveSupport::TestCase
   #Test scoping for leader/regular
   test "leader scope" do
     m = memberships(:katie_wtg)
-    leader = Membership.leader.all
+    leader = Membership.leader
     assert m.is_leader?, "Membership is leader"
     assert_equal 1, leader.length, "Only 1 leader"
     assert_equal m, leader.first, "Membership matches leader"
   end
   test "regular scope" do
     m = memberships(:katie_rpitv)
-    regular = Membership.regular.all
+    regular = Membership.regular
     assert !m.is_leader?, "Membership is not leader"
     assert_equal 2, regular.length, "Only 2 regular"
   end

@@ -16,7 +16,7 @@ class ConcertoPlugin < ActiveRecord::Base
   validates :gem_name, :presence => true, :uniqueness => true
   validate :check_sources, :on => :create
 
-  scope :enabled, where(:enabled => true)
+  scope :enabled, -> { where(:enabled => true) }
 
   # Find the Engine's module from among the installed engines.
   def engine
@@ -118,8 +118,7 @@ class ConcertoPlugin < ActiveRecord::Base
           result += "\n"
         end
       else
-        logger.warn("ConcertoPlugin: Failed to check view hooks for "+
-                    "#{plugin.name}")
+        logger.warn("ConcertoPlugin: Failed to check view hooks for #{plugin.name}")
       end
     end
     return result.html_safe
@@ -138,8 +137,7 @@ class ConcertoPlugin < ActiveRecord::Base
           callbacks += controller_callbacks
         end
       else
-        logger.warn("ConcertoPlugin: failed to check #{plugin.name}" +
-                    " for callbacks")
+        logger.warn("ConcertoPlugin: failed to check #{plugin.name} for callbacks")
       end
     end if ActiveRecord::Base.connection.table_exists? 'concerto_plugins'
 
@@ -211,7 +209,7 @@ class ConcertoPlugin < ActiveRecord::Base
 
 private
 
-  #custom validation for plugin URLs
+  # custom validation for plugin URLs
   def check_sources
     case self.source
       when "rubygems"
@@ -262,7 +260,7 @@ private
       gem_basename = Pathname(Gem.loaded_specs[gem_name].full_gem_path).basename
       # Then match the name we've got to the name of an engine -
       #    which should have its Module Name (aka paydirt)
-      Rails::Application::Railties.engines.each do |engine|
+      ::Rails::Engine.subclasses.map(&:instance).each do |engine|
         if engine.class.root.basename == gem_basename
           # Get the class name from the engine hash
           result = engine.class

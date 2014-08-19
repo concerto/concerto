@@ -7,7 +7,7 @@ class Template < ActiveRecord::Base
   define_callbacks :screen_dependencies
   ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
 
-  has_many :screens, :dependent => :restrict
+  has_many :screens, :dependent => :restrict_with_exception
   has_many :media, :as => :attachable, :dependent => :destroy
   has_many :positions, :dependent => :destroy, :order => :id
   

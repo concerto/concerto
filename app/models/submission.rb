@@ -15,14 +15,14 @@ class Submission < ActiveRecord::Base
   validates_uniqueness_of :content_id, :scope => :feed_id  #Enforce content can only be submitted to a feed once
 
   # Scoping shortcuts for approved/denied/pending
-  scope :approved, where(:moderation_flag => true)
-  scope :denied, where(:moderation_flag => false)
-  scope :pending, where("moderation_flag IS NULL")
+  scope :approved, -> { where :moderation_flag => true }
+  scope :denied, -> { where :moderation_flag => false }
+  scope :pending, -> { where "moderation_flag IS NULL" }
 
   # Scoping shortcuts for active/expired/future
-  scope :active, -> { joins(:content).merge(Content.active) }
-  scope :expired, -> { joins(:content).merge(Content.expired) }
-  scope :future, -> { joins(:content).merge(Content.future) }
+  scope :active, -> { where joins(:content).merge(Content.active) }
+  scope :expired, -> { where joins(:content).merge(Content.expired) }
+  scope :future, -> { where joins(:content).merge(Content.future) }
   
   #Newsfeed
   include PublicActivity::Common if defined? PublicActivity::Common

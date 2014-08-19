@@ -314,6 +314,8 @@ class ApplicationController < ActionController::Base
 
     unless object.nil?
       if ((object.is_a? Enumerable) || (object.is_a? ActiveRecord::Relation))
+        # ActiveRecord::Relation no longer returns as array, so lets convert.
+        object = object.to_a
         object.delete_if {|o| cannot?(test_action, o)}
         if new_exception && object.empty?
           # Parent will be Object for Concerto, or the module for Plugins.

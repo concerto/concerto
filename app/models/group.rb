@@ -1,31 +1,31 @@
 class Group < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
-  
+
   after_create :create_leader
 
-  has_many :feeds, :dependent => :restrict
+  has_many :feeds, :dependent => :restrict_with_error
   has_many :memberships, :dependent => :destroy
   accepts_nested_attributes_for :memberships
 
-  has_many :users, :through => :memberships, :conditions => ["memberships.level > ?", Membership::LEVELS[:pending]]
-  has_many :screens, :as => :owner, :dependent => :restrict
-  
+  has_many :users, -> { where ["memberships.level > ?", Membership::LEVELS[:pending]] }, :through => :memberships
+  has_many :screens, :as => :owner, :dependent => :restrict_with_error
+
   has_many :templates, :as => :owner
 
   # Scoped relation for members and pending members
-  has_many :all_users, :through => :memberships, :source => :user, :conditions => ["memberships.level != ?", Membership::LEVELS[:denied]]
+  has_many :all_users, -> { where ["memberships.level != ?", Membership::LEVELS[:denied]] }, :through => :memberships, :source => :user
 
   # Scoped relation for leaders
-  has_many :leaders, :through => :memberships, :source => :user, :conditions => {"memberships.level" => Membership::LEVELS[:leader]}  
+  has_many :leaders, -> { where "memberships.level" => Membership::LEVELS[:leader] }, :through => :memberships, :source => :user
 
   # Validations
   validates :name, :presence => true, :uniqueness => true
 
   before_save :update_membership_perms
-  
+
   #Newsfeed
   include PublicActivity::Common if defined? PublicActivity::Common
-  
+
   #have getters and setters for a new_leader virtual attribute
   attr_accessor :new_leader
 
@@ -35,7 +35,7 @@ class Group < ActiveRecord::Base
       m.run_callbacks(:save)
     end
   end
-  
+
   def create_leader
     self.new_leader = Membership.create(:user_id => new_leader, :group_id => self.id, :level => Membership::LEVELS[:leader]) if new_leader.present?
   end
@@ -43,13 +43,13 @@ class Group < ActiveRecord::Base
   # Deliver a list of only users not currently in the group
   # Used for adding new users to a group and avoiding duplication
   def users_not_in_group
-    users = User.all
+    users = User.all.to_a
     self.memberships.each do |m|
-      users.delete_if {|key,value| key.id == m.user_id}
+      users.delete_if { |key, value| key.id == m.user_id }
     end
     return users
   end
-  
+
   def is_deletable?
     self.screens.size == 0 && self.feeds.size == 0
   end
@@ -64,10 +64,10 @@ class Group < ActiveRecord::Base
     all_users.include?(user)
   end
 
-	# Test if a user can be demoted to regular member or removed from a group
-	def can_resign_leadership?(membership)
-		return self.leaders.count > 1 || !membership.is_leader?
-	end
+  # Test if a user can be demoted to regular member or removed from a group
+  def can_resign_leadership?(membership)
+    return self.leaders.count > 1 || !membership.is_leader?
+  end
 
   # Test if a user has a certain permission at a level within a group.
   # Sample usage: user_has_permissions?(user, :regular, :screen, [:subscribe, :all])

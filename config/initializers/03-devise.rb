@@ -4,7 +4,7 @@ Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  #Checking if configs exist on account of Travis
+  # Checking if configs exist on account of Travis
   if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     config.mailer_sender = ConcertoConfig[:mailer_from]
   end
