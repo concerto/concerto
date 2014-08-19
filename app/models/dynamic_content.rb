@@ -182,12 +182,12 @@ class DynamicContent < Content
   def build_content
     []
   end
-  
+
   # Remove stale dynamic content by expiring all child content.
   # Sets the `end_time` of children to the current time if it's
   # not already expired.
   def expire_children(opt_children=nil)
-    children_to_expire = opt_children || self.children
+    children_to_expire = (opt_children || self.children).to_a
     children_to_expire.reject!{ |child| child.is_expired? }
     children_to_expire.each do |child|
       child.end_time = Clock.time
@@ -229,7 +229,7 @@ class DynamicContent < Content
     if File.exists?(pid_name)
       Rails.logger.info "Not updating dynamic content, pid exists"
     end
-    
+
     File.open(pid_name, 'w') {}
     begin
       DynamicContent.refresh
