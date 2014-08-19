@@ -260,7 +260,7 @@ private
       gem_basename = Pathname(Gem.loaded_specs[gem_name].full_gem_path).basename
       # Then match the name we've got to the name of an engine -
       #    which should have its Module Name (aka paydirt)
-      Rails::Application::Railties.engines.each do |engine|
+      ::Rails::Engine.subclasses.map(&:instance).each do |engine|
         if engine.class.root.basename == gem_basename
           # Get the class name from the engine hash
           result = engine.class
