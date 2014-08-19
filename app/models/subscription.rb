@@ -23,7 +23,7 @@ class Subscription < ActiveRecord::Base
   belongs_to :feed
   belongs_to :field
   belongs_to :screen
-  
+
   # Validations
   validates :feed, :presence => true, :associated => true
   validates_uniqueness_of :feed_id, :scope => [:screen_id, :field_id]
@@ -35,7 +35,7 @@ class Subscription < ActiveRecord::Base
 
   # Get an array of all the approved active content to be shown in a screen's field.
   def contents
-    @contents = self.feed.approved_contents.active.all
+    @contents = self.feed.approved_contents.active.all.to_a
     run_callbacks :filter_contents do
       @contents.reject!{|c| !c.can_display_in?(self.screen, self.field)}
     end
