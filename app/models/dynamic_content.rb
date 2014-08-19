@@ -141,7 +141,7 @@ class DynamicContent < Content
         locked_attributes.each do |attr|
           new_attributes.delete(attr)
         end
-        new_children[index].assign_attributes(new_attributes, :without_protection => true)
+        new_children[index].assign_attributes(new_attributes)
 
         if new_children[index].save
           # After saving process the submissions.
