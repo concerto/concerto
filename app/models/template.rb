@@ -9,11 +9,11 @@ class Template < ActiveRecord::Base
 
   has_many :screens, :dependent => :restrict_with_exception
   has_many :media, :as => :attachable, :dependent => :destroy
-  has_many :positions, :dependent => :destroy, :order => :id
-  
+  has_many :positions, -> { order(:id) }, :dependent => :destroy
+
   accepts_nested_attributes_for :media
   accepts_nested_attributes_for :positions, :allow_destroy => true
-  
+
   belongs_to :owner, :polymorphic => true
 
   # Validations
@@ -21,7 +21,7 @@ class Template < ActiveRecord::Base
 
   #Placeholder attributes
   attr_accessor :path, :css_path
-  
+
   def is_deletable?
     # allow the template to see if any plugins have dependencies on it
     run_callbacks :is_deletable do
@@ -37,7 +37,7 @@ class Template < ActiveRecord::Base
     end
     @dependencies.uniq if !@dependencies.nil?
   end
-    
+
   # Given a string from an XML descriptor, build the template
   # to try and match the description.  Each position will be
   # constructed from the descriptor.  If a position can't be
@@ -51,7 +51,7 @@ class Template < ActiveRecord::Base
   # templates we make publicly available.
   def import_xml(xml)
     data = Hash::from_xml(xml)
-    
+
     self.name = data['template']['name']
     self.author = data['template']['author']
     self.is_hidden = data['template']['hidden'] || false
@@ -114,12 +114,12 @@ class Template < ActiveRecord::Base
 
     if !hide_fields && !self.positions.empty?
       dw = ConcertoImageMagick.new_drawing_object()
-      
+
       self.positions.each do |position|
         if !only_fields.empty? && !only_fields.include?(position.field_id)
           next
         end
-        
+
         dw = ConcertoImageMagick.draw_block(dw, :fill_color => "black", :stroke_opacity => 0, :fill_opacity => 0.6, :width => width, :height => height, :left => position.left, :right => position.right, :top => position.top, :bottom => position.bottom)
 
         if !hide_text
