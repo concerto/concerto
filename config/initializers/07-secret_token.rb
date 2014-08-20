@@ -16,5 +16,6 @@ end
 
 # Secret key for verifying the integrity of signed cookies.
 Concerto::Application.config.secret_token = secret_token
+ENV["SECRET_KEY_BASE"] = secret_token
 
 Rails.logger.debug "Completed 07-secret_token.rb at #{Time.now.to_s}"
