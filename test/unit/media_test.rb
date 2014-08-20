@@ -18,15 +18,15 @@ class MediaTest < ActiveSupport::TestCase
   end
 
   test "cleanup previews" do
-    before_count = Media.where("media.key = 'preview'").count
+    before_count = Media.where("media.key = 'preview'").count(:all)
     recent = Media.create({:key => 'preview', :file_type => 'png', :file_size => 0})
     old = Media.create({:key => 'preview', :file_type => 'png', :file_size => 0})
     old.created_at = DateTime.new(2000, 1, 1)
     old.save
-    after_count = Media.where("media.key = 'preview'").count
+    after_count = Media.where("media.key = 'preview'").count(:all)
     assert after_count == before_count + 2
     Media.cleanup_previews
-    after_count = Media.where("media.key = 'preview'").count
+    after_count = Media.where("media.key = 'preview'").count(:all)
     assert after_count == before_count + 1
   end
 
