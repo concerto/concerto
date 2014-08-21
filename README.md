@@ -5,7 +5,7 @@ Full Installation Instructions: [https://github.com/concerto/concerto/wiki/Insta
 Concerto 2 represents the latest and greatest in connected digital ecosystems.
 
 ##Dependencies
-* Ruby
+* Ruby 1.9 or better
 * Gem
 * Imagemagick
 * Webserver (Apache/Unicorn/Thin/Nginx)
