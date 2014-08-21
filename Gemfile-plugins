@@ -1,11 +1,12 @@
-gem 'concerto_simple_rss'
 
-gem 'concerto_remote_video'
+gem "concerto_weather"
 
-gem 'concerto_weather'
+gem "concerto_remote_video"
 
-gem 'concerto_iframe'
+gem "concerto_simple_rss"
 
-gem 'concerto_calendar'
+gem "concerto_iframe"
 
-gem 'concerto_hardware'
+gem "concerto_calendar"
+
+gem "concerto_hardware"
