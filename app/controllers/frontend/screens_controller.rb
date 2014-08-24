@@ -155,6 +155,11 @@ class Frontend::ScreensController < ApplicationController
       end
 
       if stale?(:etag => @screen.frontend_cache_key(field_configs), :public => true)
+
+      @screen.define_singleton_method(:css_path) do
+        ActionController::Base.helpers.asset_path('frontend/application.css')
+      end
+
       respond_to do |format|
         format.json {
           render :json => @screen.to_json(
@@ -176,7 +181,8 @@ class Frontend::ScreensController < ApplicationController
                 :only => [:id, :name],
                 :methods => [:path, :css_path]
               }
-            }
+            },
+            :methods => [:css_path]
           )
         }
       end
