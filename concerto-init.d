@@ -23,6 +23,7 @@ NAME=concerto
 DAEMON=$NAME
 PIDDIR=/var/run/$NAME
 SCRIPTNAME=/etc/init.d/$NAME
+SUSHELL=/bin/sh
 
 
 # Read configuration variable file if it is present
@@ -63,7 +64,7 @@ do_start()
         if [ $RUNNING -eq 0 ]; then
           log_daemon_msg "$DAEMON_DESC already running"
         else
-          su - $USERNAME --shell=/bin/sh -c "cd $CONCERTODIR; export PORT=5000; RAILS_ENV=$RAILS_ENVIRONMENT bundle exec clockwork lib/cron.rb >> /var/log/concerto/clock-1.log 2>&1 & echo \$!" > $PIDDIR/clock.1.pid
+          su --login $USERNAME --shell=$SUSHELL -c "cd $CONCERTODIR; export PORT=5000; RAILS_ENV=$RAILS_ENVIRONMENT bundle exec clockwork lib/cron.rb >> /var/log/concerto/clock-1.log 2>&1 & echo \$!" > $PIDDIR/clock.1.pid
         fi
 
 
@@ -77,7 +78,7 @@ do_start()
         if [ $RUNNING -eq 0 ]; then
           log_daemon_msg "$WORKER_DESC already running"
         else
-          su - $USERNAME --shell=/bin/sh -c "cd $CONCERTODIR; export PORT=5100; RAILS_ENV=$RAILS_ENVIRONMENT bundle exec rake jobs:work >> /var/log/concerto/worker-1.log 2>&1 & echo \$!" > $PIDDIR/worker.1.pid
+          su --login $USERNAME --shell=$SUSHELL -c "cd $CONCERTODIR; export PORT=5100; RAILS_ENV=$RAILS_ENVIRONMENT bundle exec rake jobs:work >> /var/log/concerto/worker-1.log 2>&1 & echo \$!" > $PIDDIR/worker.1.pid
         fi
 
 }
