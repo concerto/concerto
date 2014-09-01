@@ -11,10 +11,10 @@ class MediaTest < ActiveSupport::TestCase
 
   test "media preferred scope is 'processed' then 'original'" do
     t = templates(:one)
-    assert_equal 2, t.media.size, "template one does not have two media entries"
-    assert t.media.original.first.key == 'original', "original media entry is missing"
-    assert t.media.processed.first.key == 'processed', "processed media entry is missing"
-    assert t.media.preferred.first.key == 'processed', "processed entry should come before original entry"
+    assert_equal 2, t.media.to_a.size, "template one does not have two media entries"
+    assert_equal 'original', t.media.original.first.key, "original media entry is missing"
+    assert_equal 'processed', t.media.processed.first.key, "processed media entry is missing"
+    assert_equal 'processed', t.media.preferred.first.key,"processed entry should come before original entry"
   end
 
   test "cleanup previews" do
