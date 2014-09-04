@@ -64,7 +64,7 @@ GEM
       rails
     concerto_iframe (0.0.5)
       rails
-    concerto_remote_video (0.2.1)
+    concerto_remote_video (0.3)
       rails
     concerto_simple_rss (0.6)
       rails
