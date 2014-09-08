@@ -16,13 +16,11 @@ class Frontend::TemplatesController < ApplicationController
 
       width = params[:width].to_f
       height = params[:height].to_f
-      if width <= 0 && height <= 0
-        render :status => 400, :text => "Bad request.", :content_type => Mime::TEXT
-        return
+      unless width <= 0 && height <= 0
+        # Resize the image to a height and width if they are both being set.
+        image = ConcertoImageMagick.resize(image, width, height)
       end
 
-      # Resize the image to a height and width if they are both being set.
-      image = ConcertoImageMagick.resize(image, width, height)
       case request.format
         when Mime::Type.lookup_by_extension(:jpg)
           image.format = "JPG"
