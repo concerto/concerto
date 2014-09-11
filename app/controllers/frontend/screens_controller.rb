@@ -114,6 +114,7 @@ class Frontend::ScreensController < ApplicationController
   # Get information required to setup the screen
   # and display the template with positions.
   def setup
+    headers['Access-Control-Allow-Origin'] = '*' unless !ConcertoConfig[:public_concerto]
     @preview = params.has_key?(:preview) && params[:preview] == "true"
     begin
       @screen = Screen.find(params[:id])
@@ -131,7 +132,7 @@ class Frontend::ScreensController < ApplicationController
         # Pretend that it's better not to change the format of the image, so we detect it's upload extension.
         if !@screen.template.media.preferred.first.nil?
           template_format = File.extname(@screen.template.media.preferred.first.file_name)[1..-1]
-          @screen.template.path = frontend_screen_template_path(@screen, @screen.template, :format => template_format)      
+          @screen.template.path = request.protocol + request.host_with_port + frontend_screen_template_path(@screen, @screen.template, :format => template_format)      
         else
           template_format = nil
           @screen.template.path = nil
