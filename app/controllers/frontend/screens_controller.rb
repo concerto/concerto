@@ -132,7 +132,7 @@ class Frontend::ScreensController < ApplicationController
         # Pretend that it's better not to change the format of the image, so we detect it's upload extension.
         if !@screen.template.media.preferred.first.nil?
           template_format = File.extname(@screen.template.media.preferred.first.file_name)[1..-1]
-          @screen.template.path = request.protocol + request.host_with_port + frontend_screen_template_path(@screen, @screen.template, :format => template_format)      
+          @screen.template.path = frontend_screen_template_path(@screen, @screen.template, :format => template_format)
         else
           template_format = nil
           @screen.template.path = nil
