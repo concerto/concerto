@@ -193,6 +193,7 @@ class ContentTest < ActiveSupport::TestCase
                 :duration => 10,
                 :user => users(:katie),
                 :start_time => 2.days.ago,
+                :type => Ticker.new,
                 :end_time => Time.now.tomorrow)
     assert c.save
 
