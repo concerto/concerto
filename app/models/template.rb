@@ -71,21 +71,6 @@ class Template < ActiveRecord::Base
     return self.valid?
   end
 
-
-  # Update the original_width and original_height
-  # fields using the orignal image.
-  # !! this does not appear to be called from anywhere
-  def update_original_sizes
-    original_media = self.media.original.first
-    unless original_media.nil?
-      require 'concerto_image_magick'
-      image = ConcertoImageMagick.load_image(self.media.original.first.file_contents)
-      self.original_width = image.columns
-      self.original_height = image.rows
-    end
-    return true
-  end
-
   # Find the last time this template was modified by looking at the
   # template, fields, and original media.  Return the largest update_at value.
   def last_modified
