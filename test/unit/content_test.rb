@@ -125,21 +125,22 @@ class ContentTest < ActiveSupport::TestCase
   end
 
   test "is_orphan? identifies content without submissions" do
-    c = Content.new(:name => "Sample Ticker",
-                :kind_id => kinds(:ticker).id,
-                :duration => 10,
-                :user => users(:katie))
+    c = Ticker.new(:name => "Sample Ticker",
+                   :data => 'Testing',
+                   :kind_id => kinds(:ticker).id,
+                   :duration => 10,
+                   :user => users(:katie))
     assert c.save
     assert c.is_orphan?
   end
 
   test "is_denied? detects if content denied on any feed" do
-    c = Content.new(:name => "TickerDeniedOnOne",
-                :kind_id => kinds(:ticker).id,
-                :duration => 10,
-                :user => users(:katie),
-                :start_time => 2.days.ago,
-                :end_time => Time.now.tomorrow)
+    c = Ticker.new(:name => "TickerDeniedOnOne",
+                   :data => 'Testing',
+                   :duration => 10,
+                   :user => users(:katie),
+                   :start_time => 2.days.ago,
+                   :end_time => Time.now.tomorrow)
     assert c.save
 
     Submission.create({:content => c, :duration => 5, :feed => feeds(:announcements)})
@@ -161,12 +162,12 @@ class ContentTest < ActiveSupport::TestCase
   end
 
   test "is_pending? detects if content pending on any feed" do
-    c = Content.new(:name => "TickerPendingOnOne",
-                :kind_id => kinds(:ticker).id,
-                :duration => 10,
-                :user => users(:katie),
-                :start_time => 2.days.ago,
-                :end_time => Time.now.tomorrow)
+    c = Ticker.new(:name => "TickerPendingOnOne",
+                   :data => 'Testing',
+                   :duration => 10,
+                   :user => users(:katie),
+                   :start_time => 2.days.ago,
+                   :end_time => Time.now.tomorrow)
     assert c.save
 
     assert Submission.create({
@@ -188,14 +189,12 @@ class ContentTest < ActiveSupport::TestCase
   end
 
   test "is_approved? true only when content is approved on all feeds" do
-    c = Content.new(:name => "TickerApprovedOnAll",
-                :kind_id => kinds(:ticker).id,
+    c = Ticker.new(:name => "TickerApprovedOnAll",
+                :data => 'Testing',
                 :duration => 10,
                 :user => users(:katie),
                 :start_time => 2.days.ago,
-                # :type => Ticker,
                 :end_time => Time.now.tomorrow)
-    c.type = Ticker.new
     assert c.save
 
     assert Submission.create({
