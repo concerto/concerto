@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class VersionCheck < ActiveSupport::TestCase
+class VersionCheckTest < ActiveSupport::TestCase
   test 'should return nil' do
     assert true
   end
