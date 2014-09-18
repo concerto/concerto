@@ -1,0 +1,4 @@
+concerto_weather:
+  gem_name: concerto_weather
+  source: rubygems
+  
