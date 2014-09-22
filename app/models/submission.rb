@@ -20,10 +20,18 @@ class Submission < ActiveRecord::Base
   scope :pending, -> { where "moderation_flag IS NULL" }
 
   # Scoping shortcuts for active/expired/future
-  scope :active, -> { where joins(:content).merge(Content.active) }
-  scope :expired, -> { where joins(:content).merge(Content.expired) }
-  scope :future, -> { where joins(:content).merge(Content.future) }
-  
+  def self.active
+    joins(:content).merge(Content.active)
+  end
+
+  def self.expired
+    joins(:content).merge(Content.expired)
+  end
+
+  def self.future
+    joins(:content).merge(Content.future)
+  end
+
   #Newsfeed
   include PublicActivity::Common if defined? PublicActivity::Common
 
