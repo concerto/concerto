@@ -338,6 +338,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  helper_method :auth!
+
   # Cross-Origin Resource Sharing for JS interfaces
   # Browsers are very selective about allowing CORS when Authentication
   # headers are present. They require us to use an origin by name, not *,
