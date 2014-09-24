@@ -3,7 +3,7 @@ class UsersController < ApplicationController
    
   # GET /users
   def index
-    @users = User.page(params[:page]).per(20)
+    @users = User.all
     auth!({:action => :list, :allow_empty => false, :new_exception => false})
     respond_with(@users)
   end
