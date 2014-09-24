@@ -55,7 +55,7 @@ class Submission < ActiveRecord::Base
   # Test if the submission has been denied.
   # (moderation flag is false)
   def is_denied?
-    return false if moderation_flag
+    return false if moderation_flag || moderation_flag == nil
     true
   end
 
