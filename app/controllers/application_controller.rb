@@ -313,9 +313,15 @@ class ApplicationController < ActionController::Base
     object = (opts[:object] || instance_variable_get("@#{var_name}"))
 
     unless object.nil?
-      if ((object.is_a? Enumerable) || (object.is_a? ActiveRecord::Relation))
-        # ActiveRecord::Relation no longer returns as array, so lets convert.
+      if (object.is_a? ActiveRecord::Relation)
+        # ActiveRecord::Relation will maintain ties back to the original query.
+        # By replacing it with an array, we can make sure that it only ever
+        # contains the items which have passed auth!.
         object = object.to_a
+        instance_variable_set("@#{var_name}",object) if opts[:object].nil?
+      end # Now continue as a normal Enumberable
+      if (object.is_a? Enumerable)
+        object = object.to_a # In case of a non-Array Enumerable
         object.delete_if {|o| cannot?(test_action, o)}
         if new_exception && object.empty?
           # Parent will be Object for Concerto, or the module for Plugins.
