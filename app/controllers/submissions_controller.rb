@@ -56,7 +56,7 @@ class SubmissionsController < ApplicationController
     auth!
     
     # IMPORTANT: .load must be at the end of the collection to eager load and prevent the actual object from being deleted!
-    @other_submissions = @submission.content.submissions.load
+    @other_submissions = @submission.content.submissions.to_a
     
     # remove the current submission from the collection of its content's related submissions
     @other_submissions.delete(@submission)
