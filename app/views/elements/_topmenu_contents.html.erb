@@ -10,7 +10,7 @@
 %>
 <nav id="top-menu">
   <% if not user_signed_in? %>
-    <%= link_to t('concerto'), main_app.root_url, :id => "top-menu-logobutton" %>
+    <%= link_to 'Concerto', main_app.root_url, :id => "top-menu-logobutton" %>
     <p id="top-menu-logintext">
       <!-- Check if a plugin is attempting to override authentication method for sign in links -->
       <% if !ConcertoPlugin.render_view_hook(self, :signin_hook).empty? %>

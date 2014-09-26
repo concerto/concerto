@@ -13,15 +13,7 @@
     <div class="bottom"><span class="brand"><%= t 'concerto' %></span></div>
     <div class="inset" style="background: url(<%= preview_template_path(@screen.template, :width => 800, :height => 450, :format => :png) %>) center center no-repeat; background-size: 100% 100%;">
       <% @screen.template.positions.each do |pos| %>
-        <%
-            field = pos.field
-            subscriptions = @screen.subscriptions.where(:field_id => field.id)
-            auth! object: subscriptions, action: :read
-
-            field_configs = @screen.field_configs.where(:field_id => field.id)
-            auth! object: field_configs, action: :read
-        %>
-
+        <% set_screen_field_data(@screen,field=pos.field) %>
         <a href="#" class="pos dropdown-control dd-fieldinfo" style="top: <%= pos.top * 100 %>%; left: <%= pos.left * 100 %>%; width: <%= (pos.right - pos.left) * 100 %>%; height: <%= (pos.bottom - pos.top) * 100 %>%;" data-title="<%= field.name %>" data-field-id="<%= field.id %>">
           &nbsp;
         </a>
@@ -30,7 +22,7 @@
           <br />
           <div class="clearfix">
             <div class="pull-left">
-              <h3><%= pluralize(subscriptions.count, 'Subscription') %></h3>
+              <h3><%= pluralize(@subscriptions.count, 'Subscription') %></h3>
             </div>
             <div class="pull-right">
               <% if can? :update, Subscription.new(:screen => @screen, :field => field) %>
@@ -38,14 +30,14 @@
               <% end %>
             </div>
           </div>
-          <% unless subscriptions.empty? %>
-            <p>(<%=raw subscriptions.collect{ |s| link_to s.feed.name, s.feed }.join(', ')%>)</p>
+          <% unless @subscriptions.empty? %>
+            <p>(<%=raw @subscriptions.collect{ |s| link_to s.feed.name, s.feed }.join(', ')%>)</p>
           <% end %> 
           <hr />
 
           <div class="clearfix">
             <div class="pull-left">
-              <h3><%= pluralize(field_configs.size, 'Parameter') %></h3>
+              <h3><%= pluralize(@field_configs.size, 'Parameter') %></h3>
             </div>
             <div class="pull-right">
               <% if can? :update, FieldConfig.new(:screen => @screen, :field => field) %>
