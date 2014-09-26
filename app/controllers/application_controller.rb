@@ -311,14 +311,16 @@ class ApplicationController < ActionController::Base
       var_name = controller_name.singularize
     end
     object = (opts[:object] || instance_variable_get("@#{var_name}"))
+    object_needs_replacement = false
 
     unless object.nil?
       if (object.is_a? ActiveRecord::Relation)
         # ActiveRecord::Relation will maintain ties back to the original query.
         # By replacing it with an array, we can make sure that it only ever
         # contains the items which have passed auth!.
+        pagination = extract_pagination_from_relation(object)
         object = object.to_a
-        instance_variable_set("@#{var_name}",object) if opts[:object].nil?
+        object_needs_replacement = true
       end # Now continue as a normal Enumberable
       if (object.is_a? Enumerable)
         object = object.to_a # In case of a non-Array Enumerable
@@ -336,6 +338,13 @@ class ApplicationController < ActionController::Base
           message ||= fake_cancan.unauthorized_message(test_action, object.class)
           raise CanCan::AccessDenied.new(message, test_action, object.class)
         end
+        object = reapply_pagination(object, pagination) unless pagination.nil?
+        if object_needs_replacement
+          # Certain objects (Relations in particular) can't be authorized
+          # by simply modifying them - they need to be replaced with new objects.
+          instance_variable_set("@#{var_name}",object) if opts[:object].nil?
+          return object if !opts[:object].nil?
+        end
       else
         if cannot?(test_action, object)
           fake_cancan = Class.new.extend(CanCan::Ability)
@@ -344,6 +353,44 @@ class ApplicationController < ActionController::Base
         end
       end
     end
+  end
+
+  # This method allows us to perform authorization on arrays (discarding items
+  # based on cancan results) and ensure that any requested pagination is applied
+  # to the authorized array.
+  # Note we can only help if the relation has not been frozen yet.
+  def extract_pagination_from_relation(relation)
+    if relation.loaded?
+      # Can't do anything once the query has been executed.
+      puts "loaded."
+      return nil
+    elsif relation.singleton_class.include? Kaminari::PageScopeMethods
+     # This relation has had Kaminari's .page() method applied
+     page = relation.current_page
+     per = relation.limit_value
+     offset = relation.offset_value
+     # Reset the relation to the pre-pagination query as best we can.
+     # If Kaminari's padding() method was used, the padding will be
+     # applied before auth.
+     relation.limit_value = nil
+     relation.offset_value = [0,offset-(page-1)*per].max
+     return {:page => page, :per => per}
+    else
+     # Not paginated, we don't need to do anything.
+     return nil
+    end
+  end
+
+  def reapply_pagination(arr, pagination)
+    if pagination.is_a? Hash
+      page = pagination[:page]
+      per = pagination[:per]
+      if page.is_a? Numeric and per.is_a? Numeric
+       return Kaminari.paginate_array(arr).page(page).per(per)
+      end
+    end
+    # If there was no pagination, we need to do nothing.
+    return arr
   end
 
   # Cross-Origin Resource Sharing for JS interfaces
