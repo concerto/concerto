@@ -1,5 +1,13 @@
 module ScreensHelper
 
+  def set_screen_field_data(screen,field)
+    @subscriptions = screen.subscriptions.where(:field_id => field.id)
+    auth! object: @subscriptions, action: :read
+
+    @field_configs = screen.field_configs.where(:field_id => field.id)
+    auth! object: @field_configs, action: :read
+  end
+
   # return screen owner as a link if they are allowed to read the owner record
   def screen_owner(screen, tip=true)
     path = ((screen.owner.is_a? Group) ? group_path(screen.owner.id) : user_path(screen.owner.id))
