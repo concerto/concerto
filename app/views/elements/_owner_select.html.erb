@@ -27,9 +27,9 @@
             <h4 class="default-padding" style="text-align: center"> Groups </h4>
             <% options["Groups"].each do |group| %>
               <li id="ownerItem" class = "link-hl default-padding" style="padding: 10px"
-                onclick="addOwner('<%=group[0]%>', 'group_select', '<%=group[1]%>')"
+                onclick='addOwner("<%= group[0].gsub /"/, '' %>", "group_select", "<%=group[1]%>")'
                   data-group-index = '<%=group[1].split("-")[1]%>'
-                  data-group-name = '<%=group[0]%>'
+                  data-group-name = '<%=group[0] %>'
                   data-group-id = '<%=group[1].split("-")[1]%>'
                   data-filter = '<%=group[0]%>'>
                 <b><%= group[0] %></b>
@@ -43,11 +43,11 @@
             <h4 class="default-padding" style="text-align: center"> Users </h4>
             <% options["Users"].each do |user| %>
               <li id="ownerItem" class = "link-hl default-padding" style="padding: 10px"
-                onclick="addOwner('<%=user[0]%>', 'user_select', '<%= user[1]%>')"
+                onclick='addOwner("<%= user[0].gsub /"/, '' %>", "user_select", "<%= user[1]%>")'
                   data-user-index = '<%=user[1].split("-")[1]%>'
-                  data-user-name = '<%=user[0]%>'
+                  data-user-name = '<%=user[0] %>'
                   data-user-id = '<%=user[1].split("-")[1]%>'
-                  data-filter='<%= user[0] %>'>
+                  data-filter='<%=user[0] %>'>
                 <b><%= user[0] %></b>
               </li>
             <% end %>
