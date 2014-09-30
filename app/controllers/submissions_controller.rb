@@ -97,7 +97,7 @@ class SubmissionsController < ApplicationController
     end
   end
 
-  # POST /feeds/1/submissions/1/resubmission
+  # PUT /feeds/1/submissions/1/resubmission
   def resubmission
     # resubmit expired content
     @submission = Submission.find(params[:id])

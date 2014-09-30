@@ -93,7 +93,7 @@ Concerto::Application.routes.draw do
     end
     resources :submissions, :only => [:index, :show, :update] do 
       member do
-        post :resubmission
+        put :resubmission
       end
     end
   end
