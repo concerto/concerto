@@ -1,7 +1,7 @@
 <% viewable = 0 %>
 <ul class="list-stacked">
   <% @feeds.each do |feed| %>
-    <% if feed.approved_contents.size != 0 || feed.group.has_member?(current_user) || can?(:manage, :all) %>
+    <% if can?(:manage, :all) || can?(:read, feed) || feed.group.has_member?(current_user)%>
       <% viewable+=1 %>
       <li>
         <h3>
