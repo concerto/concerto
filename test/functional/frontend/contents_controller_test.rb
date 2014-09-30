@@ -9,7 +9,7 @@ class Frontend::ContentsControllerTest < ActionController::TestCase
   test "should get content for field" do
     get(:index, {:screen_id => screens(:one).id, :field_id => fields(:one).id, :format => :json})
     assert_response :success
-    assert_template false
+    assert_template layout:false
 
     data = ActiveSupport::JSON.decode(@response.body)
     assert data.length > 0

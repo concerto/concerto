@@ -60,7 +60,7 @@ class TemplatesController < ApplicationController
     end
 
     # reject any empty media (key wont be set)
-    @template.media.reject! {|i| i.key.blank?}
+    @template.media.to_a.reject! {|i| i.key.blank?}
 
     respond_to do |format|
       if @template.save
@@ -190,7 +190,7 @@ class TemplatesController < ApplicationController
     @template = Template.new
     archive = params[:package]
 
-    if @template.import_archive(archive) 
+    if @template.import_archive(archive)
       # is_hidden checkbox supercedes xml
       @template.is_hidden = template_params[:is_hidden]
       if @template.save

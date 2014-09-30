@@ -22,7 +22,7 @@ class FeedsController < ApplicationController
     @feeds = Feed.accessible_by(current_ability, :index)
     # Remove those feeds the accessor has index permission but not update
     auth!(:object => @feeds, :action => :update, :allow_empty => false)
-    @feeds.reject!{|f| not f.pending_contents.count > 0}
+    @feeds.to_a.reject!{|f| not f.pending_contents.count > 0}
     
     respond_to do |format|
       format.html { }

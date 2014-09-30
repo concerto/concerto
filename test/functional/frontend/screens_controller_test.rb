@@ -8,7 +8,6 @@ class Frontend::ScreensControllerTest < ActionController::TestCase
     @request.cookies['concerto_screen_token'] = screens(:one).screen_token
     get(:show, {:id => screens(:one).id})
     assert_response :success
-    assert_template false
   end
 
   test "private screen frontend is not public" do

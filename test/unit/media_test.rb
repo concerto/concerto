@@ -11,22 +11,22 @@ class MediaTest < ActiveSupport::TestCase
 
   test "media preferred scope is 'processed' then 'original'" do
     t = templates(:one)
-    assert_equal 2, t.media.size, "template one does not have two media entries"
-    assert t.media.original.first.key == 'original', "original media entry is missing"
-    assert t.media.processed.first.key == 'processed', "processed media entry is missing"
-    assert t.media.preferred.first.key == 'processed', "processed entry should come before original entry"
+    assert_equal 2, t.media.to_a.size, "template one does not have two media entries"
+    assert_equal 'original', t.media.original.first.key, "original media entry is missing"
+    assert_equal 'processed', t.media.processed.first.key, "processed media entry is missing"
+    assert_equal 'processed', t.media.preferred.first.key,"processed entry should come before original entry"
   end
 
   test "cleanup previews" do
-    before_count = Media.where("media.key = 'preview'").count
+    before_count = Media.where("media.key = 'preview'").count(:all)
     recent = Media.create({:key => 'preview', :file_type => 'png', :file_size => 0})
     old = Media.create({:key => 'preview', :file_type => 'png', :file_size => 0})
     old.created_at = DateTime.new(2000, 1, 1)
     old.save
-    after_count = Media.where("media.key = 'preview'").count
+    after_count = Media.where("media.key = 'preview'").count(:all)
     assert after_count == before_count + 2
     Media.cleanup_previews
-    after_count = Media.where("media.key = 'preview'").count
+    after_count = Media.where("media.key = 'preview'").count(:all)
     assert after_count == before_count + 1
   end
 

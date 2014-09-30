@@ -5,7 +5,7 @@ class Submission < ActiveRecord::Base
   belongs_to :feed
   belongs_to :moderator, :class_name => "User"
 
-  after_save :update_children_moderation_flag
+  after_save :update_child_moderation
 
   # Validations
   validates :feed, :presence => true, :associated => true
@@ -15,15 +15,23 @@ class Submission < ActiveRecord::Base
   validates_uniqueness_of :content_id, :scope => :feed_id  #Enforce content can only be submitted to a feed once
 
   # Scoping shortcuts for approved/denied/pending
-  scope :approved, where(:moderation_flag => true)
-  scope :denied, where(:moderation_flag => false)
-  scope :pending, where("moderation_flag IS NULL")
+  scope :approved, -> { where :moderation_flag => true }
+  scope :denied, -> { where :moderation_flag => false }
+  scope :pending, -> { where "moderation_flag IS NULL" }
 
   # Scoping shortcuts for active/expired/future
-  scope :active, -> { joins(:content).merge(Content.active) }
-  scope :expired, -> { joins(:content).merge(Content.expired) }
-  scope :future, -> { joins(:content).merge(Content.future) }
-  
+  def self.active
+    joins(:content).merge(Content.active)
+  end
+
+  def self.expired
+    joins(:content).merge(Content.expired)
+  end
+
+  def self.future
+    joins(:content).merge(Content.future)
+  end
+
   #Newsfeed
   include PublicActivity::Common if defined? PublicActivity::Common
 
@@ -33,9 +41,9 @@ class Submission < ActiveRecord::Base
         return I18n.t(:approved)
       when false
         return I18n.t(:rejected)
-      when nil
+      else
         return I18n.t(:pending)
-      end  
+    end
   end
 
   # Test if the submission has been approved.
@@ -47,7 +55,8 @@ class Submission < ActiveRecord::Base
   # Test if the submission has been denied.
   # (moderation flag is false)
   def is_denied?
-    (moderation_flag == false) ? true : false
+    return false if moderation_flag || moderation_flag == nil
+    true
   end
 
   # Test if the submission has not yet been moderated.
@@ -59,7 +68,7 @@ class Submission < ActiveRecord::Base
   # Cascade moderation to children submissions as well.
   # Child content submitted to the same feed will recieve the same moderation
   # as a parent content.
-  def update_children_moderation_flag
+  def update_child_moderation
     if self.changed.include?('moderation_flag') and self.content.has_children?
       self.content.children.each do |child|
         similiar_submissions = Submission.where(:content_id => child.id, :feed_id => self.feed_id, :moderation_flag => self.moderation_flag_was)
@@ -82,7 +91,7 @@ class Submission < ActiveRecord::Base
       #print submission.to_yaml
       #print submission.errors.to_yaml
       submission.save
-    end    
+    end
   end
 
 end

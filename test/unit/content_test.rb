@@ -30,7 +30,7 @@ class ContentTest < ActiveSupport::TestCase
   #  content.kind = kinds(:ticker)
   #  assert content.valid?, "Content kind is associated with ticker"
   #end
-  
+
   # Content must be associated with a user
   test "user cannot unassociated" do
     content = Content.new(:name => "Sample Ticker",
@@ -52,7 +52,7 @@ class ContentTest < ActiveSupport::TestCase
     expected_results = [[true,false,true],
                         [true,false,true],
                         [false,false,false]]
-    
+
     dates.each_with_index do |start_time, row|
       dates.each_with_index do |end_time, col|
         content = Content.new(:start_time => start_time,
@@ -80,7 +80,7 @@ class ContentTest < ActiveSupport::TestCase
     Time.use_zone("UTC") do
       c = Content.new(:end_time => {:date => "4/12/2011", :time => "5:00 pm"})
       assert_equal "2011-04-12 17:00:00", c.end_time.utc.strftime('%Y-%m-%d %H:%M:%S')
-      
+
       c = Content.new(:end_time => "2011-01-01 00:00:00")
       assert_equal "2011-01-01 00:00:00", c.end_time.utc.strftime('%Y-%m-%d %H:%M:%S')
     end
@@ -98,7 +98,7 @@ class ContentTest < ActiveSupport::TestCase
   end
 
   test "content scope does not propogate" do
-    graphics = Graphic.active.all
+    graphics = Graphic.active
     graphics.each do |g|
       assert_equal "Graphic", g.class.name
     end
@@ -125,62 +125,63 @@ class ContentTest < ActiveSupport::TestCase
   end
 
   test "is_orphan? identifies content without submissions" do
-    c = Content.new(:name => "Sample Ticker",
-                :kind_id => kinds(:ticker).id,
-                :duration => 10,
-                :user => users(:katie))
+    c = Ticker.new(:name => "Sample Ticker",
+                   :data => 'Testing',
+                   :kind_id => kinds(:ticker).id,
+                   :duration => 10,
+                   :user => users(:katie))
     assert c.save
     assert c.is_orphan?
   end
 
   test "is_denied? detects if content denied on any feed" do
-    c = Content.new(:name => "TickerDeniedOnOne",
-                :kind_id => kinds(:ticker).id,
-                :duration => 10,
-                :user => users(:katie),
-                :start_time => 2.days.ago,
-                :end_time => Time.now.tomorrow)
+    c = Ticker.new(:name => "TickerDeniedOnOne",
+                   :data => 'Testing',
+                   :duration => 10,
+                   :user => users(:katie),
+                   :start_time => 2.days.ago,
+                   :end_time => Time.now.tomorrow)
     assert c.save
 
     Submission.create({:content => c, :duration => 5, :feed => feeds(:announcements)})
     assert !c.is_denied?
     assert Submission.create({
-                      :content => c, 
-                      :duration => 5, 
-                      :feed => feeds(:boring_announcements), 
-                      :moderator => users(:admin), 
+                      :content => c,
+                      :duration => 5,
+                      :feed => feeds(:boring_announcements),
+                      :moderator => users(:admin),
                       :moderation_flag => true})
     assert !c.is_denied?
     assert Submission.create({
-                      :content => c, 
-                      :duration => 5, 
-                      :feed => feeds(:important_announcements), 
-                      :moderator => users(:admin), 
+                      :content => c,
+                      :duration => 5,
+                      :feed => feeds(:important_announcements),
+                      :moderator => users(:admin),
                       :moderation_flag => false})
     assert c.is_denied?
   end
 
   test "is_pending? detects if content pending on any feed" do
-    c = Content.new(:name => "TickerPendingOnOne",
-                :kind_id => kinds(:ticker).id,
-                :duration => 10,
-                :user => users(:katie),
-                :start_time => 2.days.ago,
-                :end_time => Time.now.tomorrow)
+    c = Ticker.new(:name => "TickerPendingOnOne",
+                   :data => 'Testing',
+                   :duration => 10,
+                   :user => users(:katie),
+                   :start_time => 2.days.ago,
+                   :end_time => Time.now.tomorrow)
     assert c.save
 
     assert Submission.create({
-                      :content => c, 
-                      :duration => 5, 
-                      :feed => feeds(:boring_announcements), 
-                      :moderator => users(:admin), 
+                      :content => c,
+                      :duration => 5,
+                      :feed => feeds(:boring_announcements),
+                      :moderator => users(:admin),
                       :moderation_flag => true})
     assert !c.is_pending?
     assert Submission.create({
-                      :content => c, 
-                      :duration => 5, 
-                      :feed => feeds(:important_announcements), 
-                      :moderator => users(:admin), 
+                      :content => c,
+                      :duration => 5,
+                      :feed => feeds(:important_announcements),
+                      :moderator => users(:admin),
                       :moderation_flag => false})
     assert !c.is_pending?
     Submission.create({:content => c, :duration => 5, :feed => feeds(:announcements)})
@@ -188,8 +189,8 @@ class ContentTest < ActiveSupport::TestCase
   end
 
   test "is_approved? true only when content is approved on all feeds" do
-    c = Content.new(:name => "TickerApprovedOnAll",
-                :kind_id => kinds(:ticker).id,
+    c = Ticker.new(:name => "TickerApprovedOnAll",
+                :data => 'Testing',
                 :duration => 10,
                 :user => users(:katie),
                 :start_time => 2.days.ago,
@@ -197,17 +198,17 @@ class ContentTest < ActiveSupport::TestCase
     assert c.save
 
     assert Submission.create({
-                      :content => c, 
-                      :duration => 5, 
-                      :feed => feeds(:boring_announcements), 
-                      :moderator => users(:admin), 
+                      :content => c,
+                      :duration => 5,
+                      :feed => feeds(:boring_announcements),
+                      :moderator => users(:admin),
                       :moderation_flag => true})
     assert c.is_approved?
     sub = Submission.create({
-                      :content => c, 
-                      :duration => 5, 
-                      :feed => feeds(:important_announcements), 
-                      :moderator => users(:admin), 
+                      :content => c,
+                      :duration => 5,
+                      :feed => feeds(:important_announcements),
+                      :moderator => users(:admin),
                       :moderation_flag => false})
     assert !c.is_approved?
     sub.moderation_flag = true

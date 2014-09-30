@@ -14,7 +14,7 @@ class WeightedShuffle < BaseShuffle
     return [] if @store.empty?
 
     content_ids = @store.shift(count)
-    Content.where(:id => content_ids).compact
+    Content.where(:id => content_ids).to_a.compact
   end
 
   private

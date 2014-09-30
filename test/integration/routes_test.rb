@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class RoutesTest < ActionController::IntegrationTest
+class RoutesTest < ActionDispatch::IntegrationTest
   fixtures :all
   
   test "non plural content route" do

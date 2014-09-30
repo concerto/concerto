@@ -33,9 +33,9 @@ class TemplateTest < ActiveSupport::TestCase
     assert_small_delta 0.796, actual.last.top
     assert_small_delta 0.592, actual.last.right
     assert_small_delta 1.000, actual.last.bottom
-    
+
   end
-  
+
   # Test the ability to import a template without fields
   test "importing an empty template" do
     t = Template.new
@@ -76,18 +76,6 @@ class TemplateTest < ActiveSupport::TestCase
     file = fixture_file_upload("/files/ArchiveWithInvalidXml.zip", 'application/zip')
     assert !t.import_archive(file)
     assert t.errors.messages.values.detect { |m| m.join(",").include?('invalid XML') }
-  end
-
-  # Do we correctly find the original height and orignal width?
-  test "find original height and width" do
-    t = Template.new
-    file = fixture_file_upload("/files/concerto_background.jpg", 'image/jpeg')
-    t.save
-    media = t.media.build(:file => file, :key => 'original')
-    media.save
-    assert t.update_original_sizes
-    assert_equal 1920, t.original_width
-    assert_equal 1200, t.original_height
   end
 
   test "template names must be unique" do

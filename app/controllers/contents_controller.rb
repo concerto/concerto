@@ -124,7 +124,7 @@ class ContentsController < ApplicationController
     end
     respond_to do |format|
       # remove the media entry added in the _form_top partial if it is completely empty
-      @content.media.reject! { |m| m.file_name.nil? && m.file_type.nil? && m.file_size.nil? && m.file_data.nil? }
+      @content.media.to_a.reject! { |m| m.file_name.nil? && m.file_type.nil? && m.file_size.nil? && m.file_data.nil? }
       begin
         results = @content.save
       rescue Concerto::ContentConverter::Unconvertable => e
@@ -332,7 +332,7 @@ class ContentsController < ApplicationController
   end
 
   def remove_empty_media_param
-    @content.media.reject! { |m| m.file_name.nil? && m.file_type.nil? && m.file_size.nil? && m.file_data.nil? }
+    @content.media.to_a.reject! { |m| m.file_name.nil? && m.file_type.nil? && m.file_size.nil? && m.file_data.nil? }
   end
 
   def create_submissions

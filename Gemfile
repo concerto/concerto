@@ -1,7 +1,7 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'https://rubygems.org'
 
-gem "rails", "~> 3.2.17"
+gem 'rails', '~> 4.1.5'
 
 # Get the absolute path of this Gemfile so the includes below still work
 # when the current directory for a bundler command isn't the application's
@@ -9,30 +9,28 @@ gem "rails", "~> 3.2.17"
 basedir = File.dirname(__FILE__)
 
 # Load the gems used for remote reporting.
-if File.exists?(basedir+'/Gemfile-reporting')
-  eval File.read(basedir+'/Gemfile-reporting')
+if File.exists?("#{basedir}/Gemfile-reporting")
+  eval File.read("#{basedir}/Gemfile-reporting")
 end
 
 # The Gemfile-plugins gem list is managed by Concerto itself,
 # through the ConcertoPlugins controller.
 group :concerto_plugins do
-  eval File.read(basedir+'/Gemfile-plugins') if File.exists?(basedir+'/Gemfile-plugins')
+  eval File.read("#{basedir}/Gemfile-plugins") if File.exists?("#{basedir}/Gemfile-plugins")
 end
 
 # Load a local Gemfile if it exists
-if File.exists?(basedir+'/Gemfile.local')
-  eval File.read(basedir+'/Gemfile.local')
+if File.exists?("#{basedir}/Gemfile.local")
+  eval File.read("#{basedir}/Gemfile.local")
 end
 
 # Gems used only for assets and not required
 # in production environments by default.
-group :assets do
-  gem 'sass-rails'
-  gem 'coffee-rails'
-  gem 'therubyracer', :platforms => :ruby
-  gem 'execjs'
-  gem 'uglifier'
-end
+gem 'sass-rails'
+gem 'sprockets', '2.11.0'
+gem 'therubyracer', :platforms => :ruby
+gem 'execjs'
+gem 'uglifier'
 
 gem 'jquery-rails'
 gem 'turbolinks'
@@ -41,7 +39,7 @@ gem 'bootstrap-datepicker-rails'
 gem 'twitter-bootstrap-rails-confirm'
 
 #RMagick is used for image resizing and processing
-gem "rmagick", :require => 'RMagick', :platforms => :ruby
+gem 'rmagick', :require => 'RMagick', :platforms => :ruby
 
 # Attachable does all the file work.
 gem 'attachable'
@@ -60,8 +58,6 @@ gem 'clockwork'
 # Test Coverage
 gem 'simplecov', :require => false, :group => :test
 
-gem 'strong_parameters'
-
 gem 'kaminari'
 
 require "#{Dir.getwd}/lib/command_check.rb"
@@ -79,10 +75,10 @@ end
 # In production we prefer MySQL over sqlite3.  If you are only
 # interested in development and don't want to bother with production,
 # run `bundle install --without production` to ignore MySQL.
-gem "sqlite3", :group => [:development, :test]
+gem 'sqlite3', :group => [:development, :test]
 
-gem "mysql2", :require => false, :group => :production, :platforms => mysql_platforms
-gem "pg", :require => false, :group => :production, :platforms => postgres_platforms
+gem 'mysql2', :require => false, :group => :production, :platforms => mysql_platforms
+gem 'pg', :require => false, :group => :production, :platforms => postgres_platforms
 
 gem 'public_activity'
 

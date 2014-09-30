@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class RootTest < ActionController::IntegrationTest
+class RootTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   test "root url loads" do
