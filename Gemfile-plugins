@@ -8,5 +8,3 @@ gem "concerto_simple_rss"
 gem "concerto_iframe"
 
 gem "concerto_calendar"
-
-gem "concerto_hardware"

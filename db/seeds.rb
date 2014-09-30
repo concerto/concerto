@@ -18,7 +18,7 @@ ConcertoPlugin.where(:gem_name => "concerto_remote_video").first_or_create(:enab
 ConcertoPlugin.where(:gem_name => "concerto_simple_rss").first_or_create(:enabled => true, :source => "rubygems")
 ConcertoPlugin.where(:gem_name => "concerto_iframe").first_or_create(:enabled => true, :source => "rubygems")
 ConcertoPlugin.where(:gem_name => "concerto_calendar").first_or_create(:enabled => true, :source => "rubygems")
-ConcertoPlugin.where(:gem_name => "concerto_hardware").first_or_create(:enabled => true, :source => "rubygems")
+#ConcertoPlugin.where(:gem_name => "concerto_hardware").first_or_create(:enabled => true, :source => "rubygems")
 
 # Establish the 4 major display areas a template usually has.
 # In my quick sample, this code will make 68% of the Concerto 1 fields match
