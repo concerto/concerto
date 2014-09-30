@@ -8,9 +8,6 @@ rescue SocketError => e
   Rails.logger.debug "Socket error in trying to determine hostname: #{e}"
 end
 
-require 'yaml'
-concerto_base_config = YAML.load_file("./config/concerto.yml")
-
 if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
   if ConcertoConfig.columns_hash.has_key?("plugin_id")
     # defaults
