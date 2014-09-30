@@ -91,7 +91,11 @@ Concerto::Application.routes.draw do
     collection do
       get :moderate
     end
-    resources :submissions, :only => [:index, :show, :update]
+    resources :submissions, :only => [:index, :show, :update] do 
+      member do
+        post :resubmission
+      end
+    end
   end
 
   get 'content/search' => 'contents#index'

@@ -70,6 +70,7 @@ en:
       duration: "Duration"
       feeds_moderation_status: "Submission Status"
       not_submitted: 'This content has not been submitted to any feeds.'
+      resubmit_content: 'Resubmit Content'
       seconds: 'seconds'
       submitted_by: "Submitted by"
       the_dawn_of_time: 'The Dawn of Time.'

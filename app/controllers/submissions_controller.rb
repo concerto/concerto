@@ -97,6 +97,22 @@ class SubmissionsController < ApplicationController
     end
   end
 
+  # POST /feeds/1/submissions/1/resubmission
+  def resubmission
+    # resubmit expired content
+    @submission = Submission.find(params[:id])
+    @submission.content.start_time = params[:submission][:start_time]
+    @submission.content.end_time = params[:submission][:end_time]
+
+    if @submission.content.save
+      flash[:success] = "Content successfully resubmitted"
+    else
+      flash[:error] = "Error resubmitting content"
+    end
+
+    redirect_to feed_submission_path(:feed_id => params[:feed_id], :submission_id => @submission.id)
+  end
+
 private
 
   def submission_params

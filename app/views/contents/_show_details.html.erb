@@ -41,3 +41,12 @@
   <% end %>
 </div>
 
+<% if content.is_expired? %>
+  <div class="subblock">
+    <p class="uppercase"><small><b><%= t('.resubmit_content') %></b></small></p>
+    <%= form_for :submission, :url => resubmission_feed_submission_path, :method => :post do |form| %>
+      <%= render :partial => "contents/form_elements/dates.html.erb", :locals => {:form => form} %>
+      <%= form.submit "Resubmit", :class => "btn btn-default" %>
+    <% end %>
+  </div>
+<% end %>
