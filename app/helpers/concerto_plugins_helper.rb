@@ -19,7 +19,6 @@ module ConcertoPluginsHelper
   end
 
   def status_badge(enabled)
-    puts enabled.inspect
     if enabled
       content_tag(:i, nil, :class => 'icon-check tooltip-basic', 'data-tooltip-text' => t('concerto_plugins.index.enabled_msg'))
     else
