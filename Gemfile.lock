@@ -59,6 +59,8 @@ GEM
       icalendar
       rails
     concerto_docsplit (0.7.5)
+    concerto_hardware (0.2)
+      rails
     concerto_iframe (0.0.5)
       rails
     concerto_remote_video (0.3)
@@ -238,6 +240,7 @@ DEPENDENCIES
   clockwork
   concerto_calendar
   concerto_docsplit
+  concerto_hardware
   concerto_iframe
   concerto_remote_video
   concerto_simple_rss

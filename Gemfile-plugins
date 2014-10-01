@@ -1,3 +1,4 @@
+gem "concerto_hardware"
 
 gem "concerto_weather"
 
