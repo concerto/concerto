@@ -43,8 +43,8 @@ Concerto::Application.routes.draw do
       resources :templates, :only => [:show]
     end
     # Special route for CORS preflight requests on #show
-    get ':id', :controller => :screens, :action => 'show_options',
-          :constraints => {:method => 'OPTIONS'}
+    # *** DO NOT EDIT THIS LINE UNLESS YOU KNOW HOW TO TEST IT ***
+    match ':id', :controller => :screens, :action => 'show_options', :via=> [:options] 
   end
   # End really dangerous routes.
 
