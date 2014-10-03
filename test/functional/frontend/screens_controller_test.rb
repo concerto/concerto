@@ -66,4 +66,33 @@ class Frontend::ScreensControllerTest < ActionController::TestCase
     get(:index, {:mac => 'deadbeef'})
     assert_response :forbidden
   end
+
+  # Tests the CORS preflight request
+  test "frontend allows cross origin requests" do
+    authorize_screen_via_basic(screens(:one))
+    process(:show_options, "OPTIONS", {:id=>screens(:one).id})
+    assert_response :success
+    assert_equal "*", @response.headers['Access-Control-Allow-Origin']
+    assert_equal "*", @response.headers['Access-Control-Allow-Methods']
+    assert_equal "true", @response.headers['Access-Control-Allow-Credentials']
+    assert_equal "Authorization", @response.headers['Access-Control-Allow-Headers']
+    assert_equal " ", @response.body
+  end
+
+  # Tests the frontend JS login mechanism
+  test "frontend basic auth succeeds" do
+    authorize_screen_via_basic(screens(:one))
+    get(:show, {:id=>screens(:one).id, :request_cookie=>"1"})
+    assert_response :success
+    auth_cookie = "concerto_screen_token="+screens(:one).screen_token
+    assert @response.headers['Set-Cookie'].include? auth_cookie
+  end
+
+  private
+
+  # Log in the screen the same way the player would for a first-time request
+  # be sure to call with a screen which has proper credentials
+  def authorize_screen_via_basic(screen)
+   @request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials('screen', screen.screen_token)
+  end
 end
