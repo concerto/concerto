@@ -42,7 +42,7 @@ class TemplatesController < ApplicationController
     @template = Template.find(params[:id])
     auth!
     # make sure that we only have two html file inputs, one for the graphic ("original") and one for the stylesheet ("css")
-    @template.media.reject! {|m| true}
+    @template.media.to_a.reject! {|m| true}
     while @template.media.length < 2 do
       @template.media.build
     end
