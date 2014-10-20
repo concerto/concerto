@@ -21,7 +21,7 @@ var initializeGraphicPreview = {
           iframe: true,
           type: 'POST',
         }).complete(function(data) {
-          media_id.val(data.responseJSON.id);
+          media_id.val(data.responseJSON[0].id);
           var img_string = "<img src='<%= Rails.application.config.relative_url_root %>/content/preview/display?media_id=" + media_id.val() + "&type=Graphic&width=" + preview.width() + "' />";
           preview.html(img_string);
         }).error(function() {

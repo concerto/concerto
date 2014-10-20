@@ -93,10 +93,15 @@ class ContentsController < ApplicationController
   # POST /contents.xml
   def create
     prams = content_params
-    if prams.include?("media_attributes") && prams[:media_attributes]["0"].include?("id")
+    media_ids = []
+    if prams.include?("media_attributes")
       # pull out the media_id otherwise, new will try to find it even though it's not yet linked
-      media_id = prams[:media_attributes]["0"][:id]
-      prams[:media_attributes]["0"].delete :id
+      media_attributes = prams[:media_attributes]
+      media_attributes.each { |key, attribute|
+        next if !attribute.include?("id")
+        media_ids << attribute[:id]
+        prams[:media_attributes][key].delete :id
+      }
     end
     # some content, like the ticker_text, can have a kind other than it's model's default
     if prams.include?("kind_id")
@@ -111,15 +116,17 @@ class ContentsController < ApplicationController
     @feed_ids = feed_ids
 
     remove_empty_media_param
-    if !media_id.blank?
-      # if the media_id was passed in then there is an existing media
-      # record that needs to be attached to this content
-      @media = Media.find(media_id)
-      # only reassign if not already assigned
-      if @media[:key] == 'preview' && @media[:attachable_id] == 0
-        @media[:key] = 'original'
-        @content.media.clear
-        @content.media.concat(@media)
+    if !media_ids.empty?
+      @content.media.clear
+      media_ids.each do |media_id|
+        # if the media_id was passed in then there is an existing media
+        # record that needs to be attached to this content
+        @media = Media.find(media_id)
+        # only reassign if not already assigned
+        if @media[:key] == 'preview' && @media[:attachable_id] == 0
+          @media[:key] = 'original'
+          @content.media.concat(@media)
+        end
       end
     end
     respond_to do |format|
