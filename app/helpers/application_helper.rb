@@ -47,4 +47,12 @@ module ApplicationHelper
   def link_to_submit(*args, &block)
     link_to_function (block_given? ? capture(&block) : args[0]), "$(this).closest('form').submit()", args.extract_options!
   end
+
+  def link_to_function(name, function, html_options={})
+
+    onclick = "#{"#{html_options[:onclick]}; " if html_options[:onclick]}#{function}; return false;"
+    href = html_options[:href] || '#'
+
+    content_tag(:a, name, html_options.merge(:href => href, :onclick => onclick))
+  end  
 end
