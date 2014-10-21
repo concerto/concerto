@@ -24,15 +24,15 @@
  */
 /* FONT PATH
  * -------------------------- */
-$fontAwesomePath: font-path("/assets/fontawesome-webfont") !default;
+$fontAwesomePath: "fontawesome-webfont" !default;
 
 @font-face {
   font-family: "FontAwesome";
-  src: url("#{$fontAwesomePath}.eot?v=3.1.0");
-  src: url("#{$fontAwesomePath}.eot?#iefix&v=3.1.0") format('embedded-opentype'), 
-    url("#{$fontAwesomePath}.woff?v=3.1.0") format('woff'), 
-    url("#{$fontAwesomePath}.ttf?v=3.1.0") format('truetype'), 
-    url("#{$fontAwesomePath}.svg#fontawesomeregular?v=3.1.0") format('svg');
+  src: url(font-path("#{$fontAwesomePath}.eot")+"?v=3.1.0");
+  src: url(font-path("#{$fontAwesomePath}.eot")+"?#iefix&v=3.1.0") format('embedded-opentype'), 
+    url(font-path("#{$fontAwesomePath}.woff")+"?v=3.1.0") format('woff'), 
+    url(font-path("#{$fontAwesomePath}.ttf")+"?v=3.1.0") format('truetype'), 
+    url(font-path("#{$fontAwesomePath}.svg")+"#fontawesomeregular?v=3.1.0") format('svg');
   font-weight: normal;
   font-style: normal;
 }

@@ -1,17 +1,13 @@
 // SPRITES
 // Glyphs and icons for buttons, nav, and more
 // -------------------------------------------
-
-
-$concertoconsPath: font-path('/assets/concertocons') !default;
-
 @font-face {
-  font-family: "concertocons";
-  src: url("#{$concertoconsPath}.eot?v=3.1.0");
-  src: url("#{$concertoconsPath}.eot?#iefix&v=3.1.0") format('embedded-opentype'), 
-    url("#{$concertoconsPath}.woff?v=3.1.0") format('woff'), 
-    url("#{$concertoconsPath}.ttf?v=3.1.0") format('truetype'), 
-    url("#{$concertoconsPath}.svg#concertocons?v=1.0") format('svg');
+  font-family: 'concertocons';
+  src: url(font-path('concertocons.eot'));
+  src: url(asset-path('concertocons.eot')+'?#iefix') format('embedded-opentype'),
+    url(font-path('concertocons.woff')) format('woff'),
+    url(font-path('concertocons.ttf')) format('truetype'),
+    url(font-path('concertocons.svg')) format('svg');
   font-weight: normal;
   font-style: normal;
 }
