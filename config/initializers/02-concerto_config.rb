@@ -56,7 +56,7 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
       :description => 'HTML to display as the \'message of the day\' on the dashboard and browse page.', :seq_no => 90)
     ConcertoConfig.make_concerto_config("footer_html", "", :value_type => "text", :category => 'System', 
       :description => 'HTML to display on the footer of every page.', :seq_no => 91)
-    ConcertoConfig.make_concerto_config("secret_token", "", :value_type => "string", :value_default => "", :hidden => "true", :category => 'System')
+    ConcertoConfig.make_concerto_config("secret_token", "", :value_type => "string", :value_default => "", :hidden => "false", :category => 'System')
 
   end
 
