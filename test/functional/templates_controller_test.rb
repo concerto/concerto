@@ -91,4 +91,12 @@ class TemplatesControllerTest < ActionController::TestCase
     assert_in_delta 100, image.rows, 1
   end
 
+  test "edit template page" do
+    t = templates(:one)
+    sign_in users(:admin)
+    get :edit, :id => t.id
+    assert_response :success
+    assert_equal t, assigns(:template)
+  end
+
 end
