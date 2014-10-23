@@ -84,8 +84,8 @@ class ApplicationController < ActionController::Base
   # Call this with a before filter to indicate that the current action
   # should be treated as a Screen API page. On Screen API pages, the
   # current logged-in screen (if there is one) is used instead of the
-  # current user. For non-screen API pages, it is impossible for a
-  # screen to view the page (though that may change).
+  # current user. Screen API pages may only be viewed by authenticated
+  # screens.
   def screen_api
     @screen_api=true
   end
@@ -260,7 +260,13 @@ class ApplicationController < ActionController::Base
 
   #Don't break for CanCan exceptions; send the user to the front page with a Flash error message
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to main_app.root_url, :flash => { :notice => exception.message }
+    respond_to do |format|
+      format.html {
+        redirect_to main_app.root_url, :flash => { :notice => exception.message }
+      }
+      format.json { render :json => {:error=>true, :status=>403, :message => exception.message}, :status => :forbidden }
+      format.xml{ render :xml => {:error=>true, :status=>403, :message => exception.message}, :status => :forbidden }
+    end
   end
 
 
