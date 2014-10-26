@@ -35,13 +35,17 @@ COPY ./Gemfile.lock /concerto/rails-root/
 COPY ./Procfile /concerto/rails-root/
 COPY ./Rakefile /concerto/rails-root/
 COPY ./config.ru /concerto/rails-root/
-RUN chown -R concerto /concerto/ && \
-    su concerto -c "cd /concerto/rails-root/ && git submodule update --init --recursive" && \
-    su concerto -c "gem install bundler --user-install" && \
-    su concerto -c "cd /concerto/rails-root/ && ~/.gem/ruby/1.9.1/bin/bundle install --deployment" && \
-    apt-get autoremove && \
-    apt-get clean
+RUN chown -R concerto /concerto/
 
+USER concerto
+WORKDIR /concerto/rails-root/
+RUN git submodule update --init --recursive && \
+    gem install bundler --user-install && \
+    ~/.gem/ruby/1.9.1/bin/bundle install --deployment
+
+USER root
+RUN apt-get autoremove && \
+    apt-get clean
 
 USER concerto
 VOLUME ["/concerto/rails-root/doc", "/concerto/rails-root/log", "/concerto/rails-root/tmp"]
