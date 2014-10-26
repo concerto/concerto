@@ -1,4 +1,4 @@
-FROM debian
+FROM debian:wheezy
 
 MAINTAINER Concerto Authors "team@concerto-signage.org"
 
@@ -25,16 +25,16 @@ ADD test /concerto/rails-root
 ADD tools /concerto/rails-root
 ADD vendor /concerto/rails-root
 ADD .git /concerto/rails-root
-ADD .gitignore /concerto/rails-root
-ADD .gitmodules /concerto/rails-root
-ADD .simplecov /concerto/rails-root
-ADD Gemfile /concerto/rails-root
-ADD Gemfile-plugins /concerto/rails-root
-ADD Gemfile-reporting /concerto/rails-root
-ADD Gemfile.lock /concerto/rails-root
-ADD Procfile /concerto/rails-root
-ADD Rakefile /concerto/rails-root
-ADD config.ru /concerto/rails-root
+ADD .gitignore /concerto/rails-root/
+ADD .gitmodules /concerto/rails-root/
+ADD .simplecov /concerto/rails-root/
+ADD Gemfile /concerto/rails-root/
+ADD Gemfile-plugins /concerto/rails-root/
+ADD Gemfile-reporting /concerto/rails-root/
+ADD Gemfile.lock /concerto/rails-root/
+ADD Procfile /concerto/rails-root/
+ADD Rakefile /concerto/rails-root/
+ADD config.ru /concerto/rails-root/
 RUN su concerto -c "cd /concerto/rails-root/ && git submodule update --init --recursive && bundle install" && \
     apt-get autoremove && \
     apt-get clean
