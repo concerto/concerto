@@ -12,6 +12,7 @@ RUN apt-get update -qq && \
     gem install bundler
 
 RUN adduser --disabled-password --home=/concerto --gecos "Concerto User" concerto && \
+    mkdir /concerto/rails-root && \
     chown concerto:concerto /concerto/rails-root
 ADD app /concerto/rails-root/
 ADD bin /concerto/rails-root/
