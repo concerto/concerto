@@ -1,53 +1,30 @@
-FROM debian:wheezy
+FROM phusion/passenger-ruby21
 
 MAINTAINER Concerto Authors "team@concerto-signage.org"
 
-RUN echo "deb http://ftp.us.debian.org/debian wheezy-backports main" >> /etc/apt/sources.list
+ENV HOME /root
+CMD ["/sbin/my_init"]
 
-RUN apt-get update -qq && \
-    apt-get -yqq install -y build-essential git-core imagemagick nodejs ruby1.9.1-full && \
-    apt-get -yqq install -y libmysqlclient18 librmagick-ruby libruby1.9.1 libpq5 && \
-    apt-get -yqq install -y zlib1g-dev libmagickcore-dev libmagickwand-dev libsqlite3-dev libmysqlclient-dev libpq-dev libxslt-dev libssl-dev && \
-    apt-get install -y libreoffice
+RUN rm -f /etc/service/nginx/down
+RUN rm /etc/nginx/sites-enabled/default
 
-RUN adduser --disabled-password --home=/concerto --gecos "Concerto User" concerto && \
-    mkdir /concerto/rails-root && \
-    chown concerto:concerto /concerto/rails-root
-COPY app /concerto/rails-root/app
-COPY bin /concerto/rails-root/bin
-COPY config /concerto/rails-root/config
-COPY db /concerto/rails-root/db
-COPY doc /concerto/rails-root/doc
-COPY lib /concerto/rails-root/lib
-COPY public /concerto/rails-root/public
-COPY script /concerto/rails-root/script
-COPY test /concerto/rails-root/test
-COPY tools /concerto/rails-root/tools
-COPY vendor /concerto/rails-root/vendor
-COPY .git /concerto/rails-root/.git
-COPY ./.gitignore /concerto/rails-root/
-COPY ./.gitmodules /concerto/rails-root/
-COPY ./.simplecov /concerto/rails-root/
-COPY ./Gemfile /concerto/rails-root/
-COPY ./Gemfile-plugins /concerto/rails-root/
-COPY ./Gemfile-reporting /concerto/rails-root/
-COPY ./Gemfile.lock /concerto/rails-root/
-COPY ./Procfile /concerto/rails-root/
-COPY ./Rakefile /concerto/rails-root/
-COPY ./config.ru /concerto/rails-root/
-RUN chown -R concerto /concerto/
+COPY tools/nginx.docker.conf /etc/nginx/sites-enabled/concerto.conf
 
-USER concerto
-WORKDIR /concerto/rails-root/
-RUN git submodule update --init --recursive && \
-    gem install bundler --user-install && \
-    ~/.gem/ruby/1.9.1/bin/bundle install --deployment
+RUN mkdir /home/app/concerto
+
+WORKDIR /tmp
+COPY Gemfile /tmp/
+COPY Gemfile-reporting /tmp/
+COPY Gemfile-plugins /tmp/
+COPY Gemfile.lock /tmp/
+COPY lib/command_check_docker.rb /tmp/lib/command_check.rb
+RUN bundle install
+COPY . /home/app/concerto
+
+USER app
+WORKDIR /home/app/concerto
+RUN git submodule update --init --recursive
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 USER root
-RUN apt-get autoremove && \
-    apt-get clean
-
-USER concerto
-VOLUME ["/concerto/rails-root/doc", "/concerto/rails-root/log", "/concerto/rails-root/tmp"]
-
-ENTRYPOINT ["/bin/sh", "-c", "cd /concerto/rails-root && rake test"]
