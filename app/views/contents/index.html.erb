@@ -18,21 +18,21 @@
               <%= label_tag :user, t('.user'), :style => "display:inline" %>
               <%= select_tag :user,
                 options_from_collection_for_select(
-                  User.all.sort_by!{ |user| user.name.downcase}, 
+                  User.all.sort_by{ |user| user.name.downcase}, 
                   :id, :name, params[:user]),
                   :include_blank => true %>
               <!-- filter by feed -->
               <%= label_tag :feed, t('.feed'), :style => "display:inline" %>
               <%= select_tag :feed, 
                 options_from_collection_for_select(
-                  Feed.all.sort_by!{|feed| feed.name.downcase},
+                  Feed.all.sort_by{|feed| feed.name.downcase},
                   :id, :name, params[:feed]), 
                   :include_blank => true %>
               <!-- filter by screen -->
                 <%= label_tag :screen, t('.screen'), :style => "display:inline" %>
                 <%= select_tag :screen,
                   options_from_collection_for_select(
-                    Screen.all.sort_by!{|screen| screen.name.downcase},
+                    Screen.all.sort_by{|screen| screen.name.downcase},
                     :id, :name, params[:screen]),
                     :include_blank => true
                 %>
