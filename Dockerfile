@@ -13,6 +13,7 @@ COPY tools/nginx.docker.conf /etc/nginx/sites-enabled/concerto.conf
 RUN mkdir /home/app/concerto
 
 WORKDIR /tmp
+RUN apt-get install -yqq libreoffice
 COPY Gemfile /tmp/
 COPY Gemfile-reporting /tmp/
 COPY Gemfile-plugins /tmp/
@@ -21,10 +22,6 @@ COPY lib/command_check_docker.rb /tmp/lib/command_check.rb
 RUN bundle install
 COPY . /home/app/concerto
 
-USER app
-WORKDIR /home/app/concerto
-RUN git submodule update --init --recursive
-
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-USER root
+VOLUME ["/home/app/concerto/doc", "/home/app/concerto/log", "/home/app/concerto/tmp", "/home/app/concerto/config"]
