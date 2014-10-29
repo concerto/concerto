@@ -29,7 +29,7 @@ end
 gem 'sass-rails'
 gem 'sprockets', '2.11.0'
 gem 'therubyracer', :platforms => :ruby
-gem 'execjs'
+gem 'execjs', '~> 2.2.2'
 gem 'uglifier'
 
 gem 'jquery-rails'

@@ -90,7 +90,7 @@ GEM
       thread
       thread_safe
     erubis (2.7.0)
-    execjs (2.2.1)
+    execjs (2.2.2)
     extlib (0.9.16)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
@@ -247,7 +247,7 @@ DEPENDENCIES
   concerto_weather
   delayed_job_active_record
   devise (~> 3.0.0)
-  execjs
+  execjs (~> 2.2.2)
   foreman
   girl_friday
   i18n-tasks (~> 0.4.5)
