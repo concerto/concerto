@@ -13,6 +13,8 @@ COPY tools/nginx.docker.conf /etc/nginx/sites-enabled/concerto.conf
 RUN mkdir /home/app/concerto
 
 WORKDIR /tmp
+RUN add-apt-repository "deb http://us.archive.ubuntu.com/ubuntu/ trusty universe"
+RUN apt-get update
 RUN apt-get install -yqq libreoffice
 COPY Gemfile /tmp/
 COPY Gemfile-reporting /tmp/
