@@ -170,7 +170,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.3.2)
-    redcarpet (3.1.2)
+    redcarpet (3.2.0)
     ref (1.0.5)
     retriable (1.4.1)
     rmagick (2.13.3)
@@ -260,7 +260,7 @@ DEPENDENCIES
   pg
   public_activity
   rails (~> 4.1.6)
-  redcarpet
+  redcarpet (~> 3.2.0)
   rmagick
   rubyzip (~> 1.1.6)
   sass-rails

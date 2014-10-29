@@ -82,7 +82,7 @@ gem 'pg', :require => false, :group => :production, :platforms => postgres_platf
 
 gem 'public_activity'
 
-gem 'redcarpet'
+gem 'redcarpet', '~> 3.2.0'
 gem 'concerto_docsplit'
 
 # NProgress provides progress bars for pages loaded via Turbolinks
