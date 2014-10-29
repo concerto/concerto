@@ -129,10 +129,9 @@ class Template < ActiveRecord::Base
 
     file = archive.path
 
-    require 'zip/zip'
-    zip_file = Zip::ZipFile.open(file)
-    xml_data = image_file = nil
-    css_file = nil
+    require 'zip'
+    zip_file = Zip::File.open(file)
+    xml_data = image_file = css_file = nil
     zip_file.each do |entry|
       # Skip anything in the hidden __macosx directory.
       next if entry.name.downcase.include?('__macosx/')

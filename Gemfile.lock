@@ -178,7 +178,7 @@ GEM
       rubinius-core-api
     rubinius-core-api (0.0.1)
     ruby-xslt (0.9.9)
-    rubyzip (0.9.9)
+    rubyzip (1.1.6)
     sass (3.2.19)
     sass-rails (4.0.3)
       railties (>= 4.0.0, < 5.0)
@@ -262,7 +262,7 @@ DEPENDENCIES
   rails (~> 4.1.6)
   redcarpet
   rmagick
-  rubyzip (< 1.0.0)
+  rubyzip (~> 1.1.6)
   sass-rails
   simplecov
   sprockets (= 2.11.0)
