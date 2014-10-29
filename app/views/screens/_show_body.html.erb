@@ -22,7 +22,7 @@
           <br />
           <div class="clearfix">
             <div class="pull-left">
-              <h3><%= pluralize(@subscriptions.count, 'Subscription') %></h3>
+              <h3><%= Subscription.model_name.human(count: @subscriptions.count) %></h3>
             </div>
             <div class="pull-right">
               <% if can? :update, Subscription.new(:screen => @screen, :field => field) %>
@@ -32,12 +32,12 @@
           </div>
           <% unless @subscriptions.empty? %>
             <p>(<%=raw @subscriptions.collect{ |s| link_to s.feed.name, s.feed }.join(', ')%>)</p>
-          <% end %> 
+          <% end %>
           <hr />
 
           <div class="clearfix">
             <div class="pull-left">
-              <h3><%= pluralize(@field_configs.size, 'Parameter') %></h3>
+              <h3><%= t :parameter, count: field_configs.size %></h3>
             </div>
             <div class="pull-right">
               <% if can? :update, FieldConfig.new(:screen => @screen, :field => field) %>

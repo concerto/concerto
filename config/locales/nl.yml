@@ -12,7 +12,9 @@ nl:
   deny: Weigeren
   edit: Bewerken
   edit_model: ! '%{model} bewerken'
-  error: fout
+  error:
+   one: fout
+   other: fouten
   import_model: ! '%{model} importeren'
   join: Deelnemen
   manage_model: ! '%{model} beheren'

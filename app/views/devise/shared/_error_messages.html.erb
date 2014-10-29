@@ -1,7 +1,7 @@
 <% if resource.errors.any? %>
 <div class="alert alert-banner alert-error">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <h4><b><%= pluralize(resource.errors.count, "error") + " " + t(:prohibited_save, :model => User.model_name.human.downcase) %></b></h4>
+  <h4><b><%= t :error, count: resource.errors.count %> <%= t(:prohibited_save, :model => User.model_name.human.downcase) %></b></h4>
   <ul>
     <% resource.errors.full_messages.each do |msg| %>
       <li><%= msg %></li>

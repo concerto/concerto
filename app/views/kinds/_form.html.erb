@@ -2,7 +2,7 @@
     <% if @kind.errors.any? %>
         <div class="alert alert-banner alert-error">
           <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <h4><b><%= pluralize(@kind.errors.count, t(:error)) + t(:prohibited_save, :model => Kind.model_name.human.downcase) %></b></h4>
+          <h4><b><%= t :error, count: @kind.errors.count %> <%= t(:prohibited_save, :model => Kind.model_name.human.downcase) %></b></h4>
 
           <ul>
             <% @kind.errors.full_messages.each do |msg| %>

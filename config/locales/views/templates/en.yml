@@ -1,14 +1,4 @@
 en:
-  activerecord:
-    models:
-      template: 'Template'
-    attributes:
-      template:
-        author: 'Author'
-        is_hidden: 'Hidden?'
-        name: 'Name'
-
-
   templates:
     from_scratch: 'Create from Scratch'
     import_existing: 'Import Existing'
@@ -32,7 +22,7 @@ en:
       template_method: 'Template method:'
       template_type: "%{type} Template"
 
-    show_header: 
+    show_header:
       edit_template: 'Edit Template'
       delete_template: 'Delete Template'
 
