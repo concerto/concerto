@@ -29,7 +29,9 @@ he:
   destroy_model: 'מחיקת %{model}'
   edit: 'עריכה'
   edit_model: 'עריכת %{model}'
-  error: 'שגיאה'
+  error:
+    one: 'שגיאה'
+    other: 'שגיאה'
   error_refreshing: 'שגיאה ברענון.'
   failed: 'נכשל'
   file_is: 'הקובץ'

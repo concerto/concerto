@@ -29,7 +29,9 @@ en:
   destroy_model: Delete %{model}
   edit: Edit
   edit_model: Edit %{model}
-  error: error
+  error:
+   one: 1 error
+   many: "%{count} errors"
   error_refreshing: Error refreshing.
   failed: failed
   file_type_unsupported: file is of type %{type}, which is not supported.
@@ -43,6 +45,9 @@ en:
   my_model: My %{model}
   new_model: New %{model}
   other_model: Other %{model}
+  parameter:
+    one: parameter
+    many: parameters
   pending: Pending
   prohibited_save: ! 'prevented this %{model} from being saved:'
   rejected: Rejected
@@ -138,6 +143,10 @@ en:
     restart it manually.
   activerecord:
     attributes:
+      template:
+        author: 'Author'
+        is_hidden: 'Hidden?'
+        name: 'Name'
       concerto_config:
         analytics_enabled: Google Analytics enabled
         analytics_property_id: Google Web Property ID (API Key)
@@ -173,6 +182,16 @@ en:
         use_frontend_to_trigger_cron: Use Frontend to Trigger Cron
         dynamic_refresh_time: Dynamic Content Refresh Time
         rubygem_executable: Ruby Gem Executable
+    models:
+      screen:
+        one: Screen
+        other: Screens
+      subscription:
+        one: Subscription
+        other: Subscriptions
+      template:
+        one: Template
+        other: Templates
   templates:
     from_scratch: Create from Scratch
     import_existing: Import Existing
