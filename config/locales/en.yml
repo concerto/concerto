@@ -47,7 +47,7 @@ en:
   other_model: Other %{model}
   parameter:
     one: parameter
-    many: parameters
+    other: parameters
   pending: Pending
   prohibited_save: ! 'prevented this %{model} from being saved:'
   rejected: Rejected
