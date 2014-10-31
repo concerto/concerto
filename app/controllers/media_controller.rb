@@ -14,26 +14,42 @@ class MediaController < ApplicationController
   # This is ajax posted from the graphic form.
   def create
     auth!(:object => Media, :action => :create)
-    @media = Media.new(:file => media_params[:graphic][:media_attributes]["0"][:file])
 
-    if @media.file_size > 0 && Concerto::ContentConverter.supported_types.include?(@media.file_type)
-       medias = Concerto::ContentConverter.convert([@media])
-       @media = medias.select { |m| m.key == 'processed' }.first
+    @medias = []
+    files = get_file_params
+    files.each do |file|
+
+      media = Media.new(:file => file)
+
+      if media.file_size > 0 && Concerto::ContentConverter.supported_types.include?(media.file_type)
+        converted_medias = Concerto::ContentConverter.convert([media])
+        media = converted_medias.select{ |m| m.key == 'processed' }.first
+      end
+
+      media.attachable_id = 0  # this is assigned to the actual Graphic record when the graphic is saved
+      media.attachable_type = 'Content'
+      media.key = 'preview'
+
+      media.save
+      @medias << media
     end
-
-    @media.attachable_id = 0  # this is assigned to the actual Graphic record when the graphic is saved
-    @media.attachable_type = 'Content'
-    @media.key = 'preview'
-
-    if @media.save
-      # jquery.iframe-transport requires result sent back in textarea
-      render :inline  => "<textarea data-type='application/json'>#{@media.to_json(:only => :id)}</textarea>" 
-    else
-      raise 'Problem saving media ' + @media.errors.full_messages.join("; ")
-    end
+    # jquery.iframe-transport requires result sent back in textarea
+    render :inline  => "<textarea data-type='application/json'>#{@medias.to_json(:only => :id)}</textarea>"
   end
 
-  def media_params
-    params.permit(:graphic => [ :media_attributes => [ :file, :key ] ])
+  private
+
+  def get_file_params(h = params.permit!.to_h)
+    files = []
+    h.each do |k,v|
+      value = v || k
+      if value.is_a?(Hash) || value.is_a?(Array)
+        files += get_file_params(value)
+      else
+        files << k if k && k.is_a?(ActionDispatch::Http::UploadedFile)
+        files << v if v && v.is_a?(ActionDispatch::Http::UploadedFile)
+      end
+    end
+    files
   end
 end
