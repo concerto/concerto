@@ -37,7 +37,7 @@
 
           <div class="clearfix">
             <div class="pull-left">
-              <h3><%= t :parameter, count: field_configs.size %></h3>
+              <h3><%= t :parameter, count: @screen.field_configs.size %></h3>
             </div>
             <div class="pull-right">
               <% if can? :update, FieldConfig.new(:screen => @screen, :field => field) %>
