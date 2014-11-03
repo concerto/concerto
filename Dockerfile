@@ -23,10 +23,15 @@ COPY Gemfile.lock /tmp/
 COPY lib/command_check_docker.rb /tmp/lib/command_check.rb
 RUN bundle install
 COPY . /home/app/concerto
+RUN mkdir /home/app/concerto/log
 RUN chown -R app:app /home/app/concerto
-RUN sudo -u app bundle install --deployment
+RUN chmod 700 /home/app/concerto
+RUN chmod 600 /home/app/concerto/log
+
+WORKDIR /home/app/concerto
 RUN sudo -u app RAILS_ENV=production rake assets:precompile
 
+WORKDIR /tmp
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 VOLUME ["/home/app/concerto/doc", "/home/app/concerto/log", "/home/app/concerto/tmp", "/home/app/concerto/config"]
