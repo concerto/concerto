@@ -24,6 +24,8 @@ COPY lib/command_check_docker.rb /tmp/lib/command_check.rb
 RUN bundle install
 COPY . /home/app/concerto
 RUN chown -R app:app /home/app/concerto
+RUN chmod 700 /home/app/concerto
+RUN chmod 600 /home/app/concerto/log
 
 WORKDIR /home/app/concerto
 RUN sudo -u app RAILS_ENV=production rake assets:precompile
