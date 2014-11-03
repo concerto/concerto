@@ -23,6 +23,7 @@ COPY Gemfile.lock /tmp/
 COPY lib/command_check_docker.rb /tmp/lib/command_check.rb
 RUN bundle install
 COPY . /home/app/concerto
+RUN mkdir /home/app/concerto/log
 RUN chown -R app:app /home/app/concerto
 RUN chmod 700 /home/app/concerto
 RUN chmod 600 /home/app/concerto/log
