@@ -22,5 +22,6 @@
 //= require jquery.datepair.js
 //= require jquery.iframe-transport
 //= require_tree .
-#= require nprogress
-#= require nprogress-turbolinks
+//= require nprogress
+//= require nprogress-turbolinks
+//= require google-analytics-turbolinks

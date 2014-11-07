@@ -100,6 +100,7 @@ GEM
     girl_friday (0.11.2)
       connection_pool (~> 1.0)
       rubinius-actor
+    google-analytics-turbolinks (0.0.4)
     google-api-client (0.7.1)
       addressable (>= 2.3.2)
       autoparse (>= 0.3.3)
@@ -250,6 +251,7 @@ DEPENDENCIES
   execjs (~> 2.2.2)
   foreman
   girl_friday
+  google-analytics-turbolinks (~> 0.0.4)
   i18n-tasks (~> 0.4.5)
   jquery-rails
   jquery-timepicker-rails
