@@ -27,7 +27,7 @@ end
 # Gems used only for assets and not required
 # in production environments by default.
 gem 'sass-rails'
-gem 'sprockets', '2.11.0'
+gem 'sprockets', '~> 2.11.3'
 gem 'therubyracer', :platforms => :ruby
 gem 'execjs', '~> 2.2.2'
 gem 'uglifier'

@@ -267,7 +267,7 @@ DEPENDENCIES
   rubyzip (~> 1.1.6)
   sass-rails
   simplecov
-  sprockets
+  sprockets (~> 2.11.3)
   sqlite3
   therubyracer
   turbolinks
