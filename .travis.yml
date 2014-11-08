@@ -13,6 +13,10 @@ before_script:
   - RAILS_ENV=test bundle exec rake db:migrate --trace
   - bundle exec rake db:test:prepare
 
+after_script:
+  - bundle-audit update
+  - bundle-audit
+
 branches:
   only:
     - master

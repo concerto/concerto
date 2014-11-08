@@ -58,6 +58,9 @@ gem 'clockwork'
 # Test Coverage
 gem 'simplecov', :require => false, :group => :test
 
+# Gem Auditing
+gem 'bundler-audit', :require => false, :group => :test
+
 gem 'kaminari'
 
 require "#{Dir.getwd}/lib/command_check.rb"
