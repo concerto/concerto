@@ -220,6 +220,8 @@ GEM
     thread_safe (0.3.4)
     tilt (1.4.1)
     tins (1.3.3)
+    tinymce-rails (4.1.6)
+      railties (>= 3.1.1)
     turbolinks (2.4.0)
       coffee-rails
     twitter-bootstrap-rails-confirm (1.0.3)
@@ -273,6 +275,7 @@ DEPENDENCIES
   sprockets (~> 2.11.3)
   sqlite3
   therubyracer
+  tinymce-rails (~> 4.1.6)
   turbolinks
   twitter-bootstrap-rails-confirm
   uglifier

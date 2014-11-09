@@ -25,3 +25,4 @@
 //= require nprogress
 //= require nprogress-turbolinks
 //= require google-analytics-turbolinks
+//= require tinymce-jquery
