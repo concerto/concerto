@@ -41,3 +41,36 @@
   <% end %>
 </div>
 
+<!-- Content Resubmission -->
+<% if !@submission.nil? and @submission.content.is_expired? %>
+  <div class="subblock">
+    <p class="uppercase"><small><b><%= t('.content_resubmission') %></b></small></p>
+    <!-- Show tooltip to edit content start/end time and date -->
+    <div class="default-padding">
+        <%= link_to '#', id: "select-feeds-btn", title: "Content Resubmission", :class => "btn dropdown-toggle dropdown-control dd-content-resubmit", rel: "#content-resubmit" do %>
+        <%= "Details".capitalize %>
+      <% end %>
+    </div>
+
+    <!-- Hidden form that is used when tooltip is shown -->
+    <div id="resubmit-dates" style="display: none">
+      <div class="default-padding">
+        <!-- Content resubmission form -->
+        <% @content = @submission.content %>
+        <%= form_for(@content) do |f| %>
+          <%= hidden_field_tag :type, @content.type %>
+          <%= render partial: "contents/form_elements/dates", locals: {form: f} %>
+          <!-- Submissions need to be included with content update -->
+          <div id="hidden-submissions">
+            <% @content.submissions.each do |submission| %>
+              <input type="hidden" class="selected-feed-input" name="feed_id[<%= submission.feed_id %>]" value="<%= submission.feed_id %>" />
+            <% end %>
+          </div>
+          <hr />
+          <%= f.submit "Resubmit" %>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+<% end %>
