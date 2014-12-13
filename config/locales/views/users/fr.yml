@@ -1,8 +1,8 @@
---- 
-fr: 
-  activerecord: 
-    attributes: 
-      user: 
+---
+fr:
+  activerecord:
+    attributes:
+      user:
         actions: Actions
         email: Email
         first_name: Prénom
@@ -12,16 +12,16 @@ fr:
         password: "Mot de passe"
         password_confirmation: "Confirmer le mot de passe"
         receive_moderation_notifications: "Recevoir les notifications de modération"
-  users: 
+  users:
     all_users: "Tous les utilisateurs"
     change_password: "Changer le mot de passe"
-    form: 
+    form:
       email_label: user@domain.com
       first_label: Premier
       last_label: Dernier
       options: Options
       provide_details: Description
-    show_body: 
+    show_body:
       admin: Admin
       content: Contenu
       content_header:
@@ -31,7 +31,7 @@ fr:
       forever: "Pour toujours"
       group_header:
         one: "Appartient à un groupe"
-        many: "Appartient à %{count} groupes"
+        other: "Appartient à %{count} groupes"
       groups: Groupes
       leader: "L'utilisateur est chef d'au moins un groupe"
       my: Mon
@@ -40,7 +40,7 @@ fr:
       roles: Rôles
       screen_header:
         one: "Gère un écran"
-        many: "Gère %{count} écrans"
+        other: "Gère %{count} écrans"
       screens: Ecrans
       system_wide_admin: "Cet utilisateur est administrateur"
       this_is_you: "C'est vous."

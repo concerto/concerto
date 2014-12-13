@@ -31,7 +31,7 @@ en:
   edit_model: Edit %{model}
   error:
    one: 1 error
-   many: "%{count} errors"
+   other: "%{count} errors"
   error_refreshing: Error refreshing.
   failed: failed
   file_type_unsupported: file is of type %{type}, which is not supported.

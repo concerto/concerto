@@ -499,7 +499,7 @@ fr:
     show_body:
       feed_header:
         one: Modère un Fils
-        many: Modère %{count} Fils
+        other: Modère %{count} Fils
       is_group_leader: Cet utilisateur est un chef de groupe.
       join_group: Rejoindre le groupe
       leader: Chef
@@ -512,7 +512,7 @@ fr:
       not_in_group: Vous n'êtes pas actuellment dans ce groupe.
       screen_header:
         one: Gère un Ecran
-        many: Gère %{count} Ecrans
+        other: Gère %{count} Ecrans
       your_membership_role: Vous êtes actuelllement  %{level}%{what} de ce groupe.
       edit_group: Editer le groupe
       group_description: Description du groupe
@@ -543,13 +543,13 @@ fr:
         other: A envoyé %{count} items
       group_header:
         one: Appartient à un groupe
-        many: Appartient à %{count} groupes
+        other: Appartient à %{count} groupes
       leader: L'utilisateur est chef d'au moins un groupe
       my: Mon
       receive_emails: Recevoir les mails
       screen_header:
         one: Gère un écran
-        many: Gère %{count} écrans
+        other: Gère %{count} écrans
       system_wide_admin: Cet utilisateur est administrateur
       admin: Admin
       content: Contenu
