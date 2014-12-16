@@ -31,7 +31,7 @@ class Content < ActiveRecord::Base
   # By default, only find known content types.
   # This allows everything to keep working if a content type goes missing
   # or (more likely) gets removed.
-  default_scope { where(:type => Content.all_subclasses.collect { |s| s.name })}
+  default_scope { where(:type => Content.all_subclasses.collect { |s| s.name }) }
 
   # Easily query for active, expired, or future content
   # The scopes are defined as class methods to delay their resolution, defining them as proper scopes
@@ -93,7 +93,7 @@ class Content < ActiveRecord::Base
   # times between 1.9.x and 1.8.x.
   def start_time=(_start_time)
     if _start_time.kind_of?(String)
-      write_attribute(:end_time, Time.parse(_start_time)
+      write_attribute(:end_time, Time.parse(_start_time))
     else
       write_attribute(:start_time, _start_time)
     end
@@ -102,7 +102,7 @@ class Content < ActiveRecord::Base
   # See start_time=.
   def end_time=(_end_time)
     if _end_time.kind_of?(String)
-      write_attribute(:end_time, Time.parse(_end_time)
+      write_attribute(:end_time, Time.parse(_end_time))
     else
       write_attribute(:end_time, _end_time)
     end
@@ -215,16 +215,16 @@ class Content < ActiveRecord::Base
         # Filter out expired and future contents
         if params[:is_active].present?
           filtered_contents += feed.contents.where(content_params).active
-        # Allow expired and future contents
+          # Allow expired and future contents
         else
           filtered_contents += feed.contents.where(content_params)
         end
       end
       return filtered_contents
-    # find contents with feed specified (user and type are optional)
+      # find contents with feed specified (user and type are optional)
     elsif params[:feed].present?
       filtered_contents = Feed.find(params[:feed].to_i).contents.where(content_params)
-    # find contents with user and/or type specified
+      # find contents with user and/or type specified
     else
       filtered_contents = Content.where(content_params)
     end
@@ -232,7 +232,7 @@ class Content < ActiveRecord::Base
     # return only active content
     if params[:is_active].present?
       return filtered_contents.active
-    # return content regardless of active status
+      # return content regardless of active status
     else
       return filtered_contents
     end
