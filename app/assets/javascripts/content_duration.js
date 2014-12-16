@@ -1,6 +1,10 @@
 (function(){
-  var dateInput;
-  var timeInput;
+  var startPrefix = 'start_time';
+  var endPrefix = 'end_time';
+  var startDateInput;
+  var startTimeInput;
+  var endDateInput;
+  var endTimeInput;
   
   // Date.prototype.toISOString() shim.
   if (!Date.prototype.toISOString) {
@@ -27,7 +31,7 @@
     }());
   }
 
-  var parseTimeInput = function (elementIdPrefix) {
+  var parseDurationInput = function (dateInput, timeInput) {
     var date = dateInput.val();
     var time = timeInput.val();
     var timeValue = time.substring(0, time.length - 2);
@@ -35,33 +39,39 @@
     return new Date(date + ' ' + timeValue + ' ' + timeAmPm);
   }
 
-  var convertTimeInput = function (elementIdPrefix) {
+  var convertDurationInput = function (dateInput, timeInput, idPrefix) {
     var enclosingDiv = dateInput.parents('div.input');
-    var isoDate = parseTimeInput(elementIdPrefix).toISOString();
+    var isoDate = parseDurationInput(dateInput, timeInput).toISOString();
     dateInput.prop('disabled', true);
     timeInput.prop('disabled', true);
     $('<input>').attr({
       type: 'hidden',
-      id: elementIdPrefix,
-      name: 'graphic[' + elementIdPrefix + ']',
+      id: idPrefix,
+      name: 'graphic[' + idPrefix + ']',
       value: isoDate
     }).appendTo(enclosingDiv);
   }
 
   // Needs to be called on page load and when content type in content#new view is changed
   var initializeDateInputs = function() {
-    dateInput = $('#' + elementIdPrefix + '_date');
-    timeInput = $('#' + elementIdPrefix + '_time');
-    convertTimeInput('start_time');
-    convertTimeInput('end_time');
+    startDateInput = $('#' + startPrefix + '_date');
+    startTimeInput = $('#' + startPrefix + '_time');
+    endDateInput = $('#' + endPrefix + '_date');
+    endTimeInput = $('#' + endPrefix + '_time');
+    convertDurationInput(startDateInput, startTimeInput, startPrefix);
+    convertDurationInput(endDateInput, endTimeInput, endPrefix);
+  }
+
+  var bindToForm = function() {
+    $('form[action="/content"]').submit(initializeDateInputs);
   }
 
   var bindToContentTypeSelection = function() {
-    $('a:contains("/content/new?').click(initializeDateInputs);
+    $("a[href*='/content/new?']").click(bindToForm);
   }
 
   var setupEventHandlers = function() {
-    initializeDateInputs();
+    bindToForm();
     bindToContentTypeSelection();
   }
 
