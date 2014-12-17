@@ -92,7 +92,11 @@ class Content < ActiveRecord::Base
   # Otherwise, just set it like normal.  This is a bit confusing due to the differences in how Ruby handles
   # times between 1.9.x and 1.8.x.
   def start_time=(_start_time)
-    if _start_time.kind_of?(String)
+    if _start_time.kind_of?(Hash)
+      return if _start_time[:date].empty?
+      t = DateTime.strptime("#{_start_time[:date]} #{_start_time[:time]}", "%m/%d/%Y %l:%M %p")
+      write_attribute(:start_time, Time.zone.parse(Time.iso8601(t.to_s).to_s(:db)).to_s(:db))
+    elsif _start_time.kind_of?(String)
       write_attribute(:end_time, Time.parse(_start_time))
     else
       write_attribute(:start_time, _start_time)
@@ -101,8 +105,12 @@ class Content < ActiveRecord::Base
 
   # See start_time=.
   def end_time=(_end_time)
-    if _end_time.kind_of?(String)
-      write_attribute(:end_time, Time.parse(_end_time))
+    if _end_time.kind_of?(Hash)
+      return if _end_time[:date].empty?
+      t = DateTime.strptime("#{_end_time[:date]} #{_end_time[:time]}", "%m/%d/%Y %l:%M %p")
+      write_attribute(:end_time, Time.zone.parse(Time.iso8601(t.to_s).to_s(:db)).to_s(:db))
+    elsif _end_time.kind_of?(String)
+      write_attribute(:end_time, Time.parse(_start_time))
     else
       write_attribute(:end_time, _end_time)
     end
