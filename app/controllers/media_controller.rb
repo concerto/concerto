@@ -39,7 +39,7 @@ class MediaController < ApplicationController
 
   private
 
-  def get_file_params(h = params.permit!.to_h)
+  def get_file_params(h = params.permit!.to_hash)
     files = []
     h.each do |k,v|
       value = v || k
