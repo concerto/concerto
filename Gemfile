@@ -1,7 +1,7 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.1.6'
+gem 'rails', '~> 4.1.8'
 
 # Get the absolute path of this Gemfile so the includes below still work
 # when the current directory for a bundler command isn't the application's
@@ -27,9 +27,9 @@ end
 # Gems used only for assets and not required
 # in production environments by default.
 gem 'sass-rails'
-gem 'sprockets', '~> 2.11.3'
+gem 'sprockets'
 gem 'therubyracer', :platforms => :ruby
-gem 'execjs', '~> 2.2.2'
+gem 'execjs'
 gem 'uglifier'
 
 gem 'jquery-rails'
@@ -44,7 +44,7 @@ gem 'rmagick', :require => 'RMagick', :platforms => :ruby
 # Attachable does all the file work.
 gem 'attachable'
 
-gem 'devise', '~> 3.0.0'
+gem 'devise', '~> 3.4.1'
 gem 'cancancan'
 
 gem 'json'
@@ -85,11 +85,11 @@ gem 'pg', :require => false, :group => :production, :platforms => postgres_platf
 
 gem 'public_activity'
 
-gem 'redcarpet', '~> 3.2.0'
+gem 'redcarpet', '~> 3.2.2'
 gem 'concerto_docsplit'
 
 # NProgress provides progress bars for pages loaded via Turbolinks
-gem 'nprogress-rails', '~> 0.1.6.3'
+gem 'nprogress-rails', '~> 0.1.6.4'
 gem 'google-analytics-turbolinks', '~> 0.0.4'
 
-gem 'i18n-tasks', '~> 0.4.5', :group => :development
+gem 'i18n-tasks', :group => :development
