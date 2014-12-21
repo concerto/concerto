@@ -250,24 +250,24 @@ DEPENDENCIES
   concerto_simple_rss
   concerto_weather
   delayed_job_active_record
-  devise
+  devise (~> 3.4.1)
   execjs
   foreman
   girl_friday
-  google-analytics-turbolinks
+  google-analytics-turbolinks (~> 0.0.4)
   i18n-tasks
   jquery-rails
   jquery-timepicker-rails
   json
   kaminari
   mysql2
-  nprogress-rails
+  nprogress-rails (~> 0.1.6.4)
   pg
   public_activity
-  rails (~> 4.1.6)
-  redcarpet
+  rails (~> 4.1.8)
+  redcarpet (~> 3.2.2)
   rmagick
-  rubyzip
+  rubyzip (~> 1.1.6)
   sass-rails
   simplecov
   sprockets
