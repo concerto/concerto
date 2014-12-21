@@ -2,7 +2,9 @@
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
   #use the app-wide secret key for Devise (which now appears to require this line)
-  config.secret_key = ConcertoConfig[:secret_token]
+  if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
+    config.secret_key = ConcertoConfig[:secret_token]
+  end
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
