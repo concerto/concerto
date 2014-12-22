@@ -190,7 +190,7 @@ class ConcertoPlugin < ActiveRecord::Base
                              when :proc
                                context.instance_eval(&hook[:hook])
                              else
-                               ("ConcertoPlugin: failed to add header tags for #{plugin.name}: Unsupported hook type #{hook[:type]}")
+                               logger.warn("ConcertoPlugin: failed to add header tags for #{plugin.name}: Unsupported hook type #{hook[:type]}")
                                nil
                            end
             if hook_content
