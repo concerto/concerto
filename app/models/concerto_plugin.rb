@@ -118,7 +118,7 @@ class ConcertoPlugin < ActiveRecord::Base
           result += "\n"
         end
       else
-        logger.warn("ConcertoPlugin: Failed to check view hooks for #{plugin.name}")
+        logger.debug("ConcertoPlugin: Failed to check view hooks for #{plugin.name}")
       end
     end
     return result.html_safe
@@ -190,7 +190,7 @@ class ConcertoPlugin < ActiveRecord::Base
                              when :proc
                                context.instance_eval(&hook[:hook])
                              else
-                               logger.warn("ConcertoPlugin: failed to add header tags for #{plugin.name}: Unsupported hook type #{hook[:type]}")
+                               ("ConcertoPlugin: failed to add header tags for #{plugin.name}: Unsupported hook type #{hook[:type]}")
                                nil
                            end
             if hook_content
