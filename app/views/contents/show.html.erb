@@ -49,8 +49,6 @@
               <%= render_content(@content) %>
             </div>
           </div>
-        
-          <%= render :partial => 'dynamic_content_tools', :locals => { :content => @content } if @content.is_a?(DynamicContent) && can?(:edit, @content) %>
 
         </div>
       </div>
