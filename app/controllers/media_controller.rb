@@ -33,8 +33,13 @@ class MediaController < ApplicationController
       media.save
       @medias << media
     end
+    json = @medias.to_json(:only => :id)
     # jquery.iframe-transport requires result sent back in textarea
-    render :inline  => "<textarea data-type='application/json'>#{@medias.to_json(:only => :id)}</textarea>"
+    if params['X-Requested-With'] == 'IFrame'
+      render :inline  => "<textarea data-type='application/json'>#{json}</textarea>"
+    else
+      render :json => json
+    end
   end
 
   private
