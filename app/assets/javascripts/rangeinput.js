@@ -61,9 +61,6 @@
 
     $.fn.drag = function(conf) {
 
-        // disable IE specialities
-        document.ondragstart = function () { return false; };
-
         conf = $.extend({x: true, y: true, drag: true}, conf);
 
         doc = doc || $(document).on("mousedown mouseup", function(e) {
