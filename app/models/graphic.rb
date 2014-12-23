@@ -1,7 +1,7 @@
 class GraphicValidator < ActiveModel::Validator
   # Validator for Media associated with a Graphic.
   def validate(record)
-    graphic_types = ["image/gif", "image/jpeg", "image/pjpeg", "image/png", "image/svg+xml", "image/tiff"]
+    graphic_types = ["image/gif", "image/jpeg", "image/pjpeg", "image/png", "image/svg+xml", "image/tiff", "image/x-png"]
 
     if !record.media.empty? && 
         !(graphic_types + Concerto::ContentConverter.supported_types).include?(record.media[0].file_type)
