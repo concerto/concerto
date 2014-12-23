@@ -370,7 +370,6 @@ class ApplicationController < ActionController::Base
   def extract_pagination_from_relation(relation)
     if relation.loaded?
       # Can't do anything once the query has been executed.
-      puts "loaded."
       return nil
     elsif relation.singleton_class.include? Kaminari::PageScopeMethods
      # This relation has had Kaminari's .page() method applied
