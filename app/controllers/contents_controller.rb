@@ -142,12 +142,7 @@ class ContentsController < ApplicationController
          flash.now[:error] = e.message
       end
       if results
-        process_notification(@content, {}, process_notification_options({
-          :params => {
-            :content_name => @content.name,
-            :content_type => @content.class.model_name.human
-          },
-          :key => "content.#{action_name}"}))
+        process_content_notification action_name
         # Copy over the duration to each submission instance
         create_submissions
         @content.save #This second save adds the submissions
@@ -176,12 +171,7 @@ class ContentsController < ApplicationController
     @feed_ids = feed_ids
 
     if @content.update_attributes(content_update_params)
-      process_notification(@content, {}, process_notification_options({
-        :params => {
-          :content_name => @content.name,
-          :content_type => @content.class.model_name.human
-        },
-        :key => "content.#{action_name}"}))
+      process_content_notification action_name
       submissions = @content.submissions
       submissions.each do |submission|
         if @feed_ids.include? submission.feed_id
@@ -209,12 +199,7 @@ class ContentsController < ApplicationController
     @content = Content.find(params[:id])
     auth!
 
-    process_notification(@content, {}, process_notification_options({
-      :params => {
-        :content_name => @content.name,
-        :content_type => @content.class.model_name.human
-       },
-      :key => "content.#{action_name}"}))
+    process_content_notification action_name
     @content.destroy
 
     respond_to do |format|
@@ -302,6 +287,16 @@ class ContentsController < ApplicationController
   end
 
   private
+
+  def process_content_notification(action_name)
+    process_notification(@content, {}, process_notification_options({
+      :params => {
+        :content_name => @content.name,
+        :content_type => @content.class.model_name.human
+      },
+      :key => "content.#{action_name}"
+    }))
+  end
 
   # Restrict the allowed parameters to a select set defined in the model.
   def content_params
