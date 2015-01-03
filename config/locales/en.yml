@@ -1,11 +1,6 @@
 ---
 en:
   actions: Actions
-  activerecord:
-    models:
-      screen:
-        one: Screen
-        other: Screens
   add: Add
   add_model: Add %{model}
   all_model: All %{model}
