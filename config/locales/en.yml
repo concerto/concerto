@@ -58,10 +58,6 @@ en:
   update_model: Update %{model}
   valid_git: is not a valid git repository
   errors:
-    messages:
-      not_saved:
-        one: ! '1 error prohibited this %{resource} from being saved:'
-        other: ! '%{count} errors prohibited this %{resource} from being saved:'
     error_generic:
       abort: Abort!
       error_message: Something went wrong. Rest assured, you have been assigned 0%
