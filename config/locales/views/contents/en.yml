@@ -54,7 +54,7 @@ en:
       browse_content: "Browse Concerto Content"
       browse_content_by_feed: "Browse Content by Feed"
       browse_content_by_screen: "Find Content on a Particular Screen"
-      concerto_contents_search: "Concerto Content"
+      contents_search: "Concerto Content"
       filtered_content: "Filtered Content"
       active: Hide expired & future content?
       content_search: Content Search
@@ -90,6 +90,7 @@ en:
       submitted_by: "Submitted by"
       the_dawn_of_time: 'The Dawn of Time.'
       the_end_of_time: 'The End of Time.'
+      content_resubmission: "Content Resubmission"
 
     table:
       description: "Description"

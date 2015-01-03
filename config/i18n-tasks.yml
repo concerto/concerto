@@ -52,6 +52,7 @@ search:
   ## Paths to search in, passed to File.find
   paths:
     - lib/
+    - app/
 
   ## Root for resolving relative keys (default)
   # relative_roots:
