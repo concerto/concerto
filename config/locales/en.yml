@@ -2,18 +2,10 @@
 en:
   actions: Actions
   activerecord:
-    attributes:
-      template:
-        author: Author
-        is_hidden: Hidden?
-        name: Name
     models:
       screen:
         one: Screen
         other: Screens
-      template:
-        one: Template
-        other: Templates
   add: Add
   add_model: Add %{model}
   all_model: All %{model}
