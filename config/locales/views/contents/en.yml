@@ -56,6 +56,13 @@ en:
       browse_content_by_screen: "Find Content on a Particular Screen"
       concerto_contents_search: "Concerto Content"
       filtered_content: "Filtered Content"
+      active: Hide expired & future content?
+      content_search: Content Search
+      feed: Feed
+      screen: Screen
+      search: Search
+      type: Type
+      user: User
 
     new:
       add_content: "Add %{type} Content"
@@ -63,6 +70,15 @@ en:
       content_type: "Content type to add:"
       design_graphic: "Design a Graphic"
       select_type: "Select Type"
+
+    show:
+      display_from: Display From
+      display_until: Display Until
+      feeds_moderation_status: Submission Status
+      not_submitted: This content has not been submitted to any feeds.
+      submitted_by: Submitted by
+      the_dawn_of_time: The Dawn of Time.
+      the_end_of_time: The End of Time.
 
     show_details:
       display_from: "Display From"
