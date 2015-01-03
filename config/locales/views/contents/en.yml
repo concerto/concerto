@@ -98,6 +98,3 @@ en:
       graphic:
         name: 'Name'
         submit: 'Submit'
-    submit:
-      create: "Create %{model}"
-      update: "Update %{model}"
