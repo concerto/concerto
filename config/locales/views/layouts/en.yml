@@ -1,0 +1,39 @@
+en:
+  layouts:
+    errors:
+      prohibited_save:
+        graphic:
+          one: '1 error prevented this graphic from being saved:'
+          other: '%{count} errors prevented this graphic from being saved:'
+
+        ticker:
+          one: '1 error prevented this text from being saved:'
+          other: '%{count} errors prevented this text from being saved:'
+
+        feed:
+          one: '1 error prevented this feed from being saved:'
+          other: '%{count} errors prevented this feed from being saved:'
+
+        field_config:
+          one: '1 error prevented this field config from being saved:'
+          other: '%{count} errors prevented this field config from being saved:'
+
+        group:
+          one: '1 error prevented this group from being saved:'
+          other: '%{count} errors prevented this group from being saved:'
+
+        page:
+          one: '1 error prevented this page from being saved:'
+          other: '%{count} errors prevented this page from being saved:'
+
+        screen:
+          one: '1 error prevented this screen from being saved:'
+          other: '%{count} errors prevented this screen from being saved:'
+
+        user:
+          one: '1 error prevented this user from being saved:'
+          other: '%{count} errors prevented this user from being saved:'
+
+        generic:
+          one: '1 error prevented this %{model} from being saved:'
+          other: '%{count} errors prevented this %{model} from being saved:'

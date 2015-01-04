@@ -29,9 +29,6 @@ en:
   destroy_model: Delete %{model}
   edit: Edit
   edit_model: Edit %{model}
-  error:
-    one: 1 error
-    other: '%{count} errors'
   error_refreshing: Error refreshing.
   failed: failed
   file_is_required: file is required
@@ -48,7 +45,6 @@ en:
     one: parameter
     other: parameters
   pending: Pending
-  prohibited_save: 'prevented this %{model} from being saved:'
   rejected: Rejected
   remove_model: Remove %{model}
   show: Show
