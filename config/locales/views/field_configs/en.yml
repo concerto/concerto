@@ -3,7 +3,7 @@ en:
     models:
       field_config:
         one: 'Config Parameter'
-        others: 'Config Parameters'
+        other: 'Config Parameters'
 
     attributes:
       field_config:

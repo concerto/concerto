@@ -44,7 +44,7 @@ en:
     screen_info:
       offline: 'Offline'
       online: 'Online'
-      mac_address: 'MAC Add ress: %{mac}'
+      mac_address: 'MAC Address: %{mac}'
 
     show_body:
       field_settings: 'Hover over a field below to view its settings.'

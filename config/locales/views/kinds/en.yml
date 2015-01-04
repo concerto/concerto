@@ -1,6 +1,6 @@
 en:
   activerecord:
-    model:
+    models:
       kind:
         one: 'Kind'
         other: 'Kinds'
