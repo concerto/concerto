@@ -1,5 +1,9 @@
 en:
   activerecord:
+    models:
+      submission:
+        one: 'Submission'
+        other: 'Submissions'
     attributes:
       submission:
         duration: 'Duration'

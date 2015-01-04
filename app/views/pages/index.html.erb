@@ -8,7 +8,7 @@
       </div>
     </div>
     <h1 class="default-padding">
-      <%= t(:all_model, :model => Page.model_name.human.pluralize) %>
+      <%= t(:all_model, :model => Page.model_name.human(count: 42)) %>
     </h1>
   </header>
   <div class="viewblock-cont">

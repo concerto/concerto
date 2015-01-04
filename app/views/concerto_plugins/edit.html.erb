@@ -1,7 +1,7 @@
 <section class="viewblock">
   <header class="viewblock-header">
     <h1 class="default-padding">
-      <%= link_to t(:manage_model, :model => ConcertoPlugin.model_name.human.pluralize), concerto_plugins_path %> > <%= @concerto_plugin.name.titleize %>
+      <%= link_to t(:manage_model, :model => ConcertoPlugin.model_name.human(count: 42)), concerto_plugins_path %> > <%= @concerto_plugin.name.titleize %>
     </h1>
   </header>
   <div class="viewblock-cont">

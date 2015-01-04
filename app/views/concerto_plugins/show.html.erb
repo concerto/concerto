@@ -16,7 +16,7 @@
 
     <div class="default-padding">
       <h1>
-        <%= link_to t(:manage_model, :model => ConcertoPlugin.model_name.human.pluralize), concerto_plugins_path %> &gt; <%= @concerto_plugin.name %>
+        <%= link_to t(:manage_model, :model => ConcertoPlugin.model_name.human(count: 42)), concerto_plugins_path %> &gt; <%= @concerto_plugin.name %>
       </h1>
     </div>
   </header>

@@ -1,5 +1,9 @@
 en:
   activerecord:
+    models:
+      screen:
+        one: 'Screen'
+        other: 'Screens'
     attributes:
       screen:
         is_public: 'This screen is publicly viewable'
@@ -8,10 +12,6 @@ en:
         owner: 'Owner'
         owner_id: 'Owned By'
         template_id: 'Template'
-    models:
-      screen:
-        one: Screen
-        other: Screens
 
   screens:
     index:

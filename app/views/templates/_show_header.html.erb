@@ -14,7 +14,7 @@
 
 <div class="default-padding">
   <h1 id="contentlist">
-    <%= link_to t(:all_model, :model => ::Template.model_name.human.pluralize), templates_path %> &gt;
+    <%= link_to t(:all_model, :model => ::Template.model_name.human(count: 42)), templates_path %> &gt;
     <%= @template.name %>
   </h1>
 </div>

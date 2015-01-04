@@ -19,7 +19,7 @@
 
 <div class="default-padding">
   <h1>
-    <%= link_to t(:all_model, :model => Group.model_name.human.pluralize), groups_path %> &gt;
+    <%= link_to t(:all_model, :model => Group.model_name.human(count: 42)), groups_path %> &gt;
     <%= @group.name %>
   </h1>
 </div>

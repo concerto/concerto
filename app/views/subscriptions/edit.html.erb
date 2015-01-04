@@ -1,4 +1,4 @@
-<h1><%= t(:edit) %> <%= @screen.name %> <%= Subscription.model_name.human.pluralize %></h1>
+<h1><%= t(:edit) %> <%= @screen.name %> <%= Subscription.model_name.human(count: 42) %></h1>
 
 <%= render 'form' %>
 

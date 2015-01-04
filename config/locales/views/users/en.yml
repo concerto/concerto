@@ -1,5 +1,9 @@
 en:
   activerecord:
+    models:
+      user:
+        one: 'User'
+        other: 'Users'
     attributes:
       user:
         actions: 'Actions'
@@ -12,6 +16,7 @@ en:
         password_confirmation: 'Confirm Password'
         receive_moderation_notifications: 'Receive Moderation Notifications'
         time_zone: 'Time Zone'
+
 
   users:
     all_users: 'All Users'

@@ -3,7 +3,9 @@ en:
 
   activerecord:
     models:
-      group: 'Group'
+      group:
+        one: 'Group'
+        other: 'Groups'
     attributes:
       group:
         name: 'Name'

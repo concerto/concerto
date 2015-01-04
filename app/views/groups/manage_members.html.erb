@@ -1,7 +1,7 @@
 <section class="viewblock">
   <header class="viewblock-header">
     <h1 class="default-padding">
-      <%= link_to t(:all_model, :model => Group.model_name.human.pluralize), groups_path %> &gt; 
+      <%= link_to t(:all_model, :model => Group.model_name.human(count: 42)), groups_path %> &gt;
       <%= link_to @group.name, @group %> &gt; 
       <%= t('.manage_members') %>
     </h1>
@@ -187,7 +187,7 @@
                   <% 
                     options = {}
                     if !users_not_in_group.empty?
-                      options[User.model_name.human.pluralize] = users_not_in_group.map { |u| [u.name, "#{u.id}"]}
+                      options[User.model_name.human(count: 42)] = users_not_in_group.map { |u| [u.name, "#{u.id}"]}
                     end
                   %>
                   <td> <%= render :partial => "elements/owner_select", :locals => { :options => options } %> </td>

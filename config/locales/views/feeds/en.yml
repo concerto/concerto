@@ -1,7 +1,9 @@
 en:
   activerecord:
     models:
-      feed: 'Feed'
+      feed:
+        one: 'Feed'
+        other: 'Feeds'
 
   feeds:
     # status of submissions

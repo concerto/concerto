@@ -10,7 +10,7 @@
 
 <div class="default-padding">
   <h1>
-    <%= link_to t(:all_model, :model => User.model_name.human.pluralize), users_path %> &gt;
+    <%= link_to t(:all_model, :model => User.model_name.human(count: 42)), users_path %> &gt;
     <%= @user.name %>
   </h1>
 </div>

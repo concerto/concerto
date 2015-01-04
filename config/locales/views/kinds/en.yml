@@ -1,5 +1,9 @@
 en:
   activerecord:
+    model:
+      kind:
+        one: 'Kind'
+        other: 'Kinds'
     attributes:
       kind:
         actions: 'Actions'

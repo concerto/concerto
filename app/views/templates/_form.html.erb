@@ -39,10 +39,10 @@
            @groups = Group.order('name ASC')
            options = {}
            if !@users.empty?
-             options[User.model_name.human.pluralize] = @users.map { |u| [u.name, "User-#{u.id}"]}
+             options[User.model_name.human(count: 42)] = @users.map { |u| [u.name, "User-#{u.id}"]}
            end
            if !@groups.empty?
-             options[Group.model_name.human.pluralize] = @groups.map { |g| [g.name, "Group-#{g.id}"] }
+             options[Group.model_name.human(count: 42)] = @groups.map { |g| [g.name, "Group-#{g.id}"] }
            end
         %>
         <%= select_tag :owner, grouped_options_for_select(options, "#{template.owner_type}-#{template.owner_id}") %>
@@ -69,7 +69,7 @@
 
 
   <fieldset>
-    <legend><span><%= Position.model_name.human.pluralize %></span></legend>
+    <legend><span><%= Position.model_name.human(count: 42) %></span></legend>
     <div class="template-positions">
       <div class="row-fluid">
         <div class="span2">
