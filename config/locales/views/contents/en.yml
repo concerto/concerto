@@ -1,6 +1,11 @@
 
 en:
   activerecord:
+    models:
+      graphic: 'Graphic'
+      client_time: 'Client Time'
+      html_text: 'HTML Text'
+      ticker: 'Text'
     attributes:
       content:
         duration: 'Display Duration'

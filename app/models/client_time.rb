@@ -1,7 +1,5 @@
 class ClientTime < Content
 
-  DISPLAY_NAME = 'Client Time'
-
   after_initialize :set_kind
 
   # Validations
