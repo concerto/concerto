@@ -36,7 +36,6 @@ en:
       selected_feed_display:
         appears_on_screens: "Appears on %{screens_count} screens"
       dates:
-        at: 'at'
         finish_displaying: 'Finish Displaying'
         start_displaying: 'Start Displaying'
         set_specific_times: 'Set specific times'

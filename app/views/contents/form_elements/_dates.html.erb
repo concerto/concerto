@@ -10,7 +10,7 @@
         <p>&nbsp;<a class="event-toggleTimeSelects" href="#"><%= t('.set_specific_times') %></a></p>
         <div class="event-timeSelectDiv">
           <div class="input-prepend">
-            <span class="add-on"><%= t('.at') %></span>
+            <span class="add-on"><i class="icon-time"></i></span>
             <%= form.text_field("start_time[time]", :id => "start_time_time", :maxlength => 20, :class => "timefield input-small", :value => ConcertoConfig[:content_default_start_time]) %>
           </div>
         </div>
@@ -27,7 +27,7 @@
         </div>
         <div class="event-timeSelectDiv">
           <div class="input-prepend">
-            <span class="add-on"><%= t('.at') %></span>
+            <span class="add-on"><i class="icon-time"></i></span>
             <%= form.text_field("end_time[time]", :id => "end_time_time", :maxlength => 20, :class => "timefield input-small", :value => ConcertoConfig[:content_default_end_time]) %>
           </div>
         </div>
