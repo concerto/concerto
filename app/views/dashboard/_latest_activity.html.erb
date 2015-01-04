@@ -3,7 +3,7 @@
   <header class="viewblock-header">
     <div class="viewblock-header_right">
       <div class="button-padding">
-        <%= link_to "More", {:controller => :dashboard, :action => :list_activities}, :class => 'btn' %>
+        <%= link_to t('.more'), {:controller => :dashboard, :action => :list_activities}, :class => 'btn' %>
       </div>
     </div>
     <h1 class="default-padding"><%= t('dashboard.list_activities.latest_activity') %></h1>
