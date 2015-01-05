@@ -34,6 +34,22 @@ en:
           one: '1 error prevented this user from being saved:'
           other: '%{count} errors prevented this user from being saved:'
 
+        concerto_plugin:
+          one: '1 error prevented this plugin from being saved:'
+          other: '%{count} errors prevented this plugin from being saved:'
+
+        kind:
+          one: '1 error prevented this kind from being saved:'
+          other: '%{count} errors prevented this kind from being saved:'
+
+        subscription:
+          one: '1 error prevented this subscription from being saved:'
+          other: '%{count} errors prevented this subscription from being saved:'
+
+        template:
+          one: '1 error prevented this template from being saved:'
+          other: '%{count} errors prevented this template from being saved:'
+
         generic:
           one: '1 error prevented this %{model} from being saved:'
           other: '%{count} errors prevented this %{model} from being saved:'

@@ -30,10 +30,22 @@
             when User
               t('.prohibited_save.user', count: errors.errors.count)
 
+            when ConcertoPlugin
+              t('.prohibited_save.concerto_plugin', count: errors.errors.count)
+
+            when Kind
+              t('.prohibited_save.kind', count: errors.errors.count)
+
+            when Subscription
+              t('.prohibited_save.subscription', count: errors.errors.count)
+
+            when ::Template # Absolute namespace required because we are in ActionView namespace (which has a Template)
+              t('.prohibited_save.template', count: errors.errors.count)
+
             else
               # We fallback gracefully here
               begin
-                t(".prohibited_save.#{errors.class.name.underscore}", :raise => true)
+                t(".prohibited_save.#{errors.class.name.underscore}", count: errors.errors.count, raise: true)
               rescue I18n::MissingTranslationData
                 t('.prohibited_save.generic', count: errors.errors.count, model: errors.class.model_name.human.downcase)
               end

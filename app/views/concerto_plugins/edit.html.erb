@@ -11,18 +11,8 @@
       </div>
     <% end %>
     <%= form_for(@concerto_plugin) do |f| %>
-      <% if @concerto_plugin.errors.any? %>
-        <div class="alert alert-banner alert-error">
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <h4><b><%= t :error, count: @concerto_plugin.errors.count %> <%= t '.prohibited_plugin_save' %></b></h4>
 
-          <ul>
-          <% @concerto_plugin.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-          </ul>
-        </div>
-      <% end %>
+      <%= render partial: "layouts/errors", object: @concerto_plugin %>
 
       <fieldset>
 
