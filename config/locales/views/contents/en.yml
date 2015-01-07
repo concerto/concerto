@@ -18,6 +18,10 @@ en:
         one: 'Text'
         other: 'Texts'
 
+      content:
+        one: 'Content'
+        other: 'Contents'
+
     attributes:
       content:
         duration: 'Display Duration'
@@ -31,6 +35,8 @@ en:
 
     dynamic_content_tools: 
       owner_tools: 'Owner Tools'
+      force_update: 'Force Update'
+      purge_children: 'Purge Children'
 
     edit:
       edit_content: "Edit %{type} Content"
