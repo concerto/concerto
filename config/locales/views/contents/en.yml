@@ -71,6 +71,8 @@ en:
         accepted_filetypes: "Accepted Filetypes"
         specify_file: "Specify File"
         upload_graphic: "Upload Graphic"
+      js:
+        preview: "Preview..."
 
     index:
       browse_content: "Browse Concerto Content"

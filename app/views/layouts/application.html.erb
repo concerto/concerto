@@ -10,6 +10,10 @@
   <%= stylesheet_link_tag "application" %>
   <%= javascript_include_tag "application" %>
   <%= ConcertoPlugin.add_header_tags(self) %>
+  <script type="text/javascript">
+      I18n.defaultLocale = "<%= I18n.default_locale %>";
+      I18n.locale = "<%= I18n.locale %>";
+  </script>
   
   <%= csrf_meta_tag %>
   <%= render :partial => 'elements/head' %>
