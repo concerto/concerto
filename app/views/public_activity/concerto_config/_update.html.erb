@@ -1,17 +1,14 @@
-<%= get_activity_owner(activity) %>
-  <%= t('public_activity.update_the_model', :model => t('public_activity.setting')) %>
-  <%=
-    if activity.trackable
-      if can? :read, activity.trackable
-        link_to(t("activerecord.attributes.concerto_config.#{activity.trackable.key.to_sym}"), concerto_config_path)
-      else
-        t("activerecord.attributes.concerto_config.#{activity.trackable.key.to_sym}")
-      end
-    else
-      if activity.parameters.include?(:concerto_config_key)
-        t("activerecord.attributes.concerto_config.#{activity.parameters[:concerto_config_key].to_sym}")
-      else
-        t('public_activity.which_has_since_been_removed')
-      end
-    end
-  %>
+
+<%= t('public_activity.update_the_model',
+      :owner => get_activity_owner(activity),
+      :article =>  t('public_activity.concerto_config.article'),
+      :model => ConcertoConfig.model_name.human,
+      :item => (activity.trackable ?
+            link_to_if(can?(:read, activity.trackable), t("activerecord.attributes.concerto_config.#{activity.trackable.key.to_sym}"), concerto_config_path) :
+
+            (activity.parameters.include?(:concerto_config_key) ?
+                    t("activerecord.attributes.concerto_config.#{activity.parameters[:concerto_config_key].to_sym}") :
+                    t('public_activity.which_has_since_been_removed')
+            )
+    )).html_safe
+%>

@@ -56,9 +56,13 @@ module DashboardHelper
   # @return [String] The view contents.
   def generate_activity_view(activity, attr_name = 'name')
     action = activity.key.split(".").last
-    results = get_activity_owner(activity) + 
-      " " + t('public_activity.' + action + '_the_model', :model => activity.trackable_type.classify.safe_constantize.model_name.human.downcase) +
-      " " + get_activity_item(activity, attr_name)
-    results.html_safe
+    model = activity.trackable_type.classify.safe_constantize
+
+    t('public_activity.' + action + '_the_model',
+      owner: get_activity_owner(activity),
+      article: t("public_activity.#{model.model_name.singular}.article"),
+      model: model.model_name.human,
+      item: get_activity_item(activity, attr_name)
+    ).html_safe
   end
 end

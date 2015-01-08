@@ -1,42 +1,8 @@
-<%= get_activity_owner(activity) %>
-  <%= t('public_activity.create_the_model', :model => FieldConfig.model_name.human.downcase) %>
-  <%=
-    results = ""
-    if activity.trackable
-      if can? :read, activity.trackable
-        # {field_config link}
-        results += link_to(activity.trackable.key, screen_field_field_configs_path(activity.trackable.screen, activity.trackable.field))
-      else
-        # {field_config}
-        results += activity.trackable.key
-      end
-      # for field {field}
-      results += " " + t('public_activity.field_config.for_field') + " "  + activity.trackable.field.name
-      if can? :read, activity.trackable.screen
-        # on screen {screen link}
-        results += " " + t('public_activity.field_config.on_screen') + " "  + link_to(activity.trackable.screen.name, activity.trackable.screen)
-      else
-        # on screen {screen}
-        if activity.parameters.include?(:screen_name)
-          results += " " + t('public_activity.field_config.on_screen') + " "  + activity.parameters[:screen_name]
-        end        
-      end
-    else
-      if activity.parameters.include?(:field_config_name)
-        # {field_config}
-        results += activity.parameters[:field_config_name]
-        if activity.parameters.include?(:field_name)
-          # for field {field}
-          results += " " + t('public_activity.field_config.for_field') + " "  + activity.parameters[:field_name]
-        end
-        if activity.parameters.include?(:screen_name)
-          # on screen {screen}
-          results += " " + t('public_activity.field_config.on_screen') + " "  + activity.parameters[:screen_name]
-        end        
-      else
-        results += t('public_activity.which_has_since_been_removed')
-      end
-    end
-
-    results.html_safe
-  %>
+<%=
+    t('.created_config_for_field_on_screen',
+      owner: get_activity_owner(activity),
+      config: activity.trackable ? link_to_if(can?(:read, activity.trackable), activity.trackable.key, screen_field_field_configs_path(activity.trackable.screen, activity.trackable.field)) : (activity.parameters[:field_config_name] || FieldConfig.model_name.human),
+      field: activity.trackable ? activity.trackable.field.name : (activity.parameters[:field_name] || Field.model_name.human),
+      screen: activity.trackable ? link_to_if(can?(:read, activity.trackable.screen), activity.trackable.screen.name, activity.trackable.screen) : (activity.parameters[:screen_name] || Screen.model_name.human)
+    ).html_safe
+%>
