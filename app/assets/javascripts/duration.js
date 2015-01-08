@@ -8,20 +8,12 @@ function addDurationUi() {
     var handle_elem = $(this).find(".handle");
     var api = $(range_elem).data("rangeinput");
 
-    seconds = api.getValue();
-    seconds = seconds+"s";
-    $(handle_elem).html(seconds);
+    var updateSeconds = function() {
+        $(handle_elem).html(I18n.t("js.duration.second", {count: api.getValue()}));
+    };
 
-    $(range_elem).change(function() {
-      seconds = api.getValue();
-      seconds = seconds+"s";
-      $(handle_elem).html(seconds);
-    });
-    $(range_elem).bind('onSlide', function() {
-      seconds = api.getValue();
-      seconds = seconds+"s";
-      $(handle_elem).html(seconds);
-    });
+    $(range_elem).change(updateSeconds);
+    $(range_elem).bind('onSlide', updateSeconds);
     
   });
   

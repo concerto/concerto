@@ -15,4 +15,4 @@
 #
 translations:
   - file: "app/assets/javascripts/i18n/translations.js"
-    only: ['*.contents.*.js']
+    only: ['*.contents.*.js', '*.js']

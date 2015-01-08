@@ -110,15 +110,17 @@ function initBasicInteractions() {
   initCharCount();
 }
 
-// bootstrap confirmation modal defaults
-$.fn.twitter_bootstrap_confirmbox.defaults = {
-    fade: false,
-    title: "Concerto", // if title equals null window.top.location.origin is used
-    cancel: "Cancel",
-    cancel_class: "btn cancel",
-    proceed: "OK",
-    proceed_class: "btn proceed btn-primary"
-};
+$(document).ready(function() {
+    // bootstrap confirmation modal defaults
+    $.fn.twitter_bootstrap_confirmbox.defaults = {
+        fade: false,
+        title: I18n.t('js.confirmbox.title'), // if title equals null window.top.location.origin is used
+        cancel: I18n.t('js.confirmbox.cancel'),
+        cancel_class: "btn cancel",
+        proceed: I18n.t('js.confirmbox.ok'),
+        proceed_class: "btn proceed btn-primary"
+    };
+});
 
 $(document).ready(initBasicInteractions);
 $(document).on('page:change', initBasicInteractions);

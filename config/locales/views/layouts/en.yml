@@ -53,3 +53,13 @@ en:
         generic:
           one: '1 error prevented this %{model} from being saved:'
           other: '%{count} errors prevented this %{model} from being saved:'
+
+  js:
+    confirmbox:
+      title: 'Concerto'
+      ok: 'OK'
+      cancel: 'Cancel'
+    duration:
+      second:
+        one: '%{count}s'
+        other: '%{count}s'
