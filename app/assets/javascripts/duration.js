@@ -12,6 +12,8 @@ function addDurationUi() {
         $(handle_elem).html(I18n.t("js.duration.second", {count: api.getValue()}));
     };
 
+    updateSeconds();
+
     $(range_elem).change(updateSeconds);
     $(range_elem).bind('onSlide', updateSeconds);
     
