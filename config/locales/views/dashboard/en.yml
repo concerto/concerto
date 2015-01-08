@@ -32,6 +32,8 @@ en:
 
     vitals:
       active: 'active'
-      active_content: 'active %{content}'
+      active_content:
+        one: 'active %{content}'
+        other: 'active %{content}'
       network_vitals: 'Network Vitals'
       offline: 'offline'
