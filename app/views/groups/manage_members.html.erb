@@ -30,8 +30,8 @@
                 <b><%= link_to_if can?(:read, leader.user), leader.user.name, leader.user %></b><br />
               </p>
             </th>
-            <th style="width: 25%;"> All </th>
-            <th style="width: 25%;"> All </th>
+            <th style="width: 25%;"> <%= t('.permissions.all') %> </th>
+            <th style="width: 25%;"> <%= t('.permissions.all') %> </th>
             <th style="width: 25%;">
               <% if can? :update, leader %>
                 <%= link_to t('.demote_to_regular'), group_membership_path(@group, leader, :perform => "demote"), :method => :put, :class => "btn btn-small btn-danger", :data => { :confirm => t(:are_you_sure_demote_user, :user => leader.user.name) } %>
@@ -52,9 +52,9 @@
                       <ul class="inputs-list">
                           <li> 
                             <% if can? :update, m %>
-                              <%= select_tag "#{m.object_name}[perms][#{perm.to_s}]", options_for_select(levels.keys, m.object.perms[perm]) %>
+                              <%= select_tag "#{m.object_name}[perms][#{perm.to_s}]", options_for_select(human_permission_level_names(levels.keys), m.object.perms[perm]) %>
                             <% else %>
-                              <%= label_tag m.object.perms[perm] %>
+                              <%= label_tag m.object.perms[perm], human_permission_level_name(m.object.perms[perm]) %>
                              <% end %>
                           </li> 
                       </ul>
@@ -126,7 +126,7 @@
 
         <% if @denied.size > 0 %>
             <span onclick="toggle_prev_denied()"> 
-              <h3 class="default-padding">Previously Denied Members &nbsp;
+              <h3 class="default-padding"><%= l('.previously_denied_members') %> &nbsp;
               <i class="icon-circle-arrow-up" id="icon_prev_denied"></i></h3> 
             </span>
             <div id="prev_denied" value="hidden" style="display: none">
@@ -193,8 +193,8 @@
                   <td> <%= render :partial => "elements/owner_select", :locals => { :options => options } %> </td>
                   <%= f.hidden_field :user_id %>
                   <%= f.hidden_field :group_id %>
-                  <td> <%= select_tag( :screen, options_for_select(Membership::PERMISSIONS[:regular][:screen].keys) ) %> </td>
-                  <td> <%= select_tag( :feed, options_for_select(Membership::PERMISSIONS[:regular][:feed].keys) ) %> </td>
+                  <td> <%= select_tag( :screen, options_for_select(human_permission_level_names(Membership::PERMISSIONS[:regular][:screen].keys)) ) %> </td>
+                  <td> <%= select_tag( :feed, options_for_select(human_permission_level_names(Membership::PERMISSIONS[:regular][:feed].keys)) ) %> </td>
                   <td> <%= f.submit t('.add_member'), :class => "btn btn-primary" %> </td>
                 </tr>
               </tbody>
