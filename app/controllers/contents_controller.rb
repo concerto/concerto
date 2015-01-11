@@ -94,17 +94,17 @@ class ContentsController < ApplicationController
   def create
     prams = content_params
     media_ids = []
-    if prams.include?("media_attributes")
+    if prams.include?(:media_attributes)
       # pull out the media_id otherwise, new will try to find it even though it's not yet linked
       media_attributes = prams[:media_attributes]
       media_attributes.each { |key, attribute|
-        next if !attribute.include?("id")
+        next if !attribute.include?(:id) || attribute[:id].blank?
         media_ids << attribute[:id]
         prams[:media_attributes][key].delete :id
       }
     end
     # some content, like the ticker_text, can have a kind other than it's model's default
-    if prams.include?("kind_id")
+    if prams.include?(:kind_id)
       kind = Kind.find(prams[:kind_id])
       prams.delete :kind_id
     end
