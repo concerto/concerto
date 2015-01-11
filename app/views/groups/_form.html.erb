@@ -30,7 +30,7 @@
         users = User.order(:last_name)
         options = {}
         if !users.empty?
-          options[User.model_name.human(count: 42)] = users.map { |u| [u.name, "#{u.id}"]}
+          options[User] = users.map { |u| [u.name, "#{u.id}"]}
         end
       %>        
       <%= render :partial => "elements/owner_select", :locals => { :options => options } %>

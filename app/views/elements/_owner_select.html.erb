@@ -1,5 +1,5 @@
 <div id="selectedOwner">
-  <%= link_to '#', :id => "select-owner-btn", :title => "Select a User",
+  <%= link_to '#', :id => "select-owner-btn", :title => t('.select_user_title'),
       :class => "dropdown-toggle dropdown-control dd-select-owner", 
       :rel => "#select-owner" do %> 
       <% if defined? screen and !screen.new_record? %>
@@ -22,10 +22,10 @@
     <div class="tooltip-scrollY" style="height: 300px; width: 100%;">
       <ul class="filterable selector-list">
 
-        <% if !options["Groups"].nil? %>
-          <% if options["Groups"].length > 0 %>
-            <h4 class="default-padding" style="text-align: center"> Groups </h4>
-            <% options["Groups"].each do |group| %>
+        <% if !options[Group].nil? %>
+          <% if options[Group].length > 0 %>
+            <h4 class="default-padding" style="text-align: center"> <%= Group.model_name.human(count: 42) %> </h4>
+            <% options[Group].each do |group| %>
               <li id="ownerItem" class = "link-hl default-padding" style="padding: 10px"
                 onclick='addOwner("<%= group[0].gsub /"/, '' %>", "group_select", "<%=group[1]%>")'
                   data-group-index = '<%=group[1].split("-")[1]%>'
@@ -38,10 +38,10 @@
           <% end %>
         <% end %>
  
-        <% if !options["Users"].nil? %>
-          <% if options["Users"].length > 0 %>
-            <h4 class="default-padding" style="text-align: center"> Users </h4>
-            <% options["Users"].each do |user| %>
+        <% if !options[User].nil? %>
+          <% if options[User].length > 0 %>
+            <h4 class="default-padding" style="text-align: center"> <%= User.model_name.human(count: 42) %> </h4>
+            <% options[User].each do |user| %>
               <li id="ownerItem" class = "link-hl default-padding" style="padding: 10px"
                 onclick='addOwner("<%= user[0].gsub /"/, '' %>", "user_select", "<%= user[1]%>")'
                   data-user-index = '<%=user[1].split("-")[1]%>'

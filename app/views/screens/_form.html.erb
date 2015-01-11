@@ -45,10 +45,10 @@
                end
                options = {}
                if !@users.empty?
-                 options[User.model_name.human(count: 42)] = @users.map { |u| [u.name, "User-#{u.id}"]}
+                 options[User] = @users.map { |u| [u.name, "User-#{u.id}"]}
                end
                if !@groups.empty?
-                 options[Group.model_name.human(count: 42)] = @groups.map { |g| [g.name, "Group-#{g.id}"] }
+                 options[Group] = @groups.map { |g| [g.name, "Group-#{g.id}"] }
                end
             %>
             
