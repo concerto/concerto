@@ -35,7 +35,7 @@
         <div class="clearfix">
           <%= f.label :group %>
           <div class="input">
-            <%= f.collection_select :group_id, Group.all, :id, :name %>
+            <%= f.collection_select :group_id, Group.accessible_by(current_ability), :id, :name %>
           </div>
         </div>
         
