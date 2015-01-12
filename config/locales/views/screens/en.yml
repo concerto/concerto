@@ -8,6 +8,10 @@ en:
         owner: 'Owner'
         owner_id: 'Owned By'
         template_id: 'Template'
+    models:
+      screen:
+        one: Screen
+        other: Screens
 
   screens:
     index:

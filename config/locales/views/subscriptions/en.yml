@@ -1,11 +1,9 @@
 en:
   activerecord:
     models:
-      field_config: 'Field Config'
-    attributes:
-      field_config:
-        key: 'Key'
-        value: 'Value'
+      subscription:
+        one: Subscription
+        other: Subscriptions
 
   subscriptions:
     approved_content:
