@@ -14,9 +14,9 @@
       </div>
     </div>
     <h1 class="default-padding">
-      <%= link_to t(:all_model, :model => Screen.model_name.human.pluralize), screens_path %> &gt;
+      <%= link_to t(:all_model, :model => Screen.model_name.human(count: 42)), screens_path %> &gt;
       <%= link_to @screen.name, @screen %> &gt;
-      <%= t('.manage_model_for_field', { :model => FieldConfig.model_name.human.pluralize, :name => @field.name }) %>
+      <%= t('.manage_model_for_field', { :model => FieldConfig.model_name.human(count: 42), :name => @field.name }) %>
     </h1>
   </header>
   <div class="viewblock-cont">
@@ -39,7 +39,7 @@
               <%= link_to t(:edit, :model => FieldConfig.model_name.human), edit_screen_field_field_config_path(@screen, @field, field_config), :class => "btn" %>
             <% end %>
             <% if can? :delete, @field_config %>
-              <%= link_to t(:destroy, :model => FieldConfig), [@screen, @field, field_config], :method => :delete, :data => { :confirm => t(:are_you_sure_delete_model_key, :model =>FieldConfig.model_name.human, :key => field_config.key) }, :class => "btn" %>
+              <%= link_to t(:destroy, :model => FieldConfig.model_name.human), [@screen, @field, field_config], :method => :delete, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => FieldConfig.model_name.human, :key => field_config.key) }, :class => "btn" %>
             <% end %>
           </td>
         </tr>

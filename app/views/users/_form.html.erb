@@ -42,7 +42,7 @@
     <div class="clearfix">
       <%= f.label :locale %>
       <div class="input">
-        <%= f.select :locale, options_for_select(I18n.available_locales, I18n.locale.to_sym) %>
+        <%= f.select :locale, options_for_select(I18n.available_locales, @user.locale? ? @user.locale.to_sym :  I18n.locale.to_sym) %>
       </div>
     </div>
 

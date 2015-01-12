@@ -16,14 +16,14 @@
       <div class="clearfix">
         <label>&nbsp;</label>
         <div class="input checkbox">
-          <%= f.check_box :remember_me %> <%= f.label :remember_me %>
+          <%= f.check_box :remember_me %> <%= f.label :remember_me, t('.remember_me') %>
         </div>
       </div>
     <% end -%>
   </fieldset>
   
   <div class="submit_bar actions">
-    <%= f.submit "Submit", :class => "btn btn-primary" "Sign in" %>
+    <%= f.submit t('.sign_in'), :class => "btn btn-primary" %>
     &nbsp;&nbsp;&nbsp;
     <%= render :partial => "devise/shared/links" %>
 	</div>

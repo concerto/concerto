@@ -1,4 +1,7 @@
-<%= get_activity_owner(activity) %>
-  <%= t('public_activity.update_the_model', :model => Content.model_name.human.downcase) %>
-  <%= "(" + activity.parameters[:content_type].downcase + ")" if activity.parameters.include?(:content_type) %>
-  <%= get_activity_item(activity) %>  
+<%=
+    if activity.parameters.include?(:content_type)
+      t('.updated_the_content_with_type', owner: get_activity_owner(activity), item: get_activity_item(activity), content_type: activity.parameters[:content_type])
+    else
+      t('.updated_the_content', owner: get_activity_owner(activity), item: get_activity_item(activity))
+    end.html_safe
+%>

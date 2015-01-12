@@ -98,3 +98,4 @@ group :development do
   gem 'slop', '~> 3.6.0' # Required due to https://github.com/glebm/i18n-tasks/issues/118
 end
 
+gem 'i18n-js', '>= 3.0.0.rc8', '< 3.1.0'

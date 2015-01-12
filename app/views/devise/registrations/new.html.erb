@@ -1,6 +1,6 @@
 <div class="viewblock">
   <header class="viewblock-header">
-    <h1 class="default-padding">Register Account</h1>
+    <h1 class="default-padding"><%= t('.header') %></h1>
   </header>
   <div class="viewblock-cont">  
     <%= devise_error_messages! %>
@@ -8,9 +8,9 @@
     <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :autocomplete => 'off' }) do |f| %>
       <fieldset>
         <div class="clearfix">
-          <%= f.label :first_name %>
+          <%= f.label :first_name, t('.name') %>
           <div class="input">
-            <%= f.text_field :first_name, :autofocus => true, :class => "input-large" %> <%= f.text_field :last_name, :placeholder => 'Last', :class => "input-large" %>
+            <%= f.text_field :first_name, :autofocus => true, :placeholder => User.human_attribute_name(:first_name), :class => "input-large" %> <%= f.text_field :last_name, :placeholder => User.human_attribute_name(:last_name), :class => "input-large" %>
           </div>
         </div>
         <div class="clearfix">
@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="clearfix">
-          <%= f.label :password_confirmation, "Confirm Password" %>
+          <%= f.label :password_confirmation, t('.confirm_password') %>
           <div class="input">
             <%= f.password_field :password_confirmation, :class => "input-medium" %>
           </div>
@@ -34,7 +34,7 @@
       </fieldset>
 
       <div class="submit_bar actions">
-        <%= f.submit "Register Account", :class => "btn btn-primary" "Register Account" %>
+        <%= f.submit t('.submit'), :class => "btn btn-primary" %>
         &nbsp;&nbsp;&nbsp;
         <%= render :partial => "devise/shared/links" %>
       </div>

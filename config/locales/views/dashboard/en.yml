@@ -21,6 +21,9 @@ en:
     list_activities:
       latest_activity: 'Latest Activity'
 
+    latest_activity:
+      more: 'More'
+
     network:
       groups: 'Groups'
       no_membership: 'You are not yet a member of any group.'
@@ -29,6 +32,8 @@ en:
 
     vitals:
       active: 'active'
-      active_content: 'active %{content}'
+      active_content:
+        one: 'active %{content}'
+        other: 'active %{content}'
       network_vitals: 'Network Vitals'
       offline: 'offline'

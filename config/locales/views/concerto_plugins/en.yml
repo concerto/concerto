@@ -3,7 +3,9 @@ en:
 
   activerecord:
     models:
-      concerto_plugin: 'Plugin'
+      concerto_plugin:
+        one: 'Plugin'
+        other: 'Plugins'
     attributes:
       concerto_plugin:
         enable: 'Enable Gem?'

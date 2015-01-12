@@ -2,8 +2,8 @@ en:
   activerecord:
     models:
       subscription:
-        one: Subscription
-        other: Subscriptions
+        one: 'Subscription'
+        other: 'Subscriptions'
 
   subscriptions:
     approved_content:

@@ -1,7 +1,10 @@
 en:
   activerecord:
     models:
-      field_config: 'Config Parameters'
+      field_config:
+        one: 'Config Parameter'
+        other: 'Config Parameters'
+
     attributes:
       field_config:
         key: 'Key'

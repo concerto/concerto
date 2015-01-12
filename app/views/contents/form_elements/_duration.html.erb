@@ -1,5 +1,5 @@
-<%= form.label :duration, "Show on Screen" %>
-<p style="font-size: 22px; line-height: normal;" class="event-toggleDurationSelect"><%= @content.duration %> <%= t('second') %><%= @content.duration == 1 ? '' : 's' %>&nbsp;&nbsp;<a href="#" style="font-size: 12px;">Change</a></p>
+<%= form.label :duration, t('.show_on_screen') %>
+<p style="font-size: 22px; line-height: normal;" class="event-toggleDurationSelect"><%= t('.second', count: @content.duration) %>&nbsp;&nbsp;<a href="#" style="font-size: 12px;"><%= t('.change') %></a></p>
 
 <div class="clearfix duration event-durationSelectDiv">
 	<div class="input">

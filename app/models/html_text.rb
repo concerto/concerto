@@ -1,7 +1,5 @@
 class HtmlText < Content
 
-  DISPLAY_NAME = 'HTML Text'
-
   after_initialize :set_kind
 
   # Validations

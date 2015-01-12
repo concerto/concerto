@@ -14,7 +14,7 @@
     <div class="inset" style="background: url(<%= preview_template_path(@screen.template, :width => 800, :height => 450, :format => :png) %>) center center no-repeat; background-size: 100% 100%;">
       <% @screen.template.positions.each do |pos| %>
         <% set_screen_field_data(@screen,field=pos.field) %>
-        <a href="#" class="pos dropdown-control dd-fieldinfo" style="top: <%= pos.top * 100 %>%; left: <%= pos.left * 100 %>%; width: <%= (pos.right - pos.left) * 100 %>%; height: <%= (pos.bottom - pos.top) * 100 %>%;" data-title="<%= field.name %>" data-field-id="<%= field.id %>">
+        <a href="#" class="pos dropdown-control dd-fieldinfo" style="top: <%= pos.top * 100 %>%; left: <%= pos.left * 100 %>%; width: <%= (pos.right - pos.left) * 100 %>%; height: <%= (pos.bottom - pos.top) * 100 %>%;" data-title="<%= t('.field', name: field.name) %>" data-field-id="<%= field.id %>">
           &nbsp;
         </a>
 

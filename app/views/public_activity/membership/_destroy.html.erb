@@ -1,8 +1,4 @@
-<%= get_activity_owner(activity) %> 
-  <%= t('.removed')%>
-  <%=
-    results = ""
-
+<%=
     group = nil
     member = nil
     if activity.trackable
@@ -16,37 +12,11 @@
     if !member && activity.parameters.include?(:member_id)
       member = User.find(activity.parameters[:member_id]) rescue nil
     end
-    
-    if member
-      if can? :read, member
-        results += " " + link_to(member.name, member) + " "
-      else
-        results += " " + member.name + " "
-      end
-    else
-      if activity.parameters.include?(:member_name)
-        results += " #{activity.parameters[:member_name]} "
-      else
-        results += " #{t('public_activity.a_member')} "
-      end
-    end
 
-    results += t('.from_the')
-    if group
-      if can? :read, group
-        results += " " + link_to(group.name, group) + " "
-      else
-        results += " #{group.name} "
-      end
-    else
-      if activity.parameters.include?(:group_name)
-        results += " #{activity.parameters[:group_name]} "
-      else
-        results += " #{t('public_activity.a_group_which_no_longer_exists')} "
-      end
-    end
-
-    results += " " + t('.group')
-
-    results.html_safe
-  %>
+    t('.removed_member_from_group',
+      owner: get_activity_owner(activity),
+      member: member ? link_to_if(can?(:red, member), member.name, member) : (activity.parameters[:member_name] || t('public_activity.a_member')),
+      group: group ? link_to_if(can?(:read, group), group.name, group) : (activity.parameters[:member_name] || t('public_activity.a_group_which_no_longer_exists')),
+      model: t('.model'),
+    ).html_safe
+%>

@@ -1,7 +1,7 @@
 <section class="viewblock">
   <header class="viewblock-header" id="kinds-header">
     <h1 class="default-padding">
-      <%= link_to t(:all_model, :model => Kind.model_name.human.pluralize), kinds_path %> &gt;
+      <%= link_to t(:all_model, :model => Kind.model_name.human(count: 42)), kinds_path %> &gt;
       <%= @kind.name %>
     </h1>
   </header>

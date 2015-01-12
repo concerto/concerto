@@ -8,7 +8,7 @@
       </div>
     </div>
     <h1 class="default-padding">
-      <%= t(:all_model, :model => Group.model_name.human.pluralize) %>
+      <%= t(:all_model, :model => Group.model_name.human(count: 42)) %>
     </h1>
   </header>
   <div class="viewblock-cont">
@@ -16,7 +16,7 @@
       <div class="clearfix default-padding">
         <div class="header-with-icon">
           <h3>
-            <%= t(:my_model, :model => Group.model_name.human.pluralize) %>
+            <%= t(:my_model, :model => Group.model_name.human(count: 42)) %>
           </h3>
         </div>
       </div>
@@ -39,7 +39,7 @@
       <div class="clearfix default-padding">
         <div class="header-with-icon">
           <h3>
-            <%= t(:other_model, :model => Group.model_name.human.pluralize) %>
+            <%= t(:other_model, :model => Group.model_name.human(count: 42)) %>
           </h3>
         </div>
       </div>

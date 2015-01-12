@@ -1,6 +1,5 @@
 class Ticker < Content
-  DISPLAY_NAME = 'Text'
- 
+
   after_initialize :set_kind
   before_save :process_markdown, :alter_type
  
