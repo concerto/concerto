@@ -51,8 +51,6 @@ en:
   sorry_access: Sorry, you don't have access to perform this action.
   status: Status
   time:
-    cannot_delete_template: 'Cannot delete template. It has one or more screens associated
-      with it: %{screens}'
     formats:
       date: '%D'
       date_long_year: '%m/%d/%Y'
