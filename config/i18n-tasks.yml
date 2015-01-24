@@ -6,7 +6,7 @@
 base_locale: en
 ## i18n-tasks detects locales automatically from the existing locale files
 ## uncomment to set locales explicitly
-#locales: [en]
+locales: [fr,nl,he,de]
 
 ## i18n-tasks report locale, default: en, available: en, ru
 internal_locale: en
@@ -19,7 +19,6 @@ data:
   # Locale files to read from
   read:
     - config/locales/%{locale}.yml
-    - config/locales/devise.%{locale}.yml
     - config/locales/controllers/%{locale}.yml
     - config/locales/views/*/%{locale}.yml
 
