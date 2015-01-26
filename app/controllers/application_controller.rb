@@ -261,11 +261,11 @@ class ApplicationController < ActionController::Base
   #Don't break for CanCan exceptions; send the user to the front page with a Flash error message
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
-      format.html {
-        redirect_to main_app.root_url, :flash => { :notice => exception.message }
-      }
       format.json { render :json => {:error=>true, :status=>403, :message => exception.message}, :status => :forbidden }
       format.xml{ render :xml => {:error=>true, :status=>403, :message => exception.message}, :status => :forbidden }
+      format.any {
+        redirect_to main_app.root_url, :flash => { :notice => exception.message }
+      }
     end
   end
 
