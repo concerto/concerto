@@ -19,6 +19,8 @@ class Ability
     # Only define these permissive settings if concerto is set to be public
     if ConcertoConfig[:public_concerto]
       ## Users
+      # A user is readable by the public if the user has
+      # public content or public screens.
       can :read, User, screens: {is_public: true}
       can :read, User, contents: {submissions: {feed: {is_viewable: true}, moderation_flag: true}}
 
