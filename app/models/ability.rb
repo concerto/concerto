@@ -19,11 +19,8 @@ class Ability
     # Only define these permissive settings if concerto is set to be public
     if ConcertoConfig[:public_concerto]
       ## Users
-      # A user is readable by the public if the user has
-      # public content or public screens.
-      can :read, User do |user|
-        user.contents.any? { |c| can?(:read, c) } || user.screens.any? { |s| can?(:read, s) }
-      end
+      can :read, User, screens: {is_public: true}
+      can :read, User, contents: {submissions: {feed: {is_viewable: true}, moderation_flag: true}}
 
       ## Feeds
       # Anything can read a viewable feed
@@ -49,12 +46,9 @@ class Ability
 
       ## Groups
       # Groups are only public if something they manage is viewable.
-      can :read, Group do |group|
-        group.feeds.where(:is_submittable => true).exists? || group.feeds.where(:is_viewable => true).exists?
-      end
-      can :read, Group do |group|
-        group.screens.where(:is_public => true).exists?
-      end
+      can :read, Group, feeds: {is_submittable: true}
+      can :read, Group, feeds: {is_viewable: true}
+      can :read, Group, screens: {is_public: true}
 
       ## Templates
       # Oddly enough, templates store a hidden flag instead of public
