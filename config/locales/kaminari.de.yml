@@ -1,0 +1,17 @@
+de:
+  helpers:
+    page_entries_info:
+      more_pages:
+        display_entries: Zeige %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> von insgesamt <b>%{total}</b>
+      one_page:
+        display_entries:
+          one: Zeige <b>%{count}</b> %{entry_name}
+          other: Zeige <b>alle %{count}</b> %{entry_name}
+          zero: Kein %{entry_name} gefunden
+  views:
+    pagination:
+      first: "« Start"
+      last: Ende »
+      next: Weiter »
+      previous: "&lsaquo; Zurück"
+      truncate: "&hellip;"
