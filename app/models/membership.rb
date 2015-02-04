@@ -1,6 +1,5 @@
 class Membership < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
-  
 
   # Membership levels
   LEVELS = {
@@ -33,7 +32,6 @@ class Membership < ActiveRecord::Base
 
   after_initialize :expand_permissions
   before_save :compact_permissions
-  before_destroy :confirm_leader_is_removable
 
   belongs_to :user
   belongs_to :group
@@ -174,16 +172,8 @@ class Membership < ActiveRecord::Base
     return false, :membership_unknown_action
   end
        
-  # Test if a user can be demoted to regular member or removed from a group
+  #Returns whether a particular member object can resign leadership
   def can_resign_leadership?
-    return self.group.leaders.count > 1 || !self.is_leader?
+      return self.group.leaders.count > 1 && self.is_leader?
   end
-  
-  def confirm_leader_is_removable
-    unless can_resign_leadership?
-      errors.add(:base, "The leader cannot be deleted.")
-      return false
-    end
-  end  
-  
 end
