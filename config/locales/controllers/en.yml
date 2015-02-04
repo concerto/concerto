@@ -31,6 +31,7 @@ en:
   membership_created:          "Membership was successfully created."
   membership_applied_for:      "Membership in group is now pending"
   membership_denied:           "Membership was successfully denied."
+  leadership_removal_denied:   "The last leader of a group cannot be removed."  
   membership_denied_failure:   "Membership was not successfully denied."
   membership_approved:         "Membership was successfully approved."
   membership_approved_failure: "Membership was not successfully approved."

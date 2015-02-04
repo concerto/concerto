@@ -76,9 +76,11 @@ class MembershipsController < ApplicationController
   # DELETE /groups/1.xml
   def destroy
     @membership = Membership.find(params[:id])
+
     auth!
     respond_to do |format|
-      process_notification(@membership, {}, process_notification_options({
+      if @membership.destroy
+              process_notification(@membership, {}, process_notification_options({
         :params => {
           :level => @membership.level_name,
           :member_id => @membership.user.id,
@@ -87,10 +89,11 @@ class MembershipsController < ApplicationController
           :group_name => @membership.group.name
         },
         :recipient => @membership.user}))
-
-      if @membership.destroy
         format.html { redirect_to manage_members_group_path(@group), :notice => t(:member_removed) }
         format.xml { head :ok }
+      elsif !@membership.can_resign_leadership?
+        format.html { redirect_to manage_members_group_path(@group), :notice => t(:leadership_removal_denied) }
+        format.xml { render :xml => @membership.errors, :status => :unprocessable_entity }      
       else
         format.html { redirect_to manage_members_group_path(@group), :notice => t(:membership_denied) }
         format.xml { render :xml => @membership.errors, :status => :unprocessable_entity }
@@ -99,6 +102,13 @@ class MembershipsController < ApplicationController
   end
 
   private
+  
+  def confirm_leader_is_removable
+    unless can_resign_leadership?
+      errors.add(:base, "The leader cannot be deleted.")
+      return false
+    end
+  end  
 
   def membership_params
     params.require(:membership).permit(:user_id, :group_id, :created_at, :level, :permissions, :receive_emails)

@@ -64,11 +64,6 @@ class Group < ActiveRecord::Base
     all_users.include?(user)
   end
 
-  # Test if a user can be demoted to regular member or removed from a group
-  def can_resign_leadership?(membership)
-    return self.leaders.count > 1 || !membership.is_leader?
-  end
-
   # Test if a user has a certain permission at a level within a group.
   # Sample usage: user_has_permissions?(user, :regular, :screen, [:subscribe, :all])
   # will test if the `user` has either :all or :subscribe permissions as a supporter in
