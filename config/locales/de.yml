@@ -1,0 +1,1033 @@
+de:
+  actions: Aktionen
+  activerecord:
+    attributes:
+      concerto_config:
+        allow_registration: Benutzer dürfen sich registrieren
+        allow_user_feed_creation: Erstellen von Kanälen durch Benutzer erlauben
+        allow_user_screen_creation: Erstellen von Bildschirmen durch Benutzer erlauben
+        analytics_enabled: Google Analytics aktivieren
+        analytics_property_id: Google Web Property ID (API Key)
+        autostart_delayed_job: Delayed Job Processor automatisch starten
+        confirmable: Benutzer müssen ihr Konto bestätigen
+        content_default_end_time: Standard-Endzeit für Beiträge
+        content_default_start_time: Standard-Startzeit für Beiträge
+        default_content_duration: Standard-Anzeigedauer für Beiträge (Sekunden)
+        default_content_run_time: Standard-Sendedauer für Beiträge (Tage)
+        default_upload_type: Standard-Typ für Beiträge
+        dynamic_refresh_time: Aktualisierungsintervall für dynamischen Inhalt
+        footer_html: HTML für die Fusszeile
+        http_proxy_settings: HTTP Proxy Einstellungen
+        keep_activity_log: Aktivitätsprotokol führen
+        mailer_from: Mailer Von
+        mailer_host: Servername (FQDN)
+        mailer_protocol: Mailer Protokoll
+        max_content_duration: Maximale Anzeigedauer für Beiträge (Sekunden)
+        min_content_duration: Minimale Anzeigedauer für Beiträge (Sekunden)
+        motd_html: '"Nachricht des Tages" HTML'
+        openssl_verify_mode_none: Keine STMP SSL Zertifikat-Verifikation
+        poll_interval: Hardware player Abfrageintervall
+        public_concerto: Öffentlicher Zugriff
+        rubygem_executable: RubyGem Programdatei
+        send_errors: Fehlerbericht an Entwickler senden
+        setup_complete: Einrichtung abgeschlossen
+        smtp_address: STMP Server
+        smtp_auth_type: SMTP Authentifizierungstyp
+        smtp_password: STMP Passwort
+        smtp_port: SMTP Port
+        smtp_username: SMTP Benutzername
+        start_date_offset: Zeit zwischen der Einsendung eines Beitrags bis zu dessen Start
+        system_time_zone: Zeitzone System
+        use_frontend_to_trigger_cron: Benutze Frontend um Cron auszulösen
+      concerto_plugin:
+        enable: Gem aktivieren?
+        gem_name: Gem Name
+        gem_version: Gem Version
+        source: Quelle
+        source_url: Quell-URL
+      content:
+        duration: Anzeigedauer (Sekunden)
+        end_time: Endzeit
+        name: Name
+        start_time: Startzeit
+      field_config:
+        key: Schlüssel
+        value: Wert
+      group:
+        name: Name
+        narrative: Beschreibung der Gruppe
+        new_leader: Neuer Gruppenleiter
+      kind:
+        actions: Aktionen
+        name: Name
+      position:
+        bottom: Unten
+        field: Feld
+        left: Links
+        right: Rechts
+        style: Stil
+        top: Oben
+      screen:
+        is_public: Dieser Bildschirm ist öffentlich einsehbar
+        location: Standort
+        name: Name
+        owner: Besitzer
+        owner_id: Eigentum von
+        template_id: Bildschirmvorlage
+      submission:
+        duration: Dauer
+        moderation_reason: Grund
+      template:
+        author: Autor
+        is_hidden: Versteckt?
+        name: Name
+      user:
+        actions: Aktionen
+        email: E-Mail
+        first_name: Vorname
+        is_admin: Admin
+        last_name: Nachname
+        locale: Sprache
+        password: Passwort
+        password_confirmation: Passwort bestätigen
+        receive_moderation_notifications: 'Bei Änderungen benachrichten '
+        time_zone: Zeitzone
+    models:
+      client_time:
+        one: Ortszeit
+        other: Ortszeiten
+      concerto_plugin:
+        one: Komponente
+        other: Komponenten
+      content:
+        one: Beitrag
+        other: Beiträge
+      feed:
+        one: Kanal
+        other: Kanäle
+      field_config:
+        one: Konfigurationsparameter
+        other: Konfigurationsparameter
+      graphic:
+        one: Einzelbild
+        other: Einzelbilder
+      group:
+        one: Gruppe
+        other: Gruppen
+      html_text:
+        one: HTML-Text
+        other: HTML-Texte
+      kind:
+        one: Art
+        other: Arten
+      position:
+        one: Position
+        other: Positionen
+      screen:
+        one: Bildschirm
+        other: Bildschirme
+      submission:
+        one: Einsendung
+        other: Einsendungen
+      subscription:
+        one: Abonnement
+        other: Abonnemente
+      template:
+        one: Bildschirmvorlage
+        other: Bildschirmvorlagen
+      ticker:
+        one: Text
+        other: Texte
+      user:
+        one: Benutzer
+        other: Benutzer
+  activities:
+    show:
+      latest_activity: Letzte Aktivität
+  activity_mailer:
+    submission_update:
+      approved: genehmigt
+      content_schedule: 'Der Beitrag wird planmässig vom %{start} bis %{end} angezeigt. Die Anzeigedauer beträgt %{duration} Sekunden.'
+      denied: Enfernt
+      feed: Kanal
+      for_the: für den
+      moderator: Moderator
+      moderator_text: 'Moderator %{moderator} hat den Beitrag %{content_name} für den %{feed} Kanal %{status}'
+      reason_rejected: 'Ablehnungsgrund: %{reason}'
+      your_concerto_submission: 'Ihr Beitrag %{content_name} wurde %{status}'
+  add: Hinzufügen
+  add_model: '%{model} hinzufügen'
+  all_model: 'Alle %{model}'
+  approve: Annehmen
+  approved: Angenommen
+  are_you_sure: Sind Sie sicher?
+  are_you_sure_delete_model_key: '%{model} "%{key}" wirklich löschen?'
+  are_you_sure_demote_user: '"%{user}" wirklich zurückstufen?'
+  are_you_sure_leave_group: '"%{group}" wirklich verlassen?'
+  are_you_sure_remove_model_key: '%{model} "%{key}" wirklich entfernen?'
+  are_you_sure_remove_user_group: '"%{user}" wirklich aus "%{group}" entfernen?'
+  asset_precomp_failed: Asset precompilation fehlgeschlagen. Stellen Sie sicher dass das Kommando rake assets:precompile funktioniert
+  back: Zurück
+  bad_request: Ungültige Anfrage.
+  bundle_error: Fehler beim Verarbeiten des Programmpakets.
+  cancel: Abbrechen
+  cannot_delete_last_admin: Letzter admin-Benutzer kann nicht gelöscht werden.
+  cannot_delete_template: 'Bildschirmvorlage kann nicht gelöscht werden, noch verbunden mit %{screens}'
+  cant_be_blank: darf nicht leer sein
+  cant_be_this_content: ungültiger Beitragstyp
+  cant_be_this_feed: kann nicht dieser Kanal sein
+  cant_write_restart_txt: Das Neustarten des Webservers ist gescheitert. Manueller Neustart ist erforderlich.
+  concerto: Concerto
+  concerto_config:
+    config_check:
+      configuration_check: Konfigurationstest
+      file_permissions: notwendige Dateirechte
+      performance: Leistung
+      security: Sicherheit
+      software_prerequisites: Softwarevoraussetzungen
+    show:
+      check_configuration: Konfiguartion prüfen
+      edit_settings: Allgemeine Einstellungen anpassen
+      global_settings: Allgemeine Einstellungen
+      restart_confirm: Das Neustarten des Webservers dauert 10 bis 20 Sekunden. Neustart?
+      restart_webserver: Webserver neustarten
+      save_settings: Einstellungen speichern
+  concerto_plugins:
+    edit:
+      prohibited_plugin_save: unzulässige Komponentenspeicherung
+    index:
+      disabled: deaktiviert
+      disabled_msg: Die Komponente ist aktuell deaktiviert.
+      enabled: aktiviert
+      enabled_msg: Die Komponente ist aktuell deaktiviert.
+      gem_description: Beschreibung
+      status: Status
+    new:
+      install_plugin: Komponente installieren
+      path_instructions: Pfad zu Verzeichnis oder Speicherort für Komponente erforderlich. Verzeichnisse unter Mac OS X in /var/www/ erfordern Präfix /private.
+      source_url: Quell-URL
+    show:
+      enabled: 'Aktiviert:'
+      gem_name: 'Gem Name:'
+      gem_version: 'Gem Version:'
+      installed: 'Installiert:'
+      installed_no: Nein
+      installed_yes: Ja
+      locked: (Gesperrt)
+      source: 'Quelle:'
+      source_url: 'Quell-URL:'
+      unknown: Unbekannt
+      upgrade: Upgrade
+      upgrade_available: '(Upgrade für %{version} verfügbar)'
+      visit_plugin_website: Besuchen Sie die Website der Komponente
+    sources:
+      git: Git-Ablage
+      path: Pfad Dateisystem
+      rubygems: RubyGems
+  content_approved: Beitrag genehmigt.
+  content_created: Beitrag erstellt.
+  content_created_no_feeds: Der Beitrag wurde erfolgreich erstellt. Weil kein Kanal ausgewählt wurde, bleibt der Inhalt in der Zwischenablage.
+  content_deleted: Beitrag gelöscht.
+  content_denied: Beitrag entfernt.
+  content_expired_mod: Der Beitrag ist verfallen, bevor er bearbeitet werden konnte.
+  content_failed_approve: Der Content konnte nicht genehmigt werden.
+  content_failed_deny: Der Beitrag konnte nicht entfernt werden.
+  content_failed_moderation: Der Beitrag konnte nicht bearbeitet werden
+  content_moderated: Beitrag bearbeitet.
+  content_not_found: Beitrag nicht gefunden.
+  content_refreshed: Beitrag aktualisiert.
+  content_updated: Beitrag wurde erfolgreich aktualisiert
+  contents:
+    dynamic_content_tools:
+      force_update: Aktualisierung erzwingen
+      owner_tools: Besitzer-Tools
+      purge_children: Elemente löschen
+    edit:
+      edit_content: '%{type}-Beitrag bearbeiten'
+    form:
+      preview: Vorschau
+      provide_details: Basiseigenschaften angeben
+      select_content_type: Beitragstyp zum Hinzufügen auswählen
+      select_feed: Wählen Sie einen Kanal
+    form_bottom:
+      submit_content: BEITRAG SENDEN
+    form_elements:
+      dates:
+        finish_displaying: Senden bis
+        set_specific_times: Uhrzeit einstellen
+        start_displaying: Senden von
+      duration:
+        change: Ändern
+        second:
+          one: '%{count} Sekunde'
+          other: '%{count} Sekunden'
+        show_on_screen: Anzeigen
+      feeds:
+        filter_feeds: Kanäle filtern
+        no_feeds: Es wurde noch kein Kanal für diesen Beitrag ausgewählt.
+        select_a_feed: Wählen Sie einen Kanal
+        type_to_filter: Filtern Sie hier
+      selected_feed_display:
+        appears_on_screens: 'Wird auf %{screens_count} Bildschirmen angezeigt'
+    form_top:
+      data: Daten
+    graphic:
+      form_top:
+        accepted_filetypes: Zulässige Dateitypen
+        specify_file: Datei wählen
+        upload_graphic: Einzelbild hochladen
+      js:
+        preview: Vorschau...
+    index:
+      active: Entfernte und geplante Beiträge verstecken?
+      browse_content: Beiträge durchsuchen
+      browse_content_by_feed: Beiträge auf Kanälen durchsuchen
+      browse_content_by_screen: Beitrag auf bestimmtem Bildschirm finden
+      content_search: Beitragssuche
+      contents_search: Beitrag
+      feed: Kanal
+      filtered_content: Abgefragter Beitrag
+      screen: Bildschirm
+      search: Suchen
+      type: Beitragstyp
+      user: Benutzer
+    new:
+      add_content: 'Beitrag vom Typ "%{type}" hinzufügen'
+      content: Beitrag
+      content_type: Beitragstypen zum Hinzufügen
+      design_graphic: Einzelbild bearbeiten
+      select_type: Wählen Sie einen Beitragstyp
+    provide_details: Einstellungen vornehmen
+    show:
+      display_from: Anzeigen von
+      display_until: Anzeigen bis
+      feeds_moderation_status: Beitragsstatus
+      not_submitted: Der Beitrag wurde bei keinem Kanal eingesendet.
+      submitted_by: Eingesendet
+      the_dawn_of_time: Anbeginn der Zeit.
+      the_end_of_time: Ende der Zeit.
+    show_details:
+      content_resubmission: Beitrag neu einreichen
+      display_from: Anzeigen von
+      display_until: Anzeigen bis
+      duration: Dauer
+      feeds_moderation_status: Beitragsstatus
+      not_submitted: Dieser Beitrag wurde keinem Kanal zugewiesen
+      seconds: Sekunden
+      submitted_by: Eingesendet von
+      the_dawn_of_time: Anbeginn der Zeit.
+      the_end_of_time: Ende der Zeit.
+    submit_to_feeds: Kanal wählen
+    table:
+      description: Beschreibung
+      link: Link
+      submitted: Eingesendet
+      title: Titel
+      updated: Aktuallisiert
+    ticker:
+      form_top:
+        allowed_html:
+          - auf Markdown kann bei http://wikipedia.org/wiki/Markdown gefunden werden.
+        characters: Zeichen
+        display_format: Anzeigeformat
+        display_format_tip: 'Das Ticker Anzeigeformat wird verwendet um einen '
+        markdown_allowed: Markdown oder HTML-Eingaben sind möglich.
+        preview: Vorschau
+        ticker_text: Ticker Text
+        type_your_message: Text eingeben
+  create_model: '%{model} erstellen'
+  dashboard:
+    admin_stats:
+      backup: Backup
+      cant_determine_latest_version: Konnte die aktuellste Version nicht ausfindig machen.
+      concerto_version: 'Concerto Version:'
+      delayed_job_status: 'Background Job Engine:'
+      new_version: 'Eine neue Version (%{version}) ist verfügbar.'
+      restart_webserver: Webserver neustarten
+      running: In Betrieb
+      start_stop: Kurzanleitung zum Starten/Stoppen
+      stopped: Gestoppt
+      system_info: System Information
+      user_stats: 'Benutzerstatistik:'
+    browse:
+      submissions_to_moderate:
+        one: 'Sie haben %{count} Beitrag zu moderieren'
+        other: 'Sie haben %{count} Beiträge zu moderieren'
+    global_preferences: Globale Einstellungen
+    latest_activity:
+      more: Mehr
+    list_activities:
+      latest_activity: Letzte Aktivität
+    network:
+      groups: Gruppen
+      no_membership: Sie sind kein Mitglied einer Gruppe
+      screens: Bildschirme
+      your_network: Ihr Netzwerk
+    vitals:
+      active: aktiv
+      active_content:
+        one: 'aktiver %{content}'
+        other: 'aktive %{content}'
+      network_vitals: Netzwerk Übersicht
+      offline: offline
+  deny: Ablehnen
+  destroy: Löschen
+  destroy_model: '%{model} löschen'
+  devise:
+    confirmations:
+      new:
+        header: Anleitung zur Bestätigung Ihres Accounts erneut senden
+        submit: Anleitung zur Bestätigung Ihres Accountserneut senden
+    mailer:
+      confirmation_instructions:
+        confirm_account_below: 'Bestätigen Sie Ihr Konto mit einem Klick auf untenstehenden Link:'
+        confirm_my_account: Mein Konto bestätigen
+        welcome: 'Willkommen %{user}!'
+      reset_password_instructions:
+        change_my_password: Passwort ändern
+        hello: 'Hallo %{user}!'
+        ignore_if_not_requested: Falls Sie dies nicht verlangt haben, ignorieren Sie bitte diese Email.
+        password_wont_change: Ihr Passwort wird nicht geändert bis Sie den obenstehenden Link öffnen und ein neues Passwort gesetzten.
+        request_link_to_change_password: Ein Link zur Änderungen Ihres Passworts wurde angefordert. Wenn Sie dies zu tun wünschen, dann klicken Sie auf untenstehenden Link.
+      unlock_instructions:
+        account_locked: Das Login ist mehrfach gescheitert. Ihr Konto wurde deshalb gesperrt.
+        click_to_unlock: 'Klicken Sie auf untenstehenden Link, um Ihr Konto zu entsperren:'
+        hello: 'Hallo %{user}!'
+        unlock_my_account: Konto entsperren
+    passwords:
+      edit:
+        header: Passwort ändern
+        new_password: Neues Passwort
+        repeat_password: Passwort wiederholen
+        submit: Passwort ändern
+      new:
+        header: Passwort vergessen?
+        submit: Anweisungen zum Zurücksetzen senden
+    registrations:
+      edit:
+        change_password_for: 'Passwort für %{username} ändern'
+        confirm_password: Passwort bestätigen
+        current_password: Aktuelles Passwort
+        new_password: Neues Passwort
+      new:
+        confirm_password: Passwort bestätigen
+        header: Konto registrieren
+        name: Name
+        submit: Konto registrieren
+    sessions:
+      form:
+        remember_me: Kontoinformationen speichern
+        sign_in: Anmelden
+      new:
+        remember_me: Kontoinformationen speichern
+        sign_in: Anmelden
+    shared:
+      links:
+        forgot_password: Passwort vergessen?
+        no_confirmation_instructions: Anweisungen zur Bestätigung nicht erhalten?
+        no_unlock_instructions: Anweisungen zum Entsperren nicht erhalten?
+        register_account: Konto erstellen
+        sign_in: Anmelden
+        sign_in_with: 'Anmelden mit %{provider}'
+    unlocks:
+      new:
+        header: Anweisungen zum Entsperren erneut senden
+        submit: Anweisungen zum Entsperren erneut senden
+  edit: Bearbeiten
+  edit_model: '%{model} bearbeiten'
+  elements:
+    owner_select:
+      no_users_found: Keine Benutzer gefunden.
+      select_user: Wählen Sie einen Benutzer...
+      select_user_title: Wählen Sie einen Benutzer
+      type_to_filter: Filtern Sie hier...
+    topmenu_contents:
+      accounts: Konten
+      admin: Admin
+      backup: Sicherung
+      browse: Suchen
+      configuration: Konfiguration
+      content: Beiträge
+      dashboard_tooltip: Das Dashboard anseehen
+      groups: Gruppen
+      leader: 'Sie sind Leiter einer order mehrerer Gruppen '
+      log_out: Ausloggen
+      moderate: Moderieren
+      network: Netzwerk
+      no_account: Kein Account?
+      now: Sie sich jetzt!
+      plugins: Plugins
+      restart_webserver: Webserver neustarten
+      return_home_msg: heimkehren
+      screens: Bildschirme
+      settings: Einstellungen
+      sign_in: Einloggen
+      sign_up: Registieren
+      signin_login_spiel: um Beiträge hochladen und verwalten zu können.
+      submissions_to_moderate:
+        one: 'Sie haben %{count} Beiträg zu moderieren'
+        other: 'Sie haben %{count} Beiträge zu moderieren'
+      system_admin: Sie sind ein systemweiter Administrator
+      templates: Bildschirmvorlagen
+      users: Benutzer
+      users_and_groups: Benutzergruppen
+  error_refreshing: Fehler beim aktualisieren.
+  errors:
+    error_404:
+      abort: Abbrechen!
+      content_not_found: Wir fürchten dieser Beitrag existiert nicht mehr.
+      error_message: Der Beitrag den Sie suchen konnte nicht gefunden werden. Manchmal ist ein strategischer Rückzug die beste Option.
+    error_generic:
+      abort: Abbrechen!
+      error_message: 'Etwas ist schief gelaufen. Seien sie versichert, dass Ihnen keine Schuld zukommt. '
+      reset_message: Manchmal ist ein strategischer Rückzug die beste Option.
+  failed: fehlgeschlagen
+  feed_created: Kanal wurde erfolgreich erstellt.
+  feed_updated: Kanal wurde erfolgreich aktualisiert.
+  feeds:
+    active: Aktiv
+    approved: Genehmigt
+    browse_body:
+      no_content_heading: Wir fürchten dieser Beitrag existiert nicht mehr.
+      no_content_message: In diesem Netzwerk scheint nichts für Sie sichtbar zu sein. Sie sollten
+      sign_in: sich einloggen
+      sign_up: sich registieren
+    browse_header:
+      browse_content: Kanal wählen
+    denied: Entfernt
+    expired: Abgelaufen
+    form:
+      allowed_types: Erlaubte Beitragstypen
+      other_options: Andere Optionen
+      prohibited_feed_save: 'hat verhindert dass dieser Kanal gespeichert werden konnte:'
+      provide_details: Einstellungen vornehmen
+      settings: Einstellungen
+    future: Geplant
+    moderate:
+      contents_pending_moderation: Beiträge mit ausstehender Moderation
+      no_pending_content: Alles in Ordnung! Kein Kanal den Sie moderieren hat ausstehende Beiträge.
+      nothing_to_moderate: Nichts zu moderieren
+      with_pending_content: mit ausstehenden Beiträgen
+    no_availible_feeds: Es existiert kein Kanal im System bei dem Sie Beiträge einsenden können. Bitte kontaktieren Sie Ihren System Administrator für nähere Informationen.
+    orphaned: Verwaist
+    pending: Ausstehend
+  field_configs:
+    index:
+      field: Feld
+      field_custom_configurations: Benutzerdefinierte Feld-Konfigurationen
+      manage_model_for_field: '%{model} für das %{name} Feld verwalten'
+      no_configuration_yet: Dieses Feld hat noch keine Konfiguration.
+      save_changes_to_model: 'Änderungen für das %{model} speichern'
+    show:
+      back: Zurück
+      edit: Bearbeiten
+  field_created: Feld wurde erfolgreich erstellt.
+  field_updated: Feld wurde erfolgreich aktualisiert.
+  file_is_required: Datei benötigt
+  file_type_unsupported: 'Datei ist vom Typ %{type} der nicht unterstützt wird.'
+  frontend:
+    screens:
+      sign_in:
+        coming_soon: 'Demnächst hier: Ihr neuer Bildschirm'
+        configure: 'Um Ihren Bildschirm zu konfigurieren, müssen Sie folgende Schritte befolgen:'
+        happy_advertising: Viel Spass beim Werben
+        step_one: Schritt 1
+        step_one_message: Auf Ihrem PC oder Mobilgerät, loggen Sie sich im Administration-Panel ein. dann öffnen Sie die Bildschirm-Seite
+        step_three: Schritt 3
+        step_three_details: Sie können Beiträge auf diesem Bildschirm anzeigen, indem Sie die Abonnements für jedes Feld erstellen.
+        step_three_header: Zum Schluss betrachten Sie wieder diesen Bildschirm. Nach einer Weile sollte die gewählte Bildschirmvorlage erscheinen.
+        step_two: Schritt 2
+        step_two_details: Der Bildschirm sollte nicht öffentlich sein. Verwenden Sie den oben aufgeführten Bildschirmcode als Autorisierungscode. Sollte diese Gerät neu konfiguriert werden oder einen bestehenden Bildschirm ersetzen, bearbeiten Sie die Einstellungen dieses Bildschirms und stellen Sie sicher, dass er nicht öffentlich ist. Geben Sie dann den Autorisierungscode ein.
+        step_two_header: 'Wenn dieser Bildschirm neu ist, wählen Sie "Neuer Bildschirm". Danach nehmen Sie alle nötigen Einstellungen vor.'
+  gem_not_found: ist kein gültiges rugygem
+  gems_frozen_warning: 'Bundler wurde mit einer "frozen gem" Konfiguration gestartet— vermutlich durch ein deployment Tool welches die --deployment option für Bundler verwendet. In diesen Setup können Plugins nicht automatisch hinzugefügt, installiert, aktualisiert oder entfernt werden.'
+  gemspec_not_found: Gemspec nicht gefunden
+  group_created: Gruppe wurde erfolgreich erstellt.
+  group_not_deletable: Eine Gruppe, die noch Bildschirme oder Kanäle verwaltet, kann nicht gelöscht werden.
+  group_updated: Gruppe wurde erfolgreich aktualisiert.
+  groups:
+    edit:
+      change_group_memberships: Gruppen Mitgliedschaften ändern
+    form:
+      initial_leader: Gruppenleiter
+      provide_details: Einstellungen vornehmen
+    index:
+      leader: Dieser Benutzer ist Leider dieser Gruppen.
+    manage_members:
+      add_member: Mitglied hinzufügen
+      add_users_to_group: Benutzer der Gruppe hinzufügen
+      approve_requests: Zulassungen bestätigen
+      demote_to_regular: Als normaler Benutzer zurückstufen
+      feed_permission:
+        name: Kanalberechtigungen
+        tooltip: 'Mögliche Änderungen bei Bildschirmen dieser Gruppe: Keine Änderungen, nur Abonnements bearbeiten oder alles bearbeiten (Kanal bearbeiten, Beiträge moderieren)'
+      leader: Leiter
+      manage_members: Mitglieder verwalten
+      manage_model: '%{model} verwalten'
+      member: Mitglied
+      name: Name
+      no_pending_approvals: Keine ausstehenden Zulassungen
+      no_regular_members: Diese Gruppe hat aktuell keine normale Mitglieder.
+      permissions:
+        all: Alle
+        none: Keine
+        submissions: Einsendungen
+        subscriptions: Abonnemente
+      promote_to_leader: Zum Leiter befördern
+      remove_from_group: Von der Gruppe entfernen
+      request_made_at: Anfrage gestellt am
+      screen_permission:
+        name: Bildschirmberechtigungen
+        tooltip: 'Mögliche Änderungen bei Bildschirmen diese Gruppe: Keine Änderungen, nur Abonnemente bearbeiten oder alles bearbeiten (Bildschirm bearbeiten, Bildschirmvorlage ändern, Abonnements verwalten).'
+      update_permissions: 'Berechtigungen aktualisieren '
+    show_body:
+      edit_group: Gruppe bearbeiten
+      feed_header:
+        one: Moderiert einen Kanal
+        other: 'Moderiert %{count} Kanäle'
+      group_description: Beschreibung der Gruppe
+      group_has_no_leaders: Diese Gruppe hat aktuell keinen Leiter. Sie sollten ein Mitglied in der Tabelle oben zum Leiter befördern.
+      group_leaders: Gruppenleiter
+      join_group: Gruppe beitreten
+      leader: Leiter
+      leave_group: Gruppe verlassen
+      member: Mitglied
+      member_header:
+        one: Hat ein Mitglied
+        other: 'Hat %{count} Mitglieder'
+      no_pending_approvals: Keine ausstehenden Zulassungen!
+      not_in_group: Sie sind aktuell nicht Mitglied dieser Gruppe.
+      previously_denied_members: Zuvor abgelehnte Mitglieder
+      promote_to_leader: Zum Leiter befördern
+      regular_members: Normale Mitglieder
+      remove_from_group: Der Gruppe entfernen
+      request_made_at: Anfrage gestellt am
+      screen_header:
+        one: Verwaltet einen Bildschirm
+        other: 'Verwaltet %{count} Bildschirme'
+      your_membership_role: 'Sie sind aktuell ein %{level}%{what} dieser Gruppe.'
+    show_header:
+      group_cannot_be_deleted: Gruppe kann nicht gelöscht werden
+      manage_members: Mitglieder verwalten
+  helpers:
+    label:
+      feed:
+        description: Beschreibung
+        group: Gruppe
+        is_submittable: Einsendungen möglich
+        is_viewable: Öffentlich einsehbar
+        name: Name
+        parent: Übergeordneter Kanal
+      graphic:
+        name: Name
+        submit: Einsenden
+      template:
+        author: Autor
+        is_hidden: Diese Bildschirmvorlage in der Listenansicht ausblenden
+        media: Hintergrundbild / CSS
+        name: Name
+        owner: Besitzer
+      user:
+        email: E-Mail
+        first_name: Nam
+        locale: Sprache
+        password: Passwort
+        password_confirmation: Passwort bestätigen
+        receive_moderation_notifications: Bei Änderungen benachrichtigen
+        time_zone: Zeitzone
+  import_model: '%{model} importieren'
+  join: Beitreten
+  js:
+    confirmbox:
+      cancel: Abbrechen
+      ok: OK
+      title: Concerto
+    duration:
+      second:
+        one: '%{count}s'
+        other: '%{count}s'
+  kind_created: Beitragsart wurde erfolgreich erstellt.
+  kind_updated: Beitragsart wurde erfolgreich aktuallisiert.
+  layouts:
+    errors:
+      prohibited_save:
+        concerto_plugin:
+          one: '1 Fehler verhinderte das Speichern dieses Plugins:'
+          other: '%{count} Fehler verhinderten das Speichern dieses Plugins:'
+        feed:
+          one: '1 Fehler verhinderte das Speichern dieses Kanals:'
+          other: '%{count} Fehler verhinderten das Speichern dieses Kanals:'
+        field_config:
+          one: '1 Fehler verhinderte das Speichern dieser Feldeinstellung:'
+          other: '%{count} Fehler verhinderten das Speichern dieser Feldeinstellung:'
+        generic:
+          one: '1 Fehler verhinderte das Speichern von "%{model}":'
+          other: '%{count} Fehler verhinderten das Speichern vom "%{model}":'
+        graphic:
+          one: '1 Fehler verhinderte das Speichern dieses Einzelbildes:'
+          other: '%{count} Fehler verhinderten das Speichern dieses Einzelbildes:'
+        group:
+          one: '1 Fehler verhinderte das Speichern dieser Gruppe:'
+          other: '%{count} Fehler verhinderten das Speichern dieser Gruppe:'
+        kind:
+          one: '1 Fehler verhinderte das Speichern dieser Art:'
+          other: '%{count} Fehler verhinderten das Speichern dieser Art:'
+        page:
+          one: '1 Fehler verhinderte das Speichern dieser Seite:'
+          other: '%{count} Fehler verhinderten das Speichern dieser Seite:'
+        screen:
+          one: '1 Fehler verhinderte das Speichern dieses Bildschirms:'
+          other: '%{count} Fehler verhinderten das Speichern dieses Bildschirms:'
+        subscription:
+          one: '1 Fehler verhinderte das Speichern dieses Abonnements:'
+          other: '%{count} Fehler verhinderten das Speichern dieses Abonnements:'
+        template:
+          one: '1 Fehler verhinderte das Speichern dieser Bildschirmvorlage:'
+          other: '%{count} Fehler verhinderten das Speichern dieser Bildschirmvorlage:'
+        ticker:
+          one: '1 Fehler verhinderte das Speichern dieses Textes:'
+          other: '%{count} Fehler verhinderten das Speichern dieses Textes:'
+        user:
+          one: '1 Fehler verhinderte das Speichern dieses Benutzers:'
+          other: '%{count} Fehler verhinderten das Speichern dieses Benutzers:'
+  manage_model: '%{model} verwalten'
+  member_removed: Mitglied wurde entfernt
+  membership_applied_for: Mitgliedschaft in der Gruppe ist ausstehend
+  membership_approved: Mitgliedschaft wurde erfolgreich akzeptiert.
+  membership_approved_failure: Mitgliedschaft konnte nicht erfolgreich akzeptiert werden.
+  membership_created: Mitgliedschaft wurde erfolgreich erstellt.
+  membership_demoted: Mitglied wurde erfolgreich als Leiter degradiert.
+  membership_demoted_failure: Mitglied konnte nicht erfolgreich als Leiter degradiert werden. Es muss mindestens ein Leiter vorhanden sein
+  membership_denied: Mitgliedschaft wurde erfolgreich entfernt.
+  membership_denied_failure: Mitgliedschaft wurde nicht erfolgreich entfernt.
+  membership_promoted: Mitglied wurde erfolgreich zum Leiter befördert.
+  membership_promoted_failure: Mitglied konnte nicht zum Leider befördert werden.
+  membership_unknown_action: Unbekannte Mitgliedsaktion gesendet.
+  missing_default_type: Standard Beitragstyp fehlt
+  my_model: 'Mein %{model}'
+  name: Name
+  new_model: 'Neuer %{model}'
+  other_model: 'Anderer %{model}'
+  parameter:
+    one: Parameter
+    other: Parameter
+  parameter_updated: Parameter wurde erfolgreich aktualisiert.
+  pending: Ausstehend
+  plugin_created: Komponente erfolgreich installiert.
+  plugin_created_frozen_env: 'Das Plugin wurde erstellt, aber die Applikation läuft in einem "frozen Bundler environment". Das Plugin muss im Gemfile hinzugefügt und manuell mit bundler installiert werden.'
+  plugin_creation_failed: Die Erstellung der Komponente ist fehlgeschlagen.
+  plugin_removed: Plugin wurde erfolgreich entfernt.
+  plugin_removed_frozen_env: 'Das Plugin wurde entfernt, aber die Applikation läuft in einem "frozen Bundler environment". Das Plugin muss im Gemfile entfernt werden und bundler muss erneut ausgeführt werden.'
+  plugin_updated: Plugin wurde erfolgreich aktualisiert.
+  plugin_updated_frozen_env: 'Das Plugin wurde aktualisiert, aber die Applikation läuft in einem "frozen Bundler environement". Bundler muss neu ausgeführt werden.'
+  position_created: Position wurde erfolgreich erstellt.
+  position_updated: Position wurde erfolgreich aktualisiert.
+  preferences_updated: E-Mail Einstellungen wurden aktualisiert.
+  public_activity:
+    a_group_which_no_longer_exists: nicht länger existierende
+    a_member: ein Mitglied
+    concerto_config:
+      article: die
+    concerto_plugin:
+      article: die
+    content:
+      create:
+        created_a_new_content: '%{owner} hat einen neuen Beitrag %{item} erstellt'
+        created_a_new_content_with_type: '%{owner} hat einen neuen Beitrag %{item} (%{content_type}) erstellt'
+      destroy:
+        deleted_the_content: '%{owner} hat den Beitrag %{item} gelöscht'
+        deleted_the_content_with_type: '%{owner} hat den Beitrag %{item} (%{content_type}) gelöscht'
+      update:
+        updated_the_content: '%{owner} hat den Beitrag %{item} aktualisiert'
+        updated_the_content_with_type: '%{owner} hat den Beitrag %{item} (%{content_type}) aktualisiert'
+    create_the_model: '%{owner} hat %{article} %{model} %{item} erstellt'
+    destroy_the_model: '%{owner} hat %{article} %{model} %{item} gelöscht'
+    feed:
+      article: den
+      create:
+        created_a_new_feed: hat einen neuen Kanal erstellt
+      destroy:
+        deleted_the_feed: hat den Kanal gelöscht
+    field_config:
+      create:
+        created_config_for_field_on_screen: '%{owner} hat den Konfigurationsparameter %{config} für das Feld %{field} des Bildschirms %{screen} erstellt'
+      destroy:
+        deleted_config_for_field_on_screen: '%{owner} hat den Konfigurationsparameter %{config} für das Feld %{field} des Bildschirms %{screen} gelöscht'
+      update:
+        updated_config_for_field_on_screen: '%{owner} hat den Konfigurationsparameter %{config} für das Feld %{field} des Bildschirms %{screen} aktualisiert'
+    graphic:
+      article: das
+      create:
+        created_a_new_graphic: hat ein neues Einzelbild erstellt
+    group:
+      article: die
+      create:
+        created_a_new_group: hat eine neue Gruppe erstellt
+      destroy:
+        deleted_the_group: hat die Gruppe gelöscht
+    import_the_model: 'hat einen %{model}'
+    membership:
+      article: die
+      create:
+        added_member_to_group: '%{owner} hat %{member} zur Gruppe %{group} als %{role} hinzugefügt'
+        leader: Leiter
+        regular_member: Mitglied
+      destroy:
+        removed_member_from_group: '%{owner} hat %{member} von der Gruppe %{group} entfernt'
+    screen:
+      article: der
+      create:
+        created_a_new_screen: hat einen Bildschirm erstellt
+      destroy:
+        deleted_the_screen: hat einen Bildschirm gelöscht
+    setting: Einstellung
+    submission:
+      article: die
+      update:
+        approved_content_for_feed: '%{owner} hat den Beitrag %{content} für den Kanal %{feed} genehmigt'
+        denied_content_for_feed: '%{owner} hat den Beitrag %{content} für den Kanal %{feed} abgelehnt'
+    unknown_user: Ein unbekannter Benutzer
+    update_the_model: '%{owner} hat %{article} %{model} %{item} aktualisiert'
+    user:
+      article: den
+      create:
+        added_a_new_user: hat einen neuen Benutzer hinzugefügt
+        registered: registiert
+    which_has_since_been_removed: welcher inzwischen gelöscht wurde
+  rejected: Abgelehnt
+  remove_model: '%{model} löschen'
+  restart_alert: Ein neues Plugin wurde hinzugefügt. Bitten starten Sie die Applikation neu.
+  screen_created: Bildschirm wurde erfolgreich erstellt.
+  screen_updated: Bildschirm wurde erfolgreich erstellt.
+  screens:
+    feeds:
+      filter_for_feed: Nach Kanal filtern
+      select_feed: Kanal wählen
+    form:
+      auth_action: Authorisierung-Aktion
+      authentication: Autorisierung
+      connection_details: Verbindungsdetails
+      dimensions: Dimensionen
+      existing_mac: Veraltete MAC Adresse verwenden
+      new_token: Mit einem neuen Bildschirmcode sichern
+      new_token_override: Existierende Autorisierung entfernen und mit einem neuen Bildschirmcode sichern
+      no_auth: Keine (ungesichert)
+      private_token: Gesichert durch einen geheimen Bildschirmcode
+      provide_details: Einstellungen vornehmen
+    index:
+      common_templates: Standard-Bildschirmvorlagen
+      view_all: Alle anzeigen
+    index_body:
+      add_one: Fügen Sie einen hinzu
+      my_screens: Meine Bildschirme
+      no_screens: Keine Bildschirme zur Anzeige.
+      other_screens: Andere Bildschirme
+      to_add: um einen hinzuzufügen
+    screen_info:
+      mac_address: 'MAC Adresse: %{mac}'
+      offline: Offline
+      online: Online
+    show_body:
+      field: '%{name} Feld'
+      field_settings: Fahren Sie über ein Feld, um dessen Einstellungen zu betrachten.
+      manage: Verwalten
+      preview_screen: Bildschirm Vorschau
+    template_selection:
+      best_fit_templates: Angepasste Bildschrimvorlagen
+      select_template: Wählen Sie eine Bildschirmvorlage
+    thumbs:
+      owner: Besitzer
+  settings_saved: Einstellungen gespeichert. Einzelne Einstellungen werden erst nach einem Webserver-Neustart wirksam.
+  show: Anzeigen
+  smtp_send_error: 'Ein STMP Fehler ist während dem Senden einer Benachrichtigungsmail aufgetreten. Bitte überprüfen Sie die SMTP Einstellungen. '
+  smtp_send_error_ssl: 'Ein STMP Fehler ist während dem Senden einer Benachrichtigungsmail aufgetreten. Bitte überprüfen Sie die SMTP Einstellungen - es ist möglich das die die SSL Überprüfung deaktiveren müssen.'
+  sorry_access: Entschuldigung, Sie haben keine Berechtigung um diese Aktion durchzuführen.
+  status: Status
+  submissions:
+    approval_info:
+      approved: Genehmigt
+      display_from: 'Anzeigen von:'
+      display_until: 'Anzeigen bis:'
+      duration: 'Dauer:'
+      edit_duration: Dauer bearbeiten
+      moderated_by: 'Von: %{moderator}'
+      seconds: sekunden
+      submitted_by: Eingesendet von
+      the_dawn_of_time: Anbeginn der Zeit
+      the_end_of_time: Ende der Zeit.
+    index_body:
+      click_to_jump: Auf einen Kanal klicken um zu wechseln
+      items_in_state:
+        active:
+          one: '%{count} aktiver Beitrag'
+          other: '%{count} aktive Beiträge'
+        denied:
+          one: '%{count} entfernter Beitrag'
+          other: '%{count} entfernte Beiträge'
+        expired:
+          one: '%{count} abgelaufener Beitrag'
+          other: '%{count} abgelaufene Beiträge'
+        future:
+          one: '%{count} geplanter Beitrag'
+          other: '%{count} geplante Beiträge'
+        generic:
+          one: '%{count} %{state} Beitrag'
+          other: '%{count} %{state} Beiträge'
+      jump_to_feed: Zum Kanal...
+      moderated_by: Moderiert von
+      no_state_content:
+        active: Keine aktiven Beiträge auf dem Kanal
+        denied: Keine entfernten Beiträge
+        expired: Keine abgelaufenen Beiträge
+        future: Keine geplanten Beiträge
+        generic: 'Keine %{state} Beiträge'
+      no_sub_feeds: Keine Sub-Kanäle
+      sub_feeds: Sub-Kanäle
+      submissions_pending:
+        one: '%{count} Beitrag wartet auf Ihre Moderation'
+        other: '%{count} Beiträge warten auf Ihre Moderation'
+      submit_something: etwas beitragen
+      to_make_this_feed_happy: um diesen Kanal zu vervollständigen?
+      toggle_content_states_to_display: Wählen Sie einen Beitragsstatus um Beiträge anzuzeigen...
+      type_to_filter: Suchbegriff hier eingeben
+      would_you_kindly: Möchten Sie
+    index_header:
+      all_feeds: Alle Kanäle
+      delete_feed: Kanal löschen
+      edit_feed: Kanal bearbeiten
+      moderated_by: Dieser Kanal wird moderiert von
+    moderate_title: '%{name} moderieren'
+    show_body:
+      also_appears_on: Ebenfalls eingesendet bei...
+      approve_this_content: Beitrag genehmigen
+      approved: Genehmigt
+      deny_this_content: Beitrag ablehnen
+    show_header:
+      all_feeds: Alle Kanäle
+    submission_listgriditem:
+      change_to_approved: Zu Genehmigt ändern
+      change_to_denied: 'Zu "Entfernt" ändern'
+      currently: momentan
+      date_range: '%{start} bis %{end}'
+      moderate: Morderieren
+      urgent: Dringend
+      urgent_tooltip: Dieser Beitrag hat bereits das angeforderte Startdatum überschritten und Sie sollten ihn moderieren
+    submission_tile:
+      approve_this_content: Diesen Beitrag genehmigen
+      deny_this_content: Diesen Betrag ablehnen
+      has_been_approved: Dieser Beitrag wurde genehmigt
+      has_been_denied: Dieser Beitrag wurde entfernt.
+  subscription_created: Abonnement wurde erfolgreich erstellt.
+  subscription_updated: Abonnement wurde erfolgreich aktualisiert.
+  subscriptions:
+    approved_content:
+      one: '%{count} genehmigter Beitrag'
+      other: '%{count} genehmigte Beiträge'
+    index:
+      add_a_new_feed: Einen neuen Kanal hinzufügen...
+      field: '%{kind} Feld'
+      field_custom_configurations: Benutzerdefinierte Feld-Konfigurationen
+      make_changes: Fürhen Sie zuerst oben Veränderungen durch um zu speichern.
+      manage_model_for_field: 'Verwalten Sie %{model} für das %{name} Feld'
+      no_configuration_yet: Dieses Feld hat keine Konfiguration
+      save_changes_to_model: 'Änderungen für %{model} speichern'
+      search_and_find_a_feed_to_add: Suchen Sie einen Kanal um Ihn hinzuzufügen
+      subscriptions: Abonnements
+    records_created: Abonnement erstellt
+    records_updated: Abonnements wurden für dieses Feld auf Ihrem Bildschirm gespeichert
+    show:
+      back: Zurück
+      edit: Editiieren
+      feed: 'Kanal:'
+      field: 'Feld:'
+      screen: 'Bildschirm:'
+      weight: 'Gewichtung:'
+    shown_frequently: Häufig angezeigen
+    shown_rarely: Selten angezeigen
+  template_created: Bildschirmvorlage wurde erfolgreich erstellt
+  template_import_error: Beim Import der Bildschirmvorlage ist ein Fehler aufgetreten. Stellen Sie sicher das die XML Datei gültig ist.
+  template_import_requires_files: 'Importieren einer Bildschirmvorlage benötigt eine XML- und Bild-Datei'
+  template_updated: Bildschirmvorlage wurde erfolgreich aktualisiert
+  templates:
+    from_scratch: Von vorne beginnen
+    import_existing: Existierende Importieren
+    import_form:
+      descriptor: Beschreibungsdatei
+      image: Bild
+      package: ZIP-Datei
+    index_body:
+      add_one: eine hinzufügen
+      author: von
+      no_templates_html: 'Noch keine Bildschirmvorlage vorhanden. Möchten Sie eine %{href}?'
+    new:
+      invalid_xml: Die Beschreibungsdatei enthält ungültiges XML
+      template_import_requires_archive: Sie müssen eine Archive-Datei (ZIP) auswählen, die Ihre Bildschirmvorlage enthält
+      template_import_requires_image: In der ZIP-Datei der Bildschirmvorlage fehlt ein Hintergrundbild
+      template_import_requires_xml: In der ZiP-Datei der Bildschirmvorlage fehlt die XML Beschreibung
+      template_import_requires_zip: Die ausgewählte Datei ist keine ZIP Datei
+      template_method: Bildschirmvorlagen-Methode
+      template_type: '%{type} Bildschirmvorlage'
+    show_body:
+      author: Autor
+      preview_alt: '%{name} Vorschau'
+      usage: 'Von diesen Bildschirmen verwendet:'
+    show_header:
+      delete_template: Bildschirmvorlage löschen
+      edit_template: Bildschirmvorlage bearbeiten
+    template:
+      by: 'von %{author}'
+  time:
+    formats:
+      date: '%d.%m.%y'
+      date_long_year: '%d.%m.%Y'
+      date_time: '%d.%m.%y, %H:%M'
+      long_day: '%A %B %e um %H:%M'
+      month_day: '%d/%m'
+      short_date: '%a, %d.%m.%y'
+      short_day: '%a %b %d %Y'
+      short_month: '%b %d'
+      time_date: '%I:%M %p on %D'
+      twelve_hour_time: '%I:%M %P'
+  unrecognized_type: Unbekannter Beitragstyp
+  update_model: '%{model} aktualisieren'
+  user_created: Benutzer wurde erfolgreich erstellt.
+  user_not_created: Benutzer wurde nicht erstellt
+  user_not_deletable: Ein Benutzer, der Bildschirme besitzt oder der letzte Administrator ist, kann nicht gelöscht werden.
+  user_owns_screens: Dieser Benutzer kann nicht gelöscht werden, weil er einen oder mehrere Bildschirme besitzt.
+  user_updated: Benutzer wurde erfolgreich aktualisiert.
+  users:
+    all_users: Alle Benutzer
+    change_password: Passwort ändern
+    form:
+      email_label: user@domain.com
+      first_label: Vorname
+      last_label: Nachname
+      options: Optionen
+      provide_details: Einstellungen vornehmen
+    index:
+      name: Name
+    show_body:
+      admin: Admin
+      content: Beiträge
+      content_header:
+        one: Hat einen Beitrag eingesendet
+        other: 'Hat %{count} Beiträge eingesendet'
+      dont_receive_emails: Keine E-Mails erhalten
+      forever: für immer
+      group_header:
+        one: Ist Mitglied einer Gruppe
+        other: 'Ist Mitglied von %{count} Gruppen'
+      groups: Gruppen
+      leader: Der Benutzer ist Leiter einer order mehrerer Gruppen
+      my: Mein
+      name: Name
+      receive_emails: E-Mails erhalten
+      roles: Rollen
+      screen_header:
+        one: Verwaltet einen Bildschirm
+        other: 'Verwaltet %{count} Bildschirme'
+      screens: Bildschirme
+      system_wide_admin: Dieser Benutzer ist ein systemweiter Administrator
+      this_is_you: Das sind Sie
+  valid_git: is nicht ein gültiges git repository
+  wont_write_restart_txt: Concerto unterstützt das Neustarten des Web-Servers nicht. Bitte Starten Sie manuell neu.
