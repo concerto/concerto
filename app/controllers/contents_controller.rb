@@ -1,7 +1,7 @@
 class ContentsController < ApplicationController
   before_filter :get_content_const, :only => [:new, :create, :update, :preview]
   respond_to :html, :json, :js
-  after_action :allow_iframe, only => :preview
+  after_action :allow_iframe, :only => :preview
 
   define_callbacks :update_params
   ConcertoPlugin.install_callbacks(self)
