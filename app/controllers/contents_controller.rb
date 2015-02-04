@@ -1,6 +1,7 @@
 class ContentsController < ApplicationController
   before_filter :get_content_const, :only => [:new, :create, :update, :preview]
   respond_to :html, :json, :js
+  after_action :allow_iframe, only => :preview
 
   define_callbacks :update_params
   ConcertoPlugin.install_callbacks(self)
@@ -302,6 +303,11 @@ class ContentsController < ApplicationController
   end
 
   private
+
+  def allow_iframe
+    response.headers['X-Frame-Options'] = "ALLOWALL"
+  end
+
 
   # Restrict the allowed parameters to a select set defined in the model.
   def content_params
