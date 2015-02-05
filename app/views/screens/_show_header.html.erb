@@ -4,14 +4,14 @@
       <%= link_to t(:edit_model, :model => Screen.model_name.human), edit_screen_path(@screen), :class => "btn" %>
     <% end %>
     <% if can? :delete, @screen %>
-      <%= link_to t(:destroy_model, :model => Screen), @screen, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => Screen.model_name.human, :key => @screen.name) }, :method => :delete, :class => "btn" %>
+      <%= link_to t(:destroy_model, :model => Screen.model_name.human), @screen, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => Screen.model_name.human, :key => @screen.name) }, :method => :delete, :class => "btn" %>
     <% end %>
   </div>
 </div>
 
 <div class="default-padding">
   <h1>
-    <%= link_to t(:all_model, :model => Screen.model_name.human(count: 2)), screens_path %> &gt;
+    <%= link_to t(:all_model, :model => Screen.model_name.human(count: 42)), screens_path %> &gt;
     <%= @screen.name %>
   </h1>
 </div>

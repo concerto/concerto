@@ -4,14 +4,14 @@
       <%= link_to t('.manage_members'), manage_members_group_path(@group), :class => "btn" %>
     <% end %>
     <% if can? :edit, @group %>
-      <%= link_to t(:edit_model, :model => Group), edit_group_path(@group), :class => "btn" %>
+      <%= link_to t(:edit_model, :model => Group.model_name.human), edit_group_path(@group), :class => "btn" %>
     <% end %>
     <% if can? :delete, @group %>
       <% if @group.is_deletable? %>
-        <%= link_to t(:destroy_model, :model => Group), @group, 
+        <%= link_to t(:destroy_model, :model => Group.model_name.human), @group,
           :data => { :confirm => t(:are_you_sure_delete_model_key, :model =>Group.model_name.human, :key => @group.name) }, :method => :delete, :class => "btn" %>
       <% else %>
-        <%= link_to t(:destroy_model, :model => Group), '#', :class => "btn disabled tooltip-basic", 'data-tooltip-text' => t(:group_not_deletable, :model =>Group.model_name.human, :key => @group.name) %>
+        <%= link_to t(:destroy_model, :model => Group.model_name.human), '#', :class => "btn disabled tooltip-basic", 'data-tooltip-text' => t(:group_not_deletable, :model => Group.model_name.human, :key => @group.name) %>
       <% end %>
     <% end %>
   </div>
@@ -19,7 +19,7 @@
 
 <div class="default-padding">
   <h1>
-    <%= link_to t(:all_model, :model => Group.model_name.human.pluralize), groups_path %> &gt;
+    <%= link_to t(:all_model, :model => Group.model_name.human(count: 42)), groups_path %> &gt;
     <%= @group.name %>
   </h1>
 </div>

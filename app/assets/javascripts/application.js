@@ -12,16 +12,22 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require html5_shiv/html5
-//= require jquery.qtip.min
-//= require twitter/bootstrap/rails/confirm
+//= require i18n/translations
 //= require bootstrap-datepicker/core
 //  NOTE: right now only the English (default) is provided for the bootstrap-datepicker; if all internationalizations should be included, just remove the '/core' part of the line above and make it just 'require bootstrap-datepicker'
+//= require bootstrap-alert.js
+//= require bootstrap-modal.js
+//= require bootstrap-tab.js
+//= require twitter/bootstrap/rails/confirm
 //= require jquery.timepicker.js
 //= require jquery.datepair.js
 //= require jquery.iframe-transport
-//= require_tree .
+//= require jquery.qtip.min.js
+//= require jquery.formSavior.js
+//= require rangeinput.js
+//= require turbolinks
 //= require nprogress
 //= require nprogress-turbolinks
 //= require google-analytics-turbolinks
+//= require_tree .

@@ -1,33 +1,11 @@
-<%= get_activity_owner(activity) %>
-  <%= activity.parameters[:status] ? t(".approved") : t(".denied") %>
-  <%= 
-    results = ""
-    if activity.trackable
-      if can? :read, activity.trackable.content
-        results += link_to(activity.trackable.content.name, activity.trackable.content)
-      else
-        results += activity.trackable.content.name
-      end
-      results += " " + t('.for_the') + " " 
-      if can? :read, activity.trackable.feed
-        results += link_to(activity.trackable.feed.name, activity.trackable.feed)
-      else
-        results += activity.trackable.feed.name
-      end
-      results += " " + t('.feed')
-    else
-      if activity.parameters.include?(:content_name)
-        results += " " + activity.parameters[:content_name]
-        if activity.parameters.include?(:feed_name)
-          results += " " + t('.for_the') + " " 
-          results += " " + activity.parameters[:feed_name]
-          results += " " + t('.feed')
-        end
-      else
-        results += " " + Content.model_name.human.downcase
-        results += " " + t('public_activity.which_has_since_been_removed')
-      end
-    end
+<%=
+    owner = get_activity_owner(activity)
+    content_param = activity.trackable ? link_to_if(can?(:read, activity.trackable.content), activity.trackable.content.name, activity.trackable.content) : (activity.parameters[:content_name] || Content.model_name.human)
+    feed_param = activity.trackable ? link_to_if(can?(:read, activity.trackable.feed), activity.trackable.feed.name, activity.trackable.feed) : (activity.parameters[:feed_name] || Feed.model_name.human )
 
-    results.html_safe
-  %>
+    if activity.parameters[:status]
+      t('.approved_content_for_feed', owner: owner, content: content_param, feed: feed_param)
+    else
+      t('.denied_content_for_feed', owner: owner, content: content_param, feed: feed_param)
+    end.html_safe
+%>

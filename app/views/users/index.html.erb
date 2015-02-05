@@ -8,7 +8,7 @@
       </div>
     </div>
     <h1 class="default-padding">
-      <%= t(:all_model, :model => User.model_name.human.pluralize) %>
+      <%= t(:all_model, :model => User.model_name.human(count: 42)) %>
     </h1>
   </header>
   <div class="viewblock-cont">
@@ -38,10 +38,10 @@
             <% end %>
             <% if can? :delete, user %>
               <% if user.is_deletable? %>
-                <%= link_to t(:destroy, :model => User), user,
-                            :data => { :confirm => t(:are_you_sure_delete_model_key, :model =>User.model_name.human, :key => user.name) }, :method => :delete, :class => "btn" %>
+                <%= link_to t(:destroy, :model => User.model_name.human), user,
+                            :data => { :confirm => t(:are_you_sure_delete_model_key, :model => User.model_name.human, :key => user.name) }, :method => :delete, :class => "btn" %>
               <% else %>
-                <%= link_to t(:destroy, :model => User), '#', :class => "btn disabled tooltip-basic", 'data-tooltip-text' => t(:user_not_deletable, :model =>User.model_name.human, :key => user.name) %>
+                <%= link_to t(:destroy, :model => User.model_name.human), '#', :class => "btn disabled tooltip-basic", 'data-tooltip-text' => t(:user_not_deletable, :model => User.model_name.human, :key => user.name) %>
               <% end %>
             <% end %>
           </td>

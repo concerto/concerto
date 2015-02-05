@@ -19,7 +19,7 @@
           </div>
         </div>
         <h1 class="default-padding">
-          <%= t(:all_model, :model => Screen.model_name.human.pluralize) %>
+          <%= t(:all_model, :model => Screen.model_name.human(count: 42)) %>
         </h1>
       </header>
       <div id="screens-body" class="viewblock-cont">

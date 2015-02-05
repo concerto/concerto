@@ -3,9 +3,9 @@
     <section class="viewblock">
       <header class="viewblock-header">
         <h1 class="default-padding">
-          <%= link_to t(:all_model, :model => Screen.model_name.human.pluralize), screens_path %> &gt;
+          <%= link_to t(:all_model, :model => Screen.model_name.human(count: 42)), screens_path %> &gt;
           <%= link_to @screen.name, @screen %> &gt;
-          <%= t('.manage_model_for_field', { :model => Subscription.model_name.human.pluralize, :name => @field.name }) %>
+          <%= t('.manage_model_for_field', { :model => Subscription.model_name.human(count: 42), :name => @field.name }) %>
         </h1>
       </header>
 

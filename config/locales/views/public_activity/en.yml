@@ -1,62 +1,85 @@
 en:
   public_activity:
-    a_group_which_no_longer_exists: 'a no longer existing group'
+    a_group_which_no_longer_exists: 'no longer existing'
     a_member: 'a member'
-    create_the_model: 'created the %{model}'
-    destroy_the_model: 'deleted the %{model}'
+    create_the_model: '%{owner} created %{article} %{model} %{item}'
+    update_the_model: '%{owner} updated %{article} %{model} %{item}'
+    destroy_the_model: '%{owner} deleted %{article} %{model} %{item}'
     import_the_model: 'imported the %{model}'
     setting: 'setting'
     unknown_user: 'An unknown user'
-    update_the_model: 'updated the %{model}'
+
     which_has_since_been_removed: 'which has since been removed'
 
+    content:
+      create:
+        created_a_new_content: '%{owner} created a new content %{item}'
+        created_a_new_content_with_type: '%{owner} created a new content %{item} (%{content_type})'
+      update:
+        updated_the_content: '%{owner} updated the content %{item}'
+        updated_the_content_with_type: '%{owner} updated the content %{item} (%{content_type})'
+      destroy:
+        deleted_the_content: '%{owner} deleted the content %{item}'
+        deleted_the_content_with_type: '%{owner} deleted the content %{item} (%{content_type})'
+
     field_config:
-      for_field: 'for field'
-      on_screen: 'on screen'
+      create:
+        created_config_for_field_on_screen: '%{owner} created the config %{config} for field %{field} on screen %{screen}'
+      update:
+        updated_config_for_field_on_screen: '%{owner} updated the config %{config} for field %{field} on screen %{screen}'
+      destroy:
+        deleted_config_for_field_on_screen: '%{owner} deleted the config %{config} for field %{field} on screen %{screen}'
 
     feed:
+      article: 'the'
       create:
         created_a_new_feed: 'created a new feed'
       destroy:
         deleted_the_feed: 'deleted the feed'
 
     graphic:
+      article: 'the'
       create:
         created_a_new_graphic: 'created a new graphic'
 
     group:
+      article: 'the'
       create:
         created_a_new_group: 'created a new group'
       destroy:
         deleted_the_group: 'deleted the group'
 
     membership:
+      article: 'the'
       create:
-        added: 'added'
-        to_the: 'to the'
-        group_as_a: 'group as a'
-        group_membership_removed: 'a group membership, which has since been removed'
+        added_member_to_group: '%{owner} added %{member} to the %{group} group as a %{role}'
         leader: 'leader'
         regular_member: 'regular member'
+
       destroy:
-        removed: 'removed'
-        from_the: 'from the'
-        group: 'group'
+        removed_member_from_group: '%{owner} removed %{member} from the %{group} group'
 
     screen:
+      article: 'the'
       create:
         created_a_new_screen: 'created a new screen'
       destroy:
         deleted_the_screen: 'deleted the screen'
 
     submission:
+      article: 'the'
       update:
-        approved: 'approved'
-        denied: 'denied'
-        for_the: 'for the'
-        feed: 'feed'
+        approved_content_for_feed: '%{owner} approved %{content} for feed %{feed}'
+        denied_content_for_feed: '%{owner} denied %{content} for feed %{feed}'
 
     user:
+      article: 'the'
       create:
         registered: 'registered'
         added_a_new_user: 'added as new user'
+
+    concerto_config:
+      article: 'the'
+
+    concerto_plugin:
+      article: 'the'

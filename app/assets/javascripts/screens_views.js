@@ -52,7 +52,7 @@ function initScreenFieldTooltip() {
       content: {
         text: $("#field-info-content-" + $(this).attr('data-field-id') ).html(),
         title: {
-          text: $(this).attr('data-title') + " Field"
+          text: $(this).attr('data-title')
         }
       },
 

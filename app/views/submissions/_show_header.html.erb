@@ -1,7 +1,7 @@
 <div class="viewblock-header_right">
   <div class="button-padding">
     <% if can? :update, @submission.content %>
-      <%= link_to t(:edit_model, :model => Content), edit_content_path(@submission.content), :class => "btn" %>
+      <%= link_to t(:edit_model, :model => Content.model_name.human), edit_content_path(@submission.content), :class => "btn" %>
     <% end %>
   </div>
 </div>

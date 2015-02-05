@@ -1,175 +1,35 @@
 ---
 en:
   actions: Actions
-  add: Add
-  add_model: Add %{model}
-  all_model: All %{model}
-  approve: Approve
-  approved: Approved
-  are_you_sure: Are you sure?
-  are_you_sure_delete_model_key: Are you sure you want to delete %{model} "%{key}"?
-  are_you_sure_demote_user: Are you sure you want to demote user "%{user}"?
-  are_you_sure_leave_group: Are you sure you want to leave the group "%{group}"?
-  are_you_sure_remove_model_key: Are you sure you want to remove %{model} "%{key}"?
-  are_you_sure_remove_user_group: Are you sure you want to remove user "%{user}" from
-    group "%{group}"?
-  back: Back
-  bad_request: Bad request.
-  cancel: Cancel
-  cant_be_blank: cant be blank
-  cant_be_this_content: cant be this content
-  cant_be_this_feed: cant be this feed
-  concerto: Concerto
-  content_deleted: Content successfully deleted.
-  content_expired_mod: Content expired before moderation could occur.
-  content_refreshed: Content successfully refreshed.
-  create_model: Create %{model}
-  deny: Deny
-  destroy: Delete
-  destroy_model: Delete %{model}
-  edit: Edit
-  edit_model: Edit %{model}
-  error:
-   one: 1 error
-   other: "%{count} errors"
-  error_refreshing: Error refreshing.
-  failed: failed
-  file_type_unsupported: file is of type %{type}, which is not supported.
-  file_is_required: file is required
-  gem_not_found: is not a valid rubygem
-  gemspec_not_found: Gemspec not found in
-  import_model: Import %{model}
-  join: Join
-  manage_model: Manage %{model}
-  membership_denied: Membership was successfully denied.
-  my_model: My %{model}
-  new_model: New %{model}
-  other_model: Other %{model}
-  parameter:
-    one: parameter
-    other: parameters
-  pending: Pending
-  prohibited_save: ! 'prevented this %{model} from being saved:'
-  rejected: Rejected
-  remove_model: Remove %{model}
-  show: Show
-  sorry_access: Sorry, you don't have access to perform this action.
-  status: Status
-  update_model: Update %{model}
-  valid_git: is not a valid git repository
-  errors:
-    messages:
-      not_saved:
-        one: ! '1 error prohibited this %{resource} from being saved:'
-        other: ! '%{count} errors prohibited this %{resource} from being saved:'
-    error_generic:
-      abort: Abort!
-      error_message: Something went wrong. Rest assured, you have been assigned 0%
-        of the blame.
-      reset_message: Sometimes a strategic retreat is the best option.
-    error_404:
-      abort: Abort!
-      content_not_found: I'm afraid we're not in Kansas anymore.
-      error_message: ! 'The Concerto content you were looking for could not be found.
-
-        Sometimes a strategic retreat is the best option.'
-  smtp_send_error: A SMTP error occurred while sending a notification e-mail. Please
-    check the Concerto SMTP settings.
-  smtp_send_error_ssl: A SMTP error occurred while sending a notification e-mail.
-    Please check the Concerto SMTP settings-- you might need to disable SSL Verification.
-  asset_precomp_failed: Asset precompilation failed. Please make sure the command
-    rake assets:precompile works.
-  missing_default_type: Missing Default Content Type
-  unrecognized_type: Unrecognized content type.
-  content_created: Content was successfully created.
-  content_created_no_feeds: Content was successfully created. Since no feeds were
-    supplied, content will remain in limbo.
-  content_updated: Content was successfully updated.
-  content_not_found: Content not found.
-  feed_created: Feed was successfully created.
-  feed_updated: Feed was successfully updated.
-  group_created: Group was successfully created.
-  group_updated: Group was successfully updated.
-  group_not_deletable: A group owning screens and/or feeds cannot be deleted.
-  membership_created: Membership was successfully created.
-  membership_applied_for: Membership in group is now pending
-  member_removed: Member removed
-  kind_created: Kind was successfully created.
-  kind_updated: Kind was successfully updated.
-  screen_created: Screen was successfully created.
-  screen_updated: Screen was successfully updated.
-  content_moderated: Content was moderated.
-  content_failed_moderation: Content failed moderation
-  subscription_created: Subscription was successfully created.
-  template_created: Template was successfully created.
-  template_updated: Template was successfully updated.
-  time:
-    formats:
-      date: '%D'
-      date_time: '%D, %l:%M %p'
-      date_long_year: '%m/%d/%Y'
-      long_day: '%A %B %e at %l:%m %p'
-      month_day: '%m/%d'
-      short_month: '%b %d'
-      short_day: '%a %b %d %Y'
-      short_date: '%a %D'
-      twelve_hour_time: '%I:%M %P'
-      time_date: '%I:%M %p on %D'
-    cannot_delete_template: ! 'Cannot delete template. It has one or more screens associated
-    with it: %{screens}'
-  user_created: User was successfully created.
-  user_not_created: User not created
-  user_updated: User was successfully updated.
-  cannot_delete_last_admin: Cannot delete last admin user.
-  user_owns_screens: This user cannot be deleted because they own one or more screens.
-  user_not_deletable: A user owning screens or who is the last remaining administrator
-    cannot be deleted.
-  settings_saved: Concerto settings saved.  Some changes may not become effective
-    until the webserver is restarted.
-  plugin_created: Concerto plugin was successfully installed.
-  plugin_created_frozen_env: The Concerto plugin was created, but Concerto is running
-    in a frozen Bundler environment. The plugin must be added to the Gemfile and installed
-    manually with bundler.
-  plugin_removed: Concerto plugin was successfully removed.
-  plugin_removed_frozen_env: The Concerto plugin was removed, but Concerto is running
-    in a frozen Bundler environment. The plugin must be removed from the Gemfile and
-    bundler re-run.
-  plugin_updated: Concerto plugin was successfully updated.
-  plugin_updated_frozen_env: The Concerto plugin was updated, but Concerto is running
-    in a frozen Bundler environment. Bundler must be re-run.
-  wont_write_restart_txt: Concerto does not support restarting your webserver. Please
-    restart it manually.
-  cant_write_restart_txt: An error occurred while restarting the webserver. Please
-    restart it manually.
   activerecord:
     attributes:
-      template:
-        author: 'Author'
-        is_hidden: 'Hidden?'
-        name: 'Name'
       concerto_config:
-        analytics_enabled: Google Analytics enabled
-        analytics_property_id: Google Web Property ID (API Key)
-        poll_interval: Hardware player polling interval
         allow_registration: Allow open user registration
         allow_user_feed_creation: Allow user feed creation
         allow_user_screen_creation: Allow user screen creation
+        analytics_enabled: Google Analytics enabled
+        analytics_property_id: Google Web Property ID (API Key)
         autostart_delayed_job: Autostart Delayed Job Processor
-        confirmable: ! 'Users must confirm their accounts '
+        confirmable: 'Users must confirm their accounts '
         content_default_end_time: Default end time for content
         content_default_start_time: Default start time for content
         default_content_duration: Default Content Duration
         default_content_run_time: Default content run time (in days)
         default_upload_type: Default content upload type
-        http_proxy_settings: Http Proxy Settings
+        dynamic_refresh_time: Dynamic Content Refresh Time
+        footer_html: Footer HTML
+        http_proxy_settings: HTTP Proxy Settings
         keep_activity_log: Keep Activity Log
-        max_content_duration: Max Content Duration (in seconds)
         mailer_from: Mailer From
         mailer_host: Concerto Server Name (FQDN)
         mailer_protocol: Mailer Protocol
+        max_content_duration: Max Content Duration (in seconds)
         min_content_duration: Minimum Content Duration (in seconds)
+        motd_html: '''Message of the Day'' HTML'
         openssl_verify_mode_none: No SMTP SSL Certificate Verification
+        poll_interval: Hardware player polling interval
         public_concerto: Public Concerto access
+        rubygem_executable: Ruby Gem Executable
         send_errors: Notify Developers of Errors
         setup_complete: Concerto setup complete
         smtp_address: SMTP Server
@@ -180,137 +40,237 @@ en:
         start_date_offset: Time between submission and content start
         system_time_zone: System Time Zone
         use_frontend_to_trigger_cron: Use Frontend to Trigger Cron
-        dynamic_refresh_time: Dynamic Content Refresh Time
-        rubygem_executable: Ruby Gem Executable
+      concerto_plugin:
+        enable: Enable Gem?
+        gem_name: Gem Name
+        gem_version: Gem Version
+        source: Source
+        source_url: Source URL
+      content:
+        duration: Display Duration
+        end_time: End Time
+        name: Name
+        start_time: Start Time
+      field_config:
+        key: Key
+        value: Value
+      group:
+        name: Name
+        narrative: Group Description
+        new_leader: New Leader
+      kind:
+        actions: Actions
+        name: Name
+      position:
+        bottom: Bottom
+        field: Field
+        left: Left
+        right: Right
+        style: Style
+        top: Top
+      screen:
+        is_public: This screen is publicly viewable
+        location: Location
+        name: Name
+        owner: Owner
+        owner_id: Owned By
+        template_id: Template
+      submission:
+        duration: Duration
+        moderation_reason: Reason
+      template:
+        author: Author
+        is_hidden: Hidden?
+        name: Name
+      user:
+        actions: Actions
+        email: Email
+        first_name: First Name
+        is_admin: Admin Status
+        last_name: Last Name
+        locale: Locale
+        password: Password
+        password_confirmation: Confirm Password
+        receive_moderation_notifications: Receive Moderation Notifications
+        time_zone: Time Zone
     models:
+      client_time:
+        one: Client Time
+        other: Client Times
+      concerto_plugin:
+        one: Plugin
+        other: Plugins
+      content:
+        one: Content
+        other: Contents
+      feed:
+        one: Feed
+        other: Feeds
+      field_config:
+        one: Config Parameter
+        other: Config Parameters
+      graphic:
+        one: Graphic
+        other: Graphics
+      group:
+        one: Group
+        other: Groups
+      html_text:
+        one: HTML Text
+        other: HTML Texts
+      kind:
+        one: Kind
+        other: Kinds
+      position:
+        one: Position
+        other: Positions
       screen:
         one: Screen
         other: Screens
+      submission:
+        one: Submission
+        other: Submissions
       subscription:
         one: Subscription
         other: Subscriptions
       template:
         one: Template
         other: Templates
-  templates:
-    from_scratch: Create from Scratch
-    import_existing: Import Existing
-    import_form:
-      package: Package
-    index_body:
-      no_templates_html: Oops - there are no templates yet.  Why don't you %{href}?
-      add_one: add one
-    new:
-      invalid_xml: The template descriptor file contains invalid XML
-      template_import_requires_archive: You need to specify an archive (ZIP) file
-        that contains your template
-      template_import_requires_image: Your template package is missing a background
-        image
-      template_import_requires_xml: Your template package is missing an xml descriptor
-      template_import_requires_zip: The selected file is not a ZIP file
-      template_type: ! '%{type} Template'
-    show_header:
-      edit_template: Edit Template
-      delete_template: Delete Template
-    show_body:
-      preview_alt: ! '%{name} Preview'
-      author: Author
-      usage: ! 'Used by the following screens:'
-    template:
-      by: by %{author}
+      ticker:
+        one: Text
+        other: Texts
+      user:
+        one: User
+        other: Users
+  activities:
+    show:
+      latest_activity: Latest Activity
   activity_mailer:
     submission_update:
       approved: approved
-      content_schedule: The content is scheduled to begin showing on %{start} and
-        end on %{end}. It will be shown for %{duration} seconds.
+      content_schedule: The content is scheduled to begin showing on %{start} and end on %{end}. It
+        will be shown for %{duration} seconds.
       denied: denied
       feed: feed
       for_the: for the
       moderator: Moderator
-      moderator_text: moderator %{moderator} %{status} %{content_name} for the %{feed}
-        feed
-      reason_rejected: ! 'The reason provided for the rejection is: %{reason}'
-      your_concerto_submission: Your Concerto Submission %{content_name} has been
-        %{status}
-  feeds:
-    active: Active
-    approved: Approved
-    denied: Denied
-    expired: Expired
-    future: Future
-    no_availible_feeds: There are no feeds in the system that you can submit content
-      to.  Please contact your system administrator for more information.
-    pending: Pending
-    browse_body:
-      no_content_heading: I'm afraid we're not in Kansas anymore.
-      no_content_message: ! 'There doesn''t appear to be anything you can view on
-        this Concerto network. You should '
-      sign_in: Sign In
-      sign_up: Sign Up
-    browse_header:
-      browse_content: Browse Concerto Content
-    moderate:
-      contents_pending_moderation: Contents Pending Moderation
-      no_pending_content: All good for now! None of the feeds you moderate have any
-        pending contents.
-      nothing_to_moderate: Nothing to Moderate
-      with_pending_content: with pending content
-    form:
-      allowed_types: Allowed types
-      other_options: Other Options
-      provide_details: Provide Details
-      settings: Settings
-  screens:
+      moderator_text: moderator %{moderator} %{status} %{content_name} for the %{feed} feed
+      reason_rejected: 'The reason provided for the rejection is: %{reason}'
+      your_concerto_submission: Your Concerto Submission %{content_name} has been %{status}
+  add: Add
+  add_model: Add %{model}
+  all_model: All %{model}
+  approve: Approve
+  approved: Approved
+  are_you_sure: Are you sure?
+  are_you_sure_delete_model_key: Are you sure you want to delete %{model} "%{key}"?
+  are_you_sure_demote_user: Are you sure you want to demote user "%{user}"?
+  are_you_sure_leave_group: Are you sure you want to leave the group "%{group}"?
+  are_you_sure_remove_model_key: Are you sure you want to remove %{model} "%{key}"?
+  are_you_sure_remove_user_group: Are you sure you want to remove user "%{user}" from group "%{group}"?
+  asset_precomp_failed: Asset precompilation failed. Please make sure the command rake assets:precompile
+    works.
+  back: Back
+  bad_request: Bad request.
+  bundle_error: An error occurred while running bundle install.
+  cancel: Cancel
+  cannot_delete_last_admin: Cannot delete last admin user.
+  cannot_delete_template: 'Cannot delete template. It has one or more screens associated with it:
+    %{screens}'
+  cant_be_blank: cant be blank
+  cant_be_this_content: cant be this content
+  cant_be_this_feed: cant be this feed
+  cant_write_restart_txt: An error occurred while restarting the webserver. Please restart it manually.
+  concerto: Concerto
+  concerto_config:
+    config_check:
+      configuration_check: Configuration Check
+      file_permissions: Necessary File Permissions
+      performance: Performance
+      security: Security
+      software_prerequisites: Software Prerequisites
+    show:
+      check_configuration: Check Configuration
+      edit_settings: Edit Global Settings
+      global_settings: Global Settings
+      restart_confirm: Restarting the webserver may take a 10 to 20 seconds. Are you sure you'd like
+        to restart?
+      restart_webserver: Restart Webserver
+      save_settings: Save Settings
+  concerto_plugins:
+    edit:
+      prohibited_plugin_save: prohibited plugin save
     index:
-      common_templates: Common Templates
-      view_all: View All
-    index_body:
-      add_one: Why not add one?
-      my_screens: My Screens
-      no_screens: Oops - there are no screens to display.
-      other_screens: Other Screens
-      to_add: ! ' to add one'
-    feeds:
-      filter_for_feed: Filter for Feed
-      select_feed: Select Feed
-    form:
-      authentication: Authentication
-      existing_mac: Use existing legacy MAC address
-      new_token: Secure with a new token
-      new_token_override: Remove existing authentication and secure with a new token
-      no_auth: None (Unsecured)
-      private_token: Secured by an existing private token
-      provide_details: Provide Details
-    screen_info:
-      offline: Offline
-      online: Online
-      mac_address: ! 'MAC Add ress: %{mac}'
-    show_body:
-      field_settings: Hover over a field below to view its settings.
-      manage: Manage
-      preview_screen: Preview Screen
-    template_selection:
-      best_fit_templates: Best-Fit Templates
-      select_template: Select Template
-    thumbs:
-      owner: owner
-  at: at
-  finish_displaying: Finish Displaying
-  second: second
-  start_displaying: Start Displaying
+      disabled: disabled
+      disabled_msg: This plugin is currently disabled.
+      enabled: enabled
+      enabled_msg: This plugin is currently enabled.
+      gem_description: Description
+      status: Status
+    new:
+      install_plugin: Install Plugin
+      path_instructions: This should be a path to a directory or file location for the plugin. Please
+        note that on Mac OS X, directories inserted into /var/www/ should be prefixed with /private.
+      source_url: Source URL
+    show:
+      enabled: 'Enabled:'
+      gem_name: 'Gem name:'
+      gem_version: 'Gem version:'
+      installed: 'Installed:'
+      installed_no: 'No'
+      installed_yes: 'Yes'
+      locked: (Locked)
+      source: 'Source:'
+      source_url: 'Source url:'
+      unknown: Unknown
+      upgrade: Upgrade
+      upgrade_available: (Upgrade available to %{version})
+      visit_plugin_website: Visit plugin website
+    sources:
+      git: Git Repository
+      path: Filesystem Path
+      rubygems: RubyGems
+  content_approved: Content was approved.
+  content_created: Content was successfully created.
+  content_created_no_feeds: Content was successfully created. Since no feeds were supplied, content
+    will remain in limbo.
+  content_deleted: Content successfully deleted.
+  content_denied: Content was denied.
+  content_expired_mod: Content expired before moderation could occur.
+  content_failed_approve: Content failed to approved.
+  content_failed_deny: Content failed to deny.
+  content_failed_moderation: Content failed moderation
+  content_moderated: Content was moderated.
+  content_not_found: Content not found.
+  content_refreshed: Content successfully refreshed.
+  content_updated: Content was successfully updated.
   contents:
-    provide_details: Provide Details
-    submit_to_feeds: Submit to Feeds
     dynamic_content_tools:
+      force_update: Force Update
       owner_tools: Owner Tools
+      purge_children: Purge Children
     edit:
       edit_content: Edit %{type} Content
     form:
       preview: Preview
+      provide_details: Provide Basic Details
+      select_content_type: Select Content Type to Add
+      select_feed: Select Feed
     form_bottom:
       submit_content: Submit Content
     form_elements:
+      dates:
+        finish_displaying: Finish Displaying
+        set_specific_times: Set specific times
+        start_displaying: Start Displaying
+      duration:
+        change: Change
+        second:
+          one: '%{count} second'
+          other: '%{count} seconds'
+        show_on_screen: Show on Screen
       feeds:
+        filter_feeds: Filter Feeds
         no_feeds: No feeds have been selected yet for this submission.
         select_a_feed: Select a feed
         type_to_filter: Type here to filter
@@ -320,18 +280,31 @@ en:
       data: Data
     graphic:
       form_top:
+        accepted_filetypes: Accepted Filetypes
         specify_file: Specify File
         upload_graphic: Upload Graphic
+      js:
+        preview: Preview...
     index:
       active: Hide expired & future content?
+      browse_content: Browse Concerto Content
+      browse_content_by_feed: Browse Content by Feed
+      browse_content_by_screen: Find Content on a Particular Screen
       content_search: Content Search
+      contents_search: Concerto Content
       feed: Feed
+      filtered_content: Filtered Content
       screen: Screen
       search: Search
-      user: User
       type: Type
+      user: User
     new:
       add_content: Add %{type} Content
+      content: Content
+      content_type: 'Content type to add:'
+      design_graphic: Design a Graphic
+      select_type: Select Type
+    provide_details: Provide Details
     show:
       display_from: Display From
       display_until: Display Until
@@ -340,6 +313,18 @@ en:
       submitted_by: Submitted by
       the_dawn_of_time: The Dawn of Time.
       the_end_of_time: The End of Time.
+    show_details:
+      content_resubmission: Content Resubmission
+      display_from: Display From
+      display_until: Display Until
+      duration: Duration
+      feeds_moderation_status: Submission Status
+      not_submitted: This content has not been submitted to any feeds.
+      seconds: seconds
+      submitted_by: Submitted by
+      the_dawn_of_time: The Dawn of Time.
+      the_end_of_time: The End of Time.
+    submit_to_feeds: Submit to Feeds
     table:
       description: Description
       link: Link
@@ -348,98 +333,250 @@ en:
       updated: Updated
     ticker:
       form_top:
-        allowed_html: Markdown and some simple formatting html is allowed here.  More
-          information on markdown can be found at http://wikipedia.org/wiki/Markdown.
+        allowed_html: Markdown and some simple formatting html is allowed here.  More information
+          on markdown can be found at http://wikipedia.org/wiki/Markdown.
         characters: Characters
         display_format: Display Format
-        display_format_tip: The ticker display format is used for a smaller amount
-          of text usually along the bottom of the screen.  The text display format
-          is used for major text and usually appears where weather and rss feeds appear.
-        markdown_allowed: ! 'Some markdown or HTML is allowed in this field '
+        display_format_tip: The ticker display format is used for a smaller amount of text usually
+          along the bottom of the screen.  The text display format is used for major text and usually
+          appears where weather and rss feeds appear.
+        markdown_allowed: 'Some markdown or HTML is allowed in this field '
+        preview: Preview
+        ticker_text: Ticker Text
         type_your_message: Type Your Message
-  public_activity:
-    a_group_which_no_longer_exists: a no longer existing group
-    a_member: a member
-    create_the_model: created the %{model}
-    destroy_the_model: deleted the %{model}
-    import_the_model: imported the %{model}
-    setting: setting
-    unknown_user: An unknown user
-    update_the_model: updated the %{model}
-    which_has_since_been_removed: which has since been removed
-    field_config:
-      for_field: for field
-      on_screen: on screen
-    feed:
-      create:
-        created_a_new_feed: created a new feed
-      destroy:
-        deleted_the_feed: deleted the feed
-    graphic:
-      create:
-        created_a_new_graphic: created a new graphic
-    group:
-      create:
-        created_a_new_group: created a new group
-      destroy:
-        deleted_the_group: deleted the group
-    membership:
-      create:
-        added: added
-        to_the: to the
-        group_as_a: group as a
-        group_membership_removed: a group membership, which has since been removed
-        leader: leader
-        regular_member: regular member
-      destroy:
-        removed: removed
-        from_the: from the
-        group: group
-    screen:
-      create:
-        created_a_new_screen: created a new screen
-      destroy:
-        deleted_the_screen: deleted the screen
-    submission:
-      update:
-        approved: approved
-        denied: denied
-        for_the: for the
-        feed: feed
-    user:
-      create:
-        registered: registered
-        added_a_new_user: added as new user
-  gems_frozen_warning: Bundler has been run on Concerto using a frozen gem configuration—likely
-    due to a deployment tool using the --deployment option for Bundler. In this setup,
-    Concerto cannot automatically update the Gemfile with any plugins added/removed
-    here nor install or update Concerto gems automatically.
-  concerto_plugins:
-    edit:
-      prohibited_plugin_save: prohibited plugin save
+  create_model: Create %{model}
+  dashboard:
+    admin_stats:
+      backup: Backup
+      cant_determine_latest_version: Unable to determine latest available version.
+      concerto_version: 'Concerto Version:'
+      delayed_job_status: 'Background Job Engine:'
+      new_version: A new version (%{version}) is now available.
+      restart_webserver: Restart Webserver
+      running: Running
+      start_stop: How to Start/Stop
+      stopped: Stopped
+      system_info: System Information
+      user_stats: 'User Stats:'
+    browse:
+      submissions_to_moderate:
+        one: You have %{count} submission to moderate
+        other: You have %{count} submissions to moderate
+    global_preferences: Global Settings
+    latest_activity:
+      more: More
+    list_activities:
+      latest_activity: Latest Activity
+    network:
+      groups: Groups
+      no_membership: You are not yet a member of any group.
+      screens: Screens
+      your_network: Your Network
+    vitals:
+      active: active
+      active_content:
+        one: active %{content}
+        other: active %{content}
+      network_vitals: Network Vitals
+      offline: offline
+  deny: Deny
+  destroy: Delete
+  destroy_model: Delete %{model}
+  devise:
+    confirmations:
+      new:
+        header: Resend Confirmation Instructions
+        submit: Resend confirmation instructions
+    mailer:
+      confirmation_instructions:
+        confirm_account_below: 'You can confirm your account through the link below:'
+        confirm_my_account: Confirm my account
+        welcome: Welcome %{user}!
+      reset_password_instructions:
+        change_my_password: Change my password
+        hello: Hello %{user}!
+        ignore_if_not_requested: If you didn't request this, please ignore this email.
+        password_wont_change: Your password won't change until you access the link above and create
+          a new one.
+        request_link_to_change_password: Someone has requested a link to change your password, and
+          you can do this through the link below.
+      unlock_instructions:
+        account_locked: Your account has been locked due to an excessive amount of unsuccessful sign
+          in attempts.
+        click_to_unlock: 'Click the link below to unlock your account:'
+        hello: Hello %{user}!
+        unlock_my_account: Unlock my account
+    passwords:
+      edit:
+        header: Change Password
+        new_password: New password
+        repeat_password: Repeat password
+        submit: Change Password
+      new:
+        header: Forgot your password?
+        submit: Send Reset Instructions
+    registrations:
+      edit:
+        change_password_for: Change password for %{username}
+        confirm_password: Confirm password
+        current_password: Current password
+        new_password: New password
+      new:
+        confirm_password: Confirm Password
+        header: Register Account
+        name: Name
+        submit: Register Account
+    sessions:
+      form:
+        remember_me: Remember me
+        sign_in: Sign in
+      new:
+        remember_me: Remember me
+        sign_in: Sign in
+    shared:
+      links:
+        forgot_password: Forgot your password?
+        no_confirmation_instructions: Didn't receive confirmation instructions?
+        no_unlock_instructions: Didn't receive unlock instructions?
+        register_account: Register account
+        sign_in: Sign in
+        sign_in_with: Sign in with %{provider}
+    unlocks:
+      new:
+        header: Resend unlock instructions
+        submit: Resend unlock instructions
+  edit: Edit
+  edit_model: Edit %{model}
+  elements:
+    owner_select:
+      no_users_found: No users found.
+      select_user: Select a User...
+      select_user_title: Select a User
+      type_to_filter: Type to filter ...
+    topmenu_contents:
+      accounts: Accounts
+      admin: Admin
+      backup: Backup
+      browse: Browse
+      configuration: Configuration
+      content: Content
+      dashboard_tooltip: View the Concerto Dashboard
+      groups: Groups
+      leader: You are a leader of one or more groups
+      log_out: Log Out
+      moderate: Moderate
+      network: Network
+      no_account: No account?
+      now: now!
+      plugins: Plugins
+      restart_webserver: Restart Webserver
+      return_home_msg: Return home
+      screens: Screens
+      settings: Settings
+      sign_in: Sign In
+      sign_up: Register
+      signin_login_spiel: to upload and manage content.
+      submissions_to_moderate:
+        one: You have %{count} submission to moderate
+        other: You have %{count} submissions to moderate
+      system_admin: You are a system-wide admin
+      templates: Templates
+      users: Users
+      users_and_groups: User Groups
+  error_refreshing: Error refreshing.
+  errors:
+    error_404:
+      abort: Abort!
+      content_not_found: I'm afraid we're not in Kansas anymore.
+      error_message: |-
+        The Concerto content you were looking for could not be found.
+        Sometimes a strategic retreat is the best option.
+    error_generic:
+      abort: Abort!
+      error_message: Something went wrong. Rest assured, you have been assigned 0% of the blame.
+      reset_message: Sometimes a strategic retreat is the best option.
+  failed: failed
+  feed_created: Feed was successfully created.
+  feed_updated: Feed was successfully updated.
+  feeds:
+    active: Active
+    approved: Approved
+    browse_body:
+      no_content_heading: I'm afraid we're not in Kansas anymore.
+      no_content_message: 'There doesn''t appear to be anything you can view on this Concerto network.
+        You should '
+      sign_in: Sign In
+      sign_up: Sign Up
+    browse_header:
+      browse_content: Browse Concerto Content
+    denied: Denied
+    expired: Expired
+    form:
+      allowed_types: Allowed types
+      other_options: Other Options
+      prohibited_feed_save: 'prevented this feed from being saved:'
+      provide_details: Provide Details
+      settings: Settings
+    future: Future
+    moderate:
+      contents_pending_moderation: Contents Pending Moderation
+      no_pending_content: All good for now! None of the feeds you moderate have any pending contents.
+      nothing_to_moderate: Nothing to Moderate
+      with_pending_content: with pending content
+    no_availible_feeds: There are no feeds in the system that you can submit content to.  Please contact
+      your system administrator for more information.
+    orphaned: Orphaned
+    pending: Pending
+  field_configs:
     index:
-      disabled_msg: This plugin is currently disabled.
-      enabled_msg: This plugin is currently enabled.
-      gem_description: Description
-      status: Status
-    new:
-      install_plugin: Install Plugin
-      path_instructions: This should be a path to a directory or file location for
-        the plugin. Please note that on Mac OS X, directories inserted into /var/www/
-        should be prefixed with /private.
-      source_url: Source URL
+      field: field
+      field_custom_configurations: Custom Field Configs
+      manage_model_for_field: Manage %{model} for %{name} Field
+      no_configuration_yet: This field does not have any configuration.
+      save_changes_to_model: Save changes to %{model}
     show:
-      gem_version: ! 'Gem version:'
-      installed: ! 'Installed:'
-      locked: (Locked)
-      installed_yes: 'Yes'
-      installed_no: 'No'
-      visit_plugin_website: Visit plugin website
-      upgrade: Upgrade
-      upgrade_available: (Upgrade available to %{version})
-      unknown: Unknown
-  name: name
+      back: Back
+      edit: Edit
+  field_created: Field was successfully created.
+  field_updated: Field was successfully updated.
+  file_is_required: file is required
+  file_type_unsupported: file is of type %{type}, which is not supported.
+  frontend:
+    screens:
+      sign_in:
+        coming_soon: 'Coming Soon: Your New Screen.'
+        configure: 'To configure this screen, you will need the following code:'
+        happy_advertising: Happy Advertising!
+        step_one: Step One.
+        step_one_message: "On your PC or mobile device, log into the \nConcerto Panel and visit the
+          Screens page."
+        step_three: Step Three.
+        step_three_details: "You can add some content to the screen by editing the \nsubscriptions
+          in each field in the Concerto Panel."
+        step_three_header: "Finally, take a look back at this screen. After a moment, \nyour template
+          should appear."
+        step_two: Step Two.
+        step_two_details: "The screen should not be public. Use the code \ngiven above as the authorization
+          code. If this \nmachine is being reconfigured or is replacing an \nexisting screen, simply
+          click on that screen, click \nedit, ensure that the screen is not public, and enter \nthe
+          authorization code."
+        step_two_header: "If this is a completely new screen, click \n\"New Screen\" and fill out
+          the relevant details."
+  gem_not_found: is not a valid rubygem
+  gems_frozen_warning: Bundler has been run on Concerto using a frozen gem configuration—likely due
+    to a deployment tool using the --deployment option for Bundler. In this setup, Concerto cannot
+    automatically update the Gemfile with any plugins added/removed here nor install or update Concerto
+    gems automatically.
+  gemspec_not_found: Gemspec not found in
+  group_created: Group was successfully created.
+  group_not_deletable: A group owning screens and/or feeds cannot be deleted.
+  group_updated: Group was successfully updated.
   groups:
+    edit:
+      change_group_memberships: Change Group Memberships
+    form:
+      initial_leader: Initial Leader
+      provide_details: Provide Details
     index:
       leader: This person is a leader for this group.
     manage_members:
@@ -449,44 +586,459 @@ en:
       demote_to_regular: Demote to Regular
       feed_permission:
         name: Feed Permission
-        tooltip: What you can change about the feeds owned by this group. You can
-          change nothing, just moderate submissions, or everything (edit feed, moderate
-          submissions).
+        tooltip: What you can change about the feeds owned by this group. You can change nothing,
+          just moderate submissions, or everything (edit feed, moderate submissions).
       leader: Leader
       manage_members: Manage Members
+      manage_model: Manage %{model}
+      member: ' member'
+      name: Name
       no_pending_approvals: No Pending Approvals
       no_regular_members: This group currently has no regular members.
+      permissions:
+        all: All
+        none: None
+        submissions: Submission
+        subscriptions: Subscriptions
       promote_to_leader: Promote To Leader
       remove_from_group: Remove From Group
       request_made_at: request_made_at
       screen_permission:
         name: Screen Permission
-        tooltip: What you can change about the screens owned by this group. You can
-          change nothing, just the subscriptions, or everything (edit screen, change
-          template, and subscriptions).
+        tooltip: What you can change about the screens owned by this group. You can change nothing,
+          just the subscriptions, or everything (edit screen, change template, and subscriptions).
       update_permissions: Update Permissions
-    form:
-      initial_leader: Initial Leader
-      provide_details: Provide Details
     show_body:
+      edit_group: Edit Group
       feed_header:
         one: Moderates one Feed
         other: Moderates %{count} Feeds
-      join_group: join_group
+      group_description: Group Description
+      group_has_no_leaders: This group currently has no leaders.  You should promote a regular member
+        in the table above.
+      group_leaders: Group Leaders
+      join_group: Join Group
       leader: Leader
-      leave_group: leave group
-      member: ! ' member'
+      leave_group: Leave Group
+      member: ' member'
       member_header:
         one: Contains one Member
         other: Contains %{count} Members
+      no_pending_approvals: No Pending Approvals!
       not_in_group: You are not currently in this group.
+      previously_denied_members: Previously Denied Members
+      promote_to_leader: Promote to Leader
+      regular_members: Regular Members
+      remove_from_group: Remove from Group
+      request_made_at: Request Made At
       screen_header:
         one: Manages one Screen
-        other: Manages %{count} Screen
+        other: Manages %{count} Screens
       your_membership_role: You are currently a %{level}%{what} of this group.
     show_header:
+      group_cannot_be_deleted: Group cannot be deleted
       manage_members: Manage Members
+  helpers:
+    label:
+      feed:
+        description: Description
+        group: Group
+        is_submittable: Is submittable
+        is_viewable: Is viewable
+        name: Name
+        parent: Parent
+      graphic:
+        name: Name
+        submit: Submit
+      template:
+        author: Author
+        is_hidden: Hide this template from being shown in lists
+        media: Background Image/CSS
+        name: Name
+        owner: Owner
+      user:
+        email: Email
+        first_name: Name
+        locale: Locale
+        password: Password
+        password_confirmation: Confirm Password
+        receive_moderation_notifications: Receive Moderation Notifications
+        time_zone: Time Zone
+  import_model: Import %{model}
+  join: Join
+  js:
+    confirmbox:
+      cancel: Cancel
+      ok: OK
+      title: Concerto
+    duration:
+      second:
+        one: '%{count}s'
+        other: '%{count}s'
+  kind_created: Kind was successfully created.
+  kind_updated: Kind was successfully updated.
+  layouts:
+    errors:
+      prohibited_save:
+        concerto_plugin:
+          one: '1 error prevented this plugin from being saved:'
+          other: '%{count} errors prevented this plugin from being saved:'
+        feed:
+          one: '1 error prevented this feed from being saved:'
+          other: '%{count} errors prevented this feed from being saved:'
+        field_config:
+          one: '1 error prevented this field config from being saved:'
+          other: '%{count} errors prevented this field config from being saved:'
+        generic:
+          one: '1 error prevented this %{model} from being saved:'
+          other: '%{count} errors prevented this %{model} from being saved:'
+        graphic:
+          one: '1 error prevented this graphic from being saved:'
+          other: '%{count} errors prevented this graphic from being saved:'
+        group:
+          one: '1 error prevented this group from being saved:'
+          other: '%{count} errors prevented this group from being saved:'
+        kind:
+          one: '1 error prevented this kind from being saved:'
+          other: '%{count} errors prevented this kind from being saved:'
+        page:
+          one: '1 error prevented this page from being saved:'
+          other: '%{count} errors prevented this page from being saved:'
+        screen:
+          one: '1 error prevented this screen from being saved:'
+          other: '%{count} errors prevented this screen from being saved:'
+        subscription:
+          one: '1 error prevented this subscription from being saved:'
+          other: '%{count} errors prevented this subscription from being saved:'
+        template:
+          one: '1 error prevented this template from being saved:'
+          other: '%{count} errors prevented this template from being saved:'
+        ticker:
+          one: '1 error prevented this text from being saved:'
+          other: '%{count} errors prevented this text from being saved:'
+        user:
+          one: '1 error prevented this user from being saved:'
+          other: '%{count} errors prevented this user from being saved:'
+  manage_model: Manage %{model}
+  member_removed: Member removed
+  membership_applied_for: Membership in group is now pending
+  membership_approved: Membership was successfully approved.
+  membership_approved_failure: Membership was not successfully approved.
+  membership_created: Membership was successfully created.
+  membership_demoted: Member was successfully demoted from group leader.
+  membership_demoted_failure: Member was not successfully demoted from group leader. There must be
+    at least one leader.
+  membership_denied: Membership was successfully denied.
+  membership_denied_failure: Membership was not successfully denied.
+  membership_promoted: Member was successfully promoted to group leader.
+  membership_promoted_failure: Member was not successfully promoted to group leader
+  membership_unknown_action: Unknown Membership action submitted.
+  missing_default_type: Missing Default Content Type
+  my_model: My %{model}
+  name: name
+  new_model: New %{model}
+  other_model: Other %{model}
+  parameter:
+    one: parameter
+    other: parameters
+  parameter_updated: Parameter was successfully updated.
+  pending: Pending
+  plugin_created: Concerto plugin was successfully installed.
+  plugin_created_frozen_env: The Concerto plugin was created, but Concerto is running in a frozen
+    Bundler environment. The plugin must be added to the Gemfile and installed manually with bundler.
+  plugin_creation_failed: Concerto plugin creation failed.
+  plugin_removed: Concerto plugin was successfully removed.
+  plugin_removed_frozen_env: The Concerto plugin was removed, but Concerto is running in a frozen
+    Bundler environment. The plugin must be removed from the Gemfile and bundler re-run.
+  plugin_updated: Concerto plugin was successfully updated.
+  plugin_updated_frozen_env: The Concerto plugin was updated, but Concerto is running in a frozen
+    Bundler environment. Bundler must be re-run.
+  position_created: Position was successfully created.
+  position_updated: Position was successfully updated.
+  preferences_updated: Email preferences have been updated.
+  public_activity:
+    a_group_which_no_longer_exists: no longer existing
+    a_member: a member
+    concerto_config:
+      article: the
+    concerto_plugin:
+      article: the
+    content:
+      create:
+        created_a_new_content: '%{owner} created a new content %{item}'
+        created_a_new_content_with_type: '%{owner} created a new content %{item} (%{content_type})'
+      destroy:
+        deleted_the_content: '%{owner} deleted the content %{item}'
+        deleted_the_content_with_type: '%{owner} deleted the content %{item} (%{content_type})'
+      update:
+        updated_the_content: '%{owner} updated the content %{item}'
+        updated_the_content_with_type: '%{owner} updated the content %{item} (%{content_type})'
+    create_the_model: '%{owner} created %{article} %{model} %{item}'
+    destroy_the_model: '%{owner} deleted %{article} %{model} %{item}'
+    feed:
+      article: the
+      create:
+        created_a_new_feed: created a new feed
+      destroy:
+        deleted_the_feed: deleted the feed
+    field_config:
+      create:
+        created_config_for_field_on_screen: '%{owner} created the config %{config} for field %{field}
+          on screen %{screen}'
+      destroy:
+        deleted_config_for_field_on_screen: '%{owner} deleted the config %{config} for field %{field}
+          on screen %{screen}'
+      update:
+        updated_config_for_field_on_screen: '%{owner} updated the config %{config} for field %{field}
+          on screen %{screen}'
+    graphic:
+      article: the
+      create:
+        created_a_new_graphic: created a new graphic
+    group:
+      article: the
+      create:
+        created_a_new_group: created a new group
+      destroy:
+        deleted_the_group: deleted the group
+    import_the_model: imported the %{model}
+    membership:
+      article: the
+      create:
+        added_member_to_group: '%{owner} added %{member} to the %{group} group as a %{role}'
+        leader: leader
+        regular_member: regular member
+      destroy:
+        removed_member_from_group: '%{owner} removed %{member} from the %{group} group'
+    screen:
+      article: the
+      create:
+        created_a_new_screen: created a new screen
+      destroy:
+        deleted_the_screen: deleted the screen
+    setting: setting
+    submission:
+      article: the
+      update:
+        approved_content_for_feed: '%{owner} approved %{content} for feed %{feed}'
+        denied_content_for_feed: '%{owner} denied %{content} for feed %{feed}'
+    unknown_user: An unknown user
+    update_the_model: '%{owner} updated %{article} %{model} %{item}'
+    user:
+      article: the
+      create:
+        added_a_new_user: added as new user
+        registered: registered
+    which_has_since_been_removed: which has since been removed
+  rejected: Rejected
+  remove_model: Remove %{model}
+  restart_alert: A new plugin has been added.  Please restart the concerto application.
+  screen_created: Screen was successfully created.
+  screen_updated: Screen was successfully updated.
+  screens:
+    feeds:
+      filter_for_feed: Filter for Feed
+      select_feed: Select Feed
+    form:
+      auth_action: Authentication Action
+      authentication: Authentication
+      connection_details: Connection Details
+      dimensions: Dimensions
+      existing_mac: Use existing legacy MAC address
+      new_token: Secure with a new token
+      new_token_override: Remove existing authentication and secure with a new token
+      no_auth: None (Unsecured)
+      private_token: Secured by an existing private token
+      provide_details: Provide Details
+    index:
+      common_templates: Common Templates
+      view_all: View All
+    index_body:
+      add_one: Why not add one?
+      my_screens: My Screens
+      no_screens: Oops - there are no screens to display.
+      other_screens: Other Screens
+      to_add: ' to add one'
+    screen_info:
+      mac_address: 'MAC Address: %{mac}'
+      offline: Offline
+      online: Online
+    show_body:
+      field: '%{name} Field'
+      field_settings: Hover over a field below to view its settings.
+      manage: Manage
+      preview_screen: Preview Screen
+    template_selection:
+      best_fit_templates: Best-Fit Templates
+      select_template: Select Template
+    thumbs:
+      owner: owner
+  settings_saved: Concerto settings saved.  Some changes may not become effective until the webserver
+    is restarted.
+  show: Show
+  smtp_send_error: A SMTP error occurred while sending a notification e-mail. Please check the Concerto
+    SMTP settings.
+  smtp_send_error_ssl: A SMTP error occurred while sending a notification e-mail. Please check the
+    Concerto SMTP settings-- you might need to disable SSL Verification.
+  sorry_access: Sorry, you don't have access to perform this action.
+  status: Status
+  submissions:
+    approval_info:
+      approved: Approved
+      display_from: 'Display From:'
+      display_until: 'Display Until:'
+      duration: 'Duration:'
+      edit_duration: Edit duration
+      moderated_by: 'By: %{moderator}'
+      seconds: seconds
+      submitted_by: Submitted By
+      the_dawn_of_time: The Dawn of Time.
+      the_end_of_time: The End of Time.
+    index_body:
+      click_to_jump: Click on a feed to jump
+      items_in_state:
+        active:
+          one: '%{count} active item'
+          other: '%{count} active items'
+        denied:
+          one: '%{count} denied item'
+          other: '%{count} denied items'
+        expired:
+          one: '%{count} expired item'
+          other: '%{count} expired items'
+        future:
+          one: '%{count} future item'
+          other: '%{count} future items'
+        generic:
+          one: '%{count} %{state} item'
+          other: '%{count} %{state} items'
+      jump_to_feed: Jump to Feed...
+      moderated_by: Moderated By
+      no_state_content:
+        active: No active content
+        denied: No denied content
+        expired: No expired content
+        future: No future content
+        generic: No %{state} content
+      no_sub_feeds: No Sub-feeds
+      sub_feeds: 'Sub-feeds:'
+      submissions_pending:
+        one: '%{count} item pending your moderation'
+        other: '%{count} items pending your moderation'
+      submit_something: submit something
+      to_make_this_feed_happy: to make this feed a happier place?
+      toggle_content_states_to_display: Toggle content states to display...
+      type_to_filter: Type here to filter
+      would_you_kindly: Would you kindly
+    index_header:
+      all_feeds: All Feeds
+      delete_feed: Delete Feed
+      edit_feed: Edit Feed
+      moderated_by: This feed is moderated by
+    moderate_title: Moderate %{name}
+    show_body:
+      also_appears_on: Also submitted to...
+      approve_this_content: Approve this content
+      approved: Approved
+      deny_this_content: Deny this content
+    show_header:
+      all_feeds: All Feeds
+    submission_listgriditem:
+      change_to_approved: Change to Approved
+      change_to_denied: Change to Denied
+      currently: currently
+      date_range: '%{start} to %{end}'
+      moderate: Moderate...
+      urgent: Urgent
+      urgent_tooltip: Hey! This content has already passed its requested start date and you should
+        moderate it.
+    submission_tile:
+      approve_this_content: Approve this content
+      deny_this_content: Deny this content
+      has_been_approved: This content has been approved.
+      has_been_denied: This content has been denied.
+  subscription_created: Subscription was successfully created.
+  subscription_updated: Subscription was successfully updated.
+  subscriptions:
+    approved_content:
+      one: '%{count} approved item'
+      other: '%{count} approved items'
+    index:
+      add_a_new_feed: Add A New Feed...
+      field: '%{kind} field'
+      field_custom_configurations: Custom Field Configurations
+      make_changes: First make some changes above to save.
+      manage_model_for_field: Manage %{model} for %{name} Field
+      no_configuration_yet: This field does not have any configuration.
+      save_changes_to_model: Save changes to %{model}
+      search_and_find_a_feed_to_add: Search and Find a Feed to Add
+      subscriptions: Subscriptions
+    records_created: Subscriptions created
+    records_updated: Subscriptions have been saved for this field on your screen.
+    show:
+      back: Back
+      edit: Edit
+      feed: 'Feed:'
+      field: 'Field:'
+      screen: 'Screen:'
+      weight: 'Weight:'
+    shown_frequently: Frequently shown
+    shown_rarely: Rarely shown
+  template_created: Template was successfully created.
+  template_import_error: A template import error has occurred. Make sure that the XML file for the
+    imported template is valid.
+  template_import_requires_files: Importing a template requires an xml file and an image file.
+  template_updated: Template was successfully updated.
+  templates:
+    from_scratch: Create from Scratch
+    import_existing: Import Existing
+    import_form:
+      descriptor: Descriptor file
+      image: Image
+      package: Package
+    index_body:
+      add_one: add one
+      author: by
+      no_templates_html: Oops - there are no templates yet.  Why don't you %{href}?
+    new:
+      invalid_xml: The template descriptor file contains invalid XML
+      template_import_requires_archive: You need to specify an archive (ZIP) file that contains your
+        template
+      template_import_requires_image: Your template package is missing a background image
+      template_import_requires_xml: Your template package is missing an xml descriptor
+      template_import_requires_zip: The selected file is not a ZIP file
+      template_method: 'Template method:'
+      template_type: '%{type} Template'
+    show_body:
+      author: Author
+      preview_alt: '%{name} Preview'
+      usage: 'Used by the following screens:'
+    show_header:
+      delete_template: Delete Template
+      edit_template: Edit Template
+    template:
+      by: by %{author}
+  time:
+    formats:
+      date: '%D'
+      date_long_year: '%m/%d/%Y'
+      date_time: '%D, %l:%M %p'
+      long_day: '%A %B %e at %l:%m %p'
+      month_day: '%m/%d'
+      short_date: '%a %D'
+      short_day: '%a %b %d %Y'
+      short_month: '%b %d'
+      time_date: '%I:%M %p on %D'
+      twelve_hour_time: '%I:%M %P'
+  unrecognized_type: Unrecognized content type.
+  update_model: Update %{model}
+  user_created: User was successfully created.
+  user_not_created: User not created
+  user_not_deletable: A user owning screens or who is the last remaining administrator cannot be deleted.
+  user_owns_screens: This user cannot be deleted because they own one or more screens.
+  user_updated: User was successfully updated.
   users:
+    all_users: All Users
     change_password: Change Password
     form:
       email_label: user@domain.com
@@ -497,155 +1049,27 @@ en:
     index:
       name: Name
     show_body:
+      admin: Admin
+      content: Content
       content_header:
-        one: Has Submitted one item
-        other: Has Submitted %{count} items
+        one: Has Submitted one Item
+        other: Has Submitted %{count} Items
+      dont_receive_emails: Don't receive emails
+      forever: forever
       group_header:
         one: Belongs to one Group
         other: Belongs to %{count} Groups
+      groups: Groups
       leader: User is a leader of one or more groups
       my: My
+      name: Name
       receive_emails: Receive emails
+      roles: Roles
       screen_header:
         one: Manages one Screen
         other: Manages %{count} Screens
-      system_wide_admin: This user is a system-wide admin
-  elements:
-    topmenu_contents:
-      admin: Admin
-      browse: Browse
-      content: Content
-      leader: You are a leader of one or more groups
-      log_out: Log Out
-      moderate: Moderate
-      network: Network
-      no_account: No account?
-      now: now!
-      plugins: Plugins
       screens: Screens
-      settings: Settings
-      sign_in: Sign In
-      sign_up: Register
-      signin_login_spiel: to upload and manage content.
-      submissions_to_moderate:
-        one: You have %{count} submission to moderate
-        other: You have %{count} submissions to moderate
-      system_admin: You are a system-wide admin
-      users: Users
-      users_and_groups: User Groups
-    owner_select:
-      no_users_found: No users found.
-      select_user: Select a User...
-      type_to_filter: Type to filter ...
-  subscriptions:
-    approved_content:
-      one: ! '%{count} approved item'
-      other: ! '%{count} approved items'
-    records_updated: Subscriptions have been saved for this field on your screen.
-    shown_frequently: Frequently shown
-    shown_rarely: Rarely shown
-    index:
-      add_a_new_feed: Add A New Feed...
-      field: ! '%{kind} field'
-      manage_model_for_field: Manage %{model} for %{name} Field
-      search_and_find_a_feed_to_add: Search and Find a Feed to Add
-      subscriptions: Subscriptions
-    show:
-      back: Back
-      edit: Edit
-      feed: ! 'Feed:'
-      field: ! 'Field:'
-      screen: ! 'Screen:'
-      weight: ! 'Weight:'
-  submissions:
-    moderate_title: Moderate %{name}
-    index_header:
-      all_feeds: All Feeds
-      delete_feed: Delete Feed
-      edit_feed: Edit Feed
-    approval_info:
-      approved: Approved
-      display_from: ! 'Display From:'
-      display_until: ! 'Display Until:'
-      duration: ! 'Duration:'
-      edit_duration: Edit duration
-      moderated_by: ! 'By: %{moderator}'
-      seconds: seconds
-      submitted_by: Submitted By
-      the_dawn_of_time: The Dawn of Time.
-      the_end_of_time: The End of Time.
-    index_body:
-      click_to_jump: Click on a feed to jump
-      items_in_state:
-        one: ! '%{count} %{state} item'
-        other: ! '%{count} %{state} items'
-      jump_to_feed: Jump to Feed...
-      no_state_content: No %{state} Content
-      no_sub_feeds: No Sub-feeds
-      sub_feeds: ! 'Sub-feeds:'
-      submissions_pending:
-        one: ! '%{count} item pending your moderation'
-        other: ! '%{count} items pending your moderation'
-      would_you_kindly: Would you kindly
-      submit_something: submit something
-      to_make_this_feed_happy: to make this feed a happier place?
-      moderated_by: Moderated By
-    show_body:
-      also_appears_on: Also submitted to...
-    show_header:
-      all_feeds: All Feeds
-    submission_listgriditem:
-      change_to_approved: Change to Approved
-      change_to_denied: Change to Denied
-      currently: currently
-      date_range: ! '%{start} to %{end}'
-      moderate: Moderate...
-      urgent: Urgent
-      urgent_tooltip: Hey! This content has already passed its requested start date
-        and you should moderate it.
-    submission_tile:
-      approve_this_content: Approve this content
-      deny_this_content: Deny this content
-      has_been_approved: This content has been approved.
-      has_been_denied: This content has been denied.
-  field_configs:
-    index:
-      manage_model_for_field: Manage %{model} for %{name} Field
-    show:
-      edit: Edit
-      back: Back
-  frontend:
-    screens:
-      sign_in:
-        configure: ! 'To configure this screen, you will need the following code:'
-        coming_soon: ! 'Coming Soon: Your New Screen.'
-        happy_advertising: Happy Advertising!
-        step_one: Step One.
-        step_one_message: ! "On your PC or mobile device, log into the \nConcerto
-          Panel and visit the Screens page."
-        step_two: Step Two.
-        step_two_header: ! "If this is a completely new screen, click \n\"New Screen\"
-          and fill out the relevant details."
-        step_two_details: ! "The screen should not be public. Use the code \ngiven
-          above as the authorization code. If this \nmachine is being reconfigured
-          or is replacing an \nexisting screen, simply click on that screen, click
-          \nedit, ensure that the screen is not public, and enter \nthe authorization
-          code."
-        step_three: Step Three.
-        step_three_header: ! "Finally, take a look back at this screen. After a moment,
-          \nyour template should appear."
-        step_three_details: ! "You can add some content to the screen by editing the
-          \nsubscriptions in each field in the Concerto Panel."
-  concerto_config:
-    show:
-      global_settings: Global Settings
-      edit_settings: Edit Global Settings
-      restart_webserver: Restart Webserver
-      check_configuration: Check Configuration
-      save_settings: Save Settings
-    config_check:
-      configuration_check: Configuration Check
-      file_permissions: Necessary File Permissions
-      performance: Performance
-      security: Security
-      software_prerequisites: Software Prerequisites
+      system_wide_admin: This user is a system-wide admin
+      this_is_you: This is you.
+  valid_git: is not a valid git repository
+  wont_write_restart_txt: Concerto does not support restarting your webserver. Please restart it manually.

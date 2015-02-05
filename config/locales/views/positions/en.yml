@@ -1,7 +1,10 @@
 en:
   activerecord:
     models:
-      position: 'Position'
+      position:
+        one: 'Position'
+        other: 'Positions'
+
     attributes:
       position:
         bottom: 'Bottom'

@@ -92,4 +92,10 @@ gem 'concerto_docsplit'
 gem 'nprogress-rails', '~> 0.1.6.3'
 gem 'google-analytics-turbolinks', '~> 0.0.4'
 
-gem 'i18n-tasks', '~> 0.4.5', :group => :development
+# I18n Tasks
+group :development do
+  gem 'i18n-tasks', '~> 0.7.10'
+  gem 'slop', '~> 3.6.0' # Required due to https://github.com/glebm/i18n-tasks/issues/118
+end
+
+gem 'i18n-js', '>= 3.0.0.rc8', '< 3.1.0'

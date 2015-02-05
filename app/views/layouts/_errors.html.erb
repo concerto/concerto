@@ -2,7 +2,56 @@
 <% if errors.errors.any? %>
   <div class="alert alert-banner alert-error">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <h4><b><%= t :error, count: errors.errors.count %><%= t(:prohibited_save, :model => errors.class.model_name.human.downcase) %></b></h4>
+    <h4><b>
+      <%=
+          # We create an extensive list for important models here for better tool support (dynamically generating translation keys is bad practise)
+          case errors
+            when Graphic
+              t('.prohibited_save.graphic', count: errors.errors.count)
+
+            when Ticker
+              t('.prohibited_save.ticker', count: errors.errors.count)
+
+            when Feed
+              t('.prohibited_save.feed', count: errors.errors.count)
+
+            when FieldConfig
+              t('.prohibited_save.field_config', count: errors.errors.count)
+
+            when Group
+              t('.prohibited_save.group', count: errors.errors.count)
+
+            when Page
+              t('.prohibited_save.page', count: errors.errors.count)
+
+            when Screen
+              t('.prohibited_save.screen', count: errors.errors.count)
+
+            when User
+              t('.prohibited_save.user', count: errors.errors.count)
+
+            when ConcertoPlugin
+              t('.prohibited_save.concerto_plugin', count: errors.errors.count)
+
+            when Kind
+              t('.prohibited_save.kind', count: errors.errors.count)
+
+            when Subscription
+              t('.prohibited_save.subscription', count: errors.errors.count)
+
+            when ::Template # Absolute namespace required because we are in ActionView namespace (which has a Template)
+              t('.prohibited_save.template', count: errors.errors.count)
+
+            else
+              # We fallback gracefully here
+              begin
+                t(".prohibited_save.#{errors.class.name.underscore}", count: errors.errors.count, raise: true)
+              rescue I18n::MissingTranslationData
+                t('.prohibited_save.generic', count: errors.errors.count, model: errors.class.model_name.human.downcase)
+              end
+          end
+      %>
+    </b></h4>
     <ul>
       <% errors.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>

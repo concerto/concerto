@@ -7,7 +7,7 @@
     </li>
     <li class="active">
       <%= link_to concerto_plugins_path do %>
-          <i class="icon-bolt"></i> <%= t :manage_model, :model => ConcertoPlugin.model_name.human.pluralize %>
+          <i class="icon-bolt"></i> <%= t :manage_model, :model => ConcertoPlugin.model_name.human(count: 42) %>
       <% end %>
     </li>
   </ul>

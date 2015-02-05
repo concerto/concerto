@@ -11,7 +11,7 @@
       <% else %>
 
       <div class="tooltip-filter-cont">
-        <input type="text" class="feed_filter fillWidth" placeholder="Type here to filter"/>
+        <input type="text" class="feed_filter fillWidth" placeholder="<%= t('.type_to_filter') %>"/>
       </div>
 
       <div class="tooltip-scrollY">
@@ -128,16 +128,45 @@
   </div>
 </div>
 
+<%
+   items_in_state = case @state
+                      when 'active'
+                        t('.items_in_state.active', count: @submissions.count)
+                      when 'future'
+                        t('.items_in_state.future', count: @submissions.count)
+                      when 'expired'
+                        t('.items_in_state.expired', count: @submissions.count)
+                      when 'denied'
+                        t('.items_in_state.denied', count: @submissions.count)
+                      else
+                        t('.items_in_state.generic', count: @submissions.count, state: @state)
+                    end
+%>
+
 <% if @paginated_submissions.empty? %>
 <div class="clearfix default-padding">
   <div class="header-with-icon clearfix">
     <h3 style="float: left;">
-      <i class="concertocon-header-<%= @state %>content"></i> <%= t('.items_in_state', :count => @submissions.count, :state => @state) %>
+      <i class="concertocon-header-<%= @state %>content"></i> <%= items_in_state %>
     </h3>
   </div>
   <br />
   <div class="alert alert-block alert-zero">
-    <p class="alert-heading"><%= t('.no_state_content', :state => @state.capitalize) %></p>
+    <p class="alert-heading">
+      <%= case @state
+            when 'active'
+              t('.no_state_content.active')
+            when 'future'
+              t('.no_state_content.future')
+            when 'expired'
+              t('.no_state_content.expired')
+            when 'denied'
+              t('.no_state_content.denied')
+            else
+              t('.no_state_content.generic', state: @state)
+            end
+      %>
+    </p>
     <% if (can? :create, Content) && @state == 'active' %><%= t('.would_you_kindly') %> <%= link_to t('.submit_something'), new_content_path %> <%= t('.to_make_this_feed_happy') %><% end %>
   </div>
 </div>
@@ -146,7 +175,7 @@
 <div class="clearfix default-padding">
   <div class="header-with-icon clearfix">
     <h3 style="float: left;">
-      <i class="concertocon-header-<%= @state %>content"></i> <%= t('.items_in_state', :count => @submissions.count, :state => @state) %>
+      <i class="concertocon-header-<%= @state %>content"></i> <%= items_in_state %>
     </h3>
     <div class="pagination-cont">
       <%= paginate @paginated_submissions %>

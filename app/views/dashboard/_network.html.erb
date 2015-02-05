@@ -7,7 +7,7 @@
       <div class="span6">
         <div class="default-padding">
           <% if current_user.groups.count > 0 %>
-            <p><%= Group.model_name.human.pluralize %>:</p>
+            <p><%= Group.model_name.human(count: 42) %>:</p>
             <ul>
               <% current_user.groups.each do |group| %>
                 <li><%= link_to group.name, group %></li>
@@ -21,7 +21,7 @@
       <div class="span6">
         <div class="default-padding">
           <% if current_user.screens.count > 0 %>
-            <p><%= Screen.model_name.human.pluralize %>:</p>
+            <p><%= Screen.model_name.human(count: 42) %>:</p>
             <ul>
               <% current_user.screens.each do |screen| %>
                 <li><%= link_to screen.name, screen %></li>

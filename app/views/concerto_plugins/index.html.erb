@@ -8,7 +8,7 @@
       </div>
     </div>
     <h1 class="default-padding">
-      <%= t :manage_model, :model => ConcertoPlugin.model_name.human.pluralize %>
+      <%= t :manage_model, :model => ConcertoPlugin.model_name.human(count: 42) %>
     </h1>
   </header>
   <div class="viewblock-cont">

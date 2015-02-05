@@ -1,5 +1,9 @@
 en:
   activerecord:
+    models:
+      screen:
+        one: 'Screen'
+        other: 'Screens'
     attributes:
       screen:
         is_public: 'This screen is publicly viewable'
@@ -40,12 +44,13 @@ en:
     screen_info:
       offline: 'Offline'
       online: 'Online'
-      mac_address: 'MAC Add ress: %{mac}'
+      mac_address: 'MAC Address: %{mac}'
 
     show_body:
       field_settings: 'Hover over a field below to view its settings.'
       manage: 'Manage'
       preview_screen: 'Preview Screen'
+      field: '%{name} Field'
 
     template_selection:
       best_fit_templates: "Best-Fit Templates"

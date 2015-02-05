@@ -12,9 +12,9 @@
   </header>
   <div id="browse-body" class="viewblock-cont">
     
-    <% if @feeds.count > 0 %>
+    <% if @feeds.length > 0 %>
       <div class="default-padding">
-        <h2><%= pluralize(@feeds.count, Feed.model_name.human) %> <%= t('.with_pending_content') %></h2>
+        <h2><%= pluralize(@feeds.length, Feed.model_name.human, Feed.model_name.human(count: 42)) %> <%= t('.with_pending_content') %></h2>
       </div>
 
       <ul class="list-stacked">

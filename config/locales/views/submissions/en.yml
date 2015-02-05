@@ -1,5 +1,9 @@
 en:
   activerecord:
+    models:
+      submission:
+        one: 'Submission'
+        other: 'Submissions'
     attributes:
       submission:
         duration: 'Duration'
@@ -28,11 +32,30 @@ en:
 
     index_body:
       click_to_jump: 'Click on a feed to jump'
-      items_in_state: 
-        one: '%{count} %{state} item'
-        other: '%{count} %{state} items' 
+      items_in_state:
+        active:
+          one: '%{count} active item'
+          other: '%{count} active items'
+        future:
+          one: '%{count} future item'
+          other: '%{count} future items'
+        expired:
+          one: '%{count} expired item'
+          other: '%{count} expired items'
+        denied:
+          one: '%{count} denied item'
+          other: '%{count} denied items'
+        generic:
+          one: '%{count} %{state} item'
+          other: '%{count} %{state} items'
       jump_to_feed: "Jump to Feed..."
-      no_state_content: 'No %{state} Content'
+      type_to_filter: 'Type here to filter'
+      no_state_content:
+        active: 'No active content'
+        future: 'No future content'
+        expired: 'No expired content'
+        denied: 'No denied content'
+        generic: 'No %{state} content'
       no_sub_feeds: 'No Sub-feeds'
       sub_feeds: 'Sub-feeds:'
       submissions_pending: 

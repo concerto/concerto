@@ -1,0 +1,16 @@
+nl:
+  helpers:
+    page_entries_info:
+      more_pages:
+        display_entries: "%{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> van de <b>%{total}</b> getoond"
+      one_page:
+        display_entries:
+          one: "<b>%{count}</b> %{entry_name} getoond"
+          other: Alle <b>%{count}</b> %{entry_name} getoond
+  views:
+    pagination:
+      first: "&laquo; Eerste"
+      last: Laatste &raquo;
+      next: Volgende &rsaquo;
+      previous: "&lsaquo; Vorige"
+      truncate: "&hellip;"

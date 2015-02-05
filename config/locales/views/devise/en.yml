@@ -1,0 +1,69 @@
+en:
+  devise:
+    confirmations:
+      new:
+        header: "Resend Confirmation Instructions"
+        submit: "Resend confirmation instructions"
+
+    sessions:
+      form:
+        sign_in: "Sign in"
+        remember_me: "Remember me"
+      new:
+        sign_in: "Sign in"
+        remember_me: "Remember me"
+
+    passwords:
+      new:
+        header:  "Forgot your password?"
+        submit: "Send Reset Instructions"
+      edit:
+        header: "Change Password"
+        new_password: "New password"
+        repeat_password: "Repeat password"
+        submit: "Change Password"
+
+    registrations:
+      new:
+        header: "Register Account"
+        name: "Name"
+        confirm_password: "Confirm Password"
+        submit: "Register Account"
+
+      edit:
+        change_password_for: 'Change password for %{username}'
+        current_password: 'Current password'
+        confirm_password: 'Confirm password'
+        new_password: 'New password'
+
+    unlocks:
+      new:
+        header: "Resend unlock instructions"
+        submit: "Resend unlock instructions"
+
+    mailer:
+      confirmation_instructions:
+        welcome: "Welcome %{user}!"
+        confirm_account_below: "You can confirm your account through the link below:"
+        confirm_my_account: 'Confirm my account'
+      reset_password_instructions:
+        hello: "Hello %{user}!"
+        request_link_to_change_password: "Someone has requested a link to change your password, and you can do this through the link below."
+        change_my_password: "Change my password"
+        ignore_if_not_requested: "If you didn't request this, please ignore this email."
+        password_wont_change: "Your password won't change until you access the link above and create a new one."
+
+      unlock_instructions:
+        hello: "Hello %{user}!"
+        account_locked: "Your account has been locked due to an excessive amount of unsuccessful sign in attempts."
+        click_to_unlock: "Click the link below to unlock your account:"
+        unlock_my_account: "Unlock my account"
+
+    shared:
+      links:
+        sign_in: "Sign in"
+        register_account: "Register account"
+        forgot_password: "Forgot your password?"
+        no_confirmation_instructions: "Didn't receive confirmation instructions?"
+        no_unlock_instructions: "Didn't receive unlock instructions?"
+        sign_in_with: "Sign in with %{provider}"

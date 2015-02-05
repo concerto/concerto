@@ -3,7 +3,9 @@ en:
 
   activerecord:
     models:
-      group: 'Group'
+      group:
+        one: 'Group'
+        other: 'Groups'
     attributes:
       group:
         name: 'Name'
@@ -40,6 +42,11 @@ en:
         name: 'Screen Permission'
         tooltip: 'What you can change about the screens owned by this group. You can change nothing, just the subscriptions, or everything (edit screen, change template, and subscriptions).'
       update_permissions: 'Update Permissions'
+      permissions:
+        all: 'All'
+        subscriptions: 'Subscriptions'
+        submissions: 'Submission'
+        none: 'None'
 
     form:
       initial_leader: "Initial Leader"
@@ -61,6 +68,7 @@ en:
         one:  'Contains one Member'
         other: 'Contains %{count} Members'
       no_pending_approvals: 'No Pending Approvals!'
+      previously_denied_members: 'Previously Denied Members'
       not_in_group: "You are not currently in this group."
       promote_to_leader: "Promote to Leader"
       regular_members: 'Regular Members'
