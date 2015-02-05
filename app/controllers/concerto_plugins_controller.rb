@@ -40,7 +40,7 @@ class ConcertoPluginsController < ApplicationController
     @concerto_plugin.enabled = true
     auth!
     if @concerto_plugin.save
-      process_notification(@concerto_plugin, {}, process_notification_options({:params => {:concerto_plugin_gem_name => @concerto_plugin.gem_name}}))
+      process_plugin_notification
       #if boot.rb found a "frozen" bundler environment, don't try to write the Gemfile or bundle install
       if ENV['FROZEN'] == "1"
         flash[:notice] = t(:plugin_created_frozen_env)
@@ -63,11 +63,11 @@ class ConcertoPluginsController < ApplicationController
     @concerto_plugin = ConcertoPlugin.find(params[:id])
     auth!
     if @concerto_plugin.update_attributes(concerto_plugin_params)
-      process_notification(@concerto_plugin, {}, process_notification_options({:params => {:concerto_plugin_gem_name => @concerto_plugin.gem_name}}))
+      process_plugin_notification
       if ENV['FROZEN'] == "1"
         flash[:notice] = t :plugin_updated_frozen_env
       else
-        write_Gemfile()
+        write_Gemfile
         flash[:notice] = t(:plugin_updated)
       end
       redirect_to concerto_plugins_path
@@ -76,13 +76,21 @@ class ConcertoPluginsController < ApplicationController
     end
   end
 
+  def process_plugin_notification
+    process_notification(@content, {}, process_notification_options({
+      :params => {
+        :concerto_plugin_gem_name => @concerto_plugin.gem_name
+      }
+    }))
+  end
+
   # DELETE /concerto_plugins/1
   # DELETE /concerto_plugins/1.json
   def destroy
     @concerto_plugin = ConcertoPlugin.find(params[:id])
     auth!
 
-    process_notification(@concerto_plugin, {}, process_notification_options({:params => {:concerto_plugin_gem_name => @concerto_plugin.gem_name}}))
+    process_plugin_notification
     @concerto_plugin.destroy
     if ENV['FROZEN'] == "1"
       flash[:notice] = t(:plugin_removed_frozen_env)
