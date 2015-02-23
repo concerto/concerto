@@ -3,12 +3,14 @@ class FieldsController < ApplicationController
 
   # GET /fields
   def index
+    authorize! :read, Field
     @fields = Field.all
   end
 
   # GET /fields/new
   def new
     @field = Field.new
+    auth!
   end
 
   # GET /fields/1/edit
@@ -18,7 +20,7 @@ class FieldsController < ApplicationController
   # POST /fields
   def create
     @field = Field.new(field_params)
-
+    auth!
     if @field.save
       redirect_to fields_path, :notice => t(:field_created)
     else
@@ -45,6 +47,7 @@ class FieldsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_field
       @field = Field.find(params[:id])
+      auth!
     end
 
     # Only allow a trusted parameter "white list" through.
