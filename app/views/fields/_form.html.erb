@@ -10,7 +10,7 @@
   <div class="clearfix">
     <%= f.label :kind %>
     <div class="input">
-      <%= f.select :kind_id, options_for_select(Kind.all.map{|k|[k.name, k.id]}) %>
+      <%= f.select :kind_id, options_for_select(Kind.all.map{|k|[k.name, k.id]}, @field.kind_id) %>
     </div>
   </div>    
   </fieldset>

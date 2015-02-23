@@ -539,6 +539,7 @@ en:
       edit: Edit
   field_created: Field was successfully created.
   field_updated: Field was successfully updated.
+  field_deleted: Field was successfully deleted.
   file_is_required: file is required
   file_type_unsupported: file is of type %{type}, which is not supported.
   frontend:

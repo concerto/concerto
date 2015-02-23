@@ -17,6 +17,7 @@
       <thead>
         <tr>
           <th><%= ConcertoPlugin.human_attribute_name(:field_name) %></th>
+          <th><%= t('.field_kind')%></th>
           <th><%= t('.used_in_templates')%></th>
         </tr>
       </thead>
@@ -24,6 +25,7 @@
         <% @fields.each do |field| %>
           <tr>
             <td><h3><%= link_to(field.name.titleize, :action => :edit, :id => field.id) %></h3></td>
+            <td><h3><%= field.kind.name %></h3></td>
             <td><h3><%=field_templates(field).join(', ')%></h3></td>
           </tr>
         <% end %>
