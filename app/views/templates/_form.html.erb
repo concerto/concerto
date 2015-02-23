@@ -59,7 +59,8 @@
 
 
   <fieldset>
-    <legend><span><%= Position.model_name.human(count: 42) %></span></legend>
+    <legend><span><%= Position.model_name.human(count: 42) %></span>&nbsp; <%= link_to t(:manage_fields), Field, :class => "btn" %></legend>
+
     <div class="template-positions">
       <div class="row-fluid">
         <div class="span2">

@@ -1,0 +1,34 @@
+<section class="viewblock">
+  <header class="viewblock-header">
+    <div class="viewblock-header_right">
+      <div class="button-padding">
+        <% if can? :create, Field %>
+          <%= link_to t(:new_model, :model => Field.model_name.human), new_field_path, :class => "btn" %>
+        <% end %>
+      </div>
+    </div>
+    <h1 class="default-padding">
+      <%= t :manage_model, :model => Field.model_name.human.pluralize %>
+    </h1>
+  </header>
+  <div class="viewblock-cont">
+    <div class="default-padding">
+    <table>
+      <thead>
+        <tr>
+          <th><%= ConcertoPlugin.human_attribute_name(:field_name) %></th>
+          <th><%= t('.used_in_templates')%></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @fields.each do |field| %>
+          <tr>
+            <td><h3><%= link_to(field.name.titleize, :action => :edit, :id => field.id) %></h3></td>
+            <td><h3><%=field_templates(field).join(', ')%></h3></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>

@@ -11,4 +11,5 @@ class Field < ActiveRecord::Base
 
   # Validations
   validates :name, :presence => true
+  validates :kind_id, :presence => true
 end

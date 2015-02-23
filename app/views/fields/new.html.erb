@@ -1,0 +1,10 @@
+<section class="viewblock">
+  <header class="viewblock-header">
+    <h1 class="default-padding">
+      <%= link_to t(:manage_model, :model => Field.model_name.human(count: 42)), fields_path %> > New
+    </h1>
+  </header>
+  <div class="viewblock-cont">
+     <%= render 'form' %>
+  </div>
+</section>

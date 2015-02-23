@@ -14,6 +14,7 @@ en:
   #Feeds controller
   feed_created: "Feed was successfully created."
   feed_updated: "Feed was successfully updated."
+  feed_deleted: "Feed was successfully deleted."  
 
   #Fields controller
   field_created: "Field was successfully created."

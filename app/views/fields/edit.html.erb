@@ -1,0 +1,18 @@
+<section class="viewblock">
+  <header class="viewblock-header">
+   <div class="viewblock-header_right">
+      <div class="button-padding">
+        <% if can? :delete, @field %>
+          <%= link_to t(:destroy_model, :model => Field.model_name.human), @field, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => Field.model_name.human, :key => @field.name) }, :method => :delete, :class => "btn" %>
+        <% end %>
+      </div>
+    </div>
+
+    <h1 class="default-padding">
+      <%= link_to t(:manage_model, :model => Field.model_name.human(count: 42)), fields_path %> > <%= @field.name.titleize %>
+    </h1>
+  </header>
+  <div class="viewblock-cont">
+     <%= render 'form' %>
+  </div>
+</section>

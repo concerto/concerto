@@ -1,4 +1,5 @@
 en:
+  manage_fields: 'Manage Fields'
   activerecord:
     models:
       template:

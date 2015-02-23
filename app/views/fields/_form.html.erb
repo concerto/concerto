@@ -1,0 +1,25 @@
+<%= form_for(@field) do |f| %>
+  <%= render partial: "layouts/errors", object: @field %>
+  <fieldset>
+  <div class="clearfix">
+    <%= f.label :name %>
+    <div class="input">
+      <%= f.text_field :name, :class => "input-small" %>
+    </div>
+  </div>  
+  <div class="clearfix">
+    <%= f.label :kind %>
+    <div class="input">
+      <%= f.select :kind_id, options_for_select(Kind.all.map{|k|[k.name, k.id]}) %>
+    </div>
+  </div>    
+  </fieldset>
+  <div class="submit_bar actions">
+    <% if @field.new_record? %>
+      <%= f.submit t(:create_model, :model => Field.model_name.human), :class => "btn btn-primary" %>
+    <% else %>
+      <%= f.submit t(:update_model, :model => Field.model_name.human), :class => "btn btn-primary" %>
+    <% end %>
+    <%= link_to t(:cancel), fields_path, :class => "btn" %>
+  </div>
+<% end %>
