@@ -75,11 +75,17 @@ class Template < ActiveRecord::Base
   # template, fields, and original media.  Return the largest update_at value.
   def last_modified
     timestamps = [updated_at]
-    latest_position = positions.order('updated_at DESC').first
+    latest_position = positions.reorder('updated_at DESC').first
     timestamps.append(latest_position.updated_at) unless latest_position.nil?
     latest_media = media.original.order('updated_at DESC').first
     timestamps.append(latest_media.updated_at) unless latest_media.nil?
     return timestamps.max
+  end
+
+  # for cachebusting
+  def last_modified_md5
+    require 'digest/md5'
+    Digest::MD5.hexdigest(last_modified.to_s)
   end
 
   # Generate a preview image of a template.

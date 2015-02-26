@@ -1,5 +1,5 @@
 <article>
-  <%= image_tag preview_template_path(@template, :width=> 600, :format => :jpg), :style => "width: 100%", :alt => t('.preview_alt', :name => @template.name) %>
+  <%= image_tag preview_template_path(@template, :width=> 600, :lm => @template.last_modified_md5, :format => :jpg), :style => "width: 100%", :alt => t('.preview_alt', :name => @template.name) %>
 </article>
 <aside class="default-padding">
   <p>
