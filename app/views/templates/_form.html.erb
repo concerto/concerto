@@ -42,7 +42,7 @@
 
   <fieldset>
     <div class="clearfix">
-      <%= image_tag preview_template_path(@template, :width=> 400, :format => :jpg) %>
+      <%= image_tag preview_template_path(@template, :lm => @template.last_modified_md5, :width=> 400, :format => :jpg) %>
     </div>
   </fieldset>
 
