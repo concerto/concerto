@@ -10,40 +10,40 @@
           <form action="<%= content_search_path %>" method="get">
             <p>
               <!-- filter by type -->
-              <%= label_tag :type, t('.type'), :style => "display:inline"%>
+              <%= label_tag :type, t('.type'), style: "display:inline"%>
               <%= select_tag :type,
                 options_from_collection_for_select(Kind.all, :id, :name, params[:type]),
-                :include_blank => true %>
+                include_blank: true %>
               <!-- filter by user -->
-              <%= label_tag :user, t('.user'), :style => "display:inline" %>
+              <%= label_tag :user, t('.user'), style: "display:inline" %>
               <%= select_tag :user,
                 options_from_collection_for_select(
                   User.accessible_by(current_ability).sort_by{ |user| user.name.downcase},
                   :id, :name, params[:user]),
-                  :include_blank => true %>
+                  include_blank: true %>
               <!-- filter by feed -->
-              <%= label_tag :feed, t('.feed'), :style => "display:inline" %>
+              <%= label_tag :feed, t('.feed'), style: "display:inline" %>
               <%= select_tag :feed, 
                 options_from_collection_for_select(
                   Feed.accessible_by(current_ability).sort_by{|feed| feed.name.downcase},
                   :id, :name, params[:feed]), 
-                  :include_blank => true %>
+                  include_blank: true %>
               <!-- filter by screen -->
-                <%= label_tag :screen, t('.screen'), :style => "display:inline" %>
+                <%= label_tag :screen, t('.screen'), style: "display:inline" %>
                 <%= select_tag :screen,
                   options_from_collection_for_select(
                     Screen.accessible_by(current_ability).sort_by{|screen| screen.name.downcase},
                     :id, :name, params[:screen]),
-                    :include_blank => true
+                    include_blank: true
                 %>
             </p>
             <!-- show only active contents -->
             <p> 
-              <%= label_tag :is_active, t('.active'), :style => "display:inline" %>
+              <%= label_tag :is_active, t('.active'), style: "display:inline" %>
               <%= check_box_tag :is_active, params[:is_active] || true, params[:is_active] || false %>
             </p>
             <!-- show search results -->
-            <%= submit_tag t('.search'), :name => nil, :class => "btn btn-default" %>
+            <%= submit_tag t('.search'), name: nil, class: "btn btn-default" %>
           </form>
         </div>
         <hr>
@@ -51,7 +51,7 @@
           <%= link_to c do %>
             <div class="tile">
               <div class="tile-content">
-                <%= render_content(c, {:type => 'tile'}) %>
+                <%= render_content(c, {type: 'tile'}) %>
               </div>
               <div class="brand">
                 <% type_folder = "contents/#{c.type.underscore}" %>

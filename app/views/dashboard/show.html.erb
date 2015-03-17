@@ -3,15 +3,15 @@
 <% end %>
 <div class="row-fluid">
   <div class="span7">
-    <%= render :partial => "layouts/motd" %>
-    <%= render :partial => 'browse' %>
+    <%= render partial: "layouts/motd" %>
+    <%= render partial: 'browse' %>
   </div>
   <div class="span5">
-    <%= render :partial => 'latest_activity', :locals => {:activities => @activities} %>
-    <%= render :partial => 'network' %>
-    <%= render :partial => 'vitals', :locals => {:screens => @screens, :feeds => @feeds, :templates => @templates, :active_content => @active_content, :groups => @groups, :users => @users } %>
+    <%= render partial: 'latest_activity', locals: {activities: @activities} %>
+    <%= render partial: 'network' %>
+    <%= render partial: 'vitals', locals: {screens: @screens, feeds: @feeds, templates: @templates, active_content: @active_content, groups: @groups, users: @users } %>
     <% if can? :manage, :all %>
-      <%= render :partial => 'dashboard/admin_stats' %>
+      <%= render partial: 'dashboard/admin_stats' %>
     <% end %>
   </div>
 </div>

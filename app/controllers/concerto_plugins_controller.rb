@@ -78,8 +78,8 @@ class ConcertoPluginsController < ApplicationController
 
   def process_plugin_notification
     process_notification(@content, {}, process_notification_options({
-      :params => {
-        :concerto_plugin_gem_name => @concerto_plugin.gem_name
+      params: {
+        concerto_plugin_gem_name: @concerto_plugin.gem_name
       }
     }))
   end
@@ -107,7 +107,7 @@ class ConcertoPluginsController < ApplicationController
   def update_gem
     plugin = ConcertoPlugin.find(params[:id])
     system("bundle update #{plugin.gem_name}")
-    redirect_to :action => :show, :id => plugin.id
+    redirect_to action: :show, id: plugin.id
   end
 
   def write_Gemfile
@@ -126,11 +126,11 @@ class ConcertoPluginsController < ApplicationController
       end
 
       if plugin.source == "git" and not plugin.source_url.blank?
-        gem_args << ":git => \"#{plugin.source_url}\""
+        gem_args << "git: \"#{plugin.source_url}\""
       end
 
       if plugin.source == "path" and not plugin.source_url.blank?
-        gem_args << ":path => \"#{plugin.source_url}\""
+        gem_args << "path: \"#{plugin.source_url}\""
       end
 
       gemfile_content = gemfile_content + "\ngem " + gem_args.join(", ") + "\n"

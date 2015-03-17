@@ -15,7 +15,7 @@ class KindsController < ApplicationController
     @kind = Kind.find(params[:id])
     auth!
     respond_with(@kind) do |format|
-      format.xml { render :xml => @kind.to_xml(:include => [:fields]) }
+      format.xml { render xml: @kind.to_xml(include: [:fields]) }
     end
   end
 

@@ -31,7 +31,7 @@ class BaseShuffle
     return [] if @store.empty?
 
     content_ids = @store.shift(count)
-    Content.where(:id => content_ids).to_a.compact
+    Content.where(id: content_ids).to_a.compact
   end
 
   # Return a timeline to be saved.

@@ -17,29 +17,29 @@ class Screen < ActiveRecord::Base
   # Allow screens to act as accessors for the Frontend API
   #devise
 
-  belongs_to :owner, :polymorphic => true
+  belongs_to :owner, polymorphic: true
   belongs_to :template
-  has_many :subscriptions, :dependent => :destroy
-  has_many :positions, :through => :template
-  has_many :field_configs, :dependent => :destroy
-  has_many :fields, :through => :positions
-  #has_many :fields, :through => :field_configs # this overwrites the prior definition, so leave off
+  has_many :subscriptions, dependent: :destroy
+  has_many :positions, through: :template
+  has_many :field_configs, dependent: :destroy
+  has_many :fields, through: :positions
+  #has_many :fields, through: :field_configs # this overwrites the prior definition, so leave off
 
   before_validation :update_authentication
 
   # Validations
-  validates :name, :presence => true, :uniqueness => true
-  validates :template, :presence => true, :associated => true
+  validates :name, presence: true, uniqueness: true
+  validates :template, presence: true, associated: true
   #These two validations are used to solve problems with the polymorphic
   #presence and associated tests.
-  validates :owner_id, :presence => true
-  validates_inclusion_of :owner_type, :in => %w( User Group )
+  validates :owner_id, presence: true
+  validates_inclusion_of :owner_type, in: %w( User Group )
   #The below validation fails loudly if the owner_type isn't a valid class
   #For now, the check will be string based, it should probably be moved to
   #something like if owner_type.is_class (however that would work)
-  validates :owner, :presence => true, :associated => true, :if => Proc.new { ["User", "Group"].include?(owner_type) }
+  validates :owner, presence: true, associated: true, if: Proc.new { ["User", "Group"].include?(owner_type) }
   # Authentication token must be unique, prevents mac address collisions with legacy screens.
-  validates :authentication_token, :uniqueness => {:allow_nil => true, :allow_blank => true}
+  validates :authentication_token, uniqueness: {allow_nil: true, allow_blank: true}
   validate :unsecured_screens_must_be_public
 
   def unsecured_screens_must_be_public
@@ -63,12 +63,12 @@ class Screen < ActiveRecord::Base
   # Determine the screen's aspect ratio.  If it doesn't exist, calculate it
   def aspect_ratio
     if width.nil? || height.nil?
-      return { :width=> "", :height=> "" }
+      return { width: "", height: "" }
     end
     gcd = gcd(width,height)
     aspect_width = width/gcd
     aspect_height = height/gcd
-    return {:width => aspect_width, :height => aspect_height }
+    return {width: aspect_width, height: aspect_height }
   end
 
   # Run Euclidean algorithm to find GCD
@@ -102,7 +102,7 @@ class Screen < ActiveRecord::Base
     begin
       mac = MacAddr::condense(mac_addr)
       token = "mac:#{mac}"
-      screen = Screen.where(:authentication_token => token).first
+      screen = Screen.where(authentication_token: token).first
       return screen
     rescue ActiveRecord::ActiveRecordError
       return nil
@@ -131,7 +131,7 @@ class Screen < ActiveRecord::Base
   def self.find_by_screen_token(token)
     return nil if token.blank?
     begin
-      Screen.where(:authentication_token=>'auth:'+token).first
+      Screen.where(authentication_token:'auth:'+token).first
     rescue ActiveRecord::ActiveRecordError
       nil
     end
@@ -177,7 +177,7 @@ class Screen < ActiveRecord::Base
   def self.find_by_temp_token(token)
     return nil if token.blank?
     begin
-      Screen.where(:authentication_token=>'temp:'+token).first
+      Screen.where(authentication_token:'temp:'+token).first
     rescue ActiveRecord::ActiveRecordError
       nil
     end

@@ -72,7 +72,7 @@ module Concerto
 
         # process it with docsplit via the api
         begin
-          Docsplit.extract_images("#{original_filepath}", :pages => 1, :format => 'png', :output => "/tmp")
+          Docsplit.extract_images("#{original_filepath}", pages: 1, format: 'png', output: "/tmp")
 
           # if all went well, get the new filename... which has the _pageno appended to it
           new_filename = "#{File.basename(original_filepath,".*")}_1.png"
@@ -82,12 +82,12 @@ module Concerto
           image = Magick::Image::read(new_filepath).first
           image.alpha(Magick::DeactivateAlphaChannel)
           new_media = Media.new(
-            :attachable => original_media.attachable,
-            :key => 'processed',
-            :file_data => image.to_blob,
-            :file_type => image.mime_type,
-            :file_name => new_filename,
-            :file_size => image.filesize
+            attachable: original_media.attachable,
+            key: 'processed',
+            file_data: image.to_blob,
+            file_type: image.mime_type,
+            file_name: new_filename,
+            file_size: image.filesize
           )
           media << new_media
           File.delete(original_filepath) if File.exist?(original_filepath)

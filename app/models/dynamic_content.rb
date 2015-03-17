@@ -15,7 +15,7 @@ class DynamicContent < Content
   # render so Dynamic Content meta content never gets displayed.
   def set_kind
     return unless new_record?
-    self.kind = Kind.where(:name => 'Dynamic').first
+    self.kind = Kind.where(name: 'Dynamic').first
   end
 
   # Create a new configuration hash if one does not already exist.
@@ -146,7 +146,7 @@ class DynamicContent < Content
         if new_children[index].save
           # After saving process the submissions.
           self.submissions.each do |model_submission|
-            submission = new_children[index].submissions.where(:feed_id => model_submission.feed_id).first
+            submission = new_children[index].submissions.where(feed_id: model_submission.feed_id).first
             if submission.nil?
               # The child content doesn't have this submission, create one.
               submission = model_submission.dup

@@ -3,7 +3,7 @@
     <div class="default-padding" style="padding-top: 50px; padding-bottom: 50px;">
       <div class="row-fluid">
         <div class="span4 center">
-          <%= image_tag("miniscreen/500_screen.png", :alt => @status_code, :width => "298", :style => "max-width: 90%;") %>
+          <%= image_tag("miniscreen/500_screen.png", alt: @status_code, width: "298", style: "max-width: 90%;") %>
           <h1 style="font-size: 6em; color: red; letter-spacing: -0.025em;">
             <%= @status_code %>
           </h1>
@@ -16,7 +16,7 @@
           <br />
           <h2><%= t('.reset_message') %></h2>
           <br />
-          <%= link_to t('.abort'), :back, :class => "btn btn-large" %>
+          <%= link_to t('.abort'), :back, class: "btn btn-large" %>
         </div>
       </div>
     </div>

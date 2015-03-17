@@ -15,10 +15,10 @@
                   <%= f.radio_button :template_id, template.id %>
                 </div>
 
-                <%= image_tag main_app.preview_template_path(template, :height => 60, :format => :png), :style => "margin: 0px;", :class => "dd-templateselect dropdown-control", "data-template-id" => template.id %>
+                <%= image_tag main_app.preview_template_path(template, height: 60, format: :png), style: "margin: 0px;", class: "dd-templateselect dropdown-control", "data-template-id" => template.id %>
 
                 <div id="preview_<%= template.id %>" class="dd" style="display:none;">
-                  <%= image_tag main_app.preview_template_path(template, :width => 400, :aspect_ratio => true, :format => :png), :style => "margin: 0px;", :class => "default-padding" %>
+                  <%= image_tag main_app.preview_template_path(template, width: 400, aspect_ratio: true, format: :png), style: "margin: 0px;", class: "default-padding" %>
                 </div>
 
                 <div class="cont">

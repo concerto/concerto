@@ -1,7 +1,7 @@
 #Overriding the Devise Registrations controller for fun and profit
 class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
-  rescue_from ActionView::Template::Error, :with => :precompile_error_catch
-  before_filter :check_permissions, :only=>[:new, :create]
+  rescue_from ActionView::Template::Error, with: :precompile_error_catch
+  before_filter :check_permissions, only:[:new, :create]
 
   def check_permissions
     authorize! :create, User
@@ -29,7 +29,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
     end
 
     if resource.save
-      process_notification(resource, {}, :action => 'create', :owner => current_user)
+      process_notification(resource, {}, action: 'create', owner: current_user)
 
       if ConcertoConfig["setup_complete"] == false
         ConcertoConfig.set("setup_complete", "true")
@@ -38,19 +38,19 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
       end
 
       if first_user_setup
-        group = Group.where(:name => "Concerto Admins").first_or_create
-        membership = Membership.create(:user_id => resource.id, :group_id => group.id, :level => Membership::LEVELS[:leader])
-        process_notification(membership, {:user => resource, :group => group, :adder => resource}, :action => 'create', :owner => resource)
+        group = Group.where(name: "Concerto Admins").first_or_create
+        membership = Membership.create(user_id: resource.id, group_id: group.id, level: Membership::LEVELS[:leader])
+        process_notification(membership, {user: resource, group: group, adder: resource}, action: 'create', owner: resource)
       end
 
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
         sign_up(resource_name, resource)
-        respond_with resource, :location => after_sign_up_path_for(resource)
+        respond_with resource, location: after_sign_up_path_for(resource)
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_navigational_format?
         expire_session_data_after_sign_in!
-        respond_with resource, :location => after_inactive_sign_up_path_for(resource)
+        respond_with resource, location: after_inactive_sign_up_path_for(resource)
       end
     else
       render_registration_form(resource)
@@ -80,7 +80,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
     else
       @concerto_config = ConcertoConfig.new # for send_errors field
       respond_with resource do |format|
-        format.html { render "new_first_admin", :layout => "no-topmenu" }
+        format.html { render "new_first_admin", layout: "no-topmenu" }
       end
     end
   end

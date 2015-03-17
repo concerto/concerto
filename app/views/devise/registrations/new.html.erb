@@ -5,38 +5,38 @@
   <div class="viewblock-cont">  
     <%= devise_error_messages! %>
 
-    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :autocomplete => 'off' }) do |f| %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { autocomplete: 'off' }) do |f| %>
       <fieldset>
         <div class="clearfix">
           <%= f.label :first_name, t('.name') %>
           <div class="input">
-            <%= f.text_field :first_name, :autofocus => true, :placeholder => User.human_attribute_name(:first_name), :class => "input-large" %> <%= f.text_field :last_name, :placeholder => User.human_attribute_name(:last_name), :class => "input-large" %>
+            <%= f.text_field :first_name, autofocus: true, placeholder: User.human_attribute_name(:first_name), class: "input-large" %> <%= f.text_field :last_name, placeholder: User.human_attribute_name(:last_name), class: "input-large" %>
           </div>
         </div>
         <div class="clearfix">
           <%= f.label :email %>
           <div class="input">
-            <%= f.email_field :email, :class => "input-xlarge" %>
+            <%= f.email_field :email, class: "input-xlarge" %>
           </div>
         </div>
         <div class="clearfix">
           <%= f.label :password %>
           <div class="input">
-            <%= f.password_field :password, :class => "input-medium" %>
+            <%= f.password_field :password, class: "input-medium" %>
           </div>
         </div>
         <div class="clearfix">
           <%= f.label :password_confirmation, t('.confirm_password') %>
           <div class="input">
-            <%= f.password_field :password_confirmation, :class => "input-medium" %>
+            <%= f.password_field :password_confirmation, class: "input-medium" %>
           </div>
         </div>
       </fieldset>
 
       <div class="submit_bar actions">
-        <%= f.submit t('.submit'), :class => "btn btn-primary" %>
+        <%= f.submit t('.submit'), class: "btn btn-primary" %>
         &nbsp;&nbsp;&nbsp;
-        <%= render :partial => "devise/shared/links" %>
+        <%= render partial: "devise/shared/links" %>
       </div>
 
     <% end %>

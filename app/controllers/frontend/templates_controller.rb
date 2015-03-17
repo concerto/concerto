@@ -4,7 +4,7 @@ class Frontend::TemplatesController < ApplicationController
   # Render the template for display on a screen.
   def show
     template = Template.find(params[:id])
-    if stale?(:last_modified => template.last_modified.utc, :etag => template, :public => true)     
+    if stale?(last_modified: template.last_modified.utc, etag: template, public: true)     
       require 'concerto_image_magick'
 
       if template.media.blank?
@@ -17,7 +17,7 @@ class Frontend::TemplatesController < ApplicationController
       width = params[:width].to_f
       height = params[:height].to_f
       if (params.has_key?(:width) && width <= 0) || (params.has_key?(:height) && height <= 0)
-        render :status => 400, :text => "Bad request.", :content_type => Mime::TEXT
+        render status: 400, text: "Bad request.", content_type: Mime::TEXT
         return
       end
       unless width <= 0 && height <= 0
@@ -31,12 +31,12 @@ class Frontend::TemplatesController < ApplicationController
         when Mime::PNG
           image.format = "PNG"
         else
-          render :status => 406, :text => "Unacceptable image type.", :content_type => Mime::TEXT and return
+          render status: 406, text: "Unacceptable image type.", content_type: Mime::TEXT and return
       end if !template.media.blank?
 
       send_data image.to_blob,
-                :filename => "#{template.name.underscore}.#{image.format.downcase}",
-                :type => image.mime_type, :disposition => 'inline'
+                filename: "#{template.name.underscore}.#{image.format.downcase}",
+                type: image.mime_type, disposition: 'inline'
     end
   end
 

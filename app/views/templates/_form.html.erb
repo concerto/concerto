@@ -1,18 +1,18 @@
-<%= form_for(template, :html => { :multipart => true }) do |f| %>
+<%= form_for(template, html: { multipart: true }) do |f| %>
   <%= render partial: "layouts/errors", object: template %>
 
   <fieldset>
     <div class="clearfix">
       <%= f.label :name %>
       <div class="input">
-        <%= f.text_field :name, :autofocus => true, :class => "input-xlarge" %>
+        <%= f.text_field :name, autofocus: true, class: "input-xlarge" %>
       </div>
     </div>
 
     <div class="clearfix">
       <%= f.label :author %>
       <div class="input">
-        <%= f.text_field :author, :class => "input-xlarge" %>
+        <%= f.text_field :author, class: "input-xlarge" %>
       </div>
     </div>
 
@@ -42,7 +42,7 @@
 
   <fieldset>
     <div class="clearfix">
-      <%= image_tag preview_template_path(@template, :lm => @template.last_modified_md5, :width=> 400, :format => :jpg) %>
+      <%= image_tag preview_template_path(@template, lm: @template.last_modified_md5, width: 400, format: :jpg) %>
     </div>
   </fieldset>
 
@@ -59,7 +59,7 @@
 
 
   <fieldset>
-    <legend><span><%= Position.model_name.human(count: 42) %></span>&nbsp; <%= link_to t(:manage_fields), Field, :class => "btn" %></legend>
+    <legend><span><%= Position.model_name.human(count: 42) %></span>&nbsp; <%= link_to t(:manage_fields), Field, class: "btn" %></legend>
 
     <div class="template-positions">
       <div class="row-fluid">
@@ -85,13 +85,13 @@
         </div>
       </div>
       <%= f.fields_for :positions do |p| %>
-        <% render 'position_fields', :p => p %>
+        <% render 'position_fields', p: p %>
       <% end %>
     </div>
-    <%= link_to_add_position_fields t(:add_model, :model => Position.model_name.human), f, :positions %>
+    <%= link_to_add_position_fields t(:add_model, model: Position.model_name.human), f, :positions %>
   </fieldset>
 
   <div class="submit_bar actions">
-    <%= f.submit button_text, :class => "btn btn-primary" %> <%= link_to t(:cancel), screens_path, :class => "btn" %>
+    <%= f.submit button_text, class: "btn btn-primary" %> <%= link_to t(:cancel), screens_path, class: "btn" %>
   </div>
 <% end %>

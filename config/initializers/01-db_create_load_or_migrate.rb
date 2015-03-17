@@ -24,7 +24,7 @@ unless Rails.env.test?
     ActiveRecord::Migration.copy(
       ActiveRecord::Migrator.migrations_paths.first,
       railties,
-      :on_copy => on_copy
+      on_copy: on_copy
     )
   end
   

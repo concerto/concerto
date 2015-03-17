@@ -3,12 +3,12 @@
     <div class="viewblock-header_right">
       <div class="button-padding">
         <% if can? :create, Page %>
-          <%= link_to t(:new_model, :model => Page.model_name.human), new_page_path, :class => "btn" %>
+          <%= link_to t(:new_model, model: Page.model_name.human), new_page_path, class: "btn" %>
         <% end %>
       </div>
     </div>
     <h1 class="default-padding">
-      <%= t(:all_model, :model => Page.model_name.human(count: 42)) %>
+      <%= t(:all_model, model: Page.model_name.human(count: 42)) %>
     </h1>
   </header>
   <div class="viewblock-cont">
@@ -27,11 +27,11 @@
           <td><%= page.language %></td>
           <td>
             <% if can? :edit, page %>
-              <%= link_to t(:edit, :model => Page.model_name.human), edit_page_path(page), :class => "btn" %>
+              <%= link_to t(:edit, model: Page.model_name.human), edit_page_path(page), class: "btn" %>
             <% end %>
             <% if can? :delete, page %>
 
-                <%= link_to t(:destroy, :model => Page), page, :data => { :confirm => t(:are_you_sure_delete_model_key, :model =>Page.model_name.human, :key => page.title) }, :method => :delete, :class => "btn" %>
+                <%= link_to t(:destroy, model: Page), page, data: { confirm: t(:are_you_sure_delete_model_key, model:Page.model_name.human, key: page.title) }, method: :delete, class: "btn" %>
 
             <% end %>
           </td>

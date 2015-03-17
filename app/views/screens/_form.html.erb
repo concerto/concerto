@@ -1,5 +1,5 @@
 <%= form_for(@screen) do |f| %>
-  <%= render :partial => "layouts/errors", :object => @screen %>
+  <%= render partial: "layouts/errors", object: @screen %>
 
   <fieldset>
     <legend><span><%= t('.provide_details') %></span></legend>
@@ -10,14 +10,14 @@
         <div class="clearfix">
           <%= f.label :name %>
           <div class="input">
-            <%= f.text_field :name, :class => "input-xlarge", :autofocus => true %>
+            <%= f.text_field :name, class: "input-xlarge", autofocus: true %>
           </div>
         </div>
 
         <div class="clearfix">
           <%= f.label :location %>
           <div class="input">
-            <%= f.text_field :location, :class => "input-xlarge" %>
+            <%= f.text_field :location, class: "input-xlarge" %>
           </div>
         </div>
         
@@ -52,7 +52,7 @@
                end
             %>
             
-            <%= render :partial => "elements/owner_select", :locals => { :options => options, :screen => @screen} %>
+            <%= render partial: "elements/owner_select", locals: { options: options, screen: @screen} %>
             <%= f.hidden_field :owner_type %>
             <%= f.hidden_field :owner_id %>
            </div>
@@ -66,40 +66,40 @@
           <% if @screen.unsecured? %>
             <li>
               <%= f.radio_button(:auth_action, Screen::AUTH_NO_SECURITY) %>
-              <%= f.label(:auth_action, t('.no_auth'), :value => Screen::AUTH_NO_SECURITY) %>
+              <%= f.label(:auth_action, t('.no_auth'), value: Screen::AUTH_NO_SECURITY) %>
             </li>
             <li>
               <%= f.radio_button(:auth_action, Screen::AUTH_NEW_TOKEN) %>
-              <%= f.label(:auth_action, t('.new_token'), :value => Screen::AUTH_NEW_TOKEN) %>
+              <%= f.label(:auth_action, t('.new_token'), value: Screen::AUTH_NEW_TOKEN) %>
             </li>
           <% elsif @screen.auth_by_token? or @screen.auth_in_progress? %>
             <li>
               <%= f.radio_button(:auth_action, Screen::AUTH_KEEP_TOKEN) %>
-              <%= f.label(:auth_action, t('.private_token'), :value => Screen::AUTH_KEEP_TOKEN) %>
+              <%= f.label(:auth_action, t('.private_token'), value: Screen::AUTH_KEEP_TOKEN) %>
             </li>
             <li>
               <%= f.radio_button(:auth_action, Screen::AUTH_NO_SECURITY) %>
-              <%= f.label(:auth_action, t('.no_auth'), :value => Screen::AUTH_NO_SECURITY) %>
+              <%= f.label(:auth_action, t('.no_auth'), value: Screen::AUTH_NO_SECURITY) %>
             </li>
             <li>
               <%= f.radio_button(:auth_action, Screen::AUTH_NEW_TOKEN) %>
-              <%= f.label(:auth_action, t('.new_token_override'), :value => Screen::AUTH_NEW_TOKEN) %>
+              <%= f.label(:auth_action, t('.new_token_override'), value: Screen::AUTH_NEW_TOKEN) %>
             </li>
           <% elsif @screen.auth_by_mac? %>
             <li>
               <%= f.radio_button(:auth_action, Screen::AUTH_LEGACY_SCREEN) %>
-              <%= f.label(:auth_action, :value => Screen::AUTH_LEGACY_SCREEN) do %>
+              <%= f.label(:auth_action, value: Screen::AUTH_LEGACY_SCREEN) do %>
                 <%= t '.existing_mac' %>
                 <strong><%= @screen.mac_address %></strong>
               <% end %>
             </li>
             <li>
               <%= f.radio_button(:auth_action, Screen::AUTH_NO_SECURITY) %>
-              <%= f.label(:auth_action, t('.no_auth'), :value => Screen::AUTH_NO_SECURITY) %>
+              <%= f.label(:auth_action, t('.no_auth'), value: Screen::AUTH_NO_SECURITY) %>
             </li>
             <li>
               <%= f.radio_button(:auth_action, Screen::AUTH_NEW_TOKEN) %>
-              <%= f.label(:auth_action, t('.new_token'), :value => Screen::AUTH_NEW_TOKEN) %>
+              <%= f.label(:auth_action, t('.new_token'), value: Screen::AUTH_NEW_TOKEN) %>
             </li>
           <% end %>
         </ul>
@@ -109,7 +109,7 @@
     <div class="clearfix sub-fields" id="screen_new_temp_token_container">
       <%= f.label :new_temp_token %>
       <div class="input">
-        <%= f.text_field :new_temp_token, :class => "input-xlarge" %>
+        <%= f.text_field :new_temp_token, class: "input-xlarge" %>
       </div>
     </div>        
         
@@ -119,10 +119,10 @@
 
   </fieldset>
 
-  <%= render :partial => 'template_selection', :locals => { :f => f } %>
+  <%= render partial: 'template_selection', locals: { f: f } %>
 
   <div class="submit_bar actions">
-    <%= f.submit button_text, :class => "btn btn-primary" %>
-    <%= link_to t(:cancel), (@screen.persisted? ? screen_path : screens_path), :class => "btn" %>
+    <%= f.submit button_text, class: "btn btn-primary" %>
+    <%= link_to t(:cancel), (@screen.persisted? ? screen_path : screens_path), class: "btn" %>
   </div>
 <% end %>

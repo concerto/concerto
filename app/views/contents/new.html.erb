@@ -2,7 +2,7 @@
   <header class="viewblock-header">
     <div class="viewblock-header_right default-padding">  &nbsp;
     </div>
-    <h1 class="default-padding"><%= t('.add_content', :type => @content.class.display_name)%></h1>
+    <h1 class="default-padding"><%= t('.add_content', type: @content.class.display_name)%></h1>
   </header>
   <div class="viewblock-cont">
 
@@ -13,7 +13,7 @@
           <% type_folder = "contents/#{subclass.name.underscore}" %>
 
           <li <% if @content.class.name == subclass.name %> class="active"<% end %>>
-            <%= link_to new_content_path(:type => subclass.model_name.singular) do %>
+            <%= link_to new_content_path(type: subclass.model_name.singular) do %>
               <%= render_partial_if("#{type_folder}/tab_icon", "tab_icon") %> <%= subclass.display_name %>
             <% end %>
           </li>

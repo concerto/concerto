@@ -4,7 +4,7 @@
       <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t(:status) %></b></small></p>
       <p><% if screen.is_online? %><%= t '.online' %><% else %><%= t '.offline' %><% end %> </p>
       <% if !screen.mac_address.nil? && can?(:edit, screen) %>
-        <p><small><%= t '.mac_address', :mac => screen.mac_address %></small> </p>
+        <p><small><%= t '.mac_address', mac: screen.mac_address %></small> </p>
       <% end %>
     </div>
     <div class="span3">

@@ -11,7 +11,7 @@
     end
     %>
     <% unless a.nil? %>
-      <li><b><%= l activity.created_at, :format => :date_time %>:</b> <%= a %></li>
+      <li><b><%= l activity.created_at, format: :date_time %>:</b> <%= a %></li>
     <% end %>
   <% end %>
   </ul>

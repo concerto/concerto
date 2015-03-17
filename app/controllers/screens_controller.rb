@@ -11,7 +11,7 @@ class ScreensController < ApplicationController
   def index
     @screens = Screen.accessible_by(current_ability)
     @my_screens = current_user.nil? ? [] : @screens.select{|s| s.owner == current_user || current_user.groups.include?(s.owner)}
-    @templates = Template.where(:is_hidden => false).sort_by{|t| t.screens.count}.reverse
+    @templates = Template.where(is_hidden: false).sort_by{|t| t.screens.count}.reverse
     respond_with(@screens)
   end
 
@@ -27,7 +27,7 @@ class ScreensController < ApplicationController
   # GET /screens/new
   # GET /screens/new.xml
   def new
-    @screen = Screen.new(:owner => current_user)
+    @screen = Screen.new(owner: current_user)
     auth!
     respond_with(@screen)
   end
@@ -46,7 +46,7 @@ class ScreensController < ApplicationController
     auth!
     
     if @screen.save
-      process_notification(@screen, {}, process_notification_options({:params => {:screen_name => @screen.name}}))
+      process_notification(@screen, {}, process_notification_options({params: {screen_name: @screen.name}}))
       run_callbacks :change # Run plugin hooks
       flash[:notice] = t(:screen_created)
     else
@@ -65,7 +65,7 @@ class ScreensController < ApplicationController
     auth!
     
     if @screen.update_attributes(screen_params)
-      process_notification(@screen, {}, process_notification_options({:params => {:screen_name => @screen.name}}))
+      process_notification(@screen, {}, process_notification_options({params: {screen_name: @screen.name}}))
 
       run_callbacks :change # Run plugin hooks
       flash[:notice] = t(:screen_updated)
@@ -78,7 +78,7 @@ class ScreensController < ApplicationController
   def destroy
     @screen = Screen.find(params[:id])
     auth!
-    process_notification(@screen, {}, process_notification_options({:params => {:screen_name => @screen.name}}))
+    process_notification(@screen, {}, process_notification_options({params: {screen_name: @screen.name}}))
     run_callbacks :destroy do
       @screen.destroy
     end 
@@ -92,7 +92,7 @@ class ScreensController < ApplicationController
    elsif params[:owner] == "Group"
      @owners = Group.all
    end
-   render :layout => false
+   render layout: false
  end
 
 private

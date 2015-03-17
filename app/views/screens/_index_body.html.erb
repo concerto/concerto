@@ -18,8 +18,8 @@
           </h3>
         </div>
         <br />
-        <%= render :partial => "thumbs", :object => @my_screens, 
-        :locals => { :show_field_count => true, :show_owner => true } %>
+        <%= render partial: "thumbs", object: @my_screens, 
+        locals: { show_field_count: true, show_owner: true } %>
       </div>
     <% end %>
 
@@ -32,8 +32,8 @@
           </h3>
         </div>
         <br />
-        <%= render :partial => "thumbs", :object => other_screens, 
-        :locals => { :show_field_count => true, :show_owner => true }  %>
+        <%= render partial: "thumbs", object: other_screens, 
+        locals: { show_field_count: true, show_owner: true }  %>
       </div>
     <% end %>
     

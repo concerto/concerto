@@ -3,7 +3,7 @@
 		<h1 class="default-padding"><%= t('.header') %></h1>
 	</header>
 	<div class="viewblock-cont">
-			<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
+			<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
         <%= devise_error_messages! %>
         <%= f.hidden_field :reset_password_token %>
       
@@ -11,22 +11,22 @@
           <div class="clearfix">
       			<%= f.label :password, t('.new_password') %>
       			<div class="input">
-      				<%= f.password_field :password, :autofocus => true, :class => "input-medium" %>
+      				<%= f.password_field :password, autofocus: true, class: "input-medium" %>
       			</div>
       		</div>
       		
       		<div class="clearfix">
       			<%= f.label :password_confirmation, t('.repeat_password') %>
       			<div class="input">
-      				<%= f.password_field :password_confirmation, :class => "input-medium" %>
+      				<%= f.password_field :password_confirmation, class: "input-medium" %>
       			</div>
       		</div>
         </fieldset>
         
         <div class="submit_bar actions">
-      		<%= f.submit t('.submit'), :class => "btn btn-primary" %>
+      		<%= f.submit t('.submit'), class: "btn btn-primary" %>
       		&nbsp;&nbsp;&nbsp;
-      		<%= render :partial => "devise/shared/links" %>
+      		<%= render partial: "devise/shared/links" %>
       	</div>
 
       <% end %>

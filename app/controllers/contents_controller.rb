@@ -1,7 +1,7 @@
 class ContentsController < ApplicationController
-  before_filter :get_content_const, :only => [:new, :create, :update, :preview]
+  before_filter :get_content_const, only: [:new, :create, :update, :preview]
   respond_to :html, :json, :js
-  after_action :allow_iframe, :only => :preview
+  after_action :allow_iframe, only: :preview
 
   define_callbacks :update_params
   ConcertoPlugin.install_callbacks(self)
@@ -23,7 +23,7 @@ class ContentsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.js {render :json => @content}
+      format.js {render json: @content}
     end
   end
 
@@ -38,9 +38,9 @@ class ContentsController < ApplicationController
 
   rescue ActiveRecord::RecordNotFound
     # while it could be returned as a 404, we should keep the user in the application
-    # render :text => "Requested content not found", :status => 404
+    # render text: "Requested content not found", status: 404
     respond_to do |format|
-      format.html { redirect_to(browse_path, :notice => t(:content_not_found)) }
+      format.html { redirect_to(browse_path, notice: t(:content_not_found)) }
     end
   end
 
@@ -64,7 +64,7 @@ class ContentsController < ApplicationController
     # We don't recognize the requested content type, or
     # its not a child of Content so we'll return a 400.
     if @content_const.nil? || !@content_const.ancestors.include?(Content)
-      render :text => t(:unrecognized_type), :status => 400
+      render text: t(:unrecognized_type), status: 400
     else
       @content = @content_const.new()
       @content.duration = ConcertoConfig[:default_content_duration].to_i
@@ -148,16 +148,16 @@ class ContentsController < ApplicationController
         create_submissions
         @content.save #This second save adds the submissions
         if @feed_ids == []
-          format.html { redirect_to(@content, :notice => t(:content_created_no_feeds)) }
-          format.xml { render :xml => @content, :status => :created, :location => @content }
+          format.html { redirect_to(@content, notice: t(:content_created_no_feeds)) }
+          format.xml { render xml: @content, status: :created, location: @content }
         else
-          format.html { redirect_to(@content, :notice => t(:content_created)) }
-          format.xml { render :xml => @content, :status => :created, :location => @content }
+          format.html { redirect_to(@content, notice: t(:content_created)) }
+          format.xml { render xml: @content, status: :created, location: @content }
         end
       else
         @feeds = submittable_feeds
-        format.html { render :action => "new" }
-        format.xml { render :xml => @content.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.xml { render xml: @content.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -176,7 +176,7 @@ class ContentsController < ApplicationController
       submissions = @content.submissions
       submissions.each do |submission|
         if @feed_ids.include? submission.feed_id
-          submission.update_attributes(:moderation_flag => nil)
+          submission.update_attributes(moderation_flag: nil)
         else
           submission.mark_for_destruction
         end
@@ -217,7 +217,7 @@ class ContentsController < ApplicationController
     # piece of content owned by the current user and associate the preview media with it.
     if params[:id] == "preview" && params[:type].present?
       get_content_const
-      @content = @content_const.new(:user => current_user)
+      @content = @content_const.new(user: current_user)
       media = Media.valid_preview(params[:media_id])
       if media.nil?
         raise ActiveRecord::RecordNotFound
@@ -227,16 +227,16 @@ class ContentsController < ApplicationController
       @content = Content.find(params[:id])
     end
 
-    auth!(:action => :read)
+    auth!(action: :read)
     # if handling graphic preview (the content id is 0), force a render
-    if params[:id] == "preview" || stale?(:etag => params, :last_modified => @content.updated_at.utc, :public => true)
+    if params[:id] == "preview" || stale?(etag: params, last_modified: @content.updated_at.utc, public: true)
       @file = nil
       data = nil
       benchmark("Content#render") do
         @file = @content.render(params)
         data = @file.file_contents
       end
-      send_data data, :filename => @file.file_name, :type => @file.file_type, :disposition => 'inline'
+      send_data data, filename: @file.file_name, type: @file.file_type, disposition: 'inline'
     end
   end
 
@@ -244,7 +244,7 @@ class ContentsController < ApplicationController
   # Trigger custom actions for the content.
   def act
     @content = Content.find(params[:id])
-    auth!(:action => :read)
+    auth!(action: :read)
     action_name = params[:action_name].to_sym
     params[:current_user] = current_user
     result = @content.perform_action(action_name, params)
@@ -260,9 +260,9 @@ class ContentsController < ApplicationController
       end
       format.js do
         if result.nil?
-          render :text => 'Unable to perform action.', :status => 400
+          render text: 'Unable to perform action.', status: 400
         else
-          render :text => result, :status => 200
+          render text: result, status: 200
         end
       end
     end
@@ -283,7 +283,7 @@ class ContentsController < ApplicationController
       html = @content_const.preview(data)
     end
     respond_to do |format|
-      format.html { render :text => html, :layout => false }
+      format.html { render text: html, layout: false }
     end
   end
 
@@ -291,11 +291,11 @@ class ContentsController < ApplicationController
 
   def process_content_notification(action_name)
     process_notification(@content, {}, process_notification_options({
-      :params => {
-        :content_name => @content.name,
-        :content_type => @content.class.model_name.human
+      params: {
+        content_name: @content.name,
+        content_type: @content.class.model_name.human
       },
-      :key => "content.#{action_name}"
+      key: "content.#{action_name}"
     }))
   end
 
@@ -325,7 +325,7 @@ class ContentsController < ApplicationController
       if !@content_const.nil?
         @content_sym = @content_const.model_name.singular.to_sym
       end
-      @attributes = [:name, :duration, {:start_time => [:time, :date]}, {:end_time => [:time, :date]}]
+      @attributes = [:name, :duration, {start_time: [:time, :date]}, {end_time: [:time, :date]}]
     end
     params.require(@content_sym).permit(*@attributes)
   end
@@ -348,9 +348,9 @@ class ContentsController < ApplicationController
       @feed = Feed.find(feed_id)
       #If a user can moderate the feed in question the content is automatically approved with their imprimatur
       if can?(:update, @feed)
-        @content.submissions << Submission.new({:feed_id => feed_id, :duration => @content.duration, :moderation_flag => true, :moderator_id => current_user.id})
+        @content.submissions << Submission.new({feed_id: feed_id, duration: @content.duration, moderation_flag: true, moderator_id: current_user.id})
       else
-        @content.submissions << Submission.new({:feed_id => feed_id, :duration => @content.duration})
+        @content.submissions << Submission.new({feed_id: feed_id, duration: @content.duration})
       end
     end
   end

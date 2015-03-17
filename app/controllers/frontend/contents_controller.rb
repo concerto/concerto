@@ -12,7 +12,7 @@ class Frontend::ContentsController < ApplicationController
   def scope_setup
     @screen = Screen.find(params[:screen_id])
     @field = Field.find(params[:field_id])
-    @subscriptions = @screen.subscriptions.where(:field_id => @field.id)
+    @subscriptions = @screen.subscriptions.where(field_id: @field.id)
     allow_screen_if_unsecured @screen
   end
 
@@ -33,7 +33,7 @@ class Frontend::ContentsController < ApplicationController
       @content = shuffler.next_contents(count)
     end
 
-    auth! :object => @content
+    auth! object: @content
     session[session_key] = shuffler.save_session()
 
     begin
@@ -48,9 +48,9 @@ class Frontend::ContentsController < ApplicationController
 
     respond_to do |format|
       format.json {
-        render :json => @content.to_json(
-          :only => [:name, :id, :duration, :type],
-          :methods => [:render_details]
+        render json: @content.to_json(
+          only: [:name, :id, :duration, :type],
+          methods: [:render_details]
         )
       }
     end
@@ -65,11 +65,11 @@ class Frontend::ContentsController < ApplicationController
     if @content.nil?
       logger.info "Skipping Deleted Content with id " + params[:id]
     else
-      auth! :object=>@content
+      auth! object:@content
       rendered = @content.render(params)
       if rendered.is_a?(Media)
         @file = rendered
-        send_data @file.file_contents, :filename => @file.file_name, :type => @file.file_type, :disposition => 'inline'
+        send_data @file.file_contents, filename: @file.file_name, type: @file.file_type, disposition: 'inline'
       elsif rendered.is_a?(Hash)
         render rendered
       end

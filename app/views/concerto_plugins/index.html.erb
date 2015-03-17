@@ -3,12 +3,12 @@
     <div class="viewblock-header_right">
       <div class="button-padding">
         <% if can? :create, ConcertoPlugin %>
-          <%= link_to t(:new_model, :model => ConcertoPlugin.model_name.human), new_concerto_plugin_path, :class => "btn" %>
+          <%= link_to t(:new_model, model: ConcertoPlugin.model_name.human), new_concerto_plugin_path, class: "btn" %>
         <% end %>
       </div>
     </div>
     <h1 class="default-padding">
-      <%= t :manage_model, :model => ConcertoPlugin.model_name.human(count: 42) %>
+      <%= t :manage_model, model: ConcertoPlugin.model_name.human(count: 42) %>
     </h1>
   </header>
   <div class="viewblock-cont">
@@ -35,7 +35,7 @@
               <h1><%= status_badge concerto_plugin.enabled %></h1>
             </td>
             <td>
-              <h3><%= link_to(concerto_plugin.name.titleize, :action => :show, :id => concerto_plugin.id) %></h3>
+              <h3><%= link_to(concerto_plugin.name.titleize, action: :show, id: concerto_plugin.id) %></h3>
             </td>
 
             <td><%= !gemspec.nil? ? gemspec.description : "" %></td>

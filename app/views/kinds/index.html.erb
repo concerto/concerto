@@ -1,6 +1,6 @@
 <section class="viewblock">
   <header class="viewblock-header">
-    <h1 class="default-padding"><%= t(:all_model, :model => Kind.model_name.human(count: 42)) %> <%= link_to t(:new_model, :model => Kind.model_name.human), new_kind_path, :class => "button" %></h1>
+    <h1 class="default-padding"><%= t(:all_model, model: Kind.model_name.human(count: 42)) %> <%= link_to t(:new_model, model: Kind.model_name.human), new_kind_path, class: "button" %></h1>
   </header>
   <div class="viewblock-cont">
     <table>
@@ -12,7 +12,7 @@
       <% @kinds.each do |kind| %>
           <tr>
             <td><%= kind.name %></td>
-            <td><%= link_to t(:show), kind %> <%= link_to t(:edit), edit_kind_path(kind) %> <%= link_to t(:destroy), kind, :data => {:confirm => t(:are_you_sure_delete_model_key, :model => Kind.model_name.human, :key => kind.name)}, :method => :delete %></td>
+            <td><%= link_to t(:show), kind %> <%= link_to t(:edit), edit_kind_path(kind) %> <%= link_to t(:destroy), kind, data: {confirm: t(:are_you_sure_delete_model_key, model: Kind.model_name.human, key: kind.name)}, method: :delete %></td>
           </tr>
       <% end %>
     </table>

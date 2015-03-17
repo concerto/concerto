@@ -114,7 +114,7 @@ Capistrano::Configuration.instance.load do
         capistrano-ext/multistaging to avoid multiple db:setup calls \ 
         when running deploy:setup for all stages one by one.
       DESC
-      task :setup, :except => { :no_release => true } do
+      task :setup, except: { no_release: true } do
 
         default_template = <<-EOF
         base: &base
@@ -144,7 +144,7 @@ Capistrano::Configuration.instance.load do
       desc <<-DESC
         [internal] Updates the symlink for database.yml file to the just deployed release.
       DESC
-      task :symlink, :except => { :no_release => true } do
+      task :symlink, except: { no_release: true } do
         run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml" 
       end
 

@@ -8,21 +8,21 @@
           <%= alert %>
         </div>
     <% end %>
-    <%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => {:method => :post}) do |f| %>
+    <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: {method: :post}) do |f| %>
         <%= devise_error_messages! %>
         <fieldset>
           <div class="clearfix">
             <%= f.label :email %>
             <div class="input">
-              <%= f.email_field :email, :autofocus => true, :class => "input-xlarge" %>
+              <%= f.email_field :email, autofocus: true, class: "input-xlarge" %>
             </div>
           </div>
         </fieldset>
 
         <div class="submit_bar actions">
-          <%= f.submit t('.submit'), :class => "btn btn-primary"%>
+          <%= f.submit t('.submit'), class: "btn btn-primary"%>
           &nbsp;&nbsp;&nbsp;
-          <%= render :partial => "devise/shared/links" %>
+          <%= render partial: "devise/shared/links" %>
         </div>
     <% end %>
   </div>

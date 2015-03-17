@@ -2,7 +2,7 @@
   <%=
     # some html such as div can throw off the anchor tags and cause the tile not to render properly
     ActionController::Base.helpers.sanitize(content.data, 
-      :tags => %w(h1 h2 h3 h4 b br i em li ol u ul p q small strong), 
-      :attributes => %w(style class)) unless content.data.nil?
+      tags: %w(h1 h2 h3 h4 b br i em li ol u ul p q small strong), 
+      attributes: %w(style class)) unless content.data.nil?
   %>
 </div>

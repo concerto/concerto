@@ -5,5 +5,5 @@ class Kind < ActiveRecord::Base
   has_many :fields
 
   # Validations
-  validates :name, :presence => true, :uniqueness => true
+  validates :name, presence: true, uniqueness: true
 end

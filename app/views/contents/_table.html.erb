@@ -14,13 +14,13 @@
         <tr>
           <td>
             <%= link_to content do %>
-              <%= image_tag("icons/icon_#{content.type}_40.png", {:alt => "View Content", :width => "40px", :height => "40px"}) %>
+              <%= image_tag("icons/icon_#{content.type}_40.png", {alt: "View Content", width: "40px", height: "40px"}) %>
             <% end %>
           </td>
           <td><%= link_to content do %><h2><%=h content.name %></h2><% end %></td>
           <td><p><%=h content.data %></p></td>
-          <td><%=h l(content.created_at, :format => :date) unless content.updated_at.nil? %></td>
-          <td><%=h l(content.updated_at, :format => :date) unless content.updated_at.nil? %></td>
+          <td><%=h l(content.created_at, format: :date) unless content.updated_at.nil? %></td>
+          <td><%=h l(content.updated_at, format: :date) unless content.updated_at.nil? %></td>
         </tr>
       <% end %>
     </tbody>

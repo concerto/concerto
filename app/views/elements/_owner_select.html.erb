@@ -1,7 +1,7 @@
 <div id="selectedOwner">
-  <%= link_to '#', :id => "select-owner-btn", :title => t('.select_user_title'),
-      :class => "dropdown-toggle dropdown-control dd-select-owner", 
-      :rel => "#select-owner" do %> 
+  <%= link_to '#', id: "select-owner-btn", title: t('.select_user_title'),
+      class: "dropdown-toggle dropdown-control dd-select-owner", 
+      rel: "#select-owner" do %> 
       <% if defined? screen and !screen.new_record? %>
         <%= screen.owner.name %>
       <% else %>

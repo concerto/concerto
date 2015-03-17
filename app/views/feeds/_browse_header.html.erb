@@ -1,7 +1,7 @@
 <div class="viewblock-header_right">
   <div class="button-padding">
     <% if can? :create, Feed %>
-      <%= link_to t(:new_model, :model => Feed.model_name.human), new_feed_path, :class => "btn" %>
+      <%= link_to t(:new_model, model: Feed.model_name.human), new_feed_path, class: "btn" %>
     <% end %>
   </div>
 </div>

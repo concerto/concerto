@@ -9,12 +9,12 @@ class Subscription < ActiveRecord::Base
     # A very frequent chance of content showing up.
     :"very frequently" => 5,
     # A frequent chance of content showing up.
-    :frequently => 4,
+    frequently: 4,
     # Neither a frequent, nor an infrequent chance of
     # content showing up.
     :"no preference" => 3,
     # An infrequent chance of content showing up.
-    :rarely => 2,
+    rarely: 2,
     # A very infrequent chance of content showing up.
     :"very rarely" => 1,
   }
@@ -25,10 +25,10 @@ class Subscription < ActiveRecord::Base
   belongs_to :screen
 
   # Validations
-  validates :feed, :presence => true, :associated => true
-  validates :screen, :presence => true, :associated => true
-  validates :field, :presence => true, :associated => true
-  validates_uniqueness_of :feed_id, :scope => [:screen_id, :field_id]
+  validates :feed, presence: true, associated: true
+  validates :screen, presence: true, associated: true
+  validates :field, presence: true, associated: true
+  validates_uniqueness_of :feed_id, scope: [:screen_id, :field_id]
 
   # Get weight name of a subscription
   def weight_name

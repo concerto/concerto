@@ -10,31 +10,31 @@
 %>
 <nav id="top-menu">
   <% if not user_signed_in? %>
-    <%= link_to 'Concerto', main_app.root_url, :id => "top-menu-logobutton" %>
+    <%= link_to 'Concerto', main_app.root_url, id: "top-menu-logobutton" %>
     <p id="top-menu-logintext">
       <!-- Check if a plugin is attempting to override authentication method for sign in links -->
       <% if !ConcertoPlugin.render_view_hook(self, :signin_hook).empty? %>
         <%= ConcertoPlugin.render_view_hook self, :signin_hook %>
       <% else %>
       <!-- No alternate authentication plugin, use Devise and core registration sign in links -->
-        <%= link_to t('.sign_in'), main_app.new_user_session_path, :id => "login-dropdown" %> <%=t('.signin_login_spiel') %>
+        <%= link_to t('.sign_in'), main_app.new_user_session_path, id: "login-dropdown" %> <%=t('.signin_login_spiel') %>
         <% if can? :create, User %>
           <%= t('.no_account') %> <%= link_to t('.sign_up'), main_app.new_user_registration_path %> <%= t('.now') %>
         <% end %>
       <% end %>
     </p>
   <% else %>
-    <%= link_to main_app.dashboard_path, :id => "top-menu-logobutton", :class => "tooltip-basic full #{ current_page?(main_app.dashboard_path)? 'selected' : '' }" do %>
+    <%= link_to main_app.dashboard_path, id: "top-menu-logobutton", class: "tooltip-basic full #{ current_page?(main_app.dashboard_path)? 'selected' : '' }" do %>
       <i class="concertocon-logobutton"></i>
     <% end %>
 
     <!-- Begin Menu for CONTENT -->
     <section>
       <div class="top-menu-sectop">
-        <%= link_to t('.browse'), main_app.feeds_path, :class => "btn #{ current_page?(main_app.feeds_path) ? 'selected' : '' }" %>
-        <%= link_to t(:add), main_app.new_content_path, :class => "btn #{ current_page?(main_app.new_content_path) ? 'selected' : '' }" if can? :create, Content %>
+        <%= link_to t('.browse'), main_app.feeds_path, class: "btn #{ current_page?(main_app.feeds_path) ? 'selected' : '' }" %>
+        <%= link_to t(:add), main_app.new_content_path, class: "btn #{ current_page?(main_app.new_content_path) ? 'selected' : '' }" if can? :create, Content %>
         <% if @pending_submissions_count > 0 %>
-          <%= link_to main_app.moderate_feeds_path, :class => "tooltip-basic btn #{ current_page?(main_app.moderate_feeds_path) ? 'selected' : '' }", 'data-tooltip-text' => t('.submissions_to_moderate', :count => @pending_submissions_count) do %>
+          <%= link_to main_app.moderate_feeds_path, class: "tooltip-basic btn #{ current_page?(main_app.moderate_feeds_path) ? 'selected' : '' }", 'data-tooltip-text' => t('.submissions_to_moderate', count: @pending_submissions_count) do %>
             <%= t('.moderate') %>&nbsp;<span class="badge<% if @pending_submissions_count > 0 %> action<% end %>"><%= @pending_submissions_count %></span>
           <% end %>
         <% end %>
@@ -48,8 +48,8 @@
     <!-- Begin Menu for NETWORK -->
     <section>
       <div class="top-menu-sectop">
-        <%= link_to t('.screens'), main_app.screens_path, :class => "btn #{ controller.controller_name == 'screens' ? 'selected' : '' }" %>
-        <%= link_to t('.users_and_groups'), main_app.groups_path, :class => "btn #{ controller.controller_name == 'groups' ? 'selected' : '' }" %>
+        <%= link_to t('.screens'), main_app.screens_path, class: "btn #{ controller.controller_name == 'screens' ? 'selected' : '' }" %>
+        <%= link_to t('.users_and_groups'), main_app.groups_path, class: "btn #{ controller.controller_name == 'groups' ? 'selected' : '' }" %>
       </div>
       <div class="top-menu-secbot">
         <h1><%= t('.network') %></h1>
@@ -61,9 +61,9 @@
     <% if can? :manage, :all %>
       <section>
         <div class="top-menu-sectop">
-          <%= link_to t('.settings'), main_app.concerto_config_path, :class => "btn #{ (controller.controller_name == 'concerto_config') ? 'selected' : '' }" %>
-          <%= link_to t('.plugins'), main_app.concerto_plugins_path, :class => "btn #{ (controller.controller_name == 'concerto_plugins') ? 'selected' : '' }" %>
-          <%= link_to t(".users"), main_app.users_path, :class => "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" %>
+          <%= link_to t('.settings'), main_app.concerto_config_path, class: "btn #{ (controller.controller_name == 'concerto_config') ? 'selected' : '' }" %>
+          <%= link_to t('.plugins'), main_app.concerto_plugins_path, class: "btn #{ (controller.controller_name == 'concerto_plugins') ? 'selected' : '' }" %>
+          <%= link_to t(".users"), main_app.users_path, class: "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" %>
         </div>
         <div class="top-menu-secbot">
           <h1><%= t('.admin') %></h1>
@@ -81,7 +81,7 @@
         </div>
         <div class="pull-right">
           <h2 class="ilb"><%= link_to current_user.name, [main_app, current_user] %></h2>
-          <p class="ilb" style="margin: -3px 0 0 5px;"><%= link_to t('.settings'), main_app.edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;<%= link_to t('.log_out'), main_app.destroy_user_session_path, :method => :delete %></p>
+          <p class="ilb" style="margin: -3px 0 0 5px;"><%= link_to t('.settings'), main_app.edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;<%= link_to t('.log_out'), main_app.destroy_user_session_path, method: :delete %></p>
         </div>
 
       </div>

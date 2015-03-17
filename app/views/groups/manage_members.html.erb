@@ -1,7 +1,7 @@
 <section class="viewblock">
   <header class="viewblock-header">
     <h1 class="default-padding">
-      <%= link_to t(:all_model, :model => Group.model_name.human(count: 42)), groups_path %> &gt;
+      <%= link_to t(:all_model, model: Group.model_name.human(count: 42)), groups_path %> &gt;
       <%= link_to @group.name, @group %> &gt; 
       <%= t('.manage_members') %>
     </h1>
@@ -34,7 +34,7 @@
             <th style="width: 25%;"> <%= t('.permissions.all') %> </th>
             <th style="width: 25%;">
               <% if can? :update, leader %>
-                <%= link_to t('.demote_to_regular'), group_membership_path(@group, leader, :perform => "demote"), :method => :put, :class => "btn btn-small btn-danger", :data => { :confirm => t(:are_you_sure_demote_user, :user => leader.user.name) } %>
+                <%= link_to t('.demote_to_regular'), group_membership_path(@group, leader, perform: "demote"), method: :put, class: "btn btn-small btn-danger", data: { confirm: t(:are_you_sure_demote_user, user: leader.user.name) } %>
               <% end %>
             </th>
           </tr>
@@ -62,8 +62,8 @@
                   <% end %>
                   <td>
                     <% if can? :update, m.object %>
-                      <%= link_to t('.promote_to_leader'), group_membership_path(@group, m.object, :perform => "promote"), :method => :put, :class => "btn btn-small btn-success" %>
-                      <%= link_to t('.remove_from_group'), group_membership_path(@group , m.object), :method => :delete, :class => "btn btn-small btn-danger", :data => { :confirm => t(:are_you_sure_remove_user_group, :user => m.object.user.name, :group => @group.name) } %>
+                      <%= link_to t('.promote_to_leader'), group_membership_path(@group, m.object, perform: "promote"), method: :put, class: "btn btn-small btn-success" %>
+                      <%= link_to t('.remove_from_group'), group_membership_path(@group , m.object), method: :delete, class: "btn btn-small btn-danger", data: { confirm: t(:are_you_sure_remove_user_group, user: m.object.user.name, group: @group.name) } %>
                     <% end %>
                   </td>
                 </tr>
@@ -71,8 +71,8 @@
             <% end %>
           </tbody>
         </table>
-        <% if !@group.memberships.regular.empty? && (can? :update, Membership.new(:group => @group, :level => Membership::LEVELS[:pending])) %>
-            <%= f.submit t('.update_permissions'), :class => "btn btn-primary" %>
+        <% if !@group.memberships.regular.empty? && (can? :update, Membership.new(group: @group, level: Membership::LEVELS[:pending])) %>
+            <%= f.submit t('.update_permissions'), class: "btn btn-primary" %>
           <% end %>
         <% end %>
       <% else %>
@@ -84,7 +84,7 @@
 
       <br />
 
-        <% if can? :read, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>
+        <% if can? :read, Membership.new(group: @group, level: Membership::LEVELS[:pending]) %>
         <h3 class="default-padding"><%= t('.approve_requests') %></h3>
         <% if @group.memberships.pending.size > 0 %>
           <div class="second-level-padding" style="padding-top: 0px;">
@@ -104,11 +104,11 @@
                         <b><%= link_to_if can?(:read, pending_membership.user), pending_membership.user.name, pending_membership.user %></b><br />
                       </p>
                     </th>
-                    <th><p><%= l pending_membership.created_at, :format => :time_date %></p></th>
+                    <th><p><%= l pending_membership.created_at, format: :time_date %></p></th>
                     <th>
                       <% if can? :update, pending_membership %>
-                        <%= link_to t(:approve), group_membership_path(@group, pending_membership, :perform => "approve"), :method => :put, :class => "btn btn-small btn-success"%>
-                        <%= link_to t(:deny), group_membership_path(@group, pending_membership, :perform => "deny"), :method=> :put, :class => "btn btn-small btn-danger" %>
+                        <%= link_to t(:approve), group_membership_path(@group, pending_membership, perform: "approve"), method: :put, class: "btn btn-small btn-success"%>
+                        <%= link_to t(:deny), group_membership_path(@group, pending_membership, perform: "deny"), method: :put, class: "btn btn-small btn-danger" %>
                       <% end %>
                     </th>
                   </tr>
@@ -149,12 +149,12 @@
                         </th>
                         <th>
                           <p>
-                            <%= l denied_membership.created_at, :format => :time_date %>
+                            <%= l denied_membership.created_at, format: :time_date %>
                           </p>
                         </th>
                         <th>
                           <% if can? :update, denied_membership %>
-                            <%= link_to t(:approve), group_membership_path(@group, denied_membership, :perform => "unblock"), :method => :put, :class => "btn btn-small btn-success" %>
+                            <%= link_to t(:approve), group_membership_path(@group, denied_membership, perform: "unblock"), method: :put, class: "btn btn-small btn-success" %>
                           <% end %>
                         </th>
                       </tr>
@@ -167,7 +167,7 @@
 
       <% end %>
 
-      <% if can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending]) %>
+      <% if can? :create, Membership.new(group: @group, level: Membership::LEVELS[:pending]) %>
         <% users_not_in_group = @group.users_not_in_group %>
         <% unless users_not_in_group.empty? %>
           <h3 class="default-padding"><%= t('.add_users_to_group') %></h3>
@@ -177,8 +177,8 @@
               <thead>
                 <tr>
                   <th style="width: 25%;"><%= f.label :name %></th>
-                  <th style="width: 25%;"><%= f.label :screen, t('.screen_permission.name'), :class => 'tooltip-basic', 'data-tooltip-text' => t('.screen_permission.tooltip') %></th>
-                  <th style="width: 25%;"><%= f.label :feed, t('.feed_permission.name'), :class => "tooltip-basic", 'data-tooltip-text' => t('.feed_permission.tooltip') %></th>
+                  <th style="width: 25%;"><%= f.label :screen, t('.screen_permission.name'), class: 'tooltip-basic', 'data-tooltip-text' => t('.screen_permission.tooltip') %></th>
+                  <th style="width: 25%;"><%= f.label :feed, t('.feed_permission.name'), class: "tooltip-basic", 'data-tooltip-text' => t('.feed_permission.tooltip') %></th>
                   <th style="width: 25%;">&nbsp;</th>
                 </tr>
               </thead>
@@ -190,12 +190,12 @@
                       options[User] = users_not_in_group.map { |u| [u.name, "#{u.id}"]}
                     end
                   %>
-                  <td> <%= render :partial => "elements/owner_select", :locals => { :options => options } %> </td>
+                  <td> <%= render partial: "elements/owner_select", locals: { options: options } %> </td>
                   <%= f.hidden_field :user_id %>
                   <%= f.hidden_field :group_id %>
                   <td> <%= select_tag( :screen, options_for_select(human_permission_level_names(Membership::PERMISSIONS[:regular][:screen].keys)) ) %> </td>
                   <td> <%= select_tag( :feed, options_for_select(human_permission_level_names(Membership::PERMISSIONS[:regular][:feed].keys)) ) %> </td>
-                  <td> <%= f.submit t('.add_member'), :class => "btn btn-primary" %> </td>
+                  <td> <%= f.submit t('.add_member'), class: "btn btn-primary" %> </td>
                 </tr>
               </tbody>
             <% end %>

@@ -1,2 +1,2 @@
-$('#add-sub-btn').qtip('api').set('content.text', '<%= escape_javascript(render :partial => 'subscriptions/add_subscription', :locals => {:allowed_feeds => Feed.subscribable(@screen, @field), :current_feeds => @subscriptions.collect {|s| s.feed}}) %>');
+$('#add-sub-btn').qtip('api').set('content.text', '<%= escape_javascript(render partial: 'subscriptions/add_subscription', locals: {allowed_feeds: Feed.subscribable(@screen, @field), current_feeds: @subscriptions.collect {|s| s.feed}}) %>');
 initFeedFilters();

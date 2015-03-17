@@ -4,13 +4,13 @@
     <div class="span6">
       <div class="clearfix">
         <%= form.label :name %>
-        <%= form.text_field :name, :style => "width: 85%;" %>
+        <%= form.text_field :name, style: "width: 85%;" %>
       </div>
 
-      <%= render :partial => 'contents/form_elements/dates', :locals => {:form => form} %>
+      <%= render partial: 'contents/form_elements/dates', locals: {form: form} %>
     </div>
     <div class="span6">
-      <%= render :partial => 'contents/form_elements/duration', :locals => {:form => form, :min => ConcertoConfig[:min_content_duration].to_i, :max => ConcertoConfig[:max_content_duration].to_i} %>
+      <%= render partial: 'contents/form_elements/duration', locals: {form: form, min: ConcertoConfig[:min_content_duration].to_i, max: ConcertoConfig[:max_content_duration].to_i} %>
     </div>
   </div>
 </fieldset>

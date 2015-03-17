@@ -17,7 +17,7 @@
 
           <% if user_signed_in? %>
             <p>
-              <%= mail_to @user.email, @user.email, :encode => "hex" unless @user.email.empty? %>
+              <%= mail_to @user.email, @user.email, encode: "hex" unless @user.email.empty? %>
             </p>
           <% end %>
         </div>
@@ -30,7 +30,7 @@
 <div class="clearfix default-padding">
   <div class="header-with-icon">
     <h3>
-      <%= t '.group_header', :count => @memberships.length %>
+      <%= t '.group_header', count: @memberships.length %>
     </h3>
   </div>
   <br />
@@ -57,8 +57,8 @@
                 <div class="input checkbox">
                   <%= hidden_field_tag :receive_emails, "0" %>
                   <%= check_box_tag :receive_emails, nil, membership.receive_emails, {
-                    :id => "email#{membership.group.id}",
-                    :data => { :autosubmit => true }} %>
+                    id: "email#{membership.group.id}",
+                    data: { autosubmit: true }} %>
                   <%= label_tag "email#{membership.group.id}", t('.receive_emails') %>
                 </div>
               <% end %>
@@ -74,19 +74,19 @@
 <div class="clearfix default-padding">
   <div class="header-with-icon">
     <h3>
-      <%= t '.screen_header', :count => @screens.count %>
+      <%= t '.screen_header', count: @screens.count %>
     </h3>
   </div>
   <br />
-  <%= render :partial => "screens/thumbs", :object => @screens,
-             :locals => { :show_field_count => false, :show_owner => false } %>
+  <%= render partial: "screens/thumbs", object: @screens,
+             locals: { show_field_count: false, show_owner: false } %>
 </div>
 
 <!-- Begin Contents -->
 <div class="clearfix default-padding">
   <div class="header-with-icon clearfix">
     <h3 style="float: left;">
-      <%= t '.content_header', :count => @contents_count %>
+      <%= t '.content_header', count: @contents_count %>
     </h3>
     <div class="pagination-cont">
       <%= paginate @contents unless @contents.empty? %>
@@ -96,7 +96,7 @@
 
   <% unless @contents.empty? %>
     <% @contents.each do |content| %>
-      <%= render :partial => "contents/content_tile", :locals => { :content => content } %>
+      <%= render partial: "contents/content_tile", locals: { content: content } %>
     <% end %>
   <% end %>
 

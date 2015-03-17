@@ -1,6 +1,6 @@
 <%
 if @content.media.empty?
-  @content.media.build({:key=>"original"})
+  @content.media.build({key:"original"})
 end
 %>
 <fieldset>
@@ -9,7 +9,7 @@ end
     <label><%= t('.specify_file') %></label>
     <div class="input">
       <%= form.fields_for :media do |media| %>
-      <%= media.file_field :file, :id => 'media_file', :data => { :media_url => media_index_path, :url => preview_contents_path } %>
+      <%= media.file_field :file, id: 'media_file', data: { media_url: media_index_path, url: preview_contents_path } %>
       <%= media.hidden_field :key %>
       <%= media.hidden_field :id %>
       <% end %>

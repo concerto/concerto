@@ -3,17 +3,17 @@ class Content < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :kind
-  has_many :submissions, :dependent => :destroy, :after_add => :after_add_callback
-  has_many :feeds, :through => :submissions
-  has_many :media, :as => :attachable, :dependent => :destroy
+  has_many :submissions, dependent: :destroy, after_add: :after_add_callback
+  has_many :feeds, through: :submissions
+  has_many :media, as: :attachable, dependent: :destroy
 
   accepts_nested_attributes_for :media
   accepts_nested_attributes_for :submissions
 
   # Validations
-  validates :name, :presence => true
-  #validates :kind, :presence => true, :associated => true
-  validates :user, :presence => true, :associated => true
+  validates :name, presence: true
+  #validates :kind, presence: true, associated: true
+  validates :user, presence: true, associated: true
   validate :cannot_be_own_parent
 
   def cannot_be_own_parent
@@ -25,36 +25,36 @@ class Content < ActiveRecord::Base
   #Newsfeed
   include PublicActivity::Common if defined? PublicActivity::Common
 
-  belongs_to :parent, :class_name => "Content", :counter_cache => :children_count
-  has_many :children, :class_name => "Content", :foreign_key => "parent_id", :dependent => :destroy
+  belongs_to :parent, class_name: "Content", counter_cache: :children_count
+  has_many :children, class_name: "Content", foreign_key: "parent_id", dependent: :destroy
 
   # By default, only find known content types.
   # This allows everything to keep working if a content type goes missing
   # or (more likely) gets removed.
-  default_scope { where(:type => Content.all_subclasses.collect { |s| s.name })}
+  default_scope { where(type: Content.all_subclasses.collect { |s| s.name })}
 
   # Easily query for active, expired, or future content
   # The scopes are defined as class methods to delay their resolution, defining them as proper scopes
   # will break lots of things, see https://github.com/concerto/concerto/issues/288.
   def self.expired
-    where("end_time < :now", {:now => Clock.time})
+    where("end_time < :now", {now: Clock.time})
   end
 
   def self.future
-    where("start_time > :now", {:now => Clock.time})
+    where("start_time > :now", {now: Clock.time})
   end
 
   def self.active
-    where("(start_time IS NULL OR start_time < :now) AND (end_time IS NULL OR end_time > :now)", {:now => Clock.time})
+    where("(start_time IS NULL OR start_time < :now) AND (end_time IS NULL OR end_time > :now)", {now: Clock.time})
   end
 
   # Scoped relations for feed approval states
-  has_many :approved_feeds, -> { where "submissions.moderation_flag" => true }, :through => :submissions, :source => :feed
-  has_many :pending_feeds, -> { where "submissions.moderation_flag IS NULL" }, :through => :submissions, :source => :feed
-  has_many :denied_feeds, -> { where "submissions.moderation_flag" => false }, :through => :submissions, :source => :feed
+  has_many :approved_feeds, -> { where "submissions.moderation_flag" => true }, through: :submissions, source: :feed
+  has_many :pending_feeds, -> { where "submissions.moderation_flag IS NULL" }, through: :submissions, source: :feed
+  has_many :denied_feeds, -> { where "submissions.moderation_flag" => false }, through: :submissions, source: :feed
 
   # Magic to let us generate routes
-  delegate :url_helpers, :to => 'Rails.application.routes'
+  delegate :url_helpers, to: 'Rails.application.routes'
 
   # Determine if content is active based on its start and end times.
   # Content is active if two conditions are met:
@@ -123,7 +123,7 @@ class Content < ActiveRecord::Base
 
   # The additional data required when rendering this content.
   def render_details
-    {:data => self.data}
+    {data: self.data}
   end
 
   # Allow the subclasses to render a preview of their content
@@ -140,7 +140,7 @@ class Content < ActiveRecord::Base
   # We define a common set of attribtues here, expecting child content types to
   # supplement this list with additional attributes that they require.
   def self.form_attributes
-    attributes = [:name, :duration, :data, {:start_time => [:time, :date]}, {:end_time => [:time, :date]}]
+    attributes = [:name, :duration, :data, {start_time: [:time, :date]}, {end_time: [:time, :date]}]
   end
 
   # All the subclasses of Content.

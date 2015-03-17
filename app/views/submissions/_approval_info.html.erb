@@ -1,7 +1,7 @@
 <% unless submission.moderation_flag.blank? %>
   <% if submission.moderation_flag %>
     <h2><%= t('.approved') %></h2>
-    <% if can? :update, submission %><h3><%= t '.moderated_by', :moderator => submission.moderator.name %></h3><% end %>
+    <% if can? :update, submission %><h3><%= t '.moderated_by', moderator: submission.moderator.name %></h3><% end %>
   <% else %>
     <h2><%= t 'feeds.denied' %></h2>
     <% if can?(:update, submission) || can?(:update, submission.content) %>

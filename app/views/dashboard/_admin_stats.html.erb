@@ -18,7 +18,7 @@
               <b><%= t('.cant_determine_latest_version') %></b>
           <% elsif @latest_version > Concerto::VERSION::STRING %>
               <i class="icon-exclamation-sign" style="font-size: 1.4em;"></i>
-              <b><%= t('.new_version', :version => @latest_version) %></b>
+              <b><%= t('.new_version', version: @latest_version) %></b>
           <% end %>
         </div>
       </div>
@@ -32,7 +32,7 @@
             <% else %>
                 <i class="icon-stop"></i> <%= t('.stopped') %>
             <% end %>
-            <small style="font-size: 0.4em; padding-left: 16px;"><%= link_to t('.start_stop'), {:controller => :pages, :action => :show, :id => "concerto-init-d-startup-script"}, :style => "text-decoration: underline;" %></small>
+            <small style="font-size: 0.4em; padding-left: 16px;"><%= link_to t('.start_stop'), {controller: :pages, action: :show, id: "concerto-init-d-startup-script"}, style: "text-decoration: underline;" %></small>
           </h2>
         </div>
       </div>

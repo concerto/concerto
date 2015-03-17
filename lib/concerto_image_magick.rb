@@ -70,7 +70,7 @@ module ConcertoImageMagick
   #    return the desired size (aka dumb stretch).  Setting :expand_to_fit true will
   #    resize the size to be no smaller than the desired output size, often used before
   #    cropping.
-  # @return [Hash{Symbol => Integer}] Result hash with {:width => Integer, :height => Integer}.
+  # @return [Hash{Symbol => Integer}] Result hash with {width: Integer, height: Integer}.
   def self.compute_size(image_width, image_height, desired_width, desired_height, options={})
     options[:maintain_aspect_ratio] = true if options[:maintain_aspect_ratio].nil?
     options[:expand_to_fit] ||= false
@@ -104,7 +104,7 @@ module ConcertoImageMagick
         output_width = output_width * upscale
       end
     end
-    return {:width => output_width.ceil, :height => output_height.ceil}
+    return {width: output_width.ceil, height: output_height.ceil}
   end
 
   # Resize an image to a height and width.
@@ -121,8 +121,8 @@ module ConcertoImageMagick
       image = self.new_image(0, 0)
     elsif !width.nil? || !height.nil?
       options = {
-        :maintain_aspect_ratio => maintain_aspect_ratio,
-        :expand_to_fit => expand_to_fit
+        maintain_aspect_ratio: maintain_aspect_ratio,
+        expand_to_fit: expand_to_fit
       }
       size = self.compute_size(image.columns, image.rows, width, height, options)
       if image.columns != size[:width] && image.rows != size[:height]

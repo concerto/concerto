@@ -1,7 +1,7 @@
 <li>
   <% link_to content do %>
-    <%= render_content(content, { :type => 'grid' }) %>
+    <%= render_content(content, { type: 'grid' }) %>
     <h1><%= content.name %></h1>
-    <h2><%= l content.start_time, :format => :short_month %> - <%= l content.end_time, :format => :short_month %></h2>
+    <h2><%= l content.start_time, format: :short_month %> - <%= l content.end_time, format: :short_month %></h2>
   <% end %>
 </li>

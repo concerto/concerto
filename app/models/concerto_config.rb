@@ -1,6 +1,6 @@
 # Adding a new configuration variable:
   # Either in your plugin, or in the seeds file, add a row as such:
-  #  ConcertoConfig.find_or_create_by_key(:key => "default_upload_type", :value => "graphic", :value_default => "graphic", :value_type => "string")
+  #  ConcertoConfig.find_or_create_by_key(key: "default_upload_type", value: "graphic", value_default: "graphic", value_type: "string")
   # The value type and default will allow the Dashboard to properly create the form for editing the variable
   # Also ensure to provide a translation in an appropriate YAML file:
   #  default_upload_type: "Default content upload type"
@@ -30,9 +30,9 @@ class ConcertoConfig < ActiveRecord::Base
   
   # Make setting values from Rails nice and easy
   def self.set(key,value)
-    setting = ConcertoConfig.where(:key => key).first
+    setting = ConcertoConfig.where(key: key).first
     if setting.nil?
-      setting = ConcertoConfig.new(:key => key)
+      setting = ConcertoConfig.new(key: key)
       setting.save
     end
     if setting.value_type == "boolean" and value
@@ -55,7 +55,7 @@ class ConcertoConfig < ActiveRecord::Base
       Rails.logger.info("Config cache read failed - #{e.message}")
     end
 
-    setting = ConcertoConfig.where(:key => key).first
+    setting = ConcertoConfig.where(key: key).first
       if setting.nil?
         raise "Concerto Config key #{key} not found!"
       end    
@@ -79,11 +79,11 @@ class ConcertoConfig < ActiveRecord::Base
   # and seq_no to 99, and category to 'Miscellaneous'
   def self.make_concerto_config(config_key,config_value, options={})
     defaults = {
-      :value_type => "string",
-      :value_default => config_value,
-      :can_cache => true,
-      :seq_no => 99,
-      :category => 'Miscellaneous'
+      value_type: "string",
+      value_default: config_value,
+      can_cache: true,
+      seq_no: 99,
+      category: 'Miscellaneous'
     }
     options = defaults.merge(options)
     
@@ -97,7 +97,7 @@ class ConcertoConfig < ActiveRecord::Base
     options = options.delete_if { |k, v| !ConcertoConfig.columns_hash.has_key?(k.to_s) }
 
     # first_or_create: check whether first returns nil or not; if it does return nil, create is called
-    entry = ConcertoConfig.where(:key => config_key).first_or_create(options)
+    entry = ConcertoConfig.where(key: config_key).first_or_create(options)
 
     # resync the following attributes - category and seqno 
     resync_columns = [:category, :seq_no, :description]
@@ -116,7 +116,7 @@ class ConcertoConfig < ActiveRecord::Base
 
   # Update the config_last_updated entry to indicate the cached data is no longer valid.
   def self.cache_expire
-    updated = ConcertoConfig.where(:key => 'config_last_updated').first
+    updated = ConcertoConfig.where(key: 'config_last_updated').first
     if !updated.nil?
       updated.update_column(:value, (Time.now.to_f * 1000000).to_i)
     end

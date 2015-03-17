@@ -3,23 +3,23 @@ class Group < ActiveRecord::Base
 
   after_create :create_leader
 
-  has_many :feeds, :dependent => :restrict_with_error
-  has_many :memberships, :dependent => :destroy
+  has_many :feeds, dependent: :restrict_with_error
+  has_many :memberships, dependent: :destroy
   accepts_nested_attributes_for :memberships
 
-  has_many :users, -> { where ["memberships.level > ?", Membership::LEVELS[:pending]] }, :through => :memberships
-  has_many :screens, :as => :owner, :dependent => :restrict_with_error
+  has_many :users, -> { where ["memberships.level > ?", Membership::LEVELS[:pending]] }, through: :memberships
+  has_many :screens, as: :owner, dependent: :restrict_with_error
 
-  has_many :templates, :as => :owner
+  has_many :templates, as: :owner
 
   # Scoped relation for members and pending members
-  has_many :all_users, -> { where ["memberships.level != ?", Membership::LEVELS[:denied]] }, :through => :memberships, :source => :user
+  has_many :all_users, -> { where ["memberships.level != ?", Membership::LEVELS[:denied]] }, through: :memberships, source: :user
 
   # Scoped relation for leaders
-  has_many :leaders, -> { where "memberships.level" => Membership::LEVELS[:leader] }, :through => :memberships, :source => :user
+  has_many :leaders, -> { where "memberships.level" => Membership::LEVELS[:leader] }, through: :memberships, source: :user
 
   # Validations
-  validates :name, :presence => true, :uniqueness => true
+  validates :name, presence: true, uniqueness: true
 
   before_save :update_membership_perms
 
@@ -37,7 +37,7 @@ class Group < ActiveRecord::Base
   end
 
   def create_leader
-    self.new_leader = Membership.create(:user_id => new_leader, :group_id => self.id, :level => Membership::LEVELS[:leader]) if new_leader.present?
+    self.new_leader = Membership.create(user_id: new_leader, group_id: self.id, level: Membership::LEVELS[:leader]) if new_leader.present?
   end
 
   # Deliver a list of only users not currently in the group
@@ -76,7 +76,7 @@ class Group < ActiveRecord::Base
   def user_has_permissions?(user, level, type, permissions)
     return false if user.nil?
 
-    m = memberships.where(:user_id => user, :level => Membership::LEVELS[level]).first
+    m = memberships.where(user_id: user, level: Membership::LEVELS[level]).first
     return false if m.nil?
     return false unless m.perms.include?(type)
 

@@ -12,11 +12,11 @@ class SubscriptionsController < ApplicationController
   # GET /screens/:screen_id/fields/:field_id/subscriptions
   # GET /screens/:screen_id/fields/:field_id/subscriptions.xml
   def index
-    @subscriptions = @screen.subscriptions.where(:field_id => @field.id)
+    @subscriptions = @screen.subscriptions.where(field_id: @field.id)
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @subscriptions }
+      format.xml  { render xml: @subscriptions }
     end
   end
 
@@ -28,7 +28,7 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @subscription }
+      format.xml  { render xml: @subscription }
     end
   end
 
@@ -38,7 +38,7 @@ class SubscriptionsController < ApplicationController
     if params[:feed_id]
       @feed = Feed.find(params[:feed_id])
     else
-      @subscriptions = @screen.subscriptions.where(:field_id => @field.id)
+      @subscriptions = @screen.subscriptions.where(field_id: @field.id)
     end
 
     respond_to do |format|
@@ -67,12 +67,12 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       if @subscription.save
-        format.html { redirect_to(screen_field_subscriptions_path(@screen, @field), :notice => t(:subscription_created)) }
-        format.xml  { render :xml => @subscription, :status => :created, :location => @subscription }
+        format.html { redirect_to(screen_field_subscriptions_path(@screen, @field), notice: t(:subscription_created)) }
+        format.xml  { render xml: @subscription, status: :created, location: @subscription }
         format.js
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @subscription.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.xml  { render xml: @subscription.errors, status: :unprocessable_entity }
         format.js
       end
     end
@@ -84,12 +84,12 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       if @subscription.update_attributes(subscription_params)
-        format.html { redirect_to(screen_field_subscriptions_path(@screen, @field), :notice => t('subscriptions.records_updated')) }
+        format.html { redirect_to(screen_field_subscriptions_path(@screen, @field), notice: t('subscriptions.records_updated')) }
         format.xml  { head :ok }
         format.js { head :ok }
       else
         format.html { redirect_to(screen_field_subscriptions_path(@screen, @field)) }
-        format.xml  { render :xml => @subscription.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @subscription.errors, status: :unprocessable_entity }
       end
     end
   end

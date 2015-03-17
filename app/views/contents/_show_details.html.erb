@@ -1,13 +1,13 @@
 <div class="subblock">
   <p class="uppercase"><small><b><%= t('.display_from') %></b></small></p>
   <% if !content.start_time.nil? %>
-    <p><%= l content.start_time, :format => :short_day %><br /><%= l content.start_time, :format => :twelve_hour_time %></p>
+    <p><%= l content.start_time, format: :short_day %><br /><%= l content.start_time, format: :twelve_hour_time %></p>
   <% else %>
     <p><%= t('.the_dawn_of_time') %></p>
   <% end %>
   <p class="uppercase"><small><b><%= t('.display_until') %></b></small></p>
   <% if !content.end_time.nil? %>
-    <p><%= l content.end_time, :format => :short_day %><br /><%= l content.end_time, :format => :twelve_hour_time %></p>
+    <p><%= l content.end_time, format: :short_day %><br /><%= l content.end_time, format: :twelve_hour_time %></p>
   <% else %>
     <p><%= t '.the_end_of_time' %></p>
   <% end %>
@@ -19,7 +19,7 @@
   <p><%= link_to user.name, user %></p>
 </div>
 
-<%= ConcertoPlugin.render_view_hook self, :content_details, { :content => content, :user => user } %>
+<%= ConcertoPlugin.render_view_hook self, :content_details, { content: content, user: user } %>
 
 <div class="subblock">
   <p class="uppercase"><small><b><%= t('.feeds_moderation_status') %></b></small></p>
@@ -47,7 +47,7 @@
     <p class="uppercase"><small><b><%= t('.content_resubmission') %></b></small></p>
     <!-- Show tooltip to edit content start/end time and date -->
     <div class="default-padding">
-        <%= link_to '#', id: "select-feeds-btn", title: "Content Resubmission", :class => "btn dropdown-toggle dropdown-control dd-content-resubmit", rel: "#content-resubmit" do %>
+        <%= link_to '#', id: "select-feeds-btn", title: "Content Resubmission", class: "btn dropdown-toggle dropdown-control dd-content-resubmit", rel: "#content-resubmit" do %>
         <%= "Details".capitalize %>
       <% end %>
     </div>

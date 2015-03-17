@@ -5,13 +5,13 @@
         <%= f.label :name %>
         <div class="input">
           <div class="inline-inputs">
-            <%= f.text_field :name, :autofocus => true %>
+            <%= f.text_field :name, autofocus: true %>
           </div>
         </div>
       </div>
     </fieldset>
 
     <div class="submit_bar actions">
-      <%= f.submit button_text, :class => "btn btn-primary" %> <%= link_to_function t(:cancel), "history.back()", :class => "btn" %>
+      <%= f.submit button_text, class: "btn btn-primary" %> <%= link_to_function t(:cancel), "history.back()", class: "btn" %>
     </div>
 <% end %>

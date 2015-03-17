@@ -4,7 +4,7 @@ class SubmissionsController < ApplicationController
 
   def get_feed
     @feed = Feed.find(params[:feed_id])
-    auth!(:action => :show, :object => @feed)
+    auth!(action: :show, object: @feed)
   end
 
   # GET /feeds/:feed_id/submissions
@@ -82,16 +82,16 @@ class SubmissionsController < ApplicationController
     respond_to do |format|
       if @submission.update_attributes(submission_params)
         process_notification(@submission, {}, process_notification_options({
-          :params => {
-            :status => @submission.moderation_flag,
-            :content_name => @submission.content.name,
-            :feed_name => @submission.feed.name
+          params: {
+            status: @submission.moderation_flag,
+            content_name: @submission.content.name,
+            feed_name: @submission.feed.name
             }, 
-          :recipient => @submission.content.user}))
-        format.html { redirect_to(feed_submissions_path, :notice => t(:content_moderated)) }
+          recipient: @submission.content.user}))
+        format.html { redirect_to(feed_submissions_path, notice: t(:content_moderated)) }
         format.js
       else
-        format.html { redirect_to(feed_submission_path, :notice => t(:content_failed_moderation)) }
+        format.html { redirect_to(feed_submission_path, notice: t(:content_failed_moderation)) }
         format.js
       end
     end

@@ -2,7 +2,7 @@ class TemplatesController < ApplicationController
   define_callbacks :show # controller callback for 'show' action
   ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
 
-  before_filter :get_type, :only => [:new, :create, :import]
+  before_filter :get_type, only: [:new, :create, :import]
   respond_to :html, :json, :xml, :js
 
   # GET /templates
@@ -22,7 +22,7 @@ class TemplatesController < ApplicationController
     run_callbacks :show # Run plugin hooks
     auth!
     respond_with(@template) do |format|
-      format.xml { render :xml => @template.to_xml(:include => [:positions])  }
+      format.xml { render xml: @template.to_xml(include: [:positions])  }
     end
   end
 
@@ -64,13 +64,13 @@ class TemplatesController < ApplicationController
 
     respond_to do |format|
       if @template.save
-        process_notification(@template, {}, process_notification_options({:params => {:template_name => @template.name}}))
-        format.html { redirect_to(edit_template_path(@template), :notice => t(:template_created)) }
-        format.xml  { render :xml => @template, :status => :created, :location => @template }
+        process_notification(@template, {}, process_notification_options({params: {template_name: @template.name}}))
+        format.html { redirect_to(edit_template_path(@template), notice: t(:template_created)) }
+        format.xml  { render xml: @template, status: :created, location: @template }
       else
         @type = "create"
         format.html { render :new }
-        format.xml  { render :xml => @template.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @template.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -100,7 +100,7 @@ class TemplatesController < ApplicationController
     end unless template_parameters[:media_attributes].nil?
 
     if @template.update_attributes(template_parameters)
-      process_notification(@template, {}, process_notification_options({:params => {:template_name => @template.name}}))
+      process_notification(@template, {}, process_notification_options({params: {template_name: @template.name}}))
       flash[:notice] = t(:template_updated)
     end
 
@@ -114,11 +114,11 @@ class TemplatesController < ApplicationController
     auth!
 
     unless @template.is_deletable?
-      redirect_to(@template, :notice => t(:cannot_delete_template, :screens => @template.screens.collect { |s| s.name if can? :read, s}.join(", ")))
+      redirect_to(@template, notice: t(:cannot_delete_template, screens: @template.screens.collect { |s| s.name if can? :read, s}.join(", ")))
       return
     end
 
-    process_notification(@template, {}, process_notification_options({:params => {:template_name => @template.name}}))
+    process_notification(@template, {}, process_notification_options({params: {template_name: @template.name}}))
     @template.destroy
     respond_with(@template)
   end
@@ -127,9 +127,9 @@ class TemplatesController < ApplicationController
   # Generate a preview of the template based on the request format.
   def preview
     @template = Template.find(params[:id])
-    auth!(:action => :preview)
+    auth!(action: :preview)
 
-    if stale?(:last_modified => @template.last_modified.utc, :etag => @template, :public => true)
+    if stale?(last_modified: @template.last_modified.utc, etag: @template, public: true)
       # Hide the fields if the hide_fields param is set,
       # show them by default though.
       @hide_fields = false
@@ -172,8 +172,8 @@ class TemplatesController < ApplicationController
         data = @image.to_blob
 
         send_data data,
-                  :filename => "#{@template.name.underscore}.#{@image.format.downcase}_preview",
-                  :type => @image.mime_type, :disposition => 'inline'
+                  filename: "#{@template.name.underscore}.#{@image.format.downcase}_preview",
+                  type: @image.mime_type, disposition: 'inline'
       else
         respond_to do |format|
           format.svg
@@ -194,7 +194,7 @@ class TemplatesController < ApplicationController
       # is_hidden checkbox supercedes xml
       @template.is_hidden = template_params[:is_hidden]
       if @template.save
-        process_notification(@template, {}, process_notification_options({:params => {:template_name => @template.name}}))
+        process_notification(@template, {}, process_notification_options({params: {template_name: @template.name}}))
         flash[:notice] = t(:template_created)
       end
     end
@@ -211,6 +211,6 @@ private
   end
 
   def template_params
-    params.require(:template).permit(:name, :author, :descriptor, :image, :is_hidden, :positions_attributes => [:field_id, :style, :top, :left, :bottom, :right, :id, :_destroy], :media_attributes => [:file])
+    params.require(:template).permit(:name, :author, :descriptor, :image, :is_hidden, positions_attributes: [:field_id, :style, :top, :left, :bottom, :right, :id, :_destroy], media_attributes: [:file])
   end
 end

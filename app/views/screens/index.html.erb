@@ -15,15 +15,15 @@
       <header class="viewblock-header" id="screens-header">
         <div class="viewblock-header_right">
           <div class="button-padding">
-            <%= link_to t(:new_model, :model => Screen.model_name.human), new_screen_path, :class => "btn" if can? :create, Screen %>
+            <%= link_to t(:new_model, model: Screen.model_name.human), new_screen_path, class: "btn" if can? :create, Screen %>
           </div>
         </div>
         <h1 class="default-padding">
-          <%= t(:all_model, :model => Screen.model_name.human(count: 42)) %>
+          <%= t(:all_model, model: Screen.model_name.human(count: 42)) %>
         </h1>
       </header>
       <div id="screens-body" class="viewblock-cont">
-        <%= render :partial => "screens/index_body" %>
+        <%= render partial: "screens/index_body" %>
       </div>
     </section>
   </div>
@@ -33,13 +33,13 @@
       <header class="viewblock-header">
         <div class="viewblock-header_right">
           <div class="button-padding">
-            <%= link_to t(".view_all"), templates_path, :class => "btn" %>
+            <%= link_to t(".view_all"), templates_path, class: "btn" %>
           </div>
         </div>
         <h1 class="default-padding"><%= t('.common_templates') %></h1>
       </header>
       <div class="viewblock-cont">
-        <%= render :partial => "templates/index_body" %>
+        <%= render partial: "templates/index_body" %>
         
       </div>
     </section>

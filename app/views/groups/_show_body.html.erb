@@ -15,21 +15,21 @@
 
     <div class="default-padding">
 
-      <% can_join = can? :create, Membership.new(:group => @group, :level => Membership::LEVELS[:pending], :user => current_user)
+      <% can_join = can? :create, Membership.new(group: @group, level: Membership::LEVELS[:pending], user: current_user)
          already_member = @group.made_request? current_user %>
       <% if can_join || already_member %>
           <div class="subblock bordered">
             <div class="default-padding clearfix">
               <% if already_member %>
-                  <% membership = Membership.where(:group_id => @group.id, :user_id => current_user.id).first %>
+                  <% membership = Membership.where(group_id: @group.id, user_id: current_user.id).first %>
                   <% if @group.has_member?(current_user) && can?(:delete, membership) %>
-                      <%= link_to(t('.leave_group'), group_membership_path(:group_id => @group.id, :id => membership.id), :method => :delete, :class => "btn pull-right", :data => {:confirm => t(:are_you_sure_leave_group, :group => @group.name)}) %>
+                      <%= link_to(t('.leave_group'), group_membership_path(group_id: @group.id, id: membership.id), method: :delete, class: "btn pull-right", data: {confirm: t(:are_you_sure_leave_group, group: @group.name)}) %>
                   <% end %>
                   <p>
-                    <b><%= t('.your_membership_role', :level => human_membership_level_name(membership.level_name), :what => (membership.level == Membership::LEVELS[:leader] ? "" : t('.member'))) %></b>
+                    <b><%= t('.your_membership_role', level: human_membership_level_name(membership.level_name), what: (membership.level == Membership::LEVELS[:leader] ? "" : t('.member'))) %></b>
                   </p>
               <% elsif can_join %>
-                  <%= link_to(t('.join_group'), group_memberships_path(:group_id => @group.id, :membership => {:user_id => current_user.id}), :method => :post, :class => "btn pull-right") %>
+                  <%= link_to(t('.join_group'), group_memberships_path(group_id: @group.id, membership: {user_id: current_user.id}), method: :post, class: "btn pull-right") %>
                   <p><b><%= t('.not_in_group') %></b></p>
               <% end %>
             </div>
@@ -44,7 +44,7 @@
 <div class="clearfix default-padding">
   <div class="header-with-icon">
     <h3>
-      <%= t '.feed_header', :count => @group.feeds.count %>
+      <%= t '.feed_header', count: @group.feeds.count %>
     </h3>
   </div>
 </div>
@@ -58,7 +58,7 @@
                   <% viewable+=1 %>
                   <li>
                     <h3>
-                      <%= link_to feed_submissions_path(feed), :class => "link-hl" do %>
+                      <%= link_to feed_submissions_path(feed), class: "link-hl" do %>
                           <span class="badge"><%= feed.approved_contents.active.count %></span> <%= feed.name %>
                       <% end %>
                       <small>&nbsp;&nbsp;<%= feed.description %></small>
@@ -78,7 +78,7 @@
                   <% viewable+=1 %>
                   <li>
                     <h3>
-                      <%= link_to feed_submissions_path(feed), :class => "link-hl" do %>
+                      <%= link_to feed_submissions_path(feed), class: "link-hl" do %>
                           <span class="badge"><%= feed.approved_contents.active.count %></span> <%= feed.name %>
                       <% end %>
                       <small>&nbsp;&nbsp;<%= feed.description %></small>
@@ -95,12 +95,12 @@
 <div class="clearfix default-padding">
   <div class="header-with-icon">
     <h3>
-      <%= t '.screen_header', :count => @group.screens.count %>
+      <%= t '.screen_header', count: @group.screens.count %>
     </h3>
   </div>
   <br/>
-  <%= render :partial => "screens/thumbs", :object => @group.screens,
-             :locals => {:show_field_count => false, :show_owner => false} %>
+  <%= render partial: "screens/thumbs", object: @group.screens,
+             locals: {show_field_count: false, show_owner: false} %>
 </div>
 
 <!-- Begin Members -->
@@ -108,7 +108,7 @@
 <div class="clearfix default-padding">
   <div class="header-with-icon">
     <h3>
-      <%= t '.member_header', :count => total_members %>
+      <%= t '.member_header', count: total_members %>
     </h3>
   </div>
   <br/>

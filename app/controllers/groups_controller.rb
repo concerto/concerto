@@ -33,7 +33,7 @@ class GroupsController < ApplicationController
   def manage_members
     @group = Group.find(params[:id])
     @denied = @group.memberships.denied
-    auth! :action => :edit
+    auth! action: :edit
     respond_with(@group)
   end
 
@@ -49,7 +49,7 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
     auth!
     if @group.save
-      process_notification(@group, {}, process_notification_options({:params => {:group_name => @group.name}}))
+      process_notification(@group, {}, process_notification_options({params: {group_name: @group.name}}))
       flash[:notice] = t(:group_created)
     end
     respond_with(@group)
@@ -61,7 +61,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     auth!
     if @group.update_attributes(group_params)  
-      process_notification(@group, {}, process_notification_options({:params => {:group_name => @group.name}}))
+      process_notification(@group, {}, process_notification_options({params: {group_name: @group.name}}))
       flash[:notice] = t(:group_updated) 
     end  
     respond_with(@group)  
@@ -74,11 +74,11 @@ class GroupsController < ApplicationController
     auth!
     #we don't let groups owning screens or feeds get deleted
     unless @group.is_deletable?
-      redirect_to(@group, :notice => t(:group_not_deletable)) 
+      redirect_to(@group, notice: t(:group_not_deletable)) 
       return
     end
     
-    process_notification(@group, {}, process_notification_options({:params => {:group_name => @group.name}}))
+    process_notification(@group, {}, process_notification_options({params: {group_name: @group.name}}))
     @group.destroy
 
     respond_with(@group) 
@@ -88,6 +88,6 @@ private
 
   # Restrict the allowed parameters to a select set defined in the model.
   def group_params
-    params.require(:group).permit(:name, :narrative, :new_leader, :memberships_attributes => [:id, {:perms => [:screen, :feed]}])
+    params.require(:group).permit(:name, :narrative, :new_leader, memberships_attributes: [:id, {perms: [:screen, :feed]}])
   end
 end
