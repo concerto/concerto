@@ -1,6 +1,7 @@
 #Concerto 2 Digital Signage System [![Build Status](https://travis-ci.org/concerto/concerto.png?branch=master)](https://travis-ci.org/concerto/concerto)
 
 [![Join the chat at https://gitter.im/concerto/concerto](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/concerto/concerto?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Full Installation Instructions: [https://github.com/concerto/concerto/wiki/Installing-Concerto-2](http://goo.gl/4YIzK)
 
 ##What is Concerto?
