@@ -1,20 +1,20 @@
 <tr>
   <td>
     <h2><%= feed.name %></h2>
-    <h4 class="color-gray"><%= t('subscriptions.approved_content', :count => feed.approved_contents.size)  %></h4>
+    <h4 class="color-gray"><%= t('subscriptions.approved_content', count: feed.approved_contents.size)  %></h4>
     <%= hidden_field_tag "subscription_id[#{i}]", "" %>
-    <%= hidden_field_tag "subscription_feed[#{i}]", feed.id, :class => "marker-sub-feed" %>
+    <%= hidden_field_tag "subscription_feed[#{i}]", feed.id, class: "marker-sub-feed" %>
   </td>
   <td>
     <div class="clearfix frequency" id="sub-freq-<%= i %>">
       <div class="leftseconds" style="width: 50px;"><%= t('subscriptions.shown_rarely') %></div>
-      <%= range_field :subscription_weight, i, { :min => 1, :max => Subscription::WEIGHTS.size, :step => 1, :class => "frequency_range thin" } %>
+      <%= range_field :subscription_weight, i, { min: 1, max: Subscription::WEIGHTS.size, step: 1, class: "frequency_range thin" } %>
       <div class="rightseconds" style="width: 50px;"><%= t('subscriptions.shown_frequently') %></div>
     </div>
   </td>
   <td>
-    <%= link_to "#", {:data => { :confirm => t(:are_you_sure_remove_model_key, :model => Feed.model_name.human, :key => feed.name) }, :class => "btn btn-danger btnRemoveSubscription"} do %>
-      <i class="icon-remove"></i> <%= t(:remove_model, :model => Feed.model_name.human) %>
+    <%= link_to "#", {data: { confirm: t(:are_you_sure_remove_model_key, model: Feed.model_name.human, key: feed.name) }, class: "btn btn-danger btnRemoveSubscription"} do %>
+      <i class="icon-remove"></i> <%= t(:remove_model, model: Feed.model_name.human) %>
     <% end %>
   </td>
 </tr>

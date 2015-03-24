@@ -35,7 +35,7 @@ end unless exists?(:branch)
 
 role :web, "concerto"                   # Your HTTP server, Apache/etc
 role :app, "concerto"                   # This may be the same as your `Web` server
-role :db,  "concerto", :primary => true # This is where Rails migrations will run
+role :db,  "concerto", primary: true # This is where Rails migrations will run
 
 set :deploy_to, "/var/webapps/#{application}"    # make sure this exists and is writable
 ##set :deploy_to, "/media/blue2/webapps/#{application}"    # make sure this exists and is writable
@@ -49,7 +49,7 @@ after "deploy:update_code", "deploy:migrate"  # make sure the database is migrat
 
 namespace :deploy do
   %w[start stop restart].each do |command|
-    task command, roles: :app, except: { :no_release => true } do
+    task command, roles: :app, except: { no_release: true } do
       desc "#{command} concerto background services"
       # start, stop, or restart the services if the service control script exists
       run "if [ -L /etc/init.d/concerto ]; then #{sudo} invoke-rc.d concerto #{command}; fi"
@@ -57,12 +57,12 @@ namespace :deploy do
   end
   
   # If you are using Passenger mod_rails uncomment this so it restarts your webserver
-  task :restart, :roles => :app, :except => { :no_release => true } do
+  task :restart, roles: :app, except: { no_release: true } do
     desc "restart the application server"
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
   end
 
-  task :setup_service, :roles => :app do
+  task :setup_service, roles: :app do
     desc "install concerto background services"
     # Must occur after code is deployed and symlink to current is created
     # If the service control script does not yet exist, but the script is in our app directory
@@ -81,7 +81,7 @@ namespace :deploy do
       fi"
   end
 
-  task :service_defaults, :roles => :app do
+  task :service_defaults, roles: :app do
     desc "set default directory for concerto background services"
     # set the path for finding our app
     # set the user that the services will run as (vi su)
@@ -89,7 +89,7 @@ namespace :deploy do
     run "#{sudo} sh -c 'echo \"USERNAME=#{user}\" >>/etc/default/concerto'"
   end
 
-  task :remove_service, :roles => :app do
+  task :remove_service, roles: :app do
     desc "remove concerto background services"
     # if the service control script exists, then remove it and unschedule it
     run "if [ -L /etc/init.d/concerto ]; then 
@@ -107,7 +107,7 @@ after "deploy:setup", "deploy:service_defaults" # set defaults for the service w
 # make sure our vendor/bundle is linked to our shared bundle path
 # which is shared among deploys of only our application 
 namespace :bundler do
-  task :create_symlink, :roles => :app do
+  task :create_symlink, roles: :app do
     shared_dir = File.join(shared_path, 'bundle')
     release_dir = File.join(current_release, 'vendor/bundle')
     run("ln -s #{shared_dir} #{release_dir}")

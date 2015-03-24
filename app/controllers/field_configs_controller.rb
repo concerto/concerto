@@ -12,18 +12,18 @@ class FieldConfigsController < ApplicationController
   # GET /screens/:screen_id/fields/:field_id/field_configs
   # GET /screens/:screen_id/fields/:field_id/field_configs.xml
   def index
-    @field_configs = @screen.field_configs.where(:field_id => @field.id)
-    auth!(:object => @field_configs)
+    @field_configs = @screen.field_configs.where(field_id: @field.id)
+    auth!(object: @field_configs)
     respond_to do |format|
       format.html # index.html.erb
-      format.xml { render :xml => @field_configs }
+      format.xml { render xml: @field_configs }
     end
   end
 
   # GET /screens/:screen_id/fields/:field_id/field_configs/new
   # GET /screens/:screen_id/fields/:field_id/field_configs/new.xml
   def new
-    @field_config = FieldConfig.new(:screen => @screen, :field => @field)
+    @field_config = FieldConfig.new(screen: @screen, field: @field)
     if params[:key]
       @field_config.key = params[:key]
     end
@@ -32,7 +32,7 @@ class FieldConfigsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml { render :xml => @field_config }
+      format.xml { render xml: @field_config }
     end
   end
 
@@ -54,17 +54,17 @@ class FieldConfigsController < ApplicationController
     respond_to do |format|
       if @field_config.save
         process_notification(@field_config, {}, process_notification_options({
-          :params => {
-            :field_config_name => @field_config.key,
-            :screen_name => @screen.name,
-            :field_name => @field.name
+          params: {
+            field_config_name: @field_config.key,
+            screen_name: @screen.name,
+            field_name: @field.name
             }
           }))
-        format.html { redirect_to screen_field_field_configs_path(@screen, @field), :notice => 'Field config was successfully created.' }
+        format.html { redirect_to screen_field_field_configs_path(@screen, @field), notice: 'Field config was successfully created.' }
         format.xml { head :ok }
       else
-        format.html { render :action => "new" }
-        format.xml { render :xml => @field_config.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.xml { render xml: @field_config.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -78,17 +78,17 @@ class FieldConfigsController < ApplicationController
     respond_to do |format|
       if @field_config.update_attributes(field_config_params)
         process_notification(@field_config, {}, process_notification_options({
-          :params => {
-            :field_config_name => @field_config.key,
-            :screen_name => @screen.name,
-            :field_name => @field.name
+          params: {
+            field_config_name: @field_config.key,
+            screen_name: @screen.name,
+            field_name: @field.name
             }
           }))
-        format.html { redirect_to screen_field_field_configs_path(@screen, @field), :notice => 'Field config was successfully updated.' }
+        format.html { redirect_to screen_field_field_configs_path(@screen, @field), notice: 'Field config was successfully updated.' }
         format.xml { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml { render :xml => @field_config.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.xml { render xml: @field_config.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -100,10 +100,10 @@ class FieldConfigsController < ApplicationController
     auth!
 
     process_notification(@field_config, {}, process_notification_options({
-      :params => {
-        :field_config_name => @field_config.key,
-        :screen_name => @screen.name,
-        :field_name => @field.name
+      params: {
+        field_config_name: @field_config.key,
+        screen_name: @screen.name,
+        field_name: @field.name
         }
       }))
     @field_config.destroy

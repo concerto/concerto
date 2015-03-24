@@ -3,12 +3,12 @@
     <div class="viewblock-header_right">
       <div class="button-padding">
         <% if can? :create, User %>
-          <%= link_to t(:new_model, :model => User.model_name.human), new_user_path, :class => "btn" %>
+          <%= link_to t(:new_model, model: User.model_name.human), new_user_path, class: "btn" %>
         <% end %>
       </div>
     </div>
     <h1 class="default-padding">
-      <%= t(:all_model, :model => User.model_name.human(count: 42)) %>
+      <%= t(:all_model, model: User.model_name.human(count: 42)) %>
     </h1>
   </header>
   <div class="viewblock-cont">
@@ -34,14 +34,14 @@
 
           <td>
             <% if can? :edit, user %>
-              <%= link_to t(:edit, :model => User.model_name.human), edit_user_path(user), :class => "btn" %>
+              <%= link_to t(:edit, model: User.model_name.human), edit_user_path(user), class: "btn" %>
             <% end %>
             <% if can? :delete, user %>
               <% if user.is_deletable? %>
-                <%= link_to t(:destroy, :model => User.model_name.human), user,
-                            :data => { :confirm => t(:are_you_sure_delete_model_key, :model => User.model_name.human, :key => user.name) }, :method => :delete, :class => "btn" %>
+                <%= link_to t(:destroy, model: User.model_name.human), user,
+                            data: { confirm: t(:are_you_sure_delete_model_key, model: User.model_name.human, key: user.name) }, method: :delete, class: "btn" %>
               <% else %>
-                <%= link_to t(:destroy, :model => User.model_name.human), '#', :class => "btn disabled tooltip-basic", 'data-tooltip-text' => t(:user_not_deletable, :model => User.model_name.human, :key => user.name) %>
+                <%= link_to t(:destroy, model: User.model_name.human), '#', class: "btn disabled tooltip-basic", 'data-tooltip-text' => t(:user_not_deletable, model: User.model_name.human, key: user.name) %>
               <% end %>
             <% end %>
           </td>

@@ -4,7 +4,7 @@
 <div class="clearfix duration event-durationSelectDiv">
 	<div class="input">
 		<div class="leftseconds"><%= min %>s</div>
-		<%= form.range_field :duration, {:min =>min, :max=>max, :class=>"duration_range"} %>
+		<%= form.range_field :duration, {min:min, max:max, class:"duration_range"} %>
 		<div class="rightseconds"><%= max %>s</div>
 	</div>
 </div>

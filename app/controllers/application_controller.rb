@@ -212,10 +212,10 @@ class ApplicationController < ActionController::Base
       #make an effort to catch all mail-related exceptions after sending the mail - IOError will catch anything for sendmail, SMTP for the rest
       rescue IOError, Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e
         Rails.logger.debug "Mail delivery failed at #{Time.now.to_s} for #{options[:recipient]}: #{e.message}"
-        ConcertoConfig.first.create_activity :action => :system_notification, :params => {:message => t(:smtp_send_error)}
+        ConcertoConfig.first.create_activity action: :system_notification, params: {message: t(:smtp_send_error)}
       rescue OpenSSL::SSL::SSLError => e
         Rails.logger.debug "Mail delivery failed at #{Time.now.to_s} for #{options[:recipient]}: #{e.message} -- might need to disable SSL Verification in settings"
-        ConcertoConfig.first.create_activity :action => :system_notification, :params => {:message => t(:smtp_send_error_ssl)}
+        ConcertoConfig.first.create_activity action: :system_notification, params: {message: t(:smtp_send_error_ssl)}
       end
     end
 
@@ -261,10 +261,10 @@ class ApplicationController < ActionController::Base
   #Don't break for CanCan exceptions; send the user to the front page with a Flash error message
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
-      format.json { render :json => {:error=>true, :status=>403, :message => exception.message}, :status => :forbidden }
-      format.xml{ render :xml => {:error=>true, :status=>403, :message => exception.message}, :status => :forbidden }
+      format.json { render json: {error:true, status:403, message: exception.message}, status: :forbidden }
+      format.xml{ render xml: {error:true, status:403, message: exception.message}, status: :forbidden }
       format.any {
-        redirect_to main_app.root_url, :flash => { :notice => exception.message }
+        redirect_to main_app.root_url, flash: { notice: exception.message }
       }
     end
   end
@@ -381,7 +381,7 @@ class ApplicationController < ActionController::Base
      # applied before auth.
      relation.limit_value = nil
      relation.offset_value = [0,offset-(page-1)*per].max
-     return {:page => page, :per => per}
+     return {page: page, per: per}
     else
      # Not paginated, we don't need to do anything.
      return nil
@@ -426,7 +426,7 @@ class ApplicationController < ActionController::Base
   def process_notification_options(options = {})
     opts = {}
     opts[:params] = {
-      :owner_name => current_user.name
+      owner_name: current_user.name
     }
     opts[:owner] = current_user
     opts[:action] = action_name

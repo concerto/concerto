@@ -20,9 +20,9 @@ module ApplicationHelper
   # Locals are passed along accordingly.
   def render_partial_if(partial, default=nil, locals={})
     if lookup_context.exists?(partial, [], true)
-      render :partial => partial, :locals => locals
+      render partial: partial, locals: locals
     elsif !default.blank?
-      render :partial => default, :locals => locals
+      render partial: default, locals: locals
     end
   end
 
@@ -30,7 +30,7 @@ module ApplicationHelper
   def tooltip_tag(tip, text = nil, options = nil)
     results = []
     results << content_tag(:span, text, options) + " " if !text.nil? && !text.blank?
-    results << content_tag(:i, nil, { :class => "icon-question-sign muted tooltip-basic", :data => { :tooltip_text => tip } })
+    results << content_tag(:i, nil, { class: "icon-question-sign muted tooltip-basic", data: { tooltip_text: tip } })
     results.join.html_safe
   end
 
@@ -53,6 +53,6 @@ module ApplicationHelper
     onclick = "#{"#{html_options[:onclick]}; " if html_options[:onclick]}#{function}; return false;"
     href = html_options[:href] || '#'
 
-    content_tag(:a, name, html_options.merge(:href => href, :onclick => onclick))
+    content_tag(:a, name, html_options.merge(href: href, onclick: onclick))
   end  
 end

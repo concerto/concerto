@@ -13,10 +13,10 @@ class ConcertoPlugin < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
   include PublicActivity::Common if defined? PublicActivity::Common
 
-  validates :gem_name, :presence => true, :uniqueness => true
-  validate :check_sources, :on => :create
+  validates :gem_name, presence: true, uniqueness: true
+  validate :check_sources, on: :create
 
-  scope :enabled, -> { where(:enabled => true) }
+  scope :enabled, -> { where(enabled: true) }
 
   # Find the Engine's module from among the installed engines.
   def engine
@@ -107,7 +107,7 @@ class ConcertoPlugin < ActiveRecord::Base
           # Make the authorization rules from the plugin available
           context.controller.switch_to_plugin_ability(plugin.mod)
           if hook[:type] == :partial
-            result += context.render :partial => hook[:hook], :locals => local_options
+            result += context.render partial: hook[:hook], locals: local_options
           elsif hook[:type] == :text
             result += hook[:hook]
           elsif hook[:type] == :proc
@@ -184,7 +184,7 @@ class ConcertoPlugin < ActiveRecord::Base
           info.header_tags.each do |hook|
             hook_content = case hook[:type]
                               when :partial
-                               context.render :partial => hook[:hook]
+                               context.render partial: hook[:hook]
                              when :text
                                hook[:hook]
                              when :proc

@@ -1,7 +1,7 @@
 <div class="row-fluid selected-feed-row" style="margin-bottom: 14px;">
   <div class="span6">
     <div class="pull-left">
-      <%= link_to "#", :class => "btn btn-danger remove-feed" do %>
+      <%= link_to "#", class: "btn btn-danger remove-feed" do %>
         <i class="icon-remove"></i>
       <% end %>
       &nbsp;&nbsp;
@@ -15,7 +15,7 @@
   <div class="span6">
     <p>
       <i class="concertocon-controller-screens" style="line-height: normal; font-size: 18px;"></i>&nbsp;
-      <b><%= t('.appears_on_screens', { :screens_count => feed.shown_on_screens.count }) %></b><% if !feed.shown_on_screens.empty? %>: 
+      <b><%= t('.appears_on_screens', { screens_count: feed.shown_on_screens.count }) %></b><% if !feed.shown_on_screens.empty? %>: 
         <%= feed.shown_on_screens.reject{|s| s.nil? || (cannot? :read, s)}.collect{|s| s.name}.join(', ') %>
       <% end %>
     </p>

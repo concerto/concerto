@@ -1,4 +1,4 @@
-<% sidebar = ConcertoPlugin.render_view_hook self, :content_sidebar, :locals => { :content => @content } %>
+<% sidebar = ConcertoPlugin.render_view_hook self, :content_sidebar, locals: { content: @content } %>
 
 <%
    # Hide details sidebar when there is nothing to show
@@ -18,10 +18,10 @@
         <div class="viewblock-header_right">
           <div class="button-padding">
             <% if can? :update, @content %>
-              <%= link_to t(:edit_model, :model => Content.model_name.human), edit_content_path(@content), :class => "btn" %>
+              <%= link_to t(:edit_model, model: Content.model_name.human), edit_content_path(@content), class: "btn" %>
             <% end %>
             <% if can? :delete, @content %>
-              <%= link_to t(:destroy_model, :model => Content.model_name.human), @content, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => Content.model_name.human, :key => @content.name) }, :method => :delete, :class => "btn" %>
+              <%= link_to t(:destroy_model, model: Content.model_name.human), @content, data: { confirm: t(:are_you_sure_delete_model_key, model: Content.model_name.human, key: @content.name) }, method: :delete, class: "btn" %>
             <% end %>
           </div>
         </div>
@@ -38,9 +38,9 @@
         <div class="row-fluid">
           <div class="span2 content-details">
             <div class="default-padding">
-              <%= render :partial => "show_details", :locals => { :content => @content, :user => @user } %>
+              <%= render partial: "show_details", locals: { content: @content, user: @user } %>
 
-              <%= render :partial => 'dynamic_content_tools', :locals => { :content => @content } if @content.is_a?(DynamicContent) && can?(:edit, @content) %>
+              <%= render partial: 'dynamic_content_tools', locals: { content: @content } if @content.is_a?(DynamicContent) && can?(:edit, @content) %>
             </div>
           </div>
 

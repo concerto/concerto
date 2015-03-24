@@ -1,6 +1,6 @@
 <div class="subnav clearfix">
   <div class="pull-left" style="padding: 3px 0px; width:85px">
-    <%= link_to "#", :title => t('.click_to_jump'), :class => "btn btn-small btn-info dropdown-toggle dropdown-control dd-jumpto", :rel => "#jump_to" do %>
+    <%= link_to "#", title: t('.click_to_jump'), class: "btn btn-small btn-info dropdown-toggle dropdown-control dd-jumpto", rel: "#jump_to" do %>
       <i class="icon-bolt"></i> <%= t('.jump_to_feed') %>
     <% end %>
 
@@ -18,7 +18,7 @@
         <ul class="filterable selector-list">
           <% feeds.each_with_index do |feed, i| %>
           <li data-filter="<%= feed.name %>">
-            <%= link_to feed_submissions_path(feed), :class => "link-hl" do %>
+            <%= link_to feed_submissions_path(feed), class: "link-hl" do %>
               <%= ("&nbsp;" * feed.depth).html_safe %>
               <b><%= feed.name %></b>
             <% end %>
@@ -55,10 +55,10 @@
 <% if @can_moderate_feed and submissions.count > 0 %>
 <!-- note that we do not show an alert banner when there are no pending contents; we just hide it altogether -->
 <div class="clearfix default-padding">
-  <h3 class="header-with-icon" style="color:#993333;"><i class="concertocon-header-pendingcontent"></i><%= t('.submissions_pending', :count => submissions.count) %></h3>
+  <h3 class="header-with-icon" style="color:#993333;"><i class="concertocon-header-pendingcontent"></i><%= t('.submissions_pending', count: submissions.count) %></h3>
   <br />
   <% submissions.each do |submission| %>
-    <%= render :partial => "submissions/submission_tile", :locals => { :submission => submission } %>
+    <%= render partial: "submissions/submission_tile", locals: { submission: submission } %>
   <% end %>
 </div>
 <% end %>
@@ -74,36 +74,36 @@
     <div class="pull-left">
       <div class="btn-group">
         <% if params[:state] == "active" or params[:state].nil? %>
-          <%= link_to feed_submissions_path(@feed, :state => 'active'), :class => 'btn active' do %>
+          <%= link_to feed_submissions_path(@feed, state: 'active'), class: 'btn active' do %>
             <span class="badge"><%= @feed.submissions.approved.active.count %></span>
             <%= t('feeds.active') %>
           <% end %>
         <% else %>
-          <%= link_to feed_submissions_path(@feed, :state => 'active'), :class => 'btn' do %>
+          <%= link_to feed_submissions_path(@feed, state: 'active'), class: 'btn' do %>
             <span class="badge"><%= @feed.submissions.approved.active.count %></span>
             <%= t('feeds.active') %>
           <% end %>
         <% end %>
 
         <% if params[:state] == "future" %>
-          <%= link_to feed_submissions_path(@feed, :state => 'future'), :class => 'btn active' do %>
+          <%= link_to feed_submissions_path(@feed, state: 'future'), class: 'btn active' do %>
             <span class="badge"><%= @feed.submissions.approved.future.count %></span>
             <%= t('feeds.future') %>
           <% end %>
         <% else %>
-          <%= link_to feed_submissions_path(@feed, :state => 'future'), :class => 'btn' do %>
+          <%= link_to feed_submissions_path(@feed, state: 'future'), class: 'btn' do %>
             <span class="badge"><%= @feed.submissions.approved.future.count %></span>
             <%= t('feeds.future') %>
           <% end %>
         <% end %>
 
         <% if params[:state] == "expired" %>
-          <%= link_to feed_submissions_path(@feed, :state => 'expired'), :class => 'btn active' do %>
+          <%= link_to feed_submissions_path(@feed, state: 'expired'), class: 'btn active' do %>
             <span class="badge"><%= @feed.submissions.approved.expired.count %></span>
             <%= t('feeds.expired') %>
           <% end %>
         <% else %>
-          <%= link_to feed_submissions_path(@feed, :state => 'expired'), :class => 'btn' do %>
+          <%= link_to feed_submissions_path(@feed, state: 'expired'), class: 'btn' do %>
             <span class="badge"><%= @feed.submissions.approved.expired.count %></span>
             <%= t('feeds.expired') %>
           <% end %>
@@ -111,12 +111,12 @@
 
         <% if @can_moderate_feed %>
           <% if params[:state] == "denied" %>
-            <%= link_to feed_submissions_path(@feed, :state => 'denied'), :class => 'btn active' do %>
+            <%= link_to feed_submissions_path(@feed, state: 'denied'), class: 'btn active' do %>
               <span class="badge"><%= @feed.submissions.denied.count %></span>
               <%= t('feeds.denied') %>
             <% end %>
           <% else %>
-            <%= link_to feed_submissions_path(@feed, :state => 'denied'), :class => 'btn' do %>
+            <%= link_to feed_submissions_path(@feed, state: 'denied'), class: 'btn' do %>
               <span class="badge"><%= @feed.submissions.denied.count %></span>
               <%= t('feeds.denied') %>
             <% end %>
@@ -183,7 +183,7 @@
   </div>
   <br />
   <% @paginated_submissions.select{|s| @state != 'active' || s.content.parent.nil?}.each do |submission| %>
-    <%= render :partial => "submissions/submission_tile", :locals => { :submission => submission } %>
+    <%= render partial: "submissions/submission_tile", locals: { submission: submission } %>
   <% end %>
 </div>
 <% end %>

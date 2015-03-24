@@ -37,15 +37,15 @@ module Concerto
     # The plugin is responsible for setting its own engine name.
     def add_route(url_string, rack_app)
       @mount_points = @mount_points || []
-      @mount_points << {:url_string => url_string, :rack_app => rack_app}
+      @mount_points << {url_string: url_string, rack_app: rack_app}
     end
 
     # Add a configuration item to the database for this plugin
     def add_config(config_key, config_value, options)
       @configs = @configs || []
-      @configs << {:config_key => config_key,
-        :config_value=> config_value,
-        :options => options}
+      @configs << {config_key: config_key,
+        config_value: config_value,
+        options: options}
     end
 
     # Set some code to run when the app first boots up,
@@ -59,10 +59,10 @@ module Concerto
     def add_controller_hook(controller_name, name, filter_list, &block)
       @controller_hooks ||= []
       @controller_hooks << { 
-        :controller_name => controller_name, 
-        :name => name, 
-        :filter_list => filter_list,
-        :block => block
+        controller_name: controller_name, 
+        name: name, 
+        filter_list: filter_list,
+        block: block
       }
     end
 
@@ -88,10 +88,10 @@ module Concerto
       end
 
       @view_hooks << {
-        :controller_name => controller_name, 
-        :sym => hook_sym, 
-        :type => mytype,
-        :hook => myhook
+        controller_name: controller_name, 
+        sym: hook_sym, 
+        type: mytype,
+        hook: myhook
       }
     end
 
@@ -117,8 +117,8 @@ module Concerto
       end
 
       @header_tags << {
-          :type => type,
-          :hook => hook
+          type: type,
+          hook: hook
       }
     end
 

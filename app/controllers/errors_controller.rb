@@ -27,10 +27,10 @@ class ErrorsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { render template, :status => @status_code, :layout => layout}
-      format.json { render :text => status_text, :status => @status_code }
-      format.xml  { render :xml => {:error => status_text}, :status => @status_code }
-      format.any { render :text => status_text, :status => @status_code }
+      format.html { render template, status: @status_code, layout: layout}
+      format.json { render text: status_text, status: @status_code }
+      format.xml  { render xml: {error: status_text}, status: @status_code }
+      format.any { render text: status_text, status: @status_code }
     end
   end
 end

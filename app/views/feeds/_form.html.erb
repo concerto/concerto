@@ -1,5 +1,5 @@
 <%= form_for(@feed) do |f| %>
-  <%= render :partial => "layouts/errors", :object => @feed %>
+  <%= render partial: "layouts/errors", object: @feed %>
 
   <div class="row-fluid">
     <div class="span6">
@@ -10,14 +10,14 @@
         <div class="clearfix">
           <%= f.label :name %>
           <div class="input">
-            <%= f.text_field :name, :class => "fillWidth", :autofocus => true %>
+            <%= f.text_field :name, class: "fillWidth", autofocus: true %>
           </div>
         </div>
 
         <div class="clearfix">
           <%= f.label :description %>
           <div class="input">
-            <%= f.text_area :description, :rows => 6, :class => "fillWidth" %>
+            <%= f.text_area :description, rows: 6, class: "fillWidth" %>
           </div>
         </div>
           
@@ -28,7 +28,7 @@
         <div class="clearfix">
           <%= f.label :parent %>
           <div class="input">
-            <%= f.select :parent_id, parent_feeds.collect{|c| [("&nbsp; &nbsp;"*c.depth).html_safe + c.name, c.id ]}, {:include_blank => true } %>
+            <%= f.select :parent_id, parent_feeds.collect{|c| [("&nbsp; &nbsp;"*c.depth).html_safe + c.name, c.id ]}, {include_blank: true } %>
           </div>
         </div>
         <% end %>
@@ -54,7 +54,7 @@
               <%= f.fields_for :content_types do |content_types| %>
                 <% Concerto::Application.config.content_types.sort_by{|type| type.display_name}.each do |type| %>
                   <li>
-                    <%= content_types.check_box type.name, {:checked => (@feed.content_types["#{type.name}"] == "1")} %> <label for="feed_content_types_<%= type.name %>"><%= type.display_name %></label>
+                    <%= content_types.check_box type.name, {checked: (@feed.content_types["#{type.name}"] == "1")} %> <label for="feed_content_types_<%= type.name %>"><%= type.display_name %></label>
                   </li>
                 <% end %>
               <% end %>
@@ -83,6 +83,6 @@
 
 
   <div class="submit_bar actions">
-    <%= f.submit button_text, :class => "btn btn-primary" %> <%= link_to t(:cancel), feeds_path, :class => "btn" %>
+    <%= f.submit button_text, class: "btn btn-primary" %> <%= link_to t(:cancel), feeds_path, class: "btn" %>
   </div>
 <% end %>

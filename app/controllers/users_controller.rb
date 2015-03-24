@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   # GET /users
   def index
     @users = User.page(params[:page]).per(20)
-    auth!({:action => :list, :allow_empty => false, :new_exception => false})
+    auth!({action: :list, allow_empty: false, new_exception: false})
     respond_with(@users)
   end
 
@@ -15,15 +15,15 @@ class UsersController < ApplicationController
     @user.email = '' unless user_signed_in?
 
     @memberships = @user.memberships
-    auth!({:action => :read, :object => @memberships})
+    auth!({action: :read, object: @memberships})
 
     @contents = @user.contents.where('parent_id IS NULL')
     @contents_count = @contents.count
     @contents = Kaminari.paginate_array(@contents).page(params[:page])
-    auth!({:action => :read, :object => @contents})
+    auth!({action: :read, object: @contents})
 
     @screens = @user.screens + @user.groups.collect{|g| g.screens}.flatten
-    auth!({:action => :read, :object => @screens})
+    auth!({action: :read, object: @screens})
  
     respond_with(@user)
   end
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
-    auth!(:action => :manage)
+    auth!(action: :manage)
     respond_with(@user)
   end
 
@@ -46,7 +46,7 @@ class UsersController < ApplicationController
     auth!
     
     if @user.save
-      process_notification(@user, {}, process_notification_options({:params => {:user_name => @user.name}}))
+      process_notification(@user, {}, process_notification_options({params: {user_name: @user.name}}))
       flash[:notice] = t(:user_created)
       #once an admin creates a user, don't go to the users page, go back to the user manage page
       respond_with(@user) do |format|
@@ -76,7 +76,7 @@ class UsersController < ApplicationController
     
       if !(set_admin.nil?) and can? :manage, User
         @user.update_attribute("is_admin", set_admin)
-        process_notification(@user, {}, process_notification_options({:params => {:user_name => @user.name}}))
+        process_notification(@user, {}, process_notification_options({params: {user_name: @user.name}}))
       end
     end
     respond_with(@user)
@@ -88,17 +88,17 @@ class UsersController < ApplicationController
     auth!
 
     unless @user.screens.empty?
-      redirect_to(@user, :notice => t(:user_owns_screens))
+      redirect_to(@user, notice: t(:user_owns_screens))
       return
     end
     
     #deleting the last admin is still forbidden in the model, but it's nice to catch it here too
     if @user.is_last_admin?
-      redirect_to(@user, :notice => t(:cannot_delete_last_admin))
+      redirect_to(@user, notice: t(:cannot_delete_last_admin))
       return    
     end
 
-    process_notification(@user, {}, process_notification_options({:params => {:user_name => @user.name}}))
+    process_notification(@user, {}, process_notification_options({params: {user_name: @user.name}}))
     @user.destroy
     respond_with(@user)
   end

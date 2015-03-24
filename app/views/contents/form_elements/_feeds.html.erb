@@ -1,13 +1,13 @@
 <div id="event-selectedFeedList">
-  <%= content_tag :h4, t('.no_feeds'), :id=> "event-zeroFeedsMsg" if @content.feeds.empty? and not params.has_key?(:feed_id)  %>
+  <%= content_tag :h4, t('.no_feeds'), id: "event-zeroFeedsMsg" if @content.feeds.empty? and not params.has_key?(:feed_id)  %>
 
   <% if params.has_key?(:feed_id) %>
     <% params[:feed_id].each do |key, value| %>
-      <%= render :partial => 'contents/form_elements/selected_feed_display', :locals => { :feed => Feed.find(value), :feed_index => value } %>
+      <%= render partial: 'contents/form_elements/selected_feed_display', locals: { feed: Feed.find(value), feed_index: value } %>
     <% end %>
   <% else %>
     <% @content.feeds.each_with_index do |feed, i| %>
-      <%= render :partial => 'contents/form_elements/selected_feed_display', :locals => {:feed => feed, :feed_index => i} %>
+      <%= render partial: 'contents/form_elements/selected_feed_display', locals: {feed: feed, feed_index: i} %>
     <% end %>
   <% end %>
 </div>
@@ -15,7 +15,7 @@
 <br />
 <div class="clearfix">
   <div class="pull-left" style="margin-right: 16px;">
-    <%= link_to '#', :id => "select-feeds-btn", :title => t('.select_a_feed'), :class => "btn dropdown-toggle dropdown-control dd-select-feeds", :rel => "#select-feeds" do %>
+    <%= link_to '#', id: "select-feeds-btn", title: t('.select_a_feed'), class: "btn dropdown-toggle dropdown-control dd-select-feeds", rel: "#select-feeds" do %>
       <%= t('.select_a_feed') %>...
     <% end %>
   </div>
@@ -40,14 +40,14 @@
           <% if allowed_type %>
           <li data-filter="<%= feed.name %>">
             
-            <%= link_to add_feed_contents_path(:feed_id => feed.id, :feed_index => feed.id), :remote => true, :class => "link-hl", "data-feed-index" => feed.id, "data-feed-name" => feed.name, "data-feed-id" => feed.id do %>
+            <%= link_to add_feed_contents_path(feed_id: feed.id, feed_index: feed.id), remote: true, class: "link-hl", "data-feed-index" => feed.id, "data-feed-name" => feed.name, "data-feed-id" => feed.id do %>
               <div class="row-fluid">
                 <div class="span8">
                   <p>
                     <%= ("&nbsp;" * feed.depth).html_safe %>
                     <b><%= feed.name %></b>
                     <br />
-                    <% if feed.description.length > 0 %><%= truncate(feed.description, :length => 75) %><% end %>
+                    <% if feed.description.length > 0 %><%= truncate(feed.description, length: 75) %><% end %>
                   </p>
                 </div>
                 <div class="span4" style="text-align: right;">

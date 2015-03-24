@@ -1,9 +1,9 @@
 <%= link_to content do %>
 <div class="tile <% unless content.children.empty? %>tile-stack<% end %>">
   <div class="tile-content">
-    <%= render_content(content, {:type => 'tile'}) %>
+    <%= render_content(content, {type: 'tile'}) %>
     <div class="tile-labels">
-      <%= ConcertoPlugin.render_view_hook self, :tile_labels, { :content => content } %>
+      <%= ConcertoPlugin.render_view_hook self, :tile_labels, { content: content } %>
       <% type_folder = "contents/#{content.type.underscore}" %>
       <%= render_partial_if("#{type_folder}/tab_icon") %>
 

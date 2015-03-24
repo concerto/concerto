@@ -1,9 +1,9 @@
 
 <%= t('public_activity.update_the_model',
-      :owner => get_activity_owner(activity),
-      :article =>  t('public_activity.concerto_config.article'),
-      :model => ConcertoConfig.model_name.human,
-      :item => (activity.trackable ?
+      owner: get_activity_owner(activity),
+      article:  t('public_activity.concerto_config.article'),
+      model: ConcertoConfig.model_name.human,
+      item: (activity.trackable ?
             link_to_if(can?(:read, activity.trackable), t("activerecord.attributes.concerto_config.#{activity.trackable.key.to_sym}"), concerto_config_path) :
 
             (activity.parameters.include?(:concerto_config_key) ?

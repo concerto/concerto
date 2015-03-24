@@ -1,22 +1,22 @@
 <%= @activity.recipient.name %>,
 
 <%= t '.moderator_text',
-  :moderator => @activity.owner ? @activity.owner.name : '',
-  :status => @activity.parameters[:status] ? t('.approved') : t('.denied'),
-  :content_name => @activity.trackable.content.name,
-  :feed => @activity.trackable.feed.name
+  moderator: @activity.owner ? @activity.owner.name : '',
+  status: @activity.parameters[:status] ? t('.approved') : t('.denied'),
+  content_name: @activity.trackable.content.name,
+  feed: @activity.trackable.feed.name
 %>
 
 <% if @activity.parameters[:status] %>
   <%= t '.content_schedule',
-    :start => l(@activity.trackable.content.start_time, :format => :long_day),
-    :end => l(@activity.trackable.content.end_time, :format => :long_day),
-    :duration => @activity.trackable.duration
+    start: l(@activity.trackable.content.start_time, format: :long_day),
+    end: l(@activity.trackable.content.end_time, format: :long_day),
+    duration: @activity.trackable.duration
   %>
 <% end %>
 
 <% if @activity.parameters[:status] == false && !@activity.trackable.moderation_reason.blank? %>
-    <%= t '.reason_rejected', :reason => @activity.trackable.moderation_reason %>
+    <%= t '.reason_rejected', reason: @activity.trackable.moderation_reason %>
 <% end %>
 
 <%= content_url(@activity.trackable.content.id) %>

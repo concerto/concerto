@@ -4,14 +4,14 @@ class Ticker < Content
   before_save :process_markdown, :alter_type
  
   # Validations
-  validates :duration, :numericality => { :greater_than => 0 }
-  validates :data, :presence => true
+  validates :duration, numericality: { greater_than: 0 }
+  validates :data, presence: true
   
   # Automatically set the kind for the content
   # if it is new.
   def set_kind
     return unless new_record?
-    self.kind = Kind.where(:name => 'Ticker').first
+    self.kind = Kind.where(name: 'Ticker').first
   end
  
   # make sure the data only contains authorized html tags
@@ -29,7 +29,7 @@ class Ticker < Content
   # if the user has specified that the kind should be text then change the type
   # so this is just like an HtmlText content item instead of a Ticker content item
   def alter_type
-    if self.kind == Kind.where(:name => 'Text').first
+    if self.kind == Kind.where(name: 'Text').first
       self.type = 'HtmlText'
     end
   end
@@ -43,8 +43,8 @@ class Ticker < Content
   def self.clean_html(html)
     # sanitize gem erased '<<<'' whereas ActionView's was more discerning
     ActionController::Base.helpers.sanitize(html, 
-      :tags => %w(h1 h2 h3 h4 div b br i em li ol u ul p q small strong), 
-      :attributes => %w(style class)) unless html.nil?
+      tags: %w(h1 h2 h3 h4 div b br i em li ol u ul p q small strong), 
+      attributes: %w(style class)) unless html.nil?
   end
  
   # return the cleaned input data

@@ -3,9 +3,9 @@
     <section class="viewblock">
       <header class="viewblock-header">
         <h1 class="default-padding">
-          <%= link_to t(:all_model, :model => Screen.model_name.human(count: 42)), screens_path %> &gt;
+          <%= link_to t(:all_model, model: Screen.model_name.human(count: 42)), screens_path %> &gt;
           <%= link_to @screen.name, @screen %> &gt;
-          <%= t('.manage_model_for_field', { :model => Subscription.model_name.human(count: 42), :name => @field.name }) %>
+          <%= t('.manage_model_for_field', { model: Subscription.model_name.human(count: 42), name: @field.name }) %>
         </h1>
       </header>
 
@@ -16,8 +16,8 @@
             <% @screen.template.positions.collect{|p| p.field}.each do |field| %>
               <li<% if field.id == @field.id %> class="active"<% end %>>
                 <%= link_to screen_field_subscriptions_path(@screen, field) do %>
-                  <%= image_tag(preview_template_path(@screen.template, :height => 80, :format => :png, :fields => field), :border => 0) %>
-                  <p class="caption"><%= t '.field', :kind => field.kind.name %></p>
+                  <%= image_tag(preview_template_path(@screen.template, height: 80, format: :png, fields: field), border: 0) %>
+                  <p class="caption"><%= t '.field', kind: field.kind.name %></p>
                 <% end %>
               </li>
             <% end %>
@@ -31,16 +31,16 @@
           <table id="subscriptions-list" class="no-padding-table">
             <tbody>
             <% @subscriptions.each do |subscription| %>
-              <%= render :partial => 'subscription_tr', :locals => {:subscription => subscription} %>
+              <%= render partial: 'subscription_tr', locals: {subscription: subscription} %>
             <% end %>
             </tbody>
           </table>
 
           <br />
 
-          <% if false || can?(:create, Subscription.new(:screen => @screen, :field => @field)) %>
-            <%= link_to new_screen_field_subscription_path(@screen, @field), :title => t('.search_and_find_a_feed_to_add'), :remote => true,
-                :id => "add-sub-btn", :class => "btn dropdown-toggle dropdown-control dd-add-sub", :rel => "#add-sub" do %>
+          <% if false || can?(:create, Subscription.new(screen: @screen, field: @field)) %>
+            <%= link_to new_screen_field_subscription_path(@screen, @field), title: t('.search_and_find_a_feed_to_add'), remote: true,
+                id: "add-sub-btn", class: "btn dropdown-toggle dropdown-control dd-add-sub", rel: "#add-sub" do %>
               <i class="icon-plus"></i> <%= t('.add_a_new_feed') %>
             <% end %>
           <% end %>

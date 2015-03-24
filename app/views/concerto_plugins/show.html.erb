@@ -3,20 +3,20 @@
     <div class="viewblock-header_right">
       <div class="button-padding">
         <% if !@gemspec.nil? && !@rubygems_current_version && (@rubygems_current_version.to_s > @gemspec.version.to_s) %>
-          <%= link_to t('.upgrade'), update_gem_concerto_plugins_path(:id => @concerto_plugin.id), {method: :post, :class => "btn"}%>
+          <%= link_to t('.upgrade'), update_gem_concerto_plugins_path(id: @concerto_plugin.id), {method: :post, class: "btn"}%>
         <% end %>
         <% if can? :edit, @concerto_plugin %>
-          <%= link_to t(:edit_model, :model => ConcertoPlugin.model_name.human), edit_concerto_plugin_path(@concerto_plugin), :class => "btn" %>
+          <%= link_to t(:edit_model, model: ConcertoPlugin.model_name.human), edit_concerto_plugin_path(@concerto_plugin), class: "btn" %>
         <% end %>
         <% if can? :delete, @concerto_plugin %>
-          <%= link_to t(:destroy_model, :model => ConcertoPlugin.model_name.human), @concerto_plugin, :data => { :confirm => t(:are_you_sure_delete_model_key, :model => ConcertoPlugin.model_name.human, :key => @concerto_plugin.gem_name) }, :method => :delete, :class => "btn" %>
+          <%= link_to t(:destroy_model, model: ConcertoPlugin.model_name.human), @concerto_plugin, data: { confirm: t(:are_you_sure_delete_model_key, model: ConcertoPlugin.model_name.human, key: @concerto_plugin.gem_name) }, method: :delete, class: "btn" %>
         <% end %>
       </div>
     </div>
 
     <div class="default-padding">
       <h1>
-        <%= link_to t(:manage_model, :model => ConcertoPlugin.model_name.human(count: 42)), concerto_plugins_path %> &gt; <%= @concerto_plugin.name %>
+        <%= link_to t(:manage_model, model: ConcertoPlugin.model_name.human(count: 42)), concerto_plugins_path %> &gt; <%= @concerto_plugin.name %>
       </h1>
     </div>
   </header>
@@ -37,7 +37,7 @@
           <%= @concerto_plugin.gem_version %> <%= t('.locked') %>
         <% elsif !@gemspec.nil? %>
           <%= @gemspec.version.to_s %>
-          <% if !@rubygems_current_version.nil? && @rubygems_current_version.to_s > @gemspec.version.to_s %> <%= t('.upgrade_available', :version => @rubygems_current_version) %>
+          <% if !@rubygems_current_version.nil? && @rubygems_current_version.to_s > @gemspec.version.to_s %> <%= t('.upgrade_available', version: @rubygems_current_version) %>
           <% end %>
         <% else %>
           <%= t('.unknown') %>

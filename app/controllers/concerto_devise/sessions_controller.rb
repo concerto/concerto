@@ -9,7 +9,7 @@ class ConcertoDevise::SessionsController < Devise::SessionsController
     # if :no_content_cell param is set to true, do not render the layout or the content cell container within the view
     if params[:no_content_cell]
       respond_with(resource, serialize_options(resource)) do |format|
-        format.html { render :layout => false }
+        format.html { render layout: false }
       end
     else
       respond_with(resource, serialize_options(resource))

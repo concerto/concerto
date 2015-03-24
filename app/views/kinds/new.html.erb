@@ -1,8 +1,8 @@
 <section class="viewblock">
   <header class="viewblock-header">
-    <h1 class="default-padding"><%= t(:new_model, :model => Kind.model_name.human) %></h1>
+    <h1 class="default-padding"><%= t(:new_model, model: Kind.model_name.human) %></h1>
   </header>
   <div class="viewblock-cont">
-    <%= render :partial => 'kinds/form', :locals => { :button_text => t(:create_model, :model => Kind.model_name.human) } %>
+    <%= render partial: 'kinds/form', locals: { button_text: t(:create_model, model: Kind.model_name.human) } %>
   </div>
 </section>

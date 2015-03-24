@@ -9,7 +9,7 @@ class PagesController < ApplicationController
   def show
     @page = Page.find_by_slug(params[:id])
     @file_path = File.join(Rails.root, "app", "views", "pages", @page.title.parameterize + ".#{@page.language}" +".md")
-    @markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, :autolink => true, :space_after_headers => true)
+    @markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, space_after_headers: true)
     auth!
   end
 
@@ -31,7 +31,7 @@ class PagesController < ApplicationController
     @page = Page.new(page_params)
     auth!
     if @page.save
-      redirect_to @page, :notice => 'Page was successfully created.'
+      redirect_to @page, notice: 'Page was successfully created.'
     else
       render action => 'new'
     end
@@ -42,7 +42,7 @@ class PagesController < ApplicationController
     @page = Page.find_by_slug(params[:id])
     auth!
     if @page.update(page_params)
-      redirect_to @page, :notice => 'Page was successfully updated.'
+      redirect_to @page, notice: 'Page was successfully updated.'
     else
       render action => 'edit'
     end
@@ -53,7 +53,7 @@ class PagesController < ApplicationController
     @page = Page.find_by_slug(params[:id])
     auth!
     @page.destroy
-    redirect_to pages_url, :notice => 'Page was successfully destroyed.'
+    redirect_to pages_url, notice: 'Page was successfully destroyed.'
   end
 
   private

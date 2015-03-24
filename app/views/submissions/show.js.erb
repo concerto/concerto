@@ -1,6 +1,6 @@
-$("#browse-header").html("<%= escape_javascript(render :partial => 'submissions/show_header') %>");
+$("#browse-header").html("<%= escape_javascript(render partial: 'submissions/show_header') %>");
 $("section.C").removeClass("no");
-$("#browse-body").html("<%= escape_javascript(render :partial => 'submissions/show_body') %>");
+$("#browse-body").html("<%= escape_javascript(render partial: 'submissions/show_body') %>");
 
 $(document).on("click", "#moderate-select button.approve", function(event) {
   event.preventDefault();
@@ -8,7 +8,7 @@ $(document).on("click", "#moderate-select button.approve", function(event) {
     .slideUp("fast", function() {
       $(this)
         .empty()
-        .append("<%= escape_javascript(render :partial => 'submissions/moderate_form', :locals => { :submission => @submission, :moderate => true } ) %>")
+        .append("<%= escape_javascript(render partial: 'submissions/moderate_form', locals: { submission: @submission, moderate: true } ) %>")
         .slideDown("fast");
     });
 });
@@ -19,7 +19,7 @@ $(document).on("click", "#moderate-select button.deny", function(event) {
     .slideUp("fast", function() {
       $(this)
         .empty()
-        .append("<%= escape_javascript(render :partial => 'submissions/moderate_form', :locals => { :submission => @submission, :moderate => false } ) %>")
+        .append("<%= escape_javascript(render partial: 'submissions/moderate_form', locals: { submission: @submission, moderate: false } ) %>")
         .slideDown("fast");
     });
 });

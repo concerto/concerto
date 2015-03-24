@@ -8,7 +8,7 @@ class ConcertoConfigController < ApplicationController
   
   def initiate_restart
     restart_webserver()
-    redirect_to :action => :show
+    redirect_to action: :show
   end
   
   def config_check
@@ -29,22 +29,22 @@ class ConcertoConfigController < ApplicationController
   def update
     authorize! :update, ConcertoConfig
     params[:concerto_config].each  do |k,v|
-      config = ConcertoConfig.where(:key => k).first
+      config = ConcertoConfig.where(key: k).first
       # since all they can change is the value, only create/update if it changed
       if config.nil? || config.value != v
         if config.nil?
-          config = ConcertoConfig.new(:key => k, :value => v)
+          config = ConcertoConfig.new(key: k, value: v)
           config.save
         else
           config.update_column(:value, v)
         end
-        process_notification(config, {}, process_notification_options({:params => {:concerto_config_key => config.key}}))
+        process_notification(config, {}, process_notification_options({params: {concerto_config_key: config.key}}))
       end
     end
 
     ConcertoConfig.cache_expire
     flash[:notice] = t(:settings_saved)
-    redirect_to :action => :show
+    redirect_to action: :show
   end
 
 end

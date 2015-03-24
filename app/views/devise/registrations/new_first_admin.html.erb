@@ -1,7 +1,7 @@
 <section class="viewblock">
   <header class="viewblock-header light-version">
     <div class="default-padding" style="padding: 40px 12px; text-align: center;">
-      <%= image_tag("elements/logomark.png", :height => 175, :alt => "") %>
+      <%= image_tag("elements/logomark.png", height: 175, alt: "") %>
       <br /><br />
       <h1 style="font-size: 5em; letter-spacing: -0.025em;">Welcome to Concerto.</h1>
       <h3>Setting up your new installation is fast and simple! Just follow the instructions below to get started.</h3>
@@ -18,7 +18,7 @@
         <div class="span8">
 
           <%= devise_error_messages! %>
-          <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
             
             <br /><br />
             <h1 class="header-with-icon">1. Register First Admin Account</h1>
@@ -30,31 +30,31 @@
               <div class="clearfix">
                 <%= f.label :first_name %>
                 <div class="input">
-                  <%= f.text_field :first_name, :class => "xlarge", :autofocus => true %>
+                  <%= f.text_field :first_name, class: "xlarge", autofocus: true %>
                 </div>
               </div>
               <div class="clearfix">
                 <%= f.label :last_name %>
                 <div class="input">
-                  <%= f.text_field :last_name, :class => "xlarge" %>
+                  <%= f.text_field :last_name, class: "xlarge" %>
                 </div>
               </div>
               <div class="clearfix">
                 <%= f.label :email %>
                 <div class="input">
-                  <%= f.email_field :email, :class => "xlarge" %>
+                  <%= f.email_field :email, class: "xlarge" %>
                 </div>
               </div>
               <div class="clearfix">
                 <%= f.label :password %>
                 <div class="input">
-                  <%= f.password_field :password, :class => "xlarge" %>
+                  <%= f.password_field :password, class: "xlarge" %>
                 </div>
               </div>
               <div class="clearfix">
                 <%= f.label :password_confirmation, "Confirm Password" %>
                 <div class="input">
-                  <%= f.password_field :password_confirmation, :class => "xlarge" %>
+                  <%= f.password_field :password_confirmation, class: "xlarge" %>
                 </div>
               </div>
             </fieldset>
@@ -73,7 +73,7 @@
                 
                 <ul class="inputs-list">
                   <li style="font-size: 1.4em;">
-                    <%= c.check_box :send_errors, {:checked => true}, "true", "false" %> <%= label 'concerto_config', :send_errors, " Send error reports to the Concerto team", :style => "font-size: 1.1em; padding-left: 1em;" %>
+                    <%= c.check_box :send_errors, {checked: true}, "true", "false" %> <%= label 'concerto_config', :send_errors, " Send error reports to the Concerto team", style: "font-size: 1.1em; padding-left: 1em;" %>
                   </li>
                 </ul>
 
@@ -84,7 +84,7 @@
             <hr />
 
             <div style="text-align: center;">
-              <%= f.submit "Let's Get Started!", :class => "btn btn-large btn-primary", :style => "font-size: 1.5em;" %>
+              <%= f.submit "Let's Get Started!", class: "btn btn-large btn-primary", style: "font-size: 1.5em;" %>
             </div>
             <br /><br />
 

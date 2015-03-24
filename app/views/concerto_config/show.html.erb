@@ -4,9 +4,9 @@
   <header class="viewblock-header">
     <div class="viewblock-header_right">
       <div class="button-padding">
-        <%= link_to t('.check_configuration'), {:action => :config_check}, {:class => "btn"} %>
+        <%= link_to t('.check_configuration'), {action: :config_check}, {class: "btn"} %>
         <% if webserver_supports_restart? %>
-          <%= link_to t('.restart_webserver'), {:action => :initiate_restart}, {method: :post, :class => "btn"}%>
+          <%= link_to t('.restart_webserver'), {action: :initiate_restart}, {method: :post, class: "btn"}%>
         <% end %>
       </div>
     </div>
@@ -25,7 +25,7 @@
 
     </div>
 
-    <%= form_tag concerto_config_path, :method => :put do %>
+    <%= form_tag concerto_config_path, method: :put do %>
 
       <fieldset class="global-prefs">
 
@@ -41,36 +41,36 @@
             <div class="clearfix">
               <% if c.value_type == "string" %>
                 <% input_size = "input-large" %>
-                <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), :tip => c.description %>
+                <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), tip: c.description %>
                 <div class="input">
-                  <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], :class => input_size, :placeholder => c.value_default %>
+                  <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], class: input_size, placeholder: c.value_default %>
                 </div>
               <% elsif c.value_type == "integer" %>
                 <% input_size = "input-small" %>
-                <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), :tip => c.description %>
+                <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), tip: c.description %>
                 <div class="input">
-                  <%= number_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], :class => input_size, :placeholder => c.value_default %>
+                  <%= number_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], class: input_size, placeholder: c.value_default %>
                 </div>
               <% elsif c.value_type == "timezone" %>
-                <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), :tip => c.description %>
+                <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), tip: c.description %>
                 <div class="input">
                   <%= select_tag "concerto_config[#{c.key}]", time_zone_options_for_select(ConcertoConfig[:system_time_zone], ActiveSupport::TimeZone.us_zones) %>
                 </div>
               <% elsif c.value_type == "boolean" %>
                 <div class="input checkbox">
-                  <%= tag 'input', :type => 'hidden', :name => "concerto_config[#{c.key}]", :value => '0' %>
-                  <%= check_box 'concerto_config', c.key, {:checked => ConcertoConfig[c.key.to_sym]}, true, false %>
-                  <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), :tip => c.description %>
+                  <%= tag 'input', type: 'hidden', name: "concerto_config[#{c.key}]", value: '0' %>
+                  <%= check_box 'concerto_config', c.key, {checked: ConcertoConfig[c.key.to_sym]}, true, false %>
+                  <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), tip: c.description %>
                 </div>
               <% elsif c.value_type == "time" %>
-                <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), :tip => c.description %>
+                <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), tip: c.description %>
                 <div class="input">
-                  <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], :class => "input-small timefield" %>
+                  <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], class: "input-small timefield" %>
                 </div>
               <% elsif c.value_type == "text" %>
-                <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), :tip => c.description %>
+                <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), tip: c.description %>
                 <div class="input">
-                  <%= text_area_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], :class => 'fillWidth', :placeholder => c.value_default %>
+                  <%= text_area_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], class: 'fillWidth', placeholder: c.value_default %>
                 </div>
               <% end %>
             </div>
@@ -80,7 +80,7 @@
       </fieldset>
 
       <div class="submit_bar actions">
-        <%= submit_tag t('.save_settings'), :class => "btn btn-primary" %>
+        <%= submit_tag t('.save_settings'), class: "btn btn-primary" %>
       </div>
     <% end %>
 

@@ -2,19 +2,19 @@ class Feed < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
 
   belongs_to :group
-  has_many :submissions, :dependent => :destroy
-  has_many :contents, :through => :submissions
-  has_many :subscriptions, :dependent => :destroy
+  has_many :submissions, dependent: :destroy
+  has_many :contents, through: :submissions
+  has_many :subscriptions, dependent: :destroy
   serialize :content_types, Hash
 
   # Scoped relations for content approval states
-  has_many :approved_contents, -> { where "submissions.moderation_flag" => true}, :through => :submissions, :source => :content
-  has_many :pending_contents, -> { where "submissions.moderation_flag IS NULL"}, :through => :submissions, :source => :content
-  has_many :denied_contents, -> { where "submissions.moderation_flag" => false}, :through => :submissions, :source => :content
+  has_many :approved_contents, -> { where "submissions.moderation_flag" => true}, through: :submissions, source: :content
+  has_many :pending_contents, -> { where "submissions.moderation_flag IS NULL"}, through: :submissions, source: :content
+  has_many :denied_contents, -> { where "submissions.moderation_flag" => false}, through: :submissions, source: :content
 
   # Validations
-  validates :name, :presence => true, :uniqueness => true
-  validates :group, :presence => true, :associated => true
+  validates :name, presence: true, uniqueness: true
+  validates :group, presence: true, associated: true
   validate :parent_id_cannot_be_this_feed
   
   #Newsfeed
@@ -32,9 +32,9 @@ class Feed < ActiveRecord::Base
   end
 
   # Feed Hierarchy
-  belongs_to :parent, :class_name => "Feed"
-  has_many :children, :class_name => "Feed", :foreign_key => "parent_id"
-  scope :roots, -> { where :parent_id => nil }
+  belongs_to :parent, class_name: "Feed"
+  has_many :children, class_name: "Feed", foreign_key: "parent_id"
+  scope :roots, -> { where parent_id: nil }
 
   # Test if this feed is a root feed or not
   def is_root?
@@ -80,7 +80,7 @@ class Feed < ActiveRecord::Base
   # The set of feeds available to be subscribed to a (screen, field) pair.
   # [All accessible feeds - currently subscribed]
   def self.subscribable(screen, field)
-    subscriptions = Subscription.where(:screen_id => screen, :field_id => field)
+    subscriptions = Subscription.where(screen_id: screen, field_id: field)
     current_feeds = subscriptions.collect{ |s| s.feed }
 
     accessible_feeds = Feed.accessible_by(Ability.new(screen), :read)

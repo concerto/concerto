@@ -1,5 +1,5 @@
 <%= form_for(@user) do |f| %>
-  <%= render :partial => "layouts/errors", :object => @user %>
+  <%= render partial: "layouts/errors", object: @user %>
 
   <fieldset>
     <legend><span><%= t('.provide_details') %></span></legend>
@@ -7,8 +7,8 @@
       <%= f.label :first_name %>
       <div class="input">
         <div class="inline-inputs">
-          <%= f.text_field :first_name, :placeholder => t('.first_label'),:autofocus => true, :class => "input-large" %>
-          <%= f.text_field :last_name, :placeholder => t('.last_label'), :class => "input-large" %>
+          <%= f.text_field :first_name, placeholder: t('.first_label'),autofocus: true, class: "input-large" %>
+          <%= f.text_field :last_name, placeholder: t('.last_label'), class: "input-large" %>
         </div>
       </div>
     </div>
@@ -16,7 +16,7 @@
     <div class="clearfix">
       <%= f.label :email %>
       <div class="input">
-        <%= f.text_field :email, :placeholder => t('.email_label'), :class => "input-xlarge" %>
+        <%= f.text_field :email, placeholder: t('.email_label'), class: "input-xlarge" %>
       </div>
     </div>
 
@@ -24,13 +24,13 @@
       <div class="clearfix">
         <%= f.label :password %>
         <div class="input">
-          <%= f.password_field :password, :class => "input-medium" %>
+          <%= f.password_field :password, class: "input-medium" %>
         </div>
       </div>
       <div class="clearfix">
         <%= f.label :password_confirmation %>
         <div class="input">
-          <%= f.password_field :password_confirmation, :class => "input-medium" %>
+          <%= f.password_field :password_confirmation, class: "input-medium" %>
         </div>
       </div>
     <% end %>
@@ -49,7 +49,7 @@
     <div class="clearfix">
       <%= f.label :time_zone %>
       <div class="input">
-        <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, :default => ConcertoConfig[:system_time_zone]  %>
+        <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, default: ConcertoConfig[:system_time_zone]  %>
       </div>
     </div>
 
@@ -68,9 +68,9 @@
     <% end %>
   </fieldset>
   <div class="submit_bar actions">
-    <%= f.submit :class => "btn btn-primary" %>
-    <%= link_to t('users.change_password'), edit_user_registration_path, :class => "btn" if current_user == @user %>
-    <%= link_to t(:cancel), users_path, :class => "btn" if current_user != @user %>
-    <%= link_to t(:cancel), current_user, :class => "btn" if current_user == @user %>
+    <%= f.submit class: "btn btn-primary" %>
+    <%= link_to t('users.change_password'), edit_user_registration_path, class: "btn" if current_user == @user %>
+    <%= link_to t(:cancel), users_path, class: "btn" if current_user != @user %>
+    <%= link_to t(:cancel), current_user, class: "btn" if current_user == @user %>
   </div>
 <% end %>

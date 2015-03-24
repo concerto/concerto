@@ -1,7 +1,7 @@
 <div class="subblock">
   <h3><%= t('.owner_tools') %></h3>
   <div>
-    <%= link_to t('.force_update'), act_content_path(:action_name => 'manual_refresh'), :method => :put, :class => "btn info" %>
-    <%= link_to t('.purge_children'), act_content_path(:action_name => 'delete_children'), :method => :put, :class => "btn info" %>
+    <%= link_to t('.force_update'), act_content_path(action_name: 'manual_refresh'), method: :put, class: "btn info" %>
+    <%= link_to t('.purge_children'), act_content_path(action_name: 'delete_children'), method: :put, class: "btn info" %>
   </div>
 </div>

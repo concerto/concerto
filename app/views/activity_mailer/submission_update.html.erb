@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <title>
-    <%= t '.your_concerto_submission', :content_name => @activity.trackable.content.name, :status => @activity.parameters[:status] ? t('.approved') : t('.denied') %>
+    <%= t '.your_concerto_submission', content_name: @activity.trackable.content.name, status: @activity.parameters[:status] ? t('.approved') : t('.denied') %>
   </title>
   <style type="text/css">
 
@@ -53,7 +53,7 @@
 <div id="messageblock">
   <table>
     <thead>
-    <tr><%= image_tag '/images/full_logo.png', :id => 'logo' %></tr>
+    <tr><%= image_tag '/images/full_logo.png', id: 'logo' %></tr>
     </thead>
     <tbody>
     <tr id="message">
@@ -68,9 +68,9 @@
         <% if @activity.parameters[:status] %>
             <%=
                 t('.content_schedule',
-                  :start => l(@activity.trackable.content.start_time, :format => :long_day),
-                  :end => l(@activity.trackable.content.end_time, :format => :long_day),
-                  :duration => @activity.trackable.duration)
+                  start: l(@activity.trackable.content.start_time, format: :long_day),
+                  end: l(@activity.trackable.content.end_time, format: :long_day),
+                  duration: @activity.trackable.duration)
             %>
         <% end %>
 
@@ -79,7 +79,7 @@
       </p>
 
       <% if @activity.parameters[:status] == false && !@activity.trackable.moderation_reason.blank? %>
-          <p><%= t '.reason_rejected', :reason => @activity.trackable.moderation_reason %></p>
+          <p><%= t '.reason_rejected', reason: @activity.trackable.moderation_reason %></p>
       <% end %>
 
     </tr>

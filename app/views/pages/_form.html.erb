@@ -1,19 +1,19 @@
 <%= form_for(@page) do |f| %>
-  <%= render :partial => "layouts/errors", :object => @page %>
+  <%= render partial: "layouts/errors", object: @page %>
 
   <fieldset>
 
     <div class="clearfix">
       <%= f.label :title %>
       <div class="input">
-        <%= f.text_field :title, :class => "input-xlarge" %>
+        <%= f.text_field :title, class: "input-xlarge" %>
       </div>
     </div>
 
     <div class="clearfix">
       <%= f.label :category %>
       <div class="input">
-        <%= f.text_field :category, :class => "input-xlarge" %>
+        <%= f.text_field :category, class: "input-xlarge" %>
       </div>
     </div>
 
@@ -30,14 +30,14 @@
         <% if defined?(@file_path) && File.exist?(@file_path) %>
           Body text is overwritten by <%= @file_path %>
         <% else %>  
-          <%= f.text_area :body, :class => "input-xlarge" %>
+          <%= f.text_area :body, class: "input-xlarge" %>
         <% end %>
       </div>
     </div>
 
   </fieldset>
   <div class="submit_bar actions">
-    <%= f.submit :class => "btn btn-primary" %>
-    <%= link_to t(:cancel), pages_path, :class => "btn" %>
+    <%= f.submit class: "btn btn-primary" %>
+    <%= link_to t(:cancel), pages_path, class: "btn" %>
   </div>
 <% end %>

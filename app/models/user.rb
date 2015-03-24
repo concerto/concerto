@@ -15,20 +15,20 @@ class User < ActiveRecord::Base
   before_destroy :dont_delete_last_admin
   before_create :auto_confirm
 
-  has_many :templates, :as => :owner
-  has_many :contents, :dependent => :destroy
-  has_many :submissions, :foreign_key => "moderator_id"
-  has_many :memberships, :dependent => :destroy
-  has_many :groups, :through => :memberships
-  has_many :screens, :as => :owner, :dependent => :restrict_with_exception
+  has_many :templates, as: :owner
+  has_many :contents, dependent: :destroy
+  has_many :submissions, foreign_key: "moderator_id"
+  has_many :memberships, dependent: :destroy
+  has_many :groups, through: :memberships
+  has_many :screens, as: :owner, dependent: :restrict_with_exception
 
-  has_many :groups, -> { where "memberships.level > ?", Membership::LEVELS[:pending]}, :through => :memberships
-  has_many :leading_groups, -> { where "memberships.level" => Membership::LEVELS[:leader]}, :through => :memberships, :source => :group
+  has_many :groups, -> { where "memberships.level > ?", Membership::LEVELS[:pending]}, through: :memberships
+  has_many :leading_groups, -> { where "memberships.level" => Membership::LEVELS[:leader]}, through: :memberships, source: :group
 
   # Validations
-  validates :first_name, :presence => true
+  validates :first_name, presence: true
   
-  scope :admin, -> { where :is_admin => true }
+  scope :admin, -> { where is_admin: true }
 
   def auto_confirm
     # set as confirmed if we are not confirming user accounts so that if that is ever turned on,

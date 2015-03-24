@@ -14,7 +14,7 @@
     <%= f.select :weight, Subscription::WEIGHTS%>
   </div>
   <div class="submit_bar actions">
-    <%= f.submit "Submit", :class => "btn btn-primary" %>
+    <%= f.submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>
 
@@ -34,14 +34,14 @@
           <div class="clearfix frequency">
             <div class="input">
               <div class="leftseconds"><%#= Subscription::WEIGHTS[0] %></div>
-              <%#= range_field :subscription_weight, i, { :min => 1, :max => Subscription::WEIGHTS.size, :step => 1, :class => "frequency_range thin" } %>
+              <%#= range_field :subscription_weight, i, { min: 1, max: Subscription::WEIGHTS.size, step: 1, class: "frequency_range thin" } %>
               <div class="rightseconds"><%#= Subscription::WEIGHTS[-1] %></div>
             </div>
           </div>
 
         </li>
     <%#end%>
-  <%#= f.submit "Submit", :class => "btn primary" %>
-  <%#= link_to 'Destroy', [screen, subscription], :data => { :confirm => t(:are_you_sure) }, :method => :delete unless subscription.new_record?%>
+  <%#= f.submit "Submit", class: "btn primary" %>
+  <%#= link_to 'Destroy', [screen, subscription], data: { confirm: t(:are_you_sure) }, method: :delete unless subscription.new_record?%>
 <%# end %>
 -->

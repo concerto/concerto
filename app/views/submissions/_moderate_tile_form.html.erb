@@ -1,16 +1,16 @@
-<%= form_for([submission.feed, submission], :remote => true) do |f| %>
+<%= form_for([submission.feed, submission], remote: true) do |f| %>
   <% if moderate %>
-    <%= f.hidden_field :moderation_flag, { :value => true }%>
+    <%= f.hidden_field :moderation_flag, { value: true }%>
   <% else %>
     <div class="clearfix">
       <%= f.label :moderation_reason %>
       <div class="input">
-        <%= f.text_area :moderation_reason, :rows => 5, :style => "width: 90%;", :autofocus => true %>
+        <%= f.text_area :moderation_reason, rows: 5, style: "width: 90%;", autofocus: true %>
       </div>
     </div>
-    <%= f.hidden_field :moderation_flag, { :value => false }%>
+    <%= f.hidden_field :moderation_flag, { value: false }%>
   <% end %>
-  <%= f.submit moderate ? t(:approve) : t(:deny) , :class => "btn btn-primary" "Moderate Content", :class => "btn btn-primary" %>
+  <%= f.submit moderate ? t(:approve) : t(:deny) , class: "btn btn-primary" "Moderate Content", class: "btn btn-primary" %>
   <% if show_cancel_button %>
     <a href="#" class="btn moderate-cancel-btn"><%= t(:cancel) %></a>
   <% end %>

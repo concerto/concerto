@@ -7,12 +7,12 @@ end
 
 Concerto::Application.routes.draw do
   v1_router = LegacyRouteMatcher.new
-  get '/' => 'frontend/screens#index', :constraints => v1_router
-  get '/screen' => 'frontend/screens#index', :constraints => v1_router, :as => 'legacy_frontend'
+  get '/' => 'frontend/screens#index', constraints: v1_router
+  get '/screen' => 'frontend/screens#index', constraints: v1_router, as: 'legacy_frontend'
 
-  root :to => 'feeds#index'
+  root to: 'feeds#index'
 
-  resource :dashboard, :controller => :dashboard, :only => [:show] do
+  resource :dashboard, controller: :dashboard, only: [:show] do
     get :list_activities
   end
 
@@ -33,32 +33,32 @@ Concerto::Application.routes.draw do
   # about what you are doing because they could break things in
   # a very visible way.
   namespace :frontend do
-    resources :screens, :only => [:show, :index], :path => '' do
+    resources :screens, only: [:show, :index], path: '' do
       member do
         get :setup
       end
-      resources :fields, :only => [] do
-        resources :contents, :only => [:index, :show]
+      resources :fields, only: [] do
+        resources :contents, only: [:index, :show]
       end
-      resources :templates, :only => [:show]
+      resources :templates, only: [:show]
     end
     # Special route for CORS preflight requests on #show
     # *** DO NOT EDIT THIS LINE UNLESS YOU KNOW HOW TO TEST IT ***
-    match ':id', :controller => :screens, :action => 'show_options', :via=> [:options] 
+    match ':id', controller: :screens, action: 'show_options', via: [:options] 
   end
   # End really dangerous routes.
 
 
   devise_for :users,
-             :controllers => {
-                 :registrations => 'concerto_devise/registrations',
-                 :sessions => 'concerto_devise/sessions'}
+             controllers: {
+                 registrations: 'concerto_devise/registrations',
+                 sessions: 'concerto_devise/sessions'}
 
   scope "/manage" do
     resources :users
   end
 
-  resources :media, :only => [:show, :create]
+  resources :media, only: [:show, :create]
 
   resources :templates do
     member do
@@ -72,9 +72,9 @@ Concerto::Application.routes.draw do
   resources :fields
   
   resources :screens do
-    resources :fields, :only => [] do
+    resources :fields, only: [] do
       resources :subscriptions
-      resources :field_configs, :except => [:show]
+      resources :field_configs, except: [:show]
     end
   end
 
@@ -83,7 +83,7 @@ Concerto::Application.routes.draw do
       get :manage_members
     end
 
-    resources :memberships, :only => [:create, :update, :destroy] do
+    resources :memberships, only: [:create, :update, :destroy] do
     end
   end
 
@@ -93,11 +93,11 @@ Concerto::Application.routes.draw do
     collection do
       get :moderate
     end
-    resources :submissions, :only => [:index, :show, :update]
+    resources :submissions, only: [:index, :show, :update]
   end
 
   get 'content/search' => 'contents#index'
-  resources :contents, :except => [:index], :path => "content" do
+  resources :contents, except: [:index], path: "content" do
     member do
       get :display
       put :act
@@ -109,15 +109,15 @@ Concerto::Application.routes.draw do
   end
 
   # TODO(bamnet): Figure out if these routes mean anything.
-  resources :graphics, :controller => :contents, :except => [:index, :show], :path => "content" do
-    get :display, :on => :member
+  resources :graphics, controller: :contents, except: [:index, :show], path: "content" do
+    get :display, on: :member
   end
 
-  resources :tickers, :controller => :contents, :except => [:index, :show], :path => "content"
-  resources :html_texts, :controller => :contents, :except => [:index, :show], :path => "content"
-  resources :client_times, :controller => :contents, :except => [:index, :show], :path => "content"
+  resources :tickers, controller: :contents, except: [:index, :show], path: "content"
+  resources :html_texts, controller: :contents, except: [:index, :show], path: "content"
+  resources :client_times, controller: :contents, except: [:index, :show], path: "content"
 
-  resource :concerto_config, :controller => :concerto_config, :only => [:show, :update], :path => "settings" do
+  resource :concerto_config, controller: :concerto_config, only: [:show, :update], path: "settings" do
     post :initiate_restart
     get :config_check
   end
