@@ -41,11 +41,7 @@ class TemplatesController < ApplicationController
   def edit
     @template = Template.find(params[:id])
     auth!
-    # make sure that we only have two html file inputs, one for the graphic ("original") and one for the stylesheet ("css")
-    @template.media.to_a.reject! {|m| true}
-    while @template.media.length < 2 do
-      @template.media.build
-    end
+    # the form contains two bogus fields used for file uploads -- :template_css, :template_image
   end
 
   # POST /templates
@@ -81,23 +77,24 @@ class TemplatesController < ApplicationController
     @template = Template.find(params[:id])
     auth!
 
-    # get a copy of the params and remove the files as we process them
+    # get a copy of the params and remove the bogus file fields as we process them
     template_parameters = template_params
-    template_parameters[:media_attributes].each do |k, media|
-      if !media.empty?
+    # doens't matter which file is in which field because the file type is inspected for each
+    [:template_css, :template_image].each do |file|
+      if !template_parameters[file].nil?
         # for the files that were uploaded, determine their media key based on their extension
-        new_media = @template.media.build(media)
+        new_media = @template.media.build({file: template_parameters[file]})
         extension = (new_media.file_name.blank? ? nil : new_media.file_name.split('.')[-1].downcase)
         new_media.key = (extension == "css" ? "css" : "original") unless extension.nil?
 
         # mark any existing @template.media with this same key as replaced (obsolete)
         @template.media.each do |m|
-          m.key = 'replaced_' + m.key if m.key == new_media.key and m != new_media #!m.new_record?
+          m.key = 'replaced_' + m.key if m.key == new_media.key and m != new_media
         end
       end
-      # remove the html file from the attributes so it is not processed in the in the update_attributes below
-      template_parameters[:media_attributes].delete(k)
-    end unless template_parameters[:media_attributes].nil?
+      # remove the bogus file field from the collection so activemodel doesn't complain about it
+      template_parameters.delete(file)
+    end
 
     if @template.update_attributes(template_parameters)
       process_notification(@template, {}, process_notification_options({params: {template_name: @template.name}}))
@@ -211,6 +208,7 @@ private
   end
 
   def template_params
-    params.require(:template).permit(:name, :author, :descriptor, :image, :is_hidden, positions_attributes: [:field_id, :style, :top, :left, :bottom, :right, :id, :_destroy], media_attributes: [:file])
+    # :template_css and :template_file are two bogus fields used for file uploads when editing a template
+    params.require(:template).permit(:name, :author, :descriptor, :image, :is_hidden, :template_css, :template_image, positions_attributes: [:field_id, :style, :top, :left, :bottom, :right, :id, :_destroy], media_attributes: [:file])
   end
 end
