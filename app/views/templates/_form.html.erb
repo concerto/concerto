@@ -1,3 +1,4 @@
+<%# this form is only used for :edit %>
 <%= form_for(template, html: { multipart: true }) do |f| %>
   <%= render partial: "layouts/errors", object: template %>
 
@@ -50,9 +51,8 @@
     <div class="clearfix">
       <%= f.label :media %>
       <div class="input">
-        <%= f.fields_for :media do |media| %>
-          <%= media.file_field :file %>
-        <% end %>
+        <%= f.file_field :template_css %>
+        <%= f.file_field :template_image %>
       </div>
     </div>
   </fieldset>
