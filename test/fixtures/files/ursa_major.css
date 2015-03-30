@@ -1,0 +1,59 @@
+@import url(//fonts.googleapis.com/css?family=Exo+2);
+
+div.field
+{
+  /* Internet Explorer 10 */
+  display:-ms-flexbox;
+  -ms-flex-pack:center;
+  -ms-flex-align:center;
+
+  /* Firefox */
+  display:-moz-box;
+  -moz-box-pack:center;
+  -moz-box-align:center;
+
+  /* Safari, Opera, and Chrome */
+  display:-webkit-box;
+  -webkit-box-pack:center;
+  -webkit-box-align:center;
+
+  /* W3C */
+  display:box;
+  box-pack:center;
+  box-align:center;
+}
+
+.ticker p {
+  margin: 0;
+  padding: 0;
+}
+
+.ticker {
+  text-align: center;
+  width: 100%;
+  color:#FFF; 
+  font-family: 'Exo 2', Frobisher, Arial, sans-serif;
+ }
+
+.clienttime {
+  text-align: center;
+  color:#aaa; 
+  font-family: 'Exo 2', Frobisher, Arial, sans-serif;
+  width: 100%;
+}
+
+content-item div.feedflare {
+  display:none;
+}
+
+.field h1, .field h2, .field h3, .field h4 {
+  margin-top: 0; 
+}
+
+.field p {
+  margin-top: 0; 
+}
+
+.htmltext {
+  padding: .25em;
+}
