@@ -99,4 +99,42 @@ class TemplatesControllerTest < ActionController::TestCase
     assert_equal t, assigns(:template)
   end
 
+  test "update a template's media" do
+    t = templates(:one)
+    sign_in users(:admin)
+
+    assert_equal 2, t.media.length, "this test template should start with two media entries"
+    patch :update, id: t.id, template: { name: t.name, template_css: fixture_file_upload('files/ursa_major.css', 'text/css'),
+       template_image: fixture_file_upload('files/ursa_major.jpg', 'image/jpg') }
+    assert_redirected_to(controller: 'templates', action: 'show')
+
+    t.reload
+    assert_equal 4, t.media.length, "new media not uploaded"
+
+    assert t.media.find_by(key: 'replaced_original', file_name: 'file.jpg'), "original image not marked as replaced"
+    assert t.media.find_by(key: 'css', file_name: 'ursa_major.css'), "css media not updated"
+    assert t.media.find_by(key: 'original', file_name: 'ursa_major.jpg'), "image media not updated"
+  end
+
+  test "should not destroy template with screens" do
+    t = templates(:one)
+    sign_in users(:admin)
+
+    assert t.screens.length > 0, "this test template is supposed to have screens"
+    assert_difference('Template.count', 0) do
+      delete :destroy, id: t.id
+    end
+  end
+
+  test "should destroy template" do
+    t = templates(:two)
+    sign_in users(:admin)
+
+    assert_difference('Template.count', -1) do
+      delete :destroy, id: t.id
+    end
+
+    assert_redirected_to templates_path
+  end
+
 end
