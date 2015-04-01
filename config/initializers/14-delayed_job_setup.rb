@@ -1,3 +1,5 @@
+Rails.logger.debug "Starting #{File.basename(__FILE__)} at #{Time.now.to_s}"
+
 require 'delayed_job'
 
 # Before polling for new jobs we write back an update to the heartbeat tracker
@@ -14,3 +16,5 @@ Delayed::Worker.plugins << DelayedJobHeartbeat
 
 # Slow DJ down to run every 15 seconds instead of 5.
 Delayed::Worker.sleep_delay = 15
+
+Rails.logger.debug "Completed #{File.basename(__FILE__)} at #{Time.now.to_s}"

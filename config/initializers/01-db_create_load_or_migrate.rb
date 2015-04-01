@@ -1,4 +1,4 @@
-Rails.logger.debug "Starting 01-db_create_load_or_migrate.rb at #{Time.now.to_s}"
+Rails.logger.debug "Starting #{File.basename(__FILE__)} at #{Time.now.to_s}"
 
 #Checks current migration status of Concerto and migrates to any more recent migration version available
 #Creates and migrates the database if it doesn't yet exist
@@ -87,4 +87,5 @@ unless Rails.env.test?
 end
 
 File.delete("tmp/migration_tempfile") if File.exist?("tmp/migration_tempfile")
-Rails.logger.debug "Completed 01-db_create_load_or_migrate.rb at #{Time.now.to_s}"
+
+Rails.logger.debug "Completed #{File.basename(__FILE__)} at #{Time.now.to_s}"

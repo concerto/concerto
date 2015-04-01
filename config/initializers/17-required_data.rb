@@ -1,4 +1,4 @@
-Rails.logger.debug "Starting 17-required_data at #{Time.now.to_s}"
+Rails.logger.debug "Starting #{File.basename(__FILE__)} at #{Time.now.to_s}"
 
 if ActiveRecord::Base.connection.table_exists?('kinds')
   if !Kind.any?
@@ -20,3 +20,5 @@ if ActiveRecord::Base.connection.table_exists?('fields') && ActiveRecord::Base.c
     Field.where(name: 'Time').first_or_create(kind: Kind.where(name: 'Text').first)
   end
 end
+
+Rails.logger.debug "Completed #{File.basename(__FILE__)} at #{Time.now.to_s}"

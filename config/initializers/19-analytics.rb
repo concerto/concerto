@@ -1,4 +1,4 @@
-Rails.logger.debug "Starting 19-analytics.rb at #{Time.now.to_s}"
+Rails.logger.debug "Starting #{File.basename(__FILE__)} at #{Time.now.to_s}"
 
 # Concerto user analytics configuration
 if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
@@ -10,4 +10,4 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
   end
 end
 
-Rails.logger.debug "Completed 19-analytics.rb at #{Time.now.to_s}"
+Rails.logger.debug "Completed #{File.basename(__FILE__)} at #{Time.now.to_s}"

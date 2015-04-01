@@ -1,4 +1,4 @@
-Rails.logger.debug "Starting 07-secret_token.rb at #{Time.now.to_s}"
+Rails.logger.debug "Starting #{File.basename(__FILE__)} at #{Time.now.to_s}"
 
 secret_token = ENV['SECRET_TOKEN']
 
@@ -18,4 +18,4 @@ end
 Concerto::Application.config.secret_token = secret_token
 ENV["SECRET_KEY_BASE"] = secret_token
 
-Rails.logger.debug "Completed 07-secret_token.rb at #{Time.now.to_s}"
+Rails.logger.debug "Completed #{File.basename(__FILE__)} at #{Time.now.to_s}"

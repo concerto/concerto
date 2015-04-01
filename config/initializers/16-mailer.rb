@@ -1,3 +1,5 @@
+Rails.logger.debug "Starting #{File.basename(__FILE__)} at #{Time.now.to_s}"
+
 if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
   ActionMailer::Base.delivery_method = ConcertoConfig[:mailer_protocol].to_sym if !ConcertoConfig[:mailer_protocol].nil?
   ActionMailer::Base.default_url_options = { host: ConcertoConfig[:mailer_host] }
@@ -17,3 +19,5 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     end
   end
 end
+
+Rails.logger.debug "Completed #{File.basename(__FILE__)} at #{Time.now.to_s}"

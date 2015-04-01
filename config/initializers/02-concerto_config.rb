@@ -1,4 +1,4 @@
-Rails.logger.debug "Starting 02-concerto_config.rb at #{Time.now.to_s}"
+Rails.logger.debug "Starting #{File.basename(__FILE__)} at #{Time.now.to_s}"
 
 require 'socket'
 begin
@@ -72,3 +72,5 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
   end
 
 end
+
+Rails.logger.debug "Completed #{File.basename(__FILE__)} at #{Time.now.to_s}"
