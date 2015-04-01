@@ -1,3 +1,5 @@
+Rails.logger.debug "Starting #{File.basename(__FILE__)} at #{Time.now.to_s}"
+
 # A hashes of some of the possible field configs.
 # Each hash entry represents a possible field config.
 # The entries must contain a Hash with :type set.
@@ -11,3 +13,5 @@ Concerto::Application.config.field_configs = {
   marquee: {type: :boolean},
   shuffler: {type: :select, values: ['BaseShuffle', 'WeightedShuffle']}
 }
+
+Rails.logger.debug "Completed #{File.basename(__FILE__)} at #{Time.now.to_s}"

@@ -1,4 +1,4 @@
-Rails.logger.debug "Starting 12-plugins.rb at #{Time.now.to_s}"
+Rails.logger.debug "Starting #{File.basename(__FILE__)} at #{Time.now.to_s}"
 
 # Concerto Plugins Initializer
 if ActiveRecord::Base.connection.table_exists? 'concerto_plugins'
@@ -29,4 +29,4 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_plugins'
   end
 end
 
-Rails.logger.debug "Completed 12-plugins.rb at #{Time.now.to_s}"
+Rails.logger.debug "Completed #{File.basename(__FILE__)} at #{Time.now.to_s}"

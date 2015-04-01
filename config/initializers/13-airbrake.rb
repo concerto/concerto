@@ -1,4 +1,4 @@
-Rails.logger.debug "Starting 13-airbrake.rb at #{Time.now.to_s}"
+Rails.logger.debug "Starting #{File.basename(__FILE__)} at #{Time.now.to_s}"
 
 require 'yaml'
 concerto_base_config = YAML.load_file("./config/concerto.yml")
@@ -28,4 +28,4 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
   end
 end
 
-Rails.logger.debug "Completed 13-airbrake.rb at #{Time.now.to_s}"
+Rails.logger.debug "Completed #{File.basename(__FILE__)} at #{Time.now.to_s}"
