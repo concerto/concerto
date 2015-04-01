@@ -3,7 +3,7 @@ Rails.logger.debug "Starting #{File.basename(__FILE__)} at #{Time.now.to_s}"
 #Checks current migration status of Concerto and migrates to any more recent migration version available
 #Creates and migrates the database if it doesn't yet exist
 #Implementation based on http://trevorturk.wordpress.com/2008/04/10/automatically-creating-loading-and-migrating-your-database/
-#unless Rails.env.test?
+unless ENV["TRAVIS"] # Rails.env.test?
   require 'benchmark'
 
   # Plugin Migrations
@@ -84,7 +84,7 @@ Rails.logger.debug "Starting #{File.basename(__FILE__)} at #{Time.now.to_s}"
     end
   end
   
-#end
+end
 
 File.delete("tmp/migration_tempfile") if File.exist?("tmp/migration_tempfile")
 
