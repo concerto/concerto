@@ -207,7 +207,7 @@ class ApplicationController < ActionController::Base
     am_string = activity.key.gsub(".", "_")
 
     # If ActivityMailer can find a method by the formulated name, pass in the activity (everything we know about what was done)
-    if ActivityMailer.respond_to?(am_string) #&& (options[:recipient].nil? || options[:owner].nil? || options[:recipient] != options[:owner])
+    if ActivityMailer.respond_to?(am_string) && !options[:recipient].nil? && !options[:owner].nil? && options[:recipient] != options[:owner]
       #fulfilling bamnet's expansive notification ambitions via metaprogramming since 2013
       begin
         ActivityMailer.send(am_string, activity).deliver
