@@ -13,10 +13,7 @@
           font-family: 'Myriad Pro', Helvetica, Arial, sans-serif;
           height: 100% !important;
           width: 100% !important;
-          background-image: url(<%= asset_path("/assets/layout/pagebg.gif") %>);
-          background-repeat: repeat;
-          background-repeat-x: repeat;
-          background-repeat-y: repeat;
+
       }
 
       img {
@@ -58,7 +55,7 @@
     <tbody>
     <tr id="message">
       <p>
-        <%= @activity.recipient.name %>,
+        Dear <%= @activity.recipient.first_name %>,
         <br/>
         <br/>
 

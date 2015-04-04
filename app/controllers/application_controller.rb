@@ -202,10 +202,12 @@ class ApplicationController < ActionController::Base
     options[:params] ||= {}
     options[:params].merge!(pa_params) unless pa_params.nil?
     activity = ar_instance.create_activity(options)
-    # form the actionmailer method name by combining the class name with the action being performed (e.g. "submission_update")
-    am_string = "#{ar_instance.class.name.downcase}_#{options[:action]}"
+    
+    # Get the name of the activity mailer by changing the dot to an underscore (eg "submission.update" to "submission_update")
+    am_string = activity.key.gsub(".", "_")
+
     # If ActivityMailer can find a method by the formulated name, pass in the activity (everything we know about what was done)
-    if ActivityMailer.respond_to?(am_string) && (options[:recipient].nil? || options[:owner].nil? || options[:recipient] != options[:owner])
+    if ActivityMailer.respond_to?(am_string) #&& (options[:recipient].nil? || options[:owner].nil? || options[:recipient] != options[:owner])
       #fulfilling bamnet's expansive notification ambitions via metaprogramming since 2013
       begin
         ActivityMailer.send(am_string, activity).deliver
