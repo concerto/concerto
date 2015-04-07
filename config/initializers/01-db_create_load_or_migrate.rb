@@ -28,9 +28,11 @@ Rails.application.railties.each do |railtie|
   )
 end
 
+is_manual_migration = File.split($0).last == 'rake' && $*.first == 'db:migrate'
+
 require 'yaml'
 concerto_base_config = YAML.load_file("./config/concerto.yml")
-if concerto_base_config['automatic_database_installation'] == true && File.split($0).last != 'rake'
+if concerto_base_config['automatic_database_installation'] == true && !is_manual_migration
 
   # Database creation and migration
   # Notes:
