@@ -30,7 +30,8 @@ end
 
 require 'yaml'
 concerto_base_config = YAML.load_file("./config/concerto.yml")
-if concerto_base_config['automatic_database_installation'] == true      
+if concerto_base_config['automatic_database_installation'] == true && File.split($0).last != 'rake'
+
   # Database creation and migration
   # Notes:
   #  - Is the rescue really needed?
