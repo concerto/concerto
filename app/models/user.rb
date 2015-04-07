@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
 
   # Validations
   validates :first_name, presence: true
+  validates :email, uniqueness: true
   
   scope :admin, -> { where is_admin: true }
 
