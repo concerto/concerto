@@ -866,9 +866,12 @@ en:
       online: Online
     show_body:
       field: '%{name} Field'
-      field_settings: Hover over a field below to view its settings.
+      view_field_settings: Hover over a field below to view its settings.
       manage: Manage
       preview_screen: Preview Screen
+      field_settings:
+        one: Field Setting
+        other: Field Settings
     template_selection:
       best_fit_templates: Best-Fit Templates
       select_template: Select Template

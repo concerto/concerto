@@ -82,3 +82,9 @@ he:
       all: אינך מאושר לעדכן %{subject}.
   update_model: עידכון %{model}
   valid_git: איננו git repository תקף
+  screens:
+    show_body:
+      field_settings:
+        one: הגדרת שדה
+        other: הגדרות שדה
+      view_field_settings: "העבר את העכבר מעל שדה שלהלן כדי להציג את ההגדרות שלו."
