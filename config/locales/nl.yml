@@ -535,31 +535,31 @@ nl:
         happy_advertising: Happy Advertising!
         step_one: Step One.
         step_one_message: |
-          On your PC or mobile device, log into the 
+          On your PC or mobile device, log into the
           Concerto Panel and visit the
           Screens page.
         step_three: Step Three.
         step_three_details: |
-          You can add some content to the screen by editing the 
+          You can add some content to the screen by editing the
           subscriptions
           in each field in the Concerto Panel.
         step_three_header: |
-          Finally, take a look back at this screen. After a moment, 
+          Finally, take a look back at this screen. After a moment,
           your template
           should appear.
         step_two: Step Two.
         step_two_details: |
-          The screen should not be public. Use the code 
+          The screen should not be public. Use the code
           given above as the authorization
-          code. If this 
-          machine is being reconfigured or is replacing an 
+          code. If this
+          machine is being reconfigured or is replacing an
           existing screen, simply
-          click on that screen, click 
-          edit, ensure that the screen is not public, and enter 
+          click on that screen, click
+          edit, ensure that the screen is not public, and enter
           the
           authorization code.
         step_two_header: |
-          If this is a completely new screen, click 
+          If this is a completely new screen, click
           "New Screen" and fill out
           the relevant details.
   gem_not_found: is not a valid rubygem
@@ -852,9 +852,12 @@ nl:
       online: Online
     show_body:
       field: '%{name} Field'
-      field_settings: Hover over a field below to view its settings.
+      view_field_settings: Hover over a field below to view its settings.
       manage: Manage
       preview_screen: Preview Screen
+      field_settings:
+       one: veld instelling
+       other: veldinstellingen
     template_selection:
       best_fit_templates: Best-Fit Templates
       select_template: Select Template

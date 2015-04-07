@@ -829,9 +829,12 @@ de:
       online: Online
     show_body:
       field: '%{name} Feld'
-      field_settings: Fahren Sie über ein Feld, um dessen Einstellungen zu betrachten.
+      view_field_settings: Fahren Sie über ein Feld, um dessen Einstellungen zu betrachten.
       manage: Verwalten
       preview_screen: Bildschirm Vorschau
+      field_settings:
+        one: Feld Einstellung
+        other: Feldeinstellungen
     template_selection:
       best_fit_templates: Angepasste Bildschrimvorlagen
       select_template: Wählen Sie eine Bildschirmvorlage
