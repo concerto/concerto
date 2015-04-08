@@ -18,6 +18,7 @@ en:
     edit:
       prohibited_plugin_save: 'prohibited plugin save'
     sources:
+      concerto_plugins: 'Concerto Plugins'
       rubygems: 'RubyGems'
       git: 'Git Repository'
       path: 'Filesystem Path'

@@ -10,7 +10,7 @@ module ConcertoPluginsHelper
   def plugin_sources
     t('concerto_plugins.sources').map { |key, value| [value, key] }
   end
-
+  
   def plugin_source(source)
     t('concerto_plugins.sources')[source.to_sym]
   rescue

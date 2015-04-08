@@ -17,6 +17,17 @@ class ConcertoPlugin < ActiveRecord::Base
   validate :check_sources, on: :create
 
   scope :enabled, -> { where(enabled: true) }
+  
+  def self.concerto_addons
+    repositories = Octokit.repos 'concerto-addons'
+    addons = Array.new
+    repositories.each do |r|
+      addons.push r.name
+    end
+    return addons
+  end
+  
+  ADDONS = self.concerto_addons  
 
   # Find the Engine's module from among the installed engines.
   def engine
@@ -38,7 +49,7 @@ class ConcertoPlugin < ActiveRecord::Base
   def name
     gem_name.humanize
   end
-
+  
   # Returns the instance of PluginInfo provided by the engine
   # Note for simplicity we're not caching this info.
   def plugin_info

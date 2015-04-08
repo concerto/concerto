@@ -5,7 +5,11 @@ function setPlaceHolderToggleSource()
   if (field.length > 0) {
     if (source == 'rubygems') {
       $(field).closest('div.clearfix').hide();
-    } else {
+    }
+    else if (source == 'concerto_plugins') {
+      $(field).closest('div.clearfix').hide();
+    }
+     else {
       if (source == 'git') {
         $(field).attr('placeholder', 'https://foo.bar/baz/repo.git');
       } else if (source == 'path') {
