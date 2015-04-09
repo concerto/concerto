@@ -22,7 +22,7 @@ class ConcertoPlugin < ActiveRecord::Base
     repositories = Octokit.repos 'concerto-addons'
     addons = Array.new
     repositories.each do |r|
-      addons.push r.name
+      addons << [r.name.titleize, r.name]
     end
     return addons
   end
