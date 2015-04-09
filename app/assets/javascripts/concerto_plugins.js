@@ -1,4 +1,4 @@
-function setPlaceHolderToggleSource()
+function toggleFields()
 {
     var source = $('select#concerto_plugin_source').val();
     var url_field = $('input#concerto_plugin_source_url');
@@ -13,7 +13,7 @@ function setPlaceHolderToggleSource()
         }
         else if (source == 'concerto_plugins') {
             $(name_box).closest('div.clearfix').hide();
-            $(url_field).closest('div.clearfix').show();
+            $(url_field).closest('div.clearfix').hide();
             $(name_select).closest('div.clearfix').show();
             $(name_select).focus();
         }
@@ -33,7 +33,7 @@ function setPlaceHolderToggleSource()
 
 function bindListeners() {
   // hookup the listener to toggle placeholder text and visibility of source url
-  $('select#concerto_plugin_source').change(setPlaceHolderToggleSource);
+  $('select#concerto_plugin_source').change(toggleFields);
   // since the default source is rubygems, hide the source url on load
   $('select#concerto_plugin_source').trigger('change');
 }
