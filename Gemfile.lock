@@ -156,6 +156,7 @@ GEM
     mime-types (2.4.3)
     minitest (5.5.1)
     multi_json (1.11.0)
+    mysql2 (0.3.18)
     multipart-post (2.0.0)
     mysql2 (0.3.18)
     nprogress-rails (0.1.6.6)

@@ -6,8 +6,6 @@ one:
   is_public: false
   owner: katie (User)
   template: one
-  width: 1920
-  height: 1080
   authentication_token: auth:0123456789abcdef
 
 two:
