@@ -40,7 +40,7 @@ class DashboardController < ApplicationController
       can?(:read, ConcertoPlugin) ? @concerto_plugins = ConcertoPlugin : @concerto_plugins = nil
 
       # Admin Stats
-      @latest_version = VersionCheck.latest_version()
+      @latest_version = get_latest_version
 
       respond_to do |format|
         format.html { } # show.html.erb
@@ -80,5 +80,20 @@ private
     end
     return activities
   end
-
+  
+  
+  def get_latest_version
+    version = Rails.cache.read("concerto_version")
+    version_updated = Rails.cache.read("concerto_version_time")
+    if !version.nil? && version_updated.is_a?(Time)  && !version_updated.nil? # Version is cached.
+      if version_updated < Time.now - 86400 # Stale (older than 24 hours).
+        version = Octokit.latest_release('concerto/concerto').tag_name
+      end
+    else # Fetch the latest version.
+      Rails.logger.info "Downloading latest Concerto version information for the first time."
+      version = Octokit.latest_release('concerto/concerto').tag_name
+    end
+    return version
+  end
 end
+
