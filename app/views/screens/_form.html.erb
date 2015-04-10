@@ -21,13 +21,6 @@
           </div>
         </div>
         
-	    <div class="clearfix">
-	      <%= f.label :time_zone %>
-	      <div class="input">
-	        <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, default: ConcertoConfig[:system_time_zone]  %>
-	      </div>
-	    </div>        
-        
         <% if ConcertoConfig['public_concerto'] %>
           <div class="clearfix">
             <div class="input checkbox">
