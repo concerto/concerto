@@ -32,7 +32,7 @@
         <div class="clearfix">
           <%= f.label :gem_name %>
           <div class="input">
-            <%= f.select :gem_name, options_for_select(ConcertoPlugin::ADDONS) %>
+            <%= f.select :gem_name, options_for_select(ConcertoPlugin::ADDONS), :include_blank => true %>
           </div>
         </div>
 
