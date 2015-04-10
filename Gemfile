@@ -100,5 +100,3 @@ end
 
 gem 'i18n-js', '>= 3.0.0.rc8', '< 3.1.0'
 
-#Github API
-gem 'octokit'
