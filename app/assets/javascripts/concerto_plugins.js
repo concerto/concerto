@@ -3,7 +3,7 @@ function toggleFields()
     var source = $('select#concerto_plugin_source').val();
     var url_field = $('input#concerto_plugin_source_url');
     var name_box = $('input#concerto_plugin_gem_name');
-    var name_select = $('select#gem_name');
+    var name_select = $('select#gem_name_select');
     if (url_field.length > 0) {
         if (source == 'rubygems') {
             $(url_field).closest('div.clearfix').hide();
