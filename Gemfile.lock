@@ -158,6 +158,8 @@ GEM
     multi_json (1.11.0)
     multipart-post (2.0.0)
     nprogress-rails (0.1.6.6)
+    octokit (3.8.0)
+      sawyer (~> 0.6.0, >= 0.5.3)
     orm_adapter (0.5.0)
     public_activity (1.4.2)
       actionpack (>= 3.0.0)
@@ -201,6 +203,9 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (~> 1.1)
+    sawyer (0.6.0)
+      addressable (~> 2.3.5)
+      faraday (~> 0.8, < 0.10)
     signet (0.6.0)
       addressable (~> 2.3)
       extlib (~> 0.9)
@@ -276,6 +281,7 @@ DEPENDENCIES
   kaminari
   mysql2
   nprogress-rails (~> 0.1.6.3)
+  octokit
   pg
   public_activity
   rails (~> 4.1.6)

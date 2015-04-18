@@ -1,7 +1,7 @@
 class DashboardController < ApplicationController
 
   def list_activities
-    @activities = get_activities(100)  
+    @activities = get_activities(100)
   end
 
   # GET /dashboard
@@ -40,7 +40,7 @@ class DashboardController < ApplicationController
       can?(:read, ConcertoPlugin) ? @concerto_plugins = ConcertoPlugin : @concerto_plugins = nil
 
       # Admin Stats
-      @latest_version = VersionCheck.latest_version()
+      @latest_version = VersionCheck.latest_version
 
       respond_to do |format|
         format.html { } # show.html.erb
@@ -54,7 +54,7 @@ private
 
   def get_activities(activity_limit)
     activities = []
-    if current_user && defined? PublicActivity::Activity
+    if current_user && defined?(PublicActivity::Activity)
       if current_user.is_admin?
         activities = PublicActivity::Activity.order('updated_at desc').limit(activity_limit)
       else
@@ -67,7 +67,7 @@ private
 
         #Select activities with neither an owner nor a recipient (public activities) - the actual owner is set in the parameters hash for these...let's ditch this arel hack in Rails 4 please
         public_activities = PublicActivity::Activity.where(owner_id: nil, recipient_id: nil).where(PublicActivity::Activity.arel_table[:trackable_type].not_eq("ConcertoConfig")).order('updated_at desc').limit(activity_limit)
-        
+
         if current_user.is_admin?
           system_notifications = PublicActivity::Activity.where(trackable_type: "ConcertoConfig").order('updated_at desc').limit(activity_limit)
           activities = owner + recipient + group_member + public_activities + system_notifications
