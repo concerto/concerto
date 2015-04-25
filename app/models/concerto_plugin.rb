@@ -18,6 +18,17 @@ class ConcertoPlugin < ActiveRecord::Base
 
   scope :enabled, -> { where(enabled: true) }
 
+  def self.concerto_addons
+    repositories = Octokit.repos 'concerto-addons'
+    addons = Array.new
+    repositories.each do |r|
+      addons << [r.name.titleize, r.name]
+    end
+    return addons
+  end
+
+  ADDONS = self.concerto_addons
+
   # Find the Engine's module from among the installed engines.
   def engine
     @engine ||= find_engine

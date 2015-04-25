@@ -6,9 +6,9 @@ module ConcertoPluginsHelper
       @concerto_plugin.source
     end
   end
-  
+
   def plugin_sources
-    t('concerto_plugins.sources').map { |key, value| [value, key] }
+    t('concerto_plugins.sources').sort.map { |key, value| [value, key] }
   end
 
   def plugin_source(source)
