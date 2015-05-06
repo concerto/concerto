@@ -12,5 +12,3 @@ gem "concerto_calendar"
 gem "concerto_hardware"
 
 gem "concerto_frontend"
-
-gem "concerto_emergency"
