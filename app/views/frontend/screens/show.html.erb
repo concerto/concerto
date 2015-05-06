@@ -1,8 +1,3 @@
 <% content_for(:title, @screen.name) %>
-<% content_for(:head) do %>
-  <% @js_files.each do |js_file| %>
-    <script src="<%= frontend_js_path js_file %>" type="text/javascript"></script>
-  <% end %>
-<% end %>
 <%= ConcertoPlugin.render_view_hook self, :concerto_frontend %>
 <%= ConcertoPlugin.render_view_hook self, :concerto_frontend_plugins %>
