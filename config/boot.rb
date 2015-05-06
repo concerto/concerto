@@ -45,8 +45,16 @@ if ENV['FROZEN'] != "1" && concerto_base_config['automatic_bundle_installation']
     	  "You can disable automatic gem installation in config/concerto.yml"
   end
 
+  if system_has_mysql?
+    db_options = " --without postgres"
+  elsif system_has_postgres?
+    db_options = " --without mysql"
+  else
+    db_options = " --without postgres mysql"
+  end
+
   #get output of the bundle install command for later possible use
-  bundle_output = `bundle install #{concerto_base_config['bundle_install_options']}`
+  bundle_output = `bundle install #{db_options} #{concerto_base_config['bundle_install_options']}`
   #use the magical object from $? to get status of output
   result = $?.success?
 

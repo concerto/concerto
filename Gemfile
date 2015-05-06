@@ -24,8 +24,6 @@ if File.exists?("#{basedir}/Gemfile.local")
   eval File.read("#{basedir}/Gemfile.local")
 end
 
-# Gems used only for assets and not required
-# in production environments by default.
 gem 'sass-rails'
 gem 'sprockets', '~> 2.11.3'
 gem 'therubyracer', :platforms => :ruby
@@ -63,25 +61,10 @@ gem 'bundler-audit', :require => false, :group => :test
 
 gem 'kaminari'
 
-require "#{Dir.getwd}/lib/command_check.rb"
-if system_has_mysql?
-  mysql_platforms = Bundler::Dependency::PLATFORM_MAP.keys
-else
-  mysql_platforms = [:mswin]
-end
-if system_has_postgres?
-  postgres_platforms = Bundler::Dependency::PLATFORM_MAP.keys
-else
-  postgres_platforms = [:mswin]
-end
-
-# In production we prefer MySQL over sqlite3.  If you are only
-# interested in development and don't want to bother with production,
-# run `bundle install --without production` to ignore MySQL.
 gem 'sqlite3', :group => [:development, :test]
 
-gem 'mysql2', :require => false, :group => :production, :platforms => mysql_platforms
-gem 'pg', :require => false, :group => :production, :platforms => postgres_platforms
+gem 'mysql2', :group => :mysql
+gem 'pg', :group => :postgres
 
 gem 'public_activity'
 
