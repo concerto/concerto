@@ -3,22 +3,6 @@
   <% @js_files.each do |js_file| %>
     <script src="<%= frontend_js_path js_file %>" type="text/javascript"></script>
   <% end %>
-  <script type="text/javascript">
-    var thescreen;
-    function init() {
-      <% if @debug %>
-        var debugWindow = new goog.debug.FancyWindow('main');
-        debugWindow.setEnabled(true);
-        debugWindow.init();
-      <% end %>
-      var div = document.getElementsByClassName('screen')[0];
-      var screenOptions = {
-        setupPath: '<%=j setup_frontend_screen_path(@screen, format: :json) %>',
-        <% if @preview %> isPreview: true, <% end %>
-      };
-      thescreen = new concerto.frontend.Screen(<%= @screen.id %>, div, screenOptions);
-    }
-    window.addEventListener('load', init, false);
-  </script>
 <% end %>
-<%= tag('div', class: 'screen', data: {screen: @screen.id }) -%>
+<%= ConcertoPlugin.render_view_hook self, :concerto_frontend %>
+<%= ConcertoPlugin.render_view_hook self, :concerto_frontend_plugins %>
