@@ -15,8 +15,9 @@ en:
 
   screens:
     index:
-      common_templates: "Common Templates"
+      common_templates: "Top 5 Templates"
       view_all: 'View All'
+      screen_summary: 'Screen Summary'
 
     index_body:
       add_one: 'Why not add one?'

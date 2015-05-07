@@ -29,6 +29,23 @@
   </div>
   <% if template_span > 0 %>
   <div class="span<%= template_span %>">
+    <% if can? :manage, @screens %>
+      <section class="viewblock">
+        <header class="viewblock-header">
+
+          <h1 class="default-padding"><%= t('.screen_summary') %></h1>
+        </header>
+        <div class="viewblock-cont">
+          <div class="default-padding">
+            <p><b>Screens Online:</b> <%= Screen.online.size %>/<%= Screen.count %></p>
+            <% if Gem::Specification::find_all_by_name('concerto_hardware').any? %>
+              <p><b><%= link_to 'Hardware Players', 'hardware/players'%>:</b> <%= ConcertoHardware::Player.count %></p>
+            <% end %>
+          </div>
+        </div>
+      </section>
+    <% end %>
+
     <section class="viewblock">
       <header class="viewblock-header">
         <div class="viewblock-header_right">
@@ -40,9 +57,9 @@
       </header>
       <div class="viewblock-cont">
         <%= render partial: "templates/index_body" %>
-        
       </div>
     </section>
   </div>
+
   <% end %>
 </div>
