@@ -28,7 +28,7 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("allow_user_feed_creation", "true", value_type: "boolean", category: 'Permissions', seq_no: 99)
 
     # mail
-    ConcertoConfig.make_concerto_config('mailer_protocol', 'sendmail', value_type: 'select', select_values: "{'Sendmail': 'sendmail', 'SMTP': 'smtp'}", category: 'Mail', seq_no: 1)
+    ConcertoConfig.make_concerto_config('mailer_protocol', 'sendmail', value_type: 'select', select_values: "{'Sendmail' => 'sendmail', 'SMTP' => 'smtp'}", category: 'Mail', seq_no: 1)
     ConcertoConfig.make_concerto_config("mailer_from", "concerto@localhost", value_type: "string", value_default: "concerto@localhost", category: 'Mail', seq_no: 2)
     ConcertoConfig.make_concerto_config("mailer_host", concerto_hostname, value_type: "string", value_default: concerto_hostname, category: 'Mail', seq_no: 3,
       description: "This is used to construct links in the email that point back to the concerto application.")
@@ -46,7 +46,7 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
 
     # system
     ConcertoConfig.make_concerto_config("setup_complete", "false", value_type: "boolean", value_default: "true", hidden: "true", category: 'System')
-    ConcertoConfig.make_concerto_config('session_store', 'cookie_store', value_type: 'select', select_values: "{'Cookie Store': 'cookie_store', 'Cache Store': 'cache_store', 'ActiveRecord Store': 'active_record_store'}", category: 'System', seq_no: 1,
+    ConcertoConfig.make_concerto_config('session_store', 'cookie_store', value_type: 'select', select_values: "{'Cookie Store' => 'cookie_store', 'Cache Store' => 'cache_store', 'ActiveRecord Store' => 'active_record_store'}", category: 'System', seq_no: 1,
       description: 'Memcached option required a running memcached installation.')
     ConcertoConfig.make_concerto_config("system_time_zone", 'Eastern Time (US & Canada)', value_type: "timezone", category: 'System')
     ConcertoConfig.make_concerto_config("config_last_updated", "0", value_type: "integer", hidden: "true", category: 'System')
