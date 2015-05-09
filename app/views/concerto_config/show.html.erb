@@ -45,6 +45,12 @@
                 <div class="input">
                   <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], class: input_size, placeholder: c.value_default %>
                 </div>
+              <% elsif c.value_type == "select" %>
+                <% input_size = "input-large" %>
+                <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), tip: c.description %>
+                <div class="input">
+                  <%= select_tag "concerto_config[#{c.key}]", options_for_select(eval(c.select_values).map,c.value), class: input_size %>
+                </div>
               <% elsif c.value_type == "integer" %>
                 <% input_size = "input-small" %>
                 <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), tip: c.description %>

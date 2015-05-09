@@ -2,13 +2,6 @@
 
 Rails.logger.debug "Starting #{File.basename(__FILE__)} at #{Time.now.to_s}"
 
-Concerto::Application.config.session_store :cache_store
-
-#Concerto::Application.config.session_store :cookie_store, key: '_concerto_session'
-
-# Use the database for sessions instead of the cookie-based default,
-# which shouldn't be used to store highly confidential information
-# (create the session table with "rails generate session_migration")
-# Concerto::Application.config.session_store :active_record_store
+Concerto::Application.config.session_store(ConcertoConfig[:session_store].to_sym)
 
 Rails.logger.debug "Completed #{File.basename(__FILE__)} at #{Time.now.to_s}"

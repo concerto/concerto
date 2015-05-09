@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140804171558) do
+ActiveRecord::Schema.define(version: 20150508231646) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20140804171558) do
     t.boolean "hidden"
     t.boolean "can_cache",     default: true
     t.integer "seq_no"
+    t.string  "select_values"
   end
 
   add_index "concerto_configs", ["key"], name: "index_concerto_configs_on_key", unique: true
