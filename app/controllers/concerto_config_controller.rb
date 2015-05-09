@@ -3,14 +3,14 @@ class ConcertoConfigController < ApplicationController
   # GET /settings
   def show
     authorize! :read, ConcertoConfig
-    @concerto_configs = ConcertoConfig.where("hidden IS NULL").order("category, seq_no, concerto_configs.key")
+    @concerto_configs = ConcertoConfig.where(hidden: false).order("category, seq_no, concerto_configs.key")
   end
-  
+
   def initiate_restart
     restart_webserver()
     redirect_to action: :show
   end
-  
+
   def config_check
     @imagemagick_installed = command?("convert")
     @rmagick_installed = Gem::Specification::find_all_by_name('rmagick').any?
