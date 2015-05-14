@@ -8,6 +8,7 @@ function toggleFields()
         if (source == 'rubygems') {
             $(url_field).closest('div.clearfix').hide();
             $(name_select).closest('div.clearfix').hide();
+            $(name_select).prop('disabled', true);
             $(name_box).closest('div.clearfix').show();
             $(name_box).focus();
         }
@@ -15,6 +16,7 @@ function toggleFields()
             $(name_box).closest('div.clearfix').hide();
             $(url_field).closest('div.clearfix').hide();
             $(name_select).closest('div.clearfix').show();
+            $(name_select).prop('disabled', false);
             $(name_select).focus();
         }
         else {
