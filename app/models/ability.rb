@@ -83,14 +83,20 @@ class Ability
       can :create, User unless user.persisted?
     end
 
-    #users can view pages (which are created by admins)
-    can :read, Page
-
     # The User#index action requires a special setup.
     # By default, all the :read checks will pass because any
     # user can read at least 1 user.  We use this custom
     # action to only let admins access the user list.
     can :list, User if user.is_admin?
+
+    # If a third party authentication system is in use, we don't want anyone
+    # creating users
+    if Rails.application.config.middleware.include? "OmniAuth::Builder"
+      cannot :create, User
+    end
+
+    #users can view pages (which are created by admins)
+    can :read, Page
 
     ## Content
     # Authenticated users can create content
