@@ -2,6 +2,8 @@
 
 Rails.logger.debug "Starting #{File.basename(__FILE__)} at #{Time.now.to_s}"
 
-Concerto::Application.config.session_store(ConcertoConfig[:session_store].to_sym)
+if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
+  Concerto::Application.config.session_store(ConcertoConfig[:session_store].to_sym)
+end
 
 Rails.logger.debug "Completed #{File.basename(__FILE__)} at #{Time.now.to_s}"

@@ -1,7 +1,5 @@
 class User < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
-  belongs_to_junction_instance
-
   include PublicActivity::Common if defined? PublicActivity::Common
 
   #If the concerto identity plugin is installed, allow the deletion of identity records with users
