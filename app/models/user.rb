@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
   # We do not inherit these from devise, because it has
   # unintelligent email uniqueness checks.
   validates_presence_of   :email
-  validates_uniqueness_of :email, :scope => :instance_id
+  validates_uniqueness_of :email
   validates_format_of     :email, :with => Devise.email_regexp, :allow_blank => true, :if => :email_changed?
 
   scope :admin, -> { where is_admin: true }
