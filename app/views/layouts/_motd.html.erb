@@ -1,7 +1,13 @@
 <% if !@motd.empty? %>
-<section>
-  <div id="motd">
-    <%=raw @motd %>
-  </div>
-</section>
+  <section class="viewblock">
+    <header class="viewblock-header" id="browse-header">
+      <h1 class="default-padding">Message of the Day</h1>
+    </header>
+    <div id="browse-body" class="viewblock-cont">
+      <ul class="list-stacked">
+        <li><h3><%=raw @motd %></h3></li>
+      </ul>
+    </div>
+  </section>
 <% end %>
+
