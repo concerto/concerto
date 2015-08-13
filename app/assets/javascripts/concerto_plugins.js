@@ -26,6 +26,7 @@ function toggleFields()
                 $(url_field).attr('placeholder', '/path/to/extracted/gem');
             }
             $(name_select).closest('div.clearfix').hide();
+            $(name_select).prop('disabled', true);
             $(url_field).closest('div.clearfix').show();
             $(name_box).closest('div.clearfix').show();
             $(name_box).focus();
