@@ -3,6 +3,7 @@ en:
     topmenu_contents:
       accounts: "Accounts"
       admin: "Admin"
+      pages: "Pages"
       backup: "Backup"
       browse: "Browse"
       configuration: "Configuration"
