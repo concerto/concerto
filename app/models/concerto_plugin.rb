@@ -50,6 +50,17 @@ class ConcertoPlugin < ActiveRecord::Base
     gem_name.humanize
   end
 
+  def rubygems_current_version
+    version = nil
+    begin
+      require 'open-uri'
+      version = JSON.load(open("https://rubygems.org/api/v1/versions/#{self.gem_name}.json")).first['number']
+    rescue Exception => e
+      Rails.logger.debug("Unable to determine current rubygems version for #{self.gem_name} - #{e.message}")
+    end
+    version
+  end
+
   # Returns the instance of PluginInfo provided by the engine
   # Note for simplicity we're not caching this info.
   def plugin_info

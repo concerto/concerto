@@ -15,7 +15,7 @@ class ConcertoPluginsController < ApplicationController
     @concerto_plugin = ConcertoPlugin.find(params[:id])
     @gemspec = Gem.loaded_specs[@concerto_plugin.gem_name]
     auth!
-    @rubygems_current_version = rubygems_current_version(@concerto_plugin)
+    @rubygems_current_version = @concerto_plugin.rubygems_current_version
     respond_with(@concerto_plugin)
   end
 
@@ -151,15 +151,4 @@ private
     params.require(:concerto_plugin).permit(:source, :gem_name, :source_url, :enabled, :gem_version)
   end
 
-  def rubygems_current_version(concerto_plugin)
-    version = nil
-    begin
-      require 'open-uri'
-      version = JSON.load(open("https://rubygems.org/api/v1/versions/#{concerto_plugin.gem_name}.json")).first['number']
-    rescue Exception => e
-      Rails.logger.debug("Unable to determine current rubygems version for #{concerto_plugin.gem_name} - #{e.message}")
-    end
-
-    version
-  end
 end

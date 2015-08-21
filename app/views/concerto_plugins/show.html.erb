@@ -31,6 +31,8 @@
         <%= @concerto_plugin.module_name %> via <%= source_link %><% if @concerto_plugin.source != "rubygems" %> (<%= @concerto_plugin.source_url %>) <% end %>
       </h3>
       <p><%= link_to !@gemspec.nil? ? @gemspec.homepage : "#" do %><%= t('.visit_plugin_website') %><% end %></p>
+
+      <p><%= !@gemspec.nil? ? @gemspec.description : "" %></p>
       <p>
         <b><%= t('.gem_version') %></b>
         <% if @concerto_plugin.gem_version %>
@@ -43,6 +45,7 @@
           <%= t('.unknown') %>
         <% end %>
       </p>
+
       <p>
         <b><%= t('.installed') %></b>
         <%= (@concerto_plugin.installed? && !@gemspec.nil?) ? t('.installed_yes') : t('.installed_no') %>
