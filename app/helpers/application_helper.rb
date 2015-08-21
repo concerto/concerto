@@ -1,10 +1,10 @@
 module ApplicationHelper
-  
+
   # Generate page titles.
   def yield_for_title(default)
     content_for?(:title) ? content_for(:title) : default
   end
-  
+
   def user_leads_a_group?
     current_user.memberships.each do |m|
       if m.level == Membership::LEVELS[:leader]
@@ -14,6 +14,12 @@ module ApplicationHelper
     return false
   end
 
+  def help_link(page_name)
+    link_to controller: :pages, action: :show, id: page_name do
+      content_tag(:span, "", class: "icon-question").html_safe
+    end
+  end
+  
   # Render the partial at the specified path if it exists within
   # the lookup_context, otherwise render the partial specified in default
   # if it exists.
@@ -42,7 +48,7 @@ module ApplicationHelper
     end
   end
 
-  # Generate an <a> link tag that submits a Rails form, 
+  # Generate an <a> link tag that submits a Rails form,
   # instead of having to always use inputs or buttons.
   def link_to_submit(*args, &block)
     link_to_function (block_given? ? capture(&block) : args[0]), "$(this).closest('form').submit()", args.extract_options!
@@ -54,5 +60,5 @@ module ApplicationHelper
     href = html_options[:href] || '#'
 
     content_tag(:a, name, html_options.merge(href: href, onclick: onclick))
-  end  
+  end
 end
