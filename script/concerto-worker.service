@@ -1,0 +1,42 @@
+# systemd unit file
+#
+# Customize this file based on your bundler location, app directory, etc.
+# Put this in /usr/lib/systemd/system (CentOS) or /lib/systemd/system (Ubuntu).
+# Run:
+#   - systemctl enable concerto-worker
+#   - systemctl {start,stop,restart} concerto-worker
+#
+# See Inspeqtor's Systemd wiki page for more detail about Systemd:
+# https://github.com/mperham/inspeqtor/wiki/Systemd
+#
+[Unit]
+Description=concerto-worker
+# start us only once the network and logging subsystems are available,
+# consider adding redis-server.service if Redis is local and systemd-managed.
+After=syslog.target network.target
+
+# See these pages for lots of options:
+# http://0pointer.de/public/systemd-man/systemd.service.html
+# http://0pointer.de/public/systemd-man/systemd.exec.html
+[Service]
+Type=simple
+WorkingDirectory=/var/rails/production/concerto
+ExecStart=/usr/local/bin/bundle exec rake jobs:work
+User=www-data
+Group=www-data
+Environment=RAILS_ENV=production PORT=5100
+UMask=0002
+
+# if we crash, restart
+RestartSec=1
+Restart=on-failure
+
+# output goes to /var/log/syslog
+StandardOutput=syslog
+StandardError=syslog
+
+# This will default to "bundler" if we don't specify it
+SyslogIdentifier=concerto-worker
+
+[Install]
+WantedBy=multi-user.target

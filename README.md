@@ -2,14 +2,14 @@
 
 [![Join the chat at https://gitter.im/concerto/concerto](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/concerto/concerto?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Full Installation Instructions: [https://github.com/concerto/concerto/wiki/Installing-Concerto-2](http://goo.gl/4YIzK)
+Full Installation Instructions: [https://github.com/concerto/concerto/wiki/Installing-Concerto-2](https://github.com/concerto/concerto/wiki/Installing-Concerto-2)
 
 ##What is Concerto?
-Concerto 2 represents the latest and greatest in connected digital ecosystems.
+Concerto is an open source digital signage system. Users submit graphic, textual, and other content, and moderators approve that content for use in a variety of content feeds which are displayed on screens connected to computers displaying the Concerto frontned.
 
 ##Dependencies
 * Ruby 1.9 or newer
-* Gem
+* Rubygems
 * Imagemagick
 * Webserver (Apache/Unicorn/Thin/Nginx)
 * Rack interface to the webserver (Passenger, FastCGI)
@@ -25,7 +25,6 @@ The virtual server image contains a full-stack installation of the Concerto webs
 * Download at [https://dl.concerto-signage.org/concerto_server.ova](https://dl.concerto-signage.org/concerto_server.ova)
 
 Concerto 2 is licensed under the Apache License, Version 2.0.
-
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/concerto/concerto/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
