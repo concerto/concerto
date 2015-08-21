@@ -28,6 +28,7 @@ en:
       disabled_msg: "This plugin is currently disabled."
       enabled: "enabled"
       enabled_msg: "This plugin is currently enabled."
+      upgrade_available: "An updated version of this plugin is available."
       gem_description: "Description"
       status: "Status"
 

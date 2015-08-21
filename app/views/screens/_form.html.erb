@@ -20,7 +20,14 @@
             <%= f.text_field :location, class: "input-xlarge" %>
           </div>
         </div>
-        
+
+        <div class="clearfix">
+          <%= f.label :time_zone %>
+        	<div class="input">
+        	  <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, default: ConcertoConfig[:system_time_zone]  %>
+        	</div>
+        </div>
+
         <% if ConcertoConfig['public_concerto'] %>
           <div class="clearfix">
             <div class="input checkbox">
@@ -30,7 +37,7 @@
             </div>
           </div>
         <% end %>
-        
+
       </div>
       <div class="span4">
         <div class="clearfix">
@@ -51,13 +58,13 @@
                  options[Group] = @groups.map { |g| [g.name, "Group-#{g.id}"] }
                end
             %>
-            
+
             <%= render partial: "elements/owner_select", locals: { options: options, screen: @screen} %>
             <%= f.hidden_field :owner_type %>
             <%= f.hidden_field :owner_id %>
            </div>
         </div>
-        
+
     <div class="clearfix">
       <label><%= t('.authentication') %></label>
 
@@ -111,8 +118,8 @@
       <div class="input">
         <%= f.text_field :new_temp_token, class: "input-xlarge" %>
       </div>
-    </div>        
-        
+    </div>
+
       </div>
 
     </div>

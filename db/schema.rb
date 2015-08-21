@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150512235521) do
+ActiveRecord::Schema.define(version: 20150821230410) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20150512235521) do
     t.text    "description"
     t.boolean "plugin_config"
     t.integer "plugin_id"
-    t.boolean "hidden"
+    t.boolean "hidden",        default: false
     t.boolean "can_cache",     default: true
     t.integer "seq_no"
     t.string  "select_values"
@@ -202,7 +202,7 @@ ActiveRecord::Schema.define(version: 20150512235521) do
     t.integer  "height"
     t.datetime "frontend_updated_at"
     t.string   "authentication_token"
-    t.string   "locale"
+    t.string   "time_zone"
   end
 
   create_table "submissions", force: true do |t|

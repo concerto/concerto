@@ -44,7 +44,7 @@ class ScreensController < ApplicationController
     @screen = Screen.new(screen_params)
 
     auth!
-    
+
     if @screen.save
       process_notification(@screen, {}, process_notification_options({params: {screen_name: @screen.name}}))
       run_callbacks :change # Run plugin hooks
@@ -53,7 +53,7 @@ class ScreensController < ApplicationController
       @screen.clear_screen_token
       @screen.auth_action = screen_params[:auth_action]
     end
-    
+
     respond_with(@screen)
   end
 
@@ -63,7 +63,7 @@ class ScreensController < ApplicationController
     @screen = Screen.find(params[:id])
 
     auth!
-    
+
     if @screen.update_attributes(screen_params)
       process_notification(@screen, {}, process_notification_options({params: {screen_name: @screen.name}}))
 
@@ -81,11 +81,11 @@ class ScreensController < ApplicationController
     process_notification(@screen, {}, process_notification_options({params: {screen_name: @screen.name}}))
     run_callbacks :destroy do
       @screen.destroy
-    end 
-    
+    end
+
     respond_with(@screen)
   end
-  
+
  def update_owners
    if params[:owner] == "User"
      @owners = User.all
@@ -98,7 +98,7 @@ class ScreensController < ApplicationController
 private
 
   def screen_params
-    params.require(:screen).permit(:name, :location, :owner_id, :owner_type, :width, :height, :template_id, :is_public, :new_temp_token, :auth_action)
+    params.require(:screen).permit(:name, :location, :time_zone, :owner_id, :owner_type, :width, :height, :template_id, :is_public, :new_temp_token, :auth_action)
   end
- 
+
 end
