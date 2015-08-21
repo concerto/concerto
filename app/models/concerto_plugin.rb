@@ -226,7 +226,7 @@ private
       when "rubygems"
         return false if self.gem_name.empty?
         #runs the gem search command and looks for non-empty input to see if the gem exists in some source
-        (`gem search #{self.gem_name}`.chomp.empty?) ? errors.add(:gem_name, "#{self.gem_name} #{I18n.t(:gem_not_found)}") : (return true)
+        (`gem search --remote #{self.gem_name}`.chomp.empty?) ? errors.add(:gem_name, "#{self.gem_name} #{I18n.t(:gem_not_found)}") : (return true)
       when "git"
         if self.source_url.empty?
           errors.add(:source_url, I18n.t(:cant_be_blank))

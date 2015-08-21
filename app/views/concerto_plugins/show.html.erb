@@ -2,7 +2,7 @@
   <header class="viewblock-header">
     <div class="viewblock-header_right">
       <div class="button-padding">
-        <% if !@gemspec.nil? && !@rubygems_current_version && (@rubygems_current_version.to_s > @gemspec.version.to_s) %>
+        <% if !@gemspec.nil? && !@rubygems_current_version.nil? && (@rubygems_current_version.to_s > @gemspec.version.to_s) %>
           <%= link_to t('.upgrade'), update_gem_concerto_plugins_path(id: @concerto_plugin.id), {method: :post, class: "btn"}%>
         <% end %>
         <% if can? :edit, @concerto_plugin %>

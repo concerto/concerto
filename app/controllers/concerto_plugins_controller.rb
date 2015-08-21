@@ -107,6 +107,10 @@ class ConcertoPluginsController < ApplicationController
   def update_gem
     plugin = ConcertoPlugin.find(params[:id])
     system("bundle update #{plugin.gem_name}")
+    restarted = restart_webserver()
+    if restarted
+      flash[:notice] = t(:plugin_updated)
+    end
     redirect_to action: :show, id: plugin.id
   end
 
