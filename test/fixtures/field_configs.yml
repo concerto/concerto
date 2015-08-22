@@ -16,5 +16,11 @@ two: {}
 three:
   screen: two
   field: one
-  key: transition
+  key: entry_transition
+  value: valuehere
+
+four: 
+  screen: two
+  field: one
+  key: exit_transition
   value: valuehere
