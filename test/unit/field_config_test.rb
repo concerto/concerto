@@ -45,6 +45,9 @@ class FieldConfigTest < ActiveSupport::TestCase
 
     fc = field_configs(:three)
     assert_equal :select, fc.key_type
+
+    fc = field_configs(:four)
+    assert_equal :select, fc.key_type
   end
 
   test ":select key has options" do
@@ -52,6 +55,9 @@ class FieldConfigTest < ActiveSupport::TestCase
     assert fc.key_options.blank?
 
     fc = field_configs(:three)
+    assert !fc.key_options.blank?
+
+    fc = field_configs(:four)
     assert !fc.key_options.blank?
   end
 end

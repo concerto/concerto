@@ -33,7 +33,8 @@ end
 
 # The time is just a special text field.
 time_field = Field.where(:name => 'Time').first_or_create(:kind => Kind.where(:name => 'Text').first)
-FieldConfig.default.where(:field_id => time_field.id, :key => 'transition').first_or_create(:value => 'replace')
+FieldConfig.default.where(:field_id => time_field.id, :key => 'entry_transition').first_or_create(:value => 'replace')
+FieldConfig.default.where(:field_id => time_field.id, :key => 'exit_transition').first_or_create(:value => 'replace')
 
 #Create an initial group
 Group.where(:name => "Concerto Admins").first_or_create
