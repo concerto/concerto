@@ -154,8 +154,8 @@ class Frontend::ScreensController < ApplicationController
           end
         end
       end
-      # temporarily change time zone string representation to integer utc offset
-      @screen.time_zone = Time.now.in_time_zone(@screen.time_zone).utc_offset
+
+      @screen.time_zone = ActiveSupport::TimeZone::MAPPING[@screen.time_zone]
 
       if stale?(etag: @screen.frontend_cache_key(field_configs), public: true)
       respond_to do |format|
