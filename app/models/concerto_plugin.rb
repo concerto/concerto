@@ -19,10 +19,13 @@ class ConcertoPlugin < ActiveRecord::Base
   scope :enabled, -> { where(enabled: true) }
 
   def self.concerto_addons
-    repositories = Octokit.repos 'concerto-addons'
     addons = Array.new
-    repositories.each do |r|
-      addons << [r.name.titleize, r.name]
+    #we shouldn't be checking github if it's just a script launching rails
+    if !defined?(Rails::Console) && File.split($0).last != 'rake'
+      repositories = Octokit.repos 'concerto-addons'
+      repositories.each do |r|
+        addons << [r.name.titleize, r.name]
+      end
     end
     return addons
   end
