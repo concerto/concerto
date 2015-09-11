@@ -17,26 +17,6 @@ then
   fi
 fi
 
-read -r -p "Proceed with frontend rebuild? [Y/n] " frontend_update
-if [[ ${frontend_update:-Y} =~ ^([Yy])$ ]]
-then
-  cd ../public/frontend_js/ && ./compile.sh && ./compile.sh --debug
-  if [ ! -s frontend.js -o ! -s frontend_debug.js ]; then
-    echo "The frontend was NOT rebuilt!"
-    exit 1
-  fi
-  cd -
-  git diff --quiet ../public/frontend_js/
-  if [[ $? -ne 0 ]]
-  then
-    git commit ../public/frontend_js/frontend.js \
-        ../public/frontend_js/frontend_debug.js \
-        -m "Update frontend for ${version_str}."
-  else
-    echo "No frontend changes found."
-  fi
-fi
-
 read -r -p "Proceed with version bump? [Y/n] " version_bump
 if [[ ${version_bump:-Y} =~ ^([Yy])$ ]]
 then
