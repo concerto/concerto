@@ -71,7 +71,7 @@ GEM
     concerto_remote_video (0.5)
       rails
       video_info
-    concerto_simple_rss (0.6)
+    concerto_simple_rss (0.7)
       rails
       ruby-xslt (~> 0.9)
     concerto_weather (0.0.9)
