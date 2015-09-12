@@ -141,7 +141,7 @@ Position.where(:field_id => Field.where(:name => "Text").first.id, :template_id 
 Position.where(:field_id => Field.where(:name => "Time").first.id, :template_id => grayswoosh_template).first_or_create(:top => ".018", :left => ".11", :bottom => ".118", :right => ".335", :style => "color:#333; font-family:Frobisher, sans-serif; font-size:1.05em; font-weight:bold; letter-spacing:0.07em;")
 
 #Create a sample Full-Screen
-Screen.where(:name => "Sample Screen").first_or_create(:location => "Cafe", :is_public => true, :owner_id => Group.first.id, :owner_type => "Group", :template_id => concerto_template, :width => 1024, :height => 768)
+Screen.where(:name => "Sample Screen").first_or_create(:location => "Cafe", :is_public => true, :owner_id => Group.first.id, :owner_type => "Group", :template_id => concerto_template, :width => 1024, :height => 768, :time_zone => Time.zone.name)
 
 #Create initial subscriptions for the sample Screen
 feed_id = Feed.first.id
