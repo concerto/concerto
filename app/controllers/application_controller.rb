@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
   around_filter :set_time_zone
   helper_method :webserver_supports_restart?
   helper_method :current_screen
+  define_callbacks :auth_plugin
+  ConcertoPlugin.install_callbacks(self) 
 
   # Note on error handling: in general exceptions are caught by Rails
   # Middleware and routed to Concerto's ErrorsController. Authorization
