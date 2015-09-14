@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   respond_to :html, :json, :xml
-  
+
   # GET /groups
   # GET /groups.xml
   def index
@@ -50,7 +50,7 @@ class GroupsController < ApplicationController
     auth!
     if @group.save
       process_notification(@group, {}, process_notification_options({params: {group_name: @group.name}}))
-      flash[:notice] = t(:group_created)
+      flash[:notice] = t(:was_created, name: @group.name, theobj: t(:group))
     end
     respond_with(@group)
   end
@@ -60,11 +60,11 @@ class GroupsController < ApplicationController
   def update
     @group = Group.find(params[:id])
     auth!
-    if @group.update_attributes(group_params)  
+    if @group.update_attributes(group_params)
       process_notification(@group, {}, process_notification_options({params: {group_name: @group.name}}))
-      flash[:notice] = t(:group_updated) 
-    end  
-    respond_with(@group)  
+      flash[:notice] = t(:was_updated, name: @group.name, theobj: t(:group))
+    end
+    respond_with(@group)
   end
 
   # DELETE /groups/1
@@ -74,14 +74,14 @@ class GroupsController < ApplicationController
     auth!
     #we don't let groups owning screens or feeds get deleted
     unless @group.is_deletable?
-      redirect_to(@group, notice: t(:group_not_deletable)) 
+      redirect_to(@group, notice: t(:group_not_deletable))
       return
     end
-    
+
     process_notification(@group, {}, process_notification_options({params: {group_name: @group.name}}))
     @group.destroy
 
-    respond_with(@group) 
+    respond_with @group, notice: t(:was_deleted, name: @group.name, theobj: t(:group))
   end
 
 private

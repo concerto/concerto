@@ -151,7 +151,7 @@ class ContentsController < ApplicationController
           format.html { redirect_to(@content, notice: t(:content_created_no_feeds)) }
           format.xml { render xml: @content, status: :created, location: @content }
         else
-          format.html { redirect_to(@content, notice: t(:content_created)) }
+          format.html { redirect_to(@content, notice: t(:was_created, name: @content.name, theobj: t(:content))) }
           format.xml { render xml: @content, status: :created, location: @content }
         end
       else
@@ -185,7 +185,7 @@ class ContentsController < ApplicationController
       @feed_ids.reject! { |id| submitted_feeds.include? id }
       create_submissions
       if @content.save
-        flash[:notice] = t(:content_updated)
+        flash[:notice] = t(:was_updated, name: @content.name, theobj: t(:content))
       end
       respond_with(@content)
     else
@@ -202,7 +202,7 @@ class ContentsController < ApplicationController
 
     process_content_notification action_name
     @content.destroy
-
+    flash[:notice] = t(:was_deleted, name: @content.name, theobj: t(:content))
     respond_to do |format|
       format.html { redirect_to(feeds_url) }
       format.xml { head :ok }
@@ -255,12 +255,12 @@ class ContentsController < ApplicationController
         @content = Content.find(params[:id])
         @user = User.find(@content.user_id)
 
-        flash.now[:notice] = (result.nil? ? 'Unable to perform action' : result)
+        flash.now[:notice] = (result.nil? ? t(:unable_to_perform) : result)
         render :show
       end
       format.js do
         if result.nil?
-          render text: 'Unable to perform action.', status: 400
+          render text: t(:unable_to_perform), status: 400
         else
           render text: result, status: 200
         end
@@ -278,7 +278,7 @@ class ContentsController < ApplicationController
       data = content[:data] unless content.nil?
     end
 
-    html = "Unrecognized content type"
+    html = t(:unrecognized_type)
     if !@content_const.nil?
       html = @content_const.preview(data)
     end

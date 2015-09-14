@@ -27,9 +27,7 @@ class FieldConfigsController < ApplicationController
     if params[:key]
       @field_config.key = params[:key]
     end
-
     auth!
-
     respond_to do |format|
       format.html # new.html.erb
       format.xml { render xml: @field_config }
@@ -48,9 +46,7 @@ class FieldConfigsController < ApplicationController
     @field_config = FieldConfig.new(field_config_params)
     @field_config.screen = @screen
     @field_config.field = @field
-
     auth!
-
     respond_to do |format|
       if @field_config.save
         process_notification(@field_config, {}, process_notification_options({
@@ -60,7 +56,7 @@ class FieldConfigsController < ApplicationController
             field_name: @field.name
             }
           }))
-        format.html { redirect_to screen_field_field_configs_path(@screen, @field), notice: 'Field config was successfully created.' }
+        format.html { redirect_to screen_field_field_configs_path(@screen, @field), notice: t(:was_created, name: @field_config.key, theobj: t(:parameter)) }
         format.xml { head :ok }
       else
         format.html { render action: "new" }
@@ -84,7 +80,7 @@ class FieldConfigsController < ApplicationController
             field_name: @field.name
             }
           }))
-        format.html { redirect_to screen_field_field_configs_path(@screen, @field), notice: 'Field config was successfully updated.' }
+        format.html { redirect_to screen_field_field_configs_path(@screen, @field), notice: t(:was_updated, name: @field_config.key, theobj: t(:parameter)) }
         format.xml { head :ok }
       else
         format.html { render action: "edit" }
@@ -109,7 +105,7 @@ class FieldConfigsController < ApplicationController
     @field_config.destroy
 
     respond_to do |format|
-      format.html { redirect_to screen_field_field_configs_url }
+      format.html { redirect_to screen_field_field_configs_url, notice: t(:was_deleted, name: @field_config.key, theobj: t(:parameter)) }
       format.xml { head :ok }
     end
   end

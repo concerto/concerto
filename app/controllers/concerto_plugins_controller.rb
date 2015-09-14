@@ -49,7 +49,7 @@ class ConcertoPluginsController < ApplicationController
         restarted = restart_webserver()
       end
       if restarted
-        flash[:notice] = t(:plugin_created)
+        flash[:notice] = t(:was_created, name: @concerto_plugin.name, theobj: t(:plugin))
       end
       redirect_to concerto_plugins_path
     else
@@ -68,7 +68,7 @@ class ConcertoPluginsController < ApplicationController
         flash[:notice] = t :plugin_updated_frozen_env
       else
         write_Gemfile
-        flash[:notice] = t(:plugin_updated)
+        flash[:notice] = t(:was_updated, name: @concerto_plugin.name, theobj: t(:plugin))
       end
       redirect_to concerto_plugins_path
     else
@@ -99,7 +99,7 @@ class ConcertoPluginsController < ApplicationController
       restarted = restart_webserver()
     end
     if restarted
-      flash[:notice] = t(:plugin_removed)
+      flash[:notice] = t(:was_deleted, name: @concerto_plugin.name, theobj: t(:plugin))
     end
     redirect_to concerto_plugins_path
   end
@@ -109,7 +109,7 @@ class ConcertoPluginsController < ApplicationController
     system("bundle update #{plugin.gem_name}")
     restarted = restart_webserver()
     if restarted
-      flash[:notice] = t(:plugin_updated)
+      flash[:notice] = t(:was_updated, name: @concerto_plugin.name, theobj: t(:plugin))
     end
     redirect_to action: :show, id: plugin.id
   end

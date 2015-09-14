@@ -31,7 +31,7 @@ class PagesController < ApplicationController
     @page = Page.new(page_params)
     auth!
     if @page.save
-      redirect_to @page, notice: 'Page was successfully created.'
+      redirect_to @page, notice: t(:was_created, name: @page.title, theobj: t(:page))
     else
       render action => 'new'
     end
@@ -42,7 +42,7 @@ class PagesController < ApplicationController
     @page = Page.find_by(slug: params[:id])
     auth!
     if @page.update(page_params)
-      redirect_to @page, notice: 'Page was successfully updated.'
+      redirect_to @page, notice: t(:was_updated, name: @page.title, theobj: t(:page))
     else
       render action => 'edit'
     end
@@ -53,7 +53,7 @@ class PagesController < ApplicationController
     @page = Page.find_by(slug: params[:id])
     auth!
     @page.destroy
-    redirect_to pages_url, notice: 'Page was successfully destroyed.'
+    redirect_to pages_url, notice: t(:was_deleted, name: @page.title, theobj: t(:page))
   end
 
   private

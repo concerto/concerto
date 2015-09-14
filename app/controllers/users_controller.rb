@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   respond_to :html, :json, :xml
-   
+
   # GET /users
   def index
     @users = User.page(params[:page]).per(20)
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
 
     @screens = @user.screens + @user.groups.collect{|g| g.screens}.flatten
     auth!({action: :read, object: @screens})
- 
+
     respond_with(@user)
   end
 
@@ -44,10 +44,10 @@ class UsersController < ApplicationController
       @user.is_admin = set_admin
     end
     auth!
-    
+
     if @user.save
       process_notification(@user, {}, process_notification_options({params: {user_name: @user.name}}))
-      flash[:notice] = t(:user_created)
+      flash[:notice] = t(:was_created, name: @user.name, theobj: t(:user))
       #once an admin creates a user, don't go to the users page, go back to the user manage page
       respond_with(@user) do |format|
         format.html { redirect_to main_app.users_path }
@@ -62,9 +62,9 @@ class UsersController < ApplicationController
   def edit
     @user = User.find(params[:id])
     auth!
-    respond_with(@user)  
+    respond_with(@user)
   end
-  
+
   # PUT /users/1
   def update
     @user = User.find(params[:id])
@@ -72,8 +72,8 @@ class UsersController < ApplicationController
 
     set_admin = params[:user].delete("is_admin")
     if @user.update_attributes(user_params)
-      flash[:notice] = t(:user_updated)
-    
+      flash[:notice] = t(:was_updated, name: @user.name, theobj: t(:user))
+
       if !(set_admin.nil?) and can? :manage, User
         @user.update_attribute("is_admin", set_admin)
         process_notification(@user, {}, process_notification_options({params: {user_name: @user.name}}))
@@ -91,16 +91,16 @@ class UsersController < ApplicationController
       redirect_to(@user, notice: t(:user_owns_screens))
       return
     end
-    
+
     #deleting the last admin is still forbidden in the model, but it's nice to catch it here too
     if @user.is_last_admin?
       redirect_to(@user, notice: t(:cannot_delete_last_admin))
-      return    
+      return
     end
 
     process_notification(@user, {}, process_notification_options({params: {user_name: @user.name}}))
     @user.destroy
-    respond_with(@user)
+    respond_with @user, notice: t(:was_deleted, name: @user.name, theobj: t(:user))
   end
 
 private
@@ -109,5 +109,5 @@ private
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :receive_moderation_notifications, :locale, :time_zone)
   end
-  
+
 end

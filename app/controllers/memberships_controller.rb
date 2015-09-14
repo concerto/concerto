@@ -33,9 +33,9 @@ class MembershipsController < ApplicationController
           },
           recipient: @membership.group}))
         if can? :update, @group
-          format.html { redirect_to(manage_members_group_path(@group), notice: t(:membership_created)) }
+          format.html { redirect_to(manage_members_group_path(@group), notice: t(:was_created, name: @membership.user.name, theobj: t(:membership_for))) }
         else
-          format.html { redirect_to(group_path(@group), notice: t(:membership_applied_for)) }
+          format.html { redirect_to(group_path(@group), notice: t(:membership_applied_for, group: @group.name)) }
         end
         format.xml { render xml: @group, status: :created, location: @group }
       else
@@ -89,10 +89,10 @@ class MembershipsController < ApplicationController
         recipient: @membership.user}))
 
       if @membership.destroy
-        format.html { redirect_to manage_members_group_path(@group), notice: t(:member_removed) }
+        format.html { redirect_to manage_members_group_path(@group), notice: t(:was_deleted, name: @membership.user.name, theobj: t(:membership_for))) }
         format.xml { head :ok }
       else
-        format.html { redirect_to manage_members_group_path(@group), notice: t(:membership_denied) }
+        format.html { redirect_to manage_members_group_path(@group), notice: t(:membership_deletion_failure) }
         format.xml { render xml: @membership.errors, status: :unprocessable_entity }
       end
     end

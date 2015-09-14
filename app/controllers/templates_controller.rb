@@ -61,7 +61,7 @@ class TemplatesController < ApplicationController
     respond_to do |format|
       if @template.save
         process_notification(@template, {}, process_notification_options({params: {template_name: @template.name}}))
-        format.html { redirect_to(edit_template_path(@template), notice: t(:template_created)) }
+        format.html { redirect_to(edit_template_path(@template), notice: t(:was_created, name: @template.name, theobj: t(:template))) }
         format.xml  { render xml: @template, status: :created, location: @template }
       else
         @type = "create"
@@ -98,7 +98,7 @@ class TemplatesController < ApplicationController
 
     if @template.update_attributes(template_parameters)
       process_notification(@template, {}, process_notification_options({params: {template_name: @template.name}}))
-      flash[:notice] = t(:template_updated)
+      flash[:notice] = t(:was_updated, name: @template.name, theobj: t(:template))
     end
 
     respond_with(@template)
@@ -117,7 +117,7 @@ class TemplatesController < ApplicationController
 
     process_notification(@template, {}, process_notification_options({params: {template_name: @template.name}}))
     @template.destroy
-    respond_with(@template)
+    respond_with @template, notice: t(:was_deleted, name: @template.name, theobj: t(:template))
   end
 
   # GET /template/1/preview

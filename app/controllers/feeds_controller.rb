@@ -1,7 +1,7 @@
 class FeedsController < ApplicationController
   rescue_from ActionView::Template::Error, with: :precompile_error_catch
   respond_to :html, :json
-  
+
   # GET /feeds
   # GET /feeds.xml
   # GET /feeds.js
@@ -29,7 +29,7 @@ class FeedsController < ApplicationController
     # Remove those feeds the accessor has index permission but not update
     auth!(object: @feeds, action: :update, allow_empty: false)
     @feeds.to_a.reject!{|f| not f.pending_contents.count > 0}
-    
+
     respond_to do |format|
       format.html { }
       format.js { }
@@ -55,7 +55,7 @@ class FeedsController < ApplicationController
   def new
     @feed = Feed.new
     auth!
-    
+
     #populate the checkboxes for content types by default when creating a new feed
     Concerto::Application.config.content_types.each do |type|
       @feed.content_types[type.name] = "1"
@@ -80,7 +80,7 @@ class FeedsController < ApplicationController
     auth!
     if @feed.save
       process_notification(@feed, {}, process_notification_options({params: {feed_name: @feed.name}}))
-      flash[:notice] = t(:feed_created)
+      flash[:notice] = t(:was_created, name: @feed.name, theobj: t(:feed))
     end
     respond_with(@feed)
   end
@@ -94,7 +94,7 @@ class FeedsController < ApplicationController
     respond_to do |format|
       if @feed.update_attributes(feed_params)
         process_notification(@feed, {}, process_notification_options({params: {feed_name: @feed.name}}))
-        format.html { redirect_to(feed_submissions_path(@feed), notice: t(:feed_updated)) }
+        format.html { redirect_to(feed_submissions_path(@feed), notice: t(:was_updated, name: @feed.name, theobj: t(:feed))) }
         format.xml  { head :ok }
       else
         format.html { render action: "edit" }
@@ -110,7 +110,7 @@ class FeedsController < ApplicationController
     auth!
     process_notification(@feed, {}, process_notification_options({params: {feed_name: @feed.name}}))
     @feed.destroy
-    respond_with(@feed)
+    respond_with @feed, notice: t(:was_deleted, name: @feed.name, theobj: t(:feed))
   end
 
 private
