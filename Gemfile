@@ -28,7 +28,7 @@ gem 'sass-rails'
 gem 'sprockets', '~> 2.11.3'
 gem 'therubyracer', :platforms => :ruby
 gem 'execjs', '~> 2.2.2'
-gem 'uglifier'
+gem 'uglifier', '~> 2.7.2'
 
 gem 'jquery-rails'
 gem 'turbolinks'

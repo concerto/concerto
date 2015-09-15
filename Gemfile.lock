@@ -260,7 +260,7 @@ GEM
     twitter-bootstrap-rails-confirm (1.0.4)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    uglifier (2.7.1)
+    uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     video_info (2.5.0)
@@ -320,7 +320,4 @@ DEPENDENCIES
   therubyracer
   turbolinks
   twitter-bootstrap-rails-confirm
-  uglifier
-
-BUNDLED WITH
-   1.10.6
+  uglifier (~> 2.7.2)
