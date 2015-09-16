@@ -8,7 +8,7 @@
 
     <div class="subnav clearfix">
       <ul class="nav nav-tabs">
-        <% available_types = get_available_types() %> 
+        <% available_types = get_available_types %>
         <% available_types.each do |subclass| %>
           <% type_folder = "contents/#{subclass.name.underscore}" %>
 

@@ -10,11 +10,13 @@ class ContentsController < ApplicationController
   # content we're working with.  Probably needs
   # additional error checking.
   def get_content_const
-    begin
-      @content_const = params[:type].camelize.constantize
-    rescue
-      @content_const = nil
+    content_models = helper.content_types.map{ |type| type.model_name.singular }
+
+    content_models.each do |model|
+      @content_const = model.camelize.constantize if params[:type] == model.to_s
     end
+
+    @content_const ||= nil
   end
 
   def index

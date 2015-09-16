@@ -49,7 +49,7 @@ class Membership < ActiveRecord::Base
   scope :regular, -> { where level: Membership::LEVELS[:regular] }
 
   # Scoping shortcuts for workflow (approved/pending/denied)
-  scope :approved, -> { where "level > #{Membership::LEVELS[:pending]}" }
+  scope :approved, -> { where('level > ?', Membership::LEVELS[:pending]) }
   scope :pending, -> { where level: Membership::LEVELS[:pending] }
   scope :denied, -> { where level: Membership::LEVELS[:denied] }
 
@@ -171,7 +171,7 @@ class Membership < ActiveRecord::Base
     # default is failure
     return false, :membership_unknown_action
   end
-       
+
   #Returns whether a particular member object can resign leadership
   def can_resign_leadership?
       return self.group.leaders.count > 1 && self.is_leader?
