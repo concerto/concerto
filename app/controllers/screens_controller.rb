@@ -48,7 +48,7 @@ class ScreensController < ApplicationController
     if @screen.save
       process_notification(@screen, {}, process_notification_options({params: {screen_name: @screen.name}}))
       run_callbacks :change # Run plugin hooks
-      flash[:notice] = t(:screen_created)
+      flash[:notice] = t(:was_created, name: @screen.name, theobj: t(:screen))
     else
       @screen.clear_screen_token
       @screen.auth_action = screen_params[:auth_action]
@@ -68,7 +68,7 @@ class ScreensController < ApplicationController
       process_notification(@screen, {}, process_notification_options({params: {screen_name: @screen.name}}))
 
       run_callbacks :change # Run plugin hooks
-      flash[:notice] = t(:screen_updated)
+      flash[:notice] = t(:was_updated, name: @screen.name, theobj: t(:screen))
     end
     respond_with(@screen)
   end
@@ -83,7 +83,7 @@ class ScreensController < ApplicationController
       @screen.destroy
     end
 
-    respond_with(@screen)
+    respond_with @screen, notice: t(:was_deleted, name: @screen.name, theobj: t(:screen))
   end
 
  def update_owners

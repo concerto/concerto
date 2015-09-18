@@ -22,7 +22,7 @@ class FieldsController < ApplicationController
     @field = Field.new(field_params)
     auth!
     if @field.save
-      redirect_to fields_path, notice: t(:field_created)
+      redirect_to fields_path, notice: t(:was_created, name: @field.name, theobj: t(:field))
     else
       render :new
     end
@@ -31,7 +31,7 @@ class FieldsController < ApplicationController
   # PATCH/PUT /fields/1
   def update
     if @field.update(field_params)
-      redirect_to fields_path, notice: t(:field_updated)
+      redirect_to fields_path, notice: t(:was_updated, name: @field.name, theobj: t(:field))
     else
       render :edit
     end
@@ -40,7 +40,7 @@ class FieldsController < ApplicationController
   # DELETE /fields/1
   def destroy
     @field.destroy
-    redirect_to fields_url, notice: t(:field_deleted)
+    redirect_to fields_url, notice: t(:was_deleted, name: @field.name, theobj: t(:field))
   end
 
   private

@@ -1,99 +1,94 @@
 en:
+  #Generics
+  was_created: "The %{name} %{theobj} was successfully created."
+  was_not_created: "The %{name} %{theobj} was NOT created."
+  was_updated: "The %{name} %{theobj} was successfully updated."
+  was_updated: "The %{name} %{theobj} was successfully removed."
+
+  #Dashboard
   smtp_send_error: "A SMTP error occurred while sending a notification e-mail. Please check the Concerto SMTP settings."
   smtp_send_error_ssl: "A SMTP error occurred while sending a notification e-mail. Please check the Concerto SMTP settings-- you might need to disable SSL Verification."
   asset_precomp_failed: "Asset precompilation failed. Please make sure the command rake assets:precompile works."
+  wont_write_restart_txt: "Concerto does not support restarting your webserver. Please restart it manually."
+  cant_write_restart_txt: "An error occurred while restarting the webserver. Please restart it manually."
+  settings_saved: "Concerto settings saved.  Some changes may not become effective until the webserver is restarted."
+
 
   #Contents controller
-  missing_default_type: "Missing Default Content Type"
-  unrecognized_type: "Unrecognized content type."
-  content_created: "Content was successfully created."
-  content_created_no_feeds: "Content was successfully created. Since no feeds were supplied, content will remain in limbo."
-  content_updated: "Content was successfully updated."
+  missing_default_type: "The default content type is missing."
+  unrecognized_type: "This is an unrecognized content type."
+  content_created_no_feeds: "The content was successfully created. But since no feeds were supplied, it will not be displayed anywhere."
   content_not_found: "Content not found."
+  unable_to_perform: "Unable to perform requested action on content."
 
   #Feeds controller
-  feed_created: "Feed was successfully created."
-  feed_updated: "Feed was successfully updated."
-  feed_deleted: "Feed was successfully deleted."  
+  feed: "feed"
+
+  #FieldConfigs controller
+  parameter: "parameter"
 
   #Fields controller
-  field_created: "Field was successfully created."
-  field_updated: "Field was successfully updated."
-
-  #FieldConfig controller
-  parameter_updated: "Parameter was successfully updated."
+  field: "field"
 
   #Groups controller
-  group_created: "Group was successfully created."
-  group_updated: "Group was successfully updated."
+  group: "group"
   group_not_deletable: "A group owning screens and/or feeds cannot be deleted."
 
+  #Kinds controller
+  kind: "kind"
+
   #Memberships controller
-  membership_created:          "Membership was successfully created."
-  membership_applied_for:      "Membership in group is now pending"
-  membership_denied:           "Membership was successfully denied."
-  membership_denied_failure:   "Membership was not successfully denied."
-  membership_approved:         "Membership was successfully approved."
-  membership_approved_failure: "Membership was not successfully approved."
+  membership_for:              "membership for"
+  membership_created:          "The group membership was successfully created."
+  membership_applied_for:      "Your membership in the %{group} group is pending approval."
+  membership_denied:           "The group membership was successfully denied."
+  membership_denied_failure:   "The group membership was not successfully denied."
+  membership_approved:         "The group membership was successfully approved."
+  membership_approved_failure: "The group membership was not successfully approved."
   membership_promoted:         "Member was successfully promoted to group leader."
   membership_promoted_failure: "Member was not successfully promoted to group leader"
   membership_demoted:          "Member was successfully demoted from group leader."
   membership_demoted_failure:  "Member was not successfully demoted from group leader. There must be at least one leader."
-  membership_unknown_action:   "Unknown Membership action submitted."
-  member_removed:              "Member removed"
+  membership_deletion_failure: "The group membership could not be deleted."
+  membership_unknown_action:   "An unknown group membership action was submitted."
+  member_removed:              "The member has been removed."
   preferences_updated:         "Email preferences have been updated."
 
-  #Positions controller
-  position_created: "Position was successfully created."
-  position_updated: "Position was successfully updated."
-
-  #Kinds controller
-  kind_created: "Kind was successfully created."
-  kind_updated: "Kind was successfully updated."
+  #Pages controller
+  page: "page"
 
   #Screens controller
-  screen_created: "Screen was successfully created."
-  screen_updated: "Screen was successfully updated."
+  screen: "screen"
 
   #Submissions controller
-  content_approved: "Content was approved."
-  content_failed_approve: "Content failed to approved."
-  content_denied: "Content was denied."
-  content_failed_deny: "Content failed to deny."
-  content_moderated: "Content was moderated."
-  content_failed_moderation: "Content failed moderation"
+  content: "content"
+  content_approved: "The content was approved."
+  content_failed_approve: "The content could not be approved."
+  content_denied: "The content was denied."
+  content_failed_deny: "The content failed to deny."
+  content_moderated: "The content has been moderated."
+  content_failed_moderation: "The content failed moderation."
 
   #Subscriptions controller
-  subscription_created: "Subscription was successfully created."
-  subscription_updated: "Subscription was successfully updated."
+  subscription_for: "subscription for"
+
+  #Errors controller
+  unknown_error: "An unknown error has occurred in the errors controller. Ironic, really."
 
   #Templates controller
-  template_created: "Template was successfully created."
-  template_updated: "Template was successfully updated."
+  template: "template"
   template_import_error: "A template import error has occurred. Make sure that the XML file for the imported template is valid."
   template_import_requires_files: "Importing a template requires an xml file and an image file."
   cannot_delete_template: "Cannot delete template. It has one or more screens associated with it: %{screens}"
 
   #Users controller
-  user_created: "User was successfully created."
-  user_not_created: "User not created"
-  user_updated: "User was successfully updated."
-  cannot_delete_last_admin: "Cannot delete last admin user."
+  user: "User"
+  cannot_delete_last_admin: "The last Concerto adminisrator cannot be deleted."
   user_owns_screens: "This user cannot be deleted because they own one or more screens."
   user_not_deletable: "A user owning screens or who is the last remaining administrator cannot be deleted."
 
-  #Dashboard controller
-  settings_saved: "Concerto settings saved.  Some changes may not become effective until the webserver is restarted."
-
   #Concerto plugins
-  plugin_created: "Concerto plugin was successfully installed."
+  plugin: "plugin"
   plugin_created_frozen_env: "The Concerto plugin was created, but Concerto is running in a frozen Bundler environment. The plugin must be added to the Gemfile and installed manually with bundler."
-  plugin_removed: "Concerto plugin was successfully removed."
   plugin_removed_frozen_env: "The Concerto plugin was removed, but Concerto is running in a frozen Bundler environment. The plugin must be removed from the Gemfile and bundler re-run."
-  plugin_updated: "Concerto plugin was successfully updated."
   plugin_updated_frozen_env: "The Concerto plugin was updated, but Concerto is running in a frozen Bundler environment. Bundler must be re-run."
-  restart_alert: "A new plugin has been added.  Please restart the concerto application."
-  plugin_creation_failed: "Concerto plugin creation failed."
-  bundle_error: "An error occurred while running bundle install."
-  wont_write_restart_txt: "Concerto does not support restarting your webserver. Please restart it manually."
-  cant_write_restart_txt: "An error occurred while restarting the webserver. Please restart it manually."

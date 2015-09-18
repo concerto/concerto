@@ -1,6 +1,6 @@
 class SubscriptionsController < ApplicationController
   before_filter :get_screen, :get_field
-  
+
   def get_screen
     @screen = Screen.find(params[:screen_id])
   end
@@ -67,7 +67,7 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       if @subscription.save
-        format.html { redirect_to(screen_field_subscriptions_path(@screen, @field), notice: t(:subscription_created)) }
+        format.html { redirect_to(screen_field_subscriptions_path(@screen, @field), notice: t(:was_created, name: @subscription.feed.name, theobj: t(:subscription_for))) }
         format.xml  { render xml: @subscription, status: :created, location: @subscription }
         format.js
       else
@@ -84,7 +84,7 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       if @subscription.update_attributes(subscription_params)
-        format.html { redirect_to(screen_field_subscriptions_path(@screen, @field), notice: t('subscriptions.records_updated')) }
+        format.html { redirect_to(screen_field_subscriptions_path(@screen, @field), notice: t(:was_updated, name: @subscription.feed.name, theobj: t(:subscription_for))) }
         format.xml  { head :ok }
         format.js { head :ok }
       else
@@ -102,7 +102,7 @@ class SubscriptionsController < ApplicationController
     @subscription.destroy
 
     respond_to do |format|
-      format.html { redirect_to(screen_field_subscription_path(@screen, @field)) }
+      format.html { redirect_to(screen_field_subscription_path(@screen, @field), notice: t(:was_deleted, name: @subscription.feed.name, theobj: t(:subscription_for))) }
       format.xml  { head :ok }
       format.js { head :ok }
     end

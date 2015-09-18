@@ -20,10 +20,10 @@ class ErrorsController < ApplicationController
     end
 
     begin
-      status_text = 'HTTP ' + @status_code + '/' + 
-        Rack::Utils::HTTP_STATUS_CODES[@status_code.to_i] 
+      status_text = 'HTTP ' + @status_code + '/' +
+        Rack::Utils::HTTP_STATUS_CODES[@status_code.to_i]
     rescue
-      status_text = 'Unknown Error'
+      status_text = t(:unknown_error)
     end
 
     respond_to do |format|

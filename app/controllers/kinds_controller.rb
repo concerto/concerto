@@ -1,6 +1,6 @@
 class KindsController < ApplicationController
   respond_to :html, :json, :xml
-  
+
   # GET /kinds
   # GET /kinds.xml
   def index
@@ -38,11 +38,11 @@ class KindsController < ApplicationController
   def create
     @kind = Kind.new(kind_params)
     auth!
-    
+
     if @kind.save
-      flash[:notice] = t(:kind_created)
+      flash[:notice] = t(:was_created, name: @kind.name, theobj: t(:kind))
     end
-    
+
     respond_with(@kind)
 
   end
@@ -52,9 +52,9 @@ class KindsController < ApplicationController
   def update
     @kind = Kind.find(params[:id])
     auth!
-    
+
     if @kind.update_attributes(kind_params)
-      flash[:notice] = t(:kind_updated)
+      flash[:notice] = t(:was_updated, name: @kind.name, theobj: t(:kind))
     end
     respond_with(@kind)
   end
@@ -65,7 +65,7 @@ class KindsController < ApplicationController
     @kind = Kind.find(params[:id])
     auth!
     @kind.destroy
-    respond_with(:kind)
+    respond_with :kind, t(:was_deleted, name: @kind.name, theobj: t(:kind))
   end
 
 private
