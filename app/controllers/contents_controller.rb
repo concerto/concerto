@@ -10,7 +10,8 @@ class ContentsController < ApplicationController
   # content we're working with.  Probably needs
   # additional error checking.
   def get_content_const
-    content_models = helper.content_types.map{ |type| type.model_name.singular }
+    content_types = Concerto::Application.config.content_types.dup
+    content_models = content_types.map{ |type| type.model_name.singular }
 
     content_models.each do |model|
       @content_const = model.camelize.constantize if params[:type] == model.to_s
