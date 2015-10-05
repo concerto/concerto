@@ -62,13 +62,13 @@ GEM
       icalendar
       rails
     concerto_docsplit (0.7.5)
-    concerto_frontend (0.0.8)
+    concerto_frontend (0.1.0)
       rails (~> 4.1.6)
     concerto_hardware (0.6)
       rails
-    concerto_iframe (0.0.7)
+    concerto_iframe (0.0.8)
       rails
-    concerto_remote_video (0.5)
+    concerto_remote_video (0.6)
       rails
       video_info
     concerto_simple_rss (0.7)
