@@ -130,6 +130,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def rake_precompile
+    require 'rake'
+    Rake.load_rakefile Rails.root.join( 'Rakefile' )
+    Rake::Task['assets:precompile'].invoke
+  end
+
   def precompile_error_catch
     require 'yaml'
     concerto_base_config = YAML.load_file("./config/concerto.yml")
