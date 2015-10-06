@@ -46,6 +46,7 @@ class ConcertoPluginsController < ApplicationController
         flash[:notice] = t(:plugin_created_frozen_env)
       else
         write_Gemfile()
+        rake_precompile()
         restarted = restart_webserver()
       end
       if restarted
@@ -107,6 +108,7 @@ class ConcertoPluginsController < ApplicationController
   def update_gem
     plugin = ConcertoPlugin.find(params[:id])
     system('bundle update', plugin.gem_name)
+    rake_precompile()
     restarted = restart_webserver()
     if restarted
       flash[:notice] = t(:plugin_updated)
