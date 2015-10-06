@@ -141,12 +141,8 @@ class ApplicationController < ActionController::Base
     concerto_base_config = YAML.load_file("./config/concerto.yml")
     if concerto_base_config['compile_production_assets'] == true
       if File.exist?('public/assets/manifest.yml') == false && Rails.env.production?
-        precompile_status = system("env RAILS_ENV=production bundle exec rake assets:precompile")
-        if precompile_status == true
-          restart_webserver()
-        else
-          raise t(:asset_precomp_failed)
-        end
+        rake_precompile()
+        restart_webserver()
       end
     end
   end
