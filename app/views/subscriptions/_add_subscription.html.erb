@@ -15,13 +15,13 @@
         <li data-filter="<%= feed.name %>" class="<%= "checked" if current_feeds.include?(feed) %>">
           <% if current_feeds.include?(feed) %>
             <%= ("&nbsp;" * feed.depth).html_safe %>
-            <i class="icon-ok-sign"></i>
+            <i class="fa fa-ok-sign"></i>
             <b><%= feed.name %></b>
             <b><%= feed.name %></b>
           <% else %>
             <%= link_to screen_field_subscriptions_path(@screen, @field, subscription: {feed_id: feed.id, weight: 1}), {method: :post, remote: true}, class: "link-hl", "data-feed-id" => feed.id do %>
               <%= ("&nbsp;" * feed.depth).html_safe %>
-              <i class="icon-ok-sign"></i>
+              <i class="fa fa-ok-sign"></i>
               <b><%= feed.name %></b>
             <% end %>
           <% end %>

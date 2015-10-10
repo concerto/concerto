@@ -13,7 +13,7 @@ var initializeGraphicPreview = {
         var media_url = $(this).data('media-url');
         var preview_url = $(this).data('url');
 
-        preview.html("<h1 style='color: #ccc; font-size: 3em; text-align: center;'><i class='icon-refresh icon-spin'></i>&nbsp;&nbsp;"+I18n.t('contents.graphic.js.preview')+"</h1> ");
+        preview.html("<h1 style='color: #ccc; font-size: 3em; text-align: center;'><i class='fa fa-refresh fa-spin'></i>&nbsp;&nbsp;"+I18n.t('contents.graphic.js.preview')+"</h1> ");
         media_id.val("");
 
         $.ajax(media_url, {

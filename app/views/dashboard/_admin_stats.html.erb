@@ -14,10 +14,10 @@
 
           <h2 title="<%= Concerto::VERSION.dynamic %>"><%= Concerto::VERSION::STRING %></h2>
           <% if @latest_version.nil? %>
-              <i class="icon-exclamation-sign" style="font-size: 1.4em;"></i>
+              <i class="fa fa-exclamation-triangle" style="font-size: 1.4em;"></i>
               <b><%= t('.cant_determine_latest_version') %></b>
           <% elsif @latest_version > Concerto::VERSION::STRING %>
-              <i class="icon-exclamation-sign" style="font-size: 1.4em;"></i>
+              <i class="fa fa-exclamation-triangle" style="font-size: 1.4em;"></i>
               <b><%= t('.new_version', version: @latest_version) %></b>
           <% end %>
         </div>
@@ -28,9 +28,9 @@
 
           <h2>
             <% if background_processor_running? %>
-                <i class="icon-play-circle"></i> <%= t('.running') %>
+                <i class="fa fa-play-circle"></i> <%= t('.running') %>
             <% else %>
-                <i class="icon-stop"></i> <%= t('.stopped') %>
+                <i class="fa fa-stop"></i> <%= t('.stopped') %>
             <% end %>
             <small style="font-size: 0.4em; padding-left: 16px;"><%= link_to t('.start_stop'), {controller: :pages, action: :show, id: "concerto-init-d-startup-script"}, style: "text-decoration: underline;" %></small>
           </h2>

@@ -24,9 +24,9 @@ module ConcertoPluginsHelper
 
   def status_badge(enabled)
     if enabled
-      content_tag(:i, nil, class: 'icon-check tooltip-basic', 'data-tooltip-text' => t('concerto_plugins.index.enabled_msg'))
+      content_tag(:i, nil, class: 'fa fa-check tooltip-basic', 'data-tooltip-text' => t('concerto_plugins.index.enabled_msg'))
     else
-      content_tag(:i, nil, class: 'icon-remove-sign tooltip-basic', 'data-tooltip-text' => t('concerto_plugins.index.disabled_msg'))
+      content_tag(:i, nil, class: 'fa fa-remove-sign tooltip-basic', 'data-tooltip-text' => t('concerto_plugins.index.disabled_msg'))
     end
   end
 end
