@@ -36,7 +36,7 @@ module ApplicationHelper
   def tooltip_tag(tip, text = nil, options = nil)
     results = []
     results << content_tag(:span, text, options) + " " if !text.nil? && !text.blank?
-    results << content_tag(:i, nil, { class: "fa fa-question-sign muted tooltip-basic", data: { tooltip_text: tip } })
+    results << content_tag(:i, nil, { class: "fa fa-question-circle muted tooltip-basic", data: { tooltip_text: tip } })
     results.join.html_safe
   end
 
