@@ -15,7 +15,8 @@ class ContentsController < ApplicationController
 
     unless params[:type].blank?
       content_models.each do |model|
-        @content_const = model.camelize.constantize if params[:type].downcase == model.to_s.downcase
+        # sometimes it comes in all lowercase, sometimes camelized
+        @content_const = model.camelize.constantize if params[:type].camelize == model.to_s.camelize
       end
     end
 
