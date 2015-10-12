@@ -13,8 +13,10 @@ class ContentsController < ApplicationController
     content_types = Concerto::Application.config.content_types.dup
     content_models = content_types.map{ |type| type.model_name.singular }
 
-    content_models.each do |model|
-      @content_const = model.camelize.constantize if params[:type].downcase == model.to_s.downcase
+    unless params[:type].blank?
+      content_models.each do |model|
+        @content_const = model.camelize.constantize if params[:type].downcase == model.to_s.downcase
+      end
     end
 
     @content_const ||= nil
