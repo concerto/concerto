@@ -14,7 +14,7 @@ class ContentsController < ApplicationController
     content_models = content_types.map{ |type| type.model_name.singular }
 
     content_models.each do |model|
-      @content_const = model.camelize.constantize if params[:type] == model.to_s
+      @content_const = model.camelize.constantize if params[:type].downcase == model.to_s.downcase
     end
 
     @content_const ||= nil
@@ -280,7 +280,6 @@ class ContentsController < ApplicationController
       content = Content.find(params[:id])
       data = content[:data] unless content.nil?
     end
-
     html = "Unrecognized content type"
     if !@content_const.nil?
       html = @content_const.preview(data)
