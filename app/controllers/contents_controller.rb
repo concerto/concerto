@@ -13,8 +13,11 @@ class ContentsController < ApplicationController
     content_types = Concerto::Application.config.content_types.dup
     content_models = content_types.map{ |type| type.model_name.singular }
 
-    content_models.each do |model|
-      @content_const = model.camelize.constantize if params[:type] == model.to_s
+    unless params[:type].blank?
+      content_models.each do |model|
+        # sometimes it comes in all lowercase, sometimes camelized
+        @content_const = model.camelize.constantize if params[:type].camelize == model.to_s.camelize
+      end
     end
 
     @content_const ||= nil
@@ -280,7 +283,6 @@ class ContentsController < ApplicationController
       content = Content.find(params[:id])
       data = content[:data] unless content.nil?
     end
-
     html = "Unrecognized content type"
     if !@content_const.nil?
       html = @content_const.preview(data)

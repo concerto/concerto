@@ -53,7 +53,7 @@
       background-color: transparent;
       @include clearfix();
 
-      i[class*=icon-] {
+      i[class*=fa-] {
         padding: 2px 5px;
         position: absolute;
         bottom: 0;
@@ -99,12 +99,12 @@
       text-align: center;
       min-height: 30px;
 
-      .icon-check {
+      .fa-check {
         color: lighten($linkColor, 40%);
         font-size: 3em;
         @include transition(0.1s all linear);
       }
-      .icon-remove-sign {
+      .fa-remove-sign {
         color: lighten($linkColor, 40%);
         font-size: 3em;
         @include transition(0.1s all linear);
@@ -113,7 +113,7 @@
       a:hover {
         text-decoration: none;
         
-        .icon-check, .icon-remove-sign { color: #FFF !important; }
+        .fa-check, .fa-remove-sign { color: #FFF !important; }
       }
     }
   }
@@ -122,7 +122,7 @@
     background: rgba(0,0,0,0.7);
     @include opacity(100);
   }
-  &:hover .tile-labels i[class*=icon-] {
+  &:hover .tile-labels i[class*=fa-] {
     @include opacity(0);
   }
 
