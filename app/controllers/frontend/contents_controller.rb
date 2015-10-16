@@ -44,7 +44,7 @@ class Frontend::ContentsController < ApplicationController
       logger.warn e.message
     end
 
-    response.headers["X-Concerto-Frontend-Setup-Key"] = Digest::MD5.hexdigest(@screen.frontend_cache_key(@screen.template.media))
+    response.headers["X-Concerto-Frontend-Setup-Key"] = Digest::MD5.hexdigest(@screen.frontend_cache_key)
 
     respond_to do |format|
       format.json {

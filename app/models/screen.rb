@@ -262,6 +262,9 @@ class Screen < ActiveRecord::Base
         end
       end
     end
+    self.template.media.each do |m|
+      max_updated_at = [m.updated_at.try(:utc).try(:to_i), max_updated_at].max
+    end
     args.each do |ao|
       if ao.respond_to? 'updated_at'
         max_updated_at = [ao.updated_at.try(:utc).try(:to_i), max_updated_at].max
