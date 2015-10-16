@@ -261,10 +261,21 @@ class Screen < ActiveRecord::Base
           max_updated_at = [field_config.updated_at.try(:utc).try(:to_i),max_updated_at].max
         end
       end
-  end
+    end
+    self.template.media.each do |m|
+      max_updated_at = [m.updated_at.try(:utc).try(:to_i), max_updated_at].max
+    end
     args.each do |ao|
-      if ao.methods.include? 'updated_at'
+      if ao.respond_to? 'updated_at'
         max_updated_at = [ao.updated_at.try(:utc).try(:to_i), max_updated_at].max
+      else
+        if ao.respond_to? 'each'
+          ao.each do |aso|
+            if aso.respond_to? 'updated_at'
+              max_updated_at = [aso.updated_at.try(:utc).try(:to_i), max_updated_at].max
+            end
+          end
+        end
       end
     end
     return "frontend-screen/#{self.id}-#{self.template.id}-#{max_updated_at}"

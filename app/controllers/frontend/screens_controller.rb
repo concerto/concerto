@@ -157,7 +157,7 @@ class Frontend::ScreensController < ApplicationController
 
       @screen.time_zone = ActiveSupport::TimeZone::MAPPING[@screen.time_zone]
 
-      if stale?(etag: @screen.frontend_cache_key(field_configs), public: true)
+      if stale?(etag: @screen.frontend_cache_key, public: true)
       respond_to do |format|
         format.json {
           render json: @screen.to_json(
