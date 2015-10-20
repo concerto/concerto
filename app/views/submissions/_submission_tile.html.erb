@@ -3,6 +3,7 @@
     <%= render_content(submission.content, {type: 'tile'}) %>
 
     <div class="tile-labels">
+      <%= ConcertoPlugin.render_view_hook self, :tile_labels, { content: submission.content } %>
       <% type_folder = "contents/#{submission.content.type.underscore}" %>
       <%= render_partial_if("#{type_folder}/tab_icon") %>
 
