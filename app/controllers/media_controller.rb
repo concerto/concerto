@@ -24,6 +24,16 @@ class MediaController < ApplicationController
       if media.file_size > 0 && Concerto::ContentConverter.supported_types.include?(media.file_type)
         converted_medias = Concerto::ContentConverter.convert([media])
         media = converted_medias.select{ |m| m.key == 'processed' }.first
+      elsif media.file_size > 0 && media.file_type == 'image/jpeg'
+        # if it's a photo then auto orient it
+        require 'concerto_image_magick'
+        adjusted_image = ConcertoImageMagick.load_image(media.file_contents)
+        unless adjusted_image.blank?
+          adjusted_image.auto_orient!
+
+          media.file_data = adjusted_image.to_blob
+          media.file_size = adjusted_image.filesize
+        end
       end
 
       media.attachable_id = 0  # this is assigned to the actual Graphic record when the graphic is saved
