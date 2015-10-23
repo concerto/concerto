@@ -42,7 +42,7 @@
 </div>
 
 <!-- Content Resubmission -->
-<% if !@submission.nil? and @submission.content.is_expired? %>
+<% if !@submission.nil? and @submission.content.is_expired? and can?(:update, @submission.content) %>
   <div class="subblock">
     <p class="uppercase"><small><b><%= t('.content_resubmission') %></b></small></p>
     <!-- Show tooltip to edit content start/end time and date -->

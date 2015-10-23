@@ -104,7 +104,9 @@ class Ability
     # Users can read and update and delete their own content
     can [:read, :delete], Content, user_id: user.id
     can :update, Content do |content|
-      content.is_approved? == false && content.user_id == user.id
+      (content.is_approved? == false && content.user_id == user.id) ||
+        # users can resubmit their expired content
+        (content.is_expired? && content.user_id == user.id)
     end
 
     ## Screens
