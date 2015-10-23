@@ -121,6 +121,7 @@ en:
       the_dawn_of_time: 'The Dawn of Time.'
       the_end_of_time: 'The End of Time.'
       content_resubmission: "Content Resubmission"
+      renew_submission: 'Renew Submission'
 
     table:
       description: "Description"
