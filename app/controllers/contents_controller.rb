@@ -10,7 +10,7 @@ class ContentsController < ApplicationController
   # content we're working with.  Probably needs
   # additional error checking.
   def get_content_const
-    content_types = Concerto::Application.config.content_types.dup
+    content_types = Concerto::Application.config.content_types + Concerto::Application.config._unused_content_types_
     content_models = content_types.map{ |type| type.model_name.singular }
 
     unless params[:type].blank?
