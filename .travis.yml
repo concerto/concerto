@@ -27,5 +27,6 @@ notifications:
   email:
     recipients:
       - concerto-dev@googlegroups.com
+      - marvin.frederickson@gmail.com
     on_success: change
     on_failure: change
