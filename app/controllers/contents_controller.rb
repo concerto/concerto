@@ -182,7 +182,8 @@ class ContentsController < ApplicationController
       submissions = @content.submissions
       submissions.each do |submission|
         if @feed_ids.include? submission.feed_id
-          submission.update_attributes(moderation_flag: nil)
+          # set the "needs moderated" flag if they cannot moderate the submission
+          submission.update_attributes(moderation_flag: nil) if !can?(:update, submission)
         else
           submission.mark_for_destruction
         end
