@@ -20,8 +20,8 @@
 # 6. Run: cap deploy                <=== this is all you need for subsequent deploys
 #
 # Wish I could find a safer way...
-# Allow the deploy user to run sudo commands without password prompts by adding the following file /etc/sudoers.d/01-concerto
-# deploy ALL=(ALL) NOPASSWD:/usr/bin/unlink, /usr/sbin/update-rc.d, /usr/bin/whoami, /usr/bin/env, /bin/sh
+# Allow the deploy user to run sudo commands without password prompts by adding the following file /etc/sudoers.d/99-concerto
+# deploy ALL=(ALL) NOPASSWD:/usr/bin/unlink, /usr/sbin/update-rc.d, /usr/bin/whoami, /usr/bin/env, /bin/sh, /usr/bin/passenger-config
 
 # config valid only for current version of Capistrano
 lock '3.4.0'
@@ -81,6 +81,8 @@ set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', '
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
+
+set :passenger_restart_with_sudo, true
 
 namespace :deploy do
 
