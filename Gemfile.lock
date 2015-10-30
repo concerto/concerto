@@ -57,24 +57,24 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1.1)
-    concerto_calendar (0.0.7)
+    concerto_calendar (0.0.8)
       google-api-client
       icalendar
       rails
     concerto_docsplit (0.7.5)
-    concerto_frontend (0.1.0)
+    concerto_frontend (0.2.0)
       rails (~> 4.1.6)
     concerto_hardware (0.6)
       rails
-    concerto_iframe (0.0.8)
+    concerto_iframe (0.0.9)
       rails
-    concerto_remote_video (0.6)
+    concerto_remote_video (0.7)
       rails
       video_info
-    concerto_simple_rss (0.7)
+    concerto_simple_rss (0.9)
       rails
       ruby-xslt (~> 0.9)
-    concerto_weather (0.0.9)
+    concerto_weather (0.1.0)
       rails
     connection_pool (1.2.0)
     delayed_job (4.0.6)
