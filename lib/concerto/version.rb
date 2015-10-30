@@ -3,9 +3,9 @@ module Concerto
     MAJOR = 2
     MINOR = 3
     TINY = 0
-    PRE = ''
-    
-    STRING = [MAJOR, MINOR, TINY, PRE].reduce('') { |str,s| str + s.to_s + '.' }[0..-3]
+    PRE = nil
+
+    STRING = [MAJOR, MINOR, TINY, PRE].compact.join('.')
 
     def self.dynamic
       Rails.cache.fetch('VERSION::dynamic') do
