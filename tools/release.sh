@@ -21,12 +21,17 @@ read -r -p "Proceed with version bump? [Y/n] " version_bump
 if [[ ${version_bump:-Y} =~ ^([Yy])$ ]]
 then
   IFS='.' read -a version <<< "$version_str"
-  version[3]=`echo ${version[3]} | tr '[A-Z]' '[a-z]'`
+  if [[ ${version[3]}  == '' ]]
+  then
+    version[3]=nil
+  else
+    version[3]=`echo \'${version[3]}\' | tr '[A-Z]' '[a-z]'`
+  fi
 
   sed -i '' -e "s/MAJOR = .*$/MAJOR = ${version[0]}/" ../lib/concerto/version.rb
   sed -i '' -e "s/MINOR = .*$/MINOR = ${version[1]}/" ../lib/concerto/version.rb
   sed -i '' -e "s/TINY = .*$/TINY = ${version[2]}/" ../lib/concerto/version.rb
-  sed -i '' -e "s/PRE = .*$/PRE = '${version[3]}'/" ../lib/concerto/version.rb
+  sed -i '' -e "s/PRE = .*$/PRE = ${version[3]}/" ../lib/concerto/version.rb
 
   git diff --quiet ../lib/concerto/version.rb
   if [[ $? -ne 0 ]]
