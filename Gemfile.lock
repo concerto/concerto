@@ -72,6 +72,7 @@ GEM
       rails
       video_info
     concerto_simple_rss (0.9)
+      encryptor
       rails
       ruby-xslt (~> 0.9)
     concerto_weather (0.1.0)
@@ -94,6 +95,7 @@ GEM
       json
       thread
       thread_safe
+    encryptor (1.3.0)
     erubis (2.7.0)
     execjs (2.2.2)
     extlib (0.9.16)
@@ -324,6 +326,3 @@ DEPENDENCIES
   turbolinks
   twitter-bootstrap-rails-confirm
   uglifier (~> 2.7.2)
-
-BUNDLED WITH
-   1.10.6
