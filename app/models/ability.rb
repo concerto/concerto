@@ -96,7 +96,7 @@ class Ability
     end
 
     #users can view pages (which are created by admins)
-    can :read, Page
+    can :read, Page if user.persisted?
 
     ## Content
     # Authenticated users can create content
