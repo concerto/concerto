@@ -16,7 +16,7 @@
           <li>
             <h3>
               <%= link_to_if can?(:read, Screen), pluralize(screens.count, Screen.model_name.human, Screen.model_name.human(count: 42)), screens_path %>
-              <small>&nbsp;&nbsp;<%= screens.count { |s| s.is_online? } %> <%= t('.active') %>, <%= screens.count { |s| s.is_offline? } %> <%= t('.offline') %></small>
+              <small>&nbsp;&nbsp;<%= screens.online.count %> <%= t('.active') %>, <%= screens.offline.count %> <%= t('.offline') %></small>
             </h3>
           </li>
           <li>
