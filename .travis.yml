@@ -26,6 +26,6 @@ notifications:
   irc: "irc.freenode.org#concerto-dev"
   email:
     recipients:
-      - concerto-dev@googlegroups.com
+      - team@concerto-signage.org
     on_success: change
     on_failure: change
