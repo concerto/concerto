@@ -22,6 +22,15 @@ class ConcertoConfigController < ApplicationController
     @rails_log_perms = File.stat(Rails.root.join('log')).mode.to_s(8)[-3,3] == "600" #should be 600 on a shared box
     @rails_tmp_perms = File.stat(Rails.root.join('tmp')).writable?
     @webserver_ownership = File.stat(Rails.root).owned?
+
+    unless ConcertoConfig["mailer_from"].blank?
+      begin
+        ActivityMailer.test_email(current_user.email).deliver
+      rescue StandardError => e
+        Rails.logger.error(e)
+        flash[:notice] = t('.unable_to_send_test_email')
+      end
+    end
   end
 
   # get a hash of concerto_config keys and values and update them using the ConcertoConfig setter
