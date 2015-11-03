@@ -3,6 +3,15 @@ en:
   smtp_send_error_ssl: "A SMTP error occurred while sending a notification e-mail. Please check the Concerto SMTP settings-- you might need to disable SSL Verification."
   asset_precomp_failed: "Asset precompilation failed. Please make sure the command rake assets:precompile works."
 
+  activity_mailer:
+    test_email:
+      subject: 'Email Configuration Test'
+      body: 'This is a sample email sent from Concerto.  If you received it, then your email settings are apparently configured properly.'
+
+  concerto_config:
+    config_check:
+      unable_to_send_test_email: 'Unable to send test email'
+
   #Contents controller
   missing_default_type: "Missing Default Content Type"
   unrecognized_type: "Unrecognized content type."
