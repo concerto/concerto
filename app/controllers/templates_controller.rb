@@ -42,6 +42,11 @@ class TemplatesController < ApplicationController
     @template = Template.find(params[:id])
     auth!
     # the form contains two bogus fields used for file uploads -- :template_css, :template_image
+
+    css_media = @template.media.where({key: 'css'})
+    if !css_media.empty?
+      @template_css = css_media.first.file_contents
+    end
   end
 
   # POST /templates
