@@ -14,6 +14,10 @@ en:
     from_scratch: 'Create from Scratch'
     import_existing: 'Import Existing'
 
+    form:
+      background_image_fields: 'Existing Background Image and Field Placement'
+      custom_css: 'Existing Custom CSS'
+
     import_form:
       package: 'Package'
       image: 'Image'
@@ -50,6 +54,6 @@ en:
       template:
         author: 'Author'
         is_hidden: 'Hide this template from being shown in lists'
-        media: 'Background Image/CSS'
+        media: 'New Background Image and/or Custom CSS'
         name: 'Name'
         owner: 'Owner'

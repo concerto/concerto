@@ -42,8 +42,17 @@
   </fieldset>
 
   <fieldset>
-    <div class="clearfix">
-      <%= image_tag preview_template_path(@template, lm: @template.last_modified_md5, width: 400, format: :jpg) %>
+    <div class="row-fluid">
+      <div class="span6">
+        <%= label_tag 'background_image', t('.background_image_fields') %>
+        <%= image_tag preview_template_path(@template, lm: @template.last_modified_md5, width: "400", format: :jpg) %>
+      </div>
+      <% unless @template_css.blank? %>
+        <div class="span6">
+          <%= label_tag 'custom_css', t(".custom_css") %>
+          <textarea id="css" disabled style="width:100%;" rows="12"><%= @template_css %></textarea>
+        </div>
+      <% end %>
     </div>
   </fieldset>
 
