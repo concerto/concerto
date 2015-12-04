@@ -115,6 +115,7 @@ class Frontend::ScreensController < ApplicationController
   # and display the template with positions.
   def setup
     headers['Access-Control-Allow-Origin'] = '*' unless !ConcertoConfig[:public_concerto]
+    headers['Access-Control-Expose-Headers'] = 'etag, X-Concerto-Frontend-Setup-Key' unless !ConcertoConfig[:public_concerto]
     @preview = params.has_key?(:preview) && params[:preview] == "true"
     begin
       @screen = Screen.find(params[:id])
