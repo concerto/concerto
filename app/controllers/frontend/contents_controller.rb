@@ -18,6 +18,7 @@ class Frontend::ContentsController < ApplicationController
 
   def index
     headers['Access-Control-Allow-Origin'] = '*' unless !ConcertoConfig[:public_concerto]
+    headers['Access-Control-Expose-Headers'] = 'etag, X-Concerto-Frontend-Setup-Key' unless !ConcertoConfig[:public_concerto]
     require 'frontend_content_order'
 
     shuffle_config = FieldConfig.get(@screen, @field, 'shuffler') || DEFAULT_SHUFFLE
