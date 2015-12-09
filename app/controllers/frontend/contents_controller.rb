@@ -45,6 +45,7 @@ class Frontend::ContentsController < ApplicationController
     end
 
     response.headers["X-Concerto-Frontend-Setup-Key"] = Digest::MD5.hexdigest(@screen.frontend_cache_key)
+    response.headers["ETag"] = Digest::MD5.hexdigest(@screen.frontend_cache_key + @content.collect{|e| e.id}.to_s)
 
     respond_to do |format|
       format.json {
