@@ -774,6 +774,7 @@ en:
       update:
         updated_the_content: '%{owner} updated the content %{item}'
         updated_the_content_with_type: '%{owner} updated the content %{item} (%{content_type})'
+    copy_the_model: '%{owner} copied %{article} %{model} %{item} from %{from}'
     create_the_model: '%{owner} created %{article} %{model} %{item}'
     destroy_the_model: '%{owner} deleted %{article} %{model} %{item}'
     feed:
@@ -823,6 +824,10 @@ en:
       update:
         approved_content_for_feed: '%{owner} approved %{content} for feed %{feed}'
         denied_content_for_feed: '%{owner} denied %{content} for feed %{feed}'
+    template:
+      article: the
+      copy:
+        copied_a_template: copied a template
     unknown_user: An unknown user
     update_the_model: '%{owner} updated %{article} %{model} %{item}'
     user:

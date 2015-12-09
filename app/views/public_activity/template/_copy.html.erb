@@ -1,0 +1,12 @@
+<%= 
+    action = activity.key.split(".").last
+    model = activity.trackable_type.classify.safe_constantize
+
+    t('public_activity.' + action + '_the_model',
+      owner: get_activity_owner(activity),
+      article: t("public_activity.#{model.model_name.singular}.article"),
+      model: model.model_name.human,
+      item: get_activity_item(activity, 'name'),
+      from: activity.parameters[:from]
+    ).html_safe
+%>
