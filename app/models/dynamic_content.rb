@@ -3,6 +3,11 @@
 # are a handful of default behaviors for refreshing content and managing a
 # configuration datastore (JSON encoded).
 class DynamicContent < Content
+
+  # Define integration hooks for Concerto Plugins
+  define_callbacks :alter_content
+  ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
+
   after_initialize :set_kind, :create_config
 
   after_find :load_config
@@ -135,13 +140,17 @@ class DynamicContent < Content
         content.start_time ||= Clock.time
         content.end_time ||= Clock.time + 1.day
 
-        new_children[index].becomes(content.class)
-        new_attributes = content.attributes
+        run_callbacks :alter_content do
+          @content = content
+          new_children[index].becomes(content.class)
+          @new_attributes = content.attributes
+        end
+
         locked_attributes = ['id', 'created_at', 'updated_at']
         locked_attributes.each do |attr|
-          new_attributes.delete(attr)
+          @new_attributes.delete(attr)
         end
-        new_children[index].assign_attributes(new_attributes)
+        new_children[index].assign_attributes(@new_attributes)
 
         if new_children[index].save
           # After saving process the submissions.
