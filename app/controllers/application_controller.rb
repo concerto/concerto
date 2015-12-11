@@ -416,6 +416,7 @@ class ApplicationController < ActionController::Base
     headers['Access-Control-Allow-Methods'] = '*'
     headers['Access-Control-Allow-Credentials'] = 'true'
     headers['Access-Control-Allow-Headers'] = 'Authorization'
+    headers['Access-Control-Expose-Headers'] = 'ETag, X-Concerto-Frontend-Setup-Key'
   end
 
   # Redirect the user to the dashboard after signing in.
