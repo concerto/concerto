@@ -63,6 +63,18 @@ class MembershipsController < ApplicationController
       @membership.receive_emails = receive_emails unless (receive_emails.nil? || !success)
       # redirect to the users page if an email preference was specified since thats the only place it can come from
       if success && @membership.save
+        process_notification(@membership, {}, process_notification_options({
+          key: "membership." + (action || 'update'),
+          params: {
+            action: action,
+            level: @membership.level_name,
+            member_id: @membership.user.id,
+            member_name: @membership.user.name,
+            group_id: @membership.group.id,
+            group_name: @membership.group.name
+          },
+          recipient: @membership.user}))
+
         format.html { redirect_to (receive_emails.nil? ? manage_members_group_path(@group) : @membership.user), notice: t(note) }
         format.xml { head :ok }
       else

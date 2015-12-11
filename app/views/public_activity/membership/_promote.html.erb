@@ -1,12 +1,6 @@
 <%=
    group = nil
    member = nil
-   if activity.parameters[:level] == 'pending'
-     role = t('.pending_regular_member')
-   else
-     role = activity.parameters[:level] == 'regular' ? t('.regular_member') : t('.leader')
-   end
-   
    if activity.trackable
      group = activity.trackable.group
      member = activity.trackable.user
@@ -19,10 +13,10 @@
      member = User.find(activity.parameters[:member_id]) rescue nil
    end
 
-   t('.added_member_to_group',
+   t('.promoted_member_of_group',
      owner: get_activity_owner(activity),
      member: member ? link_to_if(can?(:red, member), member.name, member) : (activity.parameters[:member_name] || t('public_activity.a_member')),
      group: group ? link_to_if(can?(:read, group), group.name, group) : (activity.parameters[:member_name] || t('public_activity.a_group_which_no_longer_exists')),
-     role: role 
+     role: activity.parameters[:level] == 'regular' ? t('.regular_member') : t('.leader')
    ).html_safe
 %>

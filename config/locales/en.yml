@@ -603,7 +603,7 @@ en:
         subscriptions: Subscriptions
       promote_to_leader: Promote To Leader
       remove_from_group: Remove From Group
-      request_made_at: request_made_at
+      request_made_at: Request Made At
       screen_permission:
         name: Screen Permission
         tooltip: What you can change about the screens owned by this group. You can change nothing,
@@ -806,10 +806,25 @@ en:
     import_the_model: imported the %{model}
     membership:
       article: the
+      approve: 
+        approved_member_of_group: '%{owner} approved %{member} in the %{group} group as a %{role}'
+        leader: leader
+        regular_member: regular member
       create:
         added_member_to_group: '%{owner} added %{member} to the %{group} group as a %{role}'
         leader: leader
         regular_member: regular member
+        pending_regular_member: pending regular member
+      demote: 
+        leader: leader
+        regular_member: regular member
+        demoted_member_of_group: '%{owner} demoted %{member} in the %{group} group to a %{role}'
+      update:
+        updated_member_of_group: '%{owner} %{action} %{member} in the %{group} group'
+      promote: 
+        leader: leader
+        regular_member: regular member
+        promoted_member_of_group: '%{owner} promoted %{member} in the %{group} group to a %{role}'
       destroy:
         removed_member_from_group: '%{owner} removed %{member} from the %{group} group'
     screen:
@@ -838,6 +853,7 @@ en:
     which_has_since_been_removed: which has since been removed
   rejected: Rejected
   remove_model: Remove %{model}
+  request_made_at: Request Made At
   restart_alert: A new plugin has been added.  Please restart the concerto application.
   screen_created: Screen was successfully created.
   screen_updated: Screen was successfully updated.
