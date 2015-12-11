@@ -20,7 +20,8 @@
 # 6. Run: cap deploy                <=== this is all you need for subsequent deploys
 #
 # Wish I could find a safer way...
-# Allow the deploy user to run sudo commands without password prompts by adding the following file /etc/sudoers.d/99-concerto
+# Allow the deploy user to run sudo commands without password prompts by adding the following two lines to the file /etc/sudoers.d/99-concerto
+# Defaults:deploy env_keep+=RAILS_RELATIVE_URL_ROOT
 # deploy ALL=(ALL) NOPASSWD:/usr/bin/unlink, /usr/sbin/update-rc.d, /usr/bin/whoami, /usr/bin/env, /bin/sh, /usr/bin/passenger-config
 
 # config valid only for current version of Capistrano
@@ -31,14 +32,10 @@ set :application, 'concerto'
 set :repo_url,    'https://github.com/concerto/concerto.git'
 set :user,        'deploy'
 
-
-##set :asset_env, "#{asset_env} RAILS_RELATIVE_URL_ROOT=/#{application}"  # only needed if running under sub-uri
-
-
-role :web, "concerto"                   # Your HTTP server, Apache/etc
-role :app, "concerto"                   # This may be the same as your `Web` server
-role :db,  "concerto", primary: true    # This is where Rails migrations will run
-
+# uncomment this if you are deploying to a sub-uri
+# set :default_env, {
+#   "RAILS_RELATIVE_URL_ROOT" => "/#{fetch(:application)}"
+# }
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
