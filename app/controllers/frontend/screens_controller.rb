@@ -155,8 +155,10 @@ class Frontend::ScreensController < ApplicationController
         end
       end
 
-      @screen.time_zone = ActiveSupport::TimeZone::MAPPING[@screen.time_zone]
+Rails.logger.debug("--frontend screencontroller setup is sending setup-key of #{@screen.frontend_cache_key}")
+      response.headers["X-Concerto-Frontend-Setup-Key"] = @screen.frontend_cache_key
 
+      @screen.time_zone = ActiveSupport::TimeZone::MAPPING[@screen.time_zone]
       if stale?(etag: @screen.frontend_cache_key, public: true)
       respond_to do |format|
         format.json {
