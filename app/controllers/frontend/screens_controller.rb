@@ -114,7 +114,7 @@ class Frontend::ScreensController < ApplicationController
   # Get information required to setup the screen
   # and display the template with positions.
   def setup
-    headers['Access-Control-Allow-Origin'] = '*' unless !ConcertoConfig[:public_concerto]
+    allow_cors unless !ConcertoConfig[:public_concerto]
     @preview = params.has_key?(:preview) && params[:preview] == "true"
     begin
       @screen = Screen.find(params[:id])
