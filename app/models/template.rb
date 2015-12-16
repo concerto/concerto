@@ -122,6 +122,54 @@ class Template < ActiveRecord::Base
     return image
   end
 
+  def export_archive
+    require 'zip'
+    require 'zip/filesystem'
+
+    name = SecureRandom.uuid
+    img = self.media.find_by(key: "original")
+    css = self.media.find_by(key: "css")
+    xml = xml_descriptor
+
+    # get a temp zip file name
+    zipfile = Tempfile.new([name, ".zip"])
+    zipfile_path = zipfile.path
+    zipfile.unlink
+
+    Zip::File.open(zipfile_path, Zip::File::CREATE) do |zipfile|
+      zipfile.file.open(name + ".xml", "w") { |f| f.print xml }
+      zipfile.file.open(img.file_name, "w") { |f| f.write img.file_contents } unless img.blank?
+      zipfile.file.open(css.file_name, "w") { |f| f.print css.file_contents } unless css.blank?
+    end
+
+    zipfile_path
+  end
+
+  def xml_descriptor(options={})
+    require 'builder'
+    options[:indent] ||= 2
+    options[:skip_instruct] ||= true
+    xml = options[:builder] ||= ::Builder::XmlMarkup.new(indent: options[:indent])
+    xml.instruct! unless options[:skip_instruct]
+    xml.template do
+      xml.tag!(:name, self.name)
+      xml.tag!(:author, self.author)
+      xml.tag!(:hidden, self.is_hidden)
+
+      self.positions.each do |p|
+        xml.field do
+          xml.tag! :name, p.field.name
+          xml.tag! :type, p.field.kind.name
+          xml.tag! :style, p.style
+          xml.tag! :top, p.top
+          xml.tag! :left, p.left
+          xml.tag! :bottom, p.bottom
+          xml.tag! :right, p.right
+        end
+      end
+    end
+  end
+
   def import_archive(archive)
     if archive.blank?
       self.errors.add(:base, I18n.t('templates.new.template_import_requires_archive'))

@@ -63,6 +63,7 @@ Concerto::Application.routes.draw do
   resources :templates do
     member do
       get :preview
+      get :export
     end
     collection do
       post :import

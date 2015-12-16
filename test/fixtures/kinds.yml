@@ -5,3 +5,6 @@ text:
 
 ticker:
   name: Ticker
+
+graphics:
+  name: Graphics
