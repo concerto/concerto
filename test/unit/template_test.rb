@@ -96,4 +96,15 @@ class TemplateTest < ActiveSupport::TestCase
     t = templates(:one)
     t.screen_dependencies.include?(screens(:one))
   end
+
+  test "exporting a simple template produces a valid descriptor" do
+    t = Template.new
+    file = fixture_file_upload("/files/simple_template.xml", 'text/xml')
+    t.import_xml(file.read)
+
+    u = Template.new
+    x = t.xml_descriptor
+    assert u.import_xml(x)
+  end
+
 end

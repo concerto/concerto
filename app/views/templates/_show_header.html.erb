@@ -9,6 +9,8 @@
         <%= link_to t('.delete_template'), '#', class: "btn disabled tooltip-basic", 'data-tooltip-text' => t(:cannot_delete_template, screens: @template.screen_dependencies.collect { |s| s.name if can? :read, s}.join(", ")) %>
       <% end %>
     <% end %>
+
+    <%= link_to t('.export_template'), export_template_path(@template), { class: "btn", "data-no-turbolink" => true } if can? :edit, @template %>
   </div>
 </div>
 
