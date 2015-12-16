@@ -2,7 +2,7 @@
   <header class="viewblock-header">
     <h1 class="default-padding">
       <%= link_to t(:all_model, model: Group.model_name.human(count: 42)), groups_path %> &gt;
-      <%= link_to @group.name, @group %> &gt; 
+      <%= link_to @group.name, @group %> &gt;
       <%= t('.manage_members') %>
     </h1>
   </header>
@@ -50,13 +50,13 @@
                   <% Membership::PERMISSIONS[m.object.level_name.to_sym].each_pair do |perm, levels| %>
                     <td>
                       <ul class="inputs-list">
-                          <li> 
+                          <li>
                             <% if can? :update, m %>
                               <%= select_tag "#{m.object_name}[perms][#{perm.to_s}]", options_for_select(human_permission_level_names(levels.keys), m.object.perms[perm]) %>
                             <% else %>
                               <%= label_tag m.object.perms[perm], human_permission_level_name(m.object.perms[perm]) %>
                              <% end %>
-                          </li> 
+                          </li>
                       </ul>
                     </td>
                   <% end %>
@@ -125,9 +125,9 @@
         <% end %>
 
         <% if @denied.size > 0 %>
-            <span onclick="toggle_prev_denied()"> 
+            <span onclick="toggle_prev_denied()">
               <h3 class="default-padding"><%= t('.previously_denied_members') %> &nbsp;
-              <i class="fa fa-circle-arrow-up" id="icon_prev_denied"></i></h3> 
+              <i class="fa fa-plus" id="icon_prev_denied"></i></h3>
             </span>
             <div id="prev_denied" value="hidden" style="display: none">
               <div class="second-level-padding" style="padding-top: 0px;">
@@ -183,8 +183,8 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>     
-                  <% 
+                <tr>
+                  <%
                     options = {}
                     if !users_not_in_group.empty?
                       options[User] = users_not_in_group.map { |u| [u.name, "#{u.id}"]}
