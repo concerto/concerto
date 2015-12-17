@@ -25,6 +25,7 @@ en:
       add_users_to_group: 'Add Users to Group'
       approve_requests: 'Approve Requests'
       demote_to_regular: "Demote to Regular"
+      pending: "Pending"
       feed_permission:
         name: 'Feed Permission'
         tooltip: 'What you can change about the feeds owned by this group. You can change nothing, just moderate submissions, or everything (edit feed, moderate submissions).'
@@ -38,7 +39,6 @@ en:
       previously_denied_members: 'Previously Denied Members'
       promote_to_leader: 'Promote To Leader'
       remove_from_group: 'Remove From Group'
-      request_made_at: 'request_made_at'
       screen_permission:
         name: 'Screen Permission'
         tooltip: 'What you can change about the screens owned by this group. You can change nothing, just the subscriptions, or everything (edit screen, change template, and subscriptions).'
