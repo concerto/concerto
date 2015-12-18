@@ -30,7 +30,7 @@ namespace :template do
         end
         source.positions.each do |p|
           new_position = p.dup
-          destination.positions << p
+          destination.positions << new_position
         end
 
         if destination.save
