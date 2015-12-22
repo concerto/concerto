@@ -3,6 +3,9 @@
     <% if can? :update, @submission.content %>
       <%= link_to t(:edit_model, model: Content.model_name.human), edit_content_path(@submission.content), class: "btn" %>
     <% end %>
+    <% if can? :delete, @submission.content %>
+      <%= link_to t(:destroy_model, model: Content.model_name.human), @submission.content, data: { confirm: t(:are_you_sure_delete_model_key, model: Content.model_name.human, key: @submission.content.name) }, method: :delete, class: "btn" %>
+    <% end %>
   </div>
 </div>
 
