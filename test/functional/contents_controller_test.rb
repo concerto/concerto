@@ -22,7 +22,7 @@ class ContentsControllerTest < ActionController::TestCase
     sign_in users(:katie)
     get(:new, {:type => "graphic"})
     assert_response :success
-    assert_select(HTML::Selector.new "input[type=file]")
+    assert_select "input[type=file]"
     assert_select "li.active > a", {:text => "Graphic"}
   end
 
@@ -54,7 +54,7 @@ class ContentsControllerTest < ActionController::TestCase
     sign_in users(:katie)
     get(:new, {:type => "bananas"})
     assert_response :success
-    assert_select(HTML::Selector.new "input[type=file]")
+    assert_select "input[type=file]"
   end
 
   test "broken default type raises exception" do

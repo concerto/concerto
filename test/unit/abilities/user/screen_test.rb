@@ -9,12 +9,12 @@ class UserScreenAbilityTest < ActiveSupport::TestCase
 
   test "Screens can only be created by admins (by default)" do
     ability = Ability.new(users(:katie))
-    assert ability.cannot?(:create, Screen)
+    assert ability.cannot?(:create, Screen.new)
   end
 
   test "Screens cannot be created by unsaved users" do
     ability = Ability.new(User.new)
-    assert ability.cannot?(:create, Screen)
+    assert ability.cannot?(:create, Screen.new)
   end
 
   test "Users can sometimes create screen they own" do

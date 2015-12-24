@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20150821230410) do
 
-  create_table "activities", force: true do |t|
+  create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id"
     t.string   "trackable_type"
     t.integer  "owner_id"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 20150821230410) do
   add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type"
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type"
 
-  create_table "concerto_configs", force: true do |t|
+  create_table "concerto_configs", force: :cascade do |t|
     t.string  "key"
     t.string  "value"
     t.string  "value_type"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20150821230410) do
 
   add_index "concerto_configs", ["key"], name: "index_concerto_configs_on_key", unique: true
 
-  create_table "concerto_hardware_players", force: true do |t|
+  create_table "concerto_hardware_players", force: :cascade do |t|
     t.string   "ip_address"
     t.integer  "screen_id"
     t.boolean  "activated"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20150821230410) do
     t.string   "screen_on_off"
   end
 
-  create_table "concerto_plugins", force: true do |t|
+  create_table "concerto_plugins", force: :cascade do |t|
     t.boolean  "enabled"
     t.string   "gem_name"
     t.string   "gem_version"
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 20150821230410) do
     t.datetime "updated_at"
   end
 
-  create_table "contents", force: true do |t|
+  create_table "contents", force: :cascade do |t|
     t.string   "name"
     t.integer  "duration"
     t.datetime "start_time"
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 20150821230410) do
     t.integer  "children_count", default: 0
   end
 
-  create_table "delayed_jobs", force: true do |t|
+  create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0
     t.integer  "attempts",   default: 0
     t.text     "handler"
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 20150821230410) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority"
 
-  create_table "feeds", force: true do |t|
+  create_table "feeds", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
     t.integer  "parent_id"
@@ -112,7 +112,7 @@ ActiveRecord::Schema.define(version: 20150821230410) do
 
   add_index "feeds", ["parent_id"], name: "index_feeds_on_parent_id"
 
-  create_table "field_configs", force: true do |t|
+  create_table "field_configs", force: :cascade do |t|
     t.integer  "field_id"
     t.string   "key"
     t.string   "value"
@@ -121,41 +121,41 @@ ActiveRecord::Schema.define(version: 20150821230410) do
     t.datetime "updated_at"
   end
 
-  create_table "fields", force: true do |t|
+  create_table "fields", force: :cascade do |t|
     t.string   "name"
     t.integer  "kind_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "groups", force: true do |t|
+  create_table "groups", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "narrative"
   end
 
-  create_table "kinds", force: true do |t|
+  create_table "kinds", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "media", force: true do |t|
+  create_table "media", force: :cascade do |t|
     t.integer  "attachable_id"
     t.string   "attachable_type"
     t.string   "key"
     t.string   "file_name"
     t.string   "file_type"
     t.integer  "file_size"
-    t.binary   "file_data",       limit: 10485760
+    t.binary   "file_data"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "media", ["attachable_id", "attachable_type"], name: "index_media_on_attachable_id_and_attachable_type"
 
-  create_table "memberships", force: true do |t|
+  create_table "memberships", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "group_id"
     t.datetime "created_at"
@@ -167,7 +167,7 @@ ActiveRecord::Schema.define(version: 20150821230410) do
 
   add_index "memberships", ["receive_emails"], name: "index_memberships_on_receive_emails"
 
-  create_table "pages", force: true do |t|
+  create_table "pages", force: :cascade do |t|
     t.string   "category"
     t.string   "title"
     t.string   "language"
@@ -177,7 +177,7 @@ ActiveRecord::Schema.define(version: 20150821230410) do
     t.string   "slug"
   end
 
-  create_table "positions", force: true do |t|
+  create_table "positions", force: :cascade do |t|
     t.text     "style"
     t.decimal  "top",         precision: 6, scale: 5, default: 0.0
     t.decimal  "left",        precision: 6, scale: 5, default: 0.0
@@ -189,7 +189,7 @@ ActiveRecord::Schema.define(version: 20150821230410) do
     t.datetime "updated_at"
   end
 
-  create_table "screens", force: true do |t|
+  create_table "screens", force: :cascade do |t|
     t.string   "name"
     t.string   "location"
     t.boolean  "is_public"
@@ -205,7 +205,7 @@ ActiveRecord::Schema.define(version: 20150821230410) do
     t.string   "time_zone"
   end
 
-  create_table "submissions", force: true do |t|
+  create_table "submissions", force: :cascade do |t|
     t.integer  "content_id"
     t.integer  "feed_id"
     t.boolean  "moderation_flag"
@@ -216,7 +216,7 @@ ActiveRecord::Schema.define(version: 20150821230410) do
     t.text     "moderation_reason"
   end
 
-  create_table "subscriptions", force: true do |t|
+  create_table "subscriptions", force: :cascade do |t|
     t.integer  "feed_id"
     t.integer  "field_id"
     t.integer  "screen_id"
@@ -225,7 +225,7 @@ ActiveRecord::Schema.define(version: 20150821230410) do
     t.datetime "updated_at"
   end
 
-  create_table "templates", force: true do |t|
+  create_table "templates", force: :cascade do |t|
     t.string   "name"
     t.string   "author"
     t.boolean  "is_hidden",       default: false
@@ -237,7 +237,7 @@ ActiveRecord::Schema.define(version: 20150821230410) do
     t.string   "owner_type"
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email",                            default: "",    null: false
     t.string   "encrypted_password",               default: "",    null: false
     t.string   "reset_password_token"
