@@ -95,4 +95,4 @@ gem 'web-console', '~> 2.0', group: :development
 
 # Versions locked for Ruby 1.9.3 support
 gem 'iso8601', '0.8.7'
-gem 'tins', '1.5.1'
+gem 'tins', '1.5.4'

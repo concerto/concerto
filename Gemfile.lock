@@ -286,7 +286,7 @@ GEM
     thread (0.2.2)
     thread_safe (0.3.5)
     tilt (1.4.1)
-    tins (1.5.1)
+    tins (1.5.4)
     turbolinks (2.5.3)
       coffee-rails
     twitter-bootstrap-rails-confirm (1.0.4)
@@ -358,7 +358,7 @@ DEPENDENCIES
   sprockets (~> 2.11.3)
   sqlite3
   therubyracer
-  tins (= 1.5.1)
+  tins (= 1.5.4)
   turbolinks
   twitter-bootstrap-rails-confirm
   uglifier (~> 2.7.2)
