@@ -45,7 +45,7 @@ gem 'rmagick', require: 'rmagick', platforms: :ruby
 gem 'attachable'
 
 gem 'devise', '~> 3.5'
-gem 'cancancan', '~> 1.10.1'
+gem 'cancancan', '~> 1.12.0'
 
 gem 'json'
 gem 'rubyzip', '~> 1.1.6'
@@ -92,3 +92,7 @@ gem 'font-awesome-sass'
 
 # Web console
 gem 'web-console', '~> 2.0', group: :development
+
+# Versions locked for Ruby 1.9.3 support
+gem 'iso8601', '0.8.7'
+gem 'tins', '1.5.1'
