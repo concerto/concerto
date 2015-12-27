@@ -57,7 +57,7 @@ GEM
     bundler-audit (0.4.0)
       bundler (~> 1.2)
       thor (~> 0.18)
-    cancancan (1.12.0)
+    cancancan (1.13.1)
     clockwork (1.2.0)
       activesupport
       tzinfo
@@ -147,17 +147,16 @@ GEM
     i18n (0.7.0)
     i18n-js (3.0.0.rc11)
       i18n (~> 0.6)
-    i18n-tasks (0.7.13)
-      activesupport
+    i18n-tasks (0.8.7)
+      activesupport (>= 2.3.18)
       easy_translate (>= 0.5.0)
       erubis
-      highline
+      highline (>= 1.7.3)
       i18n
-      slop (~> 3.5)
-      term-ansicolor
-      terminal-table
+      term-ansicolor (>= 1.3.2)
+      terminal-table (>= 1.5.1)
     icalendar (2.3.0)
-    iso8601 (0.8.7)
+    iso8601 (0.9.0)
     jquery-rails (4.0.5)
       rails-dom-testing (~> 1.0)
       railties (>= 4.2.0)
@@ -192,7 +191,7 @@ GEM
     nprogress-rails (0.1.6.7)
     octokit (4.2.0)
       sawyer (~> 0.6.0, >= 0.5.3)
-    oga (1.3.1)
+    oga (2.0.0)
       ast
       ruby-ll (~> 2.1)
     open_uri_redirections (0.2.1)
@@ -286,7 +285,7 @@ GEM
     thread (0.2.2)
     thread_safe (0.3.5)
     tilt (1.4.1)
-    tins (1.5.4)
+    tins (1.8.1)
     turbolinks (2.5.3)
       coffee-rails
     twitter-bootstrap-rails-confirm (1.0.4)
@@ -318,7 +317,7 @@ DEPENDENCIES
   attachable
   bootstrap-datepicker-rails
   bundler-audit
-  cancancan (~> 1.12.0)
+  cancancan
   clockwork
   concerto_calendar
   concerto_docsplit
@@ -336,8 +335,7 @@ DEPENDENCIES
   girl_friday
   google-analytics-turbolinks (~> 0.0.4)
   i18n-js (>= 3.0.0.rc8, < 3.1.0)
-  i18n-tasks (~> 0.7.10)
-  iso8601 (= 0.8.7)
+  i18n-tasks (= 0.8.7)
   jquery-rails
   jquery-timepicker-rails
   json
@@ -358,8 +356,10 @@ DEPENDENCIES
   sprockets (~> 2.11.3)
   sqlite3
   therubyracer
-  tins (= 1.5.4)
   turbolinks
   twitter-bootstrap-rails-confirm
   uglifier (~> 2.7.2)
   web-console (~> 2.0)
+
+BUNDLED WITH
+   1.11.2

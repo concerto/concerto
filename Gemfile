@@ -45,7 +45,7 @@ gem 'rmagick', require: 'rmagick', platforms: :ruby
 gem 'attachable'
 
 gem 'devise', '~> 3.5'
-gem 'cancancan', '~> 1.12.0'
+gem 'cancancan'
 
 gem 'json'
 gem 'rubyzip', '~> 1.1.6'
@@ -79,7 +79,7 @@ gem 'google-analytics-turbolinks', '~> 0.0.4'
 
 # I18n Tasks
 group :development do
-  gem 'i18n-tasks', '~> 0.7.10'
+  gem 'i18n-tasks', '0.8.7'
   gem 'slop', '~> 3.6.0' # Required due to https://github.com/glebm/i18n-tasks/issues/118
 end
 
@@ -92,7 +92,3 @@ gem 'font-awesome-sass'
 
 # Web console
 gem 'web-console', '~> 2.0', group: :development
-
-# Versions locked for Ruby 1.9.3 support
-gem 'iso8601', '0.8.7'
-gem 'tins', '1.5.4'
