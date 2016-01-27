@@ -18,6 +18,7 @@ class GroupsController < ApplicationController
     @feeds_separated = @group.feeds.in_groups(2)
     @feeds_left = @feeds_separated[0]
     @feeds_right = @feeds_separated[1]
+    @pending_memberships_count = @group.memberships.pending.length
     auth!
     respond_with(@group)
   end
