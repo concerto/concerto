@@ -76,7 +76,7 @@ class Frontend::ScreensControllerTest < ActionController::TestCase
     assert_equal "*", @response.headers['Access-Control-Allow-Methods']
     assert_equal "true", @response.headers['Access-Control-Allow-Credentials']
     assert_equal "Authorization", @response.headers['Access-Control-Allow-Headers']
-    assert_equal " ", @response.body
+    assert_equal "", @response.body
   end
 
   # Tests the frontend JS login mechanism

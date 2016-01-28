@@ -1,7 +1,7 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.1.6'
+gem 'rails', '~> 4.2.5'
 
 # Get the absolute path of this Gemfile so the includes below still work
 # when the current directory for a bundler command isn't the application's
@@ -26,7 +26,7 @@ end
 
 gem 'sass-rails'
 gem 'sprockets', '~> 2.11.3'
-gem 'therubyracer', :platforms => :ruby
+gem 'therubyracer', platforms: :ruby
 gem 'execjs', '~> 2.2.2'
 gem 'uglifier', '~> 2.7.2'
 
@@ -36,35 +36,37 @@ gem 'jquery-timepicker-rails'
 gem 'bootstrap-datepicker-rails'
 gem 'twitter-bootstrap-rails-confirm'
 
+gem 'responders', '~> 2.0'
+
 #RMagick is used for image resizing and processing
-gem 'rmagick', :require => 'rmagick', :platforms => :ruby
+gem 'rmagick', require: 'rmagick', platforms: :ruby
 
 # Attachable does all the file work.
 gem 'attachable'
 
-gem 'devise', '~> 3'
+gem 'devise', '~> 3.5'
 gem 'cancancan'
 
 gem 'json'
 gem 'rubyzip', '~> 1.1.6'
 
 # Process jobs in the background
-gem 'foreman', :group => :development
+gem 'foreman', group: :development
 gem 'delayed_job_active_record'
 gem 'clockwork'
 
 # Test Coverage
-gem 'simplecov', :require => false, :group => :test
+gem 'simplecov', require: false, group: :test
 
 # Gem Auditing
-gem 'bundler-audit', :require => false, :group => :test
+gem 'bundler-audit', require: false, group: :test
 
 gem 'kaminari'
 
-gem 'sqlite3', :group => [:development, :test]
+gem 'sqlite3', group: [:development, :test]
 
-gem 'mysql2', :group => :mysql
-gem 'pg', :group => :postgres
+gem 'mysql2', group: :mysql
+gem 'pg', group: :postgres
 
 gem 'public_activity'
 
@@ -77,13 +79,16 @@ gem 'google-analytics-turbolinks', '~> 0.0.4'
 
 # I18n Tasks
 group :development do
-  gem 'i18n-tasks', '~> 0.7.10'
+  gem 'i18n-tasks', '0.8.7'
   gem 'slop', '~> 3.6.0' # Required due to https://github.com/glebm/i18n-tasks/issues/118
 end
 
 gem 'i18n-js', '>= 3.0.0.rc8', '< 3.1.0'
 
 #Github API
-gem 'octokit'
+gem 'octokit', '~>4.0'
 
 gem 'font-awesome-sass'
+
+# Web console
+gem 'web-console', '~> 2.0', group: :development

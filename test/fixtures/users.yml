@@ -5,21 +5,24 @@ admin:
   email: admin@admin.com
   is_admin: true
   encrypted_password: $2a$04$xCwuqPq86MuGSvbWNZ8wlezo6UY3c1aTrgRG9uN4TKvq5ZwmHNJ.u
+  confirmed_at: <%= Time.now %>
 
 katie:
   first_name: Katie
   last_name: Boudreau
   email: ktb@test.com
   encrypted_password: $2a$10$UFJS15eVQKdSyP5qU7K.ceS0lqh5MUHt3DoyidIW70QUTVmPd3w4O
+  confirmed_at: <%= Time.now %>
 
 kristen:
   first_name: Kristen
   last_name: Zaik
   email: krzaiks@internet.com
+  confirmed_at: <%= Time.now %>
 
 karen:
   first_name: Karen
   last_name: Rowe
   email: karen@rowebot.com
   encrypted_password: $2a$10$M8dCaJMIv/HBUtR1F.8tDOwWhVarLKxJVGvBhbgkXDAt1cdTZO.se
-  # password: password
+  confirmed_at: <%= Time.now %>

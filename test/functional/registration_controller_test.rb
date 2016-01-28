@@ -23,7 +23,7 @@ class ConcertoDeviseRegistrationsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "registration form diabled" do
+  test "registration form disabled" do
     ConcertoConfig.set("allow_registration", "false")
     get :new
     assert_response :redirect

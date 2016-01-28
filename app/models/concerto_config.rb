@@ -56,9 +56,9 @@ class ConcertoConfig < ActiveRecord::Base
     end
 
     setting = ConcertoConfig.where(key: key).first
-      if setting.nil?
-        raise "Concerto Config key #{key} not found!"
-      end    
+    if setting.nil?
+      raise "Concerto Config key #{key} not found!"
+    end    
     if setting.value_type == "boolean"
       ["true", "t", "1"].include?(setting.value) ? (return true) : (return false)
     end
@@ -149,11 +149,12 @@ class ConcertoConfig < ActiveRecord::Base
   def self.cache_rebuild()
     data = {}
     ConcertoConfig.all.each do |config|
-      if config.value_type == "boolean"
-        config.value = (config.value == "true")
-      end
       if config.can_cache?
-        data[config.key] = config.value
+        if config.value_type == "boolean" 
+          data[config.key] = (config.value == "true")
+        else 
+          data[config.key] = config.value
+        end
       end
     end  
     Rails.logger.debug('Writing cache')
