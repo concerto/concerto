@@ -44,7 +44,7 @@ gem 'rmagick', require: 'rmagick', platforms: :ruby
 # Attachable does all the file work.
 gem 'attachable'
 
-gem 'devise', '~> 3.5'
+gem 'devise', '~> 3.5.5'
 gem 'cancancan'
 
 gem 'json'
@@ -79,14 +79,14 @@ gem 'google-analytics-turbolinks', '~> 0.0.4'
 
 # I18n Tasks
 group :development do
-  gem 'i18n-tasks', '0.8.7'
+  gem 'i18n-tasks', '~> 0.9.2'
   gem 'slop', '~> 3.6.0' # Required due to https://github.com/glebm/i18n-tasks/issues/118
 end
 
 gem 'i18n-js', '>= 3.0.0.rc8', '< 3.1.0'
 
 #Github API
-gem 'octokit', '~>4.0'
+gem 'octokit', '~>4.2.0'
 
 gem 'font-awesome-sass'
 

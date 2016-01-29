@@ -8,7 +8,8 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
 
   if defined?(Airbrake)
     Airbrake.configure do |config|
-      config.project_key = if ConcertoConfig[:send_errors] then '34e36775df3e89293c59efeba36f6c8f' else '' end 
+      config.project_key = '34e36775df3e89293c59efeba36f6c8f' if ConcertoConfig[:send_errors]
+      config.project_key ||= ''
       config.project_id = 0
       config.host = 'http://errors.concerto-signage.org:80'
       config.environment = Concerto::VERSION::STRING
