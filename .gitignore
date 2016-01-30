@@ -18,3 +18,4 @@ doc/coverage/*
 Gemfile-plugins.bak
 Gemfile.local
 *.sublime*
+.idea

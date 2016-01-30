@@ -1,6 +1,8 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'https://rubygems.org'
 
+ruby '2.3.0'
+
 gem 'rails', '~> 4.2.5'
 
 # Get the absolute path of this Gemfile so the includes below still work
@@ -63,10 +65,7 @@ gem 'bundler-audit', require: false, group: :test
 
 gem 'kaminari'
 
-gem 'sqlite3', group: [:development, :test]
-
-gem 'mysql2', group: :mysql
-gem 'pg', group: :postgres
+gem 'pg'
 
 gem 'public_activity'
 

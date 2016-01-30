@@ -7,7 +7,7 @@ if defined?(Bundler)
   #Bundler.require(*Rails.groups(assets: %w(development test)))
 
   groups = {assets: %w(development test production)}
-  Bundler.require(:concerto_plugins,*Rails.groups(groups))
+  Bundler.require(:concerto_plugins, *Rails.groups(groups))
 
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
@@ -75,7 +75,8 @@ module Concerto
     # be routed as /404, /500, etc.
     config.exceptions_app = lambda do |env|
       ErrorsController.action(:render_error).call(env)
-   end
+    end
 
+    config.active_record.schema_format = :sql
   end
 end

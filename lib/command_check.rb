@@ -22,16 +22,8 @@ def command?(command)
   end
 end
 
-def system_has_mysql?
-  Gem::Specification::find_all_by_name('mysql2').any? || command?('mysql_config')
-end
-
 def system_has_postgres?
   Gem::Specification::find_all_by_name('pg').any? || command?('pg_config')
-end
-
-def mysql_location
-  which('mysql_config').split('/bin').first
 end
 
 def postgres_location
