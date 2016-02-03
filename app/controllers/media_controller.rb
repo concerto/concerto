@@ -15,6 +15,7 @@ class MediaController < ApplicationController
   def create
     auth!(object: Media, action: :create)
 
+    image_info = nil
     @medias = []
     files = get_file_params
     files.each do |file|
@@ -24,6 +25,8 @@ class MediaController < ApplicationController
       if media.file_size > 0 && Concerto::ContentConverter.supported_types.include?(media.file_type)
         converted_medias = Concerto::ContentConverter.convert([media])
         media = converted_medias.select{ |m| m.key == 'processed' }.first
+        adjusted_image = ConcertoImageMagick.load_image(media.file_contents)
+        image_info = "#{adjusted_image.filesize } #{adjusted_image.density}"
       elsif media.file_size > 0 && media.file_type == 'image/jpeg'
         # if it's a photo then auto orient it
         require 'concerto_image_magick'
@@ -33,6 +36,8 @@ class MediaController < ApplicationController
 
           media.file_data = adjusted_image.to_blob
           media.file_size = adjusted_image.filesize
+
+          image_info = "#{adjusted_image.filesize } #{adjusted_image.density}"
         end
       end
 
@@ -43,7 +48,9 @@ class MediaController < ApplicationController
       media.save
       @medias << media
     end
-    json = @medias.to_json(only: :id)
+    info = @medias.map {|m| {id: m.id} }
+    info.first[:info] = image_info if !image_info.blank?
+    json = info.to_json #@medias.to_json(only: :id)
     # jquery.iframe-transport requires result sent back in textarea
     if params['X-Requested-With'] == 'IFrame'
       render inline: "<textarea data-type='application/json'>#{json}</textarea>"
