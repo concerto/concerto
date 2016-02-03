@@ -1,8 +1,11 @@
 <div class="viewblock-header_right">
   <div class="button-padding">
-    <% if can? :manage, @group %>
+    <% if can? :update, @group %>
       <%= link_to manage_members_group_path(@group), class: "btn" do %>
-        <%= t('.manage_members') %>&nbsp;<span class="badge<% if @pending_memberships_count > 0 %> action<% end %>"><%= @pending_memberships_count %></span>
+        <%= t('.manage_members') %>&nbsp;
+        <% if @pending_memberships_count > 0 %>
+          <span class="badge action"><%= @pending_memberships_count %></span>
+        <% end %>
       <% end %>
     <% end %>
     <% if can? :edit, @group %>
