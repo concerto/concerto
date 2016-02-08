@@ -15,7 +15,7 @@ class RootTest < ActionDispatch::IntegrationTest
 
   test "root url shows login when not public" do
     ConcertoConfig.set('public_concerto', false)
-    
+
     get "/"
     assert_redirected_to new_user_session_path
 

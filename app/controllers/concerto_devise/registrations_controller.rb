@@ -31,7 +31,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
     if resource.save
       process_notification(resource, {}, action: 'create', owner: current_user)
 
-      if ConcertoConfig["setup_complete"] == false
+      if ConcertoConfig[:setup_complete] == false
         ConcertoConfig.set("setup_complete", "true")
         # send_errors option is displayed in the form for first setup only
         ConcertoConfig.set("send_errors", params[:concerto_config][:send_errors])
@@ -49,7 +49,7 @@ class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
         respond_with resource, location: after_sign_up_path_for(resource)
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_navigational_format?
-        expire_session_data_after_sign_in!
+        expire_data_after_sign_in!
         respond_with resource, location: after_inactive_sign_up_path_for(resource)
       end
     else

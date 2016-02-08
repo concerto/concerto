@@ -8,7 +8,7 @@ Full Installation Instructions: [https://github.com/concerto/concerto/wiki/Insta
 Concerto is an open source digital signage system. Users submit graphic, textual, and other content, and moderators approve that content for use in a variety of content feeds which are displayed on screens connected to computers displaying the Concerto frontned.
 
 ##Dependencies
-* Ruby 1.9 or newer
+* Ruby 2.0 or newer
 * Rubygems
 * Imagemagick
 * Webserver (Apache/Unicorn/Thin/Nginx)
