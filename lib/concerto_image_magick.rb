@@ -5,6 +5,10 @@ module ConcertoImageMagick
     return Magick::Image.from_blob(file_contents).first
   end
   
+  def self.image_info(img)
+    return { size: img.filesize, density: img.density, width: img.columns, height: img.rows } if !img.nil?
+  end
+
   def self.new_drawing_object
     return Magick::Draw.new
   end

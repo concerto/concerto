@@ -23,6 +23,9 @@ var initializeGraphicPreview = {
         }).complete(function(data) {
           media_id.val(data.responseJSON[0].id);
           var img_string = "<img src='<%= Rails.application.config.relative_url_root %>/content/preview/display?media_id=" + media_id.val() + "&type=Graphic&width=" + preview.width() + "' />";
+          if (typeof data.responseJSON[0].info !== "undefined") {
+            img_string += "<p>" + data.responseJSON[0].info + "</p>";
+          }
           preview.html(img_string);
         }).error(function() {
           preview.html("Unable to preview at this time.");
