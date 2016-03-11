@@ -57,6 +57,8 @@ class Screen < ActiveRecord::Base
   scope :online, lambda { where('frontend_updated_at >= ?', Clock.time - Screen::ONLINE_THRESHOLD) }
   scope :offline, lambda { where('frontend_updated_at IS NULL OR frontend_updated_at < ?', Clock.time - Screen::OFFLINE_THRESHOLD) }
 
+  scope :order_by_name, -> { order "LOWER(name)" }
+
   # types of entities that may "own" a screen
   SCREEN_OWNER_TYPES = ["User", "Group"]
 

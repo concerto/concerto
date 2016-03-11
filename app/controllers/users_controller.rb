@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     @contents = Kaminari.paginate_array(@contents).page(params[:page])
     auth!({action: :read, object: @contents})
 
-    @screens = @user.screens + @user.groups.collect{|g| g.screens}.flatten
+    @screens = @user.screens.order_by_name + @user.groups.collect{|g| g.screens.order_by_name}.flatten
     auth!({action: :read, object: @screens})
  
     respond_with(@user)

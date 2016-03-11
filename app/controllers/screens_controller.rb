@@ -9,7 +9,7 @@ class ScreensController < ApplicationController
   # GET /screens
   # GET /screens.xml
   def index
-    @screens = Screen.accessible_by(current_ability)
+    @screens = Screen.order_by_name.accessible_by(current_ability)
     @my_screens = current_user.nil? ? [] : @screens.select{|s| s.owner == current_user || current_user.groups.include?(s.owner)}
     @templates = Template.where(is_hidden: false).sort_by{|t| t.screens.count}.reverse
     respond_with(@screens)
