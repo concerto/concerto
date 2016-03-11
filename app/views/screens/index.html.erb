@@ -38,9 +38,7 @@
         <div class="viewblock-cont">
           <div class="default-padding">
             <p><b>Screens Online:</b> <%= Screen.online.size %>/<%= Screen.count %></p>
-            <% if Gem::Specification::find_all_by_name('concerto_hardware').any? %>
-              <p><b><%= link_to 'Hardware Players', 'hardware/players'%>:</b> <%= ConcertoHardware::Player.count %></p>
-            <% end %>
+            <%= ConcertoPlugin.render_view_hook self, :screen_statistics %>
           </div>
         </div>
       </section>
