@@ -1,6 +1,4 @@
-require 'simplecov'
-
-ENV["RAILS_ENV"] = "test"
+ENV['RAILS_ENV'] = 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 include Devise::TestHelpers
@@ -23,5 +21,4 @@ class ActiveSupport::TestCase
   def assert_small_delta(expected, actual)
     assert_in_delta(expected, actual, 0.00001)
   end
-
 end
