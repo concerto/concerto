@@ -55,8 +55,10 @@ gem 'foreman', group: :development
 gem 'delayed_job_active_record'
 gem 'clockwork'
 
-# Gem Auditing
-gem 'bundler-audit', require: false, group: :test
+group :test do
+  gem 'bundler-audit', require: false, group: :test
+  gem 'codeclimate-test-reporter', group: :test, require: nil
+end
 
 gem 'kaminari'
 

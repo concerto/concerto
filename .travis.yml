@@ -1,19 +1,20 @@
 sudo: false
-
+language: ruby
+cache: bundler
+bundler_args: "--without production development"
 rvm:
   - 2.2.4
   - 2.3.0
-
+script:
+- bundle exec rake
 before_script:
   - cp config/database.yml.travis config/database.yml
   - git submodule init
   - git submodule update
   - bundle exec rake db:setup
-
 after_script:
   - bundle-audit update
   - bundle-audit
-
 branches:
   only:
     - master

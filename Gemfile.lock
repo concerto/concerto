@@ -57,6 +57,8 @@ GEM
     clockwork (1.2.0)
       activesupport
       tzinfo
+    codeclimate-test-reporter (0.5.0)
+      simplecov (>= 0.7.1, < 1.0.0)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.1.x)
@@ -98,6 +100,7 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
+    docile (1.1.5)
     easy_translate (0.5.0)
       json
       thread
@@ -261,6 +264,11 @@ GEM
       faraday (~> 0.9)
       jwt (~> 1.5)
       multi_json (~> 1.10)
+    simplecov (0.11.1)
+      docile (~> 1.1.0)
+      json (~> 1.8)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.0)
     slop (3.6.0)
     sprockets (2.11.3)
       hike (~> 1.2)
@@ -316,6 +324,7 @@ DEPENDENCIES
   bundler-audit
   cancancan
   clockwork
+  codeclimate-test-reporter
   concerto_calendar
   concerto_docsplit
   concerto_frontend
