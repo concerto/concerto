@@ -20,6 +20,7 @@ class MediaController < ApplicationController
 
     @medias = []
     files = get_file_params
+    image_info = nil # We will use this to store resolution etc.
     files.each do |file|
 
       media = Media.new(file: file)
