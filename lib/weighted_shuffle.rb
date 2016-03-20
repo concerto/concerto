@@ -6,15 +6,8 @@ require 'base_shuffle'
 # then jumbled up and served from a timeline.
 class WeightedShuffle < BaseShuffle
 
-  def next_contents(count=1)
-    if @store.length < count
-      content = weighted_content()
-      @store += content.collect{|c| c.id}
-    end
-    return [] if @store.empty?
-
-    content_ids = @store.shift(count)
-    Content.where(id: content_ids).to_a.compact
+  def next_contents()
+    weighted_content.to_a.compact
   end
 
   private
