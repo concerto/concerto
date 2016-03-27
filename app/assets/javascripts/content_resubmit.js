@@ -36,13 +36,15 @@ function addContentResubmitUi(){
     if (!qtip.is(target) && qtip.has(target).length == 0 && !$.contains(event.target, timepicker)) {
       qtip.hide();
     } 
-    else {
-      // clicked on or inside the qtip (possibly to toggle the time dropdown)
-      // set the zindex of the timepicker to be in front of the qtip
-      var zindex = $('#qtip-1').css('z-index') + 1;
-      $('.ui-timepicker-wrapper').css('z-index', zindex); 
-    }
   });
+
+  $('#start_time_time').on('click', bringTimepickerForward);
+  $('#end_time_time').on('click', bringTimepickerForward);
+}
+
+function bringTimepickerForward(event) {
+  var zindex = $('#qtip-1').css('z-index') + 1;
+  $('.ui-timepicker-wrapper').css('z-index', zindex);
 }
 
 function initContentResubmitUi() {
