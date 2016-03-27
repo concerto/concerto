@@ -18,11 +18,30 @@ function addContentResubmitUi(){
         event: 'click', // Show it on click...
         solo: true // ...and hide all other tooltips...
       },
-      hide: 'unfocus',
+      hide: false,
       style: 'qtip-light qtip-shadow qtip-fixedwidth-medium qtip-rounded qtip-nopadding'
     });
   }).click(function(e) {
     e.preventDefault();
+  });
+
+  // Only hide the tooltip if the user clicks somewhere outside the qtip div 
+  $(document).on('click', function(event) {
+    var target = $(event.target)[0];
+    var qtip = $('#qtip-1');
+    var timepicker = $('.ui-timepicker-wrapper')[0];
+
+    // hide qtip when click target is not the qtip div or a descendant
+    // hide qtip when click target is not the timepicker container
+    if (!qtip.is(target) && qtip.has(target).length == 0 && !$.contains(event.target, timepicker)) {
+      qtip.hide();
+    } 
+    else {
+      // clicked on or inside the qtip (possibly to toggle the time dropdown)
+      // set the zindex of the timepicker to be in front of the qtip
+      var zindex = $('#qtip-1').css('z-index') + 1;
+      $('.ui-timepicker-wrapper').css('z-index', zindex); 
+    }
   });
 }
 
