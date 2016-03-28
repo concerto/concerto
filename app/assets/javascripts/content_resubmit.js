@@ -52,5 +52,5 @@ function initContentResubmitUi() {
   }
 }
 
-$(document).on('page:load', initContentResubmitUi);
+$(document).on('page:change', initContentResubmitUi);
 $(document).ready(initContentResubmitUi);
