@@ -28,7 +28,7 @@ function addContentResubmitUi(){
   // Only hide the tooltip if the user clicks somewhere outside the qtip div 
   $(document).on('click', function(event) {
     var target = $(event.target)[0];
-    var qtip = $('#qtip-1');
+    var qtip = $('.qtip');
     var timepicker = $('.ui-timepicker-wrapper')[0];
 
     // hide qtip when click target is not the qtip div or a descendant
@@ -37,21 +37,20 @@ function addContentResubmitUi(){
       qtip.hide();
     } 
   });
-
-  $('#start_time_time').on('click', bringTimepickerForward);
-  $('#end_time_time').on('click', bringTimepickerForward);
 }
 
 function bringTimepickerForward(event) {
-  var zindex = $('#qtip-1').css('z-index') + 1;
+  var zindex = $('.qtip').css('z-index') + 1;
   $('.ui-timepicker-wrapper').css('z-index', zindex);
 }
 
 function initContentResubmitUi() {
   if ($('.dd-content-resubmit').length > 0) {
     addContentResubmitUi();
+    $('#start_time_time').on('click', bringTimepickerForward);
+    $('#end_time_time').on('click', bringTimepickerForward);
   }
 }
 
-$(document).on('page:change', initContentResubmitUi);
+$(document).on('page:load', initContentResubmitUi);
 $(document).ready(initContentResubmitUi);
