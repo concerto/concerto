@@ -126,8 +126,8 @@ Concerto::Application.routes.draw do
   # This is the catch-all path we use for people who type /content when they
   # are semantically looking for all the feeds to show the content.  We put it
   # here at the bottom to avoid capturing any of the restful content paths.
-  get 'content/' => 'feeds#index'
-  get 'browse/' => 'feeds#index'
+  get 'content/' => 'contents#index'
+  get 'browse/' => 'contents#index'
 
   # Note: 404 errors are not handled by the router.
   # Instead, they are caught by Rails Middleware and then redirected
