@@ -5,33 +5,34 @@
 
 // viewblock
 .viewblock {
-	@include box-shadow(0 3px 2px #ababab);
+	// @include box-shadow(0 3px 2px #ababab);
   display: block;
   margin-bottom: 18px;
-  @include border-radius(8px 8px 0px 0px);
+	background: $white;
+	border: solid 1px $grayLighter;
+	border-top: solid 2px $grayLight;
+  // @include border-radius(8px 8px 0px 0px);
 
 	.viewblock-header {
-   	@include border-radius(8px 8px 0px 0px);
-    @include vertical-gradient( darken($grayLighter, 3%), darken($grayLight, 8%) );
-    //background: #FFF image-url('layout/viewblock/header_bg.png') bottom left repeat-x;
     display: block;
-    padding: 0px;
-    border: solid 1px #ababab;
-   	border-bottom: 0px;
+    padding: 5px;
+    // border: solid 1px #ababab;
+		border-bottom: solid 1px $grayLighter;
 
     &.light-version {
-      @include vertical-gradient( $grayLightest, $grayLighter );
+      // @include vertical-gradient( $grayLightest, $grayLighter );
     }
 
    	h1 {
-   		color: darken($gray, 20%);
+   		color: $grayDarker;
    		font-size: 1.4em;
    		letter-spacing: 0.05em;
-   		text-shadow: 0 1px darken($grayLighter, 5%);
+			font-variant: small-caps;
+   	// 	text-shadow: 0 1px darken($grayLighter, 5%);
 		}
 
     a:not(.button) {
-      color: #003366;
+      color: $concerto-blue-1;
     }
 
     .default-padding {
@@ -44,7 +45,9 @@
 	  	float: right;
 	  	margin-left: 20px;
 
-      .button-padding { padding: 5px; }
+      .button-padding {
+				padding: 5px;
+			}
 		}
 
     // status element that fits a label and a value, usually a count
@@ -86,8 +89,8 @@
 
 	.viewblock-cont {
   	padding: 0px;
-    border: solid 1px #ababab;
-		background: $white;
+    // border: solid 1px #ababab;
+		// background: $white;
     @include clearfix();
 	}
 

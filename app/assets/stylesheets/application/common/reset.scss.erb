@@ -7,9 +7,9 @@
 
 html {
 	// include background with retina mixin:
-	@include at2x('layout/pagebg', 12px, 12px, '.gif');
-	background-repeat: repeat;
- 	
+	// @include at2x('layout/pagebg', 12px, 12px, '.gif');
+	// background-repeat: repeat;
+ 	background-color: $grayLightest;
  	color: #000;
  	font-family: $sans-body;
 	//min-width: 800px;
@@ -18,107 +18,107 @@ html {
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
 	margin: 0;
  	padding: 0;
- 	font-size: 12px; 
+ 	font-size: 12px;
 }
 
 table {
 	border-collapse: collapse;
- 	border-spacing: 0; 
+ 	border-spacing: 0;
 }
 
 fieldset, img {
-	border: 0; 
+	border: 0;
 }
 
 address, caption, cite, code, dfn, em, strong, b, th, var, optgroup {
 	font-style: inherit;
- 	font-weight: inherit; 
+ 	font-weight: inherit;
 }
 
 del, ins {
-	text-decoration: none; 
+	text-decoration: none;
 }
 
 caption, th {
-	text-align: left; 
+	text-align: left;
 }
 
 h1, h2, h3, h4, h5, h6 {
 	font-size: 100%;
- 	font-weight: normal; 
+ 	font-weight: normal;
 }
 
 q {
 	&:before, &:after {
-		content: ''; 
-	} 
+		content: '';
+	}
 }
 
 abbr {
 	border: 0;
- 	font-variant: normal; 
+ 	font-variant: normal;
 }
 
 sup, sub {
-	vertical-align: baseline; 
+	vertical-align: baseline;
 }
 
 b, strong {
-	font-weight: bold; 
+	font-weight: bold;
 }
 
 legend {
-	color: #000; 
+	color: #000;
 }
 
 input, button, textarea, select, optgroup, option {
 	font-family: inherit;
 	font-size: inherit;
   font-style: inherit;
- 	font-weight: inherit; 
+ 	font-weight: inherit;
 }
 
 input, button, textarea, select {
-	*font-size: 100%; 
+	*font-size: 100%;
 }
 
 small {
-	font-size: 0.7em; 
+	font-size: 0.7em;
 }
 
 /* Common Inheritance */
 
 .wrap {
 	width: $main-width;
- 	margin: 0 auto; 
+ 	margin: 0 auto;
 }
 
 .caps {
- 	text-transform: uppercase; 
+ 	text-transform: uppercase;
 }
 
 .spaced {
- 	letter-spacing: .12em; 
+ 	letter-spacing: .12em;
 }
 
 .center {
- 	text-align: center; 
+ 	text-align: center;
 }
 
 .larger {
- 	font-size: 1.2em; 
+ 	font-size: 1.2em;
 }
 
 .emboss {
- 	text-shadow: 0 1px 1px #FFF; 
+ 	text-shadow: 0 1px 1px #FFF;
 }
 
 .nomargin {
- 	margin: 0 !important; 
+ 	margin: 0 !important;
 }
 
 .clear {
-	clear: both; 
+	clear: both;
 }
 
 .cursor-pointer {
