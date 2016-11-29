@@ -82,7 +82,7 @@
         </div>
         <div class="pull-right">
           <h2 class="ilb"><%= link_to current_user.name, [main_app, current_user] %></h2>
-          <p class="ilb" style="margin: -3px 0 0 5px;"><%= link_to t('.settings'), main_app.edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;<%= link_to t('.log_out'), main_app.destroy_user_session_path, method: :delete %></p>
+          <p class="ilb"><%= link_to t('.settings'), main_app.edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;<%= link_to t('.log_out'), main_app.destroy_user_session_path, method: :delete %></p>
         </div>
 
       </div>

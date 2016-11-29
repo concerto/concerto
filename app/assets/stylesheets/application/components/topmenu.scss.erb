@@ -9,36 +9,34 @@
 
 #top-menu {
  	width: 100%;
-  @include vertical-gradient(#fbfbfb, #d5d5d5);
-  @include box-shadow(0px 1px 6px $gray);
-  border-bottom: solid 1px #999;
+  // @include vertical-gradient(#fbfbfb, #d5d5d5);
+  background-color: $grayLightest;
+  border-bottom: solid 1px $gray;
   z-index: 2;
   position: relative;
   @include clearfix();
-	
+
  	.btn {
 
 		// custom attributes:
-		@include border-radius(6px);
-//   background: transparent image-url('layout/top-menu/button_top-menu_states.png') top left repeat-x;
-    
+		@include border-radius(2px);
+    // background: transparent image-url('layout/top-menu/button_top-menu_states.png') top left repeat-x;
+
     // IE fix: reset Microsoft filter attribute:
     filter: none;
 
    	color: #666;
-   	text-shadow: 0 1px #eee;
    	margin: 0px 2px;
-    padding: 4px 7px;
-    font-size: 11px;
+    padding: 6px 12px;
+    font-size: 13px;
    	border: solid 1px #999;
 		float: left;
 
    	&:hover {
-//      background: transparent image-url('layout/top-menu/button_top-menu_states.png') top left repeat-x;
-     	text-shadow: 0 1px #eee;
-   		background-position: 100% -31px;
-   		border: solid 1px #2f84da;
-
+      //  background: transparent image-url('layout/top-menu/button_top-menu_states.png') top left repeat-x;
+   		color: $white !important;
+      background-color: $blueDark;
+      transition: background .2s;
       .badge {
         //background-color: $concerto-blue-1;
         color: $white;
@@ -51,59 +49,56 @@
 
     &:active {
 //      background: transparent image-url('layout/top-menu/button_top-menu_states.png') top left repeat-x;
-   		background-position: 100% -62px;
+   	// 	background-position: 100% -62px;
    		border: solid 1px #333;
 		}
 
 		&:visited {
 			color:#666;
 		}
-		
+
 		&.selected {
-			@include box-shadow(inset 0 0 10px #444);
+			// @include box-shadow(inset 0 0 10px #444);
     	text-decoration: none;
-//    	text-shadow: 0 -1px #333;
-    	color: #888;
-    	background-position: 100% 100%;
+    	color: $white;
+    	// background-position: 100% 100%;
     	border: solid 1px #333;
-	
+      background-color: $primary;
+
 			&:active {
 				color: $white !important;
       }
 
       &:hover {
-        color: black !important;
+        background-color: $primaryDark;
       }
-			
+
 		}
-		
+
 	}
 
   .badge {
-    background-color: #666;
+    background-color: $grayDark;
     color: $grayLighter;
-    text-shadow: 0 0 0;
+    // text-shadow: 0 0 0;
 
     &.action {
       background-color: darken($red, 10%);
     }
   }
-	
+
 	#top-menu-logobutton {
     @include vertical-gradient($concerto-blue-0, $concerto-blue-2);
     float: left;
     color: $white;
-    padding: 4px 12px;
+    padding: 7px 15px;
+    margin-right: 5px;
     font-weight: bold;
     vertical-align: middle;
+    height: 100%;
 
     i.concertocon-logobutton {
       opacity: 0.6;
-    }
-
-    &.full {
-      padding: 0px 12px;
-      height: 55px;
     }
 
     &.selected {
@@ -160,9 +155,11 @@
 
       a {
         color: $gray;
-        text-shadow: 0px 1px 0px $white;
+        // text-shadow: 0px 1px 0px $white;
         letter-spacing: 0.15em;
-        font-size: 17px;
+      }
+      a:hover{
+        color: $grayDark;
       }
     }
 
@@ -172,49 +169,54 @@
     }
 
     .pull-right {
-      padding-top: 7px;
+      // padding-top: 7px;
       margin-right: 8px;
-
+      a:hover{
+        text-decoration: none !important;
+      }
       p {
-        font-size: 0.8em;
+        font-size: 1em;
       }
     }
   }
-	
+
 	// each part of the menu is a "section"
-	section {	
-    border-right:solid 1px #ccc; 
+	section {
   	float: left;
   	margin: 0px;
-    padding-top: 4px;
+    padding: 4px 5px 0 5px;
+
+    &:not(:last-of-type){
+
+      border-right:solid 1px $grayLight;
+    }
 
     &.right {
       float: right;
     }
 
 		.top-menu-sectop {
-      height: 34px;
-      padding: 0px 2px;
+      padding: 5px 2px;
+      margin-bottom: 3px;
 		}
-		
+
     .top-menu-secbot {
-      background: #f9f9f9;
 
 			h1 {
-				color: #666;
+				color: $grayDark;
 		  	font-size: 0.75em;
 		  	font-weight: 400;
-		  	text-shadow: 0 0.05em #FFF;
-		  	padding: 3px 0px;
+		  	padding: 6px 0px;
 		  	text-transform: uppercase;
 		  	letter-spacing: 0.3em;
 		  	text-align: center;
+        margin-top: 25px;
 			}
-			
+
 		}
-		
+
 	}
-	
+
 }
 
 
@@ -223,7 +225,7 @@
 		text-align: center;
 		margin-left: .5em;
 	}
-	
+
 	.floatleft {
 		float: left !important;
 	}
@@ -239,7 +241,7 @@
 	.ilb {
 		display: inline-block;
 	}
-	
+
 	.wpadding1em {
 		padding-left: 1em;
 	}
@@ -248,4 +250,3 @@
 		padding-left: .5em;
 	}
 }
-
