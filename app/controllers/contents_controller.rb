@@ -247,6 +247,12 @@ class ContentsController < ApplicationController
     end
   end
 
+  def calendar
+    respond_to do |format|
+      format.html
+    end
+  end
+
   # PUT /contents/1/act
   # Trigger custom actions for the content.
   def act

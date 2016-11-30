@@ -32,6 +32,7 @@ gem 'uglifier', '~> 2.7.2'
 
 gem 'jquery-rails'
 gem 'turbolinks'
+gem 'jquery-turbolinks'
 gem 'jquery-timepicker-rails'
 gem 'bootstrap-datepicker-rails'
 gem 'twitter-bootstrap-rails-confirm'

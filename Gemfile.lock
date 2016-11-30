@@ -164,6 +164,9 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-timepicker-rails (1.4.3)
       railties (>= 3.1.0)
+    jquery-turbolinks (2.1.0)
+      railties (>= 3.1.0)
+      turbolinks
     json (1.8.3)
     jwt (1.5.2)
     kaminari (0.16.3)
@@ -343,6 +346,7 @@ DEPENDENCIES
   i18n-tasks (= 0.9.0)
   jquery-rails
   jquery-timepicker-rails
+  jquery-turbolinks
   json
   kaminari
   mysql2
@@ -365,3 +369,6 @@ DEPENDENCIES
   twitter-bootstrap-rails-confirm
   uglifier (~> 2.7.2)
   web-console (~> 2.0)
+
+BUNDLED WITH
+   1.13.6

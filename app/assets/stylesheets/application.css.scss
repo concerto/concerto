@@ -10,6 +10,11 @@
  *
  *= require_self
  *= require application/index-manifest
+ *= require fullcalendar
 */
 @import "font-awesome-sprockets";
 @import "font-awesome";
+
+#calendar table {
+    margin-bottom: 0px !important;
+}
