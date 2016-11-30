@@ -22,7 +22,8 @@
   &.btn-success:hover,
   &.btn-info,
   &.btn-info:hover {
-    color: $white;
+    color: $black;
+    background-color: $white;
   }
   &.btn-primary.active,
   &.btn-danger.active,
@@ -31,59 +32,45 @@
     color: rgba(255,255,255,.75);
   }
   &.btn-primary {
+    color: $white;
     background-color: $primary;
     border: solid 1px $primaryDark;
-    // text-shadow: 0 -1px 0px #006699;
 
     &:hover {
       color: $white !important;
       background-color: $primaryDark;
-      // text-shadow: 0 -1px 0px #eee;
       border: solid 1px $primary;
     }
 
     &.active {
       color: $grayDark !important;
-      // text-shadow: 0 -1px 0px #eee;
       outline: none;
       border: solid 1px $black;
     }
   }
   // Danger and error appear as red
-  &.btn-danger {
-    // @include vertical-gradient(#ee5f5b, #bd362f);
-    border-color: $red;
-    // text-shadow: 0 -1px 0px darken(#ee5f5b, 30%);
+  &.btn-danger, &.deny{
+    color: $redLight !important;
+    border-color: $redLight !important;
 
-    &:hover {
-      // @include vertical-gradient(#f7adab, #ee5f5b);
-      border-color: $redDark;
+    :hover {
+      border-color: $redDark !important;
+      color: $redDark !important;
     }
 
-    &.active {
-      // @include vertical-gradient(#ee5f5b, #bd362f);
-    }
   }
   // Success appears as green
   &.btn-success {
-    // @include vertical-gradient(#62c462, #51a351);
     border-color: $green;
-    // text-shadow: 0 -1px 0px darken(#62c462, 20%);
 
     &:hover {
-      // @include vertical-gradient(#9bee9b, #62c462);
       border-color: $greenDark;
     }
 
-    &.active {
-      // @include vertical-gradient(#62c462, #51a351);
-    }
   }
   // Info appears as a neutral blue
   &.btn-info {
-    // @include vertical-gradient(#5bc0de, #2f96b4);
     border-color: $blue;
-    // text-shadow: 0 -1px 0px #2f96b4;
   }
 
   &.clear {
@@ -110,7 +97,6 @@
 
   &:hover {
     color: #003366 !important;
-    // text-shadow: 0 -1px 0px #eee;
     border: solid 1px #2f84da;
     text-decoration: none;
   }
@@ -133,9 +119,7 @@
     background-color: darken($white, 10%);
     @include opacity(65);
     color: $gray !important;
-    // @include vertical-gradient($white, $white);
     border: solid 1px $grayLighter;
-    // @include box-shadow(none);
   }
 
   // Button Sizes
@@ -155,8 +139,6 @@
   &.btn-small {
     padding: 0px 5px;
     font-size: $basefont - 3px;
-    //font-size: $baseFontSize - 2px;
-    //line-height: $baseLineHeight - 2px;
   }
   &.btn-small .icon {
     margin-top: -1px;
@@ -198,7 +180,6 @@ input[type="submit"].btn {
 
   &:active {
     @include box-shadow(inset 0 0 6px $black);
-    // @include vertical-gradient(#dedede, #767676);
     color: #333 !important;
     text-shadow: 0 -1px 0px #eee;
     outline: none;
