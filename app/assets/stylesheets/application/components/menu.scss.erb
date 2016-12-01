@@ -1,0 +1,76 @@
+/*##########################################################################*/
+/*  New Menu  */
+/*##########################################################################*/
+
+
+//////////////////
+
+/*##########  STRUCTURE  ##########*/
+
+.container-fluid {
+	margin-left: 215px;
+}
+nav {
+	width: 215px;
+	height: 100%;
+	float: left;
+	background-color: $menuColor;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+
+	// Force link to not underline
+	a {
+		text-decoration: none !important;
+	}
+
+	#menu-logobutton {
+		margin: 15px;
+	}
+
+	// Triple bars collapse menu
+	#menu-collapse {
+		margin: 25px 20px;
+		display: inline-block;
+		float: right;
+		color: $grayLight;
+		font-size: 30px
+	}
+
+	section {
+
+		.menu-title > h1 {
+			margin-left: 15px;
+			text-transform: uppercase;
+			font-size: 15px;
+			color: $grayLight;
+			letter-spacing: 0.1em;
+		}
+
+		.menu-actions > a {
+			padding: 8px 15px;
+			display: block;
+			font-size: 15px;
+			color: $gray;
+
+			&:hover {
+				box-sizing: padding-box;
+				background-color: $menuColorHover;
+				color: $grayLight;
+			}
+
+			&:last-of-type {
+				margin-bottom: 15px;
+			}
+		}
+	}
+
+	.menu-bottom {
+		position: fixed;
+		bottom: 0;
+		margin: 15px;
+	}
+	.menu-account, .menu-account-rights {
+
+	}
+}
