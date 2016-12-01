@@ -39,6 +39,8 @@ gem 'twitter-bootstrap-rails-confirm'
 
 gem 'responders', '~> 2.0'
 
+gem 'jbuilder'
+
 #RMagick is used for image resizing and processing
 gem 'rmagick', require: 'rmagick', platforms: :ruby
 

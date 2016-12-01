@@ -105,6 +105,7 @@ Concerto::Application.routes.draw do
     end
     collection do
       get :calendar
+      get :fullcalendar
       post :preview
       get :add_feed
     end

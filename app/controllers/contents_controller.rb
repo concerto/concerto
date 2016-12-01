@@ -30,7 +30,13 @@ class ContentsController < ApplicationController
     respond_to do |format|
       format.html
       format.js {render json: @content}
+      format.json {respond_with(@content)}
     end
+  end
+
+  def fullcalendar
+    @content = Content.filter_all_content(params)
+    @content = Kaminari.paginate_array(@content).page(params[:page])
   end
 
   # GET /contents/1
