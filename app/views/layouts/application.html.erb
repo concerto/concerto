@@ -24,9 +24,9 @@
 </head>
 <body>
 <%= render partial: "elements/topmenu_contents" %>
-<%= render partial: "elements/render_flash" %>
 
 <div id="main" class="container-fluid">
+  <%= render partial: "elements/render_flash" %>
   <%= yield %>
 </div>
 <%= render partial: "layouts/footer" %>

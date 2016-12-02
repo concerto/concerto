@@ -8,33 +8,54 @@
 /*##########  STRUCTURE  ##########*/
 
 .container-fluid {
-	margin-left: 215px;
+	margin-left: $menuWidth;
+	transition: margin 1s;
 }
+
+nav.minimized + .container-fluid {
+	margin-left: $menuMinWidth;
+	transition: margin 1s;
+}
+
 nav {
-	width: 215px;
+	width: $menuWidth;
 	height: 100%;
 	float: left;
 	background-color: $menuColor;
 	position: fixed;
 	top: 0;
 	bottom: 0;
+	transition: margin 1s;
+	overflow: auto;
+	z-index: 9;
 
 	// Force link to not underline
 	a {
 		text-decoration: none !important;
 	}
 
-	#menu-logobutton {
+	#menu-logobutton, &>p {
 		margin: 15px;
+	}
+
+	&>p {
+		margin-right: 55px;
+		font-size: 15px;
+		color: $gray;
 	}
 
 	// Triple bars collapse menu
 	#menu-collapse {
-		margin: 25px 20px;
+		margin: 25px 15px;
 		display: inline-block;
 		float: right;
 		color: $grayLight;
-		font-size: 30px
+		font-size: 30px;
+		transition: transform 1s;
+
+		&:hover {
+				color: $grayLightest;
+		}
 	}
 
 	section {
@@ -68,9 +89,40 @@ nav {
 	.menu-bottom {
 		position: fixed;
 		bottom: 0;
-		margin: 15px;
+		padding: 0 15px;
+		width: #{$menuWidth - 2 * 15px};
+		background: $menuColor;
 	}
-	.menu-account, .menu-account-rights {
+}
+nav.minimized {
+	margin-left: #{ $menuMinWidth - $menuWidth} !important;
+	transition: margin 1s;
+	overflow: hidden;
 
+	#menu-collapse {
+		transform: rotate(180deg);
+		transition: transform 1s;
+	}
+}
+
+@media (max-width: 767px) {
+
+	nav {
+		margin-left: #{ $menuMinWidth - $menuWidth} !important;
+		transition: margin 1s;
+		overflow: hidden;
+
+		#menu-collapse {
+			transform: rotate(180deg);
+			transition: transform 1s;
+		}
+	}
+	nav.minimized {
+		margin-left: 0 !important;
+
+		#menu-collapse {
+			transform: rotate(0deg);
+			transition: transform 1s;
+		}
 	}
 }

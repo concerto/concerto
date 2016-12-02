@@ -87,7 +87,6 @@
 .alert-banner, .alert-removeborder {
   @extend .alert-block;
   @include border-radius(0px);
-  margin-bottom: 0px;
 }
 
 .badge {
@@ -116,19 +115,19 @@
 }
 
 // Flash Notice Banner
-// Only appears for a short time to show flash[:notice] text 
+// Only appears for a short time to show flash[:notice] text
 // Appears to "slide" from behind the top menu, then slide back up
 #flash-banner {
   background: $black;
   opacity: 0.8;
-  
+
   // initial state: is rendered at top of screen behind the topbar
   position: absolute;
   width: 100%;
   top: 0px;
   left: 0px;
   z-index: 1;
-  
+
   p {
     padding: 4px 12px;
     opacity: 1.0;

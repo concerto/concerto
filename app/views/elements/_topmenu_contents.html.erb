@@ -8,10 +8,11 @@
    #   For example: main_app.feeds_path yields the path to the normal
    #  feeds controller, and works both from Concerto and plugins.
 %>
-<nav id="top-menu">
+<nav>
   <% if not user_signed_in? %>
-    <%= link_to 'Concerto', main_app.root_url, id: "top-menu-logobutton" %>
-    <p id="top-menu-logintext">
+    <%= link_to '',main_app.root_url, id: "menu-logobutton", class: "concertocon-logobutton" %>
+    <a href="#menu-collapse" class="fa fa-chevron-left" id="menu-collapse" onclick="menuCollapse();"></a>
+    <p id="menu-logintext">
       <!-- Check if a plugin is attempting to override authentication method for sign in links -->
       <% if !ConcertoPlugin.render_view_hook(self, :signin_hook).empty? %>
         <%= ConcertoPlugin.render_view_hook self, :signin_hook %>
@@ -25,9 +26,10 @@
     </p>
   <% else %>
     <%= link_to main_app.dashboard_path, id: "menu-logobutton", class: "concertocon-logobutton tooltip-basic full #{ current_page?(main_app.dashboard_path)? 'selected' : '' }" do %>
-    <a href="#menu-collapse" class="fa fa-chevron-left" id="menu-collapse"></a>
-
+      <a href="#menu-collapse" class="fa fa-chevron-left" id="menu-collapse" onclick="menuCollapse();"></a>
     <% end %>
+
+    <div class="menu-list">
 
     <!-- Begin Menu for CONTENT -->
     <section>
@@ -74,6 +76,7 @@
       </section>
     <% end %>
     <!-- End Menu for ADMIN -->
+    </div>
 
     <!-- Begin User Login Area -->
     <section class="menu-bottom">
