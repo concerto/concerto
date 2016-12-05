@@ -34,11 +34,11 @@ nav {
 		text-decoration: none !important;
 	}
 
-	#menu-logobutton, &>p {
+	#menu-logobutton, & > p {
 		margin: 15px;
 	}
 
-	&>p {
+	& > p {
 		margin-right: 55px;
 		font-size: 15px;
 		color: $gray;
@@ -84,16 +84,23 @@ nav {
 				margin-bottom: 15px;
 			}
 		}
+
+		// The "before last" child must have padding bottom to not be below account informations
+		&:nth-last-child(2){
+			padding-bottom: 85px;
+		}
 	}
 
 	.menu-bottom {
 		position: fixed;
 		bottom: 0;
 		padding: 0 15px;
-		width: #{$menuWidth - 2 * 15px};
+		// -16px for scrollbar size
+		width: calc( #{$menuWidth - 2 * 15px} - 16px );
 		background: $menuColor;
 	}
 }
+
 nav.minimized {
 	margin-left: #{ $menuMinWidth - $menuWidth} !important;
 	transition: margin 1s;
@@ -105,6 +112,7 @@ nav.minimized {
 	}
 }
 
+// Media queries for mobile phones
 @media (max-width: 767px) {
 
 	nav {
@@ -119,6 +127,7 @@ nav.minimized {
 	}
 	nav.minimized {
 		margin-left: 0 !important;
+		overflow: auto;
 
 		#menu-collapse {
 			transform: rotate(0deg);
