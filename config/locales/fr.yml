@@ -446,9 +446,11 @@ fr:
       admin: Admin
       backup: Sauvegarde
       browse: Parcourir
+      calendar: Calendrier
       configuration: Configuration
       content: Contenu
       dashboard_tooltip: Voir le tableau de bord de concerto
+      feeds: Fils
       groups: Groupes
       leader: "Vous êtes chef d'au moins un groupe"
       log_out: Déconnexion
