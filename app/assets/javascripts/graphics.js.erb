@@ -5,6 +5,9 @@ var initializeGraphicPreview = {
   initialized: false,
 
   initialize: function() {
+    // Disable the save button until graphic upload completes
+    $('#submitContent').prop('disabled', true);
+
     if (!this.initialized) {
       $(document).delegate('#media_file', "change", function (e) {
         var preview = $("#preview_div");
@@ -21,6 +24,9 @@ var initializeGraphicPreview = {
           iframe: true,
           type: 'POST',
         }).complete(function(data) {
+          // Graphic upload finished: enable content submission
+          $('#submitContent').prop('disabled', false);
+
           media_id.val(data.responseJSON[0].id);
           var img_string = "<img src='<%= Rails.application.config.relative_url_root %>/content/preview/display?media_id=" + media_id.val() + "&type=Graphic&width=" + preview.width() + "' />";
           if (typeof data.responseJSON[0].info !== "undefined") {
@@ -31,7 +37,6 @@ var initializeGraphicPreview = {
           preview.html("Unable to preview at this time.");
         });
       });
-      // console.log('initialized GraphicPreview');
       this.initialized = true;
 
       // Fire off the preview if we already have a media_id, which is the
@@ -42,14 +47,14 @@ var initializeGraphicPreview = {
         var file_input = $('#media_file');
         var preview_url = file_input.data('url');
         var img_string = "<img src='<%= Rails.application.config.relative_url_root %>/content/preview/display?media_id=" + media_id.val() + "&type=Graphic&width=" + preview.width() + "' />";
-
         preview.html(img_string);
+
+        // Graphic loaded but a validation error occured. Enable our submit button again.
+        $('#submitContent').prop('disabled', false);
       }
-    } else {
-      // console.log('already initialized');
     }
   }
 };
 
 $(document).ready(initializeGraphicPreview.initialize);
-$(document).on('page:change', initializeGraphicPreview.initialize);
+$(document).on('page:load', initializeGraphicPreview.initialize);
