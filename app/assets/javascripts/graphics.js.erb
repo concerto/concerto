@@ -32,8 +32,8 @@ var initializeGraphicPreview = {
           iframe: true,
           type: 'POST',
         }).complete(function(data) {
+          // Graphic upload finished: enable content submission button and clear timeout message
           clearTimeout(uploadTimeout);
-          // Graphic upload finished: enable content submission
           $('#submitContent-Graphic').prop('disabled', false);
 
           media_id.val(data.responseJSON[0].id);
