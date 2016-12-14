@@ -14,6 +14,6 @@ class StrictPriorityShuffle < BaseShuffle
 
   def prioritised_content
     highest_prio=@subscriptions.max_by{|s| s.weight}
-    @subscriptions.collect{|s| s.contents * (!s.weight == highest_prio ? 0 : 1)}.flatten.shuffle!
+    @subscriptions.collect{|s| s.contents * (s.weight == highest_prio)}.flatten.shuffle!
   end
 end
