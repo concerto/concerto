@@ -64,7 +64,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
-    concerto_calendar (0.0.8)
+    concerto_calendar (0.0.9)
       google-api-client
       icalendar
       rails
@@ -82,7 +82,7 @@ GEM
       encryptor
       rails
       ruby-xslt (~> 0.9)
-    concerto_weather (0.3.2)
+    concerto_weather (0.4)
       rails
     connection_pool (1.2.0)
     debug_inspector (0.0.2)
