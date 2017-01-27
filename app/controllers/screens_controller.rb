@@ -12,6 +12,7 @@ class ScreensController < ApplicationController
     @screens = Screen.order_by_name.accessible_by(current_ability)
     @my_screens = current_user.nil? ? [] : @screens.select{|s| s.owner == current_user || current_user.groups.include?(s.owner)}
     @templates = Template.where(is_hidden: false).sort_by{|t| t.screens.count}.reverse
+    auth!
     respond_with(@screens)
   end
 
