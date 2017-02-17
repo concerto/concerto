@@ -73,8 +73,8 @@ module Concerto
         # process it with docsplit via the api
         begin
           if original_filepath.end_with? ".pdf"
-            Rails.logger.debug("pdftoppm -r 300 -singlefile -png #{original_filepath} /tmp/#{File.basename(original_filepath,".*")}_1")
-            `pdftoppm -r 300 -singlefile -png #{original_filepath} /tmp/#{File.basename(original_filepath,".*")}_1`
+            Rails.logger.debug("pdftoppm -r 300 -singlefile -png \"#{original_filepath}\" \"/tmp/#{File.basename(original_filepath,".*")}_1\"")
+            `pdftoppm -r 300 -singlefile -png "#{original_filepath}" "/tmp/#{File.basename(original_filepath, ".*")}_1"`
           else
             Docsplit.extract_images("#{original_filepath}", density: 300, pages: 1, format: 'png', output: "/tmp")
           end
