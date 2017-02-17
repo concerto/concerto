@@ -1,0 +1,20 @@
+<%= render :partial => "layouts/errors", :object => content %>
+
+<div class="row-fluid">
+  <div class="span8">
+    <%= render "contents/ticker/form_top", {form: form} %>
+    <%= render "form_middle", {:form => form} %>
+    <%= ConcertoPlugin.render_view_hook self, :content_form, {:form => form} %>
+    <%= render "form_submit_feeds", {:form => form} %>
+  </div>
+  <div class="span4">
+    <fieldset>
+      <legend><span><%=t('.preview')%></span></legend>
+      <div id="preview_div">
+        <%= render_content(content) %>
+      </div>
+    </fieldset>
+  </div>
+</div>
+
+<%= render  "form_bottom", {form: form, type: content.type} %>
