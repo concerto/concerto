@@ -2,7 +2,7 @@ module Concerto
   module VERSION
     MAJOR = 2
     MINOR = 3
-    TINY = 2
+    TINY = 3
     PRE = nil
 
     STRING = [MAJOR, MINOR, TINY, PRE].compact.join('.')
