@@ -3,7 +3,8 @@
     <div class="viewblock-header_right">
       <div class="button-padding">
         <% if !@gemspec.nil? && !@rubygems_current_version.nil? && (@rubygems_current_version.to_s > @gemspec.version.to_s) %>
-          <%= link_to t('.upgrade'), update_gem_concerto_plugins_path(id: @concerto_plugin.id), {method: :post, class: "btn"}%>
+          <%= link_to t('.upgrade'), update_gem_concerto_plugins_path(id: @concerto_plugin.id),
+            class: "btn update-plugin-btn", remote: true %>
         <% end %>
         <% if can? :edit, @concerto_plugin %>
           <%= link_to t(:edit_model, model: ConcertoPlugin.model_name.human), edit_concerto_plugin_path(@concerto_plugin), class: "btn" %>
@@ -50,6 +51,8 @@
         <b><%= t('.installed') %></b>
         <%= (@concerto_plugin.installed? && !@gemspec.nil?) ? t('.installed_yes') : t('.installed_no') %>
       </p>
+    </div>
+    <div id="updatePluginResults" class="default-padding">
     </div>
   </div>
 </section>
