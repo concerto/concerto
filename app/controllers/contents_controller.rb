@@ -331,7 +331,7 @@ class ContentsController < ApplicationController
       if !@content_const.nil?
         @content_sym = @content_const.model_name.singular.to_sym
       end
-      @attributes = [:name, :duration, {start_time: [:time, :date]}, {end_time: [:time, :date]}]
+      @attributes = [:name, :data, :duration, {start_time: [:time, :date]}, {end_time: [:time, :date]}]
     end
     params.require(@content_sym).permit(*@attributes)
   end
