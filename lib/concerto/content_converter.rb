@@ -72,7 +72,7 @@ module Concerto
 
         # process it with docsplit via the api
         begin
-          if original_filepath.end_with? ".pdf"
+          if original_filepath.end_with?('.pdf') && `which pdftoppm`.present?
             Rails.logger.debug("pdftoppm -r 300 -singlefile -png \"#{original_filepath}\" \"/tmp/#{File.basename(original_filepath,".*")}_1\"")
             `pdftoppm -r 300 -singlefile -png "#{original_filepath}" "/tmp/#{File.basename(original_filepath, ".*")}_1"`
           else
