@@ -55,18 +55,14 @@ gem 'foreman', group: :development
 gem 'delayed_job_active_record'
 gem 'clockwork'
 
-# Test Coverage
-gem 'simplecov', require: false, group: :test
-
-# Gem Auditing
-gem 'bundler-audit', require: false, group: :test
+group :test do
+  gem 'bundler-audit', require: false, group: :test
+  gem 'codeclimate-test-reporter', group: :test, require: nil
+end
 
 gem 'kaminari'
 
-gem 'sqlite3', group: [:development, :test]
-
-gem 'mysql2', group: :mysql
-gem 'pg', group: :postgres
+gem 'pg'
 
 gem 'public_activity'
 

@@ -14,7 +14,6 @@ class ConcertoConfigController < ApplicationController
   def config_check
     @imagemagick_installed = command?("convert")
     @rmagick_installed = Gem::Specification::find_all_by_name('rmagick').any?
-    @not_using_sqlite = ActiveRecord::Base.configurations[Rails.env]['adapter'] != "sqlite3"
     @not_world_writable = !(File.stat(Rails.root).world_writable?)
     #Using Ruby methods to stat a directory and convert the mod bit to the familiar 3-digit octal
     #The logic here and in the view assumes a *nix system - no idea what other posix systems will return

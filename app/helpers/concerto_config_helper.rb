@@ -60,15 +60,6 @@ module ConcertoConfigHelper
   
   def db_text
     adapter = ActiveRecord::Base.configurations[Rails.env]['adapter']
-    if @not_using_sqlite == false && (system_has_mysql? && system_has_postgres?)
-      "#{adapter} is your current database adapter. It's not recommended for production deployments and both MySQL (#{mysql_location}) and Postgresql (#{postgres_location}) are available on your system."
-    elsif @not_using_sqlite == false && system_has_mysql?
-      "#{adapter} is your current database adapter. It's not recommended for production deployments and MySQL is installed at #{mysql_location}"
-    elsif @not_using_sqlite == false && system_has_postgres?
-      "#{adapter} is your current database adapter. It's not recommended for production deployments and Postgresql is installed at #{postgres_location}"
-    else
-      "#{adapter} is properly installed"
-    end
+    "#{adapter} is properly installed"
   end
-  
 end
