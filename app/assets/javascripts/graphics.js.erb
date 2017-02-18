@@ -8,8 +8,8 @@ var initializeGraphicPreview = {
     var submitBtn = $("#submitContent-Graphic");
     var media_id = $("#graphic_media_attributes_0_id");
 
-    // Disable the save button until graphic upload completes
-    if (!media_id.val()) {
+    // Disable the save button (if we have an upload button displayed) until graphic upload completes
+    if (media_id.length != 0 && !media_id.val()) {
       submitBtn.prop('disabled', true);
     }
 
