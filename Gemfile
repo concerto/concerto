@@ -32,11 +32,14 @@ gem 'uglifier', '~> 2.7.2'
 
 gem 'jquery-rails'
 gem 'turbolinks'
+gem 'jquery-turbolinks'
 gem 'jquery-timepicker-rails'
 gem 'bootstrap-datepicker-rails'
 gem 'twitter-bootstrap-rails-confirm'
 
 gem 'responders', '~> 2.0'
+
+gem 'jbuilder'
 
 #RMagick is used for image resizing and processing
 gem 'rmagick', require: 'rmagick', platforms: :ruby

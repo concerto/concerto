@@ -458,9 +458,11 @@ en:
       admin: Admin
       backup: Backup
       browse: Browse
+      calendar: Calendar
       configuration: Configuration
       content: Content
       dashboard_tooltip: View the Concerto Dashboard
+      feeds: Feeds
       groups: Groups
       leader: You are a leader of one or more groups
       log_out: Log Out
