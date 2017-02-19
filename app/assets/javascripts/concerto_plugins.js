@@ -63,7 +63,7 @@ function updatePluginSuccess(e, data, status, xhr) {
     msg = msg + '</div>';
     $('#updatePluginResults').html(msg);
   } else {
-    window.location.replace(data['redirect_to']);
+    window.location.reload(true);
   }
 }
 
