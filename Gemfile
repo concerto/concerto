@@ -9,51 +9,52 @@ gem 'rails', '~> 4.2.5'
 basedir = File.dirname(__FILE__)
 
 # Load the gems used for remote reporting.
-if File.exists?("#{basedir}/Gemfile-reporting")
+if File.exist?("#{basedir}/Gemfile-reporting")
   eval File.read("#{basedir}/Gemfile-reporting")
 end
 
 # The Gemfile-plugins gem list is managed by Concerto itself,
 # through the ConcertoPlugins controller.
 group :concerto_plugins do
-  eval File.read("#{basedir}/Gemfile-plugins") if File.exists?("#{basedir}/Gemfile-plugins")
+  eval File.read("#{basedir}/Gemfile-plugins") if File.exist?("#{basedir}/Gemfile-plugins")
 end
 
 # Load a local Gemfile if it exists
-if File.exists?("#{basedir}/Gemfile.local")
+if File.exist?("#{basedir}/Gemfile.local")
   eval File.read("#{basedir}/Gemfile.local")
 end
 
+gem 'coffee-rails'
+gem 'execjs', '~> 2.2.2'
 gem 'sass-rails'
 gem 'sprockets', '~> 2.11.3'
 gem 'therubyracer', platforms: :ruby
-gem 'execjs', '~> 2.2.2'
 gem 'uglifier', '~> 2.7.2'
 
-gem 'jquery-rails'
-gem 'turbolinks'
-gem 'jquery-timepicker-rails'
 gem 'bootstrap-datepicker-rails'
+gem 'jquery-rails'
+gem 'jquery-timepicker-rails'
+gem 'turbolinks'
 gem 'twitter-bootstrap-rails-confirm'
 
 gem 'responders', '~> 2.0'
 
-#RMagick is used for image resizing and processing
+# RMagick is used for image resizing and processing
 gem 'rmagick', require: 'rmagick', platforms: :ruby
 
 # Attachable does all the file work.
 gem 'attachable'
 
-gem 'devise', '~> 3.5.5'
 gem 'cancancan'
+gem 'devise', '~> 3.5.5'
 
 gem 'json'
 gem 'rubyzip', '~> 1.1.6'
 
 # Process jobs in the background
-gem 'foreman', group: :development
-gem 'delayed_job_active_record'
 gem 'clockwork'
+gem 'delayed_job_active_record'
+gem 'foreman', group: :development
 
 # Test Coverage
 gem 'simplecov', require: false, group: :test
@@ -70,12 +71,13 @@ gem 'pg', group: :postgres
 
 gem 'public_activity'
 
-gem 'redcarpet', '~> 3.3.2'
 gem 'concerto_docsplit'
+gem 'redcarpet', '~> 3.3.2'
+
+gem 'google-analytics-turbolinks', '~> 0.0.4'
 
 # NProgress provides progress bars for pages loaded via Turbolinks
-gem 'nprogress-rails', '~> 0.1.6.3'
-gem 'google-analytics-turbolinks', '~> 0.0.4'
+gem 'nprogress-rails', '~> 0.2.0.2'
 
 # I18n Tasks
 group :development do
@@ -85,7 +87,7 @@ end
 
 gem 'i18n-js', '>= 3.0.0.rc8', '< 3.1.0'
 
-#Github API
+# Github API
 gem 'octokit', '~>4.2.0'
 
 gem 'font-awesome-sass'
