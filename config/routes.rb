@@ -17,8 +17,8 @@ Concerto::Application.routes.draw do
   end
 
   resources :concerto_plugins do
-    collection do
-      post :update_gem
+    member do
+      get :update_gem
     end
   end
 
@@ -44,7 +44,7 @@ Concerto::Application.routes.draw do
     end
     # Special route for CORS preflight requests on #show
     # *** DO NOT EDIT THIS LINE UNLESS YOU KNOW HOW TO TEST IT ***
-    match ':id', controller: :screens, action: 'show_options', via: [:options] 
+    match ':id', controller: :screens, action: 'show_options', via: [:options]
   end
   # End really dangerous routes.
 
@@ -69,9 +69,9 @@ Concerto::Application.routes.draw do
       post :import
     end
   end
-  
+
   resources :fields
-  
+
   resources :screens do
     resources :fields, only: [] do
       resources :subscriptions
@@ -132,7 +132,7 @@ Concerto::Application.routes.draw do
   # Note: 404 errors are not handled by the router.
   # Instead, they are caught by Rails Middleware and then redirected
   # to Concerto's ErrorsController.
-  
+
   resources :pages
 
 end

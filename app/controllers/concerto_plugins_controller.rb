@@ -106,14 +106,22 @@ class ConcertoPluginsController < ApplicationController
   end
 
   def update_gem
+    results = {}
     plugin = ConcertoPlugin.find(params[:id])
-    system('bundle update', plugin.gem_name)
-    rake_precompile()
-    restarted = restart_webserver()
-    if restarted
-      flash[:notice] = t(:plugin_updated)
+    results[:bundle_output] = `bundle update --source #{plugin.gem_name}`
+    results[:bundle_success] = $?.success?
+
+    if results[:bundle_success]
+      results[:rake_output] = `bundle exec rake assets:precompile`#rake_precompile()
+      results[:rake_success] = $?.success?
+      restarted = restart_webserver()
+      if restarted
+        results[:notice] = t(:plugin_updated)
+        flash[:notice] = t(:plugin_updated)
+      end
+      results[:redirect_to] = concerto_plugin_path(plugin)
     end
-    redirect_to action: :show, id: plugin.id
+    render json: results
   end
 
   def write_Gemfile
