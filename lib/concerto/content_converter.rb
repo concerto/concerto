@@ -2,7 +2,7 @@ module Concerto
 
   # Class to convert various mime types for content media
   class ContentConverter
-    # To add another converter, add the array of what it handles here, and then in 
+    # To add another converter, add the array of what it handles here, and then in
     # the supported_types method also.  Then in the convert method call your converter.
     DOCSPLIT_TYPES = [
       "application/msword",
@@ -36,10 +36,10 @@ module Concerto
       end
 
       if media.size > 0 && DOCSPLIT_TYPES.include?(media[0].file_type)
-        return DocSplitConverter.convert media 
+        return DocSplitConverter.convert media
       end
 
-      raise Unconvertable.new("Unable to convert the specified type #{media[0].file_type}") 
+      raise Unconvertable.new("Unable to convert the specified type #{media[0].file_type}")
     end
 
     # When a document cannot be converted, this exception will be raised.
@@ -57,7 +57,7 @@ module Concerto
     class DocSplitConverter
       require 'docsplit'
 
-      # Converts the first page of the original media to a png and loads it back into 
+      # Converts the first page of the original media to a png and loads it back into
       #   the media as a processed entry.
       # @param media [Media] the media to convert
       # @return media [Media] the original media, along with any processed media
@@ -72,8 +72,12 @@ module Concerto
 
         # process it with docsplit via the api
         begin
-          Docsplit.extract_images("#{original_filepath}", pages: 1, format: 'png', output: "/tmp")
-
+          if original_filepath.end_with?('.pdf') && `which pdftoppm`.present?
+            Rails.logger.debug("pdftoppm -r 300 -singlefile -png \"#{original_filepath}\" \"/tmp/#{File.basename(original_filepath,".*")}_1\"")
+            `pdftoppm -r 300 -singlefile -png "#{original_filepath}" "/tmp/#{File.basename(original_filepath, ".*")}_1"`
+          else
+            Docsplit.extract_images("#{original_filepath}", density: 300, pages: 1, format: 'png', output: "/tmp")
+          end
           # if all went well, get the new filename... which has the _pageno appended to it
           new_filename = "#{File.basename(original_filepath,".*")}_1.png"
           new_filepath = File.join( File.dirname(original_filepath), new_filename)
