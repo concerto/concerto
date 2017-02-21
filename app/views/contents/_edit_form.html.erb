@@ -1,0 +1,21 @@
+<%= form_for(@content) do |f| %>
+  <% type_folder = "contents/#{@content.type.underscore}" %>
+  <%= hidden_field_tag :type, @content.type %>
+  <% if lookup_context.exists?("#{type_folder}/edit_form", [], true) %>
+    <%= render partial: "#{type_folder}/edit_form", locals: {form: f, content: @content} %>
+  <% else %>
+    <%= render :partial => "layouts/errors", :object => @content %>
+    <div class="row-fluid">
+      <div class="default-padding" style="text-align: center;">
+         <%= render_content(@content) %>
+       </div>
+      <div class="span8">
+        <%= render "form_middle", {:form => f} %>
+        <%= ConcertoPlugin.render_view_hook self, :content_form, {:form => f} %>
+        <%= render "form_submit_feeds", {:form => f} %>
+      </div>
+    </div>
+
+    <%= render  "form_bottom", {form: f, type: @content.type} %>
+  <% end %>
+<% end %>
