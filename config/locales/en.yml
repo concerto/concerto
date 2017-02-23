@@ -885,6 +885,8 @@ en:
       mac_address: 'MAC Address: %{mac}'
       offline: Offline
       online: Online
+    show:
+      subscribed_approved_active_content: Active Approved Subscribed Content
     show_body:
       field: '%{name} Field'
       view_field_settings: Hover over a field below to view its settings.
