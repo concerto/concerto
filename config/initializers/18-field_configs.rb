@@ -17,7 +17,7 @@ Concerto::Application.config.field_configs = {
   time_format: {type: :string},
   disable_text_autosize: {type: :boolean},
   marquee: {type: :boolean},
-  shuffler: {type: :select, values: ['BaseShuffle', 'WeightedShuffle']}
+  shuffler: {type: :select, values: ['BaseShuffle', 'WeightedShuffle','StrictPriorityShuffle']}
 }
 
 Rails.logger.debug "Completed #{File.basename(__FILE__)} at #{Time.now.to_s}"
