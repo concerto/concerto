@@ -1,6 +1,7 @@
-<% sidebar = ConcertoPlugin.render_view_hook self, :screen_details %>
-
 <%
+  sidebar = ConcertoPlugin.render_view_hook self, :screen_details
+  bottombar = ConcertoPlugin.render_view_hook self, :screen_details2
+
   # Hide details sidebar when there is nothing to show
   screen_span = 9
   sidebar_span = 3
@@ -21,7 +22,8 @@
   	    <%= render partial: "screens/show_body" %>
   	  </div>
   	</section>
-
+    
+    <%= bottombar unless bottombar.blank? %>
   </div>
 
 <% if !sidebar.blank? %>
@@ -31,4 +33,3 @@
 <% end %>
 
 </div>
-
