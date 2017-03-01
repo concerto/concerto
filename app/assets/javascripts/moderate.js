@@ -74,5 +74,4 @@ function initModerate() {
   // }
 }
 
-$(document).ready(initModerate);
-$(document).on('page:change', initModerate);
+$(document).on('turbolinks:load', initModerate);

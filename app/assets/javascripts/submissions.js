@@ -72,5 +72,4 @@ function initBrowse() {
   });
 }
 
-$(document).ready(initBrowse);
-$(document).on('page:change', initBrowse);
+$(document).on('turbolinks:load', initBrowse);

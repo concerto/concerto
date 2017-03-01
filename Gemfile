@@ -34,7 +34,7 @@ gem 'uglifier', '~> 2.7.2'
 gem 'bootstrap-datepicker-rails'
 gem 'jquery-rails'
 gem 'jquery-timepicker-rails'
-gem 'turbolinks', '~>2.5.3'
+gem 'turbolinks', '~> 5.0'
 gem 'twitter-bootstrap-rails-confirm'
 
 gem 'responders', '~> 2.0'

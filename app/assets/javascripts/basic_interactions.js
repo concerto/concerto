@@ -40,14 +40,14 @@ function initBasicTooltips() {
         // this is used to highlight the first input in the box when it is shown...
         show: function(event, api) {
           setTimeout(function() {
-            
+
             // Update the content of the tooltip on each show
             var target = $(event.originalEvent.target);
-            
+
             if(target.length) {
               api.set('content.text', $("#jump_to").html() );
             }
-            
+
             var tooltip_content = api.elements.content;
             initFeedListState(tooltip_content);
 
@@ -71,7 +71,7 @@ function initCharCount() {
   $('.word_count').each(function(){
     var length = $(this).val().length;
     $("#char_count").html(length);
-    
+
     // bind on key up event
     $(this).keyup(function(){
       var new_length = $(this).val().length;
@@ -122,5 +122,4 @@ $(document).ready(function() {
     };
 });
 
-$(document).ready(initBasicInteractions);
-$(document).on('page:change', initBasicInteractions);
+$(document).on('turbolinks:load', initBasicInteractions);

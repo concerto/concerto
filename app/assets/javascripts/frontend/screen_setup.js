@@ -9,5 +9,4 @@ function initScreenSetup() {
   }
 }
 
-$(document).ready(initScreenSetup);
-$(document).on('page:change', initScreenSetup);
+$(document).on('turbolinks:load', initScreenSetup);

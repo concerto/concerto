@@ -34,7 +34,4 @@ function initLogin() {
   });
 }
 
-$(document).ready(initLogin);
-$(document).on('page:change', initLogin);
-
-
+$(document).on('turbolinks:load', initLogin);

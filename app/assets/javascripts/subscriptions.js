@@ -17,10 +17,10 @@ function addSubscriptionsUi(){
         // this is used to highlight the first input in the box when it is shown...
         show: function(event, api) {
           setTimeout(function() {
-            
+
             // Update the content of the tooltip on each show
             var target = $(event.originalEvent.target);
-            
+
             $('.qtip-content input:first').focus(); }, 50);
           }
       },
@@ -39,7 +39,7 @@ function addSubscriptionsUi(){
 function initializeFrequencySliders() {
   $(".frequency").each(function() {
     var frequency_elem = $(this).find(".frequency_range");
-    
+
     $(frequency_elem).rangeinput({
       css: {
         handle: 'handle thin'
@@ -57,7 +57,7 @@ function initializeFrequencySliders() {
 
     var handle_elem = $(this).find(".handle");
     $(handle_elem).html('&nbsp;');
-    
+
   });
 }
 
@@ -80,5 +80,4 @@ function initSubscriptions() {
   }
 }
 
-$(document).ready(initSubscriptions);
-$(document).on('page:change', initSubscriptions);
+$(document).on('turbolinks:load', initSubscriptions);

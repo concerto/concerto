@@ -94,5 +94,4 @@ function initScreensViews() {
   initScreenFieldTooltip();
 }
 
-$(document).ready(initScreensViews);
-$(document).on('page:change', initScreensViews);
+$(document).on('turbolinks:load', initScreensViews);
