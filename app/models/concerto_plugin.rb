@@ -167,7 +167,10 @@ class ConcertoPlugin < ActiveRecord::Base
     end if ActiveRecord::Base.connection.table_exists? 'concerto_plugins'
 
     callbacks.each do |callback|
-      controller.set_callback(callback[:name], callback[:filter_list], callback[:block])
+      location = [callback[:filter_list]].flatten
+      options = location.extract_options!
+      controller.set_callback(callback[:name], location.first, options, &callback[:block]) if options.present?
+      controller.set_callback(callback[:name], location.first, &callback[:block]) if options.empty?
     end
   end
 
