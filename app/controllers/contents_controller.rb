@@ -178,6 +178,18 @@ class ContentsController < ApplicationController
     @feed_ids = feed_ids
     update_info = content_update_params
 
+    if can? :update_full_details, @content
+      update_info = content_params
+      # some content, like the ticker_text, can have a kind other than it's model's default
+      if update_info.include?(:kind_id)
+        kind = Kind.find(update_info[:kind_id])
+        update_info.delete :kind_id
+      end
+
+      @content.kind = kind unless kind.nil?
+      @content.user = current_user
+    end
+
     # preparation for being able to edit any content in the future
     # # from create ------------------------------------
     # if can? :update_full_details, @content
@@ -192,15 +204,8 @@ class ContentsController < ApplicationController
     #       update_info[:media_attributes][key].delete :id
     #     end
     #   end
-    #   # some content, like the ticker_text, can have a kind other than it's model's default
-    #   if update_info.include?(:kind_id)
-    #     kind = Kind.find(update_info[:kind_id])
-    #     update_info.delete :kind_id
-    #   end
-    #   @content.kind = kind unless kind.nil?
-    #   @content.user = current_user
     # end
-    # # end from create --------------------------------
+    # end from create --------------------------------
 
     if @content.update_attributes(update_info)
       process_content_notification action_name
