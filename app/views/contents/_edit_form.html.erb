@@ -7,7 +7,7 @@
     <%= render :partial => "layouts/errors", :object => @content %>
     <div class="row-fluid">
       <div class="span8">
-        <% if can?(:update_full_details, @content) && @content.type == 'Ticker' # only ticker for now %>
+        <% if can?(:update_full_details, @content) && ['Ticker', 'HtmlText'].include?(@content.type) # only Ticker|HtmlText for now %>
           <%= render_partial_if("#{type_folder}/form_top", "form_top", {form: f}) %>
         <% end %>
         <%= render "form_middle", {:form => f} %>
