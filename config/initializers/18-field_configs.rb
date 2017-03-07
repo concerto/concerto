@@ -5,7 +5,7 @@ Rails.logger.debug "Starting #{File.basename(__FILE__)} at #{Time.now.to_s}"
 # The entries must contain a Hash with :type set.
 # :type must be set to one of :string, :select, or :boolean.
 # If :type is set to :select. :values may also be provided.
-transitions = ['replace', 'fade-in-animation', 'fade-out-animation', 
+transitions = ['replace', 'fade-in-animation', 'fade-out-animation',
                'scale-down-animation', 'scale-up-animation',
                'slide-down-animation', 'slide-up-animation',
                'slide-left-animation', 'slide-right-animation',
@@ -17,7 +17,9 @@ Concerto::Application.config.field_configs = {
   time_format: {type: :string},
   disable_text_autosize: {type: :boolean},
   marquee: {type: :boolean},
-  shuffler: {type: :select, values: ['BaseShuffle', 'WeightedShuffle']}
+  shuffler: {type: :select, values: ['BaseShuffle', 'WeightedShuffle']},
+  repeat_content: {type: :select, values: ['Suppress', 'Show']}
+
 }
 
 Rails.logger.debug "Completed #{File.basename(__FILE__)} at #{Time.now.to_s}"
