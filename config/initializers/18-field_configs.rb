@@ -18,7 +18,7 @@ Concerto::Application.config.field_configs = {
   disable_text_autosize: {type: :boolean},
   marquee: {type: :boolean},
   shuffler: {type: :select, values: ['BaseShuffle', 'WeightedShuffle']},
-  repeat_content: {type: :select, values: ['Suppress', 'Show']}
+  repeat_content: {type: :select, values: ['Suppress', 'Reload']}
 
 }
 
