@@ -35,8 +35,9 @@ class ContentsController < ApplicationController
   end
 
   def fullcalendar
-    @content = Content.filter_all_content(params)
-    @content = Kaminari.paginate_array(@content).page(params[:page])
+    start_time = DateTime.parse(params[:start_time])
+    end_time = DateTime.parse(params[:end_time])
+    @content = Content.where('start_time < ? AND end_time > ?', end_time, start_time)
   end
 
   # GET /contents/1
