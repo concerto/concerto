@@ -171,7 +171,7 @@ class DynamicContent < Content
             end
           end
         else
-          Rails.logger.debug(new_children[index].errors.full_messages)
+          Rails.logger.error(new_children[index].errors.full_messages)
           raise ActiveRecord::Rollback
           return false
         end
