@@ -181,6 +181,10 @@ class DynamicContent < Content
     expire_children(old_children)
 
     return true
+
+  rescue Exception => e
+    Rails.logger.error(e.message)
+    return false
   end
 
   # Build all the new child content.
