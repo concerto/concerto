@@ -108,11 +108,11 @@ class ConcertoPluginsController < ApplicationController
   def update_gem
     results = {}
     plugin = ConcertoPlugin.find(params[:id])
-    results[:bundle_output] = `bundle update --source #{plugin.gem_name}`
+    results[:bundle_output] = `bundle update --source #{plugin.gem_name} 2>&1`
     results[:bundle_success] = $?.success?
 
     if results[:bundle_success]
-      results[:rake_output] = `bundle exec rake assets:precompile`#rake_precompile()
+      results[:rake_output] = `bundle exec rake assets:precompile 2>&1`#rake_precompile()
       results[:rake_success] = $?.success?
       restarted = restart_webserver()
       if restarted

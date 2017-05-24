@@ -17,7 +17,7 @@
       <header class="viewblock-header">
         <div class="viewblock-header_right">
           <div class="button-padding">
-            <% if can? :update, @content %>
+            <% if can?(:update, @content) && @content.parent_id.blank? %>
               <%= link_to t(:edit_model, model: Content.model_name.human), edit_content_path(@content), class: "btn" %>
             <% end %>
             <% if can? :delete, @content %>

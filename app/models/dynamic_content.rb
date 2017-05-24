@@ -142,7 +142,7 @@ class DynamicContent < Content
 
         run_callbacks :alter_content do
           @content = content
-          new_children[index].becomes(content.class)
+          new_children[index] = new_children[index].becomes(content.class)
           @new_attributes = content.attributes
         end
 
@@ -171,6 +171,7 @@ class DynamicContent < Content
             end
           end
         else
+          Rails.logger.error(new_children[index].errors.full_messages)
           raise ActiveRecord::Rollback
           return false
         end
@@ -181,6 +182,10 @@ class DynamicContent < Content
     expire_children(old_children)
 
     return true
+
+  rescue Exception => e
+    Rails.logger.error(e.message)
+    return false
   end
 
   # Build all the new child content.

@@ -59,8 +59,8 @@ class Frontend::ContentsController < ApplicationController
 
     # Rails.logger.debug("--frontend contentscontroller index is sending setup-key of #{@screen.frontend_cache_key}")
     response.headers["X-Concerto-Frontend-Setup-Key"] = @screen.frontend_cache_key
-    response.headers["ETag"] = Digest::MD5.hexdigest(@screen.frontend_cache_key + @content.collect{|e| e.id}.to_s)
-
+    response.headers["ETag"] = Digest::MD5.hexdigest(@screen.frontend_cache_key +
+      @content.collect { |e| e.id.to_s + e.data.to_s }.to_s)
     respond_to do |format|
       format.json {
         render json: @content.to_json(

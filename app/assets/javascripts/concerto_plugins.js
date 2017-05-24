@@ -50,7 +50,11 @@ function updatePluginBeforeSend(e, data, status, xhr) {
 }
 
 function updatePluginError(e, data, status, xhr) {
-  $('#updatePluginResults').html('<div class="alert alert-warning">Unable to update plugin.</br><pre>' + status + '</pre></div>');
+  var msg = '';
+  if (status != null && status != '') {
+    msg = '<pre>' + status + '</pre>';
+  }
+  $('#updatePluginResults').html('<div class="alert alert-warning">Unable to update plugin.</br>' + msg + '</div>');
 }
 
 function updatePluginSuccess(e, data, status, xhr) {
