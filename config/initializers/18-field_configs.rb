@@ -16,7 +16,6 @@ Concerto::Application.config.field_configs = {
   exit_transition: {type: :select, values: transitions},
   time_format: {type: :string},
   disable_text_autosize: {type: :boolean},
-  marquee: {type: :boolean},
   shuffler: {type: :select, values: ['BaseShuffle', 'WeightedShuffle']},
   repeat_content: {type: :select, values: ['Suppress', 'Reload']}
 
