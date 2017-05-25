@@ -36,7 +36,7 @@ class ConcertoConfigTest < ActiveSupport::TestCase
     assert_equal 'baz', ConcertoConfig.get('foo')
     assert_equal 'baz', ConcertoConfig.cache_get('foo')
 
-    assert_equal nil, ConcertoConfig.cache_get('missing_key')
+    assert_nil ConcertoConfig.cache_get('missing_key')
   end
 
   test "entry whitelisting" do

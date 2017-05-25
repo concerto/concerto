@@ -121,7 +121,7 @@ class ContentTest < ActiveSupport::TestCase
 
   test "default content does no actions" do
     c = Content.new()
-    assert_equal nil, c.perform_action(:save, {:current_user => users(:katie)})
+    assert_nil c.perform_action(:save, {:current_user => users(:katie)})
   end
 
   test "is_orphan? identifies content without submissions" do
@@ -223,7 +223,7 @@ class ContentTest < ActiveSupport::TestCase
   end
 
   test "filter content by screen" do
-    assert_equal 9, Content::filter_all_content({ :screen => screens(:one).id }).count
+    assert_equal 10, Content::filter_all_content({ :screen => screens(:one).id }).count
   end
 
   test "filter content by feed" do
@@ -231,14 +231,14 @@ class ContentTest < ActiveSupport::TestCase
   end
 
   test "filter content by user" do
-    assert_equal 10, Content::filter_all_content({ :user => users(:katie).id }).count
+    assert_equal 11, Content::filter_all_content({ :user => users(:katie).id }).count
   end
 
   test "filter content by type" do
-    assert_equal 9, Content::filter_all_content({ :type => kinds(:ticker).id }).count
+    assert_equal 10, Content::filter_all_content({ :type => kinds(:ticker).id }).count
   end
 
   test "filter content by nothing returns all" do
-    assert_equal 11, Content::filter_all_content({}).count
+    assert_equal 12, Content::filter_all_content({}).count
   end
 end

@@ -17,7 +17,7 @@ class ContentsControllerTest < ActionController::TestCase
     get :new
     assert_response :success
   end
-  
+
   test "should get new graphic" do
     sign_in users(:katie)
     get(:new, {:type => "graphic"})
@@ -77,7 +77,7 @@ class ContentsControllerTest < ActionController::TestCase
   end
 
   # commented out by brzaik on 9/28: the feed select list was
-  # changed so that disallowed feeds do not appear, rather than 
+  # changed so that disallowed feeds do not appear, rather than
   # just being marked with a disabled checkbox input
   # we need to rewrite this test to check disallowed feeds
   # and make sure they just aren't shown in the feed select list
@@ -93,7 +93,7 @@ class ContentsControllerTest < ActionController::TestCase
     sign_in users(:kristen)
     get(:new, {:type => "graphic"})
     assert_response :success
-    assert_equal 4, assigns(:feeds).length
+    assert_equal 5, assigns(:feeds).length
   end
 
   test "invalid content id should redirect to browse" do
@@ -107,7 +107,7 @@ class ContentsControllerTest < ActionController::TestCase
     get(:show, :id => 99999999)
     assert_redirected_to browse_path
   end
-  
+
   test "render full content preview" do
     c = contents(:sample_image)
     sign_in users(:admin)
@@ -119,11 +119,11 @@ class ContentsControllerTest < ActionController::TestCase
     assert_equal 750, image.rows
     assert_equal 1000, image.columns
   end
-  
+
   test "render resized content preview" do
     c = contents(:sample_image)
     sign_in users(:admin)
-    
+
     get :display, :id => c.id, :height => "150", :width => "200"
 
     file = assigns(:file)
@@ -131,7 +131,7 @@ class ContentsControllerTest < ActionController::TestCase
     image = ConcertoImageMagick.load_image(file.file_contents)
     assert_in_delta 150, image.rows, 1
     assert_in_delta 200, image.columns, 1
-    
+
     get :display, :id => c.id, :height => "100", :witdh => "100"
 
     file = assigns(:file)
