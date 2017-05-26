@@ -16,7 +16,7 @@ class Feed < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   validates :group, presence: true, associated: true
   validate :parent_id_cannot_be_this_feed
-  
+
   #Newsfeed
   include PublicActivity::Common if defined? PublicActivity::Common
 
@@ -34,6 +34,8 @@ class Feed < ActiveRecord::Base
   # Feed Hierarchy
   belongs_to :parent, class_name: "Feed"
   has_many :children, class_name: "Feed", foreign_key: "parent_id"
+
+  default_scope { order 'LOWER(feeds.name)' }
   scope :roots, -> { where parent_id: nil }
 
   # Test if this feed is a root feed or not
