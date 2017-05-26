@@ -12,18 +12,18 @@ class ConcertoPluginTest < ActiveSupport::TestCase
 
     # not a valid git
     # some of these prompt for a github account, so they're commented out until I can find a solution
-    # p = ConcertoPlugin.new(:gem_name => 'concerto_weather', :source => 'git', 
+    # p = ConcertoPlugin.new(:gem_name => 'concerto_weather', :source => 'git',
     #   :source_url => 'http://github.com/concerto/concerto-weather.git')
     # assert p.valid?
-    p = ConcertoPlugin.new(:gem_name => 'concerto_invalidgem', :source => 'git', 
+    p = ConcertoPlugin.new(:gem_name => 'concerto_invalidgem', :source => 'git',
       :source_url => '')
     assert !p.valid?
-    # p = ConcertoPlugin.new(:gem_name => 'concerto_invalidgem', :source => 'git', 
+    # p = ConcertoPlugin.new(:gem_name => 'concerto_invalidgem', :source => 'git',
     #   :source_url => 'http://github.com/concerto/concerto_invalidgem.git')
     # assert !p.valid?
 
     # path
-    p = ConcertoPlugin.new(:gem_name => 'concerto_invalidgem', :source => 'path', 
+    p = ConcertoPlugin.new(:gem_name => 'concerto_invalidgem', :source => 'path',
       :source_url => '')
     assert !p.valid?
     p = ConcertoPlugin.new(:gem_name => 'concerto_invalidgem', :source => 'path', 
