@@ -38,7 +38,7 @@ module MacAddr
     return expand(hex)
   end
 
-  # Concert mac address to an integer.
+  # Convert mac address to an integer.
   #
   # @param hex_addr [String] Expanded Mac address.
   # @return [Integer] Integer mac address.
