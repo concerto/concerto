@@ -80,7 +80,8 @@ class GroupsControllerTest < ActionController::TestCase
         name: 'a new group'
       }
     end
-    assert_redirected_to group_path(Group.last)
+    g = assigns(:group)
+    assert_redirected_to group_path(g.id)
   end
 
   test 'can destroy group' do
