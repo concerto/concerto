@@ -806,7 +806,7 @@ en:
     import_the_model: imported the %{model}
     membership:
       article: the
-      approve: 
+      approve:
         approved_member_of_group: '%{owner} approved %{member} in the %{group} group as a %{role}'
         leader: leader
         regular_member: regular member
@@ -815,13 +815,13 @@ en:
         leader: leader
         regular_member: regular member
         pending_regular_member: pending regular member
-      demote: 
+      demote:
         leader: leader
         regular_member: regular member
         demoted_member_of_group: '%{owner} demoted %{member} in the %{group} group to a %{role}'
       update:
         updated_member_of_group: '%{owner} %{action} %{member} in the %{group} group'
-      promote: 
+      promote:
         leader: leader
         regular_member: regular member
         promoted_member_of_group: '%{owner} promoted %{member} in the %{group} group to a %{role}'
@@ -920,6 +920,7 @@ en:
       the_dawn_of_time: The Dawn of Time.
       the_end_of_time: The End of Time.
     index_body:
+      allowed_types: Allowed Types
       click_to_jump: Click on a feed to jump
       items_in_state:
         active:
