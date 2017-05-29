@@ -8,7 +8,7 @@
   </td>
   <td>
     <h2><%= subscription.feed.name %></h2>
-    <h4 class="color-gray"><%= t('subscriptions.approved_content', count: subscription.feed.approved_contents.size) %></h4>
+    <h4 class="color-gray"><%= t('subscriptions.approved_content', count: subscription.feed.approved_contents.active.where(kind_id: @field.kind_id).count) %></h4>
   </td>
   <td>
     <div class="clearfix frequency">
