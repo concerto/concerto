@@ -10,7 +10,12 @@ module VersionCheck
         end
       else # Fetch the latest version.
         Rails.logger.info 'Downloading latest Concerto version information for the first time.'
-        version = Octokit.latest_release('concerto/concerto').tag_name
+        begin
+          version = Octokit.latest_release('concerto/concerto').tag_name
+        rescue Faraday::ConnectionFailed => e
+          Rails.logger.error "Unable to fetch Concerto version - #{e.message}"
+          version = nil
+        end
       end
       return version
     rescue Octokit::TooManyRequests => e
