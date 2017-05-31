@@ -5,7 +5,7 @@
 Full Installation Instructions: [https://github.com/concerto/concerto/wiki/Installing-Concerto-2](https://github.com/concerto/concerto/wiki/Installing-Concerto-2)
 
 ## What is Concerto?
-Concerto is an open source digital signage system. Users submit graphic, textual, and other content, and moderators approve that content for use in a variety of content feeds which are displayed on screens connected to computers displaying the Concerto frontned.
+Concerto is an open source digital signage system. Users submit graphic, textual, and other content, and moderators approve that content for use in a variety of content feeds which are displayed on screens connected to computers displaying the Concerto frontend.
 
 ## Dependencies
 * Ruby 2.0 or newer
@@ -20,13 +20,10 @@ Note: For those upgrading Concerto from earlier Debian/Ubuntu versions, make sur
 
 * Add Concerto repository using ```curl https://get.concerto-signage.org/add_repo.sh | sh```
 * Install Concerto via APT ```sudo apt-get install concerto-full```
-    
+
 ## Virtual Server Image (VirtualBox, VMWare, et. al.)
 The virtual server image contains a full-stack installation of the Concerto webserver with all components pre-configured.
 
 * Download at [https://dl.concerto-signage.org/concerto_server.ova](https://dl.concerto-signage.org/concerto_server.ova)
 
 Concerto 2 is licensed under the Apache License, Version 2.0.
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/concerto/concerto/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
