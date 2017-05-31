@@ -7,5 +7,8 @@
   <div class="cont">
     <p><b><%= link_to template.name, template %></b></p>
     <p><%= t '.by', author: template.author %></p>
+    <% if template.screens.count > 0 %>
+      <p><%= t('.screens', count: template.screens.count) %></p>
+    <% end %>
   </div>
 </li>

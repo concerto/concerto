@@ -19,6 +19,8 @@ class Template < ActiveRecord::Base
   # Validations
   validates :name, presence: true, uniqueness: true
 
+  default_scope { order('templates.name asc') }
+
   #Placeholder attributes
   attr_accessor :path, :css_path
 
