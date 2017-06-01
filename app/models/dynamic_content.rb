@@ -137,8 +137,8 @@ class DynamicContent < Content
         content.parent = self
         content.user ||= self.user
         content.duration ||= self.duration
-        content.start_time ||= Clock.time
         content.end_time ||= [ self.end_time, Clock.time + 1.day].min
+        content.start_time ||= [ content.end_time, Clock.time].min
 
         run_callbacks :alter_content do
           @content = content
