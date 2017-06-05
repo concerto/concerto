@@ -254,6 +254,8 @@ class Screen < ActiveRecord::Base
   #    respond to the `updated_at` method and are skipped if they do not.
   # @return [String] The cache key for this frontend string.
   def frontend_cache_key(*args)
+    require 'digest/md5'
+
     max_updated_at = self.updated_at.try(:utc).try(:to_i)
     max_updated_at = [self.template.updated_at.try(:utc).try(:to_i), max_updated_at].max
     self.template.positions.each do |p|
@@ -280,7 +282,11 @@ class Screen < ActiveRecord::Base
         end
       end
     end
-    return "frontend-screen/#{self.id}-#{self.template.id}-#{max_updated_at}"
+    # other items that affect the key but dont have timestamps (such as config settings)
+    other = []
+    other << ConcertoConfig['screens_clear_last_content']
+    other_md5 = Digest::MD5.hexdigest(other.to_s)
+    return "frontend-screen/#{self.id}-#{self.template.id}-#{max_updated_at}-#{other_md5}"
   end
 
 private
