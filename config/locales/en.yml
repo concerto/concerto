@@ -30,6 +30,7 @@ en:
         poll_interval: Hardware player polling interval
         public_concerto: Public Concerto access
         rubygem_executable: Ruby Gem Executable
+        screens_clear_last_content: Clear Last Content Item from Screen
         send_errors: Notify Developers of Errors
         setup_complete: Concerto setup complete
         smtp_address: SMTP Server
