@@ -511,6 +511,9 @@ en:
         You should '
       sign_in: Sign In
       sign_up: Sign Up
+      submissions_to_moderate:
+        one: You have %{count} submission to moderate
+        other: You have %{count} submissions to moderate
     browse_header:
       browse_content: Browse Concerto Content
     denied: Denied
