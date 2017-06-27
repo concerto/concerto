@@ -28,7 +28,7 @@ gem 'coffee-rails'
 gem 'execjs', '~> 2.2.2'
 gem 'sass-rails'
 gem 'sprockets', '~> 2.11.3'
-gem 'therubyracer', platforms: :ruby
+gem 'therubyracer', :platforms => :ruby
 gem 'uglifier', '~> 2.7.2'
 
 gem 'bootstrap-datepicker-rails'
@@ -40,7 +40,7 @@ gem 'twitter-bootstrap-rails-confirm'
 gem 'responders', '~> 2.0'
 
 # RMagick is used for image resizing and processing
-gem 'rmagick', require: 'rmagick', platforms: :ruby
+gem 'rmagick', require: 'rmagick', :platforms => :ruby
 
 # Attachable does all the file work.
 gem 'attachable'
