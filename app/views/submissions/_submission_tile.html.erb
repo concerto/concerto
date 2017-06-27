@@ -1,5 +1,5 @@
 <% if !submission.content.nil? %>
-  <div class="tile<% unless submission.content.children.empty?%> tile-stack<% end %>" data-submission-id="<%= submission.id %>">
+  <div class="tile<% unless submission.content.children.empty?%> tile-stack<% end %><% unless submission.content.parent.blank?%> tile-child<% end %>" data-submission-id="<%= submission.id %>">
     <%= link_to [submission.feed, submission], class: "tile-content" do %>
       <%= render_content(submission.content, {type: 'tile'}) %>
 
