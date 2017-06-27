@@ -927,6 +927,7 @@ en:
       the_dawn_of_time: The Dawn of Time.
       the_end_of_time: The End of Time.
     index_body:
+      allowed_types: Allowed Types
       click_to_jump: Click on a feed to jump
       items_in_state:
         active:
