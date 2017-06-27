@@ -40,7 +40,7 @@ gem 'twitter-bootstrap-rails-confirm'
 gem 'responders', '~> 2.0'
 
 # RMagick is used for image resizing and processing
-gem 'rmagick', require: 'rmagick', :platforms => :ruby
+gem 'rmagick', :require => 'rmagick', :platforms => :ruby
 
 # Attachable does all the file work.
 gem 'attachable'
