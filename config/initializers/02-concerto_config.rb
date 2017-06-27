@@ -19,6 +19,9 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     ConcertoConfig.make_concerto_config("default_content_duration", "8", value_type: "integer", category: 'Content', seq_no: 60)
     ConcertoConfig.make_concerto_config("min_content_duration", "4", value_type: "integer", category: 'Content', seq_no: 70)
     ConcertoConfig.make_concerto_config("max_content_duration", "12", value_type: "integer", category: 'Content', seq_no: 80)
+    ConcertoConfig.make_concerto_config("screens_clear_last_content", "true", value_type: "boolean", value_default: "true", 
+      category: 'Content', seq_no: 90,
+      description: 'When content is not available for a field, if checked a spinner will show in the content area.  If unchecked the last piece of content will remain visible.')
 
     # access
     ConcertoConfig.make_concerto_config("public_concerto", "true", value_type: "boolean", category: 'Permissions', seq_no: 99)

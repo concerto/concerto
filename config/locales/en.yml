@@ -31,6 +31,7 @@ en:
         poll_interval: Hardware Player Polling Interval
         public_concerto: Public Concerto Access
         rubygem_executable: Ruby Gem Executable
+        screens_clear_last_content: Clear Last Content Item from Screen
         secret_token: Secret Token
         send_errors: Notify Developers of Errors
         session_store: Session Store
