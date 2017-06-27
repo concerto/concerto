@@ -54,20 +54,20 @@ gem 'rubyzip', '~> 1.1.6'
 # Process jobs in the background
 gem 'clockwork'
 gem 'delayed_job_active_record'
-gem 'foreman', group: :development
+gem 'foreman', :group => :development
 
 # Test Coverage
-gem 'simplecov', require: false, group: :test
+gem 'simplecov', :require => false, group: :test
 
 # Gem Auditing
-gem 'bundler-audit', require: false, group: :test
+gem 'bundler-audit', :require => false, group: :test
 
 gem 'kaminari'
 
-gem 'sqlite3', group: [:development, :test]
+gem 'sqlite3', :group => [:development, :test]
 
-gem 'mysql2', group: :mysql
-gem 'pg', group: :postgres
+gem 'mysql2', :group=> :mysql
+gem 'pg', :group => :postgres
 
 gem 'public_activity'
 
@@ -93,4 +93,4 @@ gem 'octokit', '~>4.2.0'
 gem 'font-awesome-sass'
 
 # Web console
-gem 'web-console', '~> 2.0', group: :development
+gem 'web-console', '~> 2.0', :group => :development
