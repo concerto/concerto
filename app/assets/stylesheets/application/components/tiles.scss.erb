@@ -13,6 +13,12 @@
   box-sizing: border-box;
   overflow: hidden;
 
+  &.tile-child {
+    .tile-content {
+      border-top-left-radius: 5px;
+    }
+  }
+
   .tile-content {
     width: 200px;
     height: 200px;
@@ -28,7 +34,7 @@
     line-height: 16px;
     padding: 0;
     border: solid 1px darken($grayLighter, 5%);
-    
+
     &, * { @include transition(0.1s all linear); }
 
     & > img {
@@ -112,7 +118,7 @@
 
       a:hover {
         text-decoration: none;
-        
+
         .fa-check, .fa-remove-sign { color: #FFF !important; }
       }
     }
@@ -139,6 +145,10 @@
       background: rgba(0,0,0,0.7);
     }
   }
+
+  &.tile-stack {
+    overflow: visible;
+  }
 }
 
 
@@ -146,24 +156,24 @@
 .tile-stack::after {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
-  
+
   position: absolute;
   content: '';
-  
+
   border: 1px solid darken($grayLighter, 5%);
   background: $grayLightest;
-  
+
   height: 4px;
 }
 .tile-stack::before {
   width: 196px;
-  
+
   left: 1px;
   bottom: -4px;
 }
 .tile-stack::after {
   width: 192px;
-  
+
   left: 3px;
   bottom: -7px;
 }
