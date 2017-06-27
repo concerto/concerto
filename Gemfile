@@ -57,10 +57,10 @@ gem 'delayed_job_active_record'
 gem 'foreman', :group => :development
 
 # Test Coverage
-gem 'simplecov', :require => false, group: :test
+gem 'simplecov', :require => false, :group => :test
 
 # Gem Auditing
-gem 'bundler-audit', :require => false, group: :test
+gem 'bundler-audit', :require => false, :group => :test
 
 gem 'kaminari'
 
