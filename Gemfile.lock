@@ -75,10 +75,10 @@ GEM
       rails
     concerto_iframe (0.0.9)
       rails
-    concerto_remote_video (1.1)
+    concerto_remote_video (1.2)
       rails
       video_info
-    concerto_simple_rss (1.0)
+    concerto_simple_rss (1.1)
       encryptor
       rails
       ruby-xslt (~> 0.9)
