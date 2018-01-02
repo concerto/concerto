@@ -16,7 +16,7 @@ Concerto is an open source digital signage system. Users submit graphic, textual
 * ActiveRecord-compatible database (Mysql, SQLite, Postgres)
 
 ## Debian Package Installation
-Note: For those upgrading Concerto from earlier Debian/Ubuntu versions, make sure that your APT source line looks like this: http://dl.concerto-signage.org/packages/ jessie main
+Note: For those upgrading Concerto from earlier Debian/Ubuntu versions, make sure that your APT source line looks like this: http://dl.concerto-signage.org/packages/ stretch main
 
 * Add Concerto repository using ```curl https://get.concerto-signage.org/add_repo.sh | sh```
 * Install Concerto via APT ```sudo apt-get install concerto-full```
