@@ -6,3 +6,7 @@
 .ui-timepicker-list:hover .ui-timepicker-selected { background: #fff; color: #000; }
 li.ui-timepicker-selected, .ui-timepicker-list li:hover, .ui-timepicker-list:hover .ui-timepicker-selected:hover { background: #1980EC; color: #fff; }
 li.ui-timepicker-selected .ui-timepicker-duration, .ui-timepicker-list li:hover .ui-timepicker-duration { color: #ccc; }
+
+input.ui-timepicker-input.input-small {
+  width: auto;
+}
