@@ -1,6 +1,4 @@
 class TextContent < Content
-  before_save :process_markdown
-
   # Validations
   validates :duration, numericality: { greater_than: 0 }
   validates :data, presence: true
