@@ -1,6 +1,6 @@
 class Ticker < TextContent
   after_initialize :set_kind
-  before_save :alter_type
+  before_save :process_markdown, :alter_type
 
   # Automatically set the kind for the content
   # if it is new.
