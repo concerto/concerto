@@ -73,7 +73,7 @@
               <% elsif c.value_type == "time" %>
                 <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), tip: c.description %>
                 <div class="input">
-                  <%= text_field_tag "concerto_config[#{c.key}]", ConcertoConfig[c.key.to_sym], class: "input-small timefield" %>
+                  <%= text_field_tag "concerto_config[#{c.key}]", l(DateTime.strptime(ConcertoConfig[c.key.to_sym], "%I:%M %P"), format: :twelve_hour_time), class: "input-small timefield" %>
                 </div>
               <% elsif c.value_type == "text" %>
                 <%= label_tooltip "concerto_config", c.key.to_sym, t("activerecord.attributes.concerto_config.#{c.key.to_sym}"), tip: c.description %>

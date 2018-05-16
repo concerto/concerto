@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150821230410) do
+ActiveRecord::Schema.define(version: 20170525194137) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id"
@@ -72,14 +72,14 @@ ActiveRecord::Schema.define(version: 20150821230410) do
     t.integer  "duration"
     t.datetime "start_time"
     t.datetime "end_time"
-    t.text     "data"
+    t.text     "data",           limit: 16777215
     t.integer  "user_id"
     t.integer  "kind_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "type"
     t.integer  "parent_id"
-    t.integer  "children_count", default: 0
+    t.integer  "children_count",                  default: 0
   end
 
   create_table "delayed_jobs", force: :cascade do |t|

@@ -49,46 +49,8 @@
   </div>
 </div>
 <div class="row-fluid">
-  <div class="span6">
-    <% unless @feeds_left.empty? %>
-        <% viewable = 0 %>
-        <ul class="list-stacked">
-          <% @feeds_left.each do |feed| %>
-              <% if feed && (feed.approved_contents.size != 0 || feed.group.has_member?(current_user)) %>
-                  <% viewable+=1 %>
-                  <li>
-                    <h3>
-                      <%= link_to feed_submissions_path(feed), class: "link-hl" do %>
-                          <span class="badge"><%= feed.approved_contents.active.count %></span> <%= feed.name %>
-                      <% end %>
-                      <small>&nbsp;&nbsp;<%= feed.description %></small>
-                    </h3>
-                  </li>
-              <% end %>
-          <% end %>
-        </ul>
-    <% end %>
-  </div>
-  <div class="span6">
-    <% unless @feeds_right.empty? %>
-        <% viewable = 0 %>
-        <ul class="list-stacked">
-          <% @feeds_right.each do |feed| %>
-              <% if feed && (feed.approved_contents.size != 0 || feed.group.has_member?(current_user)) %>
-                  <% viewable+=1 %>
-                  <li>
-                    <h3>
-                      <%= link_to feed_submissions_path(feed), class: "link-hl" do %>
-                          <span class="badge"><%= feed.approved_contents.active.count %></span> <%= feed.name %>
-                      <% end %>
-                      <small>&nbsp;&nbsp;<%= feed.description %></small>
-                    </h3>
-                  </li>
-              <% end %>
-          <% end %>
-        </ul>
-    <% end %>
-  </div>
+  <%= render partial: 'feeds', locals: { feeds: @feeds_left } %>
+  <%= render partial: 'feeds', locals: { feeds: @feeds_right } %>
 </div>
 
 <!-- Begin Screens -->

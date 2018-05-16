@@ -23,6 +23,8 @@ class Group < ActiveRecord::Base
 
   before_save :update_membership_perms
 
+  default_scope { order 'LOWER(groups.name)' }
+
   #Newsfeed
   include PublicActivity::Common if defined? PublicActivity::Common
 

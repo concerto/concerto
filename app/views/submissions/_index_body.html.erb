@@ -47,7 +47,12 @@
 </div>
 
 <div class="clearfix default-padding">
-  <%= t('.moderated_by') %> 
+  <%= t('.allowed_types') %>:
+  <%= Concerto::Application.config.content_types.sort_by{|type| type.display_name}.select{|t| @feed.content_types["#{t.name}"] == "1"}.collect{|t| t.display_name}.join(',') %>
+</div>
+
+<div class="clearfix default-padding">
+  <%= t('.moderated_by') %>
   <%= link_to @feed.group.name, group_path(@feed.group) %>.
 </div>
 

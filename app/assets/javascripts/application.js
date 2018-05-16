@@ -14,8 +14,7 @@
 //= require jquery_ujs
 //= require html5_shiv/html5
 //= require i18n/translations
-//= require bootstrap-datepicker/core
-//  NOTE: right now only the English (default) is provided for the bootstrap-datepicker; if all internationalizations should be included, just remove the '/core' part of the line above and make it just 'require bootstrap-datepicker'
+//= require bootstrap-datepicker
 //= require bootstrap-alert.js
 //= require bootstrap-modal.js
 //= require bootstrap-tab.js

@@ -16,11 +16,11 @@
               # Use default date / time values for content
               start_time_date = l(Clock.time + ConcertoConfig[:start_date_offset].to_i.days, format: :date_long_year)
               end_time_date = l(Clock.time + ConcertoConfig[:default_content_run_time].to_i.days + ConcertoConfig[:start_date_offset].to_i.days, format: :date_long_year)
-              start_time = ConcertoConfig[:content_default_start_time]
-              end_time = ConcertoConfig[:content_default_end_time]
+              start_time = l(DateTime.strptime(ConcertoConfig[:content_default_start_time], "%I:%M %P"), format: :twelve_hour_time)
+              end_time = l(DateTime.strptime(ConcertoConfig[:content_default_end_time], "%I:%M %P"), format: :twelve_hour_time)
             end
           %>
-          <%= form.text_field("start_time[date]", id: "start_time_date", maxlength: 20, class: "datefield input-small", value: start_time_date) %>
+          <%= form.text_field("start_time[date]", id: "start_time_date", maxlength: 20, class: "datefield input-small", value: start_time_date, required: "true") %>
         </div>
         <p>&nbsp;<a class="event-toggleTimeSelects" href="#"><%= t('.set_specific_times') %></a></p>
         <div class="event-timeSelectDiv">
@@ -38,7 +38,7 @@
       <div class="input">
         <div class="input-prepend cursor-pointer" style="margin-bottom: 6px;">
           <span class="add-on"><i class="fa fa-calendar"></i></span>
-          <%= form.text_field("end_time[date]", id: "end_time_date", maxlength: 20, class: "datefield input-small", value: end_time_date) %>
+          <%= form.text_field("end_time[date]", id: "end_time_date", maxlength: 20, class: "datefield input-small", value: end_time_date, required: "true") %>
         </div>
         <div class="event-timeSelectDiv">
           <div class="input-prepend">

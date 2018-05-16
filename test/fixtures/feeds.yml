@@ -11,6 +11,17 @@ service:
     "Graphic": "1"
     "Ticker": "1"
 
+service2:
+  name: Service Events2
+  description: same as service feed but for stuff subscribed at weight of 2
+  parent_id:
+  group: wtg
+  is_submittable: true
+  is_viewable: true
+  content_types:
+    "Graphic": "1"
+    "Ticker": "1"
+
 announcements:
   name: Announcements
   description: Important Organizational Announcements
@@ -28,14 +39,14 @@ boring_announcements:
   content_types:
     "Graphic": "0"
     "Ticker": "1"
-  
+
 important_announcements:
   name: Important Announcements
   description: Really important stuff
   parent: announcements
   group: wtg
   is_submittable: false
-  
+
 sleepy_announcements:
   name: zZzZzZ
   description: Announcements that will put you to sleep

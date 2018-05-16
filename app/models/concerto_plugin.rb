@@ -20,12 +20,16 @@ class ConcertoPlugin < ActiveRecord::Base
 
   def self.concerto_addons
     addons = Array.new
-    #we shouldn't be checking github if it's just a script launching rails
-    if !defined?(Rails::Console) && File.split($0).last != 'rake' && Octokit.rate_limit.remaining > 1
-      repositories = Octokit.repos 'concerto-addons'
-      repositories.each do |r|
-        addons << [r.name.titleize, r.name]
+    begin
+      #we shouldn't be checking github if it's just a script launching rails
+      if !defined?(Rails::Console) && File.split($0).last != 'rake' && Octokit.rate_limit.remaining > 1
+        repositories = Octokit.repos 'concerto-addons'
+        repositories.each do |r|
+          addons << [r.name.titleize, r.name]
+        end
       end
+    rescue Faraday::ConnectionFailed => e
+      Rails.logger.error("concerto-addons repos could not be enumerated - #{e.message}")
     end
     return addons
   end
@@ -167,7 +171,10 @@ class ConcertoPlugin < ActiveRecord::Base
     end if ActiveRecord::Base.connection.table_exists? 'concerto_plugins'
 
     callbacks.each do |callback|
-      controller.set_callback(callback[:name], callback[:filter_list], callback[:block])
+      location = [callback[:filter_list]].flatten
+      options = location.extract_options!
+      controller.set_callback(callback[:name], location.first, options, &callback[:block]) if options.present?
+      controller.set_callback(callback[:name], location.first, &callback[:block]) if options.empty?
     end
   end
 
