@@ -1005,7 +1005,7 @@ fr:
   time:
     formats:
       date: '%D'
-      date_long_year: '%m/%d/%Y'
+      date_long_year: '%d/%m/%Y'
       date_time: '%D, %l:%M %p'
       long_day: '%A %B %e at %l:%m %p'
       month_day: '%m/%d'

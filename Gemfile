@@ -1,7 +1,7 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.2.5'
+gem 'rails', '~> 4.2.6'
 
 # Get the absolute path of this Gemfile so the includes below still work
 # when the current directory for a bundler command isn't the application's
@@ -49,7 +49,7 @@ gem 'cancancan'
 gem 'devise', '~> 3.5.5'
 
 gem 'json'
-gem 'rubyzip', '~> 1.1.6'
+gem 'rubyzip', '~> 1.2.1'
 
 # Process jobs in the background
 gem 'clockwork'
