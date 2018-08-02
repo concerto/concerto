@@ -28,7 +28,7 @@ class FieldConfig < ActiveRecord::Base
   def key_type
     return nil if key.nil?
     sym_key = key.to_sym
-    if Concerto::Application.config.field_configs.include?(sym_key)
+    if Concerto::Application.config.respond_to?(:field_configs) and Concerto::Application.config.field_configs.include?(sym_key)
       return Concerto::Application.config.field_configs[sym_key][:type]
     end
     return nil
@@ -39,6 +39,8 @@ class FieldConfig < ActiveRecord::Base
   # @return [Array, nil] Returns the options or nil if there are none.
   #   For :select keys, this will return an array of the possible values.
   def key_options
+    return nil if !Concerto::Application.config.respond_to?(:field_configs)
+    
     case key_type
       when :select
         return Concerto::Application.config.field_configs[key.to_sym][:values]
