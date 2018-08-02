@@ -215,13 +215,13 @@ class Template < ActiveRecord::Base
     begin
       if import_xml(xml_data)
         self.media.build({key:"original", file_name: image_file.name,
-                               file_type: MIME::Types.type_for(image_file.name).first.content_type})
+          file_type: Rack::Mime.mime_type(File.extname(image_file.name))})
         self.media.first.file_size = image_file.size
         self.media.first.file_data = image_file.get_input_stream.read
 
         if !css_file.nil?
           m = self.media.build({key:"css", file_name: css_file.name,
-                                 file_type: MIME::Types.type_for(css_file.name).first.content_type})
+            file_type: Rack::Mime.mime_type(File.extname(css_file.name))})
           m.file_size = css_file.size
           m.file_data = css_file.get_input_stream.read
         end
