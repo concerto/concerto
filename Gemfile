@@ -66,7 +66,7 @@ gem 'kaminari'
 
 gem 'sqlite3', group: [:development, :test]
 
-gem 'mysql2', ">= 0.4.4", "< 0.6.0", group: :mysql
+gem 'mysql2', ">= 0.4.4", "<= 0.5.1", group: :mysql
 gem 'pg', group: :postgres
 
 gem 'public_activity'
