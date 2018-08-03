@@ -197,7 +197,7 @@ GEM
     minitest (5.11.3)
     multi_json (1.13.1)
     multipart-post (2.0.0)
-    mysql2 (0.5.1)
+    mysql2 (0.4.10)
     nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
     nprogress-rails (0.2.0.2)
@@ -375,7 +375,7 @@ DEPENDENCIES
   jquery-timepicker-rails
   json
   kaminari
-  mysql2 (>= 0.4.4, <= 0.5.1)
+  mysql2 (>= 0.3.13, < 0.5)
   nprogress-rails (~> 0.2.0.2)
   octokit (~> 4.2.0)
   pg
