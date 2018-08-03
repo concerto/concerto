@@ -376,7 +376,7 @@ DEPENDENCIES
   jquery-timepicker-rails
   json
   kaminari
-  mysql2
+  mysql2 (>= 0.4.4, < 0.6.0)
   nprogress-rails (~> 0.2.0.2)
   octokit (~> 4.2.0)
   pg
@@ -398,4 +398,4 @@ DEPENDENCIES
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.16.1
+   1.16.3
