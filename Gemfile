@@ -90,7 +90,7 @@ gem 'i18n-js', '>= 3.0.0.rc8', '< 3.1.0'
 # Github API
 gem 'octokit', '~>4.2.0'
 
-gem 'font-awesome-sass'
+gem 'font-awesome-sass', '~> 4.7.0'
 
 # Web console
 gem 'web-console', '~> 2.0', group: :development
