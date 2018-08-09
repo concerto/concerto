@@ -13,8 +13,8 @@ if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
     }
     ActionMailer::Base.smtp_settings[:openssl_verify_mode] = 'none' if ConcertoConfig[:openssl_verify_mode_none] == true
     if !ConcertoConfig[:smtp_username].blank?
-      ActionMailer::Base.smtp_settings[:authentication] = ConcertoConfig[:smtp_auth_type],
-      ActionMailer::Base.smtp_settings[:user_name] = ConcertoConfig[:smtp_username],
+      ActionMailer::Base.smtp_settings[:authentication] = ConcertoConfig[:smtp_auth_type]
+      ActionMailer::Base.smtp_settings[:user_name] = ConcertoConfig[:smtp_username]
       ActionMailer::Base.smtp_settings[:password] = ConcertoConfig[:smtp_password]
     end
   end
