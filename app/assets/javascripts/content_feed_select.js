@@ -17,14 +17,14 @@ function addContentFeedSelectUi(){
         // this is used to highlight the first input in the box when it is shown...
         show: function(event, api) {
           setTimeout(function() {
-            
+
             // Update the content of the tooltip on each show
             var target = $(event.originalEvent.target);
-            
+
             if(target.length) {
               api.set('content.text', $("#select-feeds").html() );
             }
-            
+
             var tooltip_content = api.elements.content;
             initContentFeedSelectState(tooltip_content);
 
@@ -62,7 +62,7 @@ function generateFeedIdArray() {
 function initContentFeedSelectState(api_content) {
   var feedIdArray = generateFeedIdArray();
   $(api_content).find("a").parents("li").removeClass("checked");
-  
+
   $.each(feedIdArray, function(i, feed_id) {
     $(api_content).find("a[data-feed-id='"+feed_id+"']")
       .parents("li").addClass("checked")
@@ -81,5 +81,4 @@ function initContentFeedSelect() {
   }
 }
 
-$(document).ready(initContentFeedSelect);
-$(document).on('page:change', initContentFeedSelect);
+$(document).on('turbolinks:load', initContentFeedSelect);

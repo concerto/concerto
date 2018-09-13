@@ -61,5 +61,4 @@ var initializeGraphicPreview = {
   }
 };
 
-$(document).ready(initializeGraphicPreview.initialize);
-$(document).on('page:change', initializeGraphicPreview.initialize);
+$(document).on('turbolinks:load', initializeGraphicPreview.initialize);

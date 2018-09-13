@@ -34,7 +34,7 @@ gem 'uglifier', '~> 2.7.2'
 gem 'bootstrap-datepicker-rails'
 gem 'jquery-rails'
 gem 'jquery-timepicker-rails'
-gem 'turbolinks', '~>2.5.3'
+gem 'turbolinks', '~> 5.0'
 gem 'twitter-bootstrap-rails-confirm'
 
 gem 'responders', '~> 2.0'
@@ -66,7 +66,7 @@ gem 'kaminari'
 
 gem 'sqlite3', group: [:development, :test]
 
-gem 'mysql2', group: :mysql
+gem 'mysql2', '>= 0.3.13', '< 0.5', group: :mysql
 gem 'pg', group: :postgres
 
 gem 'public_activity'
@@ -90,7 +90,7 @@ gem 'i18n-js', '>= 3.0.0.rc8', '< 3.1.0'
 # Github API
 gem 'octokit', '~>4.2.0'
 
-gem 'font-awesome-sass'
+gem 'font-awesome-sass', '~> 4.7.0'
 
 # Web console
 gem 'web-console', '~> 2.0', group: :development

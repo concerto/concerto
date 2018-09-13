@@ -71,5 +71,4 @@ function updatePluginSuccess(e, data, status, xhr) {
   }
 }
 
-$(document).ready(bindListeners);
-$(document).on('page:change', bindListeners);
+$(document).on('turbolinks:load', bindListeners);

@@ -2,7 +2,7 @@ function addDurationUi() {
 
   $("form .duration").each(function() {
     var duration_elem = $(this).find(".duration_range");
-    
+
     $(duration_elem).rangeinput().hide();
     var range_elem = $(this).find(":range");
     var handle_elem = $(this).find(".handle");
@@ -16,9 +16,9 @@ function addDurationUi() {
 
     $(range_elem).change(updateSeconds);
     $(range_elem).bind('onSlide', updateSeconds);
-    
+
   });
-  
+
 }
 
 function toggleDurationSelect() {
@@ -41,5 +41,4 @@ function initDuration(){
   }
 }
 
-$(document).ready(initDuration);
-$(document).on('page:change', initDuration);
+$(document).on('turbolinks:load', initDuration);

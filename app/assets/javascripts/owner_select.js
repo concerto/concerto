@@ -66,7 +66,7 @@ function addOwner(name, type, owner_id) {
       $('#screen_owner_type').val(owner_id.split("-")[0]);
       $('#screen_owner_id').val(owner_id.split("-")[1]);
     }
-  } 
+  }
   else if (type == "group_select") {
     if ($('#screen_owner_type').length && $('#screen_owner_id').length) {
       $('#screen_owner_type').val(owner_id.split("-")[0]);
@@ -83,5 +83,4 @@ function initOwnerSelect() {
   }
 }
 
-$(document).ready(initOwnerSelect);
-$(document).on('page:change', initOwnerSelect);
+$(document).on('turbolinks:load', initOwnerSelect);

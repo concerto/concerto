@@ -47,5 +47,4 @@ function initializeTickerPreview() {
   }
 }
 
-$(document).ready(initializeTickerPreview);
-$(document).on('page:change', initializeTickerPreview);
+$(document).on('turbolinks:load', initializeTickerPreview);

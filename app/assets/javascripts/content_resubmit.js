@@ -25,7 +25,7 @@ function addContentResubmitUi(){
     e.preventDefault();
   });
 
-  // Only hide the tooltip if the user clicks somewhere outside the qtip div 
+  // Only hide the tooltip if the user clicks somewhere outside the qtip div
   $(document).on('click', function(event) {
     var target = $(event.target)[0];
     var qtip = $('.qtip');
@@ -35,7 +35,7 @@ function addContentResubmitUi(){
     // hide qtip when click target is not the timepicker container
     if (!qtip.is(target) && qtip.has(target).length == 0 && !$.contains(event.target, timepicker)) {
       qtip.hide();
-    } 
+    }
   });
 }
 
@@ -52,5 +52,4 @@ function initContentResubmitUi() {
   }
 }
 
-$(document).on('page:change', initContentResubmitUi);
-$(document).ready(initContentResubmitUi);
+$(document).on('turbolinks:load', initContentResubmitUi);

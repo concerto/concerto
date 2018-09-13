@@ -5,5 +5,4 @@ function initUsers() {
   });
 }
 
-$(document).ready(initUsers);
-$(document).on('page:change', initUsers);
+$(document).on('turbolinks:load', initUsers);
