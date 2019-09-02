@@ -28,7 +28,8 @@ gem 'coffee-rails'
 gem 'execjs', '~> 2.2.2'
 gem 'sass-rails'
 gem 'sprockets', '~> 2.11.3'
-gem 'therubyracer', platforms: :ruby
+# use nodejs
+#gem 'therubyracer', platforms: :ruby
 gem 'uglifier', '~> 2.7.2'
 
 gem 'bootstrap-datepicker-rails'
