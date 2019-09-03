@@ -2,6 +2,7 @@
 module ConcertoImageMagick
 
   def self.load_image(file_contents)
+    #byebug
     return Magick::Image.from_blob(file_contents).first
   end
   

@@ -65,6 +65,7 @@ GEM
     bundler-audit (0.6.1)
       bundler (>= 1.2.0, < 3)
       thor (~> 0.18)
+    byebug (11.0.1)
     cancancan (3.0.1)
     clockwork (2.0.4)
       activesupport
@@ -353,6 +354,7 @@ DEPENDENCIES
   attachable
   bootstrap-datepicker-rails
   bundler-audit
+  byebug
   cancancan
   clockwork
   coffee-rails
@@ -382,7 +384,7 @@ DEPENDENCIES
   octokit (~> 4.2.0)
   pg
   public_activity
-  rails (~> 4.2.6)
+  rails (~> 4.2)
   redcarpet (~> 3.3.2)
   responders (~> 2.0)
   rmagick
@@ -396,6 +398,9 @@ DEPENDENCIES
   twitter-bootstrap-rails-confirm
   uglifier (~> 2.7.2)
   web-console (~> 2.0)
+
+RUBY VERSION
+   ruby 2.4.6p354
 
 BUNDLED WITH
    1.17.3

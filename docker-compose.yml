@@ -15,7 +15,7 @@ services:
       MYSQL_USER: concerto
       MYSQL_PASSWORD: concerto
   concerto:
-    build: ./
+    image: concerto
     ports: 
       - "3000:80"
     depends_on: 
