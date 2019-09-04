@@ -1,8 +1,3 @@
-# TODO! once you docker-compose up you will need to 
-# compile the assets and run db:seed and probably
-# remove the tmp/migrate_tempfile
-# and the /screens still blows up, and none of the image magick conversion stuff works
-
 version: "3"
 services:
   db:

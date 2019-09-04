@@ -1,3 +1,5 @@
+# use ruby 2.4 since the app seems to have issues with ruby 2.5
+# the ruby version is specified in the Gemfile, the Dockerfile, and the nginx.docker.conf files
 FROM phusion/passenger-ruby24
 
 LABEL Author="team@concerto-signage.org"
@@ -10,7 +12,7 @@ CMD ["/sbin/my_init"]
 WORKDIR /tmp
 RUN add-apt-repository ppa:libreoffice/ppa
 RUN apt-get update
-RUN install_clean libreoffice imagemagick ruby-rmagick libmagickcore-dev libmagickwand-dev nmap gsfonts poppler-utils
+RUN install_clean libreoffice ghostscript libgs-dev imagemagick ruby-rmagick libmagickcore-dev libmagickwand-dev nmap gsfonts poppler-utils
 
 # set up for eastern timezone by default
 # TODO! this doesn't work
@@ -46,7 +48,11 @@ RUN chmod +x /etc/my_init.d/99_startup_concerto.sh
 
 # set up log rotation
 COPY tools/logrotate.app.docker /etc/logrotate.d/concerto
-RUN chmod +r /etc/logrotate.d/concerto
+RUN chmod 0644 /etc/logrotate.d/concerto
+
+# fix Imagemagick policy for converting files
+# https://stackoverflow.com/a/52661288/1778068
+RUN cat /etc/ImageMagick-6/policy.xml | sed 's/domain="coder" rights="none" pattern="PDF"/domain="coder" rights="read|write" pattern="PDF"/' >/etc/ImageMagick-6/policy.xml
 
 WORKDIR /tmp
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

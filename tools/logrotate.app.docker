@@ -3,8 +3,9 @@
 	missingok
 	rotate 14
 	compress
-  delaycompress
-  notifempty
+	delaycompress
+	notifempty
 	create 644 app app
 	dateext
+	su app app
 }
