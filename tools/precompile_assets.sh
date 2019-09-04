@@ -8,6 +8,12 @@ setuser app bash --login <<-EOF
 cd /home/app/concerto
 RAILS_ENV=production bundle install
 RAILS_ENV=production bundle exec rake db:migrate
-RAILS_ENV=production bundle exec rake db:seed
+# only load the seeds if no user exist in the database yet
+RAILS_ENV=production bundle exec rails console <<-EOC
+if User.count == 0
+  load 'db/seeds.rb'
+end
+exit
+EOC
 RAILS_ENV=production bundle exec rake assets:precompile
 EOF
