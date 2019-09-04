@@ -301,7 +301,7 @@ GEM
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
     slop (3.6.0)
-    sprockets (2.11.3)
+    sprockets (2.12.5)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
@@ -390,15 +390,12 @@ DEPENDENCIES
   sass-rails
   simplecov
   slop (~> 3.6.0)
-  sprockets (~> 2.11.3)
+  sprockets (~> 2.12)
   sqlite3
   turbolinks (~> 2.5.3)
   twitter-bootstrap-rails-confirm
   uglifier (~> 2.7.2)
   web-console (~> 2.0)
-
-RUBY VERSION
-   ruby 2.4.6p354
 
 BUNDLED WITH
    1.17.3
