@@ -65,7 +65,6 @@ GEM
     bundler-audit (0.6.1)
       bundler (>= 1.2.0, < 3)
       thor (~> 0.18)
-    byebug (11.0.1)
     cancancan (3.0.1)
     clockwork (2.0.4)
       activesupport
@@ -354,7 +353,6 @@ DEPENDENCIES
   attachable
   bootstrap-datepicker-rails
   bundler-audit
-  byebug
   cancancan
   clockwork
   coffee-rails
