@@ -15,8 +15,9 @@ RUN apt-get update
 RUN install_clean libreoffice ghostscript libgs-dev imagemagick ruby-rmagick libmagickcore-dev libmagickwand-dev nmap gsfonts poppler-utils
 
 # set up for eastern timezone by default
-# TODO! this doesn't work
-RUN TZ=America/New_York DEBIAN_FRONTEND=noninteractive install_clean tzdata
+RUN ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
+RUN DEBIAN_FRONTEND=noninteractive install_clean tzdata
+RUN dpkg-reconfigure --frontend noninteractive tzdata
 
 # enable nginx and configure the site
 RUN rm -f /etc/service/nginx/down
