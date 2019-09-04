@@ -8,6 +8,6 @@ setuser app bash --login <<-EOF
 cd /home/app/concerto
 RAILS_ENV=production bundle install
 RAILS_ENV=production bundle exec rake db:migrate
-#RAILS_ENV=production bundle exec rake db:seed
+RAILS_ENV=production bundle exec rake db:seed
 RAILS_ENV=production bundle exec rake assets:precompile
 EOF
