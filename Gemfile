@@ -2,7 +2,7 @@
 source 'https://rubygems.org'
 
 # the ruby version is specified in the Gemfile, the Dockerfile, and the nginx.docker.conf files
-ruby '2.4.6'
+# ruby '2.4.6'
 
 gem 'rails', '~> 4.2'
 
