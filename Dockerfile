@@ -10,7 +10,7 @@ CMD ["/sbin/my_init"]
 WORKDIR /tmp
 RUN add-apt-repository ppa:libreoffice/ppa
 RUN apt-get update
-RUN install_clean libreoffice imagemagick ruby-rmagick libmagickcore-dev libmagickwand-dev nmap gsfonts
+RUN install_clean libreoffice imagemagick ruby-rmagick libmagickcore-dev libmagickwand-dev nmap gsfonts poppler-utils
 
 # set up for eastern timezone by default
 # TODO! this doesn't work
@@ -27,17 +27,25 @@ RUN mkdir -p /home/app/concerto/tmp
 WORKDIR /home/app/concerto
 COPY . /home/app/concerto
 COPY config/database.yml.docker /home/app/concerto/config/database.yml
-
 RUN chown -R app:app /home/app/concerto
 RUN setuser app bash --login -c "cd /home/app/concerto; RAILS_ENV=production bundle install"
 
+# set up the background worker
+RUN mkdir -p /etc/service/concerto_clockwork
+COPY tools/service.clockwork.docker.sh /etc/service/concerto_clockwork/run
+RUN chmod +x /etc/service/concerto_clockwork/run
+
+RUN mkdir -p /etc/service/concerto_worker
+COPY tools/service.worker.docker.sh /etc/service/concerto_worker/run
+RUN chmod +x /etc/service/concerto_worker/run
+
 # set up migration, and assets to precompile on each startup, but waits for db to be reachable first
 RUN mkdir -p /etc/my_init.d
-COPY tools/precompile_assets.sh /etc/my_init.d/99_precompile.sh
-RUN chmod +x /etc/my_init.d/99_precompile.sh
+COPY tools/startup.docker.sh /etc/my_init.d/99_startup_concerto.sh
+RUN chmod +x /etc/my_init.d/99_startup_concerto.sh
 
 # set up log rotation
-COPY tools/concerto.logrotate /etc/logrotate.d/concerto
+COPY tools/logrotate.app.docker /etc/logrotate.d/concerto
 RUN chmod +r /etc/logrotate.d/concerto
 
 WORKDIR /tmp
