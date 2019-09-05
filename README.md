@@ -14,6 +14,7 @@ Concerto is an open source digital signage system. Users submit graphic, textual
 * Webserver (Apache/Unicorn/Thin/Nginx)
 * Rack interface to the webserver (Passenger, FastCGI)
 * ActiveRecord-compatible database (Mysql, SQLite, Postgres)
+* Nodejs as the javascript engine (as of version 2.3.7)
 
 ## Debian Package Installation
 Note: For those upgrading Concerto from earlier Debian/Ubuntu versions, make sure that your APT source line looks like this: http://dl.concerto-signage.org/packages/ stretch main

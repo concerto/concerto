@@ -1,4 +1,4 @@
-# the ruby version is specified in the Gemfile, the Dockerfile, and the nginx.docker.conf files
+# the ruby version is specified in the Dockerfile and the nginx.docker.conf files
 FROM phusion/passenger-ruby25
 
 LABEL Author="team@concerto-signage.org"

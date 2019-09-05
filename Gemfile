@@ -1,7 +1,8 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'https://rubygems.org'
 
-# the ruby version is specified in the Gemfile, the Dockerfile, and the nginx.docker.conf files
+# the ruby version is specified in the Dockerfile and the nginx.docker.conf files,
+# but not here, because travis wouldn't be able to test other versions if we did.
 # ruby '2.4.6'
 
 gem 'rails', '~> 4.2'
@@ -31,7 +32,7 @@ gem 'coffee-rails'
 gem 'execjs', '~> 2.2.2'
 gem 'sass-rails'
 gem 'sprockets', '~> 2.12'
-# use nodejs
+# use nodejs instead of therubyracer for js engine for easier docker and future work
 #gem 'therubyracer', platforms: :ruby
 gem 'uglifier', '~> 2.7.2'
 
