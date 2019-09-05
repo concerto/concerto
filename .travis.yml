@@ -12,7 +12,7 @@ services:
   - mysql
 
 before_install:
-  - sudo apt-get install -y gsfonts ghostscript libdev-gs poppler-utils
+  - sudo apt-get install -y gsfonts ghostscript libgs-dev poppler-utils
 
 before_script:
   - cp config/database.yml.travis config/database.yml
