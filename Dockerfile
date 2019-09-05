@@ -17,7 +17,7 @@ RUN install_clean libreoffice ghostscript libgs-dev imagemagick ruby-rmagick lib
 # set up for eastern timezone by default
 RUN ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
 RUN DEBIAN_FRONTEND=noninteractive install_clean tzdata
-RUN dpkg-reconfigure --frontend noninteractive tzdata
+RUN DEBIAN_FRONTEND=noninteractive dpkg-reconfigure tzdata
 
 # enable nginx and configure the site
 RUN rm -f /etc/service/nginx/down
