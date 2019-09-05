@@ -28,7 +28,7 @@ class FieldConfig < ActiveRecord::Base
   def key_type
     return nil if key.nil?
     sym_key = key.to_sym
-    if Concerto::Application.config.field_configs.include?(sym_key)
+    if Concerto::Application.config.field_configs.present? and Concerto::Application.config.field_configs.include?(sym_key)
       return Concerto::Application.config.field_configs[sym_key][:type]
     end
     return nil
