@@ -1,6 +1,5 @@
-# use ruby 2.4 since the app seems to have issues with ruby 2.5
 # the ruby version is specified in the Gemfile, the Dockerfile, and the nginx.docker.conf files
-FROM phusion/passenger-ruby24
+FROM phusion/passenger-ruby25
 
 LABEL Author="team@concerto-signage.org"
 

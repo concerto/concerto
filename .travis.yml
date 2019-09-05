@@ -20,8 +20,6 @@ before_script:
   - git submodule init
   - git submodule update
   - mysql -e 'create database concerto_test'
-  # - bundle exec rake db:migrate
-  # - bundle exec rake db:seed
 
 after_script:
   - bundle-audit update
