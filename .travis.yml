@@ -6,9 +6,13 @@ rvm:
 env:
   - DB=sqlite
   - DB=mysql
+  - RAILS_ENV=test
 
 services:
   - mysql
+
+before_install:
+  - sudo apt-get install -y gsfonts ghostscript libdev-gs poppler-utils
 
 before_script:
   - cp config/database.yml.travis config/database.yml
