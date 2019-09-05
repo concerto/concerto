@@ -6,7 +6,6 @@ rvm:
 env:
   - DB=sqlite
   - DB=mysql
-  - RAILS_ENV=test
 
 services:
   - mysql
