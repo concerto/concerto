@@ -12,6 +12,7 @@ services:
 
 before_install:
   - sudo apt-get install -y gsfonts ghostscript libgs-dev poppler-utils
+  # https://bundler.io/blog/2019/01/04/an-update-on-the-bundler-2-release.html
   - gem install bundler -v '1.17.3'
 
 before_script:
@@ -19,8 +20,8 @@ before_script:
   - git submodule init
   - git submodule update
   - mysql -e 'create database concerto_test'
-  - bundle exec rake db:migrate
-  - bundle exec rake db:seed
+  # - bundle exec rake db:migrate
+  # - bundle exec rake db:seed
 
 after_script:
   - bundle-audit update
