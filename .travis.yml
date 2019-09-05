@@ -1,7 +1,7 @@
 rvm:
   - 2.3.8
   - 2.4.6
-  - 2.5.1
+  - 2.5.5
 
 env:
   - DB=sqlite
@@ -12,6 +12,7 @@ services:
 
 before_install:
   - sudo apt-get install -y gsfonts ghostscript libgs-dev poppler-utils
+  - gem install bundler -v '1.17.3'
 
 before_script:
   - cp config/database.yml.travis config/database.yml
