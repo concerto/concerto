@@ -1,0 +1,17 @@
+version: "3"
+services:
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: concerto
+      MYSQL_DATABASE: concerto
+      MYSQL_USER: concerto
+      MYSQL_PASSWORD: concerto
+  concerto:
+    image: concerto
+    ports: 
+      - "80:80"
+    depends_on: 
+      - db

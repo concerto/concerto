@@ -1,4 +1,6 @@
 class Template < ActiveRecord::Base
+  require 'mime/types'
+
   include ActiveModel::ForbiddenAttributesProtection
   include PublicActivity::Common if defined? PublicActivity::Common
 

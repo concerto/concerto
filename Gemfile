@@ -1,7 +1,11 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.2.6'
+# the ruby version is specified in the Dockerfile and the nginx.docker.conf files,
+# but not here, because travis wouldn't be able to test other versions if we did.
+# ruby '2.4.6'
+
+gem 'rails', '~> 4.2'
 
 # Get the absolute path of this Gemfile so the includes below still work
 # when the current directory for a bundler command isn't the application's
@@ -27,8 +31,9 @@ end
 gem 'coffee-rails'
 gem 'execjs', '~> 2.2.2'
 gem 'sass-rails'
-gem 'sprockets', '~> 2.11.3'
-gem 'therubyracer', platforms: :ruby
+gem 'sprockets', '~> 2.12'
+# use nodejs instead of therubyracer for js engine for easier docker and future work
+#gem 'therubyracer', platforms: :ruby
 gem 'uglifier', '~> 2.7.2'
 
 gem 'bootstrap-datepicker-rails'
@@ -64,7 +69,7 @@ gem 'bundler-audit', require: false, group: :test
 
 gem 'kaminari'
 
-gem 'sqlite3', group: [:development, :test]
+gem 'sqlite3', '~> 1.3.6', group: [:development, :test]
 
 gem 'mysql2', group: :mysql
 gem 'pg', group: :postgres

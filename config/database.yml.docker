@@ -1,0 +1,8 @@
+production:
+  adapter: mysql2
+  encoding: utf8
+  database: concerto
+  username: concerto
+  password: concerto
+  host: db
+  port: 3306

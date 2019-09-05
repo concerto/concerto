@@ -1,0 +1,11 @@
+/home/app/concerto/log/*.log {
+	daily
+	missingok
+	rotate 14
+	compress
+	delaycompress
+	notifempty
+	create 644 app app
+	dateext
+	su app app
+}
