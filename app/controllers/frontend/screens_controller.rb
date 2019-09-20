@@ -165,7 +165,7 @@ class Frontend::ScreensController < ApplicationController
       respond_to do |format|
         format.json {
           render json: @screen.to_json(
-            only: [:name, :id, :time_zone],
+            only: [:name, :id, :time_zone, :locale],
             include: {
               template: {
                 include: {

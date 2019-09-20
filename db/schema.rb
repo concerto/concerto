@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190911195651) do
+ActiveRecord::Schema.define(version: 20190920020204) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "trackable_id",   limit: 4
@@ -203,6 +203,7 @@ ActiveRecord::Schema.define(version: 20190911195651) do
     t.datetime "frontend_updated_at"
     t.string   "authentication_token", limit: 255
     t.string   "time_zone",            limit: 255
+    t.string   "locale",               limit: 255
   end
 
   create_table "submissions", force: :cascade do |t|
