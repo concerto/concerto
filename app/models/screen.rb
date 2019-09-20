@@ -42,6 +42,8 @@ class Screen < ActiveRecord::Base
   validates :authentication_token, uniqueness: {allow_nil: true, allow_blank: true}
   validate :unsecured_screens_must_be_public
 
+  validates :locale, format: { with: /\A[a-z]{2}(\-[A-Z]{2}){0,1}\Z/, message: 'format is xx or xx-XX' }, allow_blank: true
+
   def unsecured_screens_must_be_public
     if !is_public? and (unsecured? or auth_by_mac?)
       errors.add(:base, 'Screens must be publicly viewable if they are not secured by a token.')

@@ -27,7 +27,7 @@ class ScreensController < ApplicationController
   # GET /screens/new
   # GET /screens/new.xml
   def new
-    @screen = Screen.new(owner: current_user)
+    @screen = Screen.new(owner: current_user, locale: I18n.locale)
     auth!
     respond_with(@screen)
   end
@@ -98,7 +98,7 @@ class ScreensController < ApplicationController
 private
 
   def screen_params
-    params.require(:screen).permit(:name, :location, :time_zone, :owner_id, :owner_type, :width, :height, :template_id, :is_public, :new_temp_token, :auth_action)
+    params.require(:screen).permit(:name, :location, :locale, :time_zone, :owner_id, :owner_type, :width, :height, :template_id, :is_public, :new_temp_token, :auth_action)
   end
 
 end
