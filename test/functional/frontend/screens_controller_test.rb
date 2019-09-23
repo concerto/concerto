@@ -38,6 +38,7 @@ class Frontend::ScreensControllerTest < ActionController::TestCase
     data['template']['positions'].each do |p|
       assert p['field_contents_path'].length > 0
     end
+    assert_equal data['locale'], screens(:one).locale
   end
 
   test "frontend callback works" do

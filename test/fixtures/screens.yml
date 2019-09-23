@@ -9,6 +9,7 @@ one:
   width: 1920
   height: 1080
   authentication_token: auth:0123456789abcdef
+  locale: en
 
 two:
   name: SGS Screen
@@ -17,6 +18,7 @@ two:
   owner: wtg (Group)
   template: one
   authentication_token: mac:a1b2c3
+  locale: es
 
 rpitv:
   name: RPI TV Screen
