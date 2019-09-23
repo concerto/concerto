@@ -1,6 +1,10 @@
 <% if !submission.content.nil? %>
   <div class="tile<% unless submission.content.children.empty?%> tile-stack<% end %><% unless submission.content.parent.blank?%> tile-child<% end %>" data-submission-id="<%= submission.id %>">
     <%= link_to [submission.feed, submission], class: "tile-content" do %>
+      <% if submission.content.media && submission.content.media.preferred.present? %>
+        <div class="file-size"><%= number_to_human_size(submission.content.media.preferred.first.file_size) %></div>
+      <% end %>
+
       <%= render_content(submission.content, {type: 'tile'}) %>
 
       <div class="tile-labels">

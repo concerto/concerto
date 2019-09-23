@@ -7,3 +7,15 @@
     margin-bottom: 9px;
   }
 }
+
+.tile-content {
+  div.file-size {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: lightgray;
+    border-bottom-left-radius: .5em;
+    padding-left: .5em;
+    padding-right: .5em;
+  }
+}
