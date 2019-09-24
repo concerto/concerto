@@ -76,6 +76,7 @@ class Frontend::ContentsController < ApplicationController
   # Trigger the render function a piece of content and passes all the params
   # along for processing.  Should send an inline result of the processing.
   def show
+    #response.headers["Cache-Control"] = 'no-cache' # no-cache means revalidate at server before pulling from cache
     @content = Content.find(params[:id])
     if @content.nil?
       logger.info "Skipping Deleted Content with id " + params[:id]
@@ -85,6 +86,7 @@ class Frontend::ContentsController < ApplicationController
       if rendered.is_a?(Media)
         @file = rendered
         send_data @file.file_contents, filename: @file.file_name, type: @file.file_type, disposition: 'inline'
+        #fresh_when last_modified: @file.updated_at.utc, etag: @file
       elsif rendered.is_a?(Hash)
         render rendered
       end
