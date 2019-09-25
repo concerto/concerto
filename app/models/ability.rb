@@ -216,6 +216,11 @@ class Ability
         end
       end
     end
+    # custom action -- who can moderate content on the feed?
+    can :moderate, Feed do |feed|
+      (user.leading_groups.include?(feed.group) ||
+      user.supporting_groups(:feed, [:all, :submissions]).include?(feed.group))
+    end
 
     # Create custom submit rules by coping submission creation rules
     relevant_rules(:create, Submission).each do |rule|

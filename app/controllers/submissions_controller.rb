@@ -10,7 +10,7 @@ class SubmissionsController < ApplicationController
   # GET /feeds/:feed_id/submissions
   # GET /feeds/:feed_id/submissions.js
   def index
-    @can_moderate_feed = can?(:update, @feed)
+    @can_moderate_feed = can?(:moderate, @feed)
 
     state = params[:state] || 'active'
 
