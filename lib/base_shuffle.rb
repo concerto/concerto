@@ -22,6 +22,15 @@ class BaseShuffle
     content.to_a.compact
   end
 
+  def remove_consecutive(arr)
+    last_item = nil
+    arr.map do |a|
+      keep = last_item.nil? || last_item != a
+      last_item = a
+      keep ? a : nil
+    end.compact
+  end
+
   private
 
   def content

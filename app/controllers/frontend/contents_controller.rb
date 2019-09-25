@@ -44,7 +44,7 @@ class Frontend::ContentsController < ApplicationController
       shuffler = shuffler_klass.new(@screen, @field, @subscriptions)
 
       # get the contents from the shuffler and reject what this screen would consider expired
-      @content = shuffler.next_contents().reject{ |c| c.start_time > screen_time || c.end_time < screen_time }
+      @content = shuffler.remove_consecutive(shuffler.next_contents()).reject{ |c| c.start_time > screen_time || c.end_time < screen_time }
     end
 
     auth! object: @content
