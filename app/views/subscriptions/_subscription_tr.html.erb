@@ -2,7 +2,7 @@
   <td style="width: 50px;">
     <% if can? :destroy, subscription %>
       <%= link_to screen_field_subscription_path(@screen, @field, subscription), method: :delete, remote: true, class: "btn btn-danger btnRemoveSubscription" do %>
-        <i class="fa fa-remove"></i>
+        <i class="fa fa-minus-circle"></i>
       <% end %>
     <% end %>
   </td>
