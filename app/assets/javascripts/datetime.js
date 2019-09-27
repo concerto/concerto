@@ -32,7 +32,7 @@ function initDateTime() {
   // find the icon-calendar item next to it (before or after) and wire it's click to open
   // the datepicker that it's related to
   $('.datefield').each(function (index) {
-      $(this).parent().find('i[class="fa fa-calendar"]').on('click', function () {
+      $(this).parent().find('i[class="fas fa-calendar"]').on('click', function () {
         $(this).closest('div').find('.datefield').datepicker('show');
       });
   });

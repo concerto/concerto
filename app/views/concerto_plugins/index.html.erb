@@ -35,7 +35,7 @@
               <h1>
                 <%= status_badge concerto_plugin.enabled %>
                 <% if gem_needs_upgrade?(concerto_plugin, Gem.loaded_specs[concerto_plugin.gem_name]) %>
-                   <%=content_tag(:i, nil, class: 'fa fa-level-up tooltip-basic', 'data-tooltip-text' => t('concerto_plugins.index.upgrade_available')) %>
+                   <%=content_tag(:i, nil, class: 'fas fa-level-up-alt tooltip-basic', 'data-tooltip-text' => t('concerto_plugins.index.upgrade_available')) %>
                 <% end %>
               </h1>
             </td>
