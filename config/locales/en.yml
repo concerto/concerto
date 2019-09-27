@@ -1073,6 +1073,7 @@ en:
   user_not_created: User not created
   user_not_deletable: A user owning screens or who is the last remaining administrator cannot be deleted.
   user_owns_screens: This user cannot be deleted because they own one or more screens.
+  user_deleted: User was successfully deleted.
   user_updated: User was successfully updated.
   users:
     all_users: All Users

@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   respond_to :html, :json, :xml
+  responders :flash
    
   # GET /users
   def index
@@ -100,6 +101,7 @@ class UsersController < ApplicationController
 
     process_notification(@user, {}, process_notification_options({params: {user_name: @user.name}}))
     @user.destroy
+    flash[:notice] = t(:user_deleted)
     respond_with(@user)
   end
 

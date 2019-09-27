@@ -4,6 +4,7 @@ class TemplatesController < ApplicationController
 
   before_filter :get_type, only: [:new, :create, :import]
   respond_to :html, :json, :xml, :js
+  responders :flash
 
   # GET /templates
   # GET /templates.xml

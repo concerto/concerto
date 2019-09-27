@@ -5,6 +5,7 @@ class ScreensController < ApplicationController
   define_callbacks :change # controller callback after 'create' or 'update'
   ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
   respond_to :html, :json, :xml
+  responders :flash
 
   # GET /screens
   # GET /screens.xml

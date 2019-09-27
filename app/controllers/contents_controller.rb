@@ -239,6 +239,7 @@ class ContentsController < ApplicationController
 
     process_content_notification action_name
     @content.destroy
+    flash[:notice] = t(:content_deleted)
 
     respond_to do |format|
       format.html { redirect_to(feeds_url) }
