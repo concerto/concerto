@@ -61,7 +61,8 @@
     <% if can? :manage, :all %>
       <section>
         <div class="top-menu-sectop">
-          <%= link_to t('.pages'), main_app.pages_path, class: "btn #{ (controller.controller_name == 'page') ? 'selected' : '' }" %>
+          <%= link_to t('.templates'), main_app.templates_path, class: "btn #{ (controller.controller_name == 'templates') ? 'selected' : '' }" %>
+          <%= link_to t('.pages'), main_app.pages_path, class: "btn #{ (controller.controller_name == 'pages') ? 'selected' : '' }" %>
           <%= link_to t('.settings'), main_app.concerto_config_path, class: "btn #{ (controller.controller_name == 'concerto_config') ? 'selected' : '' }" %>
           <%= link_to t('.plugins'), main_app.concerto_plugins_path, class: "btn #{ (controller.controller_name == 'concerto_plugins') ? 'selected' : '' }" %>
           <%= link_to t(".users"), main_app.users_path, class: "btn #{ controller.controller_name == 'users' ? 'selected' : '' }" %>
