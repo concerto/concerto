@@ -1,12 +1,14 @@
 <li>
-  <div class="cont thumb-icon">
+  <div class="cont thumb-icon <%= 'in-use' if template.screens.count > 0 %>">
     <%= link_to template do %>
       <i class="concertocon-controller-templates"></i>
     <% end %>
   </div>
   <div class="cont">
     <p><b><%= link_to template.name, template %></b></p>
-    <p><%= t '.by', author: template.author %></p>
+    <% if template.author.present? %>
+      <p><%= t '.by', author: template.author %></p>
+    <% end %>
     <% if template.screens.count > 0 %>
       <p><%= t('.screens', count: template.screens.count) %></p>
     <% end %>
