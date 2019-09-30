@@ -111,8 +111,8 @@ class Frontend::ScreensController < ApplicationController
   end
 
   # GET /frontend/1/setup.json
-  # Get information required to setup the screen
-  # and display the template with positions.
+  # Get information required to setup the screen and display the template with positions.
+  # The request may include width and height parameters of the screen's container.
   def setup
     allow_cors unless !ConcertoConfig[:public_concerto]
     @preview = params.has_key?(:preview) && params[:preview] == "true"
@@ -125,6 +125,12 @@ class Frontend::ScreensController < ApplicationController
     rescue CanCan::AccessDenied
       render json: {}, status: 403
     else
+      # If we got the dimensions then keep them so we can indicate its orientation in the screen list.
+      if params['width'].present? and params['height'].present?
+        @screen.height = params['height'].to_i rescue nil
+        @screen.width = params['width'].to_i rescue nil
+        @screen.save
+      end
 
       # field_configs = []  # Cache the field_configs
       @screen.run_callbacks(:frontend_display) do
@@ -162,32 +168,33 @@ class Frontend::ScreensController < ApplicationController
 
       @screen.time_zone = ActiveSupport::TimeZone::MAPPING[@screen.time_zone]
       if stale?(etag: frontend_cache_key, public: true)
-      respond_to do |format|
-        format.json {
-          render json: @screen.to_json(
-            only: [:name, :id, :time_zone, :locale],
-            include: {
-              template: {
-                include: {
-                  positions: {
-                    except: [:created_at, :updated_at, :template_id, :field_id],
-                    methods: [:field_contents_path],
-                    include: {
-                      field: {
-                        methods: [:config],
-                        only: [:id, :name, :config]
+        respond_to do |format|
+          format.json {
+            render json: @screen.to_json(
+              only: [:name, :id, :time_zone, :locale],
+              include: {
+                template: {
+                  include: {
+                    positions: {
+                      except: [:created_at, :updated_at, :template_id, :field_id],
+                      methods: [:field_contents_path],
+                      include: {
+                        field: {
+                          methods: [:config],
+                          only: [:id, :name, :config]
+                        }
                       }
-                    }
+                    },
                   },
-                },
-                only: [:id, :name],
-                methods: [:path, :css_path]
+                  only: [:id, :name],
+                  methods: [:path, :css_path]
+                }
               }
-            }
-          )
-        }
+            )
+          }
+        end
       end
-      end
+
       unless @preview
         @screen.mark_updated
       end

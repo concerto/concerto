@@ -291,6 +291,10 @@ class Screen < ActiveRecord::Base
     return "frontend-screen/#{self.id}-#{self.template.id}-#{max_updated_at}-#{other_md5}"
   end
 
+  def portrait?
+    width.present? && height.present? && height > width
+  end
+
 private
 
   # Right now there are three types of tokens
