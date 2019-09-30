@@ -126,7 +126,7 @@ class Frontend::ScreensController < ApplicationController
       render json: {}, status: 403
     else
       # If we got the dimensions then keep them so we can indicate its orientation in the screen list.
-      if params['width'].present? and params['height'].present?
+      if params['width'].present? and params['height'].present? and !@preview
         @screen.height = params['height'].to_i rescue nil
         @screen.width = params['width'].to_i rescue nil
         @screen.save
