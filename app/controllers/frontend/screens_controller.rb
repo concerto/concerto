@@ -127,9 +127,10 @@ class Frontend::ScreensController < ApplicationController
     else
       # If we got the dimensions then keep them so we can indicate its orientation in the screen list.
       if params['width'].present? and params['height'].present? and !@preview
-        @screen.height = params['height'].to_i rescue nil
-        @screen.width = params['width'].to_i rescue nil
-        @screen.save
+        height = params['height'].to_i rescue nil
+        width = params['width'].to_i rescue nil
+        @screen.update_columns(height: height, width: width)
+        Rails.logger.debug("updated screen #{@screen.id} dimensions #{width}w x #{height} h")
       end
 
       # field_configs = []  # Cache the field_configs
