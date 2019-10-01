@@ -10,7 +10,7 @@ class DynamicContent < Content
 
   after_initialize :set_kind, :create_config
 
-  after_find :load_config
+  after_find :protected_load_config
   before_validation :save_config
 
   attr_accessor :config
@@ -38,6 +38,14 @@ class DynamicContent < Content
     {
       'interval' => 300,
     }
+  end
+
+  def protected_load_config
+    begin
+      load_config
+    rescue StandardError => ex
+      Rails.logger.error("unable to load_config for dynamic content #{id}: #{ex.message}")
+    end
   end
 
   # Load a configuration hash.
