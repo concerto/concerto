@@ -263,3 +263,25 @@ ul.list-stacked {
   }
 }
 ul.list-stacked.condensed > li { padding: 6px 12px; }
+
+
+
+
+
+@supports (display: grid) {
+  ul.list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18em, 1fr));
+    grid-gap: 1rem;
+  }
+  // get rid of the blank item -- not sure why it was there to begin with....
+  ul.list-grid:before {
+    display: none;
+  }
+
+  .common-templates {
+    ul.list-grid {
+      grid-template-columns: repeat(auto-fit, minmax(14em, 1fr));
+    }
+  }  
+}
