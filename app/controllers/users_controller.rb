@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     auth!
     @user.email = '' unless user_signed_in?
 
-    @memberships = @user.memberships
+    @memberships = @user.memberships.joins(:group).order('groups.name')
     auth!({action: :read, object: @memberships})
 
     @contents = @user.contents.where('parent_id IS NULL')
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     @contents = Kaminari.paginate_array(@contents).page(params[:page])
     auth!({action: :read, object: @contents})
 
-    @screens = @user.screens.order_by_name + @user.groups.collect{|g| g.screens.order_by_name}.flatten
+    @screens = (@user.screens + @user.groups.collect{|g| g.screens}).flatten.sort_by(&:name)
     auth!({action: :read, object: @screens})
  
     respond_with(@user)
