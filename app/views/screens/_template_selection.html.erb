@@ -9,22 +9,21 @@
         <ul class="list-grid inset-selection small">
           <% ::Template.all.each do |template| %>
             <% if !template.is_hidden || can?(:read, template) %>
-              <li>
-
+              <li class="<%= 'selected' if template.id == f.object.template.id %>">
                 <div class="inp">
                   <%= f.radio_button :template_id, template.id %>
                 </div>
 
-                <%= image_tag main_app.preview_template_path(template, height: 60, format: :png), style: "margin: 0px;", class: "dd-templateselect dropdown-control", "data-template-id" => template.id %>
-
+                <div class="contents">
+                  <%= f.label :template_id, value: template.id do %>
+                    <%= template.name %>
+                  <% end %>
+                  <p>by <%= template.author %><%= ", #{pluralize(template.screens.count, 'screen')}" if template.screens.count > 0 %></p>
+                  <%= image_tag main_app.preview_template_path(template, height: 60, format: :png), style: "margin: 0px;", class: "dd-templateselect dropdown-control", "data-template-id" => template.id %>
+                </div>
+  
                 <div id="preview_<%= template.id %>" class="dd" style="display:none;">
                   <%= image_tag main_app.preview_template_path(template, width: 400, aspect_ratio: true, format: :png), style: "margin: 0px;", class: "default-padding" %>
-                </div>
-
-                <div class="cont">
-                  <p><b><%= template.name %></b></p>
-
-                  <p>by <%= template.author %></p>
                 </div>
 
               </li>
