@@ -37,7 +37,7 @@
         </div>
 
         <div class="clearfix">
-          <label for="concerto_plugin_source_url"><%= t('.source_url') %> <span class="fas fa-question-circle muted tooltip-basic" data-tooltip-text="<%= t('.path_instructions') %>"></span></label>
+          <%= label_tooltip 'concerto_plugin', :source_url, t('.source_url'), tip: t('.path_instructions') %>
           <div class="input">
             <%= f.text_field :source_url, class: "input-xxlarge" %>
           </div>
