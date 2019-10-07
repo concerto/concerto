@@ -54,7 +54,7 @@ gem 'cancancan'
 gem 'devise', :git=> "https://github.com/plataformatec/devise.git", :branch => "3-stable"
 
 gem 'json'
-gem 'rubyzip', '~> 1.2.1'
+gem 'rubyzip', '~> 1.3.0'
 
 # Process jobs in the background
 gem 'clockwork'
@@ -88,6 +88,8 @@ gem 'nprogress-rails', '~> 0.2.0.2'
 group :development do
   gem 'i18n-tasks', '0.9.0'
   gem 'slop', '~> 3.6.0' # Required due to https://github.com/glebm/i18n-tasks/issues/118
+  gem 'awesome_print'
+  gem 'rack-mini-profiler'
 end
 
 gem 'i18n-js', '>= 3.0.0.rc8', '< 3.1.0'
