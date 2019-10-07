@@ -56,6 +56,7 @@ GEM
     arel (6.0.4)
     ast (2.4.0)
     attachable (0.0.5)
+    awesome_print (1.8.0)
     bcrypt (3.1.13)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
@@ -226,6 +227,8 @@ GEM
       i18n (>= 0.5.0)
       railties (>= 3.0.0)
     rack (1.6.11)
+    rack-mini-profiler (1.1.0)
+      rack (>= 1.2.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.11.1)
@@ -273,7 +276,7 @@ GEM
       ansi
       ast
     ruby-xslt (0.9.10)
-    rubyzip (1.2.3)
+    rubyzip (1.3.0)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -351,6 +354,7 @@ PLATFORMS
 DEPENDENCIES
   airbrake (~> 5.7)
   attachable
+  awesome_print
   bootstrap-datepicker-rails
   bundler-audit
   cancancan
@@ -382,11 +386,12 @@ DEPENDENCIES
   octokit (~> 4.2.0)
   pg
   public_activity
+  rack-mini-profiler
   rails (~> 4.2)
   redcarpet (~> 3.3.2)
   responders (~> 2.0)
   rmagick
-  rubyzip (~> 1.2.1)
+  rubyzip (~> 1.3.0)
   sass-rails
   simplecov
   slop (~> 3.6.0)
