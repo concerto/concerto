@@ -87,19 +87,19 @@ class Screen < ActiveRecord::Base
     update_column(:frontend_updated_at, Clock.time)
   end
 
-  # Mark the screen as updated some percentage of the time.
-  # Doesn't always mark the screen as updated to avoid flooding the database
-  # but does it frequently enought for online / offline detection.
-  def sometimes_mark_updated(pct=0.1)
-    mark_updated if rand() <= pct
+  # Mark the screen as updated if it will soon fall into offline status
+  def sometimes_mark_updated
+    if is_offline?(Screen::OFFLINE_THRESHOLD - 1.minute)
+      mark_updated
+    end
   end
 
   def is_online?
     !frontend_updated_at.nil? && frontend_updated_at >= (Clock.time - Screen::ONLINE_THRESHOLD)
   end
 
-  def is_offline?
-    frontend_updated_at.nil? || frontend_updated_at < (Clock.time - Screen::OFFLINE_THRESHOLD)
+  def is_offline?(within = Screen::OFFLINE_THRESHOLD)
+    frontend_updated_at.nil? || frontend_updated_at < (Clock.time - within)
   end
 
   def self.find_by_mac(mac_addr)
