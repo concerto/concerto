@@ -1,20 +1,23 @@
 require 'test_helper'
 
 class VersionCheckTest < ActiveSupport::TestCase
+  # regex comes from https://semver.org
+  PATTERN=/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
+
   test 'STRING should match pattern' do
-    assert /[0-9].[0-9].[0-9]/ =~ Concerto::VERSION::STRING
+    assert PATTERN =~ Concerto::VERSION::STRING
   end
 
   test 'dynamic should match pattern' do
     Rails.cache.delete('VERSION::dynamic')
-    assert /[0-9].[0-9].[0-9]-[0-9]{1,3}-[0-9a-z]+/ =~ Concerto::VERSION.dynamic
+    assert PATTERN =~ Concerto::VERSION.dynamic
   end
 
   test 'version check latest version should match pattern' do
     Rails.cache.delete('concerto_version')
     Rails.cache.delete('concerto_version_time')
     v = VersionCheck.latest_version
-    assert /[0-9].[0-9].[0-9]/ =~ v, 'latest_verison does not match expected format'
+    assert PATTERN =~ v, 'latest_verison does not match expected format'
 
     assert v == VersionCheck.latest_version, 'latest_version is not cached'
   end

@@ -2,10 +2,12 @@ module Concerto
   module VERSION
     MAJOR = 2
     MINOR = 3
-    TINY = 7
-    PRE = nil
+    PATCH = 7
+    PRE = "beta.1"
+    BUILD = nil
 
-    STRING = [MAJOR, MINOR, TINY, PRE].compact.join('.')
+    # https://semver.org/
+    STRING = [[[MAJOR, MINOR, PATCH].compact.join('.'), PRE].compact.join('-'), BUILD].compact.join('+')
 
     def self.dynamic
       Rails.cache.fetch('VERSION::dynamic') do
