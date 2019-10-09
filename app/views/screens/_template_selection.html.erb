@@ -9,7 +9,7 @@
         <ul class="list-grid inset-selection small">
           <% ::Template.all.each do |template| %>
             <% if !template.is_hidden || can?(:read, template) %>
-              <li class="<%= 'selected' if template.id == f.object.template.id %>">
+              <li class="<%= 'selected' if f.object.template && template.id == f.object.template.id %>">
                 <div class="inp">
                   <%= f.radio_button :template_id, template.id %>
                 </div>
