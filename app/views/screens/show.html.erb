@@ -19,17 +19,26 @@
   	    <%= render partial: "screens/show_header" %>
   	  </header>
   	  <div id="screens-body" class="viewblock-cont">
-  	    <%= render partial: "screens/show_body" %>
+        <div class='row-fluid'>
+          <div class="span2 screen-details">
+            <div class="default-padding">
+              <%= render partial: "screens/show_details", locals: { screen: @screen } %>
+            </div>
+          </div>
+          <div class='span10'>
+            <%= render partial: "screens/show_body" %>
+          </div>
+        </div>
   	  </div>
   	</section>
     
     <%= bottombar unless bottombar.blank? %>
   </div>
 
-<% if !sidebar.blank? %>
-  <div class="span<%= sidebar_span %>">
-    <%= sidebar %>
-  </div>
-<% end %>
+  <% if !sidebar.blank? %>
+    <div class="span<%= sidebar_span %>">
+      <%= sidebar %>
+    </div>
+  <% end %>
 
 </div>

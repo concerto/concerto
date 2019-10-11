@@ -1,0 +1,19 @@
+ul.fields {
+  list-style: none;
+  margin-left: 1em;
+
+  li {
+    text-transform: uppercase;
+    margin-bottom: 1em;
+  }
+}
+
+ul.field-details {
+  list-style: none;
+  margin-left: 0;
+
+  li {
+    text-transform: none;
+    margin-bottom: auto;
+  }
+}

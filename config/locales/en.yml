@@ -901,6 +901,10 @@ en:
       field_settings:
         one: Field Setting
         other: Field Settings
+    show_details:
+      last_detected_dimensions: Last Detected Dimensions
+      publicly_viewable: Publicly Viewable
+      fields: Fields
     template_selection:
       best_fit_templates: Best-Fit Templates
       select_template: Select Template
