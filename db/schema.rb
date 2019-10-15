@@ -57,14 +57,6 @@ ActiveRecord::Schema.define(version: 20191015154125) do
     t.string   "screen_on_off"
   end
 
-  create_table "concerto_manykinds_manykinds", force: :cascade do |t|
-    t.integer  "field_id"
-    t.integer  "kind_id"
-    t.integer  "template_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "concerto_plugins", force: :cascade do |t|
     t.boolean  "enabled"
     t.string   "gem_name"
