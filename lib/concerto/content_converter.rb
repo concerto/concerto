@@ -73,8 +73,10 @@ module Concerto
         # process it with docsplit via the api
         begin
           if original_filepath.end_with?('.pdf') && command?('pdftoppm')
-            Rails.logger.debug("pdftoppm -singlefile -png \"#{original_filepath}\" \"/tmp/#{File.basename(original_filepath,".*")}_1\"")
-            `pdftoppm -singlefile -png "#{original_filepath}" "/tmp/#{File.basename(original_filepath, ".*")}_1"`
+            # scale the longest side to 1920 and maintain the aspect ratio
+            scale="-scale-to 1920"
+            Rails.logger.debug("pdftoppm -singlefile #{scale} -png \"#{original_filepath}\" \"/tmp/#{File.basename(original_filepath,".*")}_1\"")
+            `pdftoppm -singlefile #{scale} -png "#{original_filepath}" "/tmp/#{File.basename(original_filepath, ".*")}_1"`
           else
             Docsplit.extract_images("#{original_filepath}", density: 300, pages: 1, format: 'png', output: "/tmp")
           end
