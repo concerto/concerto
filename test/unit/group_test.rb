@@ -18,6 +18,12 @@ class GroupTest < ActiveSupport::TestCase
     assert !g.has_member?(users(:kristen)), "Kristen is not in the WTG"
   end
 
+  test "moderators returns list of moderators for the group" do
+    g = groups(:wtg)
+    assert g.moderators.include?(memberships(:katie_wtg)), "Katie is a moderator"
+    assert !g.moderators.include?(memberships(:karen_wtg)), "Karen is not a moderator"
+  end
+
   test "user has permission" do
     g = groups(:wtg)
     u = users(:karen)

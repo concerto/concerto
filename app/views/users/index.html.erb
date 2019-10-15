@@ -1,4 +1,4 @@
-<section class="viewblock">
+<section class="viewblock users-index">
   <header class="viewblock-header">
     <div class="viewblock-header_right">
       <div class="button-padding">
@@ -28,9 +28,31 @@
             <% else %>
               <%= user.name %>
             <% end %>
+
+            <% if user.is_admin %><i class="concertocon-user-admin tooltip-basic" data-tooltip-text="<%= t('.system_admin') %>"></i><% end %>
           </td>
-          <td><%= user.email %></td>
-          <td><%= user.groups.map(&:name).join(",") %></td>
+          <td>
+            <%= user.email %>
+            <% if user.receive_moderation_notifications %>
+              <i class='fas fa-envelope muted tooltip-basic' data-tooltip-text="<%= User.human_attribute_name(:receive_moderation_notifications) %>"></i>
+            <% end %>
+          </td>
+          <td>
+            <%#= user.groups.map(&:name).join(",") %>
+            <ul class="groups-list">
+              <% user.memberships.sort{|a,b| a.group.name <=> b.group.name}.each do |m| %>
+                <% next if m.is_denied? %>
+                <li class="<%= m.is_denied? ? 'is_denied' : (m.is_pending? ? 'muted' : '') %>">
+                  <%= m.group.name %>
+                  <% if m.is_leader? %><i class="concertocon-user-leader muted tooltip-basic" data-tooltip-text="<%= t('.leader') %>"></i><% end %>
+                  <% if m.is_pending? %><i class="fas fa-question-circle tooltip-basic" data-tooltip-text="<%= t('.pending') %>"></i><% end %>
+                  <% if m.is_denied? %><i class="fas fa-thumbs-down tooltip-basic" data-tooltip-text="<%= t('.denied') %>"></i><% end %>
+                  <% if m.is_moderator? %><i class="fas fa-user-shield muted tooltip-basic" data-tooltip-text="<%= t('.moderator') %>"></i><% end %>
+                  <% if m.receive_emails %><i class='far fa-envelope muted tooltip-basic' data-tooltip-text="<%= Membership.human_attribute_name(:receive_emails) %>"></i><% end %>
+                </li>
+              <% end %>
+            </ul>
+          </td>
 
           <td>
             <% if can? :edit, user %>

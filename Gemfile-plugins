@@ -1,14 +1,7 @@
-
-gem "concerto_weather", '>=0.6'
-
-gem "concerto_remote_video", '>=1.2'
-
-gem "concerto_simple_rss", '>=1.1'
-
-gem "concerto_iframe", '>=0.1.0'
-
-gem "concerto_calendar", '>=0.0.9'
-
-gem "concerto_hardware", '>=0.8'
-
-gem "concerto_frontend", '>=0.4.3'
+gem "concerto_calendar"
+gem "concerto_frontend"
+gem "concerto_hardware"
+gem "concerto_iframe"
+gem "concerto_remote_video"
+gem "concerto_simple_rss"
+gem "concerto_weather"

@@ -66,6 +66,10 @@ class Group < ActiveRecord::Base
     all_users.include?(user)
   end
 
+  def moderators
+    memberships.map { |m| m if m.is_moderator? }
+  end
+
   # Test if a user can be demoted to regular member or removed from a group
   def can_resign_leadership?(membership)
     return self.leaders.count > 1 || !membership.is_leader?

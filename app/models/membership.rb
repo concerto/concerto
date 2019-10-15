@@ -128,6 +128,10 @@ class Membership < ActiveRecord::Base
     level == Membership::LEVELS[:leader]
   end
 
+  def is_moderator?
+    is_leader? || (is_approved? && (perms[:feed] == :all || perms[:feed] == :submissions))
+  end
+
   # action can be {"approve, deny, promote, demote"}
   def update_membership_level(action)
     case action
