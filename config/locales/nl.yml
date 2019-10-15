@@ -727,6 +727,10 @@ nl:
   membership_promoted_failure: Lid promoveren tot groepsleider niet geslaagd.
   membership_unknown_action: Onbekende ledenactie.
   missing_default_type: Missing Default Content Type
+  moderator_mailer:
+    items_pending:
+      a_submission_is_pending_moderation: A submission is pending moderation.
+      concerto_submission_pending_approval: Concerto Submission Pending Approval
   my_model: 'Mijn %{model}'
   name: name
   new_model: 'Nieuw %{model}'
@@ -1031,7 +1035,12 @@ nl:
       options: Options
       provide_details: Provide Details
     index:
+      denied: Denied
+      leader: Leader
+      moderator: Moderator
       name: Name
+      pending: Pending
+      system_admin: Admin
     show_body:
       admin: Admin
       content: Content

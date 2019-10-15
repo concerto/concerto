@@ -703,6 +703,10 @@ de:
   membership_promoted: Mitglied wurde erfolgreich zum Leiter befördert.
   membership_promoted_failure: Mitglied konnte nicht zum Leider befördert werden.
   membership_unknown_action: Unbekannte Mitgliedsaktion gesendet.
+  moderator_mailer:
+    items_pending:
+      a_submission_is_pending_moderation: A submission is pending moderation.
+      concerto_submission_pending_approval: Concerto Submission Pending Approval
   missing_default_type: Standard Beitragstyp fehlt
   my_model: 'Mein %{model}'
   name: Name
@@ -1008,7 +1012,12 @@ de:
       options: Optionen
       provide_details: Einstellungen vornehmen
     index:
+      denied: Enfernt
+      leader: Leiter
+      moderator: Moderator
       name: Name
+      pending: Ausstehend
+      system_admin: Administrator
     show_body:
       admin: Admin
       content: Beiträge

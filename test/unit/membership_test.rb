@@ -96,6 +96,27 @@ class MembershipTest < ActiveSupport::TestCase
     assert !memberships(:kristen_unused).is_approved?
   end
 
+  test "is_moderator? reflects leaders and support users with feed submission privilege" do
+    assert memberships(:katie_wtg).is_moderator? # leaders can moderate
+
+    k = memberships(:karen_wtg)
+    assert !k.is_moderator? # regular user without permissions cannot moderate
+
+    k.expand_permissions
+    k.perms[:screen] = :none
+    k.perms[:feed] = :none
+    k.compact_permissions
+    assert !k.is_moderator? # regular user without feed submissions or feed all permissions still cannot moderate
+
+    k.perms[:feed] = :submissions
+    k.compact_permissions
+    assert k.is_moderator?, "regular user with feed submissions is a moderater"
+
+    k.perms[:feed] = :all
+    k.compact_permissions
+    assert k.is_moderator?, "regular user with feed all is a moderater"
+  end
+
   test "sole leader cannot resign leadership" do
     assert !memberships(:katie_wtg).can_resign_leadership?
   end

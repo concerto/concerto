@@ -727,6 +727,10 @@ fr:
   membership_promoted_failure: "Le membre n'a pas été promu chef de groupe."
   membership_unknown_action: "L'action d'appartenance envoyée est inconnue."
   missing_default_type: Missing Default Content Type
+  moderator_mailer:
+    items_pending:
+      a_submission_is_pending_moderation: A submission is pending moderation.
+      concerto_submission_pending_approval: Concerto Submission Pending Approval
   my_model: 'Mon %{model}'
   name: name
   new_model: 'Nouveau %{model}'
@@ -1031,7 +1035,12 @@ fr:
       options: Options
       provide_details: Description
     index:
+      denied: Refusé
+      leader: Chef
+      moderator: Moderator
       name: Name
+      pending: Pending
+      system_admin: administrateur
     show_body:
       admin: Admin
       content: Contenu

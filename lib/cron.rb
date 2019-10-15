@@ -18,6 +18,10 @@ module Clockwork
     Media.delay.cleanup_previews
   end
 
+  every(5.minutes, 'Send Moderation Request Notifications') do
+    Submission.delay.send_moderation_request_notifications
+  end
+
   every(1.day, 'Deny Expired Content Submissions') do
     Submission.delay.deny_old_expired
   end
