@@ -37,7 +37,7 @@ class Subscription < ActiveRecord::Base
 
   # Get an array of all the approved active content to be shown in a screen's field.
   def contents
-    @contents = self.feed.approved_contents.active.all.to_a
+    @contents = self.feed.approved_contents.active.all.reorder('submissions.seq_no, contents.start_time').to_a
     run_callbacks :filter_contents do
       @contents.reject!{|c| !c.can_display_in?(self.screen, self.field)}
     end

@@ -77,9 +77,9 @@ $(document).on('page:change', initBrowse);
 
 
 function initReorderSubmissions() {
+  var feedId = $('.submissions-active').data('feed-id');
   $('.submissions-active .tile').on('dragstart', function(ev) {
     var submissionId = ev.target.closest('.tile').dataset.submissionId;
-    // console.debug('set data', submissionId);
     ev.originalEvent.dataTransfer.setData('text/plain/id', submissionId);
     ev.originalEvent.dataTransfer.dropEffect = 'move';
   }).on('dragover', function (ev) {
@@ -91,14 +91,14 @@ function initReorderSubmissions() {
     if (fromId) {
       var beforeId = ev.target.closest('.tile').dataset.submissionId;
       if (fromId !== beforeId) {
-        // console.debug('dropped', fromId, 'on', beforeId);
-        // TODO! need to make this happen on the backend and then reflect the move here
-        // but make sure that they are allowed to.
-        $('.tile[data-submission-id=' + beforeId + ']').before($('.tile[data-submission-id=' + fromId + ']'));
+        $.get('/feeds/' + feedId + '/submissions/' + fromId + '/reorder?before=' + beforeId)
+          .done(function(data) {
+            $('.tile[data-submission-id=' + beforeId + ']').before($('.tile[data-submission-id=' + fromId + ']'));
+          });
       }
     }
   });
 }
 
-$(document).ready(initReorderSubmissions);
+//$(document).ready(initReorderSubmissions);
 $(document).on('page:change', initReorderSubmissions);
