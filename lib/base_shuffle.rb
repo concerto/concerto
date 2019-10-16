@@ -34,6 +34,6 @@ class BaseShuffle
   private
 
   def content
-    @subscriptions.collect(&:contents).flatten
+    @subscriptions.collect{|s| s.contents }.flatten
   end
 end

@@ -74,3 +74,31 @@ function initBrowse() {
 
 $(document).ready(initBrowse);
 $(document).on('page:change', initBrowse);
+
+
+function initReorderSubmissions() {
+  var feedId = $('.submissions-active').data('feed-id');
+  $('.submissions-active .tile').on('dragstart', function(ev) {
+    var submissionId = ev.target.closest('.tile').dataset.submissionId;
+    ev.originalEvent.dataTransfer.setData('text/plain/id', submissionId);
+    ev.originalEvent.dataTransfer.dropEffect = 'move';
+  }).on('dragover', function (ev) {
+    ev.originalEvent.preventDefault();
+    ev.originalEvent.dataTransfer.dropEffect = 'move';
+  }).on('drop', function (ev) {
+    ev.originalEvent.preventDefault();
+    var fromId = ev.originalEvent.dataTransfer.getData('text/plain/id');
+    if (fromId) {
+      var beforeId = ev.target.closest('.tile').dataset.submissionId;
+      if (fromId !== beforeId) {
+        $.get('/feeds/' + feedId + '/submissions/' + fromId + '/reorder?before=' + beforeId)
+          .done(function(data) {
+            $('.tile[data-submission-id=' + beforeId + ']').before($('.tile[data-submission-id=' + fromId + ']'));
+          });
+      }
+    }
+  });
+}
+
+//$(document).ready(initReorderSubmissions);
+$(document).on('page:change', initReorderSubmissions);

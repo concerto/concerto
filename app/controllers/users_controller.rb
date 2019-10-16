@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     @memberships = @user.memberships.joins(:group).order('groups.name')
     auth!({action: :read, object: @memberships})
 
-    @contents = @user.contents.where('parent_id IS NULL')
+    @contents = @user.contents.where('parent_id IS NULL').reorder('start_time desc')
     @contents_count = @contents.count
     @contents = Kaminari.paginate_array(@contents).page(params[:page])
     auth!({action: :read, object: @contents})

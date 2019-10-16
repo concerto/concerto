@@ -187,8 +187,10 @@
     </div>
   </div>
   <br />
-  <% @paginated_submissions.select{|s| @state != 'active' || s.content.parent.nil?}.each do |submission| %>
-    <%= render partial: "submissions/submission_tile", locals: { submission: submission } %>
-  <% end %>
+  <div class="submissions-<%= @state %>" data-feed-id="<%= @feed.id %>">
+    <% @paginated_submissions.select{|s| @state != 'active' || s.content.parent.nil?}.each do |submission| %>
+      <%= render partial: "submissions/submission_tile", locals: { submission: submission } %>
+    <% end %>
+  </div>
 </div>
 <% end %>
