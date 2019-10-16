@@ -18,8 +18,8 @@ class VersionCheckTest < ActiveSupport::TestCase
     Rails.cache.delete('concerto_version_time')
     v = VersionCheck.latest_version
     assert PATTERN =~ v, 'latest_verison does not match expected format'
-
-    assert v == VersionCheck.latest_version, 'latest_version is not cached'
+    u = VersionCheck.latest_version
+    assert v == u, "latest_version #{v} is not cached #{u}"
   end
 
   test 'latest version is cached for 24 hours' do

@@ -83,3 +83,24 @@ important_dynamic_child:
   moderation_flag:
   moderator:
   duration: 5
+
+boring_approved_parent:
+  content: parent_content
+  feed: boring_announcements
+  moderation_flag: true
+  moderator: katie
+  duration: 5
+
+boring_approved_child:
+  content: child_content
+  feed: boring_announcements
+  moderation_flag: true
+  moderator: katie
+  duration: 5
+
+boring_approved_image:
+  content: sample_image
+  feed: boring_announcements
+  moderation_flag: true
+  moderator: katie
+  duration: 1

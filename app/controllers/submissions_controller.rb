@@ -59,6 +59,12 @@ class SubmissionsController < ApplicationController
       @before = Submission.find(params[:before])
       if @submission.blank? || @before.blank?
         head :not_found
+      elsif @submission.feed.id != @feed.id || @before.feed.id != @feed.id
+        head :bad_request
+      elsif !@submission.moderation_flag || !@before.moderation_flag
+        head :bad_request
+      elsif !@submission.content.is_active? || !@before.content.is_active?
+        head :bad_request
       else
         @submissions = @feed.submissions.approved.active.reorder('submissions.seq_no, contents.start_time')
         seq_no = 0
