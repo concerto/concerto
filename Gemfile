@@ -72,7 +72,7 @@ gem 'kaminari'
 gem 'sqlite3', '~> 1.3.6', group: [:development, :test]
 
 gem 'mysql2', group: :mysql
-gem 'pg', group: :postgres
+gem 'pg', '~> 0.18', group: :postgres
 
 gem 'public_activity'
 
