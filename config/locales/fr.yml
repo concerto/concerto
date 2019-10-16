@@ -492,6 +492,8 @@ fr:
     browse_body:
       no_content_heading: "I'm afraid we're not in Kansas anymore."
       no_content_message: 'Il semble que vous ne puissez rien voir ici. Vous devriez '
+      not_submittable: Submissions not Allowed
+      not_viewable: Not Viewable
       sign_in: Connexion
       sign_up: Inscription
     browse_header:
@@ -734,6 +736,7 @@ fr:
   my_model: 'Mon %{model}'
   name: name
   new_model: 'Nouveau %{model}'
+  "no": "No"
   other_model: 'Autre %{model}'
   parameter:
     one: parameter
@@ -917,6 +920,7 @@ fr:
         one: '%{count} item en attente de votre modération'
         other: '%{count} items en attente de votre modération'
       submit_something: poster quelque chose
+      subscribed_to_screens: Subscribed to Screens
       to_make_this_feed_happy: pour faire de ce fil un endroit plus heureux ?
       toggle_content_states_to_display: Toggle content states to display...
       type_to_filter: Type here to filter
@@ -1066,3 +1070,4 @@ fr:
       this_is_you: "C'est vous."
   valid_git: is not a valid git repository
   wont_write_restart_txt: Concerto ne peut pas redémarrer le serveur. Redémarrez le manuellement.
+  "yes": "Yes"
