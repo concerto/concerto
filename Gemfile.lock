@@ -219,7 +219,7 @@ GEM
     os (0.9.6)
     parser (2.6.5.0)
       ast (~> 2.4.0)
-    pg (1.1.4)
+    pg (0.21.0)
     public_activity (1.6.4)
       actionpack (>= 3.0.0)
       activerecord (>= 3.0)
@@ -383,7 +383,7 @@ DEPENDENCIES
   mysql2
   nprogress-rails (~> 0.2.0.2)
   octokit (~> 4.2.0)
-  pg
+  pg (~> 0.18)
   public_activity
   rack-mini-profiler
   rails (~> 4.2)
