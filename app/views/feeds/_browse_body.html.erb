@@ -15,6 +15,13 @@
           <%= link_to feed_submissions_path(feed), class: "link-hl" do %>
             <span class="badge"><%= feed.approved_contents.active.count %></span> <%= feed.name %>
           <% end %>
+          <% if !feed.is_submittable %>
+            <i class="fas fa-hand-paper muted" title="<%= t '.not_submittable' %>"></i>
+          <% end %>
+          <% if !feed.is_viewable %>
+            <i class="fas fa-eye-slash muted" title="<%= t '.not_viewable' %>"></i>
+          <% end %>
+
           <small>&nbsp;&nbsp;<%= feed.description %></small>
         </h3>
         <% if feed.children.count > 0 %>

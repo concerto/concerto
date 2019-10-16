@@ -490,6 +490,8 @@ de:
     browse_body:
       no_content_heading: Wir fürchten dieser Beitrag existiert nicht mehr.
       no_content_message: In diesem Netzwerk scheint nichts für Sie sichtbar zu sein. Sie sollten
+      not_submittable: Submissions not Allowed
+      not_viewable: Not Viewable
       sign_in: sich einloggen
       sign_up: sich registieren
     browse_header:
@@ -711,6 +713,7 @@ de:
   my_model: 'Mein %{model}'
   name: Name
   new_model: 'Neuer %{model}'
+  "no": Nein
   other_model: 'Anderer %{model}'
   parameter:
     one: Parameter
@@ -894,6 +897,7 @@ de:
         one: '%{count} Beitrag wartet auf Ihre Moderation'
         other: '%{count} Beiträge warten auf Ihre Moderation'
       submit_something: etwas beitragen
+      subscribed_to_screens: Subscribed to Screens
       to_make_this_feed_happy: um diesen Kanal zu vervollständigen?
       toggle_content_states_to_display: Wählen Sie einen Beitragsstatus um Beiträge anzuzeigen...
       type_to_filter: Suchbegriff hier eingeben
@@ -1043,3 +1047,4 @@ de:
       this_is_you: Das sind Sie
   valid_git: is nicht ein gültiges git repository
   wont_write_restart_txt: Concerto unterstützt das Neustarten des Web-Servers nicht. Bitte Starten Sie manuell neu.
+  "yes": Ja

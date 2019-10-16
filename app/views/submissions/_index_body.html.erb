@@ -46,15 +46,33 @@
 
 </div>
 
-<div class="clearfix default-padding">
-  <%= t('.allowed_types') %>:
-  <%= Concerto::Application.config.content_types.sort_by{|type| type.display_name}.select{|t| @feed.content_types["#{t.name}"] == "1"}.collect{|t| t.display_name}.join(',') %>
-</div>
+<!-- details -->
 
 <div class="clearfix default-padding">
-  <%= t('.moderated_by') %>
-  <%= link_to @feed.group.name, group_path(@feed.group) %>.
+  <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= Feed.human_attribute_name(:description) %></b></small></p>
+  <p><%= @feed.description %></p>
+
+  <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.allowed_types') %></b></small></p>
+  <p><%= Concerto::Application.config.content_types.sort_by{|type| type.display_name}.select{|t| @feed.content_types["#{t.name}"] == "1"}.collect{|t| t.display_name}.join(', ') %></p>
+
+  <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.moderated_by') %></b></small></p>
+  <p><%= link_to @feed.group.name, group_path(@feed.group) %></p>
+
+  <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= Feed.human_attribute_name(:is_viewable) %></b></small></p>
+  <p><%= @feed.is_viewable ? t('yes') : t('no') %></p>
+
+  <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= Feed.human_attribute_name(:is_submittable) %></b></small></p>
+  <p><%= @feed.is_submittable ? t('yes') : t('no') %></p>
+
+  <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.subscribed_by_screens') %></b></small></p>
+  <ul class="screens-list">
+    <% @feed.shown_on_screens.reject{|s| s.nil? || (cannot? :read, s)}.each do |s| %>
+      <li><%= link_to s.name, s %></li>
+    <% end %>
+  </ul>
 </div>
+
+
 
 <% submissions = @feed.submissions_to_moderate %>
 <% if @can_moderate_feed and submissions.count > 0 %>
