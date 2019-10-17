@@ -6,4 +6,11 @@
   <ul class="members-list">
     <%= render group.memberships.approved.order('level DESC').includes(:user) %>
   </ul>
+  <ul class="members-list">
+    <%= render group.screens.order('screens.name') %>
+  </ul>
+  <ul class="members-list">
+    <%= render group.feeds.order('feeds.name') %>
+    <%#= render group.templates.order('templates.name') %>
+  </ul>
 </li>

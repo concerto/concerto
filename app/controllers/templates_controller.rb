@@ -221,7 +221,7 @@ private
 
   def template_params
     # :template_css and :template_file are two bogus fields used for file uploads when editing a template
-    params.require(:template).permit(:name, :author, :descriptor, :image, :is_hidden, :template_css, :template_image, positions_attributes: [:field_id, :style, :top, :left, :bottom, :right, :id, :_destroy], media_attributes: [:file])
+    params.require(:template).permit(:name, :author, :descriptor, :image, :is_hidden, :template_css, :template_image, :owner_id, :owner_type, positions_attributes: [:field_id, :style, :top, :left, :bottom, :right, :id, :_destroy], media_attributes: [:file])
   end
 
   def sanitize_filename(filename)

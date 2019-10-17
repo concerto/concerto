@@ -1,0 +1,4 @@
+<li class="screens-item">
+  <i class="concertocon-controller-screens muted <%= 'portrait' if screen.portrait? %>" style="<%= 'color: #0099CC' if screen.is_online? %>"></i> 
+  <%= link_to_if can?(:read, screen), screen.name, screen, data: {'no-turbolink' => true} %>
+</li>

@@ -8,13 +8,21 @@
 }
 
 ul.members-list {
-  i[class^="concertocon-"],
-  i[class*=" concertocon-"] {
-    font-size: inherit;
+  margin-bottom: 1em;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 16em);
+  grid-gap: .25rem;
+
+  li.members-item, li.screens-item, li.templates-item, li.feeds-item {
+    list-style: none;
+
+    i[class^="concertocon-"],
+    i[class*=" concertocon-"] {
+      font-size: inherit;
+      line-height: inherit;
+    }
+  
+    font-size: 14px;
   }
 
-  li {
-    font-size: 14px;
-    padding-right: 2em;
-  }
 }

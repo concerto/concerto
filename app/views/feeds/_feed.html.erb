@@ -1,0 +1,4 @@
+<li class="feeds-item">
+  <i class="fas fa-rss-square muted"></i> 
+  <%= link_to_if can?(:read, feed), feed.name, feed %>
+</li>

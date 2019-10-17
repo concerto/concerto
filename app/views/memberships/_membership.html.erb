@@ -1,4 +1,4 @@
-<li>
+<li class="members-item">
   <% if membership.level == Membership::LEVELS[:leader] %>
     <i class="concertocon-user-leader muted tooltip-basic" data-tooltip-text="<%= t('groups.index.leader') %>"></i>
   <% elsif membership.is_moderator? %>
