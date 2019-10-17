@@ -43,8 +43,10 @@
             <%= link_to membership.group do %>
               <% if membership.is_leader? %>
                 <i class="concertocon-controller-users-leader"></i>
+              <% elsif membership.is_moderator? %>
+                <i class="fas fa-user-shield"></i>
               <% else %>
-                <i class="fas fa-users"></i>
+                <i class="fas fa-user"></i>
               <% end %>
             <% end %>
           </div>

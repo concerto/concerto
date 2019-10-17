@@ -26,7 +26,7 @@
                       <%= link_to(t('.leave_group'), group_membership_path(group_id: @group.id, id: membership.id), method: :delete, class: "btn pull-right", data: {confirm: t(:are_you_sure_leave_group, group: @group.name)}) %>
                   <% end %>
                   <p>
-                    <b><%= t('.your_membership_role', level: human_membership_level_name(membership.level_name), what: (membership.level == Membership::LEVELS[:leader] ? "" : t('.member'))) %></b>
+                    <b><%= t('.your_membership_role', level: human_membership_level_name(membership.level_name), what: (membership.level == Membership::LEVELS[:leader] || membership.level == Membership::LEVELS[:regular] ? "" : t('.member'))) %></b>
                   </p>
               <% elsif can_join %>
                   <%= link_to(t('.join_group'), group_memberships_path(group_id: @group.id, membership: {user_id: current_user.id}), method: :post, class: "btn pull-right") %>
@@ -93,7 +93,7 @@
         <li>
           <div class="cont thumb-icon">
             <%= link_to regular.user do %>
-                <i class="fas fa-user"></i>
+                <i class="fas fa-user<%= '-shield' if regular.is_moderator? %>"></i>
             <% end %>
           </div>
           <div class="cont">

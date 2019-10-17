@@ -1,0 +1,20 @@
+.groups-list {
+  list-style: none;
+  margin-left: 0;
+
+  > li {
+    padding-top: 1em;
+  }
+}
+
+ul.members-list {
+  i[class^="concertocon-"],
+  i[class*=" concertocon-"] {
+    font-size: inherit;
+  }
+
+  li {
+    font-size: 14px;
+    padding-right: 2em;
+  }
+}

@@ -1,0 +1,10 @@
+<li>
+  <% if membership.level == Membership::LEVELS[:leader] %>
+    <i class="concertocon-user-leader muted tooltip-basic" data-tooltip-text="<%= t('groups.index.leader') %>"></i>
+  <% elsif membership.is_moderator? %>
+    <i class="fas fa-user-shield muted tooltip-basic" data-tooltip-text="<%= t('users.index.moderator') %>"></i>
+  <% else %>
+    <i class="fas fa-user muted"></i>
+  <% end %>
+  <%= link_to_if can?(:read, membership.user), membership.user.name, user_path(membership.user) %>
+</li>
