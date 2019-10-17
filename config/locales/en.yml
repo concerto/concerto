@@ -971,6 +971,7 @@ en:
         one: '%{count} item pending your moderation'
         other: '%{count} items pending your moderation'
       submit_something: submit something
+      subscribed_to_screens: Subscribed to Screens
       to_make_this_feed_happy: to make this feed a happier place?
       toggle_content_states_to_display: Toggle content states to display...
       type_to_filter: Type here to filter

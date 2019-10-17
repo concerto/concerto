@@ -51,6 +51,11 @@
         <b><%= t('.installed') %></b>
         <%= (@concerto_plugin.installed? && !@gemspec.nil?) ? t('.installed_yes') : t('.installed_no') %>
       </p>
+
+      <p>
+        <b><%= ConcertoPlugin.human_attribute_name(:enabled) %></b>
+        <%= @concerto_plugin.enabled ? t('.installed_yes') : t('.installed_no') %>
+      </p>
     </div>
     <div id="updatePluginResults" class="default-padding">
     </div>
