@@ -41,6 +41,10 @@
 }
 
 .users-index {
+  td, li { 
+    font-size: 14px;
+  }
+
   i.concertocon-user-admin, i.concertocon-user-leader {
     font-size: inherit;
   }
@@ -51,6 +55,7 @@
     li {
       float: left;
       padding-right: 2em;
+      margin-top: 0;
     }
 
     li:first-child {

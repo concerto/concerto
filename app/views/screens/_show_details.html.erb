@@ -50,10 +50,8 @@
 
           <% unless @subscriptions.blank? %>
             <ul class="field-details">
-            <% @subscriptions.map{|s| [s.feed.id, s.feed.name]}.sort{|a, b| a[1] <=> b[1]}.each do |e| %>
-              <li>
-                <%= link_to feed_url(e[0]) do %><i class="fas fa-rss-square muted" title="subscription"></i> <%= e[1] %><% end %>
-              </li>
+            <% @subscriptions.map(&:feed).sort{|a, b| a.name <=> b.name}.each do |feed| %>
+              <%= render feed %>
             <% end %>
             </ul>
           <% end %>

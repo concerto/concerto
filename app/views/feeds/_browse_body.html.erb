@@ -6,51 +6,30 @@
 <% end %>
 
 <% viewable = 0 %>
-<ul class="list-stacked">
-  <% @feeds.each do |feed| %>
-    <% if can?(:manage, :all) || can?(:read, feed) || feed.group.has_member?(current_user)%>
-      <% viewable+=1 %>
-      <li>
-        <h3>
-          <%= link_to feed_submissions_path(feed), class: "link-hl" do %>
-            <span class="badge"><%= feed.approved_contents.active.count %></span> <%= feed.name %>
-          <% end %>
-          <% if !feed.is_submittable %>
-            <i class="fas fa-hand-paper muted" title="<%= t '.not_submittable' %>"></i>
-          <% end %>
-          <% if !feed.is_viewable %>
-            <i class="fas fa-eye-slash muted" title="<%= t '.not_viewable' %>"></i>
-          <% end %>
-
-          <small>&nbsp;&nbsp;<%= feed.description %></small>
-        </h3>
-        <% if feed.children.count > 0 %>
-          <p class="indented">
-            <%= t 'submissions.index_body.sub_feeds' %>:
-            <% feed.children.each do |sub_feed| %>
-              <%= link_to sub_feed.name, feed_submissions_path(sub_feed), class: "link-hl" %>
-            <% end %>
-          </p>
-        <% end %>
-      </li>
+<div class="default-padding">
+  <ul class="list-stacked">
+    <% @feeds.each do |feed| %>
+      <% if can?(:manage, :all) || can?(:read, feed) || feed.group.has_member?(current_user) %>
+        <% viewable += 1 %>
+        <%= render feed %>
+      <% end %>
     <% end %>
-  <% end %>
   </ul>
-<% if viewable == 0 %>
-  <div class="default-padding">
-    <div class="alert alert-block alert-zero">
-      <p class="alert-heading"><%=t('.no_content_heading')%></p>
-        <%= t('.no_content_message')%>
-        <% if !ConcertoPlugin.render_view_hook(self, :signin_hook).empty? %>
-          <!-- Authentication plugins can override sign in links -->
-          <%= ConcertoPlugin.render_view_hook self, :signin_hook %>
-        <% else %>
-          <!-- Default sign in through Devise -->
-          <%= link_to t('.sign_in'), main_app.new_user_session_path %>
-          <% if can? :create, User %>
-            or <%= link_to t('.sign_up'), main_app.new_user_registration_path %> and submit some content!
+
+  <% if viewable == 0 %>
+      <div class="alert alert-block alert-zero">
+        <p class="alert-heading"><%=t('.no_content_heading')%></p>
+          <%= t('.no_content_message')%>
+          <% if !ConcertoPlugin.render_view_hook(self, :signin_hook).empty? %>
+            <!-- Authentication plugins can override sign in links -->
+            <%= ConcertoPlugin.render_view_hook self, :signin_hook %>
+          <% else %>
+            <!-- Default sign in through Devise -->
+            <%= link_to t('.sign_in'), main_app.new_user_session_path %>
+            <% if can? :create, User %>
+              or <%= link_to t('.sign_up'), main_app.new_user_registration_path %> and submit some content!
+            <% end %>
           <% end %>
-        <% end %>
-    </div>
-  </div>
-<% end %>
+      </div>
+  <% end %>
+</div>

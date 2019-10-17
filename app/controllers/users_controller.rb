@@ -4,7 +4,7 @@ class UsersController < ApplicationController
    
   # GET /users
   def index
-    @users = User.page(params[:page]).per(20)
+    @users = User.order('first_name, last_name').page(params[:page]).per(20)
     auth!({action: :list, allow_empty: false, new_exception: false})
     respond_with(@users)
   end

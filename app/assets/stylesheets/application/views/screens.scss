@@ -15,5 +15,11 @@ ul.field-details {
   li {
     text-transform: none;
     margin-bottom: auto;
+
+    &.feeds-item {
+      .description, .subfeeds {
+        display: none;
+      }
+    }
   }
 }

@@ -5,6 +5,40 @@
   > li {
     margin-top: 1em;
   }
+
+  .feeds-item {
+    div {
+      font-size: 14px;
+    }
+
+    .description, .subfeeds  {
+      display: none;
+    }
+  }
+}
+
+section.group-show {
+  .title {
+    font-weight: bold;
+    
+    .icon.muted {
+      color: black;
+    }
+
+    .icon {
+      font-size: 45px;
+      float: left;
+      padding-right: .25em;
+    }
+
+    .submittable, .viewable {
+      margin-left: .25em;
+    }
+  }
+
+  .description, .subfeeds  {
+    display: none;
+  }
 }
 
 ul.members-list {
@@ -26,4 +60,14 @@ ul.members-list {
     font-size: 14px;
   }
 
+}
+
+ul.list-grid.group-members, ul.list-grid .feeds-item  {
+  li {
+    width: auto;
+  }
+
+  span.badge {
+    margin-left: .25em;
+  }
 }
