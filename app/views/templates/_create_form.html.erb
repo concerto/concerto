@@ -17,6 +17,28 @@
     </div>
 
     <div class="clearfix">
+      <%= f.label :owner %>
+      <div class="input">
+            <% if can?(:manage, :all)
+                 @users = User.order('last_name ASC')
+                 @groups = Group.order('name ASC')
+               else
+                 @users = [current_user]
+                 @groups = current_user.leading_groups + current_user.supporting_groups(:screen, [:all])
+               end
+               options = {}
+               if !@users.empty?
+                 options[User] = @users.map { |u| [u.name, "User-#{u.id}"]}
+               end
+               if !@groups.empty?
+                 options[Group] = @groups.map { |g| [g.name, "Group-#{g.id}"] }
+               end
+            %>
+        <%= select_tag :owner, grouped_options_for_select(options, "#{@template.owner_type}-#{@template.owner_id}") %>
+      </div>
+    </div>
+
+    <div class="clearfix">
       <%= f.label :media %>
       <div class="input">
         <%= f.fields_for :media do |media| %>
