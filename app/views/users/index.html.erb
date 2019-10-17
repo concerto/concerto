@@ -43,7 +43,7 @@
               <% user.memberships.sort{|a,b| a.group.name <=> b.group.name}.each do |m| %>
                 <% next if m.is_denied? %>
                 <li class="<%= m.is_denied? ? 'is_denied' : (m.is_pending? ? 'muted' : '') %>">
-                  <%= m.group.name %>
+                  <%= link_to_if can?(:read, m.group), m.group.name, m.group %>
                   <% if m.is_leader? %><i class="concertocon-user-leader muted tooltip-basic" data-tooltip-text="<%= t('.leader') %>"></i><% end %>
                   <% if m.is_pending? %><i class="fas fa-question-circle tooltip-basic" data-tooltip-text="<%= t('.pending') %>"></i><% end %>
                   <% if m.is_denied? %><i class="fas fa-thumbs-down tooltip-basic" data-tooltip-text="<%= t('.denied') %>"></i><% end %>

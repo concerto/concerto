@@ -3,14 +3,15 @@
   margin-left: 0;
 
   > li {
-    padding-top: 1em;
+    margin-top: 1em;
   }
 }
 
 ul.members-list {
-  margin-bottom: 1em;
+  margin-top: .5em;
+  margin-bottom: .5em;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 16em);
+  grid-template-columns: repeat(auto-fit, 18em);
   grid-gap: .25rem;
 
   li.members-item, li.screens-item, li.templates-item, li.feeds-item {
