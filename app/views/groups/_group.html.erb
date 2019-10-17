@@ -11,6 +11,8 @@
   </ul>
   <ul class="members-list">
     <%= render group.feeds.order('feeds.name') %>
+  </ul>
+  <ul class="members-list">
     <%= render group.templates.order('templates.name') %>
   </ul>
 </li>
