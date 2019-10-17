@@ -1,0 +1,28 @@
+.feeds-browse, .feeds-moderate {
+  li, div {
+    font-size: 14px;
+  }
+
+  .description {
+    margin-left: 1em;
+    font-style: italic;
+    color: #bfbfbf; //$graylight;
+  }
+
+  ul.list-stacked > li ul > li 
+  {
+    background-color: inherit;
+  }
+
+  .subfeeds {
+
+    font-size: .9em;
+    list-style: none;
+  }
+}
+
+.feeds-moderate {
+  .subfeeds {
+    display: none;
+  }
+}

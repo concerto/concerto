@@ -26,7 +26,7 @@
                       <%= link_to(t('.leave_group'), group_membership_path(group_id: @group.id, id: membership.id), method: :delete, class: "btn pull-right", data: {confirm: t(:are_you_sure_leave_group, group: @group.name)}) %>
                   <% end %>
                   <p>
-                    <b><%= t('.your_membership_role', level: human_membership_level_name(membership.level_name), what: (membership.level == Membership::LEVELS[:leader] ? "" : t('.member'))) %></b>
+                    <b><%= t('.your_membership_role', level: human_membership_level_name(membership.level_name), what: (membership.level == Membership::LEVELS[:leader] || membership.level == Membership::LEVELS[:regular] ? "" : t('.member'))) %></b>
                   </p>
               <% elsif can_join %>
                   <%= link_to(t('.join_group'), group_memberships_path(group_id: @group.id, membership: {user_id: current_user.id}), method: :post, class: "btn pull-right") %>
@@ -47,10 +47,9 @@
       <%= t '.feed_header', count: @group.feeds.count %>
     </h3>
   </div>
-</div>
-<div class="row-fluid">
-  <%= render partial: 'feeds', locals: { feeds: @feeds_left } %>
-  <%= render partial: 'feeds', locals: { feeds: @feeds_right } %>
+  <ul class="list-grid group-members">
+    <%= render @group.feeds %>
+  </ul>
 </div>
 
 <!-- Begin Screens -->
@@ -74,8 +73,8 @@
     </h3>
   </div>
   <br/>
-  <ul class="list-grid">
-    <% @group.memberships.leader.each do |leader| %>
+  <ul class="list-grid group-members">
+    <% @group.memberships.leader.includes(:user).order('users.first_name, users.last_name').each do |leader| %>
         <li>
           <div class="cont thumb-icon">
             <%= link_to leader.user do %>
@@ -83,21 +82,34 @@
             <% end %>
           </div>
           <div class="cont">
-            <p><b><%= link_to_if can?(:read, leader.user), leader.user.name, leader.user %></b></p>
+            <p>
+              <b><%= link_to_if can?(:read, leader.user), leader.user.name, leader.user %></b>
+              <% if leader.user.receive_moderation_notifications %>
+                <i class='fas fa-envelope muted tooltip-basic' data-tooltip-text="<%= User.human_attribute_name(:receive_moderation_notifications) %>"></i>
+              <% end %>
+            </p>
 
-            <p><%= t('.leader') %></p>
+            <p><%= t('.leader') %> <% if leader.receive_emails %><i class='far fa-envelope muted tooltip-basic' data-tooltip-text="<%= Membership.human_attribute_name(:receive_emails) %>"></i><% end %>
+</p>
           </div>
         </li>
-    <% end unless @group.memberships.regular.nil? %>
-    <% @group.memberships.regular.each do |regular| %>
+    <% end unless @group.memberships.leader.nil? %>
+    <% @group.memberships.regular.includes(:user).order('users.first_name, users.last_name').each do |regular| %>
         <li>
           <div class="cont thumb-icon">
             <%= link_to regular.user do %>
-                <i class="fas fa-user"></i>
+                <i class="fas fa-user<%= '-shield' if regular.is_moderator? %>"></i>
             <% end %>
           </div>
           <div class="cont">
-            <p><b><%= link_to_if can?(:read, regular.user), regular.user.name, regular.user %></b></p>
+            <p>
+              <b><%= link_to_if can?(:read, regular.user), regular.user.name, regular.user %></b>
+              <% if regular.user.receive_moderation_notifications %>
+                <i class='fas fa-envelope muted tooltip-basic' data-tooltip-text="<%= User.human_attribute_name(:receive_moderation_notifications) %>"></i>
+              <% end %>
+            </p>
+            <p><% if regular.receive_emails %><i class='far fa-envelope muted tooltip-basic' data-tooltip-text="<%= Membership.human_attribute_name(:receive_emails) %>"></i><% end %>
+</p>
           </div>
         </li>
     <% end unless @group.memberships.regular.nil? %>

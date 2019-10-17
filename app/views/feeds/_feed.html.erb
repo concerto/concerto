@@ -1,0 +1,29 @@
+<li class="feeds-item">
+  <div class="title">
+    <i class="fas fa-rss-square muted icon"></i> 
+    <%= link_to_if can?(:read, feed), feed.name, feed %>
+    <% if (qty = feed.approved_contents.active.count) > 0 %>
+      <span class="badge"><%= qty %></span>
+    <% end %>
+    <% if (qty = feed.pending_contents.active.count) > 0 %>
+      <span class="badge action"><%= qty %></span>
+    <% end %>
+
+    <% if !feed.is_submittable %>
+      <i class="fas fa-hand-paper muted submittable" title="<%= t 'feeds.browse_body.not_submittable' %>"></i>
+    <% end %>
+    <% if !feed.is_viewable %>
+      <i class="fas fa-eye-slash muted viewable" title="<%= t 'feeds.browse_body.not_viewable' %>"></i>
+    <% end %>
+  </div>
+
+  <div class="description">
+    <%= feed.description %>
+  </div>
+
+  <% if feed.children.count > 0 %>
+    <ul class="list-stacked subfeeds">
+      <%= render feed.children %>
+    </ul>
+  <% end %>
+</li>

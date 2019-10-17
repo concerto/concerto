@@ -10,24 +10,21 @@
       <h1><%= t('.contents_pending_moderation') %></h1>
     </div>
   </header>
-  <div id="browse-body" class="viewblock-cont">
-    
-    <% if @feeds.length > 0 %>
-      <div class="default-padding">
-        <h2><%= pluralize(@feeds.length, Feed.model_name.human, Feed.model_name.human(count: 42)) %> <%= t('.with_pending_content') %></h2>
-      </div>
 
-      <ul class="list-stacked">
-        <% @feeds.each do |pending_feed| %>
-        <li>
+  <div id="browse-body" class="viewblock-cont feeds-moderate">
+    <% if @feeds.length > 0 %>
+
+      <div class="clearfix default-padding">
+        <div class="header-with-icon">
           <h3>
-            <%= link_to feed_submissions_path(pending_feed), class: "link-hl" do %>
-              <span class="badge action"><%= pending_feed.pending_contents.count %></span> <%= pending_feed.name %>
-            <% end %>
+            <%= pluralize(@feeds.length, Feed.model_name.human, Feed.model_name.human(count: 42)) %> <%= t('.with_pending_content') %>
           </h3>
-        </li>
-        <% end %>
-      </ul>
+        </div>
+        <ul class="list-stacked">
+          <%= render @feeds %>
+        </ul>
+      </div>
+      
     <% else %>
       <br />
       <div class="default-padding">
@@ -37,6 +34,5 @@
         </div>
       </div>
     <% end %>
-    
   </div>
 </section>

@@ -1,0 +1,16 @@
+<li>
+  <h3>
+    <%= link_to group.name, group, class: "link-hl" %>
+    <small><%= link_to t(:join), group_memberships_path(group_id: group.id, membership: {user_id: current_user.id}), method: :post if user_signed_in? & !group.made_request?(current_user) %></small>
+  </h3>
+  <ul class="members-list">
+    <%= render group.memberships.approved.includes(:user).references(:user).order('memberships.level DESC, users.first_name, users.last_name') %>
+  </ul>
+  <ul class="members-list">
+    <%= render group.screens.order('screens.name') %>
+  </ul>
+  <ul class="members-list">
+    <%= render group.feeds.order('feeds.name') %>
+    <%#= render group.templates.order('templates.name') %>
+  </ul>
+</li>
