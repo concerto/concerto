@@ -7,10 +7,6 @@ module ConcertoPluginsHelper
     end
   end
 
-  def gem_needs_upgrade?(plugin,gemspec)
-    !gemspec.nil? && !plugin.rubygems_current_version.nil? && (Gem::Version.new(plugin.rubygems_current_version.to_s) > Gem::Version.new(gemspec.version.to_s))
-  end
-
   def plugin_sources
     t('concerto_plugins.sources').sort.map { |key, value| [value, key] }
   end

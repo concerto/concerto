@@ -19,6 +19,8 @@ Concerto::Application.routes.draw do
   resources :concerto_plugins do
     member do
       get :update_gem
+      get :upgradeable
+      get :description
     end
   end
 
