@@ -10,9 +10,24 @@ services:
       MYSQL_DATABASE: concerto
       MYSQL_USER: concerto
       MYSQL_PASSWORD: concerto
+    volumes:
+      - db:/var/lib/mysql
+
   concerto:
     image: concerto
+    restart: always
     ports: 
       - "80:80"
+    environment:
+      CONCERTO_DB_HOST: db
+      CONCERTO_DB_USER: concerto
+      CONCERTO_DB_PASSWORD: concerto
+      CONCERTO_DB_NAME: concerto
+    volumes:
+      - concerto:/home/app/concerto
     depends_on: 
       - db
+
+volumes:
+  db:
+  concerto:
