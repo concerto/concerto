@@ -10,11 +10,9 @@
 
   <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= Screen.human_attribute_name(:template_id) %></b></small></p>
   <% unless screen.template.blank? %>
-    <% if can?(:read, screen.template) %>
-      <p><%= link_to screen.template.name, screen.template %></p>
-    <% else %>
-      <p><%= screen.template.name %></p>
-    <% end %>
+    <ul class="single-item members-list">
+      <%= render screen.template %>
+    </ul>
   <% end %>
 
   <% unless screen.location.blank? %>

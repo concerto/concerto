@@ -26,16 +26,21 @@
     <div class="clearfix">
       <%= f.label :owner %>
       <div class="input">
-        <% @users = User.order('last_name ASC')
-           @groups = Group.order('name ASC')
-           options = {}
-           if !@users.empty?
-             options[User.model_name.human(count: 42)] = @users.map { |u| [u.name, "User-#{u.id}"]}
-           end
-           if !@groups.empty?
-             options[Group.model_name.human(count: 42)] = @groups.map { |g| [g.name, "Group-#{g.id}"] }
-           end
-        %>
+            <% if can?(:manage, :all)
+                 @users = User.order('last_name ASC')
+                 @groups = Group.order('name ASC')
+               else
+                 @users = [current_user]
+                 @groups = current_user.leading_groups + current_user.supporting_groups(:screen, [:all])
+               end
+               options = {}
+               if !@users.empty?
+                 options[User] = @users.map { |u| [u.name, "User-#{u.id}"]}
+               end
+               if !@groups.empty?
+                 options[Group] = @groups.map { |g| [g.name, "Group-#{g.id}"] }
+               end
+            %>
         <%= select_tag :owner, grouped_options_for_select(options, "#{template.owner_type}-#{template.owner_id}") %>
       </div>
     </div>

@@ -15,6 +15,26 @@
       display: none;
     }
   }
+
+  .templates-item {
+    .thumb-icon {
+      float: left;
+      font-size: 14px;
+      padding-right: .5em;
+    }
+
+    .title {
+      font-size: 14px;
+
+      b {
+        font-weight: normal;
+      }
+    }
+    
+    .author, .screens-count {
+      display: none;
+    }
+  }
 }
 
 section.group-show {

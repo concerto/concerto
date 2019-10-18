@@ -8,12 +8,8 @@
   </p>
   <% if !@template.screens.empty? %>
     <p><%= t '.usage' %>
-    <ul>
-      <% @template.screens.each do |s| %>
-        <% if can? :read, s %>
-          <li><%= link_to s.name, s %></li>
-        <% end %>
-      <% end %>
+    <ul class="list-grid members-list">
+      <%= render @template.screens.reorder('screens.name') %>
     </ul>
     </p>
   <% end %>

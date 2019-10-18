@@ -23,3 +23,26 @@ ul.field-details {
     }
   }
 }
+
+ul.single-item {
+  margin-top: 0;
+  margin-left: 0;
+
+  .templates-item {
+  // see similar css in groups.scss -- todo! use mixin?
+    .thumb-icon {
+      float: left;
+      padding-right: .5em;
+    }
+  
+    .title {
+      b {
+        font-weight: normal;
+      }
+    }
+    
+    .author, .screens-count {
+      display: none;
+    }
+  }
+}
