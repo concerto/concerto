@@ -56,6 +56,4 @@ RUN cat /etc/ImageMagick-6/policy.xml | sed 's/domain="coder" rights="none" patt
 WORKDIR /tmp
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# concerto will probably fail if any plugins are added/removed/changed because that is in the /home/app/concerto/Gemfile-plugin
-# file which doesn't persist
-VOLUME ["/home/app/concerto/doc", "/home/app/concerto/log", "/home/app/concerto/tmp", "/home/app/concerto/config"]
+VOLUME ["/home/app/concerto"]
