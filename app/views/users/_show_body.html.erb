@@ -84,6 +84,18 @@
              locals: { show_field_count: false, show_owner: false } %>
 </div>
 
+<!-- Begin Templates -->
+<div class="clearfix default-padding">
+  <div class="header-with-icon">
+    <h3>
+      <%= t 'owns_templates', count: @user.templates.count %>
+    </h3>
+  </div>
+  <ul class="list-grid group-members">
+    <%= render @user.templates %>
+  </ul>
+</div>
+
 <!-- Begin Contents -->
 <div class="clearfix default-padding">
   <div class="header-with-icon clearfix">

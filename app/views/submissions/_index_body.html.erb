@@ -74,12 +74,12 @@
     <% end %>
   </p>
 
-  <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.subscribed_by_screens') %></b></small></p>
-  <ul class="screens-list">
-    <% @feed.shown_on_screens.reject{|s| s.nil? || (cannot? :read, s)}.each do |s| %>
-      <li><%= link_to s.name, s %></li>
-    <% end %>
-  </ul>
+  <% if (screens = @feed.shown_on_screens.reject{|s| s.nil? || (cannot? :read, s)}).size > 0 %>
+    <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.subscribed_by_screens') %></b></small></p>
+    <ul class="screens-list members-list">
+      <%= render screens %>
+    </ul>
+  <% end %>
 </div>
 
 
@@ -95,8 +95,6 @@
   <% end %>
 </div>
 <% end %>
-
-<br />
 
 <div class="default-padding" style="padding-bottom: 0px; height: 25px;">
   <div id="browse-filter-select" class="clearfix">

@@ -64,6 +64,18 @@
              locals: {show_field_count: false, show_owner: false} %>
 </div>
 
+<!-- Begin Templates -->
+<div class="clearfix default-padding">
+  <div class="header-with-icon">
+    <h3>
+      <%= t 'owns_templates', count: @group.templates.count %>
+    </h3>
+  </div>
+  <ul class="list-grid group-members">
+    <%= render @group.templates %>
+  </ul>
+</div>
+
 <!-- Begin Members -->
 <% total_members = @group.memberships.regular.size + @group.memberships.leader.size %>
 <div class="clearfix default-padding">

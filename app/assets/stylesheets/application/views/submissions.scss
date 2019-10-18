@@ -77,13 +77,4 @@
 
 ul.screens-list {
   margin-left: 0;
-
-  li {
-    float: left;
-    padding-right: 2em;
-
-    &:first-child {
-      list-style-type: none;
-    }
-  }
 }

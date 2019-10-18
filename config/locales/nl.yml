@@ -738,6 +738,9 @@ nl:
   new_model: 'Nieuw %{model}'
   "no": "No"
   other_model: 'Ander %{model}'
+  owns_templates:
+    one: Owns one Template
+    other: Owns %{count} Templates
   parameter:
     one: parameter
     other: parameters

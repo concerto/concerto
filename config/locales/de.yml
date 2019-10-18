@@ -715,6 +715,9 @@ de:
   new_model: 'Neuer %{model}'
   "no": Nein
   other_model: 'Anderer %{model}'
+  owns_templates:
+    one: Owns one Template
+    other: Owns %{count} Templates
   parameter:
     one: Parameter
     other: Parameter

@@ -738,6 +738,9 @@ fr:
   new_model: 'Nouveau %{model}'
   "no": "No"
   other_model: 'Autre %{model}'
+  owns_templates:
+    one: Owns one Template
+    other: Owns %{count} Templates
   parameter:
     one: parameter
     other: parameters
