@@ -2,7 +2,7 @@ function initLogin() {
   $("#login-dropdown").each(function() {
     $(this).qtip({
       content: {
-        text: "<div class='default-padding'><i class='fas fa-spinner fa-spin fa-2x'></span></div>", // use this text while loading content via AJAX
+        text: "<div class='default-padding'><i class='fas fa-sync-alt fa-spin fa-2x'></span></div>", // use this text while loading content via AJAX
         ajax: {
           url: $(this).attr('href') + '?no_content_cell=1',
           type: 'GET'

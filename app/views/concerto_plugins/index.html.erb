@@ -11,6 +11,7 @@
       <%= t :manage_model, model: ConcertoPlugin.model_name.human(count: 42) %>
     </h1>
   </header>
+
   <div class="viewblock-cont">
     <% if ENV['FROZEN'] == "1" %>
       <div id="gem-frozen">
@@ -28,22 +29,30 @@
       </thead>
       <tbody>
         <% @concerto_plugins.each do |concerto_plugin| %>
-          <% gemspec = Gem.loaded_specs[concerto_plugin.gem_name] %>
-          <tr>
+          <%# gemspec = Gem.loaded_specs[concerto_plugin.gem_name] %>
+          <tr data-id="<%= concerto_plugin.id %>">
 
             <td>
               <h1>
                 <%= status_badge concerto_plugin.enabled %>
-                <% if gem_needs_upgrade?(concerto_plugin, Gem.loaded_specs[concerto_plugin.gem_name]) %>
-                   <%=content_tag(:i, nil, class: 'fas fa-level-up-alt tooltip-basic', 'data-tooltip-text' => t('concerto_plugins.index.upgrade_available')) %>
-                <% end %>
+                <span class="upgradeable">
+                  <i class="fas fa-sync-alt fa-spin"></i>
+                </span>
               </h1>
+              <script>
+                $('tr[data-id=<%=concerto_plugin.id %>] span.upgradeable').load('/concerto_plugins/<%= concerto_plugin.id %>/upgradeable');
+              </script>
             </td>
             <td>
               <h3><%= link_to(concerto_plugin.name.titleize, action: :show, id: concerto_plugin.id) %></h3>
             </td>
 
-            <td><%= !gemspec.nil? ? gemspec.description : "" %></td>
+            <td class="description">
+              <i class="fas fa-sync-alt fa-spin"></i>
+              <script>
+                $('tr[data-id=<%=concerto_plugin.id %>] td.description').load('/concerto_plugins/<%= concerto_plugin.id %>/description');
+              </script>
+            </td>
           </tr>
         <% end %>
       </tbody>

@@ -56,4 +56,12 @@ RUN cat /etc/ImageMagick-6/policy.xml | sed 's/domain="coder" rights="none" patt
 WORKDIR /tmp
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-VOLUME ["/home/app/concerto"]
+# TODO! we still need to figure out how to handle updates and accommodate changes from optional plugins
+# db for schema.rb changes on migrations from plugins
+# doc for custom help
+# log for logs
+# tmp for locks and assets?
+# public for assets
+# vendor for plugin gems
+# what about Gemfile.lock and Gemfile-plugins and Gemfile-plugins.bak?
+VOLUME ["/home/app/concerto/db", "/home/app/concerto/doc", "/home/app/concerto/log", "/home/app/concerto/tmp", "/home/app/concerto/public", "/home/app/concerto/vendor"]
