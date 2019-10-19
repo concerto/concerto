@@ -39,3 +39,27 @@
 .orange {
   color: lighten($orange, 10%);
 }
+
+.users-index {
+  td, li { 
+    font-size: 14px;
+  }
+
+  i.concertocon-user-admin, i.concertocon-user-leader {
+    font-size: inherit;
+  }
+
+  ul.groups-list {
+    margin-left: 0;
+
+    li {
+      float: left;
+      padding-right: 2em;
+      margin-top: 0;
+    }
+
+    li:first-child {
+      list-style-type: none;
+    }
+  }
+}

@@ -7,10 +7,6 @@ module ConcertoPluginsHelper
     end
   end
 
-  def gem_needs_upgrade?(plugin,gemspec)
-    !gemspec.nil? && !plugin.rubygems_current_version.nil? && (plugin.rubygems_current_version.to_s > gemspec.version.to_s)
-  end
-
   def plugin_sources
     t('concerto_plugins.sources').sort.map { |key, value| [value, key] }
   end
@@ -24,9 +20,9 @@ module ConcertoPluginsHelper
 
   def status_badge(enabled)
     if enabled
-      content_tag(:i, nil, class: 'fa fa-check-square-o tooltip-basic', 'data-tooltip-text' => t('concerto_plugins.index.enabled_msg'))
+      content_tag(:i, nil, class: 'far fa-check-square tooltip-basic', 'data-tooltip-text' => t('concerto_plugins.index.enabled_msg'))
     else
-      content_tag(:i, nil, class: 'fa fa-square-o tooltip-basic', 'data-tooltip-text' => t('concerto_plugins.index.disabled_msg'))
+      content_tag(:i, nil, class: 'far fa-square tooltip-basic', 'data-tooltip-text' => t('concerto_plugins.index.disabled_msg'))
     end
   end
 end

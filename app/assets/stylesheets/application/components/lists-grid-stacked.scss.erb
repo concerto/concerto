@@ -89,7 +89,7 @@ ul.list-grid {
     float: left;
     min-width: 200px;
     height: 60px;
-    width: 23%;
+    // width: 23%;
     margin: 8px 4px;
     display: table;
 
@@ -168,35 +168,48 @@ ul.list-grid {
     // border and is a fully clickable region
 
     > li {
-      margin-right: 6px;
-      margin-bottom: 6px;
-    }
+      margin: 0;
 
-    > li {
-      > a, > div {
-        @include border-radius(4px);
-        display: block;
-        color: $gray;
-        $transition: border linear .1s, background linear .1s;
-        @include transition($transition);
-      }
+      border: 1px solid $grayLightest;
+      border-radius: 0.5em;
+      width: auto;
+      height: auto;
+      cursor: pointer;
 
-      > a:hover {
+      &:hover {
         background: $concerto-blue-6;
-        text-decoration: none;
-
-        .inp {
-          background: $concerto-blue-4;
-        }
       }
+
+      &.selected {
+        background: $concerto-blue-4;
+      }
+
+      display: flex;
     }
-    
     .inp {
-      float: left;
-      background: $grayLightest;
-      min-height: 46px;
-      padding: 8px 5px;
-      @include border-radius(4px 0px 0px 4px);
+      width: 1rem;
+      padding: 3px;
+      background-color: $grayLightest;
+    }
+    .contents {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding-left: 3px;
+      padding-bottom: 6px;
+
+      label {
+        cursor: pointer;
+      }
+      p {
+        font-weight: normal;
+        font-style: italic;
+        color: $gray;
+      }
+      img {
+        float: inherit;
+        align-self: start;
+      }
     }
 
     .cont {
@@ -263,3 +276,28 @@ ul.list-stacked {
   }
 }
 ul.list-stacked.condensed > li { padding: 6px 12px; }
+
+
+
+
+
+@supports (display: grid) {
+  ul.list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 18rem /*minmax(18rem, 1fr)*/);
+    grid-gap: 1rem;
+  }
+  // get rid of the blank item -- not sure why it was there to begin with....
+  ul.list-grid:before {
+    display: none;
+  }
+  ul.list-grid.inset-selection {
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  }
+
+  .common-templates {
+    ul.list-grid {
+      grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    }
+  }  
+}

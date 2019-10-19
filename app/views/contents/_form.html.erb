@@ -21,6 +21,6 @@
       </div>
     </div>
 
-    <%= render_partial_if("#{type_folder}/form_bottom", "form_bottom", {form: f}) %>
+    <%= render_partial_if("#{type_folder}/form_bottom", "form_bottom", {form: f, type: @content.type}) %>
   <% end %>
 <% end %>

@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Concerto - <%= content_for?(:title) ? yield(:title) : "Open Source Digital Signage" %></title>
-  <%= stylesheet_link_tag 'frontend/application' %>
-  <%= javascript_include_tag 'frontend/application' %>
-  <%= csrf_meta_tag %>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <meta name="format-detection" content="telephone=no"/>
-  <%= content_for(:head) -%>
-</head>
-<body>
-<%= yield -%>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <title>Concerto - <%= content_for?(:title) ? yield(:title) : "Open Source Digital Signage" %></title>
+    <%= stylesheet_link_tag 'frontend/application' %>
+    <%= javascript_include_tag 'frontend/application' %>
+    <%= csrf_meta_tag %>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <%= content_for(:head) -%>
+  </head>
+  <body>
+    <%= yield -%>
+    <!-- display a font-awesome icon offscreen so the font is loaded, otherwise it may try to load it on demand when the server is unavailable -->
+    <div id="primeFontAwesome" style="display:block; opacity: 0; position: absolute; top: -20px; right: -20px; z-index: -1">
+      <i class="fas fa-sync-alt fa-spin"></i>
+    </div>
+  </body>
 </html>

@@ -176,8 +176,38 @@ class ContentsController < ApplicationController
     auth!
 
     @feed_ids = feed_ids
+    update_info = content_update_params
 
-    if @content.update_attributes(content_update_params)
+    if can? :update_full_details, @content
+      update_info = content_params
+      # some content, like the ticker_text, can have a kind other than it's model's default
+      if update_info.include?(:kind_id)
+        kind = Kind.find(update_info[:kind_id])
+        update_info.delete :kind_id
+      end
+
+      @content.kind = kind unless kind.nil?
+      @content.user = current_user
+    end
+
+    # preparation for being able to edit any content in the future
+    # # from create ------------------------------------
+    # if can? :update_full_details, @content
+    #   update_info = content_params
+    #   media_ids = []
+    #   if update_info.include?(:media_attributes)
+    #     # pull out the media_id otherwise, new will try to find it even though it's not yet linked
+    #     media_attributes = update_info[:media_attributes]
+    #     media_attributes.each do |key, attribute|
+    #       next if !attribute.include?(:id) || attribute[:id].blank?
+    #       media_ids << attribute[:id]
+    #       update_info[:media_attributes][key].delete :id
+    #     end
+    #   end
+    # end
+    # end from create --------------------------------
+
+    if @content.update_attributes(update_info)
       process_content_notification action_name
       submissions = @content.submissions
       submissions.each do |submission|
@@ -209,6 +239,7 @@ class ContentsController < ApplicationController
 
     process_content_notification action_name
     @content.destroy
+    flash[:notice] = t(:content_deleted)
 
     respond_to do |format|
       format.html { redirect_to(feeds_url) }
@@ -331,7 +362,7 @@ class ContentsController < ApplicationController
       if !@content_const.nil?
         @content_sym = @content_const.model_name.singular.to_sym
       end
-      @attributes = [:name, :duration, {start_time: [:time, :date]}, {end_time: [:time, :date]}]
+      @attributes = [:name, :data, :duration, {start_time: [:time, :date]}, {end_time: [:time, :date]}]
     end
     params.require(@content_sym).permit(*@attributes)
   end

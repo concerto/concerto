@@ -1,8 +1,8 @@
 function addDateTimeUi() {
   // Setup the date pickers
   // why dont we just look for the .datefield class and hookup that way?
-  $('#start_time_date').datepicker({ autoclose: true });
-  $('#end_time_date').datepicker({ autoclose: true });
+  $('#start_time_date').datepicker({ autoclose: true, language: I18n.locale });
+  $('#end_time_date').datepicker({ autoclose: true, language: I18n.locale });
 }
 
 function toggleTimeSelects() {
@@ -24,7 +24,7 @@ function initDateTime() {
   }
 
   // Setup the time pickers
-  $('.timefield').timepicker();
+  $('.timefield').timepicker({ timeFormat: 'h:i a', lang: { am: I18n.t('time.am'), pm: I18n.t('time.pm') } });
 
 
   // make sure the icon-calendar's get wired up too
@@ -32,7 +32,7 @@ function initDateTime() {
   // find the icon-calendar item next to it (before or after) and wire it's click to open
   // the datepicker that it's related to
   $('.datefield').each(function (index) {
-      $(this).parent().find('i[class="fa fa-calendar"]').on('click', function () {
+      $(this).parent().find('i[class="fas fa-calendar"]').on('click', function () {
         $(this).closest('div').find('.datefield').datepicker('show');
       });
   });

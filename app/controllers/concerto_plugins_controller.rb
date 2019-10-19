@@ -19,6 +19,28 @@ class ConcertoPluginsController < ApplicationController
     respond_with(@concerto_plugin)
   end
 
+  # GET /concerto_plugins/1/upgradeable
+  # GET /concerto_plugins/1/upgradeable.json
+  def upgradeable
+    concerto_plugin = ConcertoPlugin.find(params[:id])
+    auth!
+
+    gemspec = Gem.loaded_specs[concerto_plugin.gem_name]
+    @upgradeable = !gemspec.nil? && !concerto_plugin.rubygems_current_version.nil? && (Gem::Version.new(concerto_plugin.rubygems_current_version.to_s) > Gem::Version.new(gemspec.version.to_s))
+
+    render layout: false
+  end
+
+  # GET /concerto_plugins/1/description
+  # GET /concerto_plugins/1/description.json
+  def description
+    concerto_plugin = ConcertoPlugin.find(params[:id])
+    auth!
+
+    @gemspec = Gem.loaded_specs[concerto_plugin.gem_name]
+    render layout: false
+  end
+
   # GET /concerto_plugins/new
   # GET /concerto_plugins/new.json
   def new
@@ -106,14 +128,22 @@ class ConcertoPluginsController < ApplicationController
   end
 
   def update_gem
+    results = {}
     plugin = ConcertoPlugin.find(params[:id])
-    system('bundle update', plugin.gem_name)
-    rake_precompile()
-    restarted = restart_webserver()
-    if restarted
-      flash[:notice] = t(:plugin_updated)
+    results[:bundle_output] = `bundle update --source #{plugin.gem_name} 2>&1`
+    results[:bundle_success] = $?.success?
+
+    if results[:bundle_success]
+      results[:rake_output] = `bundle exec rake assets:precompile 2>&1`#rake_precompile()
+      results[:rake_success] = $?.success?
+      restarted = restart_webserver()
+      if restarted
+        results[:notice] = t(:plugin_updated)
+        flash[:notice] = t(:plugin_updated)
+      end
+      results[:redirect_to] = concerto_plugin_path(plugin)
     end
-    redirect_to action: :show, id: plugin.id
+    render json: results
   end
 
   def write_Gemfile

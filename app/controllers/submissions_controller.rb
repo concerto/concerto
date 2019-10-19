@@ -10,22 +10,22 @@ class SubmissionsController < ApplicationController
   # GET /feeds/:feed_id/submissions
   # GET /feeds/:feed_id/submissions.js
   def index
-    @can_moderate_feed = can?(:update, @feed)
+    @can_moderate_feed = can?(:moderate, @feed)
 
     state = params[:state] || 'active'
 
     @submissions = []
     case state
     when 'expired'
-      @submissions = @feed.submissions.approved.expired
+      @submissions = @feed.submissions.approved.expired.reorder('contents.end_time desc')
     when 'future'
-      @submissions = @feed.submissions.approved.future
+      @submissions = @feed.submissions.approved.future.reorder('contents.start_time')
     when 'pending'
-      @submissions = @feed.submissions.pending
+      @submissions = @feed.submissions.pending.reorder('contents.start_time')
     when 'denied'
-      @submissions = @feed.submissions.denied
+      @submissions = @feed.submissions.denied.reorder('submissions.updated_at desc')
     else
-      @submissions = @feed.submissions.approved.active
+      @submissions = @feed.submissions.approved.active.reorder('submissions.seq_no, submissions.id')
       state = 'active'
     end
     @submissions = @submissions.includes(:content)
@@ -46,6 +46,59 @@ class SubmissionsController < ApplicationController
     respond_to do |format|
       format.html { }
       format.js { }
+    end
+  end
+
+  # GET /feeds/:feed_id/submissions/1/reorder?before=
+  # GET /feeds/:feed_id/submissions/1/reorder?before=.js
+  def reorder
+    @submission = Submission.find(params[:id])
+    if cannot?(:moderate, @feed)
+      head :forbidden
+    else
+      @before = Submission.find(params[:before])
+      if @submission.blank? || @before.blank?
+        head :not_found
+      elsif @submission.feed.id != @feed.id || @before.feed.id != @feed.id
+        head :bad_request
+      elsif !@submission.moderation_flag || !@before.moderation_flag
+        head :bad_request
+      elsif !@submission.content.is_active? || !@before.content.is_active?
+        head :bad_request
+      else
+        @submissions = @feed.submissions.approved.active.reorder('submissions.seq_no, contents.start_time')
+        seq_no = 0
+        reserved_slot = 0
+        parent_seq_nos = {}
+        @submissions.each do |s|
+          # child content also has a submission record, and its seq_no should match it's parent, so skip the children here
+          next if s.content.parent.present?
+
+          seq_no = seq_no + 1
+          if s.id == @before.id
+            reserved_slot = seq_no
+            seq_no = seq_no + 1
+            s.seq_no = seq_no
+          elsif s.id == @submission.id
+            s.seq_no = reserved_slot
+          else
+            s.seq_no = seq_no
+          end
+          s.save
+
+          # keep track of each parent's seq_no so we can set their children
+          if s.content.children_count > 0
+            parent_seq_nos[s.content.id] = s.seq_no
+          end
+        end
+        @submissions.each do |s|
+          next if s.content.parent.blank?
+          s.seq_no = parent_seq_nos[s.content.parent.id]
+          s.save
+        end
+
+        head :ok
+      end
     end
   end
 

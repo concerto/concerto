@@ -10,7 +10,7 @@ class DynamicContent < Content
 
   after_initialize :set_kind, :create_config
 
-  after_find :load_config
+  after_find :protected_load_config
   before_validation :save_config
 
   attr_accessor :config
@@ -38,6 +38,14 @@ class DynamicContent < Content
     {
       'interval' => 300,
     }
+  end
+
+  def protected_load_config
+    begin
+      load_config
+    rescue StandardError => ex
+      Rails.logger.error("unable to load_config for dynamic content #{id}: #{ex.message}")
+    end
   end
 
   # Load a configuration hash.
@@ -137,12 +145,12 @@ class DynamicContent < Content
         content.parent = self
         content.user ||= self.user
         content.duration ||= self.duration
-        content.start_time ||= Clock.time
-        content.end_time ||= Clock.time + 1.day
+        content.end_time ||= [self.end_time, Clock.time + 1.day].compact.min
+        content.start_time ||= [content.end_time, Clock.time].compact.min
 
         run_callbacks :alter_content do
           @content = content
-          new_children[index].becomes(content.class)
+          new_children[index] = new_children[index].becomes(content.class)
           @new_attributes = content.attributes
         end
 
@@ -171,6 +179,7 @@ class DynamicContent < Content
             end
           end
         else
+          Rails.logger.error(new_children[index].errors.full_messages)
           raise ActiveRecord::Rollback
           return false
         end
@@ -181,6 +190,10 @@ class DynamicContent < Content
     expire_children(old_children)
 
     return true
+
+  rescue Exception => e
+    Rails.logger.error(e.message)
+    return false
   end
 
   # Build all the new child content.

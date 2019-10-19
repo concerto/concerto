@@ -1,6 +1,10 @@
 <% if !submission.content.nil? %>
-  <div class="tile<% unless submission.content.children.empty?%> tile-stack<% end %>" data-submission-id="<%= submission.id %>">
+  <div class="tile<% unless submission.content.children.empty?%> tile-stack<% end %><% unless submission.content.parent.blank?%> tile-child<% end %>" data-submission-id="<%= submission.id %>">
     <%= link_to [submission.feed, submission], class: "tile-content" do %>
+      <% if submission.content.media && submission.content.media.preferred.present? %>
+        <div class="file-size"><%= number_to_human_size(submission.content.media.preferred.first.file_size) %></div>
+      <% end %>
+
       <%= render_content(submission.content, {type: 'tile'}) %>
 
       <div class="tile-labels">
@@ -21,11 +25,11 @@
       <div class="tile-moderate">
         <div class="default-padding">
           <%= link_to [submission.feed, submission], class: "tooltip-basic tile-moderate-approve", 'data-tooltip-text' => t('.approve_this_content') do %>
-            <span class="fa fa-check"></span>
+            <span class="fas fa-check"></span>
           <% end %>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <%= link_to "#", class: "tooltip-basic tile-moderate-deny", 'data-tooltip-text' => t('.deny_this_content') do %>
-            <span class="fa fa-remove-sign"></span>
+            <span class="fas fa-ban"></span>
           <% end %>
         </div>
       </div>
@@ -42,12 +46,12 @@
       </div>
       <div class="approve-content-confirm-overlay default-padding center" style="display: none;">
         <br /><br />
-        <h1 style="font-size: 5em;"><span class="fa fa-check"></span></h1>
+        <h1 style="font-size: 5em;"><span class="fas fa-check"></span></h1>
         <h4><%= t '.has_been_approved' %></h4>
       </div>
       <div class="deny-content-confirm-overlay default-padding center" style="display: none;">
         <br /><br />
-        <h1 style="font-size: 5em;"><span class="fa fa-remove-sign"></span></h1>
+        <h1 style="font-size: 5em;"><span class="fas fa-ban"></span></h1>
         <h4><%= t '.has_been_denied' %></h4>
       </div>
     </div>

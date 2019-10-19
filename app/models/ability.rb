@@ -104,9 +104,21 @@ class Ability
     # Users can read and update and delete their own content
     can [:read, :delete], Content, user_id: user.id
     can :update, Content do |content|
-      (content.is_approved? == false && content.user_id == user.id) ||
-        # users can resubmit their expired content
-        (content.is_expired? && content.user_id == user.id)
+      # if it belongs to us and
+      #   it is not approved yet or we can moderate all its submissions or
+      #   it is expired (users can resubmit their expired content)
+      content.user_id == user.id &&
+        ((content.submissions.select(&:moderation_flag).empty? ||
+          content.submissions.select { |s| Ability.new(user).cannot?(:update, s) }.empty?) ||
+        content.is_expired?)
+    end
+    # Users can update the full details of their own content if they
+    # also have the ability to moderate it on all of the feeds to which
+    # it has been submitted.  This is a custom action.
+    can :update_full_details, Content do |content|
+      content.user_id == user.id &&
+        ((content.submissions.select(&:moderation_flag).empty? ||
+          content.submissions.select { |s| Ability.new(user).cannot?(:update, s) }.empty?))
     end
 
     ## Screens
@@ -203,6 +215,11 @@ class Ability
           end
         end
       end
+    end
+    # custom action -- who can moderate content on the feed?
+    can :moderate, Feed do |feed|
+      (user.leading_groups.include?(feed.group) ||
+      user.supporting_groups(:feed, [:all, :submissions]).include?(feed.group))
     end
 
     # Create custom submit rules by coping submission creation rules

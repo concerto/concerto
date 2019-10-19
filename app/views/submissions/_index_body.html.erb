@@ -1,7 +1,7 @@
 <div class="subnav clearfix">
   <div class="pull-left" style="padding: 3px 0px; width:85px">
     <%= link_to "#", title: t('.click_to_jump'), class: "btn btn-small btn-info dropdown-toggle dropdown-control dd-jumpto", rel: "#jump_to" do %>
-      <i class="fa fa-bolt"></i> <%= t('.jump_to_feed') %>
+      <i class="fas fa-bolt"></i> <%= t('.jump_to_feed') %>
     <% end %>
 
     <div id="jump_to" style="display: none;">
@@ -46,10 +46,43 @@
 
 </div>
 
+<!-- details -->
+
 <div class="clearfix default-padding">
-  <%= t('.moderated_by') %> 
-  <%= link_to @feed.group.name, group_path(@feed.group) %>.
+  <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= Feed.human_attribute_name(:description) %></b></small></p>
+  <p><%= @feed.description %></p>
+
+  <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.allowed_types') %></b></small></p>
+  <p><%= Concerto::Application.config.content_types.sort_by{|type| type.display_name}.select{|t| @feed.content_types["#{t.name}"] == "1"}.collect{|t| t.display_name}.join(', ') %></p>
+
+  <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.moderated_by') %></b></small></p>
+  <p><%= link_to @feed.group.name, group_path(@feed.group) %></p>
+
+  <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= Feed.human_attribute_name(:is_viewable) %></b></small></p>
+  <p>
+    <%= @feed.is_viewable ? t('yes') : t('no') %>
+    <% if !@feed.is_viewable %>
+      <i class="fas fa-eye-slash muted" title="<%= t 'feeds.browse_body.not_viewable' %>"></i>
+    <% end %>
+  </p>
+
+  <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= Feed.human_attribute_name(:is_submittable) %></b></small></p>
+  <p>
+    <%= @feed.is_submittable ? t('yes') : t('no') %>
+    <% if !@feed.is_submittable %>
+      <i class="fas fa-hand-paper muted" title="<%= t 'feeds.browse_body.not_submittable' %>"></i>
+    <% end %>
+  </p>
+
+  <% if (screens = @feed.shown_on_screens.reject{|s| s.nil? || (cannot? :read, s)}).size > 0 %>
+    <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t('.subscribed_by_screens') %></b></small></p>
+    <ul class="screens-list members-list">
+      <%= render screens %>
+    </ul>
+  <% end %>
 </div>
+
+
 
 <% submissions = @feed.submissions_to_moderate %>
 <% if @can_moderate_feed and submissions.count > 0 %>
@@ -62,8 +95,6 @@
   <% end %>
 </div>
 <% end %>
-
-<br />
 
 <div class="default-padding" style="padding-bottom: 0px; height: 25px;">
   <div id="browse-filter-select" class="clearfix">
@@ -182,8 +213,10 @@
     </div>
   </div>
   <br />
-  <% @paginated_submissions.select{|s| @state != 'active' || s.content.parent.nil?}.each do |submission| %>
-    <%= render partial: "submissions/submission_tile", locals: { submission: submission } %>
-  <% end %>
+  <div class="submissions-<%= @state %>" data-feed-id="<%= @feed.id %>">
+    <% @paginated_submissions.select{|s| @state != 'active' || s.content.parent.nil?}.each do |submission| %>
+      <%= render partial: "submissions/submission_tile", locals: { submission: submission } %>
+    <% end %>
+  </div>
 </div>
 <% end %>

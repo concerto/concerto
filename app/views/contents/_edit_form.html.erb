@@ -1,0 +1,29 @@
+<%= form_for(@content, html: { multipart: true }) do |f| %>
+  <% type_folder = "contents/#{@content.type.underscore}" %>
+  <%= hidden_field_tag :type, @content.type %>
+  <% if lookup_context.exists?("#{type_folder}/edit_form", [], true) %>
+    <%= render partial: "#{type_folder}/edit_form", locals: {form: f, content: @content} %>
+  <% else %>
+    <%= render :partial => "layouts/errors", :object => @content %>
+    <div class="row-fluid">
+      <div class="span8">
+        <% if can?(:update_full_details, @content) && ['Ticker', 'HtmlText'].include?(@content.type) # only Ticker|HtmlText for now %>
+          <%= render_partial_if("#{type_folder}/form_top", "form_top", {form: f}) %>
+        <% end %>
+        <%= render "form_middle", {:form => f} %>
+        <%= ConcertoPlugin.render_view_hook self, :content_form, {form: f} %>
+        <%= render "form_submit_feeds", {form: f} %>
+      </div>
+      <div class="span4">
+        <fieldset>
+          <legend><span><%=t('.preview')%></span></legend>
+          <div id="preview_div">
+            <%= render_content(@content) %>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <%= render  "form_bottom", {form: f, type: @content.type} %>
+  <% end %>
+<% end %>

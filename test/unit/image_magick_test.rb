@@ -94,10 +94,44 @@ class ConcertoImageMagickTest < ActiveSupport::TestCase
     assert_equal 200, result.rows
   end
 
+  test "resize with invalid options returns empty image" do
+    @image = ConcertoImageMagick.load_image(@graphic_data)
+    result = ConcertoImageMagick.resize(@image, -100, -200, true, true)
+    assert result.columns == 0
+    assert result.rows == 0
+  end
+
   test "crop image" do
     @image = ConcertoImageMagick.load_image(@graphic_data)
     result = ConcertoImageMagick.crop(@image, 100, 200)
     assert_equal 100, result.columns
     assert_equal 200, result.rows
+  end
+
+  test 'new image returns image of specified size' do
+    img = ConcertoImageMagick.new_image(100, 200)
+    assert_equal 100, img.columns
+    assert_equal 200, img.rows
+  end
+
+  test 'image_info returns info about image' do
+    img = ConcertoImageMagick.load_image(@graphic_data)
+    info = ConcertoImageMagick.image_info(img)
+    assert info[:size] == img.filesize
+    assert info[:density] == img.density
+    assert info[:width] == img.columns
+    assert info[:height] == img.rows
+  end
+
+  test 'graphic_transform supports cropping' do
+    class OmClass
+      attr_accessor :file_contents
+    end
+    o = OmClass.new
+    o.file_contents = @graphic_data
+
+    result = ConcertoImageMagick.graphic_transform(o, crop: true, width: 1, height: 1)
+    assert result.rows == 1
+    assert result.columns == 1
   end
 end

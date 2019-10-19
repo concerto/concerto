@@ -14,7 +14,7 @@
   </td>
   <td>
     <%= link_to "#", {data: { confirm: t(:are_you_sure_remove_model_key, model: Feed.model_name.human, key: feed.name) }, class: "btn btn-danger btnRemoveSubscription"} do %>
-      <i class="fa fa-remove"></i> <%= t(:remove_model, model: Feed.model_name.human) %>
+      <i class="fas fa-minus-circle"></i> <%= t(:remove_model, model: Feed.model_name.human) %>
     <% end %>
   </td>
 </tr>

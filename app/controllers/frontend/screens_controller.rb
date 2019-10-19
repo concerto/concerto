@@ -2,7 +2,7 @@ class Frontend::ScreensController < ApplicationController
   # Allow cross-origin resource sharing for screens#show.
   before_filter :allow_cors, only: [:show, :show_options]
   before_filter :screen_api
-  
+
   layout 'frontend'
 
   # GET /frontend/:id
@@ -44,7 +44,7 @@ class Frontend::ScreensController < ApplicationController
   def show_options
     head :ok
   end
-  
+
   # GET /frontend
   # Handles cases where the ID is not provided:
   #   public legacy screens screens - a MAC address is provided instead of an ID
@@ -80,7 +80,7 @@ class Frontend::ScreensController < ApplicationController
       @temp_token = Screen.generate_temp_token
       session[:screen_temp_token] = @temp_token
       send_temp_token
-    end  
+    end
   end
 
   def send_to_screen(screen)
@@ -93,8 +93,8 @@ class Frontend::ScreensController < ApplicationController
      } }
     end
   end
-  
-  def send_temp_token 
+
+  def send_temp_token
     respond_to do |format|
       format.html { render 'sign_in', layout: "no-topmenu" }
       format.json { render json: {screen_temp_token: @temp_token} }
@@ -111,8 +111,8 @@ class Frontend::ScreensController < ApplicationController
   end
 
   # GET /frontend/1/setup.json
-  # Get information required to setup the screen
-  # and display the template with positions.
+  # Get information required to setup the screen and display the template with positions.
+  # The request may include width and height parameters of the screen's container.
   def setup
     allow_cors unless !ConcertoConfig[:public_concerto]
     @preview = params.has_key?(:preview) && params[:preview] == "true"
@@ -125,8 +125,15 @@ class Frontend::ScreensController < ApplicationController
     rescue CanCan::AccessDenied
       render json: {}, status: 403
     else
+      # If we got the dimensions then keep them so we can indicate its orientation in the screen list.
+      if params['width'].present? and params['height'].present? and !@preview
+        height = params['height'].to_i rescue nil
+        width = params['width'].to_i rescue nil
+        @screen.update_columns(height: height, width: width)
+        Rails.logger.debug("updated screen #{@screen.id} dimensions #{width}w x #{height} h")
+      end
 
-      field_configs = []  # Cache the field_configs
+      # field_configs = []  # Cache the field_configs
       @screen.run_callbacks(:frontend_display) do
         # Inject paths into fake attribute so they gets sent with the setup info.
         # Pretend that it's better not to change the format of the image, so we detect it's upload extension.
@@ -146,46 +153,49 @@ class Frontend::ScreensController < ApplicationController
           p.field.config = {}
           FieldConfig.default.where(field_id: p.field_id).each do |d_fc|
             p.field.config[d_fc.key] = d_fc.value
-            field_configs << d_fc
+            # field_configs << d_fc
           end
           @screen.field_configs.where(field_id: p.field_id).each do |fc|
             p.field.config[fc.key] = fc.value
-            field_configs << fc
+            # field_configs << fc
           end
+          # add how to handle when content cannot be loaded or has run out
+          p.field.config['screens_clear_last_content'] = ConcertoConfig['screens_clear_last_content']
         end
       end
 
-Rails.logger.debug("--frontend screencontroller setup is sending setup-key of #{@screen.frontend_cache_key}")
-      response.headers["X-Concerto-Frontend-Setup-Key"] = @screen.frontend_cache_key
+      frontend_cache_key = @screen.frontend_cache_key
+      response.headers["X-Concerto-Frontend-Setup-Key"] = frontend_cache_key
 
       @screen.time_zone = ActiveSupport::TimeZone::MAPPING[@screen.time_zone]
-      if stale?(etag: @screen.frontend_cache_key, public: true)
-      respond_to do |format|
-        format.json {
-          render json: @screen.to_json(
-            only: [:name, :id, :time_zone],
-            include: {
-              template: {
-                include: {
-                  positions: {
-                    except: [:created_at, :updated_at, :template_id, :field_id],
-                    methods: [:field_contents_path],
-                    include: {
-                      field: {
-                        methods: [:config],
-                        only: [:id, :name, :config]
+      if stale?(etag: frontend_cache_key, public: true)
+        respond_to do |format|
+          format.json {
+            render json: @screen.to_json(
+              only: [:name, :id, :time_zone, :locale],
+              include: {
+                template: {
+                  include: {
+                    positions: {
+                      except: [:created_at, :updated_at, :template_id, :field_id],
+                      methods: [:field_contents_path],
+                      include: {
+                        field: {
+                          methods: [:config],
+                          only: [:id, :name, :config]
+                        }
                       }
-                    }
+                    },
                   },
-                },
-                only: [:id, :name],
-                methods: [:path, :css_path]
+                  only: [:id, :name],
+                  methods: [:path, :css_path]
+                }
               }
-            }
-          )
-        }
+            )
+          }
+        end
       end
-      end
+
       unless @preview
         @screen.mark_updated
       end

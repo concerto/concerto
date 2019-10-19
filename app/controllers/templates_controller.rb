@@ -4,6 +4,7 @@ class TemplatesController < ApplicationController
 
   before_filter :get_type, only: [:new, :create, :import]
   respond_to :html, :json, :xml, :js
+  responders :flash
 
   # GET /templates
   # GET /templates.xml
@@ -29,7 +30,7 @@ class TemplatesController < ApplicationController
   # GET /templates/new
   # GET /templates/new.xml
   def new
-    @template = Template.new
+    @template = Template.new(owner: current_user)
     auth!
     # one for the graphic background and one for the css file
     @template.media.build()
@@ -54,6 +55,12 @@ class TemplatesController < ApplicationController
   def create
     @template = Template.new(template_params)
     auth!
+
+    owner = params[:owner]
+    if owner.present? and owner.split('-').size == 2
+      @template.owner_type, @template.owner_id = owner.split('-')
+    end
+
     # set key based on file extension
     @template.media.each do |media|
       extension = (media.file_name.blank? ? nil : media.file_name.split('.')[-1].downcase)
@@ -84,6 +91,10 @@ class TemplatesController < ApplicationController
 
     # get a copy of the params and remove the bogus file fields as we process them
     template_parameters = template_params
+    owner = params[:owner]
+    if owner.present? and owner.split('-').size == 2
+      template_parameters[:owner_type], template_parameters[:owner_id] = owner.split('-')
+    end
     # doens't matter which file is in which field because the file type is inspected for each
     [:template_css, :template_image].each do |file|
       if !template_parameters[file].nil?
@@ -220,7 +231,7 @@ private
 
   def template_params
     # :template_css and :template_file are two bogus fields used for file uploads when editing a template
-    params.require(:template).permit(:name, :author, :descriptor, :image, :is_hidden, :template_css, :template_image, positions_attributes: [:field_id, :style, :top, :left, :bottom, :right, :id, :_destroy], media_attributes: [:file])
+    params.require(:template).permit(:name, :author, :descriptor, :image, :is_hidden, :template_css, :template_image, :owner_id, :owner_type, positions_attributes: [:field_id, :style, :top, :left, :bottom, :right, :id, :_destroy], media_attributes: [:file])
   end
 
   def sanitize_filename(filename)

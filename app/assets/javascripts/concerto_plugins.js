@@ -39,6 +39,36 @@ function bindListeners() {
   $('select#concerto_plugin_source').change(toggleFields);
   // since the default source is rubygems, hide the source url on load
   $('select#concerto_plugin_source').trigger('change');
+
+  $('a.update-plugin-btn').on('ajax:beforeSend', updatePluginBeforeSend);
+  $('a.update-plugin-btn').on('ajax:success', updatePluginSuccess);
+  $('a.update-plugin-btn').on('ajax:error', updatePluginError);
+}
+
+function updatePluginBeforeSend(e, data, status, xhr) {
+  $('#updatePluginResults').html('<span class="fas fa-sync-alt fa-spin"></span> Updating...');
+}
+
+function updatePluginError(e, data, status, xhr) {
+  var msg = '';
+  if (status != null && status != '') {
+    msg = '<pre>' + status + '</pre>';
+  }
+  $('#updatePluginResults').html('<div class="alert alert-warning">Unable to update plugin.</br>' + msg + '</div>');
+}
+
+function updatePluginSuccess(e, data, status, xhr) {
+  var msg = '';
+  if (!data['bundle_success'] || !data['rake_success']) {
+    msg = '<div class="alert alert-warning">Unable to update plugin.</br><pre>' + data['bundle_output'] + '</pre><br/>';
+    if (data['rake_output'] != null) {
+      msg = msg + '<pre>' + data['rake_output'] + '</pre><br/>';
+    }
+    msg = msg + '</div>';
+    $('#updatePluginResults').html(msg);
+  } else {
+    window.location.reload(true);
+  }
 }
 
 $(document).ready(bindListeners);

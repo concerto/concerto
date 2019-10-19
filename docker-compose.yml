@@ -1,0 +1,33 @@
+version: "3"
+services:
+  db:
+    image: mysql
+    # utf8mb4 https://stackoverflow.com/a/53398381/1778068
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: concerto
+      MYSQL_DATABASE: concerto
+      MYSQL_USER: concerto
+      MYSQL_PASSWORD: concerto
+    volumes:
+      - db:/var/lib/mysql
+
+  concerto:
+    image: concerto
+    restart: always
+    ports: 
+      - "80:80"
+    environment:
+      CONCERTO_DB_HOST: db
+      CONCERTO_DB_USER: concerto
+      CONCERTO_DB_PASSWORD: concerto
+      CONCERTO_DB_NAME: concerto
+    volumes:
+      - concerto:/home/app/concerto
+    depends_on: 
+      - db
+
+volumes:
+  db:
+  concerto:

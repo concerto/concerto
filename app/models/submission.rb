@@ -18,6 +18,7 @@ class Submission < ActiveRecord::Base
   scope :approved, -> { where moderation_flag: true }
   scope :denied, -> { where moderation_flag: false }
   scope :pending, -> { where "moderation_flag IS NULL" }
+  scope :unsent, -> { where "pending_notification_sent IS NULL" }
 
   # Scoping shortcuts for active/expired/future
   def self.active
@@ -66,7 +67,7 @@ class Submission < ActiveRecord::Base
   end
 
   # Cascade moderation to children submissions as well.
-  # Child content submitted to the same feed will recieve the same moderation
+  # Child content submitted to the same feed will receive the same moderation
   # as a parent content.
   def update_child_moderation
     if self.changed.include?('moderation_flag') and self.content.has_children?
@@ -91,6 +92,22 @@ class Submission < ActiveRecord::Base
       #print submission.to_yaml
       #print submission.errors.to_yaml
       submission.save
+    end
+  end
+
+  # if there are any pending submissions, send a notice to the unique list of moderators
+  def self.send_moderation_request_notifications
+    items = Submission.pending.unsent
+    emails = items.map{|s| s.feed.group.moderators }.flatten.compact.map{|m| m.user.email if m.receive_emails && m.user.receive_moderation_notifications }.compact.sort.uniq
+
+    if items.present? && emails.present?
+      Rails.logger.info "moderation request email sent to #{emails.join(', ')}"
+      ModeratorMailer.items_pending(emails).deliver_now
+    
+      # indicate that we sent a notification so we dont repeat emails for the same content
+      items.each do |s|
+        s.update_attributes(pending_notification_sent: DateTime.now)
+      end
     end
   end
 

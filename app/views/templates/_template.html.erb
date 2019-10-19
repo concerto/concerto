@@ -1,11 +1,26 @@
-<li>
-  <div class="cont thumb-icon">
-    <%= link_to template do %>
-      <i class="concertocon-controller-templates"></i>
+<li class="templates-item">
+  <div class="cont thumb-icon <%= 'in-use' if template.screens.count > 0 %>">
+    <% if can?(:read, template) %>
+      <%= link_to template do %>
+        <i class="concertocon-controller-templates icon muted"></i>
+      <% end %>
+    <% else %>
+      <i class="concertocon-controller-templates icon muted"></i>
     <% end %>
   </div>
   <div class="cont">
-    <p><b><%= link_to template.name, template %></b></p>
-    <p><%= t '.by', author: template.author %></p>
+    <div class="title">
+      <b><%= link_to_if can?(:read, template), template.name, template %></b>
+      <% if template.screens.count > 0 %>
+        <span class="badge badge-screens-count"><%= template.screens.count %></span>
+      <% end %>
+      <% if template.is_hidden %>
+        <i class="fas fa-eye-slash muted viewable" title="<%= ::Template.human_attribute_name(:is_hidden) %>"></i>
+      <% end %>
+
+    </div>
+    <% if template.author.present? %>
+      <div class="author"><%= t '.by', author: template.author %></div>
+    <% end %>
   </div>
 </li>

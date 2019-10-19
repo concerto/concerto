@@ -75,9 +75,10 @@ class User < ActiveRecord::Base
     groups.include?(group)
   end
 
-  # Return an array of all the feeds a user owns.
+  # Return an array of all the feeds a user owns or can moderate.
   def owned_feeds
-    leading_groups.collect{|g| g.feeds}.flatten
+    #leading_groups.collect{|g| g.feeds}.flatten
+    (leading_groups + supporting_groups(:feed, [:all, :submissions])).collect{|g| g.feeds}.flatten.sort.uniq
   end
 
   # Return an array of all the groups a user has a certain regular permission for.

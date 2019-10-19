@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
   respond_to :html, :json, :xml
+  responders :flash
   
   # GET /groups
   # GET /groups.xml

@@ -1,6 +1,7 @@
 class FeedsController < ApplicationController
   rescue_from ActionView::Template::Error, with: :precompile_error_catch
   respond_to :html, :json
+  responders :flash
   
   # GET /feeds
   # GET /feeds.xml
@@ -27,7 +28,9 @@ class FeedsController < ApplicationController
     # We first get all feeds the accessor can index (update => index permission)
     @feeds = Feed.accessible_by(current_ability, :index)
     # Remove those feeds the accessor has index permission but not update
-    auth!(object: @feeds, action: :update, allow_empty: false)
+    # if a user can moderate a feed, because they have that membership permission :submission, then even
+    # though they cannot edit a feed, they can still moderate the content, so change the action below from update to moderate
+    auth!(object: @feeds, action: :moderate, allow_empty: false)
     @feeds.to_a.reject!{|f| not f.pending_contents.count > 0}
     
     respond_to do |format|

@@ -2,8 +2,9 @@
   <header class="viewblock-header">
     <div class="viewblock-header_right">
       <div class="button-padding">
-        <% if !@gemspec.nil? && !@rubygems_current_version.nil? && (@rubygems_current_version.to_s > @gemspec.version.to_s) %>
-          <%= link_to t('.upgrade'), update_gem_concerto_plugins_path(id: @concerto_plugin.id), {method: :post, class: "btn"}%>
+        <% if !@gemspec.nil? && !@rubygems_current_version.nil? && (Gem::Version.new(@rubygems_current_version.to_s) > Gem::Version.new(@gemspec.version.to_s)) %>
+          <%= link_to t('.upgrade'), update_gem_concerto_plugin_path(@concerto_plugin),
+            class: "btn update-plugin-btn", remote: true %>
         <% end %>
         <% if can? :edit, @concerto_plugin %>
           <%= link_to t(:edit_model, model: ConcertoPlugin.model_name.human), edit_concerto_plugin_path(@concerto_plugin), class: "btn" %>
@@ -35,7 +36,7 @@
       <p><%= !@gemspec.nil? ? @gemspec.description : "" %></p>
       <p>
         <b><%= t('.gem_version') %></b>
-        <% if @concerto_plugin.gem_version %>
+        <% if @concerto_plugin.gem_version.present? %>
           <%= @concerto_plugin.gem_version %> <%= t('.locked') %>
         <% elsif !@gemspec.nil? %>
           <%= @gemspec.version.to_s %>
@@ -50,6 +51,13 @@
         <b><%= t('.installed') %></b>
         <%= (@concerto_plugin.installed? && !@gemspec.nil?) ? t('.installed_yes') : t('.installed_no') %>
       </p>
+
+      <p>
+        <b><%= ConcertoPlugin.human_attribute_name(:enabled) %></b>
+        <%= @concerto_plugin.enabled ? t('.installed_yes') : t('.installed_no') %>
+      </p>
+    </div>
+    <div id="updatePluginResults" class="default-padding">
     </div>
   </div>
 </section>

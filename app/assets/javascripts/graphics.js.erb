@@ -5,6 +5,14 @@ var initializeGraphicPreview = {
   initialized: false,
 
   initialize: function() {
+    var submitBtn = $("#submitContent-Graphic");
+    var media_id = $("#graphic_media_attributes_0_id");
+
+    // Disable the save button (if we have an upload button displayed) until graphic upload completes
+    if (media_id.length != 0 && !media_id.val()) {
+      submitBtn.prop('disabled', true);
+    }
+
     if (!this.initialized) {
       $(document).delegate('#media_file', "change", function (e) {
         var preview = $("#preview_div");
@@ -13,7 +21,10 @@ var initializeGraphicPreview = {
         var media_url = $(this).data('media-url');
         var preview_url = $(this).data('url');
 
-        preview.html("<h1 style='color: #ccc; font-size: 3em; text-align: center;'><i class='fa fa-refresh fa-spin'></i>&nbsp;&nbsp;"+I18n.t('contents.graphic.js.preview')+"</h1> ");
+        preview.html("<div class='default-padding'><h1 style='color: #ccc; font-size: 3em; text-align: center;'><i class='fas fa-sync fa-spin'></i>&nbsp;&nbsp;"+I18n.t('contents.graphic.js.preview')+"</h1></div>");
+        var uploadTimeout = setTimeout(function() {
+          preview.append("<div class='alert alert-banner alert-error'><h4><b>Upload is taking longer than expected, please check your network connection</b></h4></div>");
+        }, 5000);
         media_id.val("");
 
         $.ajax(media_url, {
@@ -21,6 +32,10 @@ var initializeGraphicPreview = {
           iframe: true,
           type: 'POST',
         }).complete(function(data) {
+          // Graphic upload finished: enable content submission button and clear timeout message
+          clearTimeout(uploadTimeout);
+          $('#submitContent-Graphic').prop('disabled', false);
+
           media_id.val(data.responseJSON[0].id);
           var img_string = "<img src='<%= Rails.application.config.relative_url_root %>/content/preview/display?media_id=" + media_id.val() + "&type=Graphic&width=" + preview.width() + "' />";
           if (typeof data.responseJSON[0].info !== "undefined") {
@@ -31,22 +46,17 @@ var initializeGraphicPreview = {
           preview.html("Unable to preview at this time.");
         });
       });
-      // console.log('initialized GraphicPreview');
       this.initialized = true;
 
       // Fire off the preview if we already have a media_id, which is the
       // case when validation errors in the form occur.
-      var media_id = $("#graphic_media_attributes_0_id");
       if (media_id.val() !== "" && typeof media_id.val() !== "undefined") {
         var preview = $('#preview_div');
         var file_input = $('#media_file');
         var preview_url = file_input.data('url');
         var img_string = "<img src='<%= Rails.application.config.relative_url_root %>/content/preview/display?media_id=" + media_id.val() + "&type=Graphic&width=" + preview.width() + "' />";
-
         preview.html(img_string);
       }
-    } else {
-      // console.log('already initialized');
     }
   }
 };

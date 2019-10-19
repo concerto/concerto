@@ -1,37 +1,67 @@
-FROM phusion/passenger-ruby21
+# the ruby version is specified in the Dockerfile and the nginx.docker.conf files
+FROM phusion/passenger-ruby25
 
-MAINTAINER Concerto Authors "team@concerto-signage.org"
+LABEL Author="team@concerto-signage.org"
 
+# because phusion says to...
 ENV HOME /root
 CMD ["/sbin/my_init"]
 
+# we need libreoffice to convert documents to pdfs, imagemagick for graphics handling, nmap to tell us if the db is up
+WORKDIR /tmp
+RUN add-apt-repository ppa:libreoffice/ppa
+RUN apt-get update
+RUN install_clean libreoffice ghostscript libgs-dev imagemagick ruby-rmagick libmagickcore-dev libmagickwand-dev nmap gsfonts poppler-utils
+
+# set up for eastern timezone by default
+RUN ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime
+RUN DEBIAN_FRONTEND=noninteractive install_clean tzdata
+
+# enable nginx and configure the site
 RUN rm -f /etc/service/nginx/down
 RUN rm /etc/nginx/sites-enabled/default
-
 COPY tools/nginx.docker.conf /etc/nginx/sites-enabled/concerto.conf
 
-RUN mkdir /home/app/concerto
-
-WORKDIR /tmp
-RUN add-apt-repository "deb http://us.archive.ubuntu.com/ubuntu/ trusty universe"
-RUN apt-get update
-RUN apt-get install -yqq libreoffice
-COPY Gemfile /tmp/
-COPY Gemfile-reporting /tmp/
-COPY Gemfile-plugins /tmp/
-COPY Gemfile.lock /tmp/
-COPY lib/command_check_docker.rb /tmp/lib/command_check.rb
-RUN bundle install
-COPY . /home/app/concerto
-RUN mkdir /home/app/concerto/log
-RUN chown -R app:app /home/app/concerto
-# RUN chmod 700 /home/app/concerto
-# RUN chmod 600 /home/app/concerto/log
-
+# set up the concerto application
+RUN mkdir -p /home/app/concerto/log
+RUN mkdir -p /home/app/concerto/tmp
 WORKDIR /home/app/concerto
-RUN sudo -u app RAILS_ENV=production rake assets:precompile
+COPY . /home/app/concerto
+COPY config/database.yml.docker /home/app/concerto/config/database.yml
+RUN chown -R app:app /home/app/concerto
+RUN setuser app bash --login -c "cd /home/app/concerto && gem install bundler -v '1.17.3' && RAILS_ENV=production bundle install --path=vendor/bundle"
+
+# set up the background worker
+RUN mkdir -p /etc/service/concerto_clockwork
+COPY tools/service.clockwork.docker.sh /etc/service/concerto_clockwork/run
+RUN chmod +x /etc/service/concerto_clockwork/run
+
+RUN mkdir -p /etc/service/concerto_worker
+COPY tools/service.worker.docker.sh /etc/service/concerto_worker/run
+RUN chmod +x /etc/service/concerto_worker/run
+
+# set up migration, and assets to precompile on each startup, but waits for db to be reachable first
+RUN mkdir -p /etc/my_init.d
+COPY tools/startup.docker.sh /etc/my_init.d/99_startup_concerto.sh
+RUN chmod +x /etc/my_init.d/99_startup_concerto.sh
+
+# set up log rotation
+COPY tools/logrotate.app.docker /etc/logrotate.d/concerto
+RUN chmod 0644 /etc/logrotate.d/concerto
+
+# fix Imagemagick policy for converting files
+# https://stackoverflow.com/a/52661288/1778068
+RUN cat /etc/ImageMagick-6/policy.xml | sed 's/domain="coder" rights="none" pattern="PDF"/domain="coder" rights="read|write" pattern="PDF"/' >/etc/ImageMagick-6/policy.xml
 
 WORKDIR /tmp
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-VOLUME ["/home/app/concerto/doc", "/home/app/concerto/log", "/home/app/concerto/tmp", "/home/app/concerto/config"]
+# TODO! we still need to figure out how to handle updates and accommodate changes from optional plugins
+# db for schema.rb changes on migrations from plugins
+# doc for custom help
+# log for logs
+# tmp for locks and assets?
+# public for assets
+# vendor for plugin gems
+# what about Gemfile.lock and Gemfile-plugins and Gemfile-plugins.bak?
+VOLUME ["/home/app/concerto/db", "/home/app/concerto/doc", "/home/app/concerto/log", "/home/app/concerto/tmp", "/home/app/concerto/public", "/home/app/concerto/vendor"]

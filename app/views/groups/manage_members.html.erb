@@ -16,8 +16,8 @@
         <thead>
           <tr>
             <th style="width: 25%;"><%= t('.name') %></th>
-            <th style="width: 25%;" class="tooltip-basic" data-tooltip-text="<%= t('.screen_permission.tooltip') %>"><%= t('.screen_permission.name') %></th>
-            <th style="width: 25%;" class="tooltip-basic" data-tooltip-text="<%= t('.feed_permission.tooltip') %>"><%= t('.feed_permission.name') %></th>
+            <th style="width: 25%;"><%= tooltip_tag t('.screen_permission.tooltip'), t('.screen_permission.name') %></th>
+            <th style="width: 25%;"><%= tooltip_tag t('.feed_permission.tooltip'), t('.feed_permission.name') %></th>
             <th style="width: 25%;">&nbsp;</th>
           </tr>
         </thead>
@@ -127,7 +127,7 @@
         <% if @denied.size > 0 %>
             <span onclick="toggle_prev_denied()">
               <h3 class="default-padding"><%= t('.previously_denied_members') %> &nbsp;
-              <i class="fa fa-plus" id="icon_prev_denied"></i></h3>
+              <i class="fas fa-plus" id="icon_prev_denied"></i></h3>
             </span>
             <div id="prev_denied" value="hidden" style="display: none">
               <div class="second-level-padding" style="padding-top: 0px;">
@@ -177,8 +177,8 @@
               <thead>
                 <tr>
                   <th style="width: 25%;"><%= f.label :name %></th>
-                  <th style="width: 25%;"><%= f.label :screen, t('.screen_permission.name'), class: 'tooltip-basic', 'data-tooltip-text' => t('.screen_permission.tooltip') %></th>
-                  <th style="width: 25%;"><%= f.label :feed, t('.feed_permission.name'), class: "tooltip-basic", 'data-tooltip-text' => t('.feed_permission.tooltip') %></th>
+                  <th style="width: 25%;"><%= tooltip_tag t('.screen_permission.tooltip'), t('.screen_permission.name') %></th>
+                  <th style="width: 25%;"><%= tooltip_tag t('.feed_permission.tooltip'), t('.feed_permission.name') %></th>
                   <th style="width: 25%;">&nbsp;</th>
                 </tr>
               </thead>

@@ -23,7 +23,7 @@
               <% end %>
               <% unless @submission.moderation_flag == false %>
                 <%= link_to "#", class: "btn btn-pronounced dropdown-control dd-moderate danger", title: t('submissions.moderate_title', name: @submission.content.name), rel: "#moderate_deny_#{ @submission.id }" do %>
-                  <span class="fa fa-remove-sign"></span> <%= t(:deny) %>
+                  <span class="fas fa-ban"></span> <%= t(:deny) %>
                 <% end %>
                 <div id="moderate_deny_<%= @submission.id %>" style="display:none;">
                   <div class="form-stacked form-dark">

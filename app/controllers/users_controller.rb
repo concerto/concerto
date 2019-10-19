@@ -1,9 +1,10 @@
 class UsersController < ApplicationController
   respond_to :html, :json, :xml
+  responders :flash
    
   # GET /users
   def index
-    @users = User.page(params[:page]).per(20)
+    @users = User.order('first_name, last_name').page(params[:page]).per(20)
     auth!({action: :list, allow_empty: false, new_exception: false})
     respond_with(@users)
   end
@@ -14,15 +15,15 @@ class UsersController < ApplicationController
     auth!
     @user.email = '' unless user_signed_in?
 
-    @memberships = @user.memberships
+    @memberships = @user.memberships.joins(:group).order('groups.name')
     auth!({action: :read, object: @memberships})
 
-    @contents = @user.contents.where('parent_id IS NULL')
+    @contents = @user.contents.where('parent_id IS NULL').reorder('start_time desc')
     @contents_count = @contents.count
     @contents = Kaminari.paginate_array(@contents).page(params[:page])
     auth!({action: :read, object: @contents})
 
-    @screens = @user.screens.order_by_name + @user.groups.collect{|g| g.screens.order_by_name}.flatten
+    @screens = (@user.screens + @user.groups.collect{|g| g.screens}).flatten.sort_by(&:name)
     auth!({action: :read, object: @screens})
  
     respond_with(@user)
@@ -100,6 +101,7 @@ class UsersController < ApplicationController
 
     process_notification(@user, {}, process_notification_options({params: {user_name: @user.name}}))
     @user.destroy
+    flash[:notice] = t(:user_deleted)
     respond_with(@user)
   end
 

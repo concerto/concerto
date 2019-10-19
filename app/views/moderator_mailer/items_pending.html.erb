@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>
+    <%= t '.concerto_submission_pending_approval' %>
+  </title>
+  <style type="text/css">
+
+      body {
+          margin: 0;
+          padding: 0;
+          font-family: 'Myriad Pro', Helvetica, Arial, sans-serif;
+          height: 100% !important;
+          width: 100% !important;
+
+      }
+
+      img {
+          border: 0;
+          width: 300px;;
+          height: auto;
+          line-height: 100%;
+          outline: none;
+          text-decoration: none;
+          margin: auto;
+          display: block;
+      }
+
+      #messageblock {
+          width: 600px;
+          padding: 12px;
+          background-color: white;
+          -webkit-box-shadow: 0 3px 2px #ababab;
+          -moz-box-shadow: 0 3px 2px #ababab;
+          box-shadow: 0 3px 2px #ababab;
+          display: block;
+          margin: auto;
+          -webkit-border-radius: 8px 8px 0px 0px;
+          -moz-border-radius: 8px 8px 0px 0px;
+          border-radius: 8px 8px 0px 0px;
+      }
+
+      #message {
+          text-align: left;
+      }
+  </style>
+</head>
+<body>
+<div id="messageblock">
+  <%= image_tag '/images/full_logo.png', id: 'logo' %>
+  <div id="message">
+    <%= link_to t('.a_submission_is_pending_moderation'), moderate_feeds_url %>
+  </div>
+</div>
+</body>
+</html>

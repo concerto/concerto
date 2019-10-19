@@ -1,0 +1,93 @@
+.groups-list {
+  list-style: none;
+  margin-left: 0;
+
+  > li {
+    margin-top: 1em;
+  }
+
+  .feeds-item {
+    div {
+      font-size: 14px;
+    }
+
+    .description, .subfeeds  {
+      display: none;
+    }
+  }
+
+  .templates-item {
+    .thumb-icon {
+      float: left;
+      font-size: 14px;
+      padding-right: .5em;
+    }
+
+    .title {
+      font-size: 14px;
+
+      b {
+        font-weight: normal;
+      }
+    }
+    
+    .author, .screens-count {
+      display: none;
+    }
+  }
+}
+
+section.group-show {
+  .title {
+    font-weight: bold;
+    
+    .icon.muted {
+      color: black;
+    }
+
+    .icon {
+      font-size: 45px;
+      float: left;
+      padding-right: .25em;
+    }
+
+    .submittable, .viewable {
+      margin-left: .25em;
+    }
+  }
+
+  .description, .subfeeds  {
+    display: none;
+  }
+}
+
+ul.members-list {
+  margin-top: .5em;
+  margin-bottom: .5em;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 18em);
+  grid-gap: .25rem;
+
+  li.members-item, li.screens-item, li.templates-item, li.feeds-item {
+    list-style: none;
+
+    i[class^="concertocon-"],
+    i[class*=" concertocon-"] {
+      font-size: inherit;
+      line-height: inherit;
+    }
+  
+    font-size: 14px;
+  }
+
+}
+
+ul.list-grid.group-members, ul.list-grid .feeds-item  {
+  li {
+    width: auto;
+  }
+
+  span.badge {
+    margin-left: .25em;
+  }
+}

@@ -1,0 +1,71 @@
+<div class="subblock">
+  <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t(:status) %></b></small></p>
+  <p><% if screen.is_online? %><%= t '.online' %><% else %><%= t '.offline' %><% end %> </p>
+  <% if !screen.mac_address.nil? && can?(:edit, screen) %>
+    <p><small><%= t '.mac_address', mac: screen.mac_address %></small> </p>
+  <% end %>
+
+  <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= Screen.human_attribute_name(:owner_id) %></b></small></p>
+  <p><%= screen_owner(screen, false) %></p>
+
+  <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= Screen.human_attribute_name(:template_id) %></b></small></p>
+  <% unless screen.template.blank? %>
+    <ul class="single-item members-list">
+      <%= render screen.template %>
+    </ul>
+  <% end %>
+
+  <% unless screen.location.blank? %>
+    <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= Screen.human_attribute_name(:location) %></b></small></p>
+    <p><%= screen.location %></p>
+  <% end %>
+
+  <% unless screen.locale.blank? %>
+    <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= Screen.human_attribute_name(:locale) %></b></small></p>
+    <p><%= screen.locale %></p>
+  <% end %>
+
+  <% unless screen.time_zone.blank? %>
+    <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= Screen.human_attribute_name(:time_zone) %></b></small></p>
+    <p><%= screen.time_zone %></p>
+  <% end %>
+
+  <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t '.publicly_viewable' %></b></small></p>
+  <p><%= screen.is_public ? 'Yes' : 'No' %></p>
+
+  <% unless screen.width.blank? or screen.height.blank? %>
+    <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t '.last_detected_dimensions' %></b></small></p>
+    <p><%= screen.width %>w x <%= screen.height %>h, <%= screen.portrait? ? t('.portrait') : t('.landscape') %></p>
+  <% end %>
+
+  <% unless screen.fields.blank? %>
+    <p class="uppercase" style="margin-bottom: 0px;"><small><b><%= t '.fields' %></b></small></p>
+    <ul class="fields">
+      <% screen.fields.order(:name).each do |field| %>
+        <% set_screen_field_data(screen, field) %>
+        <li>
+          <%= field.name %>
+
+          <% unless @subscriptions.blank? %>
+            <ul class="field-details">
+            <% @subscriptions.map(&:feed).sort{|a, b| a.name <=> b.name}.each do |feed| %>
+              <%= render feed %>
+            <% end %>
+            </ul>
+          <% end %>
+
+          <% unless @field_configs.blank? %>
+            <ul class="field-details">
+            <% @field_configs.sort_by(&:key).each do |fc| %>
+              <li><i class="fas fa-cog" title="config"></i> <%= fc.key %>: <%= fc.value %></li>
+            <% end %>
+            </ul>
+          <% end %>
+
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+
+</div>

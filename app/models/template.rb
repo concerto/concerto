@@ -1,4 +1,6 @@
 class Template < ActiveRecord::Base
+  require 'mime/types'
+
   include ActiveModel::ForbiddenAttributesProtection
   include PublicActivity::Common if defined? PublicActivity::Common
 
@@ -18,6 +20,8 @@ class Template < ActiveRecord::Base
 
   # Validations
   validates :name, presence: true, uniqueness: true
+
+  default_scope { order('templates.name asc') }
 
   #Placeholder attributes
   attr_accessor :path, :css_path

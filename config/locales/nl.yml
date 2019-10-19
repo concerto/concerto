@@ -492,6 +492,8 @@ nl:
     browse_body:
       no_content_heading: "I'm afraid we're not in Kansas anymore."
       no_content_message: "There doesn't appear to be anything you can view on this Concerto network. You should "
+      not_submittable: Submissions not Allowed
+      not_viewable: Not Viewable
       sign_in: Sign In
       sign_up: Sign Up
     browse_header:
@@ -727,10 +729,18 @@ nl:
   membership_promoted_failure: Lid promoveren tot groepsleider niet geslaagd.
   membership_unknown_action: Onbekende ledenactie.
   missing_default_type: Missing Default Content Type
+  moderator_mailer:
+    items_pending:
+      a_submission_is_pending_moderation: A submission is pending moderation.
+      concerto_submission_pending_approval: Concerto Submission Pending Approval
   my_model: 'Mijn %{model}'
   name: name
   new_model: 'Nieuw %{model}'
+  "no": "No"
   other_model: 'Ander %{model}'
+  owns_templates:
+    one: Owns one Template
+    other: Owns %{count} Templates
   parameter:
     one: parameter
     other: parameters
@@ -913,6 +923,7 @@ nl:
         one: '%{count} item pending your moderation'
         other: '%{count} items pending your moderation'
       submit_something: submit something
+      subscribed_to_screens: Subscribed to Screens
       to_make_this_feed_happy: to make this feed a happier place?
       toggle_content_states_to_display: Toggle content states to display...
       type_to_filter: Type here to filter
@@ -1005,7 +1016,7 @@ nl:
   time:
     formats:
       date: '%D'
-      date_long_year: '%m/%d/%Y'
+      date_long_year: '%d-%m-%Y'
       date_time: '%D, %l:%M %p'
       long_day: '%A %B %e at %l:%m %p'
       month_day: '%m/%d'
@@ -1031,7 +1042,12 @@ nl:
       options: Options
       provide_details: Provide Details
     index:
+      denied: Denied
+      leader: Leader
+      moderator: Moderator
       name: Name
+      pending: Pending
+      system_admin: Admin
     show_body:
       admin: Admin
       content: Content
@@ -1057,3 +1073,4 @@ nl:
       this_is_you: This is you.
   valid_git: is not a valid git repository
   wont_write_restart_txt: Concerto kan je webserver niet herstarten. Herstart manueel a.u.b.
+  "yes": "Yes"

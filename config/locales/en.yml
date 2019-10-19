@@ -4,18 +4,18 @@ en:
   activerecord:
     attributes:
       concerto_config:
-        allow_registration: Allow open user registration
-        allow_user_feed_creation: Allow user feed creation
-        allow_user_screen_creation: Allow user screen creation
-        analytics_enabled: Google Analytics enabled
+        allow_registration: Allow Open User Registration
+        allow_user_feed_creation: Allow User Feed Creation
+        allow_user_screen_creation: Allow User Screen Creation
+        analytics_enabled: Google Analytics Enabled
         analytics_property_id: Google Web Property ID (API Key)
         autostart_delayed_job: Autostart Delayed Job Processor
-        confirmable: 'Users must confirm their accounts '
-        content_default_end_time: Default end time for content
-        content_default_start_time: Default start time for content
+        confirmable: 'Users Must Confirm their Accounts '
+        content_default_end_time: Default End Time for Content
+        content_default_start_time: Default Start Time for Content
         default_content_duration: Default Content Duration
-        default_content_run_time: Default content run time (in days)
-        default_upload_type: Default content upload type
+        default_content_run_time: Default Content Run Time (in days)
+        default_upload_type: Default Content Upload Type
         dynamic_refresh_time: Dynamic Content Refresh Time
         footer_html: Footer HTML
         http_proxy_settings: HTTP Proxy Settings
@@ -26,20 +26,26 @@ en:
         max_content_duration: Max Content Duration (in seconds)
         min_content_duration: Minimum Content Duration (in seconds)
         motd_html: '''Message of the Day'' HTML'
+        open_weather_map_api_key: Open Weather Map API Key
         openssl_verify_mode_none: No SMTP SSL Certificate Verification
-        poll_interval: Hardware player polling interval
-        public_concerto: Public Concerto access
+        poll_interval: Hardware Player Polling Interval
+        public_concerto: Public Concerto Access
         rubygem_executable: Ruby Gem Executable
+        screens_clear_last_content: Clear Last Content Item from Screen
+        secret_token: Secret Token
         send_errors: Notify Developers of Errors
+        session_store: Session Store
         setup_complete: Concerto setup complete
         smtp_address: SMTP Server
         smtp_auth_type: SMTP Authentication Type
         smtp_password: SMTP Password
         smtp_port: SMTP Port
         smtp_username: SMTP Username
-        start_date_offset: Time between submission and content start
+        start_date_offset: Time Between Submission and Content Start
         system_time_zone: System Time Zone
         use_frontend_to_trigger_cron: Use Frontend to Trigger Cron
+        vimeo_api_key: Vimeo API Key
+        youtube_api_key: YouTube API Key
       concerto_plugin:
         enable: Enable Gem?
         gem_name: Gem Name
@@ -193,8 +199,7 @@ en:
       check_configuration: Check Configuration
       edit_settings: Edit Global Settings
       global_settings: Global Settings
-      restart_confirm: Restarting the webserver may take a 10 to 20 seconds. Are you sure you'd like
-        to restart?
+      restart_confirm: Restarting the webserver may take 10 to 20 seconds. Are you sure you'd like to restart?
       restart_webserver: Restart Webserver
       save_settings: Save Settings
   concerto_plugins:
@@ -505,8 +510,13 @@ en:
       no_content_heading: I'm afraid we're not in Kansas anymore.
       no_content_message: 'There doesn''t appear to be anything you can view on this Concerto network.
         You should '
+      not_submittable: Submissions not Allowed
+      not_viewable: Not Viewable
       sign_in: Sign In
       sign_up: Sign Up
+      submissions_to_moderate:
+        one: You have %{count} submission to moderate
+        other: You have %{count} submissions to moderate
     browse_header:
       browse_content: Browse Concerto Content
     denied: Denied
@@ -735,10 +745,18 @@ en:
   membership_promoted_failure: Member was not successfully promoted to group leader
   membership_unknown_action: Unknown Membership action submitted.
   missing_default_type: Missing Default Content Type
+  moderator_mailer:
+    items_pending:
+      a_submission_is_pending_moderation: A submission is pending moderation.
+      concerto_submission_pending_approval: Concerto Submission Pending Approval
   my_model: My %{model}
   name: name
   new_model: New %{model}
+  "no": "No"
   other_model: Other %{model}
+  owns_templates:
+    one: Owns one Template
+    other: Owns %{count} Templates
   parameter:
     one: parameter
     other: parameters
@@ -806,7 +824,7 @@ en:
     import_the_model: imported the %{model}
     membership:
       article: the
-      approve: 
+      approve:
         approved_member_of_group: '%{owner} approved %{member} in the %{group} group as a %{role}'
         leader: leader
         regular_member: regular member
@@ -815,13 +833,13 @@ en:
         leader: leader
         regular_member: regular member
         pending_regular_member: pending regular member
-      demote: 
+      demote:
         leader: leader
         regular_member: regular member
         demoted_member_of_group: '%{owner} demoted %{member} in the %{group} group to a %{role}'
       update:
         updated_member_of_group: '%{owner} %{action} %{member} in the %{group} group'
-      promote: 
+      promote:
         leader: leader
         regular_member: regular member
         promoted_member_of_group: '%{owner} promoted %{member} in the %{group} group to a %{role}'
@@ -893,6 +911,10 @@ en:
       field_settings:
         one: Field Setting
         other: Field Settings
+    show_details:
+      last_detected_dimensions: Last Detected Dimensions
+      publicly_viewable: Publicly Viewable
+      fields: Fields
     template_selection:
       best_fit_templates: Best-Fit Templates
       select_template: Select Template
@@ -920,6 +942,7 @@ en:
       the_dawn_of_time: The Dawn of Time.
       the_end_of_time: The End of Time.
     index_body:
+      allowed_types: Allowed Types
       click_to_jump: Click on a feed to jump
       items_in_state:
         active:
@@ -951,6 +974,7 @@ en:
         one: '%{count} item pending your moderation'
         other: '%{count} items pending your moderation'
       submit_something: submit something
+      subscribed_to_screens: Subscribed to Screens
       to_make_this_feed_happy: to make this feed a happier place?
       toggle_content_states_to_display: Toggle content states to display...
       type_to_filter: Type here to filter
@@ -1043,6 +1067,9 @@ en:
       edit_template: Edit Template
     template:
       by: by %{author}
+      screens:
+        one: 1 Screen
+        other: '%{count} Screens'
   time:
     formats:
       date: '%D'
@@ -1061,6 +1088,7 @@ en:
   user_not_created: User not created
   user_not_deletable: A user owning screens or who is the last remaining administrator cannot be deleted.
   user_owns_screens: This user cannot be deleted because they own one or more screens.
+  user_deleted: User was successfully deleted.
   user_updated: User was successfully updated.
   users:
     all_users: All Users
@@ -1072,7 +1100,12 @@ en:
       options: Options
       provide_details: Provide Details
     index:
+      denied: Denied
+      leader: Leader
+      moderator: Moderator
       name: Name
+      pending: Pending
+      system_admin: System Admin
     show_body:
       admin: Admin
       content: Content
@@ -1098,3 +1131,4 @@ en:
       this_is_you: This is you.
   valid_git: is not a valid git repository
   wont_write_restart_txt: Concerto does not support restarting your webserver. Please restart it manually.
+  "yes": "Yes"

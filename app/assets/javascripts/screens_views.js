@@ -77,10 +77,18 @@ function initScreenFieldTooltip() {
 function initScreensViews() {
   // inset-selection gridlist: when a user clicks on an item in this
   // type of gridlist, auto-select the input that's inside of the item
-  $("ul.list-grid.inset-selection li img").click(function(e) {
-    e.preventDefault();
-    $(this).parents('li').find(".inp input").prop("checked", true);
+  $("ul.list-grid.inset-selection").on('click', 'li', function(e) {
+    // don't uncheck a radio button that was just clicked on
+    if (e.target.nodeName !== 'INPUT') {
+      e.preventDefault();
+      $(this).find(".inp input").prop("checked", true).trigger('change');
+    }
   });
+  $("ul.list-grid.inset-selection li .inp").on('change', 'input[type=radio]', function(e) {
+    $(this).closest('ul').find('li').removeClass('selected');
+    $(this).closest('li').addClass('selected');
+  });
+
 
   $("#screen_owner_type").change(function() {
     // make a POST call and replace the content

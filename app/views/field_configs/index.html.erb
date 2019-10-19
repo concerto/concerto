@@ -6,7 +6,7 @@
           <form action="<%= new_screen_field_field_config_path %>" method="GET">
             <% keys = get_available_keys(@screen, @field) %>
             <% if !keys.empty? %>
-              <%= select_tag "key", options_for_select(keys), include_blank: true %>
+              <%= select_tag "key", options_for_select(keys), include_blank: false %>
             <% end %>
             <%= submit_tag t(:new_model, model: FieldConfig.model_name.human), class: "btn", name:nil %>
           </form>

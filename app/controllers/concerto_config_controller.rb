@@ -41,6 +41,10 @@ class ConcertoConfigController < ApplicationController
       config = ConcertoConfig.where(key: k).first
       # since all they can change is the value, only create/update if it changed
       if config.nil? || config.value != v
+        # translate back to english
+        if k == "content_default_start_time" || k == "content_default_end_time"
+          v = v.gsub(I18n.t('time.am'), "am").gsub(I18n.t('time.pm'), "pm")
+        end
         if config.nil?
           config = ConcertoConfig.new(key: k, value: v)
           config.save

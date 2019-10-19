@@ -23,6 +23,8 @@ class Group < ActiveRecord::Base
 
   before_save :update_membership_perms
 
+  default_scope { order 'LOWER(groups.name)' }
+
   #Newsfeed
   include PublicActivity::Common if defined? PublicActivity::Common
 
@@ -62,6 +64,10 @@ class Group < ActiveRecord::Base
   # Test if a user has requested membership in this group
   def made_request?(user)
     all_users.include?(user)
+  end
+
+  def moderators
+    memberships.map { |m| m if m.is_moderator? }
   end
 
   # Test if a user can be demoted to regular member or removed from a group

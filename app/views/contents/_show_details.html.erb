@@ -17,6 +17,11 @@
 
   <p class="uppercase"><small><b><%= t('.submitted_by') %></b></small></p>
   <p><%= link_to user.name, user %></p>
+
+  <% if content.media.present? && content.media.preferred.present? %>
+    <p class="uppercase"><small><b><%= t('.file_size') %></b></small></p>
+    <p><%= number_to_human_size(content.media.preferred.first.file_size) %></p>
+  <% end %>
 </div>
 
 <%= ConcertoPlugin.render_view_hook self, :content_details, { content: content, user: user } %>

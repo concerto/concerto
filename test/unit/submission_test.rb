@@ -98,6 +98,14 @@ class SubmissionTest < ActiveSupport::TestCase
     assert_equal "Pending", submissions(:pending_ticker).moderation_text
   end
 
+  test "unsent scope does not return sent items" do
+    assert_equal 5, Submission.pending.unsent.count
+    s = submissions(:pending_child)
+    s.pending_notification_sent =  DateTime.now
+    s.save
+    assert_equal 4, Submission.pending.unsent.count
+  end
+
   test "deny expired pending content" do
     assert submissions(:pending_ticker).is_pending?
     assert submissions(:important_dynamic).is_pending?

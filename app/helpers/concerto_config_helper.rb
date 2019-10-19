@@ -27,7 +27,7 @@ module ConcertoConfigHelper
   end
   
   def test_symbol(test_boolean)
-    "<i class='fa fa-#{test_boolean ? "check-square-o" : "exclamation-triangle"} #{test_boolean ? "is_approved" : "is_denied"} fa-lg'></i> &nbsp;".html_safe
+    "<i class='fas fa-#{test_boolean ? "check-square" : "exclamation-triangle"} #{test_boolean ? "is_approved" : "is_denied"} fa-lg'></i> &nbsp;".html_safe
   end
     
   def imagemagick_text

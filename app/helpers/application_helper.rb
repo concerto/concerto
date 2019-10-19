@@ -16,7 +16,7 @@ module ApplicationHelper
 
   def help_link(page_name)
     link_to controller: :pages, action: :show, id: page_name do
-      content_tag(:span, "", class: "fa fa-question").html_safe
+      content_tag(:span, "", class: "fas fa-question-circle").html_safe
     end
   end
   
@@ -36,7 +36,7 @@ module ApplicationHelper
   def tooltip_tag(tip, text = nil, options = nil)
     results = []
     results << content_tag(:span, text, options) + " " if !text.nil? && !text.blank?
-    results << content_tag(:i, nil, { class: "fa fa-question-circle muted tooltip-basic", data: { tooltip_text: tip } })
+    results << content_tag(:i, nil, { class: "fas fa-question-circle muted tooltip-basic", data: { tooltip_text: tip } })
     results.join.html_safe
   end
 

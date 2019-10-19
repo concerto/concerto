@@ -43,8 +43,10 @@
             <%= link_to membership.group do %>
               <% if membership.is_leader? %>
                 <i class="concertocon-controller-users-leader"></i>
+              <% elsif membership.is_moderator? %>
+                <i class="fas fa-user-shield"></i>
               <% else %>
-                <i class="fa fa-group"></i>
+                <i class="fas fa-user"></i>
               <% end %>
             <% end %>
           </div>
@@ -80,6 +82,18 @@
   <br />
   <%= render partial: "screens/thumbs", object: @screens,
              locals: { show_field_count: false, show_owner: false } %>
+</div>
+
+<!-- Begin Templates -->
+<div class="clearfix default-padding">
+  <div class="header-with-icon">
+    <h3>
+      <%= t 'owns_templates', count: @user.templates.count %>
+    </h3>
+  </div>
+  <ul class="list-grid group-members">
+    <%= render @user.templates %>
+  </ul>
 </div>
 
 <!-- Begin Contents -->

@@ -42,6 +42,8 @@ class Screen < ActiveRecord::Base
   validates :authentication_token, uniqueness: {allow_nil: true, allow_blank: true}
   validate :unsecured_screens_must_be_public
 
+  validates :locale, format: { with: /\A[a-z]{2}(\-[A-Z]{2}){0,1}\Z/, message: 'format is xx or xx-XX' }, allow_blank: true
+
   def unsecured_screens_must_be_public
     if !is_public? and (unsecured? or auth_by_mac?)
       errors.add(:base, 'Screens must be publicly viewable if they are not secured by a token.')
@@ -85,19 +87,19 @@ class Screen < ActiveRecord::Base
     update_column(:frontend_updated_at, Clock.time)
   end
 
-  # Mark the screen as updated some percentage of the time.
-  # Doesn't always mark the screen as updated to avoid flooding the database
-  # but does it frequently enought for online / offline detection.
-  def sometimes_mark_updated(pct=0.1)
-    mark_updated if rand() <= pct
+  # Mark the screen as updated if it will soon fall into offline status
+  def sometimes_mark_updated
+    if is_offline?(Screen::OFFLINE_THRESHOLD - 1.minute)
+      mark_updated
+    end
   end
 
   def is_online?
     !frontend_updated_at.nil? && frontend_updated_at >= (Clock.time - Screen::ONLINE_THRESHOLD)
   end
 
-  def is_offline?
-    frontend_updated_at.nil? || frontend_updated_at < (Clock.time - Screen::OFFLINE_THRESHOLD)
+  def is_offline?(within = Screen::OFFLINE_THRESHOLD)
+    frontend_updated_at.nil? || frontend_updated_at < (Clock.time - within)
   end
 
   def self.find_by_mac(mac_addr)
@@ -254,6 +256,8 @@ class Screen < ActiveRecord::Base
   #    respond to the `updated_at` method and are skipped if they do not.
   # @return [String] The cache key for this frontend string.
   def frontend_cache_key(*args)
+    require 'digest/md5'
+
     max_updated_at = self.updated_at.try(:utc).try(:to_i)
     max_updated_at = [self.template.updated_at.try(:utc).try(:to_i), max_updated_at].max
     self.template.positions.each do |p|
@@ -280,7 +284,15 @@ class Screen < ActiveRecord::Base
         end
       end
     end
-    return "frontend-screen/#{self.id}-#{self.template.id}-#{max_updated_at}"
+    # other items that affect the key but dont have timestamps (such as config settings)
+    other = []
+    other << ConcertoConfig['screens_clear_last_content']
+    other_md5 = Digest::MD5.hexdigest(other.to_s)
+    return "frontend-screen/#{self.id}-#{self.template.id}-#{max_updated_at}-#{other_md5}"
+  end
+
+  def portrait?
+    width.present? && height.present? && height > width
   end
 
 private

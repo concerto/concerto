@@ -1,6 +1,6 @@
 <div class="viewblock-header_right">
   <div class="button-padding">
-    <% if can? :update, @submission.content %>
+    <% if can?(:update, @submission.content) && @submission.content.parent_id.blank? %>
       <%= link_to t(:edit_model, model: Content.model_name.human), edit_content_path(@submission.content), class: "btn" %>
     <% end %>
     <% if can? :delete, @submission.content %>
@@ -11,11 +11,11 @@
 
 <div class="default-padding">
   <h1 id="contentlist">
-    <%= link_to t('.all_feeds'), feeds_path %> &gt; 
+    <%= link_to t('.all_feeds'), feeds_path %> &gt;
     <% @submission.feed.ancestors.reverse.each do |ancestor_feed| %>
-    <%= link_to ancestor_feed.name, feed_submissions_path(ancestor_feed) %> &gt; 
+    <%= link_to ancestor_feed.name, feed_submissions_path(ancestor_feed) %> &gt;
     <% end %>
-    <%= link_to @submission.feed.name, feed_submissions_path(@submission.feed) %> &gt; 
+    <%= link_to @submission.feed.name, feed_submissions_path(@submission.feed) %> &gt;
     <%= @submission.content.name %>
   </h1>
 </div>

@@ -30,14 +30,17 @@ class UserFeedAbilityTest < ActiveSupport::TestCase
     ability = Ability.new(users(:katie))
     assert ability.can?(:update, @service)
     assert ability.can?(:delete, @service)
+    assert ability.can?(:moderate, @service)
 
     ability = Ability.new(users(:kristen))
     assert ability.cannot?(:update, @service)
     assert ability.cannot?(:delete, @service)
+    assert ability.cannot?(:moderate, @service)
 
     ability = Ability.new(User.new)
     assert ability.cannot?(:update, @service)
     assert ability.cannot?(:delete, @service)
+    assert ability.cannot?(:moderate, @service)
 
     membership = memberships(:karen_wtg)
     membership.perms[:feed] = :all
@@ -45,6 +48,7 @@ class UserFeedAbilityTest < ActiveSupport::TestCase
     ability = Ability.new(users(:karen))
     assert ability.can?(:update, @service)
     assert ability.can?(:delete, @service)
+    assert ability.can?(:moderate, @service)
 
     [:none, :submissions].each do |p|
       membership.perms[:feed] = p
@@ -52,6 +56,11 @@ class UserFeedAbilityTest < ActiveSupport::TestCase
       ability = Ability.new(users(:karen))
       assert ability.cannot?(:update, @service)
       assert ability.cannot?(:delete, @service)
+      if p == :none
+        assert ability.cannot?(:moderate, @service)
+      elsif p == :submissions
+        assert ability.can?(:moderate, @service)
+      end
     end
   end
 
