@@ -46,7 +46,7 @@ function bindListeners() {
 }
 
 function updatePluginBeforeSend(e, data, status, xhr) {
-  $('#updatePluginResults').html('<span class="fas fa-spinner fa-spin"></span> Updating...');
+  $('#updatePluginResults').html('<span class="fas fa-sync-alt fa-spin"></span> Updating...');
 }
 
 function updatePluginError(e, data, status, xhr) {

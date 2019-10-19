@@ -36,7 +36,7 @@
               <h1>
                 <%= status_badge concerto_plugin.enabled %>
                 <span class="upgradeable">
-                  <i class="fas fa-spinner fa-spin"></i>
+                  <i class="fas fa-sync-alt fa-spin"></i>
                 </span>
               </h1>
               <script>
@@ -48,7 +48,7 @@
             </td>
 
             <td class="description">
-              <i class="fas fa-spinner fa-spin"></i>
+              <i class="fas fa-sync-alt fa-spin"></i>
               <script>
                 $('tr[data-id=<%=concerto_plugin.id %>] td.description').load('/concerto_plugins/<%= concerto_plugin.id %>/description');
               </script>
