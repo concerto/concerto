@@ -25,20 +25,10 @@ class ConcertoPluginsController < ApplicationController
     concerto_plugin = ConcertoPlugin.find(params[:id])
     auth!
 
-    gemspec = Gem.loaded_specs[concerto_plugin.gem_name]
-    @upgradeable = !gemspec.nil? && !concerto_plugin.rubygems_current_version.nil? && (Gem::Version.new(concerto_plugin.rubygems_current_version.to_s) > Gem::Version.new(gemspec.version.to_s))
-
-    render layout: false
-  end
-
-  # GET /concerto_plugins/1/description
-  # GET /concerto_plugins/1/description.json
-  def description
-    concerto_plugin = ConcertoPlugin.find(params[:id])
-    auth!
-
     @gemspec = Gem.loaded_specs[concerto_plugin.gem_name]
-    render layout: false
+    @upgradeable = !@gemspec.nil? && !concerto_plugin.rubygems_current_version.nil? && (Gem::Version.new(concerto_plugin.rubygems_current_version.to_s) > Gem::Version.new(@gemspec.version.to_s))
+
+    render json: { upgradeable: @upgradeable, description: @gemspec ? @gemspec.description : '' }
   end
 
   # GET /concerto_plugins/new

@@ -33,15 +33,12 @@
           <tr data-id="<%= concerto_plugin.id %>">
 
             <td>
-              <h1>
+              <h3>
                 <%= status_badge concerto_plugin.enabled %>
                 <span class="upgradeable">
                   <i class="fas fa-sync-alt fa-spin"></i>
                 </span>
-              </h1>
-              <script>
-                $('tr[data-id=<%=concerto_plugin.id %>] span.upgradeable').load('/concerto_plugins/<%= concerto_plugin.id %>/upgradeable');
-              </script>
+              </h3>
             </td>
             <td>
               <h3><%= link_to(concerto_plugin.name.titleize, action: :show, id: concerto_plugin.id) %></h3>
@@ -50,7 +47,20 @@
             <td class="description">
               <i class="fas fa-sync-alt fa-spin"></i>
               <script>
-                $('tr[data-id=<%=concerto_plugin.id %>] td.description').load('/concerto_plugins/<%= concerto_plugin.id %>/description');
+              $.get('/concerto_plugins/<%= concerto_plugin.id %>/upgradeable.json')
+                .done(function (data) {
+                  $('tr[data-id=<%=concerto_plugin.id %>] td.description').text(data.description);
+                  if (data.upgradeable) {
+                    $('tr[data-id=<%=concerto_plugin.id %>] span.upgradeable').html('<%=content_tag(:i, nil, class: 'fas fa-level-up-alt tooltip-basic', 'data-tooltip-text' => t('concerto_plugins.index.upgrade_available')) %>');
+                  } else {
+                    $('tr[data-id=<%=concerto_plugin.id %>] span.upgradeable').html('');
+                  }
+                  $('tr[data-id=<%=concerto_plugin.id %>] span.upgradeable').html('');
+                })
+                .fail(function() {
+                  $('tr[data-id=<%=concerto_plugin.id %>] td.description').html('');
+                  $('tr[data-id=<%=concerto_plugin.id %>] span.upgradeable').html('');
+                });
               </script>
             </td>
           </tr>
