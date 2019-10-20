@@ -6,5 +6,10 @@
   <% else %>
     <i class="fas fa-user muted"></i>
   <% end %>
-  <%= link_to_if can?(:read, membership.user), membership.user.name, user_path(membership.user) %>
+  <% if !local_variables.include?(:user) || user %>
+    <%= link_to_if can?(:read, membership.user), membership.user.name, user_path(membership.user) %>
+  <% end %>
+  <% if local_variables.include?(:group) && group %>
+    <%= link_to_if can?(:read, membership.group), membership.group.name, group_path(membership.group) %>
+  <% end %>
 </li>
