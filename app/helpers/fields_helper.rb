@@ -1,9 +1,9 @@
 module FieldsHelper
   def field_templates(field)
-    names = Array.new
+    templates = Array.new
     field.positions.each do |p| 
-      names << p.template.name 
+      templates << p.template unless templates.include?(p.template)
     end
-    return names.uniq
+    templates.sort{|a, b| a.name <=> b.name}
   end
 end

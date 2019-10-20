@@ -1,4 +1,4 @@
-<section class="viewblock">
+<section class="viewblock fields-index">
   <header class="viewblock-header">
     <div class="viewblock-header_right">
       <div class="button-padding">
@@ -24,9 +24,13 @@
       <tbody>
         <% @fields.each do |field| %>
           <tr>
-            <td><h3><%= link_to(field.name.titleize, action: :edit, id: field.id) %></h3></td>
-            <td><h3><%= field.kind.name %></h3></td>
-            <td><h3><%=field_templates(field).join(', ')%></h3></td>
+            <td><%= link_to(field.name.titleize, action: :edit, id: field.id) %></td>
+            <td><%= field.kind.name %></td>
+            <td>
+              <ul class="members-list">
+                <%= render field_templates(field) %>
+              </ul>
+            </td>
           </tr>
         <% end %>
       </tbody>
