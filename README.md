@@ -8,16 +8,28 @@ Full Installation Instructions: [https://github.com/concerto/concerto/wiki/Insta
 
 Concerto is an open source digital signage system. Users submit graphic, textual, and other content, and moderators approve that content for use in a variety of content feeds which are displayed on screens connected to computers displaying the Concerto frontend.
 
+Each screen has a template that has fields designated for content.  The template can also have a background graphic and a CSS stylesheet.  You can easily define your own templates.
+
+A screen can subscribe its fields to feeds (or channels).  Screens can be public or private (requiring a token).
+
+Users can create content (an image, an iframe, video, rss content, etc.) and submit it to various feeds.  The content can be scheduled for a specific date range.  Content submitted to a feed can be ordered on that feed if desired.  The default ordering is by content start date.
+
+Feeds can be hidden or locked.  Feeds belong to groups.  If the user that submitted the content is an administrator or is authorized to moderate content on the feed based on their group membership permissions then the submission is automatically approved.  Otherwise the content submission to the feed is pending a moderator’s approval.
+
+A screen can define the content display rules for each field. This includes whether content should be displayed in order or randomly or based on priority.  It can also designate the animation for transitions when content is swapped out and in.
+
+There are various plugins that extend functionality which can be added as desired.  You can even write your own.
+
 ## Dependencies
 
-* Ruby 2.3.8 or newer
+* Ruby 2.4.6 or newer
 * Rubygems
 * Imagemagick, GhostScript, Poppler-Utils
 * LibreOffice
 * Webserver (Apache/Unicorn/Thin/Nginx)
 * Rack interface to the webserver (Passenger, FastCGI)
 * ActiveRecord-compatible database (Mysql, SQLite, Postgres)
-* Nodejs as the javascript engine (as of version 2.3.7)
+* Nodejs as the javascript engine (as of version 2.4.0)
 
 ## Docker Image
 
@@ -26,12 +38,13 @@ To build and run the docker image locally, (make sure you don't already have por
 ```
 1. git clone http://github.com/concerto/concerto
 2. cd concerto
-3. bundle install
-4. docker build -t concerto .
-5. docker-compose up
+3. docker build -t concerto .
+4. docker-compose up
 ```
 
 To get into the concerto container: `docker exec -t -i concerto_concerto_1 bash -l` and then you can also "login" as the app user via `setuser app bash --login`.
+
+** Note - we are still working on a viable docker image capable of handling persistence and upgrades. **
 
 ## Debian Package Installation
 
