@@ -34,7 +34,7 @@
 
             <td>
               <h3>
-                <%= status_badge concerto_plugin.enabled %>
+                <%= status_badge (concerto_plugin.installed? && concerto_plugin.enabled) %>
                 <span class="upgradeable">
                   <i class="fas fa-sync-alt fa-spin"></i>
                 </span>
