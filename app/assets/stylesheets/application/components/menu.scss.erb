@@ -64,6 +64,11 @@ nav {
 
 	section {
 
+		i {
+			margin-right: 10px;
+			width: 15px;
+		}
+
 		.menu-title > h1 {
 			margin-left: 15px;
 			text-transform: uppercase;
@@ -103,6 +108,15 @@ nav {
 		// -16px for scrollbar size
 		width: calc( #{$menuWidth - 2 * 15px} - 16px );
 		background: $menuColor;
+		h2 {
+			font-size: 15px;
+		}
+		& a {
+			&:hover {
+				color: $grayLight;
+			}
+			color: $gray;
+		}
 	}
 }
 

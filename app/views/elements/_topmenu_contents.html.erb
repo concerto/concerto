@@ -35,11 +35,11 @@
         <h1><%= t('.content') %></h1>
       </div>
       <div class="menu-actions">
-        <%= link_to t('.browse'), main_app.feeds_path, class: "#{ current_page?(main_app.feeds_path) ? 'selected' : '' }" %>
-        <%= link_to t(:add), main_app.new_content_path, class: "#{ current_page?(main_app.new_content_path) ? 'selected' : '' }" if can? :create, Content %>
+        <%= link_to icon('fas', 'home')+t('.browse'), main_app.feeds_path, class: "#{ current_page?(main_app.feeds_path) ? 'selected' : '' }" %>
+        <%= link_to icon('fas', 'file-export')+t(:add), main_app.new_content_path, class: "#{ current_page?(main_app.new_content_path) ? 'selected' : '' }" if can? :create, Content %>
         <% if @pending_submissions_count > 0 %>
           <%= link_to main_app.moderate_feeds_path, class: "tooltip-basic #{ current_page?(main_app.moderate_feeds_path) ? 'selected' : '' }", 'data-tooltip-text' => t('.submissions_to_moderate', count: @pending_submissions_count) do %>
-            <%= t('.moderate') %>&nbsp;<span class="badge<% if @pending_submissions_count > 0 %> action<% end %>"><%= @pending_submissions_count %></span>
+            <%= icon('fas', 'lock-open')+t('.moderate') %>&nbsp;<span class="badge<% if @pending_submissions_count > 0 %> action<% end %>"><%= @pending_submissions_count %></span>
           <% end %>
         <% end %>
       </div>
@@ -52,8 +52,8 @@
         <h1><%= t('.network') %></h1>
       </div>
       <div class="menu-actions">
-        <%= link_to t('.screens'), main_app.screens_path, class: "#{ controller.controller_name == 'screens' ? 'selected' : '' }" %>
-        <%= link_to t('.users_and_groups'), main_app.groups_path, class: "#{ controller.controller_name == 'groups' ? 'selected' : '' }" %>
+        <%= link_to icon('fas', 'desktop')+t('.screens'), main_app.screens_path, class: "#{ controller.controller_name == 'screens' ? 'selected' : '' }" %>
+        <%= link_to icon('fas', 'users')+t('.users_and_groups'), main_app.groups_path, class: "#{ controller.controller_name == 'groups' ? 'selected' : '' }" %>
       </div>
     </section>
     <!-- End Menu for NETWORK -->
@@ -65,11 +65,11 @@
           <h1><%= t('.admin') %></h1>
         </div>
         <div class="menu-actions">
-          <%= link_to t('.pages'), main_app.pages_path, class: "#{ (controller.controller_name == 'pages') ? 'selected' : '' }" %>
-          <%= link_to t('.settings'), main_app.concerto_config_path, class: "#{ (controller.controller_name == 'concerto_config') ? 'selected' : '' }" %>
-          <%= link_to t('.plugins'), main_app.concerto_plugins_path, class: "#{ (controller.controller_name == 'concerto_plugins') ? 'selected' : '' }" %>
-          <%= link_to t(".users"), main_app.users_path, class: "#{ controller.controller_name == 'users' ? 'selected' : '' }" %>
-          <%= link_to t('.templates'), main_app.templates_path, class: "#{ (controller.controller_name == 'templates') ? 'selected' : '' }" %>
+          <%= link_to icon('fas', 'file')+t('.pages'), main_app.pages_path, class: "#{ (controller.controller_name == 'pages') ? 'selected' : '' }" %>
+          <%= link_to icon('fas', 'sliders-h')+t('.settings'), main_app.concerto_config_path, class: "#{ (controller.controller_name == 'concerto_config') ? 'selected' : '' }" %>
+          <%= link_to icon('fas', 'dolly-flatbed')+t('.plugins'), main_app.concerto_plugins_path, class: "#{ (controller.controller_name == 'concerto_plugins') ? 'selected' : '' }" %>
+          <%= link_to icon('fas', 'user-cog')+t(".users"), main_app.users_path, class: "#{ controller.controller_name == 'users' ? 'selected' : '' }" %>
+          <%= link_to icon('fas', 'box-open')+t('.templates'), main_app.templates_path, class: "#{ (controller.controller_name == 'templates') ? 'selected' : '' }" %>
         </div>
 
       </section>
