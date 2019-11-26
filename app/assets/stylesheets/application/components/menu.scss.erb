@@ -185,5 +185,10 @@ nav.minimized {
 }
 
 .no-animation {
-	transition: all 0s;
+	transition: all 0s !important;
+	> * {
+		transition: all 0s !important;
+	} & + .container-fluid {
+		transition: all 0s !important;
+	}
 }
