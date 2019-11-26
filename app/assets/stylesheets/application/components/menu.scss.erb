@@ -179,28 +179,10 @@ nav.minimized {
 
 // Media queries for mobile phones
 @media (max-width: 767px) {
-
-	nav {
-		margin-left: #{ $menuMinWidth - $menuWidth} !important;
-		transition: margin 1s;
-		overflow: hidden;
-
-		#menu-collapse {
-			transform: rotate(180deg);
-			transition: transform 1s;
-		}
-	}
 	nav.minimized {
-		margin-left: 0 !important;
 		overflow: auto;
-
-		#menu-collapse {
-			transform: rotate(0deg);
-			transition: transform 1s;
-		}
 	}
 }
-
 
 .no-animation {
 	transition: all 0s;
