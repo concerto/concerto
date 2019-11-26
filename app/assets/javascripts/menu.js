@@ -30,5 +30,5 @@ function update(animate) {
 
 function menuCollapse() {
   switch_nav();
-  update();
+  update(true);
 }
