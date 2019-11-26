@@ -19,55 +19,72 @@ nav.minimized + .container-fluid {
 
 nav {
 	width: $menuWidth;
+	max-width: $menuWidth;
 	height: 100%;
 	float: left;
 	background-color: $menuColor;
 	position: fixed;
 	top: 0;
 	bottom: 0;
-	transition: margin 1s;
+	transition: max-width 1s;
 	overflow: auto;
 	z-index: 9;
 
 	// Force link to not underline
 	a {
+		padding: 10px 9px;
+		border-left:  3px solid transparent;
 		text-decoration: none !important;
+		white-space: nowrap;
+		&.selected {
+			border-color: $red;
+			background-color: lighten($menuColor, 10%);
+		}
+
+		i {
+			display: inline-block;
+			margin-right: 10px;
+			font-size: 16px;
+			text-align: center;
+			width: 20px;
+		}
 	}
 
-	#menu-logobutton, & > p {
-		margin: 15px;
+	#menu-logobutton {
+		display: block;
+		&.selected{
+			color: $grayLightest;
+			border-color: transparent;
+		}
 	}
 
-	#menu-logobutton.selected{
-		color: $grayLightest;
-	}
 
 	& > p {
-		margin-right: 55px;
 		font-size: 15px;
 		color: $gray;
+		padding: 12px;
+		a {
+			padding: 0;
+		}
 	}
 
 	// Triple bars collapse menu
 	#menu-collapse {
-		margin: 25px 15px;
-		display: inline-block;
-		float: right;
+		i {
+			transition: transform 1s;
+		}
 		color: $grayLight;
-		font-size: 30px;
-		transition: transform 1s;
+		display: block;
+		margin-bottom: 10px;
 
 		&:hover {
-				color: $grayLightest;
+			box-sizing: padding-box;
+			background-color: $menuColorHover;
+			color: $grayLight;
 		}
 	}
 
 	section {
-
-		i {
-			margin-right: 10px;
-			width: 15px;
-		}
 
 		.menu-title > h1 {
 			margin-left: 15px;
@@ -75,10 +92,11 @@ nav {
 			font-size: 15px;
 			color: $grayLight;
 			letter-spacing: 0.1em;
+			white-space: nowrap;
+			text-overflow: '.';
 		}
 
-		.menu-actions > a {
-			padding: 8px 15px;
+		.menu-account > a, .menu-actions > a {
 			display: block;
 			font-size: 15px;
 			color: $gray;
@@ -95,8 +113,8 @@ nav {
 		}
 
 		// The "before last" child must have padding bottom to not be below account informations
-		&:nth-last-child(2){
-			padding-bottom: 85px;
+		&:nth-last-child(3){
+			padding-bottom: 190px;
 		}
 	}
 
@@ -104,30 +122,58 @@ nav {
 		color: $grayLight;
 		position: fixed;
 		bottom: 0;
-		padding: 0 15px;
 		// -16px for scrollbar size
-		width: calc( #{$menuWidth - 2 * 15px} - 16px );
+		width: $menuWidth;
+		max-width: $menuWidth;
 		background: $menuColor;
+		transition: max-width 1s;
 		h2 {
 			font-size: 15px;
 		}
-		& a {
+		a {
+			display: block;
 			&:hover {
 				color: $grayLight;
 			}
 			color: $gray;
 		}
+		.menu-account-rights {
+			margin: 12px 12px;
+		}
 	}
 }
 
 nav.minimized {
-	margin-left: #{ $menuMinWidth - $menuWidth} !important;
-	transition: margin 1s;
+	max-width: $menuMinWidth !important;
+	transition: max-width 1s;
 	overflow: hidden;
+	h1 {
+		font-size: 0 !important;
+		&:first-letter {
+			font-size: 18px !important;
+		}
+	}
 
-	#menu-collapse {
+	span {
+		display:none;
+	}
+
+	#menu-logobutton {
+		font-size: 20px !important;
+	}
+
+	#menu-collapse i {
 		transform: rotate(180deg);
 		transition: transform 1s;
+	}
+	.menu-account-rights i {
+		display: block;
+	}
+
+	.menu-bottom {
+		max-width: $menuMinWidth;
+		background: $menuColor;
+		transition: max-width 1s;
 	}
 }
 
@@ -153,4 +199,9 @@ nav.minimized {
 			transition: transform 1s;
 		}
 	}
+}
+
+
+.no-animation {
+	transition: all 0s;
 }

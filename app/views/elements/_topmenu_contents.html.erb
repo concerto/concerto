@@ -11,14 +11,13 @@
 <nav>
   <% if not user_signed_in? %>
     <%= link_to '',main_app.root_url, id: "menu-logobutton", class: "concertocon-logobutton" %>
-    <a href="#menu-collapse" class="fa fa-chevron-left" id="menu-collapse" onclick="menuCollapse();"></a>
     <p id="menu-logintext">
       <!-- Check if a plugin is attempting to override authentication method for sign in links -->
       <% if !ConcertoPlugin.render_view_hook(self, :signin_hook).empty? %>
         <%= ConcertoPlugin.render_view_hook self, :signin_hook %>
       <% else %>
       <!-- No alternate authentication plugin, use Devise and core registration sign in links -->
-        <%= link_to t('.sign_in'), main_app.new_user_session_path, id: "login-dropdown" %> <%=t('.signin_login_spiel') %>
+        <%= link_to t('.sign_in'), main_app.new_user_session_path, id: "login-dropdown" %> <%=t('.signin_login_spiel') %><br>
         <% if can? :create, User %>
           <%= t('.no_account') %> <%= link_to t('.sign_up'), main_app.new_user_registration_path %> <%= t('.now') %>
         <% end %>
@@ -26,7 +25,7 @@
     </p>
   <% else %>
     <%= link_to main_app.dashboard_path, id: "menu-logobutton", class: "concertocon-logobutton tooltip-basic full #{ current_page?(main_app.dashboard_path)? 'selected' : '' }" do %>
-      <a href="#menu-collapse" class="fa fa-chevron-left" id="menu-collapse" onclick="menuCollapse();"></a>
+      <a href="#menu-collapse" id="menu-collapse" onclick="menuCollapse();"><i class="fa fa-arrow-alt-circle-left"></i></a>
     <% end %>
 
     <!-- Begin Menu for CONTENT -->
@@ -35,11 +34,11 @@
         <h1><%= t('.content') %></h1>
       </div>
       <div class="menu-actions">
-        <%= link_to icon('fas', 'home')+t('.browse'), main_app.feeds_path, class: "#{ current_page?(main_app.feeds_path) ? 'selected' : '' }" %>
-        <%= link_to icon('fas', 'file-export')+t(:add), main_app.new_content_path, class: "#{ current_page?(main_app.new_content_path) ? 'selected' : '' }" if can? :create, Content %>
+        <%= link_to icon('fas', 'search') + raw('<span>') + t('.browse') + raw('</span>'), main_app.feeds_path, class: "#{ current_page?(main_app.feeds_path) ? 'selected' : '' }" %>
+        <%= link_to icon('fas', 'file-export') + raw('<span>') + t(:add) + raw('</span>'), main_app.new_content_path, class: "#{ current_page?(main_app.new_content_path) ? 'selected' : '' }" if can? :create, Content %>
         <% if @pending_submissions_count > 0 %>
           <%= link_to main_app.moderate_feeds_path, class: "tooltip-basic #{ current_page?(main_app.moderate_feeds_path) ? 'selected' : '' }", 'data-tooltip-text' => t('.submissions_to_moderate', count: @pending_submissions_count) do %>
-            <%= icon('fas', 'lock-open')+t('.moderate') %>&nbsp;<span class="badge<% if @pending_submissions_count > 0 %> action<% end %>"><%= @pending_submissions_count %></span>
+            <%= icon('fas', 'lock-open') + raw('<span>') + t('.moderate') + raw('</span>') %>&nbsp;<span class="badge<% if @pending_submissions_count > 0 %> action<% end %>"><%= @pending_submissions_count %></span>
           <% end %>
         <% end %>
       </div>
@@ -52,8 +51,8 @@
         <h1><%= t('.network') %></h1>
       </div>
       <div class="menu-actions">
-        <%= link_to icon('fas', 'desktop')+t('.screens'), main_app.screens_path, class: "#{ controller.controller_name == 'screens' ? 'selected' : '' }" %>
-        <%= link_to icon('fas', 'users')+t('.users_and_groups'), main_app.groups_path, class: "#{ controller.controller_name == 'groups' ? 'selected' : '' }" %>
+        <%= link_to icon('fas', 'desktop') + raw('<span>') + t('.screens') + raw('</span>'), main_app.screens_path, class: "#{ controller.controller_name == 'screens' ? 'selected' : '' }" %>
+        <%= link_to icon('fas', 'users') + raw('<span>') + t('.users_and_groups') + raw('</span>'), main_app.groups_path, class: "#{ controller.controller_name == 'groups' ? 'selected' : '' }" %>
       </div>
     </section>
     <!-- End Menu for NETWORK -->
@@ -65,11 +64,11 @@
           <h1><%= t('.admin') %></h1>
         </div>
         <div class="menu-actions">
-          <%= link_to icon('fas', 'file')+t('.pages'), main_app.pages_path, class: "#{ (controller.controller_name == 'pages') ? 'selected' : '' }" %>
-          <%= link_to icon('fas', 'sliders-h')+t('.settings'), main_app.concerto_config_path, class: "#{ (controller.controller_name == 'concerto_config') ? 'selected' : '' }" %>
-          <%= link_to icon('fas', 'dolly-flatbed')+t('.plugins'), main_app.concerto_plugins_path, class: "#{ (controller.controller_name == 'concerto_plugins') ? 'selected' : '' }" %>
-          <%= link_to icon('fas', 'user-cog')+t(".users"), main_app.users_path, class: "#{ controller.controller_name == 'users' ? 'selected' : '' }" %>
-          <%= link_to icon('fas', 'box-open')+t('.templates'), main_app.templates_path, class: "#{ (controller.controller_name == 'templates') ? 'selected' : '' }" %>
+          <%= link_to icon('fas', 'file') + raw('<span>') + t('.pages') + raw('</span>'), main_app.pages_path, class: "#{ (controller.controller_name == 'pages') ? 'selected' : '' }" %>
+          <%= link_to icon('fas', 'sliders-h') + raw('<span>') + t('.settings') + raw('</span>'), main_app.concerto_config_path, class: "#{ (controller.controller_name == 'concerto_config') ? 'selected' : '' }" %>
+          <%= link_to icon('fas', 'dolly-flatbed') + raw('<span>') + t('.plugins') + raw('</span>'), main_app.concerto_plugins_path, class: "#{ (controller.controller_name == 'concerto_plugins') ? 'selected' : '' }" %>
+          <%= link_to icon('fas', 'user-cog') + raw('<span>') + t(".users") + raw('</span>'), main_app.users_path, class: "#{ controller.controller_name == 'users' ? 'selected' : '' }" %>
+          <%= link_to icon('fas', 'box-open') + raw('<span>') + t('.templates') + raw('</span>'), main_app.templates_path, class: "#{ (controller.controller_name == 'templates') ? 'selected' : '' }" %>
         </div>
 
       </section>
@@ -83,12 +82,13 @@
           <% if user_leads_a_group? %><i class="concertocon-user-leader tooltip-basic" data-tooltip-text="<%= t('.leader') %>"></i><% end %>
         </div>
         <div class="menu-account">
-          <h2 class="ilb"><%= link_to current_user.name, [main_app, current_user] %></h2>
-          <p class="ilb"><%= link_to t('.settings'), main_app.edit_user_path(current_user) %>&nbsp;&nbsp;&nbsp;<%= link_to t('.log_out'), main_app.destroy_user_session_path, method: :delete %></p>
+          <%= link_to icon('fas', 'user') + raw('<span>') + current_user.name + raw('</span>'), [main_app, current_user], class: "user-name" %>
+          <%= link_to icon('fas', 'cog') + raw('<span>') +  t('.settings') + raw('</span>'), main_app.edit_user_path(current_user) %>
+          <%= link_to  icon('fas', 'sign-out-alt') + raw('<span>') + t('.log_out') + raw('</span>'), main_app.destroy_user_session_path, method: :delete %>
         </div>
     </section>
     <!-- End User Login Area -->
 
   <% end %>
-
+  <script>update(false);</script>  
 </nav>
