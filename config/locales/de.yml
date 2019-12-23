@@ -29,7 +29,6 @@ de:
         poll_interval: Hardware player Abfrageintervall
         public_concerto: Öffentlicher Zugriff
         rubygem_executable: RubyGem Programdatei
-        send_errors: Fehlerbericht an Entwickler senden
         setup_complete: Einrichtung abgeschlossen
         smtp_address: STMP Server
         smtp_auth_type: SMTP Authentifizierungstyp

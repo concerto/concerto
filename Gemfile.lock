@@ -49,9 +49,6 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.3.8)
-    airbrake (5.8.1)
-      airbrake-ruby (~> 1.8)
-    airbrake-ruby (1.8.0)
     ansi (1.5.0)
     arel (6.0.4)
     ast (2.4.0)
@@ -98,7 +95,6 @@ GEM
     concerto_weather (0.6)
       rails
     concurrent-ruby (1.1.5)
-    connection_pool (1.2.0)
     crass (1.0.5)
     debug_inspector (0.0.3)
     declarative (0.0.10)
@@ -121,9 +117,6 @@ GEM
     font-awesome-sass (5.11.2)
       sassc (>= 1.11)
     foreman (0.86.0)
-    girl_friday (0.11.2)
-      connection_pool (~> 1.0)
-      rubinius-actor
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     google-analytics-turbolinks (0.0.5)
@@ -268,9 +261,6 @@ GEM
       railties (>= 4.2.0, < 6.0)
     retriable (3.1.2)
     rmagick (4.0.0)
-    rubinius-actor (0.0.2)
-      rubinius-core-api
-    rubinius-core-api (0.0.1)
     ruby-ll (2.1.2)
       ansi
       ast
@@ -351,7 +341,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  airbrake (~> 5.7)
   attachable
   awesome_print
   bootstrap-datepicker-rails
@@ -372,7 +361,6 @@ DEPENDENCIES
   execjs (~> 2.2.2)
   font-awesome-sass
   foreman
-  girl_friday
   google-analytics-turbolinks (~> 0.0.4)
   i18n-js (>= 3.0.0.rc8, < 3.1.0)
   i18n-tasks (= 0.9.0)

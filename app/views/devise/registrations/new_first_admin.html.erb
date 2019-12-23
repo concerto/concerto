@@ -60,29 +60,6 @@
             </fieldset>
 
             <br /><br />
-            <h1 class="header-with-icon">2. Configure Error Reporting</h1>
-            <br />
-            <h3>Concerto sends error reports to the Concerto team for troubleshooting and development purposes. You can disable this from happening at any time.</h3>
-            <br />
-            <p>The reports may contain some information (content titles, IP addresses) specific to your installation, but an effort will be made to automatically filter out any identifying information from the error reports.</p>
-            <br />
-            <h3><b>To disable remote error reporting, uncheck the box below.</b></h3>
-            
-            <%= fields_for @concerto_config do |c| %>
-              <fieldset style="padding-left: 40px; padding-top: 0px;">
-                
-                <ul class="inputs-list">
-                  <li style="font-size: 1.4em;">
-                    <%= c.check_box :send_errors, {checked: true}, "true", "false" %> <%= label 'concerto_config', :send_errors, " Send error reports to the Concerto team", style: "font-size: 1.1em; padding-left: 1em;" %>
-                  </li>
-                </ul>
-
-              </fieldset>
-            <% end %>
-
-            <br />
-            <hr />
-
             <div style="text-align: center;">
               <%= f.submit "Let's Get Started!", class: "btn btn-large btn-primary", style: "font-size: 1.5em;" %>
             </div>
