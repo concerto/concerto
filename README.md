@@ -22,7 +22,7 @@ There are various plugins that extend functionality which can be added as desire
 
 ## Dependencies
 
-* Ruby 2.4.6 or newer
+* Ruby 2.4.6 or 2.5.5, *Ruby 2.6 is not supported*
 * Rubygems
 * Imagemagick, GhostScript, Poppler-Utils
 * LibreOffice
