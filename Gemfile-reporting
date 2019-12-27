@@ -1,6 +1,0 @@
-# Airbrake is used to remotely log exceptions.
-gem 'airbrake', '~> 5.7'
-
-
-#Girl Friday makes Airbrake async.
-gem 'girl_friday'

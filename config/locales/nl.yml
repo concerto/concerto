@@ -29,7 +29,6 @@ nl:
         poll_interval: Hardware player polling interval
         public_concerto: Publieke Concerto toegang
         rubygem_executable: Rubygem Executable
-        send_errors: Notify Developers of Errors
         setup_complete: Instellen Concerto voltooid
         smtp_address: SMTP Server
         smtp_auth_type: SMTP Authentication Type

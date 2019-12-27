@@ -47,25 +47,13 @@ class ConcertoDeviseRegistrationsControllerTest < ActionController::TestCase
 
     get :new
     assert_response :success
-    assert_select '#concerto_config_send_errors[checked]'
   end
 
-  test "new admin send errors" do
+  test "new admin" do
     unsetup_everything
 
     assert_difference('User.count', 1) do
-      post :create, {:user => {:first_name => "Name", :last_name => "Last", :email => "a@a.com", :password => 'pass1234', :password_confirmation => 'pass1234'}, :concerto_config => {:send_errors => "true"}}
+      post :create, {:user => {:first_name => "Name", :last_name => "Last", :email => "a@a.com", :password => 'pass1234', :password_confirmation => 'pass1234'}}
     end
-    assert_equal true, ConcertoConfig[:send_errors]
-    assert_equal 1, User.admin.count
-  end
-
-  test "new admin no errors" do
-    unsetup_everything
-
-    assert_difference('User.count', 1) do
-      post :create, {:user => {:first_name => "Name", :last_name => "Last", :email => "a@a.com", :password => 'pass1234', :password_confirmation => 'pass1234'}, :concerto_config => {:send_errors => "false"}}
-    end
-    assert_equal false, ConcertoConfig[:send_errors]
   end
 end
