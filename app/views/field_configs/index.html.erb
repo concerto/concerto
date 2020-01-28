@@ -35,10 +35,10 @@
           <td><%= field_config.key %></td>
           <td><%= field_config.value %></td>
           <td>
-            <% if can? :edit, @field_config %>
+            <% if can? :edit, field_config %>
               <%= link_to t(:edit, model: FieldConfig.model_name.human), edit_screen_field_field_config_path(@screen, @field, field_config), class: "btn" %>
             <% end %>
-            <% if can? :delete, @field_config %>
+            <% if can? :delete, field_config %>
               <%= link_to t(:destroy, model: FieldConfig.model_name.human), [@screen, @field, field_config], method: :delete, data: { confirm: t(:are_you_sure_delete_model_key, model: FieldConfig.model_name.human, key: field_config.key) }, class: "btn" %>
             <% end %>
           </td>
