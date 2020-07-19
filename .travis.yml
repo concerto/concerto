@@ -1,37 +1,35 @@
 rvm:
-  - 2.4.6
-  - 2.5.5
-
+- 2.4.6
+- 2.5.5
 env:
+  matrix:
   - DB=sqlite
   - DB=mysql
-
+  global:
+  - secure: dzXKNokB9d1sAOAxz60+4oxetFiVZOIi5vMOXmT2cC7euLUCz+2bET+hY8yQv++bWCHePycGatGmWJUvoarKV5k8RJp1BU3JXBhlve5S6gSZSM5hsJYABDydDtee6KYRZyp6FXOg5Hf9YYPAQd1xj+lcWnhIbGz55PSOIwCsiog=
+  - secure: vRn0Ss2slhDmj5+CYrWgyEWLXdpqO9sX0tRVd0J9NATMHQ9oPaZVPLGqTNwBqdrux3S9n2fMRN2a5gJmIe43IawXEgbHtySAn1Z4Iu86a+x8y6v+D1ucKNppqvv4EA+YLjhv/eEG99sKj8VugwvWz3wVqbA/+i7h8pWg/m3L4qc=
 services:
-  - mysql
-
+- mysql
+- docker
 before_install:
-  - sudo apt-get install -y gsfonts ghostscript libgs-dev poppler-utils
-  # https://bundler.io/blog/2019/01/04/an-update-on-the-bundler-2-release.html
-  - gem install bundler -v '1.17.3'
-
+- sudo apt-get install -y gsfonts ghostscript libgs-dev poppler-utils
+- gem install bundler -v '1.17.3'
 before_script:
-  - cp config/database.yml.travis config/database.yml
-  - git submodule init
-  - git submodule update
-  - mysql -e 'create database concerto_test'
-
+- cp config/database.yml.travis config/database.yml
+- git submodule init
+- git submodule update
+- mysql -e 'create database concerto_test'
 after_script:
-  - bundle-audit update
-  - bundle-audit
-
-branches:
-  only:
-    - master
-
+- bundle-audit update
+- bundle-audit
+after_success:
+- docker build -t concerto/concerto-base:latest .
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker push concerto/concerto-base
 notifications:
-  irc: "irc.freenode.org#concerto-dev"
+  irc: irc.freenode.org#concerto-dev
   email:
     recipients:
-      - team@concerto-signage.org
+    - team@concerto-signage.org
     on_success: change
     on_failure: change
