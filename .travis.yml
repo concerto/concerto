@@ -24,7 +24,7 @@ after_script:
 - bundle-audit
 after_success:
 - ruby_version=$(ruby -v | awk '{print $2}')
-- if [ $(ruby -v | awk '{print $2}') < '2.5.5' ]; then echo "I'm not pushing old ruby builds" && exit; else echo "pushing containers with newer ruby"; fi
+- if [[ $(ruby -v | awk '{print $2}') < '2.5.5' ]; then echo "I'm not pushing old ruby builds" && exit; else echo "pushing containers with newer ruby"; fi
 - docker build -t concerto/concerto-base:latest -t concerto/concerto-base:"$TRAVIS_JOB_NUMBER"_"$DB" .
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 - docker push concerto/concerto-base
