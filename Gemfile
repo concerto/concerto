@@ -72,7 +72,7 @@ gem 'pg', '~> 0.18', group: :postgres
 gem 'public_activity'
 
 gem 'concerto_docsplit'
-gem 'redcarpet', '~> 3.3.2'
+gem 'redcarpet', '~> 3.5.1'
 
 gem 'google-analytics-turbolinks', '~> 0.0.4'
 
