@@ -9,6 +9,8 @@ env:
 services:
   - mysql
 
+cache: bundler
+
 before_install:
   - sudo apt-get install -y gsfonts ghostscript libgs-dev poppler-utils
   # https://bundler.io/blog/2019/01/04/an-update-on-the-bundler-2-release.html
