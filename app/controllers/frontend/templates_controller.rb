@@ -3,6 +3,8 @@ class Frontend::TemplatesController < ApplicationController
   # GET /frontend/1/template/1
   # Render the template for display on a screen.
   def show
+    allow_cors unless !ConcertoConfig[:public_concerto]
+    
     template = Template.find(params[:id])
     if stale?(last_modified: template.last_modified.utc, etag: template, public: true)     
       require 'concerto_image_magick'

@@ -76,6 +76,8 @@ class Frontend::ContentsController < ApplicationController
   # Trigger the render function a piece of content and passes all the params
   # along for processing.  Should send an inline result of the processing.
   def show
+    allow_cors unless !ConcertoConfig[:public_concerto]
+    
     #response.headers["Cache-Control"] = 'no-cache' # no-cache means revalidate at server before pulling from cache
     @content = Content.find(params[:id])
     if @content.nil?
