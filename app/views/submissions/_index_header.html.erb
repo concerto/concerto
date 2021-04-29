@@ -4,7 +4,7 @@
       <%= link_to t('.edit_feed'), edit_feed_path(@feed), class: "btn" %>
     <% end %>
     <% if can? :delete, @feed %>
-      <%= link_to t('.delete_feed'), @feed, data: { confirm: t(:are_you_sure_delete_model_key, model: Feed.model_name.human, key: @feed.name) }, method: :delete, class: "btn" %>
+      <%= link_to t('.delete_feed'), @feed, data: { confirm: t(:are_you_sure_delete_model_key, model: Feed.model_name.human, key: sanitize(@feed.name)) }, method: :delete, class: "btn" %>
     <% end %>
   </div>
 </div>

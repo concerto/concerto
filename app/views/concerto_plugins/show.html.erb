@@ -10,7 +10,7 @@
           <%= link_to t(:edit_model, model: ConcertoPlugin.model_name.human), edit_concerto_plugin_path(@concerto_plugin), class: "btn" %>
         <% end %>
         <% if can? :delete, @concerto_plugin %>
-          <%= link_to t(:destroy_model, model: ConcertoPlugin.model_name.human), @concerto_plugin, data: { confirm: t(:are_you_sure_delete_model_key, model: ConcertoPlugin.model_name.human, key: @concerto_plugin.gem_name) }, method: :delete, class: "btn" %>
+          <%= link_to t(:destroy_model, model: ConcertoPlugin.model_name.human), @concerto_plugin, data: { confirm: t(:are_you_sure_delete_model_key, model: ConcertoPlugin.model_name.human, key: sanitize(@concerto_plugin.gem_name)) }, method: :delete, class: "btn" %>
         <% end %>
       </div>
     </div>
