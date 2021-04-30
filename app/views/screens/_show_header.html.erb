@@ -4,7 +4,7 @@
       <%= link_to t(:edit_model, model: Screen.model_name.human), edit_screen_path(@screen), class: "btn" %>
     <% end %>
     <% if can? :delete, @screen %>
-      <%= link_to t(:destroy_model, model: Screen.model_name.human), @screen, data: { confirm: t(:are_you_sure_delete_model_key, model: Screen.model_name.human, key: @screen.name) }, method: :delete, class: "btn" %>
+      <%= link_to t(:destroy_model, model: Screen.model_name.human), @screen, data: { confirm: t(:are_you_sure_delete_model_key, model: Screen.model_name.human, key: sanitize(@screen.name)) }, method: :delete, class: "btn" %>
     <% end %>
   </div>
 </div>

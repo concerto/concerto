@@ -21,7 +21,7 @@
               <%= link_to t(:edit_model, model: Content.model_name.human), edit_content_path(@content), class: "btn" %>
             <% end %>
             <% if can? :delete, @content %>
-              <%= link_to t(:destroy_model, model: Content.model_name.human), @content, data: { confirm: t(:are_you_sure_delete_model_key, model: Content.model_name.human, key: @content.name) }, method: :delete, class: "btn" %>
+              <%= link_to t(:destroy_model, model: Content.model_name.human), @content, data: { confirm: t(:are_you_sure_delete_model_key, model: Content.model_name.human, key: sanitize(@content.name)) }, method: :delete, class: "btn" %>
             <% end %>
           </div>
         </div>

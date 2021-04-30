@@ -14,7 +14,7 @@
     <% if can? :delete, @group %>
       <% if @group.is_deletable? %>
         <%= link_to t(:destroy_model, model: Group.model_name.human), @group,
-          data: { confirm: t(:are_you_sure_delete_model_key, model:Group.model_name.human, key: @group.name) }, method: :delete, class: "btn" %>
+          data: { confirm: t(:are_you_sure_delete_model_key, model:Group.model_name.human, key: sanitize(@group.name)) }, method: :delete, class: "btn" %>
       <% else %>
         <%= link_to t(:destroy_model, model: Group.model_name.human), '#', class: "btn disabled tooltip-basic", 'data-tooltip-text' => t(:group_not_deletable, model: Group.model_name.human, key: @group.name) %>
       <% end %>

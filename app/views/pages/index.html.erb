@@ -31,7 +31,7 @@
             <% end %>
             <% if can? :delete, page %>
 
-                <%= link_to t(:destroy, model: Page), page, data: { confirm: t(:are_you_sure_delete_model_key, model:Page.model_name.human, key: page.title) }, method: :delete, class: "btn" %>
+                <%= link_to t(:destroy, model: Page), page, data: { confirm: t(:are_you_sure_delete_model_key, model:Page.model_name.human, key: sanitize(page.title)) }, method: :delete, class: "btn" %>
 
             <% end %>
           </td>

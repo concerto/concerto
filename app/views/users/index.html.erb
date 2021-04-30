@@ -61,7 +61,7 @@
             <% if can? :delete, user %>
               <% if user.is_deletable? %>
                 <%= link_to t(:destroy, model: User.model_name.human), user,
-                            data: { confirm: t(:are_you_sure_delete_model_key, model: User.model_name.human, key: user.name) }, method: :delete, class: "btn" %>
+                            data: { confirm: t(:are_you_sure_delete_model_key, model: User.model_name.human, key: sanitize(user.name)) }, method: :delete, class: "btn" %>
               <% else %>
                 <%= link_to t(:destroy, model: User.model_name.human), '#', class: "btn disabled tooltip-basic", 'data-tooltip-text' => t(:user_not_deletable, model: User.model_name.human, key: user.name) %>
               <% end %>
