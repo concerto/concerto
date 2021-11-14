@@ -168,7 +168,7 @@ class ConcertoPlugin < ActiveRecord::Base
       else
         logger.warn("ConcertoPlugin: failed to check #{plugin.name} for callbacks")
       end
-    end if ActiveRecord::Base.connection.table_exists? 'concerto_plugins'
+    end if ActiveRecord::Base.connection.data_source_exists? 'concerto_plugins'
 
     callbacks.each do |callback|
       location = [callback[:filter_list]].flatten

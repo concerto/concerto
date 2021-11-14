@@ -1,6 +1,6 @@
 Rails.logger.debug "Starting #{File.basename(__FILE__)} at #{Time.now.to_s}"
 
-if ActiveRecord::Base.connection.table_exists?('kinds')
+if ActiveRecord::Base.connection.data_source_exists?('kinds')
   if !Kind.any?
     Rails.logger.error('All kinds are missing, creating some.')
     ["Graphics", "Ticker", "Text", "Dynamic"].each do |kind|
@@ -9,7 +9,7 @@ if ActiveRecord::Base.connection.table_exists?('kinds')
   end
 end
 
-if ActiveRecord::Base.connection.table_exists?('fields') && ActiveRecord::Base.connection.table_exists?('kinds')
+if ActiveRecord::Base.connection.data_source_exists?('fields') && ActiveRecord::Base.connection.data_source_exists?('kinds')
   # If there are no fields, create some.
   if !Field.any?
     Rails.logger.error('All fields are missing, creating some.')

@@ -1,5 +1,5 @@
 class SubmissionsController < ApplicationController
-  before_filter :get_feed
+  before_action :get_feed
   helper :contents
 
   def get_feed

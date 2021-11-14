@@ -64,8 +64,8 @@ module Concerto
 
     #exempt these methods from the initial install check to prevent redirect loops
     config.to_prepare do
-      Devise::RegistrationsController.skip_before_filter :check_for_initial_install
-      ConcertoDevise::RegistrationsController.skip_before_filter :check_for_initial_install, raise: false
+      Devise::RegistrationsController.skip_before_action :check_for_initial_install
+      ConcertoDevise::RegistrationsController.skip_before_action :check_for_initial_install, raise: false
     end
 
     # Error Handling

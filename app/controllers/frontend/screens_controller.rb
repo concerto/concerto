@@ -1,7 +1,7 @@
 class Frontend::ScreensController < ApplicationController
   # Allow cross-origin resource sharing for screens#show.
-  before_filter :allow_cors, only: [:show, :show_options]
-  before_filter :screen_api
+  before_action :allow_cors, only: [:show, :show_options]
+  before_action :screen_api
 
   layout 'frontend'
 

@@ -75,7 +75,7 @@ class Graphic < Content
 
       if options.key?(:width) && options.key?(:height) &&
          options[:height].to_f == 0 && options[:width].to_f == 0
-        return {status: 400, text: I18n.t(:bad_request), content_type: Mime::TEXT}
+        return {status: 400, text: I18n.t(:bad_request), content_type: Mime[:text]}
       end
 
       require 'concerto_image_magick'

@@ -1,5 +1,5 @@
 class ContentsController < ApplicationController
-  before_filter :get_content_const, only: [:new, :create, :update, :preview]
+  before_action :get_content_const, only: [:new, :create, :update, :preview]
   respond_to :html, :json, :js
   after_action :allow_iframe, only: :preview
 

@@ -47,7 +47,7 @@ gem 'rmagick', require: 'rmagick', platforms: :ruby
 gem 'attachable'
 
 gem 'cancancan'
-gem 'devise', '~> 4.0'
+gem 'devise', '~> 4.0.0', '>= 4.0.3'
 
 gem 'json'
 gem 'rubyzip', '~> 1.3.0'
@@ -62,6 +62,8 @@ gem 'simplecov', require: false, group: :test
 
 # Gem Auditing
 gem 'bundler-audit', require: false, group: :test
+
+gem 'rails-controller-testing'
 
 gem 'kaminari'
 

@@ -2,7 +2,7 @@ class TemplatesController < ApplicationController
   define_callbacks :show # controller callback for 'show' action
   ConcertoPlugin.install_callbacks(self) # Get the callbacks from plugins
 
-  before_filter :get_type, only: [:new, :create, :import]
+  before_action :get_type, only: [:new, :create, :import]
   respond_to :html, :json, :xml, :js
   responders :flash
 

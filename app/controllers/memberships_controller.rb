@@ -1,5 +1,5 @@
 class MembershipsController < ApplicationController
-  before_filter :get_group
+  before_action :get_group
 
   def get_group
     @group = Group.find(params[:group_id])

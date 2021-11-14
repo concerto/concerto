@@ -7,7 +7,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
   # Checking if configs exist on account of Travis
-  if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
+  if ActiveRecord::Base.connection.data_source_exists? 'concerto_configs'
     config.mailer_sender = ConcertoConfig[:mailer_from]
   end
 
@@ -136,7 +136,7 @@ Devise.setup do |config|
   # Email regex used to validate email formats. It simply asserts that
   # one (and only one) @ exists in the given string. This is mainly
   # to give user feedback and not to assert the e-mail validity.
-  # config.email_regexp = /\A[^@]+@[^@]+\z/
+  config.email_regexp = /\A[^@\s]+@([^@\s]+\.)+[^@\W]+\z/
 
   # ==> Configuration for :timeoutable
   # The time you want to timeout the user session without activity. After this

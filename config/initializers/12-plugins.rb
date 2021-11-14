@@ -1,7 +1,7 @@
 Rails.logger.debug "Starting #{File.basename(__FILE__)} at #{Time.now.to_s}"
 
 # Concerto Plugins Initializer
-if ActiveRecord::Base.connection.table_exists? 'concerto_plugins'
+if ActiveRecord::Base.connection.data_source_exists? 'concerto_plugins'
   # First register any plugin configs.
   # This will cause ConcertoPlugin to call the ConcertoConfig
   # class for all of the enabled plugins.

@@ -8,7 +8,7 @@ rescue SocketError => e
   Rails.logger.debug "Socket error in trying to determine hostname: #{e}"
 end
 
-if ActiveRecord::Base.connection.table_exists? 'concerto_configs'
+if ActiveRecord::Base.connection.data_source_exists? 'concerto_configs'
   if ConcertoConfig.columns_hash.has_key?("plugin_id")
     # defaults
     ConcertoConfig.make_concerto_config("default_upload_type", "graphic", category: 'Content', seq_no: 10)

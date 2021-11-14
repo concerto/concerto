@@ -4,8 +4,8 @@ class Frontend::ContentsController < ApplicationController
 
   layout false
 
-  before_filter :scope_setup
-  before_filter :screen_api
+  before_action :scope_setup
+  before_action :screen_api
 
   DEFAULT_SHUFFLE = 'WeightedShuffle'
 

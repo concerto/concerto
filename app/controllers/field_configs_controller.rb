@@ -1,5 +1,5 @@
 class FieldConfigsController < ApplicationController
-  before_filter :get_screen, :get_field
+  before_action :get_screen, :get_field
 
   def get_screen
     @screen = Screen.find(params[:screen_id])

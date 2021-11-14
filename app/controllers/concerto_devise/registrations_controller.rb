@@ -1,7 +1,7 @@
 #Overriding the Devise Registrations controller for fun and profit
 class ConcertoDevise::RegistrationsController < Devise::RegistrationsController
   rescue_from ActionView::Template::Error, with: :precompile_error_catch
-  before_filter :check_permissions, only:[:new, :create]
+  before_action :check_permissions, only:[:new, :create]
 
   def check_permissions
     authorize! :create, User
