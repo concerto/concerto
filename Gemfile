@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 # but not here, because travis wouldn't be able to test other versions if we did.
 # ruby '2.4.6'
 
-gem 'rails', '~> 4.2'
+gem 'rails', '~> 5.0.7', '>= 5.0.7.2'
 
 # Get the absolute path of this Gemfile so the includes below still work
 # when the current directory for a bundler command isn't the application's
@@ -24,20 +24,21 @@ if File.exist?("#{basedir}/Gemfile.local")
 end
 
 gem 'coffee-rails'
-gem 'execjs', '~> 2.2.2'
+gem 'execjs'
 gem 'sass-rails'
-gem 'sprockets', '~> 2.12'
+gem 'sprockets'
 # use nodejs instead of therubyracer for js engine for easier docker and future work
 #gem 'therubyracer', platforms: :ruby
-gem 'uglifier', '~> 2.7.2'
+gem 'uglifier'
+gem 'mime-types'
 
 gem 'bootstrap-datepicker-rails'
-gem 'jquery-rails'
+#gem 'jquery-rails'
 gem 'jquery-timepicker-rails'
 gem 'turbolinks', '~>2.5.3'
 gem 'twitter-bootstrap-rails-confirm'
 
-gem 'responders', '~> 2.0'
+gem 'responders'
 
 # RMagick is used for image resizing and processing
 gem 'rmagick', require: 'rmagick', platforms: :ruby
@@ -46,7 +47,7 @@ gem 'rmagick', require: 'rmagick', platforms: :ruby
 gem 'attachable'
 
 gem 'cancancan'
-gem 'devise', :git=> "https://github.com/plataformatec/devise.git", :branch => "3-stable"
+gem 'devise', '~> 4.0'
 
 gem 'json'
 gem 'rubyzip', '~> 1.3.0'
@@ -81,7 +82,7 @@ gem 'nprogress-rails', '~> 0.2.0.2'
 
 # I18n Tasks
 group :development do
-  gem 'i18n-tasks', '0.9.0'
+  gem 'i18n-tasks'
   gem 'slop', '~> 3.6.0' # Required due to https://github.com/glebm/i18n-tasks/issues/118
   gem 'awesome_print'
   gem 'rack-mini-profiler'
@@ -95,4 +96,4 @@ gem 'octokit', '~>4.2.0'
 gem 'font-awesome-sass'
 
 # Web console
-gem 'web-console', '~> 2.0', group: :development
+gem 'web-console', group: :development
