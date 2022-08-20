@@ -14,7 +14,7 @@ services:
       - db:/var/lib/mysql
 
   concerto:
-    image: concertong
+    image: concerto
     restart: always
     ports: 
       - "80:80"
