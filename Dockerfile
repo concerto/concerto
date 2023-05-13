@@ -28,7 +28,7 @@ WORKDIR /home/app/concerto
 COPY . /home/app/concerto
 COPY config/database.yml.docker /home/app/concerto/config/database.yml
 RUN chown -R app:app /home/app/concerto \
-&& setuser app bash --login -c "cd /home/app/concerto && gem install bundler -v '2.3.19' && RAILS_ENV=production bundle install --path=vendor/bundle"
+&& setuser app bash --login -c "cd /home/app/concerto && gem install bundler:2.0.0.pre.3 && bundle config set --local path 'vendor/bundle' && RAILS_ENV=production bundle install"
 
 # set up the background worker
 RUN mkdir -p /etc/service/concerto_clockwork
