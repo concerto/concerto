@@ -3,7 +3,7 @@ services:
   db:
     image: mysql
     # utf8mb4 https://stackoverflow.com/a/53398381/1778068
-    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    command: --authentication-policy=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: concerto
