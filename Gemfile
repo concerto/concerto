@@ -6,7 +6,7 @@ source 'https://rubygems.org'
 # ruby '2.4.6'
 
 gem 'rails', '~> 4.2'
-gem 'nokogiri', '~> 1.13', '>= 1.13.10' #pin while on ruby < 2.7
+gem 'nokogiri', '~> 1.14' #pin while on ruby < 2.7
 
 # Get the absolute path of this Gemfile so the includes below still work
 # when the current directory for a bundler command isn't the application's
