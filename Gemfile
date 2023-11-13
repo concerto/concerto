@@ -1,9 +1,8 @@
 # Edit this Gemfile to bundle your application's dependencies.
 source 'https://rubygems.org'
 
-# the ruby version is specified in the Dockerfile and the nginx.docker.conf files,
-# but not here, because travis wouldn't be able to test other versions if we did.
-# ruby '2.4.6'
+# Lock the ruby version for now. We don't work on Ruby 2.7, so stick with Ruby 2.6
+ruby '~> 2.6.0'
 
 gem 'rails', '~> 4.2'
 gem 'nokogiri', '~> 1.13', '>= 1.13.10' #pin while on ruby < 2.7
