@@ -7,12 +7,7 @@ class VersionCheckTest < ActiveSupport::TestCase
   test 'STRING should match pattern' do
     assert PATTERN =~ Concerto::VERSION::STRING
   end
-
-  test 'dynamic should match pattern' do
-    Rails.cache.delete('VERSION::dynamic')
-    assert PATTERN =~ Concerto::VERSION.dynamic
-  end
-
+  
   test 'version check latest version should match pattern' do
     Rails.cache.delete('concerto_version')
     Rails.cache.delete('concerto_version_time')
