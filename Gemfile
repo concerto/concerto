@@ -33,7 +33,7 @@ gem 'uglifier'
 gem 'mime-types'
 
 gem 'bootstrap-datepicker-rails'
-#gem 'jquery-rails'
+gem 'jquery-rails'
 gem 'jquery-timepicker-rails'
 gem 'turbolinks', '~>2.5.3'
 gem 'twitter-bootstrap-rails-confirm'
