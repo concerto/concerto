@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require html5_shiv/html5
 //= require i18n/translations
 //= require bootstrap-datepicker
 //= require bootstrap-alert.js
