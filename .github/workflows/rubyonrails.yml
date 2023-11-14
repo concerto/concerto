@@ -1,0 +1,30 @@
+# This workflow will install a prebuilt Ruby version, install dependencies, and
+# run tests and linters.
+name: "Ruby on Rails CI"
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup enviroment
+        run: sudo apt-get install -y libxslt-dev libpq-dev libmagickwand-dev ghostscript gsfonts imagemagick ruby-rmagick libmagickcore-dev
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
+        with:
+          ruby-version: '2.6'
+          bundler-cache: true
+      - name: Set up database schema
+        run: bin/rake db:migrate
+      - name: Seed database with initial content
+        run: bin/rake db:seed
+      - name: Run tests
+        run: bin/rake

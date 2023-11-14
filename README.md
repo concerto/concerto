@@ -1,6 +1,6 @@
 # Concerto 2 Digital Signage System
 
- [![Build Status](https://travis-ci.org/concerto/concerto.png?branch=master)](https://travis-ci.org/concerto/concerto) [![Join the chat at https://gitter.im/concerto/concerto](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/concerto/concerto?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+ ![Build Status](https://github.com/concerto/concerto/actions/workflows/rubyonrails.yml/badge.svg)
 
 Full Installation Instructions: [https://github.com/concerto/concerto/wiki/Installing-Concerto-2](https://github.com/concerto/concerto/wiki/Installing-Concerto-2)
 
@@ -22,7 +22,7 @@ There are various plugins that extend functionality which can be added as desire
 
 ## Dependencies
 
-* Ruby 2.4.6, 2.5.5, or 2.6
+* Ruby 2.6
 * Rubygems
 * Imagemagick, GhostScript, Poppler-Utils
 * LibreOffice
