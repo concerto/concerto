@@ -39,6 +39,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     addressable (2.3.8)
+    ansi (1.5.0)
     arel (7.1.4)
     ast (2.4.2)
     attachable (0.0.5)
@@ -70,10 +71,30 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
+    concerto_calendar (0.0.9)
+      google-api-client (~> 0.9)
+      icalendar
+      rails
     concerto_docsplit (0.7.5)
+    concerto_frontend (0.4.3)
+      rails
+    concerto_hardware (0.8)
+      rails
+    concerto_iframe (0.1.0)
+      rails
+    concerto_remote_video (1.2)
+      rails
+      video_info (< 2.6)
+    concerto_simple_rss (1.1)
+      encryptor (~> 3.0)
+      rails
+      ruby-xslt (~> 0.9)
+    concerto_weather (0.6)
+      rails
     concurrent-ruby (1.2.2)
     crass (1.0.6)
     date (3.3.4)
+    declarative (0.0.20)
     delayed_job (4.1.11)
       activesupport (>= 3.0, < 8.0)
     delayed_job_active_record (4.1.8)
@@ -86,6 +107,7 @@ GEM
       responders
       warden (~> 1.2.3)
     docile (1.4.0)
+    encryptor (3.0.0)
     erubi (1.12.0)
     erubis (2.7.0)
     execjs (2.9.1)
@@ -98,8 +120,28 @@ GEM
     globalid (1.1.0)
       activesupport (>= 5.0)
     google-analytics-turbolinks (0.0.5)
+    google-api-client (0.10.3)
+      addressable (~> 2.3)
+      googleauth (~> 0.5)
+      httpclient (~> 2.7)
+      hurley (~> 0.1)
+      memoist (~> 0.11)
+      mime-types (>= 1.6)
+      representable (~> 3.0)
+      retriable (>= 2.0, < 4.0)
+    googleauth (0.5.1)
+      faraday (~> 0.9)
+      jwt (~> 1.4)
+      logging (~> 2.0)
+      memoist (~> 0.12)
+      multi_json (~> 1.11)
+      os (~> 0.9)
+      signet (~> 0.7)
     highline (2.1.0)
     html_tokenizer (0.0.7)
+    htmlentities (4.3.4)
+    httpclient (2.8.3)
+    hurley (0.2)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     i18n-js (3.0.11)
@@ -115,6 +157,10 @@ GEM
       rails-i18n
       rainbow (>= 2.2.2, < 4.0)
       terminal-table (>= 1.5.1)
+    icalendar (2.10.0)
+      ice_cube (~> 0.16)
+    ice_cube (0.16.4)
+    iso8601 (0.13.0)
     jquery-rails (4.6.0)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -122,6 +168,7 @@ GEM
     jquery-timepicker-rails (1.11.10)
       railties (>= 3.1.0)
     json (2.6.3)
+    jwt (1.5.6)
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
@@ -134,6 +181,10 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
+    little-plugger (1.1.4)
+    logging (2.3.1)
+      little-plugger (~> 1.1)
+      multi_json (~> 1.14)
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -142,6 +193,7 @@ GEM
       net-imap
       net-pop
       net-smtp
+    memoist (0.16.2)
     method_source (1.0.0)
     mime-types (3.5.1)
       mime-types-data (~> 3.2015)
@@ -149,6 +201,7 @@ GEM
     mini_mime (1.1.5)
     mini_portile2 (2.8.5)
     minitest (5.20.0)
+    multi_json (1.15.0)
     multipart-post (2.3.0)
     mysql2 (0.5.5)
     net-imap (0.3.7)
@@ -167,7 +220,12 @@ GEM
     nprogress-rails (0.2.0.2)
     octokit (4.2.0)
       sawyer (~> 0.6.0, >= 0.5.3)
+    oga (3.4)
+      ast
+      ruby-ll (~> 2.1)
+    open_uri_redirections (0.2.1)
     orm_adapter (0.5.0)
+    os (0.9.6)
     parser (3.2.2.4)
       ast (~> 2.4.1)
       racc
@@ -218,11 +276,20 @@ GEM
     rainbow (3.1.1)
     rake (13.1.0)
     redcarpet (3.5.1)
+    representable (3.2.0)
+      declarative (< 0.1.0)
+      trailblazer-option (>= 0.1.1, < 0.2.0)
+      uber (< 0.2.0)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
+    retriable (3.1.2)
     rmagick (5.3.0)
       pkg-config (~> 1.4)
+    ruby-ll (2.1.3)
+      ansi
+      ast
+    ruby-xslt (0.9.10)
     rubyzip (1.3.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
@@ -237,6 +304,11 @@ GEM
     sawyer (0.6.0)
       addressable (~> 2.3.5)
       faraday (~> 0.8, < 0.10)
+    signet (0.12.0)
+      addressable (~> 2.3)
+      faraday (~> 0.9)
+      jwt (>= 1.5, < 3.0)
+      multi_json (~> 1.10)
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -259,14 +331,23 @@ GEM
     thread_safe (0.3.6)
     tilt (2.3.0)
     timeout (0.4.1)
+    trailblazer-option (0.1.2)
     turbolinks (2.5.4)
       coffee-rails
     twitter-bootstrap-rails-confirm (2.0.2)
     tzinfo (1.2.11)
       thread_safe (~> 0.1)
+    uber (0.1.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
     unicode-display_width (2.5.0)
+    video_info (2.5.0)
+      addressable
+      htmlentities
+      iso8601
+      multi_json (~> 1.11)
+      oga
+      open_uri_redirections
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (3.7.0)
@@ -289,7 +370,14 @@ DEPENDENCIES
   cancancan
   clockwork
   coffee-rails
+  concerto_calendar
   concerto_docsplit
+  concerto_frontend
+  concerto_hardware
+  concerto_iframe
+  concerto_remote_video
+  concerto_simple_rss
+  concerto_weather
   delayed_job_active_record
   devise
   execjs
