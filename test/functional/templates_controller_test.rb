@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class TemplatesControllerTest < ActionController::TestCase
-  include Devise::TestHelpers
+  include Devise::Test::ControllerHelpers
   include ActionDispatch::TestProcess
 
   def setup

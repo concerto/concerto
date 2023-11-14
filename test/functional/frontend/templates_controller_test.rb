@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class Frontend::TemplatesControllerTest < ActionController::TestCase
-  include Devise::TestHelpers
+  include Devise::Test::ControllerHelpers
   fixtures :screens
   fixtures :templates
 
