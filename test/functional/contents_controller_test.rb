@@ -8,13 +8,13 @@ class ContentsControllerTest < ActionController::TestCase
   end
 
   test "must sign in before new" do
-    get :new
+    get :new, params: {}
     assert_login_failure
   end
 
   test "should get generic new" do
     sign_in users(:katie)
-    get :new
+    get :new, params: {}
     assert_response :success
   end
 
@@ -63,7 +63,7 @@ class ContentsControllerTest < ActionController::TestCase
     default.destroy
 
     assert_raise RuntimeError do
-      get :new
+      get :new, params: {}
     end
   end
 

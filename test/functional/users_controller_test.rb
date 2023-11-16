@@ -8,18 +8,18 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "blank and regular user cannot list all users" do
-    get :index
+    get :index, params: {}
     assert_login_failure
 
     sign_in users(:katie)
-    get :index
+    get :index, params: {}
     assert_response :redirect
     assert_equal 0, assigns(:users).length
   end
 
   test "admin can list all users" do
     sign_in users(:admin)
-    get :index
+    get :index, params: {}
     assert_response :success
     assert assigns(:users)
   end

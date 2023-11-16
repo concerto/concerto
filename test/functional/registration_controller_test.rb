@@ -19,13 +19,13 @@ class ConcertoDeviseRegistrationsControllerTest < ActionController::TestCase
   end
 
   test "should get registration" do
-    get :new
+    get :new, params: {}
     assert_response :success
   end
 
   test "registration form disabled" do
     ConcertoConfig.set("allow_registration", "false")
-    get :new
+    get :new, params: {}
     assert_response :redirect
   end
 
@@ -45,7 +45,7 @@ class ConcertoDeviseRegistrationsControllerTest < ActionController::TestCase
   test "new admin registration" do
     unsetup_everything
 
-    get :new
+    get :new, params: {}
     assert_response :success
   end
 

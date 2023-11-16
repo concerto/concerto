@@ -8,19 +8,19 @@ class ConcertoPluginsControllerTest < ActionController::TestCase
   end
 
   test "not signed in user cannot access" do
-    get :index
+    get :index, params: {}
     assert_login_failure
   end
 
   test "regular signed in user cannot access" do
     sign_in users(:katie)
-    get :index
+    get :index, params: {}
     assert_login_failure
   end
 
   test "admin user sees empty page" do
     sign_in users(:admin)
-    get :index
+    get :index, params: {}
     assert_response :success
     assert_not_nil assigns(:concerto_plugins)
   end

@@ -8,38 +8,38 @@ class FeedsControllerTest < ActionController::TestCase
   end
 
   test "must sign in before new" do
-    get :new
+    get :new, params: {}
     assert_login_failure
   end
 
   test "not signed in user has nothing to moderate" do
-    get :index
+    get :index, params: {}
     assert assigns(:pending_submissions_count)
     assert_equal 0, assigns(:pending_submissions_count)
   end
 
   test "moderator has pending submissions" do
     sign_in users(:katie)
-    get :index
+    get :index, params: {}
     assert assigns(:pending_submissions_count)
     assert_equal 3, assigns(:pending_submissions_count)
   end
 
   test "moderate index shows pending submissions" do
     sign_in users(:katie)
-    get :moderate
+    get :moderate, params: {}
     assert assigns(:feeds)
     assert assigns(:feeds).include?(feeds(:service))
   end
 
   test "moderate page not allowed without sign in" do
-    get :moderate
+    get :moderate, params: {}
     assert_login_failure
   end
 
   test "signed in top bar critical links" do
     sign_in users(:katie)
-    get :index
+    get :index, params: {}
 
     key_text = ['Browse', 'Screens', 'User Groups']
     key_text.each do |text|

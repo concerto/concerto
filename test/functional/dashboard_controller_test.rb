@@ -8,19 +8,19 @@ class DashboardControllerTest < ActionController::TestCase
   end
 
   test "must sign in before dashboard" do
-    get :show
+    get :show, params: {}
     assert_redirected_to feeds_path
   end
 
   test "dashboard loads for owner" do
     sign_in users(:katie)
-    get :show
+    get :show, params: {}
     assert_response :success
   end
 
   test "dashboard loads for regular" do
     sign_in users(:kristen)
-    get :show
+    get :show, params: {}
     assert_response :success
   end
 end

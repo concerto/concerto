@@ -9,7 +9,7 @@ class TemplatesControllerTest < ActionController::TestCase
   end
 
   test "must sign in before new" do
-    get :new
+    get :new, params: {}
     assert_login_failure
   end
 

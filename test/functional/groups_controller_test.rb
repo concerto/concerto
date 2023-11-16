@@ -8,7 +8,7 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   test 'not signed in user has no personal groups' do
-    get :index
+    get :index, params: {}
     assert assigns(:my_groups)
     assert_equal [], assigns(:my_groups)
     assert_equal 1, assigns(:groups).count # This is a 1 because the other group has no reason to be public.
@@ -16,7 +16,7 @@ class GroupsControllerTest < ActionController::TestCase
 
   test 'signed in user has personal groups' do
     sign_in users(:katie)
-    get :index
+    get :index, params: {}
     assert assigns(:my_groups)
     assert_equal 2, assigns(:my_groups).count
     assert_equal 2, assigns(:groups).count
@@ -30,7 +30,7 @@ class GroupsControllerTest < ActionController::TestCase
 
   test 'admin can add new group' do
     sign_in users(:admin)
-    get :new
+    get :new, params: {}
     assert_response :success
     assert assigns(:group)
   end
