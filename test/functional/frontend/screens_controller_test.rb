@@ -6,30 +6,30 @@ class Frontend::ScreensControllerTest < ActionController::TestCase
 
   test "should get screen frontend" do
     @request.cookies['concerto_screen_token'] = screens(:one).screen_token
-    get(:show, {:id => screens(:one).id})
+    get(:show, params: { :id => screens(:one).id })
     assert_response :success
   end
 
   test "private screen frontend is not public" do
-    get(:show, {:id => screens(:one).id})
+    get(:show, params: { :id => screens(:one).id })
     assert_response 401
   end
 
   test "private screen setup data is not public" do
-    get(:setup, {:id => screens(:one).id, :format => :json})
+    get(:setup, params: { :id => screens(:one).id, :format => :json })
     assert_response 403
   end
 
   test "should get screen setup" do
     @request.cookies['concerto_screen_token'] = screens(:one).screen_token
-    get(:setup, {:id => screens(:one).id, :format => :json})
+    get(:setup, params: { :id => screens(:one).id, :format => :json })
     assert_response :success
     assert_not_nil assigns(:screen)
   end
 
   test "screen setup makes sense" do
     @request.cookies['concerto_screen_token'] = screens(:one).screen_token
-    get(:setup, {:id => screens(:one).id, :format => :json})
+    get(:setup, params: { :id => screens(:one).id, :format => :json })
     data = ActiveSupport::JSON.decode(@response.body)
     assert_equal data['name'], screens(:one).name
     assert_equal data['template']['positions'].length,
@@ -45,7 +45,7 @@ class Frontend::ScreensControllerTest < ActionController::TestCase
     screens(:two).class.send(:set_callback, :frontend_display, :before) do
       self.template = Template.where(:is_hidden => true).first
     end
-    get(:setup, {:id => screens(:two).id, :format => :json})
+    get(:setup, params: { :id => screens(:two).id, :format => :json })
     assert_response :success
     assert_not_nil assigns(:screen)
     assert_equal assigns(:screen).template, templates(:hidden)
@@ -53,18 +53,18 @@ class Frontend::ScreensControllerTest < ActionController::TestCase
   end
 
   test "cannot setup missing screen" do
-    get(:setup, {:id => 'abc', :format => :json})
+    get(:setup, params: { :id => 'abc', :format => :json })
     assert_response :missing
     assert_equal ActiveSupport::JSON.decode(@response.body), {}
   end
 
   test "v1 redirects to screen" do
-    get(:index, {:mac => 'a1:b2:c3'})
+    get(:index, params: { :mac => 'a1:b2:c3' })
     assert_redirected_to frontend_screen_path(screens(:two))
   end
 
   test "v1 forbids private screens" do
-    get(:index, {:mac => 'deadbeef'})
+    get(:index, params: { :mac => 'deadbeef' })
     assert_response :forbidden
   end
 
@@ -83,7 +83,7 @@ class Frontend::ScreensControllerTest < ActionController::TestCase
   # Tests the frontend JS login mechanism
   test "frontend basic auth succeeds" do
     authorize_screen_via_basic(screens(:one))
-    get(:show, {:id=>screens(:one).id, :request_cookie=>"1"})
+    get(:show, params: { :id=>screens(:one).id, :request_cookie=>"1" })
     assert_response :success
     auth_cookie = "concerto_screen_token="+screens(:one).screen_token
     assert @response.headers['Set-Cookie'].include? auth_cookie

@@ -4,7 +4,7 @@ class ContentIntegrationTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   test "signed in root urls load" do
-    post "/users/sign_in", :user => {:email => users(:katie).email, :password => 'katie'}
+    post "/users/sign_in", params: { :user => {:email => users(:katie).email, :password => 'katie'} }
     assert :success
 
     get "/content/new?type=weather"

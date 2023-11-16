@@ -163,7 +163,7 @@ class TemplatesController < ApplicationController
       end
 
       jpg =  Mime::Type.lookup_by_extension(:jpg)  #JPG is getting defined elsewhere.
-      if([jpg, Mime::PNG, Mime::HTML].include?(request.format))
+      if([jpg, Mime[:png], Mime[:html]].include?(request.format))
         @image = nil
         @image = @template.preview_image(@hide_fields, @hide_text, @only_fields)
 
@@ -177,7 +177,7 @@ class TemplatesController < ApplicationController
         case request.format
           when jpg
             @image.format = "JPG"
-          when Mime::PNG
+          when Mime[:png]
             @image.format = "PNG"
         end
 

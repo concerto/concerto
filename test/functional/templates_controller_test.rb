@@ -16,7 +16,7 @@ class TemplatesControllerTest < ActionController::TestCase
   test "should create template" do
     sign_in users(:admin)
     assert_difference('Template.count', 1) do
-      post :create, {:template => {:name => "leet template", :author => "the bat", :is_hidden => false}}
+      post :create, params: { :template => {:name => "leet template", :author => "the bat", :is_hidden => false} }
     end
     actual = assigns(:template)
     actual.media.each do |media|
@@ -31,7 +31,7 @@ class TemplatesControllerTest < ActionController::TestCase
 	    sign_in users(:admin)
 	    archive = fixture_file_upload("/files/Archive.zip", 'application/zip')    
 	    assert_difference('Template.count', 1) do
-	      put :import, {:template => { :is_hidden => false }, :package => archive}
+	      put :import, params: { :template => { :is_hidden => false }, :package => archive }
 	    end
 	    actual = assigns(:template).positions.first
 	    assert_small_delta 0.025, actual.left
@@ -47,7 +47,7 @@ class TemplatesControllerTest < ActionController::TestCase
       sign_in users(:admin)
       archive = fixture_file_upload("/files/ArchiveWithCss.zip", 'application/zip')    
       assert_difference('Template.count', 1) do
-        put :import, {:template => { :is_hidden => false }, :package => archive}
+        put :import, params: { :template => { :is_hidden => false }, :package => archive }
       end
 
       assert_equal 1, assigns(:template).media.where(:key => 'original').length
@@ -64,7 +64,7 @@ class TemplatesControllerTest < ActionController::TestCase
   test "render full template preview" do
     t = templates(:one)
     sign_in users(:admin)
-    get :preview, :id => t.id, :format => 'jpg'
+    get :preview, params: { :id => t.id, :format => 'jpg' }
 
     image = assigns(:image)
     assert_equal 750, image.rows
@@ -74,7 +74,7 @@ class TemplatesControllerTest < ActionController::TestCase
   test "render resized (fixed width) template preview" do
     t = templates(:one)
     sign_in users(:admin)
-    get :preview, :id => t.id, :format => 'jpg', :width => 100
+    get :preview, params: { :id => t.id, :format => 'jpg', :width => 100 }
 
     image = assigns(:image)
     assert_in_delta  75, image.rows, 1
@@ -84,7 +84,7 @@ class TemplatesControllerTest < ActionController::TestCase
   test "render resized (fixed height) template preview" do
     t = templates(:one)
     sign_in users(:admin)
-    get :preview, :id => t.id, :format => 'jpg', :height => 100
+    get :preview, params: { :id => t.id, :format => 'jpg', :height => 100 }
 
     image = assigns(:image)
     assert_in_delta 133, image.columns, 1
@@ -94,7 +94,7 @@ class TemplatesControllerTest < ActionController::TestCase
   test "edit template page" do
     t = templates(:one)
     sign_in users(:admin)
-    get :edit, :id => t.id
+    get :edit, params: { :id => t.id }
     assert_response :success
     assert_equal t, assigns(:template)
   end
@@ -104,8 +104,8 @@ class TemplatesControllerTest < ActionController::TestCase
     sign_in users(:admin)
 
     assert_equal 2, t.media.length, "this test template should start with two media entries"
-    patch :update, id: t.id, template: { name: t.name, template_css: fixture_file_upload('files/ursa_major.css', 'text/css'),
-       template_image: fixture_file_upload('files/ursa_major.jpg', 'image/jpg') }
+    patch :update, params: { id: t.id, template: { name: t.name, template_css: fixture_file_upload('files/ursa_major.css', 'text/css'),
+       template_image: fixture_file_upload('files/ursa_major.jpg', 'image/jpg') } }
     assert_redirected_to(controller: 'templates', action: 'show')
 
     t.reload
@@ -122,7 +122,7 @@ class TemplatesControllerTest < ActionController::TestCase
 
     assert t.screens.length > 0, "this test template is supposed to have screens"
     assert_difference('Template.count', 0) do
-      delete :destroy, id: t.id
+      delete :destroy, params: { id: t.id }
     end
   end
 
@@ -131,7 +131,7 @@ class TemplatesControllerTest < ActionController::TestCase
     sign_in users(:admin)
 
     assert_difference('Template.count', -1) do
-      delete :destroy, id: t.id
+      delete :destroy, params: { id: t.id }
     end
 
     assert_redirected_to templates_path

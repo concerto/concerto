@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :set_version
   before_action :compute_pending_moderation
   before_action :apply_relative_root
-  around_filter :set_time_zone
+  around_action :set_time_zone
   helper_method :webserver_supports_restart?
   helper_method :current_screen
   define_callbacks :auth_plugin

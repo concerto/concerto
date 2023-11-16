@@ -23,7 +23,7 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   test 'not signed in user can see public group' do
-    get :show, id: groups(:wtg).id
+    get :show, params: { id: groups(:wtg).id }
     assert_equal groups(:wtg), assigns(:group)
     assert_response :success
   end
@@ -37,7 +37,7 @@ class GroupsControllerTest < ActionController::TestCase
 
   test 'admin can manage members' do
     sign_in users(:admin)
-    get :manage_members, id: groups(:rpitv).id
+    get :manage_members, params: { id: groups(:rpitv).id }
     assert_response :success
     assert assigns(:group)
     assert_equal 1, assigns(:denied).count
@@ -45,14 +45,14 @@ class GroupsControllerTest < ActionController::TestCase
 
   test 'regular member cannot manage members' do
     sign_in users(:katie)
-    get :manage_members, id: groups(:rpitv).id
+    get :manage_members, params: { id: groups(:rpitv).id }
     assert_redirected_to root_path
   end
 
   test 'leader can edit group' do
     sign_in users(:katie)
     g = groups(:wtg)
-    get :edit, id: g.id
+    get :edit, params: { id: g.id }
     assert_response :success
     assert assigns(:group)
   end
@@ -61,7 +61,7 @@ class GroupsControllerTest < ActionController::TestCase
     sign_in users(:katie)
     g = groups(:wtg)
     g.name = 'name changed'
-    put :update, id: g.id, group: { name: g.name }
+    put :update, params: { id: g.id, group: { name: g.name } }
     assert assigns(:group)
     assert_redirected_to group_path(g)
   end
@@ -69,16 +69,16 @@ class GroupsControllerTest < ActionController::TestCase
   test 'regular member cannot edit group' do
     sign_in users(:katie)
     g = groups(:rpitv)
-    get :edit, id: g.id
+    get :edit, params: { id: g.id }
     assert_redirected_to root_path
   end
 
   test 'admin can create group' do
     sign_in users(:admin)
     assert_difference('Group.count') do
-      post :create, group: {
+      post :create, params: { group: {
         name: 'a new group'
-      }
+      } }
     end
     g = assigns(:group)
     assert_redirected_to group_path(g.id)
@@ -88,7 +88,7 @@ class GroupsControllerTest < ActionController::TestCase
     sign_in users(:admin)
     g = groups(:unused)
     assert_difference('Group.count', -1) do
-      delete :destroy, id: g.id
+      delete :destroy, params: { id: g.id }
     end
     assert_redirected_to groups_path
   end
@@ -97,7 +97,7 @@ class GroupsControllerTest < ActionController::TestCase
     sign_in users(:admin)
     g = groups(:wtg)
     assert_difference('Group.count', 0) do
-      delete :destroy, id: g.id
+      delete :destroy, params: { id: g.id }
     end
     assert_redirected_to group_path(g)
   end
@@ -106,7 +106,7 @@ class GroupsControllerTest < ActionController::TestCase
     sign_in users(:katie)
     groups = [groups(:wtg), groups(:rpitv)]
     groups.each do |g|
-      get :show, id: g.id
+      get :show, params: { id: g.id }
       assert_equal g, assigns(:group)
       assert_response :success
     end

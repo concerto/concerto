@@ -24,14 +24,14 @@ class ConcertoConfigControllerTest < ActionController::TestCase
 
   test "configs can be updated" do
     sign_in users(:admin)
-    put :update, :concerto_config => {"public_concerto"=>"false", "new_key"=>"new_value"}
+    put :update, params: { :concerto_config => {"public_concerto"=>"false", "new_key"=>"new_value"} }
     assert_redirected_to concerto_config_path
     assert !ConcertoConfig[:public_concerto]
     assert_equal "new_value", ConcertoConfig[:new_key]
   end
 
   test "regular cannot update" do
-    put :update, :concerto_config => {"public_concerto"=>"false"}
+    put :update, params: { :concerto_config => {"public_concerto"=>"false"} }
     assert_login_failure
     assert ConcertoConfig[:public_concerto]
 

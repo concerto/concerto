@@ -372,7 +372,7 @@ class ContentsController < ApplicationController
   end
 
   def feed_ids
-    feed_ids = params[:feed_id].map { |i, n| n.to_i } if params.has_key?("feed_id")
+    feed_ids = params[:feed_id].to_h.map { |i, n| n.to_i } if params.has_key?("feed_id")
     feed_ids ||= []
   end
 

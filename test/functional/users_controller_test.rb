@@ -26,7 +26,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "user can see other users" do
     sign_in users(:katie)
-    get :show, :id => users(:kristen).id
+    get :show, params: { :id => users(:kristen).id }
     assert_response :success
     assert_equal users(:kristen), assigns(:user)
   end
