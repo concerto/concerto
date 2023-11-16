@@ -59,7 +59,7 @@ class User < ActiveRecord::Base
   #last line of defense: return false so the before_destroy validation fails
   def dont_delete_last_admin
     if is_last_admin?
-      return false
+      throw :abort
     end
   end
 
