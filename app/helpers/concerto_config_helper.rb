@@ -15,7 +15,7 @@ module ConcertoConfigHelper
     last_category = ""
     class_attribute = ' class="active"'
 
-    configs.uniq.each_with_index do |c, i|
+    configs.distinct.each_with_index do |c, i|
       if c.category != last_category
         headers << "<li#{class_attribute if i == 0}><a href=\"#tab#{c.id}\" data-toggle=\"tab\">#{c.category}</a></li>"
         last_category = c.category

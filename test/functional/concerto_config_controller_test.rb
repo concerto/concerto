@@ -8,17 +8,17 @@ class ConcertoConfigControllerTest < ActionController::TestCase
   end
 
   test "must be admin to show" do
-    get :show
+    get :show, params: {}
     assert_login_failure
 
     sign_in users(:katie)
-    get :show
+    get :show, params: {}
     assert_login_failure
   end
 
   test "admin can show" do
     sign_in users(:admin)
-    get :show
+    get :show, params: {}
     assert_response :success
   end
 

@@ -121,7 +121,7 @@ class ApplicationController < ActionController::Base
     no_restart_txt.each do |w|
       #check if the server environment contains a webserver that doesn't support restart.txt
       #This is NOT foolproof - a webserver may elect not to send this
-      server_match = /\S*#{w}/.match(env['SERVER_SOFTWARE'].to_s.downcase)
+      server_match = /\S*#{w}/.match(request.env['SERVER_SOFTWARE'].to_s.downcase)
       if server_match.nil?
         return true
       else
