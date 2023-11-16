@@ -117,7 +117,7 @@ class DynamicContent < Content
   # @return [Boolean] indicating if the content was sucessfully updated.
   def refresh_content
     # Capture the existing children.
-    old_content = self.children.all
+    old_content = self.children.all.to_a
     # Build the new ones
     new_content = build_content()
     if !new_content
