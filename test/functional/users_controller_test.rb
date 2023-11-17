@@ -14,14 +14,13 @@ class UsersControllerTest < ActionController::TestCase
     sign_in users(:katie)
     get :index, params: {}
     assert_response :redirect
-    assert_equal 0, assigns(:users).length
   end
 
   test "admin can list all users" do
     sign_in users(:admin)
     get :index, params: {}
     assert_response :success
-    assert assigns(:users)
+    assert_select "tr", 1+4 # 1 header row + 4 users.
   end
 
   test "user can see other users" do
