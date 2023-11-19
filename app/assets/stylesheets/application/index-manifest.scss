@@ -2,6 +2,7 @@
 @import "common/mixins";
 @import "common/reset";
 @import "common/concertocons";
+@import "common/font-awesome";
 
 @import "components/scaffolding";
 @import "components/type";
@@ -19,7 +20,7 @@
 @import "components/jquery.qtip2";
 @import "components/display-blocks";
 @import "components/lists-grid-stacked";
-@import "components/topmenu";
+@import "components/menu";
 @import "components/alerts-badges";
 @import "components/screenmodel";
 @import "components/datepicker";

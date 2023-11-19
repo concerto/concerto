@@ -14,7 +14,7 @@
       I18n.defaultLocale = "<%= I18n.default_locale %>";
       I18n.locale = "<%= I18n.locale %>";
   </script>
-  
+
   <%= csrf_meta_tag %>
   <%= render partial: 'elements/head' %>
 
@@ -24,9 +24,9 @@
 </head>
 <body>
 <%= render partial: "elements/topmenu_contents" %>
-<%= render partial: "elements/render_flash" %>
 
 <div id="main" class="container-fluid">
+  <%= render partial: "elements/render_flash" %>
   <%= yield %>
 </div>
 <%= render partial: "layouts/footer" %>

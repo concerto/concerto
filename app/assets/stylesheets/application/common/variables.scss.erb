@@ -1,6 +1,5 @@
 //////////////////
 
-
 // Concerto 2 Palette
 $concerto-blue-0: 	#006699;
 $concerto-blue-1:		#003366;
@@ -11,6 +10,7 @@ $concerto-blue-6:   #e7f1f9;
 
 // Grays
 $black:             #000;
+$grayDarkest:       lighten($black, 10%);
 $grayDarker:        lighten($black, 15%);
 $grayDark:          lighten($black, 25%);
 $gray:              lighten($black, 50%);
@@ -23,22 +23,34 @@ $white:             #fff;
 $blue:              #049CDB;
 $blueDark:          #0064CD;
 $green:             #46a546;
+$redLight:          lighten($green, 20%);
+$greenDark:         #62c462;
 $red:               #9d261d;
+$redLight:          lighten($red, 20%);
+$redDark:           darken($red, 20%);
 $yellow:            #ffc40d;
-$orange:            #f89406;
+$orange:            #fda725;
 $pink:              #c3325f;
 $purple:            #7a43b6;
 
+$primary:           #2f4050;
+$primaryDark:       #2D323E;
 
 // Links
 $linkColor:         $concerto-blue-0;
 $linkColorHover:    darken($linkColor, 15);
 
+// Menu
+$menuColor:         #001628;
+$menuColorHover:    darken($menuColor, 10%);
+$menuColorLight:    lighten($menuColor, 5%);
+$menuWidth:         200px;
+$menuMinWidth:      50px;
 
 // TYPE:
 
-$sans-headers: 			"Myriad Pro", Helvetica, Arial, sans-serif;
-$sans-body: 				"Lucida Grande",Arial,sans-serif;
+$sans-headers: 		     	"Myriad Pro", Helvetica, Arial, sans-serif;
+$sans-body: 			     	"Lucida Grande",Arial,sans-serif;
 $serifFontFamily:       Georgia, "Times New Roman", Times, serif !default;
 $monoFontFamily:        Menlo, Monaco, Consolas, "Courier New", monospace !default;
 
@@ -81,11 +93,11 @@ $zindexModal:             1050;
 
 
 
-$main-width: 				980px;
+$main-width: 			     	980px;
 
 // Baseline grid
-$basefont:          12px;
-$baseline:          18px;
+$basefont:              12px;
+$baseline:              18px;
 $baseFontSize:          12px !default;
 $baseFontFamily:        sans-headers !default;
 $baseLineHeight:        18px !default;
@@ -117,7 +129,7 @@ $gridGutterWidthLarge:    30px !default;
 /// FLUID GRID
 // --------------------------------------------------
 
-// to calculate, use this formula: 
+// to calculate, use this formula:
 // ($gridColumns * $fluidGridColumnWidth) + ($fluidGridGutterWidth * ($gridColumns - 1)) = 100%
 // ex: 12 * fluidGridColumnWidth + fluidGridGutterWidth * 11 = 100%
 // fluidGridColumnWidth = (100 - 11 * fluidGridGutterWidth) / 12
