@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/concerto/concerto-weather.git
-  revision: d9fafc923ca12ea9d3c374bd30d9eef265136bf8
-  ref: d9fafc9
+  revision: eb897fb1696f0af21a77caa12fa0e02426f9cd9c
+  branch: rails5
   specs:
     concerto_weather (0.6)
       rails
