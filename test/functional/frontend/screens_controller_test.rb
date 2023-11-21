@@ -71,7 +71,7 @@ class Frontend::ScreensControllerTest < ActionController::TestCase
   # Tests the CORS preflight request
   test "frontend allows cross origin requests" do
     authorize_screen_via_basic(screens(:one))
-    process(:show_options, "OPTIONS", {:id=>screens(:one).id})
+    process(:show_options, method: "OPTIONS", params: {:id=>screens(:one).id})
     assert_response :success
     assert_equal "*", @response.headers['Access-Control-Allow-Origin']
     assert_equal "*", @response.headers['Access-Control-Allow-Methods']

@@ -14,13 +14,13 @@ class Frontend::ScreensController < ApplicationController
       auth! action: (@preview ? :preview : :display)
     rescue ActiveRecord::ActiveRecordError
       # TODO: Could this just be a regular 404?
-      render text: "Screen not found.", status: 404
+      render plain: "Screen not found.", status: 404
     rescue CanCan::AccessDenied
       if current_screen.nil?
         headers['WWW-Authenticate']='Basic realm="Frontend Screen"'
-        render text: "Screen requires authentication.", status: 401
+        render plain: "Screen requires authentication.", status: 401
       else
-        render text: "Incorrect authorization.", status: 403
+        render plain: "Incorrect authorization.", status: 403
       end
     else
       @js_files = ['frontend.js']
@@ -59,10 +59,10 @@ class Frontend::ScreensController < ApplicationController
         if screen.is_public?
           redirect_to frontend_screen_path(screen), status: :moved_permanently
         else
-          render text: 'Forbidden.', status: 403
+          render plain: 'Forbidden.', status: 403
         end
       else
-        render text: "Screen not found.", status: 404
+        render plain: "Screen not found.", status: 404
       end
     elsif @temp_token = (session[:screen_temp_token] || params[:screen_temp_token])
       screen = Screen.find_by_temp_token @temp_token
