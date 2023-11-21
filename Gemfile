@@ -4,8 +4,8 @@ source 'https://rubygems.org'
 # Lock the ruby version for now. We don't work on Ruby 2.7, so stick with Ruby 2.6
 ruby '~> 2.6.0'
 
+gem 'nokogiri', '~> 1.13', '>= 1.13.10' # pin while on ruby < 2.7
 gem 'rails', '~> 5.0.7', '>= 5.0.7.2'
-gem 'nokogiri', '~> 1.13', '>= 1.13.10' #pin while on ruby < 2.7
 
 # Get the absolute path of this Gemfile so the includes below still work
 # when the current directory for a bundler command isn't the application's
@@ -19,18 +19,16 @@ group :concerto_plugins do
 end
 
 # Load a local Gemfile if it exists
-if File.exist?("#{basedir}/Gemfile.local")
-  eval File.read("#{basedir}/Gemfile.local")
-end
+eval File.read("#{basedir}/Gemfile.local") if File.exist?("#{basedir}/Gemfile.local")
 
 gem 'coffee-rails'
 gem 'execjs'
 gem 'sass-rails'
 gem 'sprockets'
 # use nodejs instead of therubyracer for js engine for easier docker and future work
-#gem 'therubyracer', platforms: :ruby
-gem 'uglifier'
+# gem 'therubyracer', platforms: :ruby
 gem 'mime-types'
+gem 'uglifier'
 
 gem 'bootstrap-datepicker-rails'
 gem 'jquery-rails'
@@ -63,11 +61,13 @@ gem 'simplecov', require: false, group: :test
 # Gem Auditing
 gem 'bundler-audit', require: false, group: :test
 
+gem 'rubocop-rails', require: false
+
 gem 'rails-controller-testing'
 
 gem 'kaminari'
 
-gem 'sqlite3', '~> 1.3.6', group: [:development, :test]
+gem 'sqlite3', '~> 1.3.6', group: %i[development test]
 
 gem 'mysql2', group: :mysql
 gem 'pg', '~> 0.18', group: :postgres
@@ -84,10 +84,10 @@ gem 'nprogress-rails', '~> 0.2.0.2'
 
 # I18n Tasks
 group :development do
-  gem 'i18n-tasks'
-  gem 'slop', '~> 3.6.0' # Required due to https://github.com/glebm/i18n-tasks/issues/118
   gem 'awesome_print'
+  gem 'i18n-tasks'
   gem 'rack-mini-profiler'
+  gem 'slop', '~> 3.6.0' # Required due to https://github.com/glebm/i18n-tasks/issues/118
 end
 
 gem 'i18n-js', '>= 3.0.0.rc8', '< 3.1.0'
