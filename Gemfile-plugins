@@ -4,4 +4,4 @@ gem "concerto_hardware"
 gem "concerto_iframe"
 gem "concerto_remote_video"
 gem "concerto_simple_rss"
-gem "concerto_weather"
+gem "concerto_weather", :git => 'https://github.com/concerto/concerto-weather.git', :ref => 'd9fafc9'

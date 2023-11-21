@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/concerto/concerto-weather.git
+  revision: d9fafc923ca12ea9d3c374bd30d9eef265136bf8
+  ref: d9fafc9
+  specs:
+    concerto_weather (0.6)
+      rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -89,8 +97,6 @@ GEM
       encryptor (~> 3.0)
       rails
       ruby-xslt (~> 0.9)
-    concerto_weather (0.6)
-      rails
     concurrent-ruby (1.2.2)
     crass (1.0.6)
     date (3.3.4)
@@ -397,7 +403,7 @@ DEPENDENCIES
   concerto_iframe
   concerto_remote_video
   concerto_simple_rss
-  concerto_weather
+  concerto_weather!
   delayed_job_active_record
   devise
   execjs
