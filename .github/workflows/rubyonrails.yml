@@ -3,9 +3,9 @@
 name: "Ruby on Rails CI"
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "rails5" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "rails5" ]
   workflow_dispatch:
 jobs:
   test:
