@@ -7,12 +7,12 @@ class ContentIntegrationTest < ActionDispatch::IntegrationTest
     post "/users/sign_in", params: { :user => {:email => users(:katie).email, :password => 'katie'} }
     assert :success
 
-    get "/content/new?type=weather"
+    get "/content/new?type=weather", params: {}
     assert :success
   end
 
   test "missing content renders 404" do
-    get "/content/abc123"
+    get "/content/abc123", params: {}
     assert :missing
   end
 end

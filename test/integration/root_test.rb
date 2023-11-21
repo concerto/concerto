@@ -4,7 +4,7 @@ class RootTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   test "root url loads" do
-    get "/"
+    get "/", params: {}
 
     # The page always loads
     assert_response :success
@@ -16,7 +16,7 @@ class RootTest < ActionDispatch::IntegrationTest
   test "root url shows login when not public" do
     ConcertoConfig.set('public_concerto', false)
 
-    get "/"
+    get "/", params: {}
     assert_redirected_to new_user_session_path
 
     ConcertoConfig.set('public_concerto', true)
@@ -28,10 +28,10 @@ class RootTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
 
-    get "/feeds"
+    get "/feeds", params: {}
     assert_response :success
 
-    get "/feeds/#{feeds(:service).id}/submissions"
+    get "/feeds/#{feeds(:service).id}/submissions", params: {}
     assert_response :success
   end
 end

@@ -11,7 +11,7 @@ class ScreenAuthTest < ActionDispatch::IntegrationTest
 
 
     # Initial visit by screen to get token
-    screen_session.get "/frontend"
+    screen_session.get "/frontend", params: {}
     screen_session.assert_response :success
     assert_equal(6, screen_session.session[:screen_temp_token].length)
     token_from_screen = screen_session.session[:screen_temp_token]
@@ -21,7 +21,7 @@ class ScreenAuthTest < ActionDispatch::IntegrationTest
 
     # Now the screen refreshes, and based on its session data,
     # it is redirected to its frontend URL.
-    screen_session.get "/frontend"
+    screen_session.get "/frontend", params: {}
     screen_session.assert_redirected_to frontend_screen_path(screen)
     screen_session.follow_redirect!
     screen_session.assert_response :success
@@ -30,12 +30,12 @@ class ScreenAuthTest < ActionDispatch::IntegrationTest
   def create_screen_as_admin(temp_token)
     screen = nil
     user_session = open_session do |sess|
-      sess.post "/users/sign_in", :user => {:email => users(:admin).email, :password => 'adminpassword'}
+      sess.post "/users/sign_in", params: {:user => {:email => users(:admin).email, :password => 'adminpassword'}}
       sess.assert_redirected_to dashboard_path
 
       # Set up the screen as an administrator
       # (The administrator would manually copy the token from the screen)
-      sess.post "/screens", {
+      sess.post "/screens", params: {
         :screen => {
           :name => "Auth Test Screen",
           :is_public => false,
