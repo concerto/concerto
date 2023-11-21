@@ -73,9 +73,9 @@ module Concerto
     # sees to a controller within Concerto so we can render a nice error. This
     # will catch all exceptions not caught by ApplicationController. They will
     # be routed as /404, /500, etc.
-    config.exceptions_app = lambda do |env|
-      ErrorsController.action(:render_error).call(env)
-   end
+  #   config.exceptions_app = lambda do |env|
+  #     ErrorsController.action(:render_error).call(env)
+  #  end
 
   end
 end
