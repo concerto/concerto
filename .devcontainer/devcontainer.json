@@ -2,7 +2,8 @@
   "image": "mcr.microsoft.com/devcontainers/universal:2",
   "features": {
     "ghcr.io/devcontainers/features/ruby:1": {
-      "version": "2.6"
+      "version": "2.6.10"
     }
-  }
+  },
+  "postCreateCommand": "sudo apt update && sudo apt install -y libxslt-dev libmysqlclient-dev libpq-dev libmagickwand-dev"
 }
