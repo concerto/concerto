@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class TextBlobsTest < ApplicationSystemTestCase
   setup do
-    @text_blob = text_blobs(:one)
+    @text_blob = text_blobs(:plaintext)
   end
 
   test "visiting the index" do
@@ -15,7 +15,7 @@ class TextBlobsTest < ApplicationSystemTestCase
     click_on "New text blob"
 
     fill_in "Body", with: @text_blob.body
-    fill_in "Render as", with: @text_blob.render_as
+    select @text_blob.render_as, from: "Render as"
     click_on "Create Text blob"
 
     assert_text "Text blob was successfully created"
@@ -27,7 +27,7 @@ class TextBlobsTest < ApplicationSystemTestCase
     click_on "Edit this text blob", match: :first
 
     fill_in "Body", with: @text_blob.body
-    fill_in "Render as", with: @text_blob.render_as
+    select @text_blob.render_as, from: "Render as"
     click_on "Update Text blob"
 
     assert_text "Text blob was successfully updated"
