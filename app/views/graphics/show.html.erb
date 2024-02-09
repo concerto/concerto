@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @graphic %>
+
+<div>
+  <%= link_to "Edit this graphic", edit_graphic_path(@graphic) %> |
+  <%= link_to "Back to graphics", graphics_path %>
+
+  <%= button_to "Destroy this graphic", @graphic, method: :delete %>
+</div>

@@ -1,0 +1,21 @@
+<%= form.fields_for :content do |content_fields| %>
+  <div>
+    <%= content_fields.label :name, style: "display: block" %>
+    <%= content_fields.text_field :name %>
+  </div>
+
+  <div>
+    <%= content_fields.label :duration, style: "display: block" %>
+    <%= content_fields.number_field :duration %>
+  </div>
+
+  <div>
+    <%= content_fields.label :start_time, style: "display: block" %>
+    <%= content_fields.datetime_field :start_time %>
+  </div>
+
+  <div>
+    <%= content_fields.label :end_time, style: "display: block" %>
+    <%= content_fields.datetime_field :end_time %>
+  </div>
+<% end %>

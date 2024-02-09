@@ -1,0 +1,7 @@
+<div id="<%= dom_id graphic %>">
+  <p>
+    <strong>Image:</strong>
+    <%= link_to graphic.image.filename, graphic.image if graphic.image.attached? %>
+  </p>
+
+</div>
