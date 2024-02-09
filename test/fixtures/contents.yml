@@ -13,3 +13,17 @@ two:
   start_time: 2024-02-08 20:27:29
   end_time: 2024-02-08 20:27:29
   subtype: graphic_two (Graphic)
+
+three:
+  name: MyString
+  duration: 1
+  start_time: 2024-02-08 20:27:29
+  end_time: 2024-02-08 20:27:29
+  subtype: plaintext (TextBlob)
+
+four:
+  name: MyString
+  duration: 1
+  start_time: 2024-02-08 20:27:29
+  end_time: 2024-02-08 20:27:29
+  subtype: html (TextBlob)

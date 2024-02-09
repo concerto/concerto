@@ -31,3 +31,6 @@ class ContentsController < ApplicationController
       params.require(:content).permit(:name, :duration, :start_time, :end_time, :subtype_id, :subtype_type)
     end
 end
+
+# ContentParams are the common set of acceptable attributes for a Content.
+ContentsController::ContentParams = [ :id, :name, :duration, :start_time, :end_time ].freeze

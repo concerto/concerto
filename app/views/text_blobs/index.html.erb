@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Text blobs</h1>
+
+<div id="text_blobs">
+  <% @text_blobs.each do |text_blob| %>
+    <%= render text_blob %>
+    <p>
+      <%= link_to "Show this text blob", text_blob %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New text blob", new_text_blob_path %>
