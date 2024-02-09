@@ -50,6 +50,9 @@ group :development, :test do
 end
 
 group :development do
+  # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
+  gem "rubocop-rails-omakase", require: false
+
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
