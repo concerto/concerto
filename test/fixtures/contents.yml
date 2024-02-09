@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  duration: 1
+  start_time: 2024-02-08 20:27:29
+  end_time: 2024-02-08 20:27:29
+  subtype: one
+  subtype_type: Subtype
+
+two:
+  name: MyString
+  duration: 1
+  start_time: 2024-02-08 20:27:29
+  end_time: 2024-02-08 20:27:29
+  subtype: two
+  subtype_type: Subtype
