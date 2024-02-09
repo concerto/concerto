@@ -49,7 +49,7 @@ jobs:
 
     steps:
       - name: Install packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libsqlite3-0 libvips %>
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y google-chrome-stable curl libsqlite3-0 libvips
 
       - name: Checkout code
         uses: actions/checkout@v4
