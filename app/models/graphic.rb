@@ -1,7 +1,5 @@
 class Graphic < ApplicationRecord
-  has_one :content, as: :subtype
-
-  accepts_nested_attributes_for :content
+  include ContentType
 
   has_one_attached :image
 end
