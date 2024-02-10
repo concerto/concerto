@@ -1,3 +1,5 @@
+require_relative "content"
+
 class Graphic < ApplicationRecord
   include ContentType
 

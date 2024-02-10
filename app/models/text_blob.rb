@@ -1,3 +1,5 @@
+require_relative "content"
+
 class TextBlob < ApplicationRecord
     include ContentType
 
