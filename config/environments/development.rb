@@ -71,4 +71,12 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # Allow development mode use on Github Codespaces
+  config.hosts << ".app.github.dev"
+
+  # Disable origin check for Cross-Site Request Forgery (CSRF) protection for Codespaces
+  if ENV["DEV_CONTAINER"] === "true"
+    config.action_controller.forgery_protection_origin_check = false
+  end
 end
