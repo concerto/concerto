@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type: Graphic
+  name: MyString
+  duration: 1
+  start_time: 2024-02-10 20:33:46
+  end_time: 2024-02-10 20:33:46
+
+two:
+  type: Graphic
+  name: MyString
+  duration: 1
+  start_time: 2024-02-10 20:33:46
+  end_time: 2024-02-10 20:33:46

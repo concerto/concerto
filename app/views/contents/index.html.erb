@@ -5,7 +5,7 @@
 <div id="contents">
   <% @contents.each do |content| %>
     <p>
-      <%= content.name %> - <%#= link_to "Show this content", content %>
+      <%= content.name %> - <%= link_to "Show this content", content %>
     </p>
   <% end %>
 </div>
