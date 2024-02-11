@@ -1,9 +1,0 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-plaintext:
-  body: This is plain text with no formatting.
-  render_as: <%= TextBlob.render_as[:plaintext] %>
-
-html:
-  body: <strong>This is HTML</strong>
-  render_as: <%= TextBlob.render_as[:html] %>
