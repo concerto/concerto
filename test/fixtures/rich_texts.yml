@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+plain_richtext:
+  type: RichText
+  name: MyString
+  duration: 1
+  start_time: 2024-02-10 21:00:04
+  end_time: 2024-02-10 21:00:04
+  text: MyText
+  config: {'render_as': 'html'}
+
+html_richtext:
+  type: RichText
+  name: MyString
+  duration: 1
+  start_time: 2024-02-10 21:00:04
+  end_time: 2024-02-10 21:00:04
+  text: MyText
+  config: {'render_as': 'html'}

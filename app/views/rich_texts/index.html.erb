@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Rich texts</h1>
+
+<div id="rich_texts">
+  <% @rich_texts.each do |rich_text| %>
+    <%= render rich_text %>
+    <p>
+      <%= link_to "Show this rich text", rich_text %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New rich text", new_rich_text_path %>

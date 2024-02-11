@@ -1,0 +1,47 @@
+<%= form_with(model: rich_text) do |form| %>
+  <% if rich_text.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(rich_text.errors.count, "error") %> prohibited this rich_text from being saved:</h2>
+
+      <ul>
+        <% rich_text.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :duration, style: "display: block" %>
+    <%= form.number_field :duration %>
+  </div>
+
+  <div>
+    <%= form.label :start_time, style: "display: block" %>
+    <%= form.datetime_field :start_time %>
+  </div>
+
+  <div>
+    <%= form.label :end_time, style: "display: block" %>
+    <%= form.datetime_field :end_time %>
+  </div>
+
+  <div>
+    <%= form.label :text, style: "display: block" %>
+    <%= form.text_area :text %>
+  </div>
+
+  <div>
+    <%= form.label :render_as, style: "display: block" %>
+    <%= form.select :render_as, RichText.render_as %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @rich_text %>
+
+<div>
+  <%= link_to "Edit this rich text", edit_rich_text_path(@rich_text) %> |
+  <%= link_to "Back to rich texts", rich_texts_path %>
+
+  <%= button_to "Destroy this rich text", @rich_text, method: :delete %>
+</div>
