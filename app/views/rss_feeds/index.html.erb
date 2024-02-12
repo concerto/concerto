@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Rss feeds</h1>
+
+<div id="rss_feeds">
+  <% @rss_feeds.each do |rss_feed| %>
+    <%= render rss_feed %>
+    <p>
+      <%= link_to "Show this rss feed", rss_feed %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New rss feed", new_rss_feed_path %>

@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+yahoo_rssfeed:
+  type: RssFeed
+  name: MyString
+  description: MyText
+  config: {'url': 'https://news.yahoo.com/rss/us'}
+
+nytimes_rssfeed:
+  type: RssFeed
+  name: MyString
+  description: MyText
+  config: {'url': 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml'}
