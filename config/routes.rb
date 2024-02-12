@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :feeds
   resources :rich_texts
   resources :graphics
   resources :contents, only: [ :index, :new ]
