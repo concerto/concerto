@@ -18,6 +18,9 @@ class GraphicsTest < ApplicationSystemTestCase
     fill_in "End time", with: @graphic.end_time
     fill_in "Name", with: @graphic.name
     fill_in "Start time", with: @graphic.start_time
+    @graphic.feeds.each do |f|
+      check f.name
+    end
     click_on "Create Graphic"
 
     assert_text "Graphic was successfully created"
@@ -32,6 +35,9 @@ class GraphicsTest < ApplicationSystemTestCase
     fill_in "End time", with: @graphic.end_time.strftime("%m%d%Y\t%I%M%P")
     fill_in "Name", with: @graphic.name
     fill_in "Start time", with: @graphic.start_time.strftime("%m%d%Y\t%I%M%P")
+    @graphic.feeds.each do |f|
+      check f.name
+    end
     click_on "Update Graphic"
 
     assert_text "Graphic was successfully updated"

@@ -17,3 +17,8 @@
   <%= form.label :end_time, style: "display: block" %>
   <%= form.datetime_field :end_time %>
 </div>
+
+<div>
+  <%= form.label :feed_ids, style: "display: block" %>
+  <%= form.collection_check_boxes :feed_ids, Feed.all, :id, :name %>
+</div>

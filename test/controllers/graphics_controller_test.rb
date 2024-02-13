@@ -17,7 +17,11 @@ class GraphicsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create graphic" do
     assert_difference("Graphic.count") do
-      post graphics_url, params: { graphic: { duration: @graphic.duration, end_time: @graphic.end_time, name: @graphic.name, start_time: @graphic.start_time } }
+      post graphics_url, params: { graphic: {
+        duration: @graphic.duration, end_time: @graphic.end_time,
+        name: @graphic.name, start_time: @graphic.start_time,
+        feed_ids: @graphic.feed_ids
+      } }
     end
 
     assert_redirected_to graphic_url(Graphic.last)
@@ -34,7 +38,11 @@ class GraphicsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update graphic" do
-    patch graphic_url(@graphic), params: { graphic: { duration: @graphic.duration, end_time: @graphic.end_time, name: @graphic.name, start_time: @graphic.start_time } }
+    patch graphic_url(@graphic), params: { graphic: {
+      duration: @graphic.duration, end_time: @graphic.end_time,
+      name: @graphic.name, start_time: @graphic.start_time,
+      feed_ids: @graphic.feed_ids
+    } }
     assert_redirected_to graphic_url(@graphic)
   end
 

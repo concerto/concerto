@@ -17,7 +17,11 @@ class RichTextsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create rich_text" do
     assert_difference("RichText.count") do
-      post rich_texts_url, params: { rich_text: { duration: @rich_text.duration, end_time: @rich_text.end_time, name: @rich_text.name, start_time: @rich_text.start_time, text: @rich_text.text, render_as: @rich_text.render_as } }
+      post rich_texts_url, params: { rich_text: {
+        duration: @rich_text.duration, end_time: @rich_text.end_time,
+        name: @rich_text.name, start_time: @rich_text.start_time, text: @rich_text.text, render_as: @rich_text.render_as,
+        feed_ids: @rich_text.feed_ids
+        } }
     end
 
     assert_redirected_to rich_text_url(RichText.last)
@@ -34,7 +38,10 @@ class RichTextsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update rich_text" do
-    patch rich_text_url(@rich_text), params: { rich_text: { duration: @rich_text.duration, end_time: @rich_text.end_time, name: @rich_text.name, start_time: @rich_text.start_time, text: @rich_text.text, render_as: @rich_text.render_as } }
+    patch rich_text_url(@rich_text), params: { rich_text: {
+      duration: @rich_text.duration, end_time: @rich_text.end_time,
+      name: @rich_text.name, start_time: @rich_text.start_time, text: @rich_text.text, render_as: @rich_text.render_as,
+      feed_ids: @rich_text.feed_ids  } }
     assert_redirected_to rich_text_url(@rich_text)
   end
 
