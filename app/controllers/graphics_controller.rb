@@ -65,6 +65,6 @@ class GraphicsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def graphic_params
-      params.require(:graphic).permit(:name, :duration, :start_time, :end_time, :image)
+      params.require(:graphic).permit(*ContentsController::PARAMS, :image)
     end
 end
