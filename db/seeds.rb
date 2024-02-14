@@ -7,3 +7,8 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+Field.find_or_create_by!(name: "Main", alt_names: [ "Graphics" ])
+Field.find_or_create_by!(name: "Sidebar", alt_names: [ "Text" ])
+Field.find_or_create_by!(name: "Ticker")
+Field.find_or_create_by!(name: "Time")
