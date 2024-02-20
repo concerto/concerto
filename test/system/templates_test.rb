@@ -19,12 +19,12 @@ class TemplatesTest < ApplicationSystemTestCase
 
     @template.positions.each do |position|
       click_on "Add Position"
-      select position.field, from: "Field"
-      fill_in "Top", position.top
-      fill_in "Left", position.left
-      fill_in "Bottom", position.bottom
-      fill_in "Right", position.right
-      fill_in "Style", position.style
+      page.find('select[id^="template_positions_attributes_"][id$="field_id"]').set(position.field_id)
+      page.find('input[id^="template_positions_attributes_"][id$="top"]').set(position.top)
+      page.find('input[id^="template_positions_attributes_"][id$="left"]').set(position.left)
+      page.find('input[id^="template_positions_attributes_"][id$="bottom"]').set(position.bottom)
+      page.find('input[id^="template_positions_attributes_"][id$="right"]').set(position.right)
+      page.find('input[id^="template_positions_attributes_"][id$="style"]').set(position.style)
     end
 
     click_on "Create Template"
@@ -39,6 +39,16 @@ class TemplatesTest < ApplicationSystemTestCase
 
     fill_in "Author", with: @template.author
     fill_in "Name", with: @template.name
+
+    @template.positions.each do |position|
+      page.find('select[id^="template_positions_attributes_"][id$="field_id"]').set(position.field_id)
+      page.find('input[id^="template_positions_attributes_"][id$="top"]').set(position.top)
+      page.find('input[id^="template_positions_attributes_"][id$="left"]').set(position.left)
+      page.find('input[id^="template_positions_attributes_"][id$="bottom"]').set(position.bottom)
+      page.find('input[id^="template_positions_attributes_"][id$="right"]').set(position.right)
+      page.find('input[id^="template_positions_attributes_"][id$="style"]').set(position.style)
+    end
+
     click_on "Update Template"
 
     assert_text "Template was successfully updated"
