@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_14_021935) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_16_052426) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -67,6 +67,20 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_14_021935) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "positions", force: :cascade do |t|
+    t.decimal "top"
+    t.decimal "left"
+    t.decimal "bottom"
+    t.decimal "right"
+    t.text "style"
+    t.integer "template_id", null: false
+    t.integer "field_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["field_id"], name: "index_positions_on_field_id"
+    t.index ["template_id"], name: "index_positions_on_template_id"
+  end
+
   create_table "submissions", force: :cascade do |t|
     t.integer "content_id", null: false
     t.integer "feed_id", null: false
@@ -76,8 +90,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_14_021935) do
     t.index ["feed_id"], name: "index_submissions_on_feed_id"
   end
 
+  create_table "templates", force: :cascade do |t|
+    t.string "name"
+    t.string "author"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "positions", "fields"
+  add_foreign_key "positions", "templates"
   add_foreign_key "submissions", "contents"
   add_foreign_key "submissions", "feeds"
 end

@@ -1,0 +1,30 @@
+<tr class="nested-form-wrapper" data-new-record="<%= form.object.new_record? %>">
+  <td>
+    <%= form.collection_select :field_id, Field.all, :id, :name %>
+  </td>
+
+  <td>
+    <%= form.text_field :top %>
+  </td>
+
+  <td>
+    <%= form.text_field :left %>
+  </td>
+
+  <td>
+    <%= form.text_field :bottom %>
+  </td>
+
+  <td>
+    <%= form.text_field :right %>
+  </td>
+
+  <td>
+    <%= form.text_field :style %>
+  </td>
+
+  <td>
+    <button type="button" data-action="template#remove">Remove position</button>
+    <%= form.hidden_field :_destroy %>
+  </td>
+</tr>

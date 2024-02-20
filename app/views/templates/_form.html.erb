@@ -1,0 +1,52 @@
+<%= form_with(model: template, data: {
+    controller: 'template',
+    nested_form_wrapper_selector_value: '.nested-form-wrapper'
+}) do |form| %>
+  <template data-template-target="template">
+    <%= form.fields_for :positions, Position.new, child_index: 'NEW_RECORD' do |position_fields| %>
+      <%= render "position_form", form: position_fields %>
+    <% end %>
+  </template>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :author, style: "display: block" %>
+    <%= form.text_field :author %>
+  </div>
+
+  <div>
+    <%= form.label :image, style: "display: block" %>
+    <%= form.file_field :image %>
+  </div>
+
+  <table>
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Top</th>
+            <th>Left</th>
+            <th>Bottom</th>
+            <th>Right</th>
+            <th>Style</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    <%= form.fields_for :positions do |position_fields| %>
+        <%= render "position_form", form: position_fields%>
+    <% end %>
+    <!-- Insert new positions here -->
+    <tr data-template-target="target"></tr>
+    </tbody>
+  </table>
+
+  <button type="button" data-action="template#add">Add Position</button>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

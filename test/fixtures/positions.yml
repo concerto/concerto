@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  top: 0.026
+  left: 0.025
+  bottom: 0.796
+  right: 0.592
+  style: MyText
+  template: one
+  field: main
+
+two:
+  top: 0.85
+  left: 0.025
+  bottom: 0.98
+  right: 0.750
+  style: MyText
+  template: two
+  field: sidebar

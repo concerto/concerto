@@ -1,0 +1,17 @@
+<div id="<%= dom_id template %>">
+  <p>
+    <strong>Name:</strong>
+    <%= template.name %>
+  </p>
+
+  <p>
+    <strong>Author:</strong>
+    <%= template.author %>
+  </p>
+
+  <p>
+    <strong>Image:</strong>
+    <%= link_to template.image.filename, template.image if template.image.attached? %>
+  </p>
+
+</div>

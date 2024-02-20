@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :templates
   resources :submissions
   resources :rss_feeds
   resources :feeds
