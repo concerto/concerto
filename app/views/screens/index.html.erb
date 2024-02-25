@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Screens</h1>
+
+<div id="screens">
+  <% @screens.each do |screen| %>
+    <%= render screen %>
+    <p>
+      <%= link_to "Show this screen", screen %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New screen", new_screen_path %>

@@ -39,8 +39,9 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy template" do
+    template = templates(:unused)
     assert_difference("Template.count", -1) do
-      delete template_url(@template)
+      delete template_url(template)
     end
 
     assert_redirected_to templates_url

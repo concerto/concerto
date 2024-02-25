@@ -56,7 +56,7 @@ class TemplatesTest < ApplicationSystemTestCase
   end
 
   test "should destroy Template" do
-    visit template_url(@template)
+    visit template_url(templates(:unused))
     click_on "Destroy this template", match: :first
 
     assert_text "Template was successfully destroyed"
