@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_25_002255) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_25_053249) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -98,6 +98,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_25_002255) do
     t.index ["feed_id"], name: "index_submissions_on_feed_id"
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer "screen_id", null: false
+    t.integer "field_id", null: false
+    t.integer "feed_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feed_id"], name: "index_subscriptions_on_feed_id"
+    t.index ["field_id"], name: "index_subscriptions_on_field_id"
+    t.index ["screen_id"], name: "index_subscriptions_on_screen_id"
+  end
+
   create_table "templates", force: :cascade do |t|
     t.string "name"
     t.string "author"
@@ -112,4 +123,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_25_002255) do
   add_foreign_key "screens", "templates"
   add_foreign_key "submissions", "contents"
   add_foreign_key "submissions", "feeds"
+  add_foreign_key "subscriptions", "feeds"
+  add_foreign_key "subscriptions", "fields"
+  add_foreign_key "subscriptions", "screens"
 end
