@@ -14,9 +14,9 @@ class SubscriptionsTest < ApplicationSystemTestCase
     visit subscriptions_url
     click_on "New subscription"
 
-    fill_in "Feed", with: @subscription.feed_id
-    fill_in "Field", with: @subscription.field_id
-    fill_in "Screen", with: @subscription.screen_id
+    select @subscription.feed.name, from: "Feed"
+    select @subscription.field.name, from: "Field"
+    select @subscription.screen.name, from: "Screen"
     click_on "Create Subscription"
 
     assert_text "Subscription was successfully created"
@@ -27,9 +27,9 @@ class SubscriptionsTest < ApplicationSystemTestCase
     visit subscription_url(@subscription)
     click_on "Edit this subscription", match: :first
 
-    fill_in "Feed", with: @subscription.feed_id
-    fill_in "Field", with: @subscription.field_id
-    fill_in "Screen", with: @subscription.screen_id
+    select @subscription.feed.name, from: "Feed"
+    select @subscription.field.name, from: "Field"
+    select @subscription.screen.name, from: "Screen"
     click_on "Update Subscription"
 
     assert_text "Subscription was successfully updated"
