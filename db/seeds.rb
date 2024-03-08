@@ -53,6 +53,9 @@ landscape_feed = Feed.find_or_create_by!(name: "Landscapes")
   end
 end
 
+# Sleep after uploading all that content so it can be processed.
+sleep 1
+
 main_field = Field.find_or_create_by!(name: "Main", alt_names: [ "Graphics" ])
 sidebar_field = Field.find_or_create_by!(name: "Sidebar", alt_names: [ "Text" ])
 ticker_field = Field.find_or_create_by!(name: "Ticker")
