@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :frontend do
+    get "content/index"
+  end
   resources :subscriptions
   resources :screens
   resources :templates

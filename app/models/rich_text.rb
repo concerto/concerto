@@ -9,4 +9,11 @@ class RichText < Content
     def self.render_as
         { plaintext: "plaintext", html: "html" }
     end
+
+    def as_json(options = {})
+        super(options).merge({
+            render_as: render_as,
+            text: text
+        })
+    end
 end

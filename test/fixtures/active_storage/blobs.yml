@@ -1,0 +1,2 @@
+one_graphic_blob: <%= ActiveStorage::FixtureSet.blob filename: "one.jpg", service_name: "test_fixtures" %>
+two_graphic_blob: <%= ActiveStorage::FixtureSet.blob filename: "two.jpg", service_name: "test_fixtures" %>

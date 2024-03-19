@@ -1,0 +1,9 @@
+one_graphic_image:
+  name: image
+  record: one (Content)
+  blob: one_graphic_blob
+
+two_graphic_image:
+  name: image
+  record: two (Content)
+  blob: two_graphic_blob
