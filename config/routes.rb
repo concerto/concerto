@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   namespace :frontend do
-    get "content/index"
+    get "content/", to: "content#index"
   end
   resources :subscriptions
   resources :screens
