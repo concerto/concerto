@@ -13,6 +13,10 @@ To start a local development server:
 bin/dev
 ```
 
+Misc Notes:
+
+* We use ImportMaps to manage JS deps.  Add dependencies using a command like `bin/importmap pin @stimulus-components/dropdown`
+
 ### Testing
 
 Unit tests:

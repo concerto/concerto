@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="h-full bg-gray-100">
   <head>
     <title>Concerto</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -11,8 +11,14 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="min-h-full">
+    <%= render partial: "shared/nav" %>
+    <header class="bg-white shadow">
+      <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+      </div>
+    </header>
+    <main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
       <%= yield %>
     </main>
   </body>
