@@ -11,4 +11,8 @@ module ApplicationHelper
         end
         link_to(text, path, class: css, aria: aria)
     end
+
+    def page_title(title)
+        content_for :page_title, title
+    end
 end
