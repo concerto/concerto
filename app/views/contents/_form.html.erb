@@ -1,24 +1,33 @@
-<div>
-  <%= form.label :name, style: "display: block" %>
-  <%= form.text_field :name %>
+<div class="sm:col-span-full">
+  <%= form.label :name, class: "frm-label" %>
+  <%= form.text_field :name, class: "frm-input" %>
 </div>
 
-<div>
-  <%= form.label :duration, style: "display: block" %>
-  <%= form.number_field :duration %>
+<div class="sm:col-span-1">
+  <%= form.label :duration, class: "frm-label" %>
+  <%= form.number_field :duration, class: "frm-input" %>
 </div>
 
-<div>
-  <%= form.label :start_time, style: "display: block" %>
-  <%= form.datetime_field :start_time %>
+<div class="sm:col-span-2">
+  <%= form.label :start_time, class: "frm-label" %>
+  <%= form.datetime_field :start_time, class: "frm-input" %>
 </div>
 
-<div>
-  <%= form.label :end_time, style: "display: block" %>
-  <%= form.datetime_field :end_time %>
+<div class="sm:col-span-2">
+  <%= form.label :end_time, class: "frm-label" %>
+  <%= form.datetime_field :end_time, class: "frm-input" %>
 </div>
 
-<div>
-  <%= form.label :feed_ids, style: "display: block" %>
-  <%= form.collection_check_boxes :feed_ids, Feed.all, :id, :name %>
+<div class="sm:col-span-full">
+  <%= form.label :feed_ids, "Feeds", class: "frm-label" %>
+  <fieldset>
+    <div class="mt-6 space-y-3">
+    <%= form.collection_check_boxes :feed_ids, Feed.all, :id, :name do |b| %>
+      <div class="flex items-center gap-x-3">
+        <%= b.check_box class: "h-4 w-4 border-gray-300" %>
+        <%= b.label class: "block text-sm font-medium leading-6 text-gray-900" %>
+      </div>
+    <% end %>
+    </div>
+  <fieldset>
 </div>

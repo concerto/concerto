@@ -1,4 +1,5 @@
 <%= form_with(model: graphic) do |form| %>
+<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
   <% if graphic.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(graphic.errors.count, "error") %> prohibited this graphic from being saved:</h2>
@@ -11,14 +12,15 @@
     </div>
   <% end %>
 
+  <div class="sm:col-span-full">
+    <%= form.label :image, class: "frm-label" %>
+    <%= form.file_field :image, class: "frm-input" %>
+  </div>
+
   <%= render "contents/form", form: form %>
 
   <div>
-    <%= form.label :image, style: "display: block" %>
-    <%= form.file_field :image %>
+    <%= form.submit class: "bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" %>
   </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
+</div>
 <% end %>
