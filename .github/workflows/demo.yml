@@ -23,4 +23,4 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Test SSH
-        run: ssh root@concerto-fresh-demo "uname"
+        run: ssh -o StrictHostKeyChecking=no root@concerto-fresh-demo "uname"
