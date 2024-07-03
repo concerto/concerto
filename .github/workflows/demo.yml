@@ -19,6 +19,11 @@ jobs:
           tags: tag:ci
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
       - uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -27,6 +32,6 @@ jobs:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: echo "$RAILS_MASTER_KEY" >> config/master.key
       - name: Deploy
-        run: kamal deploy
+        run: bin/kamal deploy
         env:
           KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
