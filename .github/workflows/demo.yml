@@ -22,5 +22,11 @@ jobs:
       - uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: Test SSH
-        run: ssh -o StrictHostKeyChecking=no root@concerto-fresh-demo "uname"
+      - name: Setup Rails Key
+        env:
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: echo "$RAILS_MASTER_KEY" >> config/master.key
+      - name: Deploy
+        run: kamal deploy
+        env:
+          KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
