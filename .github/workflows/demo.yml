@@ -5,6 +5,13 @@ on:
     workflows: [ 'CI' ]
     types:
       - completed
+    branches:
+      - main
+
+# Halt any in-progress demo deployments.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -29,7 +36,8 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
-      - uses: webfactory/ssh-agent@v0.9.0
+      - name: Configure SSH
+        uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Setup Rails Key
