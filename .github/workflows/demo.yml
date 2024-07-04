@@ -21,7 +21,9 @@ jobs:
       packages: write
       attestations: write
       id-token: write
-    environment: demo
+    environment:
+      name: demo
+      url: https://concerto-fresh-demo.tail4b87.ts.net/
     steps:
       - name: Connect to Tailnet
         uses: tailscale/github-action@v2
