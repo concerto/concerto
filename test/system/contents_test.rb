@@ -3,7 +3,10 @@ require "application_system_test_case"
 class ContentsTest < ApplicationSystemTestCase
   test "visiting the index" do
     visit contents_url
-    assert_selector "h1", text: "Contents"
+    assert_selector "h1", text: "All Content"
+
+    assert_selector "#contents img", count: 2
+    assert_selector "#contents div", text: rich_texts(:plain_richtext).text
   end
 
   test "should link to create content" do

@@ -1,14 +1,16 @@
 <%= page_title "Content" %>
 <p style="color: green"><%= notice %></p>
 
-<h1>Contents</h1>
+<h1 class="text-xl">All Content</h1>
 
-<div id="contents">
+<div id="contents" class="flex flex-wrap gap-4 my-4">
   <% @contents.each do |content| %>
-    <p>
-      <%= content.name %> - <%= link_to "Show this content", content %>
-    </p>
+    <%= link_to content, class: "block" do %>
+    <div class="block w-64 h-full pb-4 border-2 text-center">
+      <%= render partial: to_grid_partial_path(content), locals: {content: content} %>
+    </div>
+    <% end %>
   <% end %>
 </div>
 
-<%= link_to "New content", new_content_path %>
+<%= link_to "New content", new_content_path, class: "bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" %>
