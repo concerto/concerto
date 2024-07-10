@@ -46,7 +46,7 @@ asset_path: /rails/public/assets
 #   user: app
 
 # Configure builder setup (defaults to multi-arch images).
-# builder:
+builder:
 #   # Build same-arch image locally (use for x86->x86)
 #   multiarch: false
 #
@@ -60,6 +60,10 @@ asset_path: /rails/public/assets
 #   secrets:
 #     - GITHUB_TOKEN
 #     - RAILS_MASTER_KEY
+
+# Using GHA cache
+  cache:
+    type: gha
 
 # Use accessory services (secrets come from .env).
 # accessories:
