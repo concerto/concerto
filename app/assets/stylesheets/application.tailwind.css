@@ -11,4 +11,7 @@
     @apply mt-1 block w-full rounded-md border-gray-300 shadow-sm /* focus:border-blue-300 focus:ring-blue-200 */ focus:ring focus:ring-opacity-50;
   }
 
+  .btn {
+    @apply bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center;
+  }
 }
