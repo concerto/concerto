@@ -16,6 +16,7 @@ bin/dev
 Misc Notes:
 
 * We use ImportMaps to manage JS deps.  Add dependencies using a command like `bin/importmap pin @stimulus-components/dropdown`
+* Needs icons? Copy and paste SVG from https://heroicons.com/.
 
 ### Testing
 
