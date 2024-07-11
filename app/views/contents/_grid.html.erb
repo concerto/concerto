@@ -1,0 +1,9 @@
+<div id="contents" class="flex flex-wrap gap-4 my-4">
+  <% contents.each do |content| %>
+    <%= link_to content, class: "block" do %>
+    <div class="block w-64 h-full pb-4 border-2 text-center bg-white">
+      <%= render partial: to_grid_partial_path(content), locals: {content: content} %>
+    </div>
+    <% end %>
+  <% end %>
+</div>

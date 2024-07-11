@@ -1,15 +1,16 @@
 <%= page_title "Feeds" %>
 <p style="color: green"><%= notice %></p>
 
-<h1>Feeds</h1>
+<h1 class="text-xl">All Feeds</h1>
 
 <div id="feeds">
   <% @feeds.each do |feed| %>
-    <%= render feed %>
-    <p>
-      <%= link_to "Show this feed", feed %>
-    </p>
+    <div class="p-4 border-2 bg-white my-4">
+      <div class="text-lg font-medium"><%= link_to feed.name, feed %></div>
+      <div><%= feed.description %></div>
+      <div class="pt-2"><%= feed.content.count %> pieces of content</div>
+    </div>
   <% end %>
 </div>
 
-<%= link_to "New feed", new_feed_path %>
+<%= link_to "New feed", new_feed_path, class: "btn" %>

@@ -8,6 +8,19 @@ class FeedsTest < ApplicationSystemTestCase
   test "visiting the index" do
     visit feeds_url
     assert_selector "h1", text: "Feeds"
+
+    assert_text @feed.name
+    assert_text (/#{@feed.content.count} .* content/)
+  end
+
+  test "visiting a feed" do
+    visit feeds_url
+    click_on @feed.name
+    assert_selector "h1", text: @feed.name
+
+    @feed.content.each do |c|
+      assert_text c.name
+    end
   end
 
   test "should create feed" do

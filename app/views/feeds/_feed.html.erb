@@ -1,11 +1,9 @@
-<div id="<%= dom_id feed %>">
-  <p>
-    <strong>Name:</strong>
-    <%= feed.name %>
-  </p>
+<div class="mb-4"><%= feed.description %></div>
 
-  <p>
-    <strong>Description:</strong>
-    <%= feed.description %>
-  </p>
-</div>
+<h2 class="text-xl">Content</h2>
+
+<% if feed.content.empty? %>
+  <div class="pt-2 italic">This feed has no content. Consider uploading some?</div>
+<% end %>
+
+<%= render partial: "contents/grid", locals: {contents: feed.content} %>
