@@ -1,6 +1,7 @@
+<%= page_title "#{@rss_feed.name} Feed" %>
 <p style="color: green"><%= notice %></p>
 
-<%= render @rss_feed %>
+<%= render partial: "feeds/feed", locals: {feed: @rss_feed} %>
 
 <div>
   <%= link_to "Edit this rss feed", edit_rss_feed_path(@rss_feed) %> |
