@@ -40,7 +40,8 @@ Rails.application.configure do
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
-  # config.assume_ssl = true
+  # TODO(bamnet): Revisit this setting change.
+  config.assume_ssl = true
 
   # TODO(bamnet): Revisit this setting change.
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
