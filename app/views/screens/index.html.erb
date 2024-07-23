@@ -1,15 +1,19 @@
 <%= page_title "Screens" %>
 <p style="color: green"><%= notice %></p>
 
-<h1>Screens</h1>
+<h1 class="text-xl">All Screens</h1>
 
-<div id="screens">
+<div id="screens" class="flex flex-wrap gap-4 my-4">
   <% @screens.each do |screen| %>
-    <%= render screen %>
-    <p>
-      <%= link_to "Show this screen", screen %>
-    </p>
+    <%= link_to screen, class: "block" do %>
+    <div class="block w-64 h-full pb-4 border-2 text-center bg-white">
+      <svg class="size-20 m-auto mt-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125Z" />
+      </svg>
+      <div class="text-lg font-medium"><%= screen.name %></div>
+    </div>
+    <% end %>
   <% end %>
 </div>
 
-<%= link_to "New screen", new_screen_path %>
+<%= link_to "New screen", new_screen_path, class: "btn" %>
