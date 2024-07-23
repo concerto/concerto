@@ -1,10 +1,8 @@
-<h1>Editing rss feed</h1>
+<%= page_title "Edit Feed - #{@rss_feed.name}" %>
 
 <%= render "form", rss_feed: @rss_feed %>
 
-<br>
-
-<div>
+<div class="mt-8">
   <%= link_to "Show this rss feed", @rss_feed %> |
   <%= link_to "Back to rss feeds", rss_feeds_path %>
 </div>

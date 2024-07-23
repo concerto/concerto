@@ -11,22 +11,22 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="sm:col-span-full">
+    <%= form.label :name, class: "frm-label" %>
+    <%= form.text_field :name, class: "frm-input" %>
   </div>
 
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.text_area :description %>
+  <div class="sm:col-span-full">
+    <%= form.label :description, class: "frm-label" %>
+    <%= form.text_area :description, class: "frm-input" %>
   </div>
 
-  <div>
-    <%= form.label :url, style: "display: block" %>
-    <%= form.text_field :url %>
+  <div class="sm:col-span-full">
+    <%= form.label :url, class: "frm-label" %>
+    <%= form.text_field :url, class: "frm-input" %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="mt-8">
+    <%= form.submit class: "btn" %>
   </div>
 <% end %>
