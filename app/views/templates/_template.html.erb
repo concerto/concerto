@@ -14,4 +14,6 @@
     <%= link_to template.image.filename, template.image if template.image.attached? %>
   </p>
 
+  <%= render partial: "preview", locals: {template: @template} %>
+
 </div>

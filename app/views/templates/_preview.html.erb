@@ -1,0 +1,10 @@
+<div class="relative">
+  <%= image_tag template.image %>
+  <% template.positions.each do |position| %>
+  <div
+    class="absolute bg-black/50 text-white flex items-center justify-center text-2xl"
+    style="top: <%= position.top*100 %>%; left: <%= position.left*100 %>%; bottom: <%= 100-position.bottom*100 %>%; right: <%= 100-position.right*100 %>%;">
+    <%= position.field.name %>
+  </div>
+  <% end %>
+</div>
