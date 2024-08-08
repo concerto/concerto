@@ -54,7 +54,7 @@ landscape_feed = Feed.find_or_create_by!(name: "Landscapes")
 end
 
 Field.transaction do
-    main_field = Field.find_bor_create_by!(name: "Main", alt_names: [ "Graphics" ])
+    main_field = Field.find_or_create_by!(name: "Main", alt_names: [ "Graphics" ])
     sidebar_field = Field.find_or_create_by!(name: "Sidebar", alt_names: [ "Text" ])
     ticker_field = Field.find_or_create_by!(name: "Ticker")
     time_field = Field.find_or_create_by!(name: "Time")
