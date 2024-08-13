@@ -1,6 +1,26 @@
+<%= page_title "#{@screen.name}" %>
 <p style="color: green"><%= notice %></p>
 
-<%= render @screen %>
+<div class="grid grid-cols-3 gap-7">
+  <div class="col-span-2">
+    <% if @screen.template.image.attached? %>
+      <%= render partial: "templates/preview", locals: {template: @screen.template} %>
+    <% end %>
+  </div>
+  <div>
+    <h2 class="text-xl font-bold">Subscriptions</h2>
+    <% @screen.template.positions.each do |position| %>
+      <div class="m-2">
+        <h3 class="text-l font-semibold"><%= position.field.name %></h3>
+        <ul class="list-disc pl-5">
+          <% @screen.subscriptions.where(field: position.field).each do |subscription| %>
+            <li><%= link_to subscription.feed.name, subscription.feed %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</div>
 
 <div>
   <%= link_to "Edit this screen", edit_screen_path(@screen) %> |
