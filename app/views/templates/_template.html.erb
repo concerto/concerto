@@ -15,7 +15,7 @@
   </p>
 
   <% if template.image.attached? %>
-    <%= render partial: "preview", locals: {template: @template} %>
+    <%= render partial: "preview", locals: {template: template} %>
   <% end %>
 
 </div>
