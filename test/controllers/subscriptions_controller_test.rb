@@ -3,46 +3,27 @@ require "test_helper"
 class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @subscription = subscriptions(:one)
+    @screen = screens(:one)
   end
 
   test "should get index" do
-    get subscriptions_url
-    assert_response :success
-  end
-
-  test "should get new" do
-    get new_subscription_url
+    get screen_subscriptions_url(@screen)
     assert_response :success
   end
 
   test "should create subscription" do
     assert_difference("Subscription.count") do
-      post subscriptions_url, params: { subscription: { feed_id: @subscription.feed_id, field_id: @subscription.field_id, screen_id: @subscription.screen_id } }
+      post screen_subscriptions_url(@screen), params: { subscription: { feed_id: @subscription.feed_id, field_id: @subscription.field_id } }
     end
 
-    assert_redirected_to subscription_url(Subscription.last)
-  end
-
-  test "should show subscription" do
-    get subscription_url(@subscription)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get edit_subscription_url(@subscription)
-    assert_response :success
-  end
-
-  test "should update subscription" do
-    patch subscription_url(@subscription), params: { subscription: { feed_id: @subscription.feed_id, field_id: @subscription.field_id, screen_id: @subscription.screen_id } }
-    assert_redirected_to subscription_url(@subscription)
+    assert_redirected_to screen_subscriptions_url(Subscription.last.screen)
   end
 
   test "should destroy subscription" do
     assert_difference("Subscription.count", -1) do
-      delete subscription_url(@subscription)
+      delete screen_subscription_url(@subscription.screen, @subscription)
     end
 
-    assert_redirected_to subscriptions_url
+    assert_redirected_to screen_subscriptions_url(@subscription.screen)
   end
 end

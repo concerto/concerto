@@ -1,17 +1,4 @@
-<div id="<%= dom_id subscription %>">
-  <p>
-    <strong>Screen:</strong>
-    <%= subscription.screen.name %>
-  </p>
-
-  <p>
-    <strong>Field:</strong>
-    <%= subscription.field.name %>
-  </p>
-
-  <p>
-    <strong>Feed:</strong>
-    <%= subscription.feed.name %>
-  </p>
-
+<div id="<%= dom_id subscription %>"class="p-4 border-2 bg-white my-4">
+  <div class="text-lg font-medium"><%= subscription.feed.name %></div>
+  <%= button_to "Unsubscribe", [@screen, subscription], method: :delete, class: "btn" %>
 </div>

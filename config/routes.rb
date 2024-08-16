@@ -2,8 +2,9 @@ Rails.application.routes.draw do
   namespace :frontend do
     get "content/", to: "content#index"
   end
-  resources :subscriptions
-  resources :screens
+  resources :screens do
+    resources :subscriptions, only: [ :index, :create, :destroy ]
+  end
   resources :templates
   resources :submissions
   resources :rss_feeds

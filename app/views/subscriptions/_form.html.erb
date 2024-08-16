@@ -1,4 +1,4 @@
-<%= form_with(model: subscription) do |form| %>
+<%= form_with(model: [subscription.screen, subscription]) do |form| %>
   <% if subscription.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
@@ -10,23 +10,13 @@
       </ul>
     </div>
   <% end %>
+  <%= form.hidden_field :field_id, value: subscription.field_id %>
 
-  <div>
-    <%= form.label :screen_id, style: "display: block" %>
-    <%= form.collection_select :screen_id, Screen.all, :id, :name %>
-  </div>
-
-  <div>
-    <%= form.label :field_id, style: "display: block" %>
-    <%= form.collection_select :field_id, Field.all, :id, :name %>
-  </div>
-
-  <div>
-    <%= form.label :feed_id, style: "display: block" %>
+  <div class="my-2">
     <%= form.collection_select :feed_id, Feed.all, :id, :name %>
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit class: "btn" %>
   </div>
 <% end %>
