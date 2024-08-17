@@ -24,6 +24,7 @@ services:
   selenium:
     image: selenium/standalone-chromium
     restart: unless-stopped
+    shm_size: 2gb
 
   redis:
     image: redis:7.2
