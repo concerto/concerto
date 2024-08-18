@@ -24,7 +24,9 @@ services:
   selenium:
     image: selenium/standalone-chromium
     restart: unless-stopped
-    shm_size: 2gb
+    # Use shared memory to reduce the likelihood of a crash like:
+    # session deleted because of page crash from tab crashed
+    shm_size: 3gb
 
   redis:
     image: redis:7.2
