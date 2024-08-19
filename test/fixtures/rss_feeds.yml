@@ -2,12 +2,12 @@
 
 yahoo_rssfeed:
   type: RssFeed
-  name: MyString
+  name: Yahoo News RSS
   description: MyText
   config: {'url': 'https://news.yahoo.com/rss/us'}
 
 nytimes_rssfeed:
   type: RssFeed
-  name: MyString
+  name: NYTimes RSS
   description: MyText
   config: {'url': 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml'}

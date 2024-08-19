@@ -5,6 +5,11 @@ one:
   field: main
   feed: two
 
+one_sidebar_rss:
+  screen: one
+  field: sidebar
+  feed: nytimes_rssfeed
+
 two:
   screen: two
   field: sidebar

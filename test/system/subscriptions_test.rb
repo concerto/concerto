@@ -11,21 +11,25 @@ class SubscriptionsTest < ApplicationSystemTestCase
     assert_selector "h1", text: "Subscriptions"
   end
 
-   test "should create subscription" do
-     visit screen_subscriptions_url(@screen)
+  test "should create subscription" do
+    visit screen_subscriptions_url(@screen)
 
-     within("#" + dom_id(positions(:two))) do
+    within("#" + dom_id(positions(:two))) do
       select @subscription.feed.name, from: "Feed"
       click_on "Create Subscription"
-     end
+    end
 
-     assert_text "#{positions(:two).field.name} field subscription to #{@subscription.feed.name} feed was successfully created"
-   end
+    assert_text "#{positions(:two).field.name} field subscription to #{@subscription.feed.name} feed was successfully created"
+  end
 
-  #  test "should destroy Subscription" do
-  #    visit screen_subscription_url(@screen)
-  #    click_on "Destroy this subscription", match: :first
-  #
-  #    assert_text "Subscription was successfully destroyed"
-  #  end
+  test "should destroy Subscription" do
+    visit screen_subscriptions_url(@screen)
+
+    subscription = subscriptions(:one_sidebar_rss)
+    within("#" + dom_id(subscription)) do
+      click_on "Unsubscribe"
+    end
+
+    assert_text "#{subscription.field.name} field subscription to #{subscription.feed.name} feed was successfully destroyed"
+  end
 end
