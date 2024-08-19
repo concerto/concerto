@@ -3,7 +3,7 @@
 
 <% active_subscriptions = [] %>
 <% @screen.template.positions.each do |position| %>
-  <div class="m-2">
+  <div id="<%= dom_id position %>" class="m-2">
     <h2 class="text-xl font-semibold"><%= position.field.name %> Field</h2>
     <% @screen.subscriptions.where(field: position.field).each do |subscription| %>
       <% active_subscriptions.push(subscription) %>
@@ -18,14 +18,15 @@
 
 <% inactive_subscriptions = @subscriptions - active_subscriptions %>
 <% if !inactive_subscriptions.empty? %>
- <h2 class="text-xl font-semibold">Inactive Subscriptions<h2>
- <div class="italic text-sm p-2">Subscriptions not used in the current template.</div>
- 
+<div>
+  <h2 class="text-xl font-semibold">Inactive Subscriptions<h2>
+  <div class="italic text-sm p-2">Subscriptions not used in the current template.</div>
   <% inactive_subscriptions.group_by{|s| s.field_id }.each do |field_id, subscriptions| %>
     <h3 class="font-semibold"><%= subscriptions.first.field.name %> Field</h3>
     <% subscriptions.each do |subscription| %>
       <%= render subscription %>
     <% end %>
   <% end %>
+  </div>
 </div>
 <% end %>

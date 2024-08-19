@@ -11,17 +11,16 @@ class SubscriptionsTest < ApplicationSystemTestCase
     assert_selector "h1", text: "Subscriptions"
   end
 
-  #  test "should create subscription" do
-  #    visit screen_subscriptions_url(@screen)
-  #    click_on "New subscription"
-  #
-  #    select @subscription.feed.name, from: "Feed"
-  #    select @subscription.field.name, from: "Field"
-  #    click_on "Create Subscription"
-  #
-  #    assert_text "Subscription was successfully created"
-  #    click_on "Back"
-  #  end
+   test "should create subscription" do
+     visit screen_subscriptions_url(@screen)
+
+     within("#" + dom_id(positions(:two))) do
+      select @subscription.feed.name, from: "Feed"
+      click_on "Create Subscription"
+     end
+
+     assert_text "#{positions(:two).field.name} field subscription to #{@subscription.feed.name} feed was successfully created"
+   end
 
   #  test "should destroy Subscription" do
   #    visit screen_subscription_url(@screen)
