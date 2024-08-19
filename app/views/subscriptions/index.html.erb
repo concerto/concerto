@@ -1,9 +1,12 @@
 <%= page_title "#{@screen.name} Subscriptions" %>
+<% content_for :subheader do %>
+  <div><%= link_to "Back to screen", @screen, class: "underline" %></div>
+<% end %>
 <p style="color: green"><%= notice %></p>
 
 <% active_subscriptions = [] %>
 <% @screen.template.positions.each do |position| %>
-  <div id="<%= dom_id position %>" class="m-2">
+  <div id="<%= dom_id position %>" class="my-2">
     <h2 class="text-xl font-semibold"><%= position.field.name %> Field</h2>
     <% @screen.subscriptions.where(field: position.field).each do |subscription| %>
       <% active_subscriptions.push(subscription) %>

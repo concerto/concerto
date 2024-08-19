@@ -9,6 +9,7 @@
   </div>
   <div>
     <h2 class="text-xl font-bold">Subscriptions</h2>
+    <div><%= link_to "Manage", screen_subscriptions_url(@screen), class: "btn text-xs" %></div>
     <% @screen.template.positions.each do |position| %>
       <div class="m-2">
         <h3 class="text-l font-semibold"><%= position.field.name %></h3>
