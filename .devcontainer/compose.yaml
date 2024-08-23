@@ -25,7 +25,8 @@ services:
     image: selenium/standalone-chromium
     restart: unless-stopped
     # Use shared memory to reduce the likelihood of a crash like:
-    # session deleted because of page crash from tab crashed
+    #   Selenium::WebDriver::Error::InvalidSessionIdError: invalid session id
+    #   session deleted because of page crash from tab crashed
     shm_size: 2gb
 
   redis:
