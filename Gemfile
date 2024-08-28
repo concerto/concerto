@@ -69,4 +69,8 @@ group :test do
   gem "selenium-webdriver"
 end
 
+# Use tailwindcss for the admin panel.
 gem "tailwindcss-rails", "~> 2.7"
+
+# Use Vite & Vue for the frontend player.
+gem "vite_rails"

@@ -1,1 +1,15 @@
-This is a placeholder for the player. Current screen: <%= @screen.name %>.
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Concerto Player</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= vite_client_tag %>
+    <%= vite_javascript_tag 'player' %>
+  </head>
+  <body>
+    This is a placeholder for the player. Current screen: <%= @screen.name %>.
+    <div id="screen"></div>
+  </body>
+</html>
