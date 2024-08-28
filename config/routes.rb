@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   namespace :frontend do
     get "content/", to: "content#index"
+
+    # The main landing page for the frontend player.
+    get "/:id", to: "player#show"
   end
   resources :screens do
     resources :subscriptions, only: [ :index, :create, :destroy ]
