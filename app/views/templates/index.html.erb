@@ -1,14 +1,23 @@
+<%= page_title "Templates" %>
 <p style="color: green"><%= notice %></p>
 
-<h1>Templates</h1>
+<h1 class="text-xl">All Templates</h1>
 
-<div id="templates">
+<div id="templates" class="flex flex-wrap gap-4 my-4">
   <% @templates.each do |template| %>
-    <%= render template %>
-    <p>
-      <%= link_to "Show this template", template %>
-    </p>
+    <%= link_to template, class: "block" do %>
+    <div class="block w-96 h-full pb-4 border-2 text-center bg-white">
+      <div class="m-auto mt-2 p-2">
+        <% if template.image.attached? %>
+          <%= image_tag template.image %>
+        <% else %>
+          <i>No Image</i>
+        <% end %>
+      </div>
+      <div class="text-lg font-medium"><%= template.name %></div>
+    </div>
+    <% end %>
   <% end %>
 </div>
 
-<%= link_to "New template", new_template_path %>
+<%= link_to "New template", new_template_path, class: "btn" %>
