@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     get "content/", to: "content#index"
 
     # The main landing page for the frontend player.
-    get "/:id", to: "player#show"
+    get "/:id", to: "player#show", as: "player"
   end
   resources :screens do
     resources :subscriptions, only: [ :index, :create, :destroy ]
