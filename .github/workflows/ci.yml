@@ -62,6 +62,11 @@ jobs:
 
       - name: Set up Node
         uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
+
+      - name: Install frontend dependencies
+        run: npm install
 
       - name: Run tests
         env:
