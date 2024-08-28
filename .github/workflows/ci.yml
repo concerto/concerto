@@ -60,6 +60,9 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+
       - name: Run tests
         env:
           RAILS_ENV: test
