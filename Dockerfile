@@ -22,7 +22,7 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git libvips pkg-config
 
 # Install packages needed to build frontend
-RUN apt-get install --no-install-recommends -y nodejs
+RUN apt-get install --no-install-recommends -y nodejs npm
 RUN npm i -g npx
 
 # Install application gems
