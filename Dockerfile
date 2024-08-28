@@ -21,6 +21,10 @@ FROM base as build
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git libvips pkg-config
 
+# Install packages needed to build frontend
+RUN apt-get install --no-install-recommends -y nodejs
+RUN npm i -g npx
+
 # Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
