@@ -1,8 +1,12 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
+const props = defineProps({
+  screenId: Number
+});
+
 // reactive state
-const count = ref(0)
+const count = ref(props.screenId)
 
 // functions that mutate state and trigger updates
 function increment() {
@@ -16,5 +20,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <button @click="increment">Count is: {{ count }}</button>
+  <div class="screen">
+    <button @click="increment">Count is: {{ count }}</button>
+  </div>
 </template>
+
+<style scoped>
+  .screen {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    cursor: none;
+  }
+</style>

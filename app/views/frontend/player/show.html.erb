@@ -7,9 +7,16 @@
     <%= csp_meta_tag %>
     <%= vite_client_tag %>
     <%= vite_javascript_tag 'player' %>
+    <style>
+      html, body, #screen {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
   </head>
   <body>
-    This is a placeholder for the player. Current screen: <%= @screen.name %>.
-    <div id="screen"></div>
+    <div id="screen" data-id="<%= @screen.id %>"></div>
   </body>
 </html>
