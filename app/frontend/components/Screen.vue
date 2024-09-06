@@ -1,27 +1,24 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
 const props = defineProps({
   apiUrl: String
 });
 
+const backgroundImage = ref("");
+
+const backgroundImageStyle = computed(() => {
+  return `url(${backgroundImage.value})`;
+});
+
 async function loadConfig() {
   const resp = await fetch(props.apiUrl);
   const screen = await resp.json();
-  document.getElementById("background").style.backgroundImage = `url(${screen.template.background_uri})`;
-}
-
-// reactive state
-const count = ref(0);
-
-// functions that mutate state and trigger updates
-function increment() {
-  count.value++
+  backgroundImage.value = screen.template.background_uri;
 }
 
 // lifecycle hooks
 onMounted(() => {
-  console.log(`The initial count is ${count.value}.`);
   loadConfig();
 })
 </script>
@@ -29,7 +26,6 @@ onMounted(() => {
 <template>
   <div class="screen">
     <div id="background"></div>
-    <button @click="increment">Count is: {{ count }}</button>
   </div>
 </template>
 
@@ -44,6 +40,7 @@ onMounted(() => {
   #background {
     height: 100%;
     width: 100%;
+    background-image: v-bind('backgroundImageStyle');
     background-repeat: no-repeat;
     background-size: 100% 100%;
   }
