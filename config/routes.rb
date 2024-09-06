@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :frontend do
-    get "content/", to: "content#index"
+    resources :screens, only: [ :show ]
+    get "/screens/:screen_id/fields/:field_id/content/", to: "content#index", as: "content"
 
     # The main landing page for the frontend player.
     get "/:id", to: "player#show", as: "player"
