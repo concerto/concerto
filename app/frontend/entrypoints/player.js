@@ -2,6 +2,6 @@ import { createApp } from 'vue'
 import App from '../components/Screen.vue'
 
 const div = document.getElementById('screen');
-const screenId = parseInt(div.dataset.id);
+const apiUrl = div.dataset.apiUrl;
 
-createApp(App, {screenId: screenId}).mount(div);
+createApp(App, {apiUrl: apiUrl}).mount(div);

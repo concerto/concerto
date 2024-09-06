@@ -17,6 +17,6 @@
     </style>
   </head>
   <body>
-    <div id="screen" data-id="<%= @screen.id %>"></div>
+    <div id="screen" data-api-url="<%= frontend_screen_url(@screen.id, format: :json) %>"></div>
   </body>
 </html>
