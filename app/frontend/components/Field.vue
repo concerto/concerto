@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, shallowRef } from 'vue'
 
 import ConcertoGraphic from './ConcertoGraphic.vue';
 
@@ -11,7 +11,7 @@ const props = defineProps({
   apiUrl: String
 });
 
-const currentContentType = ref(null);
+const currentContent = shallowRef(null);
 const currentContentConfig = ref({});
 
 const contentQueue = []; 
@@ -28,7 +28,7 @@ async function loadContent() {
 
 function showNextContent() {
   const nextContent = contentQueue.shift();
-  currentContentType.value = contentTypeMap.get(nextContent.type);
+  currentContent.value = contentTypeMap.get(nextContent.type);
   currentContentConfig.value = nextContent;
 }
 
@@ -49,7 +49,7 @@ onMounted(() => {
 
 <template>
   <div class="field">
-    <component @click="next" :is="ConcertoGraphic" :content="currentContentConfig"/>
+    <component @click="next" :is="currentContent" :content="currentContentConfig"/>
   </div>
 </template>
 
