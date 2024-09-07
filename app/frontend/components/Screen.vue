@@ -18,6 +18,8 @@ async function loadConfig() {
   const screen = await resp.json();
   backgroundImage.value = screen.template.background_uri;
 
+  positions.value = [];
+
   screen.positions.forEach(position => {
     positions.value.push(position);
   });
