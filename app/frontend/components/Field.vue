@@ -49,7 +49,13 @@ onMounted(() => {
 
 <template>
   <div class="field">
-    <component @click="next" :is="currentContent" :content="currentContentConfig"/>
+    <Transition>
+      <component
+        @click="next"
+        :is="currentContent"
+        :key="currentContentConfig.id"
+        :content="currentContentConfig"/>
+    </Transition>
   </div>
 </template>
 
@@ -57,5 +63,16 @@ onMounted(() => {
   .field {
     position: absolute;
     border: 1px dashed yellow;
+  }
+
+  .v-enter-active,
+  .v-leave-active {
+    transition: opacity 0.5s ease;
+    position: absolute;
+  }
+
+  .v-enter-from,
+  .v-leave-to {
+    opacity: 0;
   }
 </style>
