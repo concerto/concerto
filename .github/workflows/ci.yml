@@ -34,8 +34,16 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          cache: 'yarn'
+
       - name: Lint code for consistent style
         run: bin/rubocop -f github
+
+      - name: Lint frontend for consistent style
+        run: yarn run eslint "app/frontend/**/*.{js,vue}"
 
   test:
     runs-on: ubuntu-latest
