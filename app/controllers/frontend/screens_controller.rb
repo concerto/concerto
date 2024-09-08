@@ -4,6 +4,7 @@ class Frontend::ScreensController < Frontend::ApplicationController
   def show
     positions = @screen.template.positions.map { |p|
       {
+        id: p.id,
         top: p.top,
         left: p.left,
         bottom: p.bottom,

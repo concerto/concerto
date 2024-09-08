@@ -1,9 +1,9 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import Field from './Field.vue'
+import ConcertoField from './ConcertoField.vue'
 
 const props = defineProps({
-  apiUrl: String
+  apiUrl: {type: String, required: true}
 });
 
 const backgroundImage = ref("");
@@ -33,15 +33,18 @@ onMounted(() => {
 
 <template>
   <div class="screen">
-    <Field v-for="position in positions"
+    <ConcertoField
+      v-for="position in positions"
+      :key="position.id"
       :api-url="position.content_uri"
       :style="{
         top: 100 * position.top + '%',
         left: 100 * position.left + '%',
         height: 100 * (position.bottom-position.top) + '%',
         width: 100 * (position.right-position.left) + '%',
-      }"/>
-    <div id="background"></div>
+      }"
+    />
+    <div id="background" />
   </div>
 </template>
 

@@ -8,7 +8,7 @@ const contentTypeMap = new Map([
 ]);
 
 const props = defineProps({
-  apiUrl: String
+  apiUrl: {type: String, required: true}
 });
 
 const currentContent = shallowRef(null);
@@ -51,10 +51,11 @@ onMounted(() => {
   <div class="field">
     <Transition>
       <component
-        @click="next"
         :is="currentContent"
         :key="currentContentConfig.id"
-        :content="currentContentConfig"/>
+        :content="currentContentConfig"
+        @click="next"
+      />
     </Transition>
   </div>
 </template>

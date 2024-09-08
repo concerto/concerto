@@ -6,6 +6,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.3",
+    "eslint": "^9.10.0",
+    "eslint-plugin-vue": "^9.28.0",
     "vite": "^5.0.0",
     "vite-plugin-ruby": "^5.0.0"
   }

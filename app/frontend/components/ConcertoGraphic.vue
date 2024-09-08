@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 
 const props = defineProps({
-    content: Object
+    content: {type: Object, required: true}
 });
 
 const backgroundImageUrl = computed(() => {
@@ -12,7 +12,7 @@ const backgroundImageUrl = computed(() => {
 </script>
 
 <template>
-  <div class="graphic"></div>
+  <div class="graphic" />
 </template>
   
 <style scoped>
