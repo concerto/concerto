@@ -39,6 +39,9 @@ jobs:
         with:
           cache: 'yarn'
 
+      - name: Install frontend dependencies
+        run: yarn install
+
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
