@@ -2,9 +2,11 @@
 import { onMounted, ref, shallowRef } from 'vue'
 
 import ConcertoGraphic from './ConcertoGraphic.vue';
+import ConcertoRichText from './ConcertoRichText.vue';
 
 const contentTypeMap = new Map([
   ["Graphic", ConcertoGraphic],
+  ["RichText", ConcertoRichText],
 ]);
 
 const props = defineProps({
