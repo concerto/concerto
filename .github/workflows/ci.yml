@@ -46,7 +46,7 @@ jobs:
         run: bin/rubocop -f github
 
       - name: Lint frontend for consistent style
-        run: yarn run eslint "app/frontend/**/*.{js,vue}"
+        run: yarn run eslint "{app,test}/frontend/**/*.{js,vue}"
 
   test:
     runs-on: ubuntu-latest
