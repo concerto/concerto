@@ -39,10 +39,10 @@ onMounted(() => {
       :api-url="position.content_uri"
       :field-style="position.style"
       :style="{
-        top: 100 * position.top + '%',
-        left: 100 * position.left + '%',
-        height: 100 * (position.bottom-position.top) + '%',
-        width: 100 * (position.right-position.left) + '%',
+        top: (100 * position.top).toFixed(2) + '%',
+        left: (100 * position.left).toFixed(2) + '%',
+        height: (100 * (position.bottom-position.top)).toFixed(2) + '%',
+        width: (100 * (position.right-position.left)).toFixed(2) + '%',
       }"
     />
     <div id="background" />
