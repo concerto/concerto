@@ -2,11 +2,11 @@
 import { computed } from 'vue';
 
 const props = defineProps({
-    content: {type: Object, required: true}
+  content: {type: Object, required: true}
 });
 
 const backgroundImageUrl = computed(() => {
-    return `url(${props.content.image})`;
+  return `url(${props.content.image})`;
 })
 
 </script>

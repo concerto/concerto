@@ -6,7 +6,7 @@ import ConcertoGraphic from '~/components/ConcertoGraphic.vue'
 describe('ConcertoGraphic', () => {
   it('displays image', () => {
     const content = {
-        image: 'image.jpg'
+      image: 'image.jpg'
     };
     const wrapper = mount(ConcertoGraphic, { props: { content: content }});
 

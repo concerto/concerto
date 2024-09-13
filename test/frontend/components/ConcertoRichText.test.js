@@ -6,8 +6,8 @@ import ConcertoRichText from '~/components/ConcertoRichText.vue'
 describe('ConcertoRichText', () => {
   it('displays plain text', () => {
     const content = {
-        text: 'This is <strong>plain</strong> text which should not be HTML',
-        render_as: 'plaintext',
+      text: 'This is <strong>plain</strong> text which should not be HTML',
+      render_as: 'plaintext',
     };
     const wrapper = mount(ConcertoRichText, { props: { content: content }});
 
@@ -16,8 +16,8 @@ describe('ConcertoRichText', () => {
 
   it('displays HTML', () => {
     const content = {
-        text: 'This is <strong>HTML</strong>',
-        render_as: 'html',
+      text: 'This is <strong>HTML</strong>',
+      render_as: 'html',
     };
     const wrapper = mount(ConcertoRichText, { props: { content: content }});
 
