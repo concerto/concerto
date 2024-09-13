@@ -37,6 +37,7 @@ onMounted(() => {
       v-for="position in positions"
       :key="position.id"
       :api-url="position.content_uri"
+      :field-style="position.style"
       :style="{
         top: 100 * position.top + '%',
         left: 100 * position.left + '%',

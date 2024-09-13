@@ -10,7 +10,19 @@ const contentTypeMap = new Map([
 ]);
 
 const props = defineProps({
-  apiUrl: {type: String, required: true}
+  /**
+   * API endpoint which will load content for this field.
+   * 
+   * This typically looks like /frontend/screens/:screen_id/fields/:field_id/content.json.
+   */
+  apiUrl: {type: String, required: true},
+
+  /**
+   * CSS style to be applied to the field.
+   * 
+   * This is often used to set font family and color to align with the template.
+   */
+  fieldStyle: {type: String, required: false, default: ''},
 });
 
 const currentContent = shallowRef(null);
@@ -50,7 +62,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="field">
+  <div
+    class="field"
+    :style="fieldStyle"
+  >
     <Transition>
       <component
         :is="currentContent"
