@@ -4,6 +4,9 @@ import { onMounted, ref, shallowRef } from 'vue'
 import ConcertoGraphic from './ConcertoGraphic.vue';
 import ConcertoRichText from './ConcertoRichText.vue';
 
+// If unset, content is shown for 10 seconds.
+const defaultDuration = 10;
+
 const contentTypeMap = new Map([
   ["Graphic", ConcertoGraphic],
   ["RichText", ConcertoRichText],
@@ -28,7 +31,8 @@ const props = defineProps({
 const currentContent = shallowRef(null);
 const currentContentConfig = ref({});
 
-const contentQueue = []; 
+const contentQueue = [];
+let nextContentTimer = null;
 
 async function loadContent() {
   const resp = await fetch(props.apiUrl);
@@ -41,9 +45,16 @@ async function loadContent() {
 }
 
 function showNextContent() {
+  clearTimeout(nextContentTimer);
+
   const nextContent = contentQueue.shift();
-  currentContent.value = contentTypeMap.get(nextContent.type);
-  currentContentConfig.value = nextContent;
+  if (nextContent) {
+    currentContent.value = contentTypeMap.get(nextContent.type);
+    currentContentConfig.value = nextContent;
+  }
+  
+  const duration = (nextContent?.duration || defaultDuration) * 1000;
+  nextContentTimer = setTimeout(next, duration);
 }
 
 function next() {

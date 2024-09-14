@@ -5,7 +5,7 @@ import { HttpResponse, http } from 'msw'
 import { mount, flushPromises } from '@vue/test-utils'
 
 import ConcertoScreen from '~/components/ConcertoScreen.vue'
-import ConcertoField from '../../../app/frontend/components/ConcertoField.vue'
+import ConcertoField from '~/components/ConcertoField.vue'
 
 
 const screenSetupUrl = 'http://server/screen_setup.json';
