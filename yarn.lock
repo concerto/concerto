@@ -284,10 +284,10 @@
   resolved "https://registry.yarnpkg.com/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.5.0.tgz#3188bcb273a414b0d215fd22a58540b989b9409a"
   integrity sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ==
 
-"@mswjs/interceptors@^0.35.0":
-  version "0.35.2"
-  resolved "https://registry.yarnpkg.com/@mswjs/interceptors/-/interceptors-0.35.2.tgz#bba9bf9966fd7de64e24edea535bf2e06100e04f"
-  integrity sha512-bYs0FBd5rDu6pMID08VMnkB0/HpHsHt6+8X7TM0YSDF29tiXNZhffdaRxiazKY6TIboHMX+s7ZBejNkaKlqZVg==
+"@mswjs/interceptors@^0.35.3":
+  version "0.35.3"
+  resolved "https://registry.yarnpkg.com/@mswjs/interceptors/-/interceptors-0.35.3.tgz#9b549ce4ffff8cd6f5af1f5c90eaf3a845226ff3"
+  integrity sha512-/7DWMTsCh5Ur4yT1f6Vql48VHXkOSPXOMMBWk67lSpymHOxyNuoAA0RBKi77J/9jL7UQzzsBI2ZGjDw/vbSJFw==
   dependencies:
     "@open-draft/deferred-promise" "^2.2.0"
     "@open-draft/logger" "^0.3.0"
@@ -1568,16 +1568,16 @@ ms@^2.1.3:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
 
-msw@^2.4.5:
-  version "2.4.5"
-  resolved "https://registry.yarnpkg.com/msw/-/msw-2.4.5.tgz#ca485716d4e385abb2ed5eadc82a11361501dfcd"
-  integrity sha512-lX7knS9us1EKs1Y/ihB4eYEJ9VCq+ZGezrPSspbRw0iEaoOn1q0vZkR0joZ6w1S4u46ZD+VLJ522EQihIIkRCg==
+msw@^2.4.6:
+  version "2.4.6"
+  resolved "https://registry.yarnpkg.com/msw/-/msw-2.4.6.tgz#b1cf163faed2d9fe10df2bef660926df8a4c0adc"
+  integrity sha512-flx3DIP3+a81vvEY1lCmZVFKVYVcDiizNHg6mHYc2+F2xU+4LmZ6P2eYZUGEFoJWqA3yRWS70pJa0riFVTb5FQ==
   dependencies:
     "@bundled-es-modules/cookie" "^2.0.0"
     "@bundled-es-modules/statuses" "^1.0.1"
     "@bundled-es-modules/tough-cookie" "^0.1.6"
     "@inquirer/confirm" "^3.0.0"
-    "@mswjs/interceptors" "^0.35.0"
+    "@mswjs/interceptors" "^0.35.3"
     "@open-draft/until" "^2.1.0"
     "@types/cookie" "^0.6.0"
     "@types/statuses" "^2.0.4"
