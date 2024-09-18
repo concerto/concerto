@@ -1,0 +1,49 @@
+<rss
+	xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
+	<channel>
+		<title>Yahoo News - Latest News & Headlines</title>
+		<link>https://www.yahoo.com/news</link>
+		<description>The latest news and headlines from Yahoo! News. Get breaking news stories and in-depth coverage with videos and photos.</description>
+		<language>en-US</language>
+		<pubDate>Tue, 17 Sep 2024 22:45:28 -0400</pubDate>
+		<ttl>5</ttl>
+		<image>
+			<title>Yahoo News - Latest News & Headlines</title>
+			<link>https://www.yahoo.com/news</link>
+			<url>http://l.yimg.com/rz/d/yahoo_news_en-US_s_f_p_168x21_news.png</url>
+		</image>
+		<item>
+			<title>Item 1 Title</title>
+			<link>https://www.yahoo.com/news.html</link>
+			<pubDate>2024-09-17T13:08:33Z</pubDate>
+			<source url="https://www.reuters.com/">Reuters</source>
+		</item>
+        <item>
+			<title>Item 2 Title</title>
+		</item>
+        <item>
+			<title>Item 3 Title</title>
+		</item>
+        <item>
+            <title>Item 4 Title</title>
+        </item>
+        <item>
+            <title>Item 5 Title</title>
+        </item>
+        <item>
+            <title>Item 6 Title</title>
+        </item>
+        <item>
+            <title>Item 7 Title</title>
+        </item>
+        <item>
+            <title>Item 8 Title</title>
+        </item>
+        <item>
+            <title>Item 9 Title</title>
+        </item>
+                <item>
+            <title>Item 10 Title</title>
+        </item>
+    </channel>
+</rss>
