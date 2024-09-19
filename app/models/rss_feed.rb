@@ -40,7 +40,8 @@ class RssFeed < Feed
     end
 
     def new_items
-        doc = Nokogiri::XML(URI.open(url))
+        uri = URI.parse(url)
+        doc = Nokogiri::XML(uri.open)
 
         title = doc.xpath("/rss/channel/title").text
         items = doc.xpath("//item").map do |item|
