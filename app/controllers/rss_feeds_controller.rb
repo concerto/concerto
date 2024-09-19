@@ -1,5 +1,5 @@
 class RssFeedsController < ApplicationController
-  before_action :set_rss_feed, only: %i[ show edit update destroy ]
+  before_action :set_rss_feed, only: %i[ show edit update destroy refresh ]
 
   # GET /rss_feeds or /rss_feeds.json
   def index
@@ -45,6 +45,11 @@ class RssFeedsController < ApplicationController
         format.json { render json: @rss_feed.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def refresh
+    @rss_feed.refresh
+    redirect_to rss_feed_url(@rss_feed), notice: "Rss feed was refreshed."
   end
 
   # DELETE /rss_feeds/1 or /rss_feeds/1.json

@@ -3,6 +3,8 @@
 
 <%= render partial: "feeds/feed", locals: {feed: @rss_feed} %>
 
+  <%= link_to "Refresh Feed", refresh_rss_feed_path(@rss_feed), class: "btn" %>
+
 <div>
   <%= link_to "Edit this rss feed", edit_rss_feed_path(@rss_feed) %> |
   <%= link_to "Back to rss feeds", rss_feeds_path %>
