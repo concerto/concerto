@@ -7,7 +7,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div>
+  <div class="richtext">
     <div
       v-if="props.content.render_as == 'plaintext'"
       class="plaintext"
@@ -23,3 +23,11 @@ const props = defineProps({
     <!--eslint-enable-->
   </div>
 </template>
+
+<style scoped>
+  .richtext {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+</style>
