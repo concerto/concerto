@@ -10,7 +10,7 @@
     "@vue/test-utils": "^2.4.6",
     "eslint": "^9.11.0",
     "eslint-plugin-vue": "^9.28.0",
-    "jsdom": "^25.0.0",
+    "jsdom": "^25.0.1",
     "msw": "^2.4.9",
     "vite": "^5.4.7",
     "vite-plugin-ruby": "^5.1.0",
