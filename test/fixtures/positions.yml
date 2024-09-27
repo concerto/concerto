@@ -9,11 +9,39 @@ one:
   template: one
   field: main
 
-two:
-  top: 0.85
+two_graphic:
+  top: 0.026
   left: 0.025
-  bottom: 0.98
-  right: 0.750
-  style: MyText
+  bottom: 0.796
+  right: 0.592
+  style: 'border:solid 2px #ccc;'
+  template: two
+  field: main
+
+two_ticker:
+  top: 0.885
+  left: 0.221
+  bottom: 0.985
+  right: 0.975
+  style: color:#FFF; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important;
+  template: two
+  field: ticker
+
+two_sidebar:
+  top: 0.15
+  left: 0.68
+  bottom: 0.811
+  right: 0.95
+  style: color:#FFF; font-family:Frobisher, Arial, sans-serif;
   template: two
   field: sidebar
+
+two_time:
+  top: 0.885
+  left: 0.024
+  bottom: 0.974
+  right: 0.18
+  style: 'color:#ccc; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important;
+    letter-spacing:.12em !important;border:solid 2px #ccc;'
+  template: two
+  field: time

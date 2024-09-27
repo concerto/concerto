@@ -14,12 +14,12 @@ class SubscriptionsTest < ApplicationSystemTestCase
   test "should create subscription" do
     visit screen_subscriptions_url(@screen)
 
-    within("#" + dom_id(positions(:two))) do
+    within("#" + dom_id(positions(:two_sidebar))) do
       select @subscription.feed.name, from: "Feed"
       click_on "Create Subscription"
     end
 
-    assert_text "#{positions(:two).field.name} field subscription to #{@subscription.feed.name} feed was successfully created"
+    assert_text "#{positions(:two_sidebar).field.name} field subscription to #{@subscription.feed.name} feed was successfully created"
   end
 
   test "should destroy Subscription" do
