@@ -14,3 +14,13 @@ two:
   screen: two
   field: sidebar
   feed: nytimes_rssfeed
+
+e2e_ticker:
+  screen: e2e
+  field: ticker
+  feed: e2e_ticker_feed
+
+e2e_graphic:
+  screen: e2e
+  field: main
+  feed: e2e_graphic_feed

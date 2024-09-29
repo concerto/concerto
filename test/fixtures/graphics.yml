@@ -13,3 +13,13 @@ two:
   duration: 1
   start_time: 2024-02-10 20:33:46
   end_time: 2024-02-10 20:33:46
+
+e2e_graphic_1:
+  type: Graphic
+  name: Graphic for system test
+  duration: 1
+
+e2e_graphic_2:
+  type: Graphic
+  name: Graphic for system test
+  duration: 1

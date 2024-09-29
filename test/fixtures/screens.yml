@@ -7,3 +7,7 @@ one:
 two:
   name: Screen 2
   template: two
+
+e2e:
+  name: System Test Screen
+  template: two

@@ -12,3 +12,13 @@ two_template:
   name: image
   record: two (Template)
   blob: two_template_blob
+
+e2e_graphic_1_image:
+  name: image
+  record: e2e_graphic_1 (Content)
+  blob: one_graphic_blob
+
+e2e_graphic_2_image:
+  name: image
+  record: e2e_graphic_2 (Content)
+  blob: two_graphic_blob

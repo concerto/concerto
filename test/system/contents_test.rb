@@ -5,7 +5,7 @@ class ContentsTest < ApplicationSystemTestCase
     visit contents_url
     assert_selector "h1", text: "All Content"
 
-    assert_selector "#contents img", count: 2
+    assert_selector "#contents img", count: Graphic.all.count
     assert_selector "#contents div", text: rich_texts(:plain_richtext).text
   end
 

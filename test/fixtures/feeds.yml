@@ -7,3 +7,15 @@ one:
 two:
   name: Feed Two
   description: MyText
+
+e2e_graphic_feed:
+  name: Frontend System Test Graphic Feed
+  description: Graphic feed used for system tests
+
+e2e_sidebar_feed:
+  name: Frontend System Test Sidebar Feed
+  description: Sidebar feed used for system tests
+
+e2e_ticker_feed:
+  name: Frontend System Test Ticker Feed
+  description: Ticker feed used for system tests

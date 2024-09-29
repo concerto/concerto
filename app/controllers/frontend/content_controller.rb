@@ -8,6 +8,8 @@ class Frontend::ContentController < Frontend::ApplicationController
       subscription.contents
     end
 
+    logger.debug "Found #{@content.count} content to render in #{@screen.name}'s #{@field.name} field"
+
     render json: @content
   end
 end
