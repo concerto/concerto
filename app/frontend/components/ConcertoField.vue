@@ -4,8 +4,12 @@ import { onMounted, ref, shallowRef } from 'vue'
 import ConcertoGraphic from './ConcertoGraphic.vue';
 import ConcertoRichText from './ConcertoRichText.vue';
 
-// If unset, content is shown for 10 seconds.
+// Content is shown for 10 seconds if it does not have it's own duration.
 const defaultDuration = 10;
+
+// Disable any timers used to advance content.
+// This is helpful when debugging when you need to "freeze" the frontend.
+const disableTimer = false;
 
 const contentTypeMap = new Map([
   ["Graphic", ConcertoGraphic],
@@ -54,7 +58,11 @@ function showNextContent() {
   }
   
   const duration = (nextContent?.duration || defaultDuration) * 1000;
-  nextContentTimer = setTimeout(next, duration);
+  if (!disableTimer) {
+    nextContentTimer = setTimeout(next, duration);
+  } else {
+    console.debug(`Timer disabled, but would have waited ${duration}.`)
+  }
 }
 
 function next() {
