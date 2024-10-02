@@ -16,10 +16,10 @@ two:
 
 e2e_graphic_1:
   type: Graphic
-  name: Graphic for system test
+  name: Graphic 1 for system test
   duration: 1
 
 e2e_graphic_2:
   type: Graphic
-  name: Graphic for system test
+  name: Graphic 2 for system test
   duration: 1

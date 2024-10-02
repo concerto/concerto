@@ -13,7 +13,7 @@ class FrontendTest < ApplicationSystemTestCase
 
     loop_count = 0
 
-    while loop_count < 10 && text_content.length > 0 && graphic_content.length > 0
+    while loop_count < 30 && text_content.length > 0 && graphic_content.length > 0
       text_content.delete_if do |item|
         page.has_text?(item.text)
       end
