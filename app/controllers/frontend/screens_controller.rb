@@ -10,7 +10,7 @@ class Frontend::ScreensController < Frontend::ApplicationController
         bottom: p.bottom,
         right: p.right,
         style: p.style,
-        content_uri: frontend_content_path(screen_id: @screen.id, field_id: p.field_id, format: :json)
+        content_uri: frontend_content_path(screen_id: @screen.id, field_id: p.field_id, position_id: p.id, format: :json)
       }
     }
 

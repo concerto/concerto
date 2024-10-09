@@ -7,4 +7,12 @@ class Content < ApplicationRecord
         options[:only] ||= [ :id, :duration ]
         super(options)
     end
+
+    # should_render_in? determines if a piece of content is
+    # suitable to be rendered in a given position.
+    #
+    # By default, it returns true.
+    def should_render_in?(position)
+      true
+    end
 end

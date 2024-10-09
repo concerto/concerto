@@ -21,5 +21,13 @@ module ActiveSupport
     end
 
     # Add more helper methods to be used by all tests here...
+
+    # Populate the metadata for all graphics.
+    # By default, fixtures don't have any.
+    def analyze_graphics
+      Graphic.all.each do |g|
+        g.image.analyze if !g.image.analyzed?
+      end
+    end
   end
 end
