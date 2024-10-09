@@ -53,6 +53,12 @@ landscape_feed = Feed.find_or_create_by!(name: "Landscapes")
   end
 end
 
+Graphic.transaction do
+  Graphic.all.each do |g|
+    g.image.analyze if !g.image.analyzed?
+  end
+end
+
 Field.transaction do
     main_field = Field.find_or_create_by!(name: "Main", alt_names: [ "Graphics" ])
     sidebar_field = Field.find_or_create_by!(name: "Sidebar", alt_names: [ "Text" ])

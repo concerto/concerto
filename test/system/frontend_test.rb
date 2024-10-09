@@ -2,8 +2,6 @@ require "application_system_test_case"
 
 class FrontendTest < ApplicationSystemTestCase
   setup do
-    analyze_graphics
-
     @screen = screens(:e2e)
   end
 
