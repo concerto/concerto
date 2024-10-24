@@ -9,7 +9,7 @@
     "@vitejs/plugin-vue": "^5.1.4",
     "@vue/test-utils": "^2.4.6",
     "eslint": "^9.13.0",
-    "eslint-plugin-vue": "^9.29.0",
+    "eslint-plugin-vue": "^9.29.1",
     "jsdom": "^25.0.1",
     "msw": "^2.4.11",
     "vite": "^5.4.10",
