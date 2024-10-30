@@ -288,12 +288,12 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sqlite3 (2.1.1-aarch64-linux-gnu)
-    sqlite3 (2.1.1-arm-linux-gnu)
-    sqlite3 (2.1.1-arm64-darwin)
-    sqlite3 (2.1.1-x86-linux-gnu)
-    sqlite3 (2.1.1-x86_64-darwin)
-    sqlite3 (2.1.1-x86_64-linux-gnu)
+    sqlite3 (2.2.0-aarch64-linux-gnu)
+    sqlite3 (2.2.0-arm-linux-gnu)
+    sqlite3 (2.2.0-arm64-darwin)
+    sqlite3 (2.2.0-x86-linux-gnu)
+    sqlite3 (2.2.0-x86_64-darwin)
+    sqlite3 (2.2.0-x86_64-linux-gnu)
     sshkit (1.23.1)
       base64
       net-scp (>= 1.1.2)
@@ -365,7 +365,7 @@ DEPENDENCIES
   rails (~> 7.2.1)
   rubocop-rails-omakase
   selenium-webdriver
-  sqlite3 (~> 2.1)
+  sqlite3 (~> 2.2)
   stimulus-rails
   tailwindcss-rails (~> 3.0)
   turbo-rails
