@@ -8,7 +8,7 @@
     "@stylistic/eslint-plugin": "^2.10.1",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vue/test-utils": "^2.4.6",
-    "eslint": "^9.13.0",
+    "eslint": "^9.14.0",
     "eslint-plugin-vue": "^9.30.0",
     "jsdom": "^25.0.1",
     "msw": "^2.6.0",
