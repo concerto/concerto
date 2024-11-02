@@ -96,7 +96,7 @@ GEM
       rails
     concurrent-ruby (1.2.2)
     crass (1.0.6)
-    date (3.3.4)
+    date (2.0.3)
     debug_inspector (1.1.0)
     declarative (0.0.20)
     delayed_job (4.1.11)
