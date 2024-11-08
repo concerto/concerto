@@ -23,7 +23,7 @@ jobs:
       id-token: write
     environment:
       name: demo
-      url: https://concerto-fresh-demo.tail4b87.ts.net/
+      url: https://fresh-demo.concerto-signage.org/
     steps:
       - name: Connect to Tailnet
         uses: tailscale/github-action@v2
