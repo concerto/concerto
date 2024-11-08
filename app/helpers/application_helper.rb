@@ -13,6 +13,6 @@ module ApplicationHelper
     end
 
     def page_title(title)
-        content_for :page_title, title
+        content_for :title, title
     end
 end
