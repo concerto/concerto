@@ -21,6 +21,7 @@ class GraphicsTest < ApplicationSystemTestCase
     @graphic.feeds.each do |f|
       check f.name
     end
+    attach_file "Image", file_fixture("one.jpg")
     click_on "Create Graphic"
 
     assert_text "Graphic was successfully created"
