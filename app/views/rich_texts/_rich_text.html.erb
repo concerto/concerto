@@ -1,31 +1,12 @@
 <div id="<%= dom_id rich_text %>">
-  <p>
-    <strong>Name:</strong>
-    <%= rich_text.name %>
-  </p>
-
-  <p>
-    <strong>Duration:</strong>
-    <%= rich_text.duration %>
-  </p>
-
-  <p>
-    <strong>Start time:</strong>
-    <%= rich_text.start_time %>
-  </p>
-
-  <p>
-    <strong>End time:</strong>
-    <%= rich_text.end_time %>
-  </p>
-
-  <p>
-    <strong>Text:</strong>
+  <div class="p-2 m-2 border-solid border-2 border-black">
     <%= rich_text.text %>
-  </p>
+  </div>
 
-  <p>
-    <strong>Render As:</strong>
-    <%= rich_text.render_as %>
-  </p>
+  <%= render "contents/show_details", content: rich_text do %>
+    <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+      <dt class="text-sm/6 font-medium text-gray-900">Render As:</dt>
+      <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"><%= rich_text.render_as %></dd>
+    </div>
+  <% end %>
 </div>

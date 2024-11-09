@@ -1,0 +1,39 @@
+<div class="px-4 sm:px-0">
+  <h3 class="text-base/7 font-semibold text-gray-900">Content Details</h3>
+  <!-- <p class="mt-1 max-w-2xl text-sm/6 text-gray-500">Subtitle here.</p> -->
+</div>
+<div class="mt-2 border-t border-gray-100">
+  <dl class="divide-y divide-gray-100">
+  <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+    <dt class="text-sm/6 font-medium text-gray-900">Name</dt>
+    <dd class="mt-1 text-sm/6 text-gray-900 sm:col-span-2 sm:mt-0"><%= content.name %></dd>
+  </div>
+  <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+    <dt class="text-sm/6 font-medium text-gray-900">Duration</dt>
+    <dd class="mt-1 text-sm/6 text-gray-900 sm:col-span-2 sm:mt-0">
+    <% if content.duration.nil? %>
+      N/A, using default.
+    <% else %>
+      <%= content.duration %> seconds
+    <% end %>
+    </dd>
+  </div>
+  <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+    <dt class="text-sm/6 font-medium text-gray-900">Schedule</dt>
+    <dd class="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+      <div class="flex items-center justify-between py-1 pr-5 text-sm/6 font-medium">
+        <%= schedule_summary(content) %>
+      </div>
+      <div class="py-1 pl-4 pr-5 text-sm/6">
+      Start:
+      <%= content.start_time || "N/A" %>
+      </div>
+      <div class="py-1 pl-4 pr-5 text-sm/6">
+      End:
+      <%= content.end_time || "N/A" %>
+      </div>
+    </dd>
+  </div>
+    <%= yield %>
+  </dl>
+</div>
