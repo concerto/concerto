@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :videos
   namespace :frontend do
     resources :screens, only: [ :show ]
     get "/screens/:screen_id/fields/:field_id/content/", to: "content#index", as: "content"

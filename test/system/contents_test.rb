@@ -5,7 +5,7 @@ class ContentsTest < ApplicationSystemTestCase
     visit contents_url
     assert_selector "h1", text: "All Content"
 
-    assert_selector "#contents img", count: Graphic.all.count
+    assert_selector "#contents img", count: (Graphic.all.count + Video.all.count)
     assert_selector "#contents div", text: rich_texts(:plain_richtext).text
   end
 
@@ -17,5 +17,6 @@ class ContentsTest < ApplicationSystemTestCase
 
     has_link? "Add Graphic", href: new_graphic_path
     has_link? "Add Text / HTML", href: new_rich_text_path
+    has_link? "Add Video", href: new_video_path
   end
 end

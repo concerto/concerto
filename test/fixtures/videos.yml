@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+video_youtube:
+  type: Video
+  name: Sample YouTube Video
+  duration: 60
+  start_time: 2024-12-24 03:10:59
+  end_time: 2024-12-24 03:10:59
+  config: {'url': 'https://www.youtube.com/watch?v=eT4OAYjzV-s'}
+
+video_two:
+  type: Video
+  name: MyString
+  duration: 1
+  start_time: 2024-12-24 03:10:59
+  end_time: 2024-12-24 03:10:59
+  config: {'url': 'MyString'}
