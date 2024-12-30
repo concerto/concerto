@@ -173,7 +173,7 @@ GEM
       net-protocol
     net-ssh (7.3.0)
     nio4r (2.7.4)
-    nokogiri (1.18.0-x86_64-linux-gnu)
+    nokogiri (1.18.1-x86_64-linux-gnu)
       racc (~> 1.4)
     ostruct (0.6.0)
     parallel (1.26.3)
@@ -305,10 +305,10 @@ GEM
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.1.2)
-    tailwindcss-rails (3.0.0)
+    tailwindcss-rails (3.1.0)
       railties (>= 7.0.0)
       tailwindcss-ruby
-    tailwindcss-ruby (3.4.14-x86_64-linux)
+    tailwindcss-ruby (3.4.17-x86_64-linux)
     thor (1.3.2)
     thruster (0.1.9-x86_64-linux)
     timeout (0.4.3)
@@ -363,7 +363,7 @@ DEPENDENCIES
   solid_queue
   sqlite3 (>= 2.1)
   stimulus-rails
-  tailwindcss-rails (~> 3.0)
+  tailwindcss-rails (~> 3.1)
   thruster
   turbo-rails
   tzinfo-data
