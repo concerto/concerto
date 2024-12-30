@@ -53,7 +53,13 @@ function showNextContent() {
 
   const nextContent = contentQueue.shift();
   if (nextContent) {
-    currentContent.value = contentTypeMap.get(nextContent.type);
+    const nextContentType = contentTypeMap.get(nextContent.type);
+    if (!nextContentType) {
+      console.error(`Unknown content type: ${nextContent.type}`);
+      next();
+      return;
+    }
+    currentContent.value = nextContentType;
     currentContentConfig.value = nextContent;
   }
   

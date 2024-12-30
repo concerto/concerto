@@ -32,3 +32,9 @@ System tests:
 ```shell
 bin/rails test:system
 ```
+
+Frontend tests:
+
+```shell
+yarn run vitest
+```

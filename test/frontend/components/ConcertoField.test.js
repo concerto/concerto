@@ -10,6 +10,7 @@ import ConcertoGraphic from '~/components/ConcertoGraphic.vue'
 import ConcertoRichText from '~/components/ConcertoRichText.vue'
 
 const fieldContentUrl = 'http://server/field_content.json';
+const fieldUnknownContentUrl = 'http://server/field_unknown_content.json';
 
 const fieldContent = [
   {
@@ -31,11 +32,34 @@ const fieldContent = [
     "image": "welcome.jpg"
   },
 ];
+
+const fieldUnknownContent = [
+  {
+    "id": 1,
+    "duration": null,
+    "type": "Graphic",
+    "image": "poster.png"
+  },
+  {
+    "id": 2,
+    "type": "UnknownContentType",
+  },
+  {
+    "id": 3,
+    "duration": null,
+    "type": "Graphic",
+    "image": "welcome.png"
+  }, 
+];
+
   
 export const httpHandlers = [
   http.get(fieldContentUrl, () => {
     return HttpResponse.json(fieldContent);
-  })
+  }),
+  http.get(fieldUnknownContentUrl, () => {
+    return HttpResponse.json(fieldUnknownContent);
+  }),
 ];
 
 const server = setupServer(...httpHandlers);
@@ -103,5 +127,38 @@ describe('ConcertoField', () => {
     // RichText -> Graphic.
     expect(wrapper.findComponent(ConcertoGraphic).exists()).toBe(true);
     expect(wrapper.findComponent(ConcertoRichText).exists()).toBe(false);
+  });
+
+  it('skips over unknown content types', async () => {
+    const wrapper = mount(ConcertoField, {
+      props: { apiUrl: fieldUnknownContentUrl },
+      global: {
+        stubs: {
+          transition: false,
+        }
+      }
+    });
+
+    await flushPromises();
+
+    // First load displays the initial graphic.
+    expect(wrapper.findComponent(ConcertoGraphic).props()).toEqual(
+      {
+        content: fieldUnknownContent[0]
+      }
+    );
+
+    const vm = wrapper.vm;
+    // Advance to the next content.
+    vm.next();
+
+    await nextTick();
+
+    // Skips over the unknown content type and renders the graphic.
+    expect(wrapper.findComponent(ConcertoGraphic).props()).toEqual(
+      {
+        content: fieldUnknownContent[2]
+      }
+    );
   });
 })
