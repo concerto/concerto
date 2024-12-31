@@ -3,6 +3,7 @@ import { onMounted, ref, shallowRef } from 'vue'
 
 import ConcertoGraphic from './ConcertoGraphic.vue';
 import ConcertoRichText from './ConcertoRichText.vue';
+import ConcertoVideo from './ConcertoVideo.vue';
 
 // Content is shown for 10 seconds if it does not have it's own duration.
 const defaultDuration = 10;
@@ -14,6 +15,7 @@ const disableTimer = false;
 const contentTypeMap = new Map([
   ["Graphic", ConcertoGraphic],
   ["RichText", ConcertoRichText],
+  ["Video", ConcertoVideo]
 ]);
 
 const props = defineProps({

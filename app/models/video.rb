@@ -3,7 +3,7 @@ class Video < Content
 
   def as_json(options = {})
     super(options).merge({
-      url: url
+      video_id: video_id
     })
   end
 
