@@ -12,9 +12,13 @@ const videoUrl = computed(() => {
 </script>
 
 <template>
-  <iframe class="player" type="text/html"
+  <iframe
+    class="player"
+    type="text/html"
+    frameborder="0"
+    allow="autoplay"
     v-html="videoUrl"
-    frameborder="0" allow="autoplay"></iframe>
+  />
 </template>
   
 <style scoped>

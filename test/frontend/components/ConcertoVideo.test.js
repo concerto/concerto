@@ -6,7 +6,7 @@ import ConcertoVideo from '~/components/ConcertoVideo.vue'
 describe('ConcertoVideo', () => {
   it('displays image', () => {
     const content = {
-        video_id: 'z7HyF46-Zd0'
+      video_id: 'z7HyF46-Zd0'
     };
     const wrapper = mount(ConcertoVideo, { props: { content: content }});
 
