@@ -8,6 +8,11 @@ export default mergeConfig(
       environment: 'jsdom',
       include: ['../../test/frontend/**/*'],
       css: true,
+      // Match the vitest 2.x.x fake timers configuration.
+      // ref: https://vitest.dev/guide/migration.html#fake-timers-defaults
+      fakeTimers: {
+        toFake: ['setTimeout', 'clearTimeout', 'Date'], 
+      },
     },
     resolve: {
       alias: {

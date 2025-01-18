@@ -73,7 +73,8 @@ afterAll(() => server.close());
 // Reset handlers after each test.
 afterEach(() => {
   vi.restoreAllMocks();
-  server.resetHandlers()
+  vi.useRealTimers();
+  server.resetHandlers();
 });
 
 describe('ConcertoField', () => {
