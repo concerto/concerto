@@ -63,7 +63,7 @@ group :test do
 end
 
 # Use tailwindcss for the admin panel.
-gem "tailwindcss-rails", "~> 3.2"
+gem "tailwindcss-rails", "~> 3.3"
 
 # Use Vite & Vue for the frontend player.
 gem "vite_rails"
