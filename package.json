@@ -5,7 +5,7 @@
     "vue": "^3.5.13"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin": "^2.13.0",
+    "@stylistic/eslint-plugin": "^3.0.0",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/test-utils": "^2.4.6",
     "eslint": "^9.19.0",
