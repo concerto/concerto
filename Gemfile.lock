@@ -317,7 +317,7 @@ GEM
       tailwindcss-ruby (~> 3.0)
     tailwindcss-ruby (3.4.17-x86_64-linux)
     thor (1.3.2)
-    thruster (0.1.10-x86_64-linux)
+    thruster (0.1.11-x86_64-linux)
     timeout (0.4.3)
     turbo-rails (2.0.11)
       actionpack (>= 6.0.0)
