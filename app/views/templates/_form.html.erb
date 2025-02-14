@@ -20,7 +20,7 @@
 
   <div>
     <%= form.label :image, style: "display: block" %>
-    <%= form.file_field :image %>
+    <%= form.file_field :image, class: "frm-input" %>
   </div>
 
   <table>
@@ -44,9 +44,9 @@
     </tbody>
   </table>
 
-  <button type="button" data-action="template#add">Add Position</button>
+  <button type="button" class="btn" data-action="template#add">Add Position</button>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit class: "btn" %>
   </div>
 <% end %>
