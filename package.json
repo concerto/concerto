@@ -11,7 +11,7 @@
     "eslint": "^9.20.1",
     "eslint-plugin-vue": "^9.32.0",
     "jsdom": "^26.0.0",
-    "msw": "^2.7.1",
+    "msw": "^2.7.3",
     "vite": "^6.1.1",
     "vite-plugin-ruby": "^5.1.1",
     "vitest": "^3.0.6"
