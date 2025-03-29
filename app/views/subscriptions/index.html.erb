@@ -2,7 +2,6 @@
 <% content_for :subheader do %>
   <div><%= link_to "Back to screen", @screen, class: "underline" %></div>
 <% end %>
-<p style="color: green"><%= notice %></p>
 
 <% active_subscriptions = [] %>
 <% @screen.template.positions.each do |position| %>
