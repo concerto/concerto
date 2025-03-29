@@ -1,7 +1,15 @@
 require "open-uri"
 
 class RssFeed < Feed
-    store_accessor :config, :url
+    store_accessor :config, [ :url, :last_refreshed, :refresh_interval ]
+
+    def last_refreshed
+      DateTime.parse(super) if super
+    end
+
+    def refresh_interval
+      super.to_i if super
+    end
 
     def refresh
       new_items = new_items()
@@ -36,7 +44,10 @@ class RssFeed < Feed
           )
         end
       end
-      ""
+
+      # Update the last refreshed time.
+      self.last_refreshed = Time.now
+      self.save
     end
 
     def new_items

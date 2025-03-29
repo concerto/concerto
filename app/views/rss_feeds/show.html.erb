@@ -2,7 +2,11 @@
 
 <%= render partial: "feeds/feed", locals: {feed: @rss_feed} %>
 
+<div>
+  Last Refreshed: <%= @rss_feed.last_refreshed ? @rss_feed.last_refreshed.to_fs(:long) : "Never" %><br />
+
   <%= link_to "Refresh Feed", refresh_rss_feed_path(@rss_feed), class: "btn" %>
+</div>
 
 <div>
   <%= link_to "Edit this rss feed", edit_rss_feed_path(@rss_feed) %> |
