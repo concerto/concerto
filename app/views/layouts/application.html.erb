@@ -34,6 +34,12 @@
       </div>
     </header>
     <main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <% flash.each do |key, message| %>
+        <div class="mb-4 p-4 rounded-lg 
+                    <%= key == 'notice' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+          <%= message %>
+        </div>
+      <% end %>
       <%= yield %>
     </main>
   </body>

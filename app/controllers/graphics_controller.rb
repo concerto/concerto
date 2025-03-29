@@ -8,6 +8,10 @@ class GraphicsController < ApplicationController
 
   # GET /graphics/1 or /graphics/1.json
   def show
+    if @graphic.image.attached? && !@graphic.image.analyzed?
+      @graphic.image.analyze_later()
+      flash[:alert] = "This graphic is queued for re-processing."
+    end
   end
 
   # GET /graphics/new
