@@ -10,6 +10,6 @@ describe('ConcertoVideo', () => {
     };
     const wrapper = mount(ConcertoVideo, { props: { content: content }});
 
-    expect(wrapper.html()).toContain('src="http://www.youtube-nocookie.com/embed/z7HyF46-Zd0?rel=0&amp;iv_load_policy=3&amp;autoplay=1');
+    expect(wrapper.html()).toContain('src="https://www.youtube-nocookie.com/embed/z7HyF46-Zd0?rel=0&amp;iv_load_policy=3&amp;autoplay=1');
   })
 })
