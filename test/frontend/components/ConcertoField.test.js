@@ -162,4 +162,35 @@ describe('ConcertoField', () => {
       }
     );
   });
+
+  it('allows content to take over timer control', async () => {
+    vi.useFakeTimers();
+    const wrapper = mount(ConcertoField, {
+      props: { apiUrl: fieldContentUrl },
+      global: {
+        stubs: {
+          transition: false,
+        }
+      }
+    });
+
+    await flushPromises();
+
+    // Initially shows first graphic content
+    expect(wrapper.findComponent(ConcertoGraphic).exists()).toBe(true);
+    
+    // When content emits take-over-timer
+    wrapper.findComponent(ConcertoGraphic).vm.$emit('take-over-timer');
+    await nextTick();
+    
+    // Advancing timer should not trigger content change
+    vi.advanceTimersToNextTimer();
+    await nextTick();
+    expect(wrapper.findComponent(ConcertoGraphic).exists()).toBe(true);
+
+    // Content can advance itself by emitting next
+    wrapper.findComponent(ConcertoGraphic).vm.$emit('next');
+    await nextTick();
+    expect(wrapper.findComponent(ConcertoRichText).exists()).toBe(true);
+  });
 })

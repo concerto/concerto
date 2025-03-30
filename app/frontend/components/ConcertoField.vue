@@ -81,6 +81,13 @@ function next() {
   }
 }
 
+// The content has requested control of the next content timer.
+// This is useful for content that has a timer of its own, such as video.
+function delegateTimerToContent() {
+  console.debug('Delegating timer to content');
+  clearTimeout(nextContentTimer);
+  nextContentTimer = null;
+}
 
 // lifecycle hooks
 onMounted(() => {
@@ -99,6 +106,8 @@ onMounted(() => {
         :key="currentContentConfig.id"
         :content="currentContentConfig"
         @click="next"
+        @take-over-timer="delegateTimerToContent"
+        @next="next"
       />
     </Transition>
   </div>
