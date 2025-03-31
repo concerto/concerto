@@ -15,3 +15,10 @@ video_two:
   start_time: 2024-12-24 03:10:59
   end_time: 2024-12-24 03:10:59
   config: {'url': 'MyString'}
+
+video_vimeo:
+  type: Video
+  name: Sample Vimeo Video
+  start_time: 2024-12-24 03:10:59
+  end_time: 2024-12-24 03:10:59
+  config: {'url': 'https://vimeo.com/897211169'}
