@@ -92,6 +92,9 @@ builder:
   #   - GITHUB_TOKEN
   #   - RAILS_MASTER_KEY
 
+# Only keep the last 3 containers instead of 5.
+retain_containers: 3
+
 # Use a different ssh user than root
 # ssh:
 #   user: app
