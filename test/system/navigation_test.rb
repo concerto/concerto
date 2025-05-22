@@ -3,7 +3,7 @@ require "application_system_test_case"
 class NavigationTest < ApplicationSystemTestCase
   test "displays sign in button when user is not authenticated" do
     visit feeds_path
-    
+
     assert_selector "nav" do
       assert_link "Sign in", href: new_user_session_path
       assert_no_selector "button#user-menu-button"
@@ -33,9 +33,9 @@ class NavigationTest < ApplicationSystemTestCase
   test "mobile menu shows correct authentication state" do
     # Set mobile viewport size
     page.driver.browser.manage.window.resize_to(375, 667)
-    
+
     visit feeds_path
-    
+
     # Test unauthenticated state
     find("button[aria-controls='mobile-menu']").click
     within "#mobile-menu" do
@@ -47,7 +47,7 @@ class NavigationTest < ApplicationSystemTestCase
     user = users(:admin)
     sign_in user
     visit feeds_path
-    
+
     find("button[aria-controls='mobile-menu']").click
     within "#mobile-menu" do
       assert_selector ".text-white", text: user.email
