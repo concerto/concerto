@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :videos
   namespace :frontend do
     resources :screens, only: [ :show ]

@@ -47,7 +47,7 @@
                 <!-- Active: "bg-gray-100", Not Active: "" -->
                 <a href="#" data-action="dropdown#toggle" class="hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
                 <a href="#" data-action="dropdown#toggle" class="hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-                <a href="#" data-action="dropdown#toggle" class="hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+                <%= link_to "Sign Out", destroy_user_session_path, data: {action: 'dropdown#toggle', turbo_method: :delete}, class: "hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700", role: 'menuitem', tabindex: -1 %>
               </div>
             </div>
           </div>
