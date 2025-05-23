@@ -1,5 +1,6 @@
 class GraphicsController < ApplicationController
-  before_action :set_graphic, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :set_graphic, only: %i[show edit update destroy]
 
   # GET /graphics or /graphics.json
   def index

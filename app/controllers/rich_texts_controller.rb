@@ -1,5 +1,6 @@
 class RichTextsController < ApplicationController
-  before_action :set_rich_text, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :set_rich_text, only: %i[show edit update destroy]
 
   # GET /rich_texts or /rich_texts.json
   def index
