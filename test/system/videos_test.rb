@@ -3,6 +3,7 @@ require "application_system_test_case"
 class VideosTest < ApplicationSystemTestCase
   setup do
     @video = videos(:video_youtube)
+    @user = users(:admin)
   end
 
   test "visiting the index" do
@@ -11,6 +12,8 @@ class VideosTest < ApplicationSystemTestCase
   end
 
   test "should create video" do
+    sign_in @user
+
     visit videos_url
     click_on "New video"
 
@@ -26,6 +29,8 @@ class VideosTest < ApplicationSystemTestCase
   end
 
   test "should update Video" do
+    sign_in @user
+
     visit video_url(@video)
     click_on "Edit this video", match: :first
 
@@ -41,6 +46,8 @@ class VideosTest < ApplicationSystemTestCase
   end
 
   test "should destroy Video" do
+    sign_in @user
+
     visit video_url(@video)
     click_on "Destroy this video", match: :first
 
