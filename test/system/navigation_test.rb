@@ -2,6 +2,9 @@ require "application_system_test_case"
 
 class NavigationTest < ApplicationSystemTestCase
   test "displays sign in button when user is not authenticated" do
+    # Set desktop viewport size
+    page.driver.browser.manage.window.resize_to(1024, 680)
+
     visit feeds_path
 
     assert_selector "nav" do
@@ -11,6 +14,9 @@ class NavigationTest < ApplicationSystemTestCase
   end
 
   test "displays user avatar and menu when user is authenticated" do
+    # Set desktop viewport size
+    page.driver.browser.manage.window.resize_to(1024, 680)
+
     user = users(:admin)
     sign_in user
     visit feeds_path
