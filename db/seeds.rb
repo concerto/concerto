@@ -8,6 +8,8 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+User.find_or_create_by!(is_system_user: true)
+
 general_feed = Feed.find_or_create_by!(name: "General")
 
 plain_ticker = RichText.find_or_initialize_by(name: "Welcome Ticker", text: "Welcome to Concerto!")
