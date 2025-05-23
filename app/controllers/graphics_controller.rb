@@ -26,6 +26,7 @@ class GraphicsController < ApplicationController
   # POST /graphics or /graphics.json
   def create
     @graphic = Graphic.new(graphic_params)
+    @graphic.user = current_user
 
     respond_to do |format|
       if @graphic.save

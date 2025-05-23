@@ -16,6 +16,8 @@ class GraphicsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create graphic" do
+    sign_in users(:admin)
+
     assert_difference("Graphic.count") do
       post graphics_url, params: { graphic: {
         duration: @graphic.duration, end_time: @graphic.end_time,

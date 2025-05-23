@@ -16,6 +16,8 @@ class RichTextsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create rich_text" do
+    sign_in users(:admin)
+
     assert_difference("RichText.count") do
       post rich_texts_url, params: { rich_text: {
         duration: @rich_text.duration, end_time: @rich_text.end_time,

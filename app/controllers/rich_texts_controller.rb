@@ -22,6 +22,7 @@ class RichTextsController < ApplicationController
   # POST /rich_texts or /rich_texts.json
   def create
     @rich_text = RichText.new(rich_text_params)
+    @rich_text.user = current_user
 
     respond_to do |format|
       if @rich_text.save

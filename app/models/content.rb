@@ -1,6 +1,7 @@
 class Content < ApplicationRecord
     has_many :submissions, dependent: :destroy
     has_many :feeds, through: :submissions
+    belongs_to :user
 
     def as_json(options = {})
         options[:methods] ||= [ :type ]

@@ -8,30 +8,30 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-User.find_or_create_by!(is_system_user: true)
+system_user = User.find_or_create_by!(is_system_user: true)
 
 general_feed = Feed.find_or_create_by!(name: "General")
 
-plain_ticker = RichText.find_or_initialize_by(name: "Welcome Ticker", text: "Welcome to Concerto!")
+plain_ticker = RichText.find_or_initialize_by(name: "Welcome Ticker", text: "Welcome to Concerto!", user: system_user)
 if plain_ticker.new_record?
     plain_ticker.render_as = RichText.render_as[:plaintext]
     plain_ticker.save!
 end
 
-html_ticker = RichText.find_or_initialize_by(name: "HTML Ticker", text: "<b>Concerto</b> is digital signage for <i>everyone</i>.")
+html_ticker = RichText.find_or_initialize_by(name: "HTML Ticker", text: "<b>Concerto</b> is digital signage for <i>everyone</i>.", user: system_user)
 if html_ticker.new_record?
     html_ticker.render_as = RichText.render_as[:html]
     html_ticker.save!
 end
 
-graphic1 = Graphic.find_or_initialize_by(name: "GenAI Poster", duration: 30)
+graphic1 = Graphic.find_or_initialize_by(name: "GenAI Poster", duration: 30, user: system_user)
 if graphic1.new_record?
     graphic1.image = File.new("db/seed_assets/genai_poster.png")
     graphic1.submissions.new(feed: general_feed)
     graphic1.save!
 end
 
-graphic2 = Graphic.find_or_initialize_by(name: "Welcome Robot", duration: 25)
+graphic2 = Graphic.find_or_initialize_by(name: "Welcome Robot", duration: 25, user: system_user)
 if graphic2.new_record?
     graphic2.image = File.new("db/seed_assets/welcome_robot.jpg")
     graphic2.submissions.new(feed: general_feed)
@@ -47,7 +47,7 @@ end
 landscape_feed = Feed.find_or_create_by!(name: "Landscapes")
 
 (1..6).each do |i|
-  landscape = Graphic.find_or_initialize_by(name: "Landscape #{i}", duration: 10 + 2*i)
+  landscape = Graphic.find_or_initialize_by(name: "Landscape #{i}", duration: 10 + 2*i, user: system_user)
   if landscape.new_record?
     landscape.image = File.new("db/seed_assets/landscape_#{i}.jpg")
     landscape.submissions.new(feed: landscape_feed)

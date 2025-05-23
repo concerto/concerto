@@ -8,6 +8,7 @@ plain_richtext:
   end_time: 2024-02-10 21:00:04
   text: MyText
   config: {'render_as': 'plaintext'}
+  user: admin
 
 html_richtext:
   type: RichText
@@ -17,6 +18,7 @@ html_richtext:
   end_time: 2024-02-10 21:00:04
   text: MyText
   config: {'render_as': 'html'}
+  user: admin
 
 e2e_ticker_1:
   type: RichText
@@ -24,6 +26,7 @@ e2e_ticker_1:
   duration: 1
   text: First ticker text for system tests
   config: {'render_as': 'plaintext'}
+  user: admin
 
 e2e_ticker_2:
   type: RichText
@@ -31,3 +34,4 @@ e2e_ticker_2:
   duration: 1
   text: Second ticker text for system tests
   config: {'render_as': 'plaintext'}
+  user: admin

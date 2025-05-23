@@ -16,6 +16,8 @@ class VideosControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create video" do
+    sign_in users(:admin)
+
     assert_difference("Video.count") do
       post videos_url, params: { video: { duration: @video.duration, end_time: @video.end_time, name: @video.name, start_time: @video.start_time, url: @video.url } }
     end
