@@ -1,6 +1,7 @@
 import pluginVue from 'eslint-plugin-vue'
 import js from '@eslint/js'
 import stylistic from '@stylistic/eslint-plugin'
+import globals from 'globals'
 
 export default [
   // add more generic rulesets here, such as:
@@ -14,6 +15,12 @@ export default [
       'indent': ['error', 2],
       // override/add rules settings here, such as:
       // 'vue/no-unused-vars': 'error'
+    },
+    languageOptions: {
+      sourceType: 'module',
+      globals: {
+        ...globals.browser
+      }
     }
   }
 ]
