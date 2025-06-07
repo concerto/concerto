@@ -22,7 +22,7 @@
   <%= form.label :feed_ids, "Feeds", class: "frm-label" %>
   <fieldset>
     <div class="mt-6 space-y-3">
-    <%= form.collection_check_boxes :feed_ids, Feed.all, :id, :name do |b| %>
+    <%= form.collection_check_boxes :feed_ids, Feed.all.select { |f| f.active_for_upload? }, :id, :name do |b| %>
       <div class="flex items-center gap-x-3">
         <%= b.check_box class: "h-4 w-4 border-gray-300" %>
         <%= b.label class: "block text-sm font-medium leading-6 text-gray-900" %>

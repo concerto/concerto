@@ -11,6 +11,10 @@ class RssFeed < Feed
       super.to_i if super
     end
 
+    def active_for_upload?
+      false
+    end
+
     def refresh
       new_items = new_items()
       existing_content = content.all
