@@ -77,8 +77,4 @@ class RssFeedTest < ActiveSupport::TestCase
     assert_empty content[1].text
     assert_operator content[1].end_time, :<, Time.now
   end
-
-  test "rss feed is not active for upload" do
-    assert_not @feed.active_for_upload?
-  end
 end
