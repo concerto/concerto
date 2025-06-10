@@ -29,7 +29,7 @@
                     <span class="absolute -inset-1.5"></span>
                     <span class="sr-only">Open user menu</span>
                     <div class="h-8 w-8 rounded-full flex items-center justify-center text-white font-medium bg-gradient-to-br from-blue-500 to-purple-600">
-                      <%= current_user.email[0].upcase %>
+                      <%= user_initials(current_user) %>
                     </div>
                   </button>
                 </div>
@@ -77,11 +77,12 @@
           <div class="flex items-center px-5">
             <div class="shrink-0">
               <div class="h-10 w-10 rounded-full flex items-center justify-center text-white font-medium bg-gradient-to-br from-blue-500 to-purple-600">
-                <%= current_user.email[0].upcase %>
+                <%= user_initials(current_user) %>
               </div>
             </div>
             <div class="ml-3">
-              <div class="text-base font-medium leading-none text-white"><%= current_user.email %></div>
+              <div class="text-base font-medium leading-none text-white"><%= current_user.full_name %></div>
+              <div class="text-sm font-medium leading-none text-gray-400"><%= current_user.email %></div>
             </div>
             <button type="button" class="relative ml-auto shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-hidden focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
               <span class="absolute -inset-1.5"></span>

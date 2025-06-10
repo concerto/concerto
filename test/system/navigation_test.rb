@@ -23,7 +23,7 @@ class NavigationTest < ApplicationSystemTestCase
 
     assert_selector "nav" do
       assert_selector "#user-menu-button"
-      assert_selector ".rounded-full", text: user.email[0].upcase
+      assert_selector ".rounded-full", text: "#{user.first_name[0]}#{user.last_name[0]}".upcase
       assert_no_link "Sign in"
     end
 
@@ -56,8 +56,8 @@ class NavigationTest < ApplicationSystemTestCase
 
     find("button[aria-controls='mobile-menu']").click
     within "#mobile-menu" do
-      assert_selector ".text-white", text: user.email
-      assert_selector ".rounded-full", text: user.email[0].upcase
+      assert_selector ".text-white", text: "#{user.first_name} #{user.last_name}"
+      assert_selector ".rounded-full", text: "#{user.first_name[0]}#{user.last_name[0]}".upcase
       assert_link "Sign out"
     end
   end
