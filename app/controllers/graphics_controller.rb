@@ -28,6 +28,7 @@ class GraphicsController < ApplicationController
   def create
     @graphic = Graphic.new(graphic_params)
     @graphic.user = current_user
+    authorize @graphic
 
     respond_to do |format|
       if @graphic.save

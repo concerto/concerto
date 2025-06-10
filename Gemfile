@@ -70,3 +70,6 @@ gem "vite_rails"
 
 # Use Devise for authentication.
 gem "devise", "~> 4.9"
+
+# Use Pundit for authorization.
+gem "pundit", "~> 2.5"

@@ -52,6 +52,20 @@ class RichTextsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to rich_text_url(RichText.last)
   end
 
+  test "should not create rich text for feed which prevents upload" do
+    sign_in @user
+    assert_no_difference("RichText.count") do
+      assert_raises(Pundit::NotAuthorizedError) do
+        post rich_texts_url, params: { rich_text: {
+        duration: @rich_text.duration, end_time: @rich_text.end_time,
+        name: @rich_text.name, start_time: @rich_text.start_time,
+        text: @rich_text.text, render_as: @rich_text.render_as,
+          feed_ids: [ rss_feeds(:yahoo_rssfeed).id ] # RSS feeds are never active for upload.
+        } }
+      end
+    end
+  end
+
   test "should redirect edit when not logged in" do
     get edit_rich_text_url(@rich_text)
     assert_redirected_to new_user_session_url

@@ -50,6 +50,19 @@ class GraphicsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to graphic_url(Graphic.last)
   end
 
+  test "should not create graphic for feed which prevents upload" do
+    sign_in @user
+    assert_no_difference("Graphic.count") do
+      assert_raises(Pundit::NotAuthorizedError) do
+        post graphics_url, params: { graphic: {
+          duration: @graphic.duration, end_time: @graphic.end_time,
+          name: @graphic.name, start_time: @graphic.start_time,
+          feed_ids: [ rss_feeds(:yahoo_rssfeed).id ] # RSS feeds are never active for upload.
+        } }
+      end
+    end
+  end
+
   test "should redirect edit when not logged in" do
     get edit_graphic_url(@graphic)
     assert_redirected_to new_user_session_url
@@ -80,6 +93,17 @@ class GraphicsControllerTest < ActionDispatch::IntegrationTest
     } }
     assert_redirected_to graphic_url(@graphic)
   end
+
+  # test "should not update graphic for feed which prevents upload" do
+  #   sign_in @user
+  #       assert_raises(Pundit::NotAuthorizedError) do
+  #       patch graphic_url(@graphic), params: { graphic: {
+  #         duration: @graphic.duration, end_time: @graphic.end_time,
+  #         name: @graphic.name, start_time: @graphic.start_time,
+  #         feed_ids: [ rss_feeds(:yahoo_rssfeed).id ] # RSS feeds are never active for upload.
+  #       } }
+  #     end
+  # end
 
   test "should redirect destroy when not logged in" do
     assert_no_difference("Graphic.count") do

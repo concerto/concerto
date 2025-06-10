@@ -24,6 +24,7 @@ class RichTextsController < ApplicationController
   def create
     @rich_text = RichText.new(rich_text_params)
     @rich_text.user = current_user
+    authorize @rich_text
 
     respond_to do |format|
       if @rich_text.save

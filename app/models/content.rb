@@ -16,4 +16,10 @@ class Content < ApplicationRecord
     def should_render_in?(position)
       true
     end
+
+    # All content types share the same policy class.
+    # This overrides how Pundit determines the policy class for models.
+    def self.policy_class
+      ContentPolicy
+    end
 end
