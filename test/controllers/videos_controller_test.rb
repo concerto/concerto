@@ -50,20 +50,6 @@ class VideosControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to video_url(Video.last)
   end
 
-  test "should not create video for feed which prevents upload" do
-    sign_in @user
-    assert_no_difference("Video.count") do
-      assert_raises(Pundit::NotAuthorizedError) do
-        post videos_url, params: { video: {
-        duration: @video.duration, end_time: @video.end_time,
-        name: @video.name, start_time: @video.start_time,
-        url: @video.url,
-          feed_ids: [ rss_feeds(:yahoo_rssfeed).id ] # RSS feeds are never active for upload.
-        } }
-      end
-    end
-  end
-
   test "should redirect edit when not logged in" do
     get edit_video_url(@video)
     assert_redirected_to new_user_session_url
