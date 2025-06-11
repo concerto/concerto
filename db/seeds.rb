@@ -8,7 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-system_user = User.find_or_create_by!(is_system_user: true)
+system_user = User.find_or_create_by!(is_system_user: true, first_name: "Concerto", last_name: "System User")
 
 general_feed = Feed.find_or_create_by!(name: "General")
 
