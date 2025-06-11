@@ -1,0 +1,26 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+site_name:
+  key: site_name
+  value: Test Site
+  value_type: string
+
+items_per_page:
+  key: items_per_page
+  value: "10"
+  value_type: integer
+
+admin_emails:
+  key: admin_emails
+  value: '["admin@example.com", "support@example.com"]'
+  value_type: array
+
+maintenance_mode:
+  key: maintenance_mode
+  value: "false"
+  value_type: boolean
+
+server_config:
+  key: server_config
+  value: '{"host":"localhost","port":3000}'
+  value_type: hash
