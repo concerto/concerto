@@ -35,6 +35,26 @@ class Setting < ApplicationRecord
 
   def self.[]=(key, val)
     setting = find_or_initialize_by(key: key)
+    # If we already have a value_type, try to convert the incoming value accordingly
+    if setting.persisted? && setting.value_type
+      val = case setting.value_type
+      when "integer" then val.to_i
+      when "boolean" then val.to_s == "true"
+      when "array" then
+        begin
+          JSON.parse(val.is_a?(String) ? val : val.to_json)
+        rescue JSON::ParserError
+          []
+        end
+      when "hash" then
+        begin
+          JSON.parse(val.is_a?(String) ? val : val.to_json)
+        rescue JSON::ParserError
+          {}
+        end
+      else val
+      end
+    end
     setting.typed_value = val
     setting.save
   end

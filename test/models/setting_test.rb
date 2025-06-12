@@ -56,6 +56,42 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal "updated", Setting[:updateable]
   end
 
+  test "preserves types when updating existing settings" do
+    # Test integer type preservation
+    Setting[:number_setting] = 42
+    Setting[:number_setting] = "15"  # Update with string
+    assert_equal 15, Setting[:number_setting]  # Should be converted back to integer
+
+    # Test boolean type preservation
+    Setting[:flag_setting] = false
+    Setting[:flag_setting] = "true"  # Update with string
+    assert_equal true, Setting[:flag_setting]  # Should be converted to boolean
+
+    # Test array type preservation
+    Setting[:list_setting] = [ "first" ]
+    Setting[:list_setting] = '["second"]'  # Update with JSON string
+    assert_equal [ "second" ], Setting[:list_setting]  # Should be parsed as array
+
+    # Test hash type preservation
+    Setting[:config_setting] = { "key" => "value" }
+    Setting[:config_setting] = '{"new":"config"}'  # Update with JSON string
+    assert_equal({ "new" => "config" }, Setting[:config_setting])  # Should be parsed as hash
+  end
+
+  test "gracefully handles invalid JSON for array/hash settings" do
+    # Set up valid array and hash settings
+    Setting[:array_setting] = [ "valid" ]
+    Setting[:hash_setting] = { "valid" => true }
+
+    # Try updating with invalid JSON
+    Setting[:array_setting] = "not valid json"
+    Setting[:hash_setting] = "also not valid json"
+
+    # Should default to empty array/hash rather than raising an error
+    assert_equal [], Setting[:array_setting]
+    assert_equal({}, Setting[:hash_setting])
+  end
+
   test "uses cache for retrieving values" do
     Setting[:cached_key] = "cached value"
 

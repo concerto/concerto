@@ -38,7 +38,7 @@
                      data-transition-enter-from="opacity-0 scale-95" data-transition-enter-to="opacity-100 scale-100"
                      data-transition-leave-from="opacity-100 scale-100" data-transition-leave-to="opacity-0 scale-95">
                   <a href="#" data-action="dropdown#toggle" class="hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
-                  <a href="#" data-action="dropdown#toggle" class="hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
+                  <%= link_to "Settings", admin_settings_path, data: {action: 'dropdown#toggle'}, class: "hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700", role: 'menuitem', tabindex: -1 %>
                   <%= link_to "Sign Out", destroy_user_session_path, data: {action: 'dropdown#toggle', turbo_method: :delete}, class: "hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700", role: 'menuitem', tabindex: -1 %>
                 </div>
               </div>
@@ -94,7 +94,7 @@
           </div>
           <div class="mt-3 space-y-1 px-2">
             <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Your Profile</a>
-            <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Settings</a>
+            <%= link_to "Settings", admin_settings_path, class: "block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white" %>
             <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white" %>
           </div>
         </div>

@@ -1,0 +1,30 @@
+<%= page_title "Settings" %>
+
+<div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
+  <%= form_tag admin_settings_path, method: :patch, class: "px-4 py-6 sm:p-8" do %>
+    <div class="space-y-8">
+      <% @settings.each do |section, settings| %>
+        <div>
+          <h2 class="text-lg font-medium leading-6 text-gray-900 mb-4"><%= section.titleize %></h2>
+          <div class="space-y-4">
+            <% settings.each do |setting| %>
+              <div>
+                <%= label_tag "settings[#{setting.key}]", setting.key.split('_')[1..-1].join(' ').titleize, class: "frm-label" %>
+                <%= case setting.value_type 
+                    when "boolean"
+                      check_box_tag "settings[#{setting.key}]", "true", setting.typed_value, class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-600"
+                    else
+                      text_field_tag "settings[#{setting.key}]", setting.typed_value, class: "frm-input"
+                    end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mt-6">
+      <%= submit_tag "Save Changes", class: "btn bg-blue-500 hover:bg-blue-600 text-white" %>
+    </div>
+  <% end %>
+</div>

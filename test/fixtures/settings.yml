@@ -20,6 +20,21 @@ maintenance_mode:
   value: "false"
   value_type: boolean
 
+oidc_issuer:
+  key: oidc_issuer
+  value: "https://idp.example.com"
+  value_type: string
+
+oidc_client_id:
+  key: oidc_client_id
+  value: "concerto_client"
+  value_type: string
+
+oidc_client_secret:
+  key: oidc_client_secret
+  value: "test_secret"
+  value_type: string
+
 server_config:
   key: server_config
   value: '{"host":"localhost","port":3000}'
