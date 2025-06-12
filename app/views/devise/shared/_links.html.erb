@@ -4,7 +4,7 @@
   <% end %>
 
   <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-    <%= link_to "Sign up", new_registration_path(resource_name), class: "text-blue-600 hover:text-blue-800" %>
+    <%= link_to "Sign up", new_registration_path(resource_name), class: "btn text-base w-full justify-center" %>
   <% end %>
 
   <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
@@ -20,8 +20,9 @@
   <% end %>
 
   <%- if devise_mapping.omniauthable? && oidc_configured? %>
+    <hr class="my-4">
     <%- resource_class.omniauth_providers.each do |provider| %>
-      <%= button_to "Sign in with SSO", omniauth_authorize_path(resource_name, provider), class: "btn w-full", data: { turbo: false } %>
+      <%= button_to "Sign in with SSO", omniauth_authorize_path(resource_name, provider), class: "btn text-base w-full justify-center", data: { turbo: false } %>
     <% end %>
   <% end %>
 </div>
