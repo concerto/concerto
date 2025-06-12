@@ -274,15 +274,16 @@ Devise.setup do |config|
 
   config.omniauth :openid_connect,
     setup: ->(env) {
+      helper = Class.new { include DeviseHelper }.new
+      unless helper.oidc_configured?
+        Rails.logger.info "OpenID Connect settings are not fully configured, skipping OmniAuth setup."
+        return
+      end
+
       # Retrieve OIDC settings.
       oidc_issuer        = Setting[:oidc_issuer]
       oidc_client_id     = Setting[:oidc_client_id]
       oidc_client_secret = Setting[:oidc_client_secret]
-
-      if [ oidc_issuer, oidc_client_id, oidc_client_secret ].any?(&:blank?)
-        Rails.logger.info "OpenID Connect settings are not fully configured, skipping OmniAuth setup."
-        return
-      end
 
       request = ActionDispatch::Request.new(env)
 

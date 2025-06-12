@@ -19,9 +19,9 @@
     <%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name), class: "text-blue-600 hover:text-blue-800" %>
   <% end %>
 
-  <%- if devise_mapping.omniauthable? %>
+  <%- if devise_mapping.omniauthable? && oidc_configured? %>
     <%- resource_class.omniauth_providers.each do |provider| %>
-      <%= button_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), class: "btn w-full", data: { turbo: false } %>
+      <%= button_to "Sign in with SSO", omniauth_authorize_path(resource_name, provider), class: "btn w-full", data: { turbo: false } %>
     <% end %>
   <% end %>
 </div>
