@@ -3,6 +3,7 @@ require "application_system_test_case"
 class GraphicsTest < ApplicationSystemTestCase
   setup do
     @graphic = graphics(:one)
+    @user = users(:admin)
   end
 
   test "visiting the index" do
@@ -11,6 +12,8 @@ class GraphicsTest < ApplicationSystemTestCase
   end
 
   test "should create graphic" do
+    sign_in @user
+
     visit graphics_url
     click_on "New graphic"
 
@@ -29,6 +32,8 @@ class GraphicsTest < ApplicationSystemTestCase
   end
 
   test "should update Graphic" do
+    sign_in @user
+
     visit graphic_url(@graphic)
     click_on "Edit this graphic", match: :first
 
@@ -46,6 +51,8 @@ class GraphicsTest < ApplicationSystemTestCase
   end
 
   test "should destroy Graphic" do
+    sign_in @user
+
     visit graphic_url(@graphic)
     click_on "Destroy this graphic", match: :first
 

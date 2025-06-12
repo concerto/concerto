@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_08_23_032849) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_11_040750) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -49,6 +49,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_08_23_032849) do
     t.json "config"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_contents_on_user_id"
   end
 
   create_table "feeds", force: :cascade do |t|
@@ -89,6 +91,15 @@ ActiveRecord::Schema[8.0].define(version: 2024_08_23_032849) do
     t.index ["template_id"], name: "index_screens_on_template_id"
   end
 
+  create_table "settings", force: :cascade do |t|
+    t.string "key", null: false
+    t.text "value"
+    t.string "value_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_settings_on_key", unique: true
+  end
+
   create_table "submissions", force: :cascade do |t|
     t.integer "content_id", null: false
     t.integer "feed_id", null: false
@@ -116,8 +127,26 @@ ActiveRecord::Schema[8.0].define(version: 2024_08_23_032849) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "is_system_user"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "provider"
+    t.string "uid"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "contents", "users"
   add_foreign_key "positions", "fields"
   add_foreign_key "positions", "templates"
   add_foreign_key "screens", "templates"

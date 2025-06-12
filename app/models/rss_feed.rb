@@ -40,7 +40,8 @@ class RssFeed < Feed
           content << RichText.new(
             render_as: "html",
             name: "#{name} (#{index + 1})",
-            text: item
+            text: item,
+            user: User.find_by(is_system_user: true),
           )
         end
       end

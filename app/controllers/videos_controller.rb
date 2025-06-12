@@ -1,5 +1,6 @@
 class VideosController < ApplicationController
-  before_action :set_video, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :set_video, only: %i[show edit update destroy]
 
   # GET /videos or /videos.json
   def index
@@ -22,6 +23,7 @@ class VideosController < ApplicationController
   # POST /videos or /videos.json
   def create
     @video = Video.new(video_params)
+    @video.user = current_user
 
     respond_to do |format|
       if @video.save

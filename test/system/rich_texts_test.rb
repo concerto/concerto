@@ -3,6 +3,7 @@ require "application_system_test_case"
 class RichTextsTest < ApplicationSystemTestCase
   setup do
     @rich_text = rich_texts(:plain_richtext)
+    @user = users(:admin)
   end
 
   test "visiting the index" do
@@ -11,6 +12,8 @@ class RichTextsTest < ApplicationSystemTestCase
   end
 
   test "should create rich text" do
+    sign_in @user
+
     visit rich_texts_url
     click_on "New rich text"
 
@@ -30,6 +33,8 @@ class RichTextsTest < ApplicationSystemTestCase
   end
 
   test "should update Rich text" do
+    sign_in @user
+
     visit rich_text_url(@rich_text)
     click_on "Edit this rich text", match: :first
 
@@ -49,6 +54,8 @@ class RichTextsTest < ApplicationSystemTestCase
   end
 
   test "should destroy Rich text" do
+    sign_in @user
+
     visit rich_text_url(@rich_text)
     click_on "Destroy this rich text", match: :first
 

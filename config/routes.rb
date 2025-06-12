@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: {
+    omniauth_callbacks: "users/omniauth_callbacks"
+  }
   resources :videos
   namespace :frontend do
     resources :screens, only: [ :show ]
@@ -19,6 +22,11 @@ Rails.application.routes.draw do
   resources :rich_texts
   resources :graphics
   resources :contents, only: [ :index, :new ]
+
+  # Admin routes
+  get "/admin/settings", to: "admin#settings"
+  patch "/admin/settings", to: "admin#update_settings"
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
