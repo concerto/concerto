@@ -88,3 +88,26 @@ Field.transaction do
         end
     end
 end
+
+puts "Seeding application settings..."
+
+initial_settings = {
+    oidc_issuer: "",
+    oidc_client_id: "",
+    oidc_client_secret: ""
+}
+
+initial_settings.each do |key, value|
+  # Only create the setting if it doesn't already exist.
+  # This prevents overwriting values if an admin has changed them.
+  unless Setting.exists?(key: key)
+    Setting[key] = value
+    puts "  Created setting: #{key} = #{value}"
+  else
+    puts "  Setting already exists: #{key}"
+    # If you *did* want to ensure the seed value is always the current value,
+    # you would remove the 'unless' block:
+    # Setting[key] = value
+    # puts "  Updated setting: #{key} = #{value}"
+  end
+end
