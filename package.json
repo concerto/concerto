@@ -15,7 +15,7 @@
     "msw": "^2.10.2",
     "vite": "^6.3.5",
     "vite-plugin-ruby": "^5.1.1",
-    "vitest": "^3.2.3",
+    "vitest": "^3.2.4",
     "vue-eslint-parser": "^10.1.3"
   }
 }
