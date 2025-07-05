@@ -2117,10 +2117,10 @@ vite-plugin-ruby@^5.1.1:
     debug "^4.3.4"
     fast-glob "^3.3.2"
 
-"vite@^5.0.0 || ^6.0.0 || ^7.0.0-0", vite@^7.0.1:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-7.0.1.tgz#b7ebb1e8a7d7f0f42867a545561fb72b34b2b13f"
-  integrity sha512-BiKOQoW5HGR30E6JDeNsati6HnSPMVEKbkIWbCiol+xKeu3g5owrjy7kbk/QEMuzCV87dSUTvycYKmlcfGKq3Q==
+"vite@^5.0.0 || ^6.0.0 || ^7.0.0-0", vite@^7.0.2:
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-7.0.2.tgz#66ddf890c4357f4fb6803a787dc210538591b917"
+  integrity sha512-hxdyZDY1CM6SNpKI4w4lcUc3Mtkd9ej4ECWVHSMrOdSinVc2zYOAppHeGc/hzmRo3pxM5blMzkuWHOJA/3NiFw==
   dependencies:
     esbuild "^0.25.0"
     fdir "^6.4.6"
