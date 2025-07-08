@@ -44,6 +44,8 @@ rss_feed = RssFeed.find_or_initialize_by(name: "Yahoo News", description: "The l
 if rss_feed.new_record?
     rss_feed.url = "https://www.yahoo.com/news/rss"
     rss_feed.save!
+
+    rss_feed.refresh
 end
 
 landscape_feed = Feed.find_or_create_by!(name: "Landscapes")
