@@ -15,6 +15,11 @@ two:
   field: sidebar
   feed: nytimes_rssfeed
 
+two_ticker:
+  screen: two
+  field: ticker
+  feed: two
+
 e2e_ticker:
   screen: e2e
   field: ticker
