@@ -15,12 +15,14 @@ general_feed = Feed.find_or_create_by!(name: "General")
 plain_ticker = RichText.find_or_initialize_by(name: "Welcome Ticker", text: "Welcome to Concerto!", user: system_user)
 if plain_ticker.new_record?
     plain_ticker.render_as = RichText.render_as[:plaintext]
+    plain_ticker.submissions.new(feed: general_feed)
     plain_ticker.save!
 end
 
 html_ticker = RichText.find_or_initialize_by(name: "HTML Ticker", text: "<b>Concerto</b> is digital signage for <i>everyone</i>.", user: system_user)
 if html_ticker.new_record?
     html_ticker.render_as = RichText.render_as[:html]
+    html_ticker.submissions.new(feed: general_feed)
     html_ticker.save!
 end
 
