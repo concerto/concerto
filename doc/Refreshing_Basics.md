@@ -12,7 +12,7 @@ Cron.rb calls DynamicContent.delay.refresh every 5 minutes.
 NOTE: this calls the self.refresh() function, not the refresh() function.
 .refresh retrieves all content from the server, and filters it down to the dynamic content. I then runs the refresh() function on all elements of dynamic content.
 The refresh() function checks if a refresh is needed(seeing if the neccessary time has elapsed). If one is, it runs the refresh! function.
-the refresh! function immediately updates the last refresh attempt value. It then updates the dynamic content.(NOTE TO SELF: MUST ELABORATE BEFORE SUBMITTING) 
+the refresh! function immediately updates the last refresh attempt value. It then updates the dynamic content.
 
 Manual refreshing:
 If auto-refreshing doesn't seem to be working, check to see if manual refreshing is working.
