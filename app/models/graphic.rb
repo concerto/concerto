@@ -20,6 +20,7 @@ class Graphic < Content
   def should_render_in?(position)
     if !image.analyzed?
       logger.debug "graphic #{id} not analyzed, fallback rendering"
+      image.analyze_later
       return super
     end
 
