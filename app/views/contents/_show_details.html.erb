@@ -34,6 +34,22 @@
       </div>
     </dd>
   </div>
+  <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+    <dt class="text-sm/6 font-medium text-gray-900">Submitted to Feeds</dt>
+    <dd class="mt-1 text-sm/6 text-gray-900 sm:col-span-2 sm:mt-0">
+      <% if content.feeds.any? %>
+        <ul>
+          <% content.feeds.each do |feed| %>
+            <li class="flex items-center justify-between py-2">
+              <%= link_to feed.name, feed_path(feed) %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <span class="text-gray-500 italic">Not submitted to any feeds</span>
+      <% end %>
+    </dd>
+  </div>
     <%= yield %>
   </dl>
 </div>
