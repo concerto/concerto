@@ -6,16 +6,10 @@ class VideosTest < ApplicationSystemTestCase
     @user = users(:admin)
   end
 
-  test "visiting the index" do
-    visit videos_url
-    assert_selector "h1", text: "Videos"
-  end
-
   test "should create video" do
     sign_in @user
 
-    visit videos_url
-    click_on "New video"
+    visit new_video_url
 
     fill_in "Duration", with: @video.duration
     fill_in "End time", with: @video.end_time

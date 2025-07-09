@@ -6,11 +6,6 @@ class VideosControllerTest < ActionDispatch::IntegrationTest
     @user = users(:admin)
   end
 
-  test "should get index when not logged in" do
-    get videos_url
-    assert_response :success
-  end
-
   test "should show video when not logged in" do
     get video_url(@video)
     assert_response :success
@@ -92,6 +87,6 @@ class VideosControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Video.count", -1) do
       delete video_url(@video)
     end
-    assert_redirected_to videos_url
+    assert_redirected_to contents_url
   end
 end

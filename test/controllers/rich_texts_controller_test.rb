@@ -6,11 +6,6 @@ class RichTextsControllerTest < ActionDispatch::IntegrationTest
     @user = users(:admin)
   end
 
-  test "should get index when not logged in" do
-    get rich_texts_url
-    assert_response :success
-  end
-
   test "should show rich_text when not logged in" do
     get rich_text_url(@rich_text)
     assert_response :success
@@ -96,6 +91,6 @@ class RichTextsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("RichText.count", -1) do
       delete rich_text_url(@rich_text)
     end
-    assert_redirected_to rich_texts_url
+    assert_redirected_to contents_url
   end
 end

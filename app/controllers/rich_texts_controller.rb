@@ -1,11 +1,6 @@
 class RichTextsController < ApplicationController
-  before_action :authenticate_user!, except: %i[index show]
+  before_action :authenticate_user!, except: %i[show]
   before_action :set_rich_text, only: %i[show edit update destroy]
-
-  # GET /rich_texts or /rich_texts.json
-  def index
-    @rich_texts = RichText.all
-  end
 
   # GET /rich_texts/1 or /rich_texts/1.json
   def show
@@ -54,7 +49,7 @@ class RichTextsController < ApplicationController
     @rich_text.destroy!
 
     respond_to do |format|
-      format.html { redirect_to rich_texts_url, notice: "Rich text was successfully destroyed." }
+      format.html { redirect_to contents_url, notice: "Rich text was successfully destroyed." }
       format.json { head :no_content }
     end
   end

@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     omniauth_callbacks: "users/omniauth_callbacks"
   }
-  resources :videos
   namespace :frontend do
     resources :screens, only: [ :show ]
     get "/screens/:screen_id/fields/:field_id/content/", to: "content#index", as: "content"
@@ -19,9 +18,11 @@ Rails.application.routes.draw do
     get "refresh", on: :member
   end
   resources :feeds
-  resources :rich_texts
-  resources :graphics
   resources :contents, only: [ :index, :new ]
+
+  resources :rich_texts, except: [ :index ]
+  resources :graphics, except: [ :index ]
+  resources :videos, except: [ :index ]
 
   # Admin routes
   get "/admin/settings", to: "admin#settings"

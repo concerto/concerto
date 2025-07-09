@@ -6,16 +6,10 @@ class GraphicsTest < ApplicationSystemTestCase
     @user = users(:admin)
   end
 
-  test "visiting the index" do
-    visit graphics_url
-    assert_selector "h1", text: "Graphics"
-  end
-
   test "should create graphic" do
     sign_in @user
 
-    visit graphics_url
-    click_on "New graphic"
+    visit new_graphic_url
 
     fill_in "Duration", with: @graphic.duration
     fill_in "End time", with: @graphic.end_time

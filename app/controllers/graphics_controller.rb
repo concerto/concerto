@@ -1,11 +1,6 @@
 class GraphicsController < ApplicationController
-  before_action :authenticate_user!, except: %i[index show]
+  before_action :authenticate_user!, except: %i[show]
   before_action :set_graphic, only: %i[show edit update destroy]
-
-  # GET /graphics or /graphics.json
-  def index
-    @graphics = Graphic.all
-  end
 
   # GET /graphics/1 or /graphics/1.json
   def show
@@ -58,7 +53,7 @@ class GraphicsController < ApplicationController
     @graphic.destroy!
 
     respond_to do |format|
-      format.html { redirect_to graphics_url, notice: "Graphic was successfully destroyed." }
+      format.html { redirect_to contents_url, notice: "Graphic was successfully destroyed." }
       format.json { head :no_content }
     end
   end

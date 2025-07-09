@@ -6,11 +6,6 @@ class GraphicsControllerTest < ActionDispatch::IntegrationTest
     @user = users(:admin)
   end
 
-  test "should get index when not logged in" do
-    get graphics_url
-    assert_response :success
-  end
-
   test "should show graphic when not logged in" do
     get graphic_url(@graphic)
     assert_response :success
@@ -93,6 +88,6 @@ class GraphicsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Graphic.count", -1) do
       delete graphic_url(@graphic)
     end
-    assert_redirected_to graphics_url
+    assert_redirected_to contents_url
   end
 end

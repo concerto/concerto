@@ -6,16 +6,10 @@ class RichTextsTest < ApplicationSystemTestCase
     @user = users(:admin)
   end
 
-  test "visiting the index" do
-    visit rich_texts_url
-    assert_selector "h1", text: "Rich texts"
-  end
-
   test "should create rich text" do
     sign_in @user
 
-    visit rich_texts_url
-    click_on "New rich text"
+    visit new_rich_text_url
 
     fill_in "Duration", with: @rich_text.duration
     fill_in "End time", with: @rich_text.end_time
