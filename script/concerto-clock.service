@@ -1,7 +1,7 @@
 # systemd unit file
 #
 # Customize this file based on your bundler location, app directory, etc.
-# Put this in /usr/lib/systemd/system (CentOS) or /lib/systemd/system (Ubuntu).
+# Put this in /usr/lib/systemd/system (CentOS), /lib/systemd/system (Ubuntu), or etc/systemd/system (GitBash).
 # Run:
 #   - systemctl enable concerto-clock
 #   - systemctl {start,stop,restart} concerto-clock
