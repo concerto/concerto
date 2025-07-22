@@ -1,6 +1,6 @@
-Video Testing suggestions.\n
-If video playback doesn't work, here are some possible fixes.\n
-Youtube/Vimeo Videos can't be submitted:\n
+Video Testing suggestions./n
+If video playback doesn't work, here are some possible fixes./n
+Youtube/Vimeo Videos can't be submitted:/n
     Check to make sure the API keys are present. If not, replace them.
     <img src="API_Key_Location.png" alt="drawing" width="400"/>
 Youtube videos load, but don't play unless manually started:
