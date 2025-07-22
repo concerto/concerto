@@ -7,4 +7,4 @@ Youtube videos load, but don't play unless manually started:\
     Many browsers have settings to prevent autoplay. Make sure that autoplay is enabled\
         On Microsoft Edge: go to Media autoplay and set it to "Allow"\
         On Google Chrome: click on the emblem next to the url of the desired website, and go to site settings.\
-            Switch sound from "Automatic" to "Allow".\
+            Switch sound from "Automatic" to "Allow". (3 tabs)
