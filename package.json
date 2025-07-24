@@ -2,7 +2,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "vue": "^3.5.17"
+    "vue": "^3.5.18"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^5.2.2",
