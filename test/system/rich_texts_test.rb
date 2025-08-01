@@ -16,7 +16,7 @@ class RichTextsTest < ApplicationSystemTestCase
     fill_in "Name", with: @rich_text.name
     fill_in "Start time", with: @rich_text.start_time
     fill_in "Text", with: @rich_text.text
-    select @rich_text.render_as, from: "Type"
+    choose "Plain Text"
     @rich_text.feeds.each do |f|
       check f.name
     end
@@ -37,7 +37,7 @@ class RichTextsTest < ApplicationSystemTestCase
     fill_in "Name", with: @rich_text.name
     fill_in "Start time", with: @rich_text.start_time.strftime("%m%d%Y\t%I%M%P")
     fill_in "Text", with: @rich_text.text
-    select @rich_text.render_as, from: "Type"
+    choose "Plain Text"
     @rich_text.feeds.each do |f|
       check f.name
     end

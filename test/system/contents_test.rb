@@ -11,7 +11,7 @@ class ContentsTest < ApplicationSystemTestCase
 
   test "should link to create content" do
     visit contents_url
-    click_on "New content"
+    click_on "New Content", match: :first
 
     assert_selector "h1", text: "Add Content"
 

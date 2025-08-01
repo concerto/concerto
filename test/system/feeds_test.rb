@@ -10,7 +10,7 @@ class FeedsTest < ApplicationSystemTestCase
     assert_selector "h1", text: "Feeds"
 
     assert_text @feed.name
-    assert_text (/#{@feed.content.count} .* content/)
+    assert_text (/#{@feed.content.count} item/)
   end
 
   test "visiting a feed" do
@@ -25,7 +25,7 @@ class FeedsTest < ApplicationSystemTestCase
 
   test "should create feed" do
     visit feeds_url
-    click_on "New feed"
+    click_on "New Feed"
 
     fill_in "Description", with: @feed.description
     fill_in "Name", with: @feed.name

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-full bg-gray-100">
+<html class="h-full bg-neutral-100">
   <head>
     <title>Concerto <%= content_for?(:title) ? " - " + yield(:title) : "" %> </title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -7,7 +7,6 @@
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
 
     <%= yield :head %>
 
@@ -23,24 +22,63 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="min-h-full">
-    <%= render partial: "shared/nav" %>
-    <header class="bg-white shadow-sm">
-      <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold tracking-tight text-gray-900">
-          <%= content_for?(:title) ? yield(:title) : "Default" %>
-        </h1>
-        <%= yield :subheader %>
-      </div>
-    </header>
-    <main class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <% flash.each do |key, message| %>
-        <div class="mb-4 p-4 rounded-lg 
-                    <%= key == 'notice' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
-          <%= message %>
+  <body class="min-h-full bg-neutral-100" data-controller="sidebar">
+    <!-- Sidebar Navigation -->
+    <%= render partial: "shared/sidebar" %>
+    
+    <!-- Header -->
+    <%= render partial: "shared/header" %>
+    
+    <!-- Main Content Area -->
+    <main class="lg:ml-72 pt-16">
+      <div class="px-4 py-6 lg:px-6">
+        
+        <!-- Page Header (Mobile) -->
+        <div class="lg:hidden mb-6">
+          <h1 class="text-h2 text-neutral-900">
+            <%= content_for?(:title) ? yield(:title) : "Dashboard" %>
+          </h1>
+          <%= yield :subheader %>
         </div>
-      <% end %>
-      <%= yield %>
+
+        <!-- Flash Messages -->
+        <% flash.each do |key, message| %>
+          <div class="mb-6 <%= key == 'notice' ? 'alert-success' : 'alert-error' %>">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <% if key == 'notice' %>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              <% else %>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              <% end %>
+            </svg>
+            <div>
+              <h4 class="font-medium"><%= key == 'notice' ? 'Success' : 'Error' %></h4>
+              <p class="text-sm"><%= message %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Page Content -->
+        <div class="space-y-6">
+          <%= yield %>
+        </div>
+      </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="lg:ml-72 bg-neutral-100 border-t border-neutral-200">
+      <div class="px-4 py-6 lg:px-6">
+        <div class="flex flex-col sm:flex-row justify-between items-center text-caption text-neutral-700">
+          <div class="mb-2 sm:mb-0">
+            © <%= Date.current.year %> Concerto Digital Signage. All rights reserved.
+          </div>
+          <div class="flex space-x-4">
+            <a href="#" class="hover:text-neutral-900">Support</a>
+            <a href="#" class="hover:text-neutral-900">Documentation</a>
+            <a href="#" class="hover:text-neutral-900">Version 3.0</a>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

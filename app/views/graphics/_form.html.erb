@@ -1,26 +1,28 @@
-<%= form_with(model: graphic) do |form| %>
-<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-  <% if graphic.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(graphic.errors.count, "error") %> prohibited this graphic from being saved:</h2>
+<div class="max-w-2xl">
+  <%= form_with(model: graphic) do |form| %>
+  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+    <% if graphic.errors.any? %>
+      <div class="sm:col-span-full bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+        <h2 class="font-medium mb-2"><%= pluralize(graphic.errors.count, "error") %> prohibited this graphic from being saved:</h2>
 
-      <ul>
-        <% graphic.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul class="list-disc list-inside space-y-1">
+          <% graphic.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="sm:col-span-4">
+      <%= form.label :image, class: "frm-label" %>
+      <%= form.file_field :image, class: "frm-file-input" %>
     </div>
+
+    <%= render "contents/form", form: form %>
+
+    <div class="sm:col-span-full">
+      <%= form.submit class: "btn-primary" %>
+    </div>
+  </div>
   <% end %>
-
-  <div class="sm:col-span-full">
-    <%= form.label :image, class: "frm-label" %>
-    <%= form.file_field :image, class: "frm-input" %>
-  </div>
-
-  <%= render "contents/form", form: form %>
-
-  <div>
-    <%= form.submit class: "btn" %>
-  </div>
 </div>
-<% end %>

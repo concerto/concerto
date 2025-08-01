@@ -1,24 +1,83 @@
 <%= page_title "Feeds" %>
 
-<h1 class="text-xl">All Feeds</h1>
+<div class="flex items-center justify-between mb-6">
+  <div>
+    <h1 class="text-h2 text-neutral-900">All Feeds</h1>
+    <p class="text-body text-neutral-700 mt-1">Organize content into feeds for your digital displays</p>
+  </div>
+  <div class="flex space-x-3">
+    <%= link_to new_feed_path, class: "btn-primary" do %>
+      <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
+      New Feed
+    <% end %>
 
-<div id="feeds">
-  <% @feeds.each do |feed| %>
-    <div class="p-4 border-2 bg-white my-4">
-      <div class="text-lg font-medium"><%= link_to feed.name, feed %></div>
-      <div><%= feed.description %></div>
-      <div class="pt-2"><%= feed.content.count %> pieces of content</div>
-    </div>
-  <% end %>
+    <%= link_to new_rss_feed_path, class: "btn-secondary" do %>
+      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.75 19.5v-.75a7.5 7.5 0 0 0-7.5-7.5H4.5m0-6.75h.75c7.87 0 14.25 6.38 14.25 14.25v.75M6 18.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+      </svg>
+      New RSS Feed
+    <% end %>
+  </div>
 </div>
 
-<div class="flex space-x-4">
-  <%= link_to "New feed", new_feed_path, class: "btn" %>
-
-  <%= link_to new_rss_feed_path, class: "btn" do%>
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 mr-2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 19.5v-.75a7.5 7.5 0 0 0-7.5-7.5H4.5m0-6.75h.75c7.87 0 14.25 6.38 14.25 14.25v.75M6 18.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-    </svg>
-    <span>New rss feed</span>
+<div id="feeds" class="space-y-4">
+  <% @feeds.each do |feed| %>
+    <div class="card hover:shadow-md transition-shadow duration-200">
+      <div class="card-body">
+        <div class="flex items-start justify-between">
+          <div class="flex-1">
+            <h3 class="text-h3 text-neutral-900 mb-2">
+              <%= link_to feed.name, feed, class: "hover:text-brand transition-colors" %>
+            </h3>
+            
+            <% if feed.description.present? %>
+              <p class="text-body text-neutral-700 mb-4">
+                <%= feed.description %>
+              </p>
+            <% end %>
+            
+            <div class="flex items-center space-x-4 text-caption text-neutral-500">
+              <div class="flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <%= pluralize(feed.content.count, 'item') %>
+              </div>
+              
+              <div class="flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Updated <%= time_ago_in_words(feed.updated_at) %> ago
+              </div>
+            </div>
+          </div>
+          
+          <div class="ml-4">
+            <%= link_to feed, class: "btn-secondary btn-sm" do %>
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+              </svg>
+              View
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  
+  <% if @feeds.empty? %>
+    <div class="text-center py-12">
+      <svg class="mx-auto h-12 w-12 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+      </svg>
+      <h3 class="text-h3 text-neutral-900 mt-4">No feeds yet</h3>
+      <p class="text-body text-neutral-500 mt-2">Create your first feed to organize content for your displays.</p>
+      <%= link_to new_feed_path, class: "btn-primary mt-4" do %>
+        <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
+        Create Feed
+      <% end %>
+    </div>
   <% end %>
 </div>

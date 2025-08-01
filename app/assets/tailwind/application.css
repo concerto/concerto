@@ -7,6 +7,55 @@
   --font-sans:
     Inter var, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  /* Concerto Style Guide Color Palette */
+  --color-brand-blue: #007BFF;
+  --color-brand-blue-dark: #0056B3;
+  --color-brand-blue-light: #CCE5FF;
+
+  /* Neutral Colors */
+  --color-neutral-900: #171A1C;
+  --color-neutral-700: #4A5459;
+  --color-neutral-500: #A0AEC0;
+  --color-neutral-300: #CBD5E0;
+  --color-neutral-200: #E2E8F0;
+  --color-neutral-100: #F8F9FA;
+
+  /* Semantic Colors */
+  --color-success: #28A745;
+  --color-warning: #FFC107;
+  --color-error: #DC3545;
+  --color-info: #17A2B8;
+
+  /* Note: Using Tailwind's default spacing scale (4px-based)
+   * 1 = 4px, 2 = 8px, 3 = 12px, 4 = 16px, 5 = 20px, 6 = 24px
+   * This aligns with modern design systems and avoids conflicts
+   */
+
+  /* Typography Scale */
+  --font-size-h1: 2rem;
+  --font-size-h2: 1.5rem;
+  --font-size-h3: 1.25rem;
+  --font-size-h4: 1rem;
+  --font-size-body: 0.875rem;
+  --font-size-label: 0.75rem;
+  --font-size-caption: 0.75rem;
+
+  --line-height-h1: 2.5rem;
+  --line-height-h2: 2rem;
+  --line-height-h3: 1.75rem;
+  --line-height-h4: 1.5rem;
+  --line-height-body: 1.5rem;
+  --line-height-label: 1rem;
+  --line-height-caption: 1rem;
+
+  /* Custom Colors for Tailwind */
+  --color-brand: var(--color-brand-blue);
+  --color-brand-50: #E6F3FF;
+  --color-brand-100: var(--color-brand-blue-light);
+  --color-brand-500: var(--color-brand-blue);
+  --color-brand-600: var(--color-brand-blue-dark);
+  --color-brand-900: #003D82;
 }
 
 /*
@@ -23,19 +72,136 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    border-color: var(--color-neutral-200, currentColor);
   }
 }
 
+/* Typography Utilities */
+@utility text-h1 {
+  font-size: var(--font-size-h1);
+  line-height: var(--line-height-h1);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@utility text-h2 {
+  font-size: var(--font-size-h2);
+  line-height: var(--line-height-h2);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+@utility text-h3 {
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+@utility text-h4 {
+  font-size: var(--font-size-h4);
+  line-height: var(--line-height-h4);
+  font-weight: 600;
+}
+
+@utility text-body {
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  font-weight: 400;
+}
+
+@utility text-label {
+  font-size: var(--font-size-label);
+  line-height: var(--line-height-label);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+@utility text-caption {
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-caption);
+  font-weight: 400;
+}
+
+/* Form Components */
 @utility frm-label {
-  @apply block text-gray-700;
+  @apply text-label text-neutral-700;
 }
 
 @utility frm-input {
-  @apply mt-1 block w-full rounded-md border-gray-300 shadow-xs focus:ring-3;
-  @apply file:rounded-sm file:px-2 file:border-1 file:border-black;
+  @apply block w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-neutral-900 placeholder-neutral-500;
+  @apply focus:border-brand focus:ring-2 focus:ring-brand-100 focus:outline-none;
+  @apply disabled:bg-neutral-100 disabled:border-neutral-300 disabled:text-neutral-500;
 }
 
-@utility btn {
-  @apply bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-sm inline-flex items-center;
+@utility frm-input-error {
+  @apply border-error focus:border-error focus:ring-red-100;
 }
+
+@utility frm-file-input {
+  @apply block w-full bg-white border border-neutral-300 text-neutral-900 rounded-lg px-3 py-2;
+  @apply focus:border-brand focus:ring-2 focus:ring-brand-100 focus:outline-none;
+  @apply disabled:bg-neutral-100 disabled:border-neutral-300 disabled:text-neutral-500;
+  @apply file:mr-3 file:px-4 file:py-2 file:bg-neutral-200 file:border file:border-neutral-300;
+  @apply file:rounded-lg file:text-neutral-900 file:font-medium file:cursor-pointer;
+  @apply file:hover:bg-neutral-300 file:hover:border-neutral-500 file:hover:shadow-lg;
+  @apply file:transition-all file:duration-200;
+}
+
+/* Button Components */
+@utility btn {
+  @apply inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium transition-all duration-200;
+  @apply focus:outline-none focus:ring-2 focus:ring-brand-100;
+  @apply disabled:cursor-not-allowed disabled:bg-neutral-200 disabled:text-neutral-500 disabled:border-neutral-300;
+}
+
+@utility btn-primary {
+  @apply btn bg-brand text-white border border-brand;
+  @apply hover:bg-brand-600 hover:border-brand-600 hover:shadow-lg;
+  @apply focus:border-brand focus:ring-brand-100;
+}
+
+@utility btn-secondary {
+  @apply btn bg-neutral-200 text-neutral-900 border border-neutral-300;
+  @apply hover:bg-neutral-300 hover:border-neutral-500 hover:shadow-lg;
+}
+
+@utility btn-danger {
+  @apply btn bg-error text-white border border-error;
+  @apply hover:bg-red-600 hover:border-red-600 hover:shadow-lg;
+  @apply focus:border-error focus:ring-red-100;
+}
+
+@utility btn-sm {
+  @apply px-2 py-1 text-sm;
+  height: 28px;
+}
+
+@utility btn-md {
+  @apply px-3 py-2 text-sm;
+  height: 36px;
+}
+
+/* Card Components */
+@utility card {
+  @apply bg-white rounded-lg border border-neutral-200 shadow-sm;
+}
+
+@utility card-body {
+  @apply px-3 py-2;
+}
+
+/* Alert Components */
+@utility alert {
+  @apply rounded-lg p-4 flex items-start space-x-3;
+}
+
+@utility alert-success {
+  @apply alert bg-green-100 text-green-800;
+}
+
+@utility alert-error {
+  @apply alert bg-red-100 text-red-800;
+}
+

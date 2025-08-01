@@ -8,7 +8,7 @@ class RichTextsController < ApplicationController
 
   # GET /rich_texts/new
   def new
-    @rich_text = RichText.new
+    @rich_text = RichText.new(render_as: :plaintext)
   end
 
   # GET /rich_texts/1/edit

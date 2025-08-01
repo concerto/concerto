@@ -1,31 +1,50 @@
-<%= form_with(model: rich_text) do |form| %>
-<div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-  <% if rich_text.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(rich_text.errors.count, "error") %> prohibited this rich_text from being saved:</h2>
+<div class="max-w-2xl">
+  <%= form_with(model: rich_text) do |form| %>
+  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+    <% if rich_text.errors.any? %>
+      <div class="sm:col-span-full bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+        <h2 class="font-medium mb-2"><%= pluralize(rich_text.errors.count, "error") %> prohibited this rich_text from being saved:</h2>
 
-      <ul>
-        <% rich_text.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul class="list-disc list-inside space-y-1">
+          <% rich_text.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="sm:col-span-full">
+      <%= form.label :text, class: "frm-label" %>
+      <%= form.text_area :text, class: "frm-input", rows: 6 %>
     </div>
+
+    <div class="sm:col-span-full">
+      <%= form.label :render_as, "Display Type", class: "frm-label" %>
+      <div class="mt-2">
+        <div class="flex space-x-6">
+          <div class="flex items-center">
+            <%= form.radio_button :render_as, "plaintext",
+                class: "h-4 w-4 text-brand border-neutral-300 focus:ring-brand-100 focus:ring-2",
+                id: "rich_text_render_as_plaintext" %>
+            <%= form.label :render_as_plaintext, "Plain Text",
+                class: "ml-2 text-body text-neutral-700 font-medium cursor-pointer" %>
+          </div>
+          <div class="flex items-center">
+            <%= form.radio_button :render_as, "html",
+                class: "h-4 w-4 text-brand border-neutral-300 focus:ring-brand-100 focus:ring-2",
+                id: "rich_text_render_as_html" %>
+            <%= form.label :render_as_html, "HTML",
+                class: "ml-2 text-body text-neutral-700 font-medium cursor-pointer" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%= render "contents/form", form: form %>
+
+    <div class="sm:col-span-full">
+      <%= form.submit class: "btn-primary" %>
+    </div>
+  </div>
   <% end %>
-
-  <div class="sm:col-span-2">
-    <%= form.label :render_as, "Type", class: "frm-label" %>
-    <%= form.select :render_as, RichText.render_as, class: "frm-input" %>
-  </div>
-
-  <div class="sm:col-span-full">
-    <%= form.label :text, class: "frm-label" %>
-    <%= form.text_area :text, class: "frm-input" %>
-  </div>
-
-  <%= render "contents/form", form: form %>
-
-  <div>
-    <%= form.submit class: "btn" %>
-  </div>
 </div>
-<% end %>

@@ -1,9 +1,38 @@
-<div id="contents" class="flex flex-wrap gap-4 my-4">
+<div id="contents" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
   <% contents.each do |content| %>
-    <%= link_to content, class: "block" do %>
-    <div class="block w-64 h-full pb-4 border-2 text-center bg-white">
-      <%= render partial: to_grid_partial_path(content), locals: {content: content} %>
-    </div>
+    <%= link_to content, class: "group block" do %>
+      <div class="card hover:shadow-md transition-shadow duration-200">
+        <div class="card-body">
+          <div class="aspect-video bg-neutral-100 rounded-lg mb-4 flex items-center justify-center">
+            <%= render partial: to_grid_partial_path(content), locals: {content: content} %>
+          </div>
+          
+          <div class="space-y-2">
+            <h3 class="text-h4 text-neutral-900 group-hover:text-brand transition-colors">
+              <%= content.name.presence || "Untitled Content" %>
+            </h3>
+            
+            <div class="flex items-center justify-between text-caption text-neutral-500">
+              <span class="capitalize"><%= content.class.name.downcase %></span>
+              <span><%= time_ago_in_words(content.created_at) %> ago</span>
+            </div>
+          </div>
+        </div>
+      </div>
     <% end %>
+  <% end %>
+  
+  <% if contents.empty? %>
+    <div class="col-span-full">
+      <div class="text-center py-12">
+        <%= heroicon("document-add", class: "mx-auto h-12 w-12 text-neutral-400") %>
+        <h3 class="text-h3 text-neutral-900 mt-4">No content yet</h3>
+        <p class="text-body text-neutral-500 mt-2">Get started by creating your first piece of content.</p>
+        <%= link_to new_content_path, class: "btn-primary mt-4" do %>
+          <%= heroicon("plus", class: "w-4 h-4 mr-2") %>
+          Create Content
+        <% end %>
+      </div>
+    </div>
   <% end %>
 </div>

@@ -12,7 +12,7 @@ class ScreensTest < ApplicationSystemTestCase
 
   test "should create screen" do
     visit screens_url
-    click_on "New screen"
+    click_on "New Screen"
 
     fill_in "Name", with: @screen.name
     select @screen.template.name, from: "Template"

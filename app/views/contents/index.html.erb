@@ -1,7 +1,14 @@
 <%= page_title "Content" %>
 
-<h1 class="text-xl">All Content</h1>
+<div class="flex items-center justify-between mb-6">
+  <div>
+    <h1 class="text-h2 text-neutral-900">All Content</h1>
+    <p class="text-body text-neutral-700 mt-1">Manage and organize your digital signage content</p>
+  </div>
+  <%= link_to new_content_path, class: "btn-primary btn-md" do %>
+    <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
+    New Content
+  <% end %>
+</div>
 
 <%= render partial: "grid", locals: {contents: @contents} %>
-
-<%= link_to "New content", new_content_path, class: "btn" %>
