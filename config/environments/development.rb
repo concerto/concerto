@@ -9,6 +9,9 @@ Concerto::Application.configure do
   # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
 
+  # Don't log error messages when sharing to other Ip's
+  config.web_console.whiny_requests = false
+
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
