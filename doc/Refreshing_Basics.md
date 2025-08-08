@@ -9,13 +9,16 @@ systemctl status concerto-clock.service\
 systemctl status concerto-worker.service\
 <img width="1698" height="265" alt="{3F0CEAD9-2D03-42C2-99C2-D7CCD71CD479}" src="https://github.com/user-attachments/assets/b43e294d-3232-49cc-bd23-c962639b4cbe" />
 
-If these lines don't run properly, check the services files to make sure that they are installed properly.\
+If these lines don't run properly, check the services files to make sure that they are installed properly(Installation Guide can be found in the files themselves).\
 If edits need to be made to the files themselves, make sure to run systemctl daemon-reload after making them. Otherwise, the server won't acknowledge the change.\
 If these services are running, but refreshing still isn't working, check dynamic_content.rb.
-(Note: there are 2 .refresh() functions in dynamic_content.rb. The one that cron.rb is calling is self.refresh())
+(Note: there are 2 .refresh() functions in dynamic_content.rb. The one that cron.rb is calling is self.refresh())\
+<img width="1400" height="1196" alt="{BDD28BB7-47A9-42B7-B5EE-6FC9CEBFBBD4}" src="https://github.com/user-attachments/assets/272afb97-8eac-44ea-b305-911b8f39df27" />
+
 
 Manual refreshing:\
 If auto-refreshing doesn't seem to be working, check to see if manual refreshing is working.\
 To manually refresh an item in concerto, click on it, go to edit, and then submit it again. After this, you should have the option to "Force Update", which should manually refresh the element.
+
 
 
