@@ -18,7 +18,13 @@ If these services are running, but refreshing still isn't working, check dynamic
 
 Manual refreshing:\
 If auto-refreshing doesn't seem to be working, check to see if manual refreshing is working.\
-To manually refresh an item in concerto, click on it, go to edit, and then submit it again. After this, you should have the option to "Force Update", which should manually refresh the element.
+To manually refresh an item in concerto, go to edit, and then submit it again.\
+<img width="3725" height="1464" alt="{046D64C6-E3A8-4F39-9850-5664280BF185}" src="https://github.com/user-attachments/assets/56582e84-5186-480f-86df-3b236a967917" />
+
+After this, you should have the option to "Force Update", which should manually refresh the element.\
+<img width="3813" height="1216" alt="{6247E3FD-4626-4684-9222-4863E0ED37A1}" src="https://github.com/user-attachments/assets/fdffc794-9034-4bad-af32-da44772cc5bf" />
+
+
 
 
 
