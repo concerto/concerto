@@ -1,50 +1,80 @@
-<div class="max-w-2xl">
-  <%= form_with(model: rich_text) do |form| %>
-  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+<div class="max-w-4xl mx-auto">
+  <%= form_with(model: rich_text, local: true, class: "space-y-4") do |form| %>
     <% if rich_text.errors.any? %>
-      <div class="sm:col-span-full bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-        <h2 class="font-medium mb-2"><%= pluralize(rich_text.errors.count, "error") %> prohibited this rich_text from being saved:</h2>
-
-        <ul class="list-disc list-inside space-y-1">
-          <% rich_text.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-    <div class="sm:col-span-full">
-      <%= form.label :text, class: "frm-label" %>
-      <%= form.text_area :text, class: "frm-input", rows: 6 %>
-    </div>
-
-    <div class="sm:col-span-full">
-      <%= form.label :render_as, "Display Type", class: "frm-label" %>
-      <div class="mt-2">
-        <div class="flex space-x-6">
-          <div class="flex items-center">
-            <%= form.radio_button :render_as, "plaintext",
-                class: "h-4 w-4 text-brand border-neutral-300 focus:ring-brand-100 focus:ring-2",
-                id: "rich_text_render_as_plaintext" %>
-            <%= form.label :render_as_plaintext, "Plain Text",
-                class: "ml-2 text-body text-neutral-700 font-medium cursor-pointer" %>
-          </div>
-          <div class="flex items-center">
-            <%= form.radio_button :render_as, "html",
-                class: "h-4 w-4 text-brand border-neutral-300 focus:ring-brand-100 focus:ring-2",
-                id: "rich_text_render_as_html" %>
-            <%= form.label :render_as_html, "HTML",
-                class: "ml-2 text-body text-neutral-700 font-medium cursor-pointer" %>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <div class="flex items-start">
+          <svg class="w-5 h-5 text-red-400 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+          </svg>
+          <div class="flex-1">
+            <h3 class="text-sm font-semibold text-red-800 mb-2">
+              <%= pluralize(rich_text.errors.count, "error") %> prohibited this text content from being saved:
+            </h3>
+            <ul class="text-sm text-red-700 space-y-1">
+              <% rich_text.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
           </div>
         </div>
       </div>
+    <% end %>
+
+    <!-- Form Content Card -->
+    <div class="bg-white rounded-lg border border-gray-200 shadow-sm">
+      <div class="px-4 py-3 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Text Content</h2>
+        <p class="text-sm text-gray-600 mt-1">Create text-based content with formatting options</p>
+      </div>
+      
+      <div class="p-4 space-y-4">
+        <!-- Text Content -->
+        <div>
+          <%= form.label :text, "Content", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= form.text_area :text,
+              class: "block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm",
+              rows: 8,
+              placeholder: "Enter your text content here..." %>
+          <p class="text-xs text-gray-500 mt-1">Enter the text content to display on screens</p>
+        </div>
+
+        <!-- Display Type -->
+        <div>
+          <%= form.label :render_as, "Display Type", class: "block text-sm font-medium text-gray-700 mb-3" %>
+          <div class="space-y-3">
+            <div class="flex items-center">
+              <%= form.radio_button :render_as, "plaintext",
+                  class: "h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500 focus:ring-2",
+                  id: "rich_text_render_as_plaintext" %>
+              <%= form.label :render_as_plaintext, class: "ml-3 cursor-pointer" do %>
+                <span class="text-sm font-medium text-gray-700">Plain Text</span>
+                <span class="block text-xs text-gray-500">Display content as simple text without formatting</span>
+              <% end %>
+            </div>
+            <div class="flex items-center">
+              <%= form.radio_button :render_as, "html",
+                  class: "h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500 focus:ring-2",
+                  id: "rich_text_render_as_html" %>
+              <%= form.label :render_as_html, class: "ml-3 cursor-pointer" do %>
+                <span class="text-sm font-medium text-gray-700">HTML</span>
+                <span class="block text-xs text-gray-500">Render content as HTML with formatting and styling</span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <%= render "contents/form", form: form %>
+      </div>
     </div>
 
-    <%= render "contents/form", form: form %>
-
-    <div class="sm:col-span-full">
-      <%= form.submit class: "btn-primary" %>
+    <!-- Form Actions -->
+    <div class="flex items-center justify-between pt-2">
+      <div class="flex space-x-3">
+        <%= link_to "Cancel", contents_path, class: "btn-secondary" %>
+      </div>
+      <div class="flex space-x-3">
+        <%= form.submit "Save Text Content", class: "btn-primary" %>
+      </div>
     </div>
-  </div>
   <% end %>
 </div>

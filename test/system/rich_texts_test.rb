@@ -12,15 +12,15 @@ class RichTextsTest < ApplicationSystemTestCase
     visit new_rich_text_url
 
     fill_in "Duration", with: @rich_text.duration
-    fill_in "End time", with: @rich_text.end_time
+    fill_in "End Time", with: @rich_text.end_time
     fill_in "Name", with: @rich_text.name
-    fill_in "Start time", with: @rich_text.start_time
-    fill_in "Text", with: @rich_text.text
+    fill_in "Start Time", with: @rich_text.start_time
+    fill_in "Content", with: @rich_text.text
     choose "Plain Text"
     @rich_text.feeds.each do |f|
       check f.name
     end
-    click_on "Create Rich text"
+    click_on "Save Text Content"
 
     assert_text "Rich text was successfully created"
     click_on "Back"
@@ -33,15 +33,15 @@ class RichTextsTest < ApplicationSystemTestCase
     click_on "Edit this rich text", match: :first
 
     fill_in "Duration", with: @rich_text.duration
-    fill_in "End time", with: @rich_text.end_time.strftime("%m%d%Y\t%I%M%P")
+    fill_in "End Time", with: @rich_text.end_time.strftime("%m%d%Y\t%I%M%P")
     fill_in "Name", with: @rich_text.name
-    fill_in "Start time", with: @rich_text.start_time.strftime("%m%d%Y\t%I%M%P")
-    fill_in "Text", with: @rich_text.text
+    fill_in "Start Time", with: @rich_text.start_time.strftime("%m%d%Y\t%I%M%P")
+    fill_in "Content", with: @rich_text.text
     choose "Plain Text"
     @rich_text.feeds.each do |f|
       check f.name
     end
-    click_on "Update Rich text"
+    click_on "Save Text Content"
 
     assert_text "Rich text was successfully updated"
     click_on "Back"
@@ -51,7 +51,9 @@ class RichTextsTest < ApplicationSystemTestCase
     sign_in @user
 
     visit rich_text_url(@rich_text)
-    click_on "Destroy this rich text", match: :first
+    page.accept_confirm do
+      click_on "Destroy this rich text", match: :first
+    end
 
     assert_text "Rich text was successfully destroyed"
   end

@@ -1,7 +1,6 @@
-<%= page_title "Add Graphic" %>
-
-<%= render "form", graphic: @graphic %>
-
-<div class="mt-8">
-  <%= link_to "Back to content", contents_path %>
-</div>
+<%= render "contents/form_layout",
+    content: @graphic,
+    breadcrumb_text: "Add Graphic",
+    page_title: "Add Graphic Content",
+    page_description: "Upload and configure a new graphic for display on your screens",
+    form_locals: { graphic: @graphic } %>

@@ -1,28 +1,54 @@
-<div class="max-w-2xl">
-  <%= form_with(model: graphic) do |form| %>
-  <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+<div class="max-w-4xl mx-auto">
+  <%= form_with(model: graphic, local: true, class: "space-y-4") do |form| %>
     <% if graphic.errors.any? %>
-      <div class="sm:col-span-full bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-        <h2 class="font-medium mb-2"><%= pluralize(graphic.errors.count, "error") %> prohibited this graphic from being saved:</h2>
-
-        <ul class="list-disc list-inside space-y-1">
-          <% graphic.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <div class="flex items-start">
+          <svg class="w-5 h-5 text-red-400 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+          </svg>
+          <div class="flex-1">
+            <h3 class="text-sm font-semibold text-red-800 mb-2">
+              <%= pluralize(graphic.errors.count, "error") %> prohibited this graphic from being saved:
+            </h3>
+            <ul class="text-sm text-red-700 space-y-1">
+              <% graphic.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
       </div>
     <% end %>
 
-    <div class="sm:col-span-4">
-      <%= form.label :image, class: "frm-label" %>
-      <%= form.file_field :image, class: "frm-file-input" %>
+    <!-- Form Content Card -->
+    <div class="bg-white rounded-lg border border-gray-200 shadow-sm">
+      <div class="px-4 py-3 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Graphic Details</h2>
+        <p class="text-sm text-gray-600 mt-1">Upload an image file and configure display settings</p>
+      </div>
+      
+      <div class="p-4 space-y-4">
+        <!-- Image Upload -->
+        <div>
+          <%= form.label :image, "Image File", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= form.file_field :image,
+              class: "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-gray-300 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+              accept: "image/*" %>
+          <p class="text-xs text-gray-500 mt-1">Supported formats: JPG, PNG</p>
+        </div>
+
+        <%= render "contents/form", form: form %>
+      </div>
     </div>
 
-    <%= render "contents/form", form: form %>
-
-    <div class="sm:col-span-full">
-      <%= form.submit class: "btn-primary" %>
+    <!-- Form Actions -->
+    <div class="flex items-center justify-between pt-2">
+      <div class="flex space-x-3">
+        <%= link_to "Cancel", contents_path, class: "btn-secondary" %>
+      </div>
+      <div class="flex space-x-3">
+        <%= form.submit "Save Graphic", class: "btn-primary" %>
+      </div>
     </div>
-  </div>
   <% end %>
 </div>

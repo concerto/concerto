@@ -1,8 +1,15 @@
 <div id="<%= dom_id graphic %>">
-  <div>
-    <%= link_to graphic.image do %>
-      <%= image_tag graphic.image, size: "600", class: "m-auto" %>
-    <% end %>
+  <!-- Content Preview -->
+  <div class="card mb-6">
+    <div class="card-body">
+      <div class="flex justify-center">
+        <%= link_to graphic.image, class: "block" do %>
+          <%= image_tag graphic.image,
+              class: "max-w-full h-auto rounded-lg shadow-sm border border-neutral-200",
+              style: "max-height: 400px;" %>
+        <% end %>
+      </div>
+    </div>
   </div>
 
   <%= render "contents/show_details", content: graphic %>

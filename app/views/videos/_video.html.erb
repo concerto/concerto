@@ -1,20 +1,38 @@
 <div id="<%= dom_id video %>">
-  <div>
-  <% if video.video_source == "youtube" %>
-    <iframe id="player" class="m-auto" type="text/html" width="600" height="480"
-      src="https://www.youtube-nocookie.com/embed/<%= video.video_id %>?rel=0&iv_load_policy=3"
-      allow="autoplay; encrypted-media" allowfullscreen
-      frameborder="0">
-    </iframe>
-  <% elsif video.video_source == "vimeo" %>
-    <iframe id="player" class="m-auto" type="text/html" width="600" height="480"
-      src="https://player.vimeo.com/video/<%= video.video_id %>"
-      allow="autoplay; encrypted-media" allowfullscreen
-      frameborder="0">
-    </iframe>
-  <% else %>
-    <p>Unsupported video source</p>
-  <% end %>
+  <!-- Content Preview -->
+  <div class="card mb-6">
+    <div class="card-body">
+      <div class="flex justify-center">
+        <% if video.video_source == "youtube" %>
+          <iframe id="player"
+                  class="rounded-lg shadow-sm border border-neutral-200"
+                  type="text/html"
+                  width="600"
+                  height="480"
+                  src="https://www.youtube-nocookie.com/embed/<%= video.video_id %>?rel=0&iv_load_policy=3"
+                  allow="autoplay; encrypted-media"
+                  allowfullscreen
+                  frameborder="0">
+          </iframe>
+        <% elsif video.video_source == "vimeo" %>
+          <iframe id="player"
+                  class="rounded-lg shadow-sm border border-neutral-200"
+                  type="text/html"
+                  width="600"
+                  height="480"
+                  src="https://player.vimeo.com/video/<%= video.video_id %>"
+                  allow="autoplay; encrypted-media"
+                  allowfullscreen
+                  frameborder="0">
+          </iframe>
+        <% else %>
+          <div class="text-center py-12">
+            <p class="text-body text-neutral-500">Unsupported video source</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 
   <%= render "contents/show_details", content: video %>
 </div>

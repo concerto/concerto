@@ -1,55 +1,74 @@
-<div class="px-4 sm:px-0">
-  <h3 class="text-base/7 font-semibold text-gray-900">Content Details</h3>
-  <!-- <p class="mt-1 max-w-2xl text-sm/6 text-gray-500">Subtitle here.</p> -->
-</div>
-<div class="mt-2 border-t border-gray-100">
-  <dl class="divide-y divide-gray-100">
-  <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-    <dt class="text-sm/6 font-medium text-gray-900">Name</dt>
-    <dd class="mt-1 text-sm/6 text-gray-900 sm:col-span-2 sm:mt-0"><%= content.name %></dd>
-  </div>
-  <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-    <dt class="text-sm/6 font-medium text-gray-900">Duration</dt>
-    <dd class="mt-1 text-sm/6 text-gray-900 sm:col-span-2 sm:mt-0">
-    <% if content.duration.nil? %>
-      N/A, using default.
-    <% else %>
-      <%= content.duration %> seconds
-    <% end %>
-    </dd>
-  </div>
-  <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-    <dt class="text-sm/6 font-medium text-gray-900">Schedule</dt>
-    <dd class="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-      <div class="flex items-center justify-between py-1 pr-5 text-sm/6 font-medium">
-        <%= schedule_summary(content) %>
+<!-- Content Details Card -->
+<div class="card">
+  <div class="card-body">
+    <div class="border-b border-neutral-200 pb-4 mb-6">
+      <h3 class="text-h3 text-neutral-900">Details</h3>
+    </div>
+    
+    <dl class="space-y-6">
+      <!-- Name -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <dt class="text-body font-medium text-neutral-700">Name</dt>
+        <dd class="text-body text-neutral-900 sm:col-span-2">
+          <%= content.name %>
+        </dd>
       </div>
-      <div class="py-1 pl-4 pr-5 text-sm/6">
-      Start:
-      <%= content.start_time || "N/A" %>
-      </div>
-      <div class="py-1 pl-4 pr-5 text-sm/6">
-      End:
-      <%= content.end_time || "N/A" %>
-      </div>
-    </dd>
-  </div>
-  <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-    <dt class="text-sm/6 font-medium text-gray-900">Submitted to Feeds</dt>
-    <dd class="mt-1 text-sm/6 text-gray-900 sm:col-span-2 sm:mt-0">
-      <% if content.feeds.any? %>
-        <ul>
-          <% content.feeds.each do |feed| %>
-            <li class="flex items-center justify-between py-2">
-              <%= link_to feed.name, feed_path(feed) %>
-            </li>
+      
+      <!-- Duration -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <dt class="text-body font-medium text-neutral-700">Duration</dt>
+        <dd class="text-body text-neutral-900 sm:col-span-2">
+          <% if content.duration.nil? %>
+            <span class="text-neutral-500">N/A, using default</span>
+          <% else %>
+            <%= content.duration %> seconds
           <% end %>
-        </ul>
-      <% else %>
-        <span class="text-gray-500 italic">Not submitted to any feeds</span>
-      <% end %>
-    </dd>
+        </dd>
+      </div>
+      
+      <!-- Schedule -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <dt class="text-body font-medium text-neutral-700">Schedule</dt>
+        <dd class="text-body text-neutral-900 sm:col-span-2">
+          <div class="space-y-2">
+            <div class="font-medium text-neutral-900">
+              <%= schedule_summary(content) %>
+            </div>
+            <div class="space-y-1 text-caption text-neutral-700 pl-4">
+              <div>
+                <span class="font-medium">Start:</span>
+                <%= content.start_time || "N/A" %>
+              </div>
+              <div>
+                <span class="font-medium">End:</span>
+                <%= content.end_time || "N/A" %>
+              </div>
+            </div>
+          </div>
+        </dd>
+      </div>
+      
+      <!-- Submitted to Feeds -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <dt class="text-body font-medium text-neutral-700">Submitted to Feeds</dt>
+        <dd class="text-body text-neutral-900 sm:col-span-2">
+          <% if content.feeds.any? %>
+            <ul class="space-y-2">
+              <% content.feeds.each do |feed| %>
+                <li>
+                  <%= link_to feed.name, feed_path(feed),
+                      class: "text-brand hover:text-brand-600 font-medium transition-colors duration-200" %>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <span class="text-neutral-500 italic">Not submitted to any feeds</span>
+          <% end %>
+        </dd>
+      </div>
+
+      <!-- Addtional Content type form fields-->
+      <%= yield %>
+    </dl>
   </div>
-    <%= yield %>
-  </dl>
 </div>

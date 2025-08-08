@@ -1,7 +1,6 @@
-<%= page_title "Add Text / HTML" %>
-
-<%= render "form", rich_text: @rich_text %>
-
-<div class="mt-8">
-  <%= link_to "Back to content", contents_path %>
-</div>
+<%= render "contents/form_layout",
+    content: @rich_text,
+    breadcrumb_text: "Add Text / HTML",
+    page_title: "Add Text Content",
+    page_description: "Create text-based content with formatting options for your screens",
+    form_locals: { rich_text: @rich_text } %>

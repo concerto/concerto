@@ -12,11 +12,11 @@ class VideosTest < ApplicationSystemTestCase
     visit new_video_url
 
     fill_in "Duration", with: @video.duration
-    fill_in "End time", with: @video.end_time
+    fill_in "End Time", with: @video.end_time
     fill_in "Name", with: @video.name
-    fill_in "Start time", with: @video.start_time
-    fill_in "Url", with: @video.url
-    click_on "Create Video"
+    fill_in "Start Time", with: @video.start_time
+    fill_in "Video URL", with: @video.url
+    click_on "Save Video"
 
     assert_text "Video was successfully created"
     click_on "Back"
@@ -29,11 +29,11 @@ class VideosTest < ApplicationSystemTestCase
     click_on "Edit this video", match: :first
 
     fill_in "Duration", with: @video.duration
-    fill_in "End time", with: @video.end_time.to_s
+    fill_in "End Time", with: @video.end_time.to_s
     fill_in "Name", with: @video.name
-    fill_in "Start time", with: @video.start_time.to_s
-    fill_in "Url", with: @video.url
-    click_on "Update Video"
+    fill_in "Start Time", with: @video.start_time.to_s
+    fill_in "Video URL", with: @video.url
+    click_on "Save Video"
 
     assert_text "Video was successfully updated"
     click_on "Back"
@@ -43,7 +43,9 @@ class VideosTest < ApplicationSystemTestCase
     sign_in @user
 
     visit video_url(@video)
-    click_on "Destroy this video", match: :first
+    page.accept_confirm do
+      click_on "Destroy this video", match: :first
+    end
 
     assert_text "Video was successfully destroyed"
   end

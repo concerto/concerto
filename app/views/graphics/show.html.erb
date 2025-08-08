@@ -2,9 +2,7 @@
 
 <%= render @graphic %>
 
-<div>
-  <%= link_to "Edit this graphic", edit_graphic_path(@graphic) %> |
-  <%= link_to "Back to content", contents_path %>
-
-  <%= button_to "Destroy this graphic", @graphic, method: :delete %>
-</div>
+<%= render "contents/actions",
+    content_type: "graphic",
+    edit_path: edit_graphic_path(@graphic),
+    destroy_path: @graphic %>

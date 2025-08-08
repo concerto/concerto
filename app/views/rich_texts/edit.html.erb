@@ -1,10 +1,6 @@
-<h1>Editing rich text</h1>
-
-<%= render "form", rich_text: @rich_text %>
-
-<br>
-
-<div>
-  <%= link_to "Show this rich text", @rich_text %> |
-  <%= link_to "Back to content", contents_path %>
-</div>
+<%= render "contents/form_layout",
+    content: @rich_text,
+    content_name: "Text Content",
+    page_title: "Edit #{@rich_text.name}",
+    page_description: "Update the text content and formatting settings",
+    form_locals: { rich_text: @rich_text } %>

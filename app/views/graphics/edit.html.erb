@@ -1,10 +1,6 @@
-<h1>Editing graphic</h1>
-
-<%= render "form", graphic: @graphic %>
-
-<br>
-
-<div>
-  <%= link_to "Show this graphic", @graphic %> |
-  <%= link_to "Back to content", contents_path %>
-</div>
+<%= render "contents/form_layout",
+    content: @graphic,
+    content_name: "Graphic",
+    page_title: "Edit #{@graphic.name}",
+    page_description: "Update the settings and configuration for this graphic",
+    form_locals: { graphic: @graphic } %>

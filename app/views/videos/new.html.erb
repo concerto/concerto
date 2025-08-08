@@ -1,7 +1,6 @@
-<%= page_title "Add Video" %>
-
-<%= render "form", video: @video %>
-
-<div class="mt-8">
-  <%= link_to "Back to content", contents_path %>
-</div>
+<%= render "contents/form_layout",
+    content: @video,
+    breadcrumb_text: "Add Video",
+    page_title: "Add Video Content",
+    page_description: "Add video content from supported platforms for display on your screens",
+    form_locals: { video: @video } %>

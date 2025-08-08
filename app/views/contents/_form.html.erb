@@ -1,33 +1,64 @@
-<div class="sm:col-span-4">
-  <%= form.label :name, class: "frm-label" %>
-  <%= form.text_field :name, class: "frm-input" %>
+<!-- Content Details -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div class="md:col-span-2">
+    <%= form.label :name, "Content Name", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <%= form.text_field :name,
+        class: "block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm",
+        placeholder: "Enter a descriptive name for this content" %>
+  </div>
+
+  <div>
+    <%= form.label :duration, "Duration (seconds)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <%= form.number_field :duration,
+        class: "block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm",
+        placeholder: "15",
+        min: 1 %>
+    <p class="text-xs text-gray-500 mt-1">How long to display this content</p>
+  </div>
 </div>
 
-<div class="sm:col-span-2">
-  <%= form.label :duration, class: "frm-label" %>
-  <%= form.number_field :duration, class: "frm-input", placeholder: "seconds" %>
+<!-- Scheduling -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div>
+    <%= form.label :start_time, "Start Time", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <%= form.datetime_local_field :start_time,
+        class: "block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" %>
+    <p class="text-xs text-gray-500 mt-1">When this content becomes active (optional)</p>
+  </div>
+
+  <div>
+    <%= form.label :end_time, "End Time", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <%= form.datetime_local_field :end_time,
+        class: "block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" %>
+    <p class="text-xs text-gray-500 mt-1">When this content expires (optional)</p>
+  </div>
 </div>
 
-<div class="sm:col-span-3">
-  <%= form.label :start_time, class: "frm-label" %>
-  <%= form.datetime_field :start_time, class: "frm-input" %>
-</div>
-
-<div class="sm:col-span-3">
-  <%= form.label :end_time, class: "frm-label" %>
-  <%= form.datetime_field :end_time, class: "frm-input" %>
-</div>
-
-<div class="sm:col-span-full">
-  <%= form.label :feed_ids, "Feeds", class: "frm-label" %>
-  <fieldset>
-    <div class="mt-3 space-y-3">
-    <%= form.collection_check_boxes :feed_ids, Feed.all, :id, :name do |b| %>
-      <div class="flex items-center gap-x-3">
-        <%= b.check_box class: "h-4 w-4 border-gray-300 rounded text-blue-600 focus:ring-blue-500" %>
-        <%= b.label class: "block text-sm font-medium leading-6 text-gray-900" %>
+<!-- Feed Assignment -->
+<div>
+  <%= form.label :feed_ids, "Assign to Feeds", class: "block text-sm font-medium text-gray-700 mb-3" %>
+  <div class="bg-gray-50 rounded-lg p-3 border border-gray-200">
+    <% if Feed.any? %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <%= form.collection_check_boxes :feed_ids, Feed.all, :id, :name do |b| %>
+          <div class="flex items-start">
+            <%= b.check_box class: "h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 mt-1" %>
+            <div class="ml-3">
+              <%= b.label class: "text-sm font-medium text-gray-700 cursor-pointer" %>
+              <p class="text-xs text-gray-500">Select to include in this feed</p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="text-center py-3">
+        <svg class="mx-auto h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+        <p class="text-sm text-gray-500 mt-2">No feeds available</p>
+        <p class="text-xs text-gray-400">Create feeds first to assign content</p>
       </div>
     <% end %>
-    </div>
-  </fieldset>
+  </div>
+  <p class="text-xs text-gray-500 mt-2">Select which feeds should display this content</p>
 </div>

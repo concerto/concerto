@@ -1,12 +1,22 @@
 <div id="<%= dom_id rich_text %>">
-  <div class="p-2 m-2 border-solid border-2 border-black">
-    <%= rich_text.text %>
+  <!-- Content Preview -->
+  <div class="card mb-6">
+    <div class="card-body">
+      <div class="prose prose-sm max-w-none">
+        <%= rich_text.text %>
+      </div>
+    </div>
   </div>
 
   <%= render "contents/show_details", content: rich_text do %>
-    <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-      <dt class="text-sm/6 font-medium text-gray-900">Render As:</dt>
-      <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0"><%= rich_text.render_as %></dd>
+    <!-- Render As Field -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <dt class="text-body font-medium text-neutral-700">Render As:</dt>
+      <dd class="text-body text-neutral-900 sm:col-span-2">
+        <code class="px-2 py-1 bg-neutral-100 text-neutral-900 rounded text-caption font-mono">
+          <%= rich_text.render_as %>
+        </code>
+      </dd>
     </div>
   <% end %>
 </div>
