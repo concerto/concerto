@@ -1,9 +1,8 @@
-How to reboot concerto
-sudo reboot
-connect to server correctly, or use VNC program(TigerVNC was found compatible)
-login into admin account
-type "chromium"
-submit password under keyring(same as for admin account)
-close chromium
-./concerto_startup.sh
-(NO SUDO)
+How to reboot concerto\
+enter sudo reboot into the console\
+connect to the server directly, or use a VNC program (not all are compatible. TigerVNC is reccommended)\
+login into admin account\
+enter chromium into the console on the server\
+submit password under keyring(same as for admin account)\
+close chromium\
+go to the concerto file and enter ./concerto_startup.sh into the console
