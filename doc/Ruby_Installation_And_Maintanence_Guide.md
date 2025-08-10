@@ -12,7 +12,9 @@ Installing new ruby versions
     rvm pkg install openssl
 4. Install desired version\
     rvm install <ruby version here> --with openssl-dir=$rvm_path/usr
+
     if this fails, try running:\
-    rvm get head.
+    rvm get head
 
 Note: currently, Concerto runs on ruby 2.6.0
+
