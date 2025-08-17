@@ -21,14 +21,14 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
   <div>
     <%= form.label :start_time, "Start Time", class: "block text-sm font-medium text-gray-700 mb-2" %>
-    <%= form.datetime_local_field :start_time,
+    <%= form.datetime_field :start_time,
         class: "block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" %>
     <p class="text-xs text-gray-500 mt-1">When this content becomes active (optional)</p>
   </div>
 
   <div>
     <%= form.label :end_time, "End Time", class: "block text-sm font-medium text-gray-700 mb-2" %>
-    <%= form.datetime_local_field :end_time,
+    <%= form.datetime_field :end_time,
         class: "block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" %>
     <p class="text-xs text-gray-500 mt-1">When this content expires (optional)</p>
   </div>

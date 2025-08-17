@@ -1,1 +1,10 @@
-<div class="mt-1 bg-gray-200"><%= content.text %></div>
+<% if content.plaintext? %>
+  <%= content.text %>
+<% else %>
+<div>
+    <div class="rich-text-grid">
+      <%= sanitize(content.text) %>
+    </div>
+</div>
+<% end %>
+

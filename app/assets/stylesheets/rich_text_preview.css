@@ -1,0 +1,38 @@
+.rich-text-grid {
+    --scale-factor: 0.75;
+
+    all: initial;
+
+    * {
+      all: revert;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 500;
+        line-height: normal;
+    }
+
+    h1 {
+    font-size: calc(2em * var(--scale-factor));
+    }
+
+    h2 {
+    font-size: calc(1.5em * var(--scale-factor));
+    }
+
+    h3 {
+    font-size: calc(1.17em * var(--scale-factor));
+    }
+
+    h4 {
+    font-size: calc(1em * var(--scale-factor));
+    }
+
+    h5 {
+    font-size: calc(0.83em * var(--scale-factor));
+    }
+    
+    h6 {
+    font-size: calc(0.67em * var(--scale-factor));
+    }
+}

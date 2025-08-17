@@ -3,7 +3,11 @@
   <div class="card mb-6">
     <div class="card-body">
       <div class="prose prose-sm max-w-none">
-        <%= rich_text.text %>
+        <% if rich_text.plaintext? %>
+          <%= rich_text.text %>
+        <% else %>
+          <%= sanitize(rich_text.text) %>
+        <% end %>
       </div>
     </div>
   </div>

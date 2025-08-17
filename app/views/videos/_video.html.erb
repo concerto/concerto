@@ -4,26 +4,24 @@
     <div class="card-body">
       <div class="flex justify-center">
         <% if video.video_source == "youtube" %>
-          <iframe id="player"
+          <iframe
                   class="rounded-lg shadow-sm border border-neutral-200"
-                  type="text/html"
                   width="600"
                   height="480"
                   src="https://www.youtube-nocookie.com/embed/<%= video.video_id %>?rel=0&iv_load_policy=3"
                   allow="autoplay; encrypted-media"
                   allowfullscreen
-                  frameborder="0">
+                  loading="lazy">
           </iframe>
         <% elsif video.video_source == "vimeo" %>
-          <iframe id="player"
+          <iframe
                   class="rounded-lg shadow-sm border border-neutral-200"
-                  type="text/html"
                   width="600"
                   height="480"
                   src="https://player.vimeo.com/video/<%= video.video_id %>"
                   allow="autoplay; encrypted-media"
                   allowfullscreen
-                  frameborder="0">
+                  loading="lazy">
           </iframe>
         <% else %>
           <div class="text-center py-12">
