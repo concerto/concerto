@@ -1,5 +1,5 @@
 <div class="max-w-4xl mx-auto">
-  <%= form_with(model: graphic, data: {turbo: false}, class: "space-y-4") do |form| %>
+  <%= form_with(model: graphic, class: "space-y-4") do |form| %>
     <% if graphic.errors.any? %>
       <div class="bg-red-50 border border-red-200 rounded-lg p-3">
         <div class="flex items-start">
