@@ -5,11 +5,6 @@ class RssFeedsControllerTest < ActionDispatch::IntegrationTest
     @rss_feed = rss_feeds(:yahoo_rssfeed)
   end
 
-  test "should get index" do
-    get rss_feeds_url
-    assert_response :success
-  end
-
   test "should get new" do
     get new_rss_feed_url
     assert_response :success
@@ -43,6 +38,6 @@ class RssFeedsControllerTest < ActionDispatch::IntegrationTest
       delete rss_feed_url(@rss_feed)
     end
 
-    assert_redirected_to rss_feeds_url
+    assert_redirected_to feeds_url
   end
 end

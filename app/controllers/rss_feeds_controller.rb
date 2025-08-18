@@ -1,11 +1,6 @@
 class RssFeedsController < ApplicationController
   before_action :set_rss_feed, only: %i[ show edit update destroy refresh ]
 
-  # GET /rss_feeds or /rss_feeds.json
-  def index
-    @rss_feeds = RssFeed.all
-  end
-
   # GET /rss_feeds/1 or /rss_feeds/1.json
   def show
   end
@@ -57,7 +52,7 @@ class RssFeedsController < ApplicationController
     @rss_feed.destroy!
 
     respond_to do |format|
-      format.html { redirect_to rss_feeds_url, notice: "Rss feed was successfully destroyed." }
+      format.html { redirect_to feeds_url, notice: "Rss feed was successfully destroyed." }
       format.json { head :no_content }
     end
   end

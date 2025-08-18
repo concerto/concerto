@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   end
   resources :templates
   resources :submissions
-  resources :rss_feeds do
+  resources :rss_feeds, except: [ :index ] do
     get "refresh", on: :member
   end
   resources :feeds

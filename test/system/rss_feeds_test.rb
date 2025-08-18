@@ -5,14 +5,9 @@ class RssFeedsTest < ApplicationSystemTestCase
     @rss_feed = rss_feeds(:yahoo_rssfeed)
   end
 
-  test "visiting the index" do
-    visit rss_feeds_url
-    assert_selector "h1", text: "Rss feeds"
-  end
-
   test "should create rss feed" do
-    visit rss_feeds_url
-    click_on "New rss feed"
+    visit feeds_url
+    click_on "New RSS Feed"
 
     fill_in "Description", with: @rss_feed.description
     fill_in "Name", with: @rss_feed.name
