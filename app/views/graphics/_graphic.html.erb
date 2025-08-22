@@ -4,9 +4,8 @@
     <div class="card-body">
       <div class="flex justify-center">
         <%= link_to graphic.image, class: "block" do %>
-          <%= image_tag graphic.image,
-              class: "max-w-full h-auto rounded-lg shadow-sm border border-neutral-200",
-              style: "max-height: 400px;" %>
+          <%= image_tag graphic.image.variant(:grid),
+              class: "max-w-full h-auto rounded-lg shadow-sm border border-neutral-200" %>
         <% end %>
       </div>
     </div>
