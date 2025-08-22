@@ -15,7 +15,7 @@ video_two:
   duration: 1
   start_time: 2024-12-24 03:10:59
   end_time: 2024-12-24 03:10:59
-  config: {'url': 'MyString'}
+  config: {'url': 'https://www.youtube.com/watch?v=UlXEL5hg7E8'}
   user: admin
 
 video_vimeo:
