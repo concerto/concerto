@@ -3,7 +3,7 @@
     <%= link_to content, class: "group block" do %>
       <div class="card hover:shadow-md transition-shadow duration-200">
         <div class="card-body">
-          <div class="aspect-video bg-neutral-100 rounded-lg mb-4 flex items-center justify-center">
+          <div class="bg-neutral-100 rounded-lg mb-4 flex justify-center min-h-[200px] max-h-[400px] overflow-hidden">
             <%= render partial: to_grid_partial_path(content), locals: {content: content} %>
           </div>
           
