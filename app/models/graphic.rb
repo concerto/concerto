@@ -1,5 +1,7 @@
 class Graphic < Content
-  has_one_attached :image
+  has_one_attached :image do |attachable|
+    attachable.variant :grid, resize_to_limit: [ nil, 400 ]
+  end
 
   # URL Helpers are needed so we can generate a URL to the image in the JSON.
   include Rails.application.routes.url_helpers
