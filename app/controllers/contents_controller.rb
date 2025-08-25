@@ -4,7 +4,18 @@ class ContentsController < ApplicationController
 
   # GET /contents or /contents.json
   def index
-    @contents = Content.all
+    @scope = params[:scope] || "active"
+
+    @contents = case @scope
+    when "active"
+                  Content.active
+    when "upcoming"
+                  Content.upcoming
+    when "expired"
+                  Content.expired
+    else
+                  Content.active
+    end
   end
 
   # GET /contents/new

@@ -1,10 +1,54 @@
 <%= page_title "Content" %>
 
-<div class="flex items-center justify-between mb-6">
-  <div>
-    <h1 class="text-h2 text-neutral-900">All Content</h1>
-    <p class="text-body text-neutral-700 mt-1">Manage and organize your digital signage content</p>
+<div class="flex items-start justify-between mb-6">
+  <div class="flex items-center gap-6">
+    <div>
+      <h1 class="text-h2 text-neutral-900">
+        <%= case @scope
+            when 'active' then 'Active Content'
+            when 'upcoming' then 'Upcoming Content'
+            when 'expired' then 'Expired Content'
+            else 'All Content'
+            end %>
+      </h1>
+      <p class="text-body text-neutral-700 mt-1">
+        <%= case @scope
+            when 'active' then 'Content currently being displayed'
+            when 'upcoming' then 'Content scheduled for future display'
+            when 'expired' then 'Content that is no longer active'
+            else 'Manage and organize your digital signage content'
+            end %>
+      </p>
+    </div>
+    
+    <!-- Content Scope Toggle -->
+    <div class="flex space-x-1 bg-neutral-100 p-1 rounded-lg">
+      <%= link_to contents_path(scope: 'active'),
+          class: "px-4 py-2 text-sm font-medium rounded-md transition-colors #{@scope == 'active' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
+        Active
+        <span class="ml-2 px-2 py-0.5 text-xs bg-success text-white rounded-full">
+          <%= Content.active.count %>
+        </span>
+      <% end %>
+      
+      <%= link_to contents_path(scope: 'upcoming'),
+          class: "px-4 py-2 text-sm font-medium rounded-md transition-colors #{@scope == 'upcoming' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
+        Upcoming
+        <span class="ml-2 px-2 py-0.5 text-xs bg-warning text-white rounded-full">
+          <%= Content.upcoming.count %>
+        </span>
+      <% end %>
+      
+      <%= link_to contents_path(scope: 'expired'),
+          class: "px-4 py-2 text-sm font-medium rounded-md transition-colors #{@scope == 'expired' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
+        Expired
+        <span class="ml-2 px-2 py-0.5 text-xs bg-error text-white rounded-full">
+          <%= Content.expired.count %>
+        </span>
+      <% end %>
+    </div>
   </div>
+  
   <%= link_to new_content_path, class: "btn-primary btn-md whitespace-nowrap" do %>
     <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
     New Content
