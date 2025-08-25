@@ -35,3 +35,34 @@ e2e_ticker_2:
   text: Second ticker text for system tests
   config: {'render_as': 'plaintext'}
   user: admin
+
+# Test fixtures for scope testing
+active_richtext_with_end:
+  type: RichText
+  name: "Active RichText with End Time"
+  duration: 60
+  start_time:
+  end_time: <%= 1.hour.from_now %>
+  text: "This content is currently active"
+  config: {'render_as': 'plaintext'}
+  user: admin
+
+active_richtext_with_both:
+  type: RichText
+  name: "Active RichText with Both Times"
+  duration: 30
+  start_time: <%= 1.hour.ago %>
+  end_time: <%= 1.hour.from_now %>
+  text: "This content is active with both times set"
+  config: {'render_as': 'html'}
+  user: admin
+
+upcoming_richtext_no_end:
+  type: RichText
+  name: "Upcoming RichText No End"
+  duration: 30
+  start_time: <%= 1.hour.from_now %>
+  end_time:
+  text: "This content will be active later"
+  config: {'render_as': 'plaintext'}
+  user: admin

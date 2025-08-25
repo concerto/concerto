@@ -22,3 +22,23 @@ e2e_graphic_2_image:
   name: image
   record: e2e_graphic_2 (Content)
   blob: two_graphic_blob
+
+active_graphic_no_times_image:
+  name: image
+  record: active_graphic_no_times (Content)
+  blob: one_graphic_blob
+
+active_graphic_with_start_image:
+  name: image
+  record: active_graphic_with_start (Content)
+  blob: two_graphic_blob
+
+expired_graphic_image:
+  name: image
+  record: expired_graphic (Content)
+  blob: one_graphic_blob
+
+upcoming_graphic_image:
+  name: image
+  record: upcoming_graphic (Content)
+  blob: two_graphic_blob

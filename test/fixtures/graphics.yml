@@ -27,3 +27,36 @@ e2e_graphic_2:
   name: Graphic 2 for system test
   duration: 1
   user: admin
+
+# Test fixtures for scope testing
+active_graphic_no_times:
+  type: Graphic
+  name: "Always Active Graphic"
+  duration: 30
+  start_time:
+  end_time:
+  user: admin
+
+active_graphic_with_start:
+  type: Graphic
+  name: "Active Graphic with Start Time"
+  duration: 45
+  start_time: <%= 1.hour.ago %>
+  end_time:
+  user: admin
+
+expired_graphic:
+  type: Graphic
+  name: "Expired Graphic"
+  duration: 30
+  start_time: <%= 2.hours.ago %>
+  end_time: <%= 1.hour.ago %>
+  user: admin
+
+upcoming_graphic:
+  type: Graphic
+  name: "Upcoming Graphic"
+  duration: 30
+  start_time: <%= 1.hour.from_now %>
+  end_time: <%= 2.hours.from_now %>
+  user: admin
