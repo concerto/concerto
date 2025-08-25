@@ -3,9 +3,17 @@ require "application_system_test_case"
 class ContentsTest < ApplicationSystemTestCase
   test "visiting the index" do
     visit contents_url
-    assert_selector "h1", text: "All Content"
+    assert_selector "h1", text: "Active Content"
 
-    assert_selector "#contents img", count: (Graphic.all.count + Video.all.count)
+    assert_selector "#contents img", count: (Graphic.active.count + Video.active.count)
+    assert_selector "#contents div", text: rich_texts(:e2e_ticker_1).text
+  end
+
+  test "viewing expired content" do
+    visit contents_url(scope: "expired")
+    assert_selector "h1", text: "Expired Content"
+
+    assert_selector "#contents img", count: (Graphic.expired.count + Video.expired.count)
     assert_selector "#contents div", text: rich_texts(:plain_richtext).text
   end
 
