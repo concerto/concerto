@@ -38,9 +38,9 @@
 <div>
   <%= form.label :feed_ids, "Assign to Feeds", class: "block text-sm font-medium text-gray-700 mb-3" %>
   <div class="bg-gray-50 rounded-lg p-3 border border-gray-200">
-    <% if Feed.any? %>
+    <% if @eligible_feeds.any? %>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-        <%= form.collection_check_boxes :feed_ids, Feed.all, :id, :name do |b| %>
+        <%= form.collection_check_boxes :feed_ids, @eligible_feeds, :id, :name do |b| %>
           <div class="flex items-start">
             <%= b.check_box class: "h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 mt-1" %>
             <div class="ml-3">

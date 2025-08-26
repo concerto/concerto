@@ -1,4 +1,6 @@
 class VideosController < ApplicationController
+  include ContentUploadable
+
   before_action :authenticate_user!, except: %i[show]
   before_action :set_video, only: %i[show edit update destroy]
 
