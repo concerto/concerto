@@ -8,7 +8,7 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
 
-  has_many :contents
+  has_many :contents, dependent: :destroy
 
   def password_required?
     super && !is_system_user? # Do not require password for system user.
