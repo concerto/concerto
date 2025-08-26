@@ -67,6 +67,13 @@
         </dd>
       </div>
 
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <dt class="text-body font-medium text-neutral-700">Created by</dt>
+        <dd class="text-body text-neutral-900 sm:col-span-2">
+            <%= link_to content.user.display_name, content.user, class: "text-brand hover:text-brand-600 font-medium transition-colors duration-200" %>
+        </dd>
+      </div>
+
       <!-- Addtional Content type form fields-->
       <%= yield %>
     </dl>

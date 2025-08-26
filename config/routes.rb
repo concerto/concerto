@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   resources :graphics, except: [ :index ]
   resources :videos, except: [ :index ]
 
+  resources :users, only: [ :show ]
+
   # Admin routes
   get "/admin/settings", to: "admin#settings"
   patch "/admin/settings", to: "admin#update_settings"

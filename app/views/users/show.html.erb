@@ -1,0 +1,9 @@
+<%= page_title "#{@user.display_name} User Profile" %>
+
+<h2 class="text-xl">Uploaded Content</h2>
+
+<% if @user.contents.empty? %>
+  <div class="pt-2 italic">This user has not uploaded any content.</div>
+<% end %>
+
+<%= render partial: "contents/grid", locals: {contents: @user.contents} %>
