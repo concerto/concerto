@@ -17,15 +17,15 @@ class RssFeedTest < ActiveSupport::TestCase
       assert_equal items.length, 2
 
       assert_equal items[0], [
-        "<h1>Yahoo News - Latest News  Headlines</h1>",
+        "<h1>Yahoo News - Latest News &amp; Headlines</h1>",
         "<h2>Item 1 Title</h2>",
-        "<h2>Item 2 Title</h2>",
+        "<h2>Item 2 Title &amp; is fancy</h2>",
         "<h2>Item 3 Title</h2>",
         "<h2>Item 4 Title</h2>",
         "<h2>Item 5 Title</h2>" ].join()
 
         assert_equal items[1], [
-          "<h1>Yahoo News - Latest News  Headlines</h1>",
+          "<h1>Yahoo News - Latest News &amp; Headlines</h1>",
           "<h2>Item 6 Title</h2>",
           "<h2>Item 7 Title</h2>",
           "<h2>Item 8 Title</h2>",
@@ -76,5 +76,29 @@ class RssFeedTest < ActiveSupport::TestCase
     assert content[1].name.include?("unused")
     assert_empty content[1].text
     assert_operator content[1].end_time, :<, Time.now
+  end
+
+  test "parses details from a simple RSS feed" do
+    @feed.formatter = "details"
+    mock_file = File.read("test/support/basic_rss_feed.xml")
+
+    mock = Minitest::Mock.new
+    mock.expect(:open, mock_file)
+
+    URI.stub(:parse, mock) do
+      items = @feed.new_items
+      assert_equal items.length, 10
+
+      assert_equal items[0], [
+        "<h1>Item 1 Title</h1>",
+        "<p>Description for Item 1</p>"
+      ].join()
+
+      assert_equal items[1], [
+        "<h1>Item 2 Title &amp; is fancy</h1>",
+        "<p>Description for Item 2 &amp; too!</p>"
+      ].join()
+    end
+    mock.verify
   end
 end

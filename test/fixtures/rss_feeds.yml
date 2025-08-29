@@ -4,10 +4,10 @@ yahoo_rssfeed:
   type: RssFeed
   name: Yahoo News RSS
   description: MyText
-  config: {'url': 'https://news.yahoo.com/rss/us'}
+  config: {'url': 'https://news.yahoo.com/rss/us', 'formatter': 'headlines'}
 
 nytimes_rssfeed:
   type: RssFeed
   name: NYTimes RSS
   description: MyText
-  config: {'url': 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml'}
+  config: {'url': 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml', 'formatter': 'details'}

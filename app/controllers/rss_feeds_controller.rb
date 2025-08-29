@@ -7,7 +7,7 @@ class RssFeedsController < ApplicationController
 
   # GET /rss_feeds/new
   def new
-    @rss_feed = RssFeed.new
+    @rss_feed = RssFeed.new(formatter: :headlines)
   end
 
   # GET /rss_feeds/1/edit
@@ -65,6 +65,6 @@ class RssFeedsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def rss_feed_params
-      params.require(:rss_feed).permit(:name, :description, :url)
+      params.require(:rss_feed).permit(:name, :description, :url, :formatter)
     end
 end

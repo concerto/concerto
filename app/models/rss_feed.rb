@@ -1,7 +1,7 @@
 require "open-uri"
 
 class RssFeed < Feed
-    store_accessor :config, [ :url, :last_refreshed, :refresh_interval ]
+    store_accessor :config, [ :url, :last_refreshed, :refresh_interval, :formatter ]
 
     def last_refreshed
       DateTime.parse(super) if super
@@ -9,6 +9,12 @@ class RssFeed < Feed
 
     def refresh_interval
       super.to_i if super
+    end
+
+    def headlines? = formatter == "headlines"
+    def details? = formatter == "details"
+    def self.formatters
+      { headlines: "headlines", details: "details" }
     end
 
     def refresh
@@ -57,14 +63,22 @@ class RssFeed < Feed
 
         title = doc.xpath("/rss/channel/title").text
         items = doc.xpath("//item").map do |item|
-          item.xpath("title").text
+          { title: item.xpath("title").text,
+            description: item.xpath("description").text }
         end
 
         contents = []
 
-        items.each_slice(5).with_index do |slice, index|
-          text = "<h1>#{title}</h1><h2>#{slice.join("</h2><h2>")}</h2>"
-          contents.push(text)
+        if details?
+          items.each do |item|
+            description = ActionController::Base.helpers.sanitize(item[:description])
+            contents << "<h1>#{CGI.escapeHTML(item[:title])}</h1><p>#{description}</p>"
+          end
+        else # headlines
+          items.each_slice(5).with_index do |slice, index|
+            item_titles = slice.map { |i| CGI.escapeHTML(i[:title]) }
+            contents << "<h1>#{CGI.escapeHTML(title)}</h1><h2>#{item_titles.join("</h2><h2>")}</h2>"
+          end
         end
 
         contents

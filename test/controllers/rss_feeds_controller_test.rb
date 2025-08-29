@@ -12,7 +12,8 @@ class RssFeedsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create rss_feed" do
     assert_difference("RssFeed.count") do
-      post rss_feeds_url, params: { rss_feed: { description: @rss_feed.description, name: @rss_feed.name, url: @rss_feed.url } }
+      post rss_feeds_url, params: { rss_feed: { description: @rss_feed.description, name: @rss_feed.name, url: @rss_feed.url,
+        formatter: @rss_feed.formatter } }
     end
 
     assert_redirected_to rss_feed_url(RssFeed.last)
@@ -29,7 +30,8 @@ class RssFeedsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update rss_feed" do
-    patch rss_feed_url(@rss_feed), params: { rss_feed: { description: @rss_feed.description, name: @rss_feed.name, url: @rss_feed.url } }
+    patch rss_feed_url(@rss_feed), params: { rss_feed: { description: @rss_feed.description, name: @rss_feed.name, url: @rss_feed.url,
+      formatter: @rss_feed.formatter } }
     assert_redirected_to rss_feed_url(@rss_feed)
   end
 

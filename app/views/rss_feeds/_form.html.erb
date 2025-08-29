@@ -26,6 +26,11 @@
     <%= form.text_field :url, class: "frm-input" %>
   </div>
 
+  <div class="sm:col-span-full">
+    <%= form.label :formatter, "Display Type", class: "frm-label" %>
+    <%= form.select :formatter, RssFeed.formatters.keys, {}, { class: "frm-input" } %>
+  </div>
+
   <div class="mt-8">
     <%= form.submit class: "btn" %>
   </div>
