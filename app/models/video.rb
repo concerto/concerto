@@ -18,10 +18,6 @@ class Video < Content
     (0.25 < position.aspect_ratio && position.aspect_ratio < 1)
   end
 
-  def thumbnail_url
-    "https://img.youtube.com/vi/#{video_id}/mqdefault.jpg"
-  end
-
   def video_id
     if url.present?
       if video_source == "youtube"
