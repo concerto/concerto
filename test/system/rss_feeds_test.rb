@@ -9,32 +9,34 @@ class RssFeedsTest < ApplicationSystemTestCase
     visit feeds_url
     click_on "New RSS Feed"
 
-    fill_in "Description", with: @rss_feed.description
     fill_in "Name", with: @rss_feed.name
-    fill_in "Url", with: @rss_feed.url
-    click_on "Create Rss feed"
+    fill_in "Description", with: @rss_feed.description
+    fill_in "URL", with: @rss_feed.url
+    click_on "Save RSS Feed"
 
-    assert_text "Rss feed was successfully created"
+    assert_text "RSS Feed was successfully created"
     click_on "Back"
   end
 
   test "should update Rss feed" do
     visit rss_feed_url(@rss_feed)
-    click_on "Edit this rss feed", match: :first
+    click_on "Edit RSS Feed", match: :first
 
-    fill_in "Description", with: @rss_feed.description
     fill_in "Name", with: @rss_feed.name
-    fill_in "Url", with: @rss_feed.url
-    click_on "Update Rss feed"
+    fill_in "Description", with: @rss_feed.description
+    fill_in "URL", with: @rss_feed.url
+    click_on "Save RSS Feed"
 
-    assert_text "Rss feed was successfully updated"
+    assert_text "RSS Feed was successfully updated"
     click_on "Back"
   end
 
   test "should destroy Rss feed" do
     visit rss_feed_url(@rss_feed)
-    click_on "Destroy this rss feed", match: :first
+    page.accept_confirm do
+      click_on "Destroy this RSS Feed", match: :first
+    end
 
-    assert_text "Rss feed was successfully destroyed"
+    assert_text "RSS Feed was successfully destroyed"
   end
 end
