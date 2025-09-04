@@ -3,6 +3,9 @@ require "open-uri"
 class RssFeed < Feed
     store_accessor :config, [ :url, :last_refreshed, :refresh_interval, :formatter ]
 
+    # Destroy all associated content when an RSS feed is deleted
+    before_destroy :destroy_associated_content, prepend: true
+
     def last_refreshed
       DateTime.parse(super) if super
     end
@@ -87,5 +90,15 @@ class RssFeed < Feed
     # Deletes all unused content for this RSS feed
     def cleanup_unused_content
         content.unused.destroy_all
+    end
+
+    private
+
+    def destroy_associated_content
+        # Capture content IDs before Rails destroys the submission join.
+        content_ids = content.pluck(:id)
+
+        # Directly destroy the content records, not just the association.
+        Content.where(id: content_ids).destroy_all
     end
 end

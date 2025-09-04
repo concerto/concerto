@@ -150,4 +150,30 @@ class RssFeedTest < ActiveSupport::TestCase
     assert_equal 0, feed.content.unused.count
     assert_equal 1, feed.content.count
   end
+
+  test "destroys all associated content when RSS feed is deleted" do
+    feed = RssFeed.create(name: "Test Feed")
+
+    # Create some content for the feed
+    feed.stub :new_items, [ "Item 1", "Item 2", "Item 3" ] do
+      feed.refresh
+    end
+
+    # Verify content was created
+    assert_equal 3, feed.content.count
+    content_ids = feed.content.pluck(:id)
+
+    # Verify content exists before deletion
+    content_ids.each do |content_id|
+      assert_not_nil RichText.find_by(id: content_id), "Content #{content_id} should exist before deletion"
+    end
+
+    # Delete the RSS feed
+    feed.destroy
+
+    # Verify all associated content was destroyed
+    content_ids.each do |content_id|
+      assert_nil RichText.find_by(id: content_id), "Content #{content_id} should be destroyed after feed deletion"
+    end
+  end
 end
