@@ -83,4 +83,9 @@ class RssFeed < Feed
 
         contents
     end
+
+    # Deletes all unused content for this RSS feed
+    def cleanup_unused_content
+        content.unused.destroy_all
+    end
 end

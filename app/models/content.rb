@@ -7,6 +7,10 @@ class Content < ApplicationRecord
     scope :expired, -> { where("end_time IS NOT NULL AND end_time < :now", { now: Time.current }) }
     scope :upcoming, -> { where("start_time IS NOT NULL AND start_time > :now", { now: Time.current }) }
 
+    # Scopes for RSS feed content filtering
+    scope :unused, -> { expired.where(text: [ nil, "" ]).where("name LIKE ?", "%(unused)") }
+    scope :used, -> { active.or(upcoming).or(expired.where.not(text: [ nil, "" ]).where.not("name LIKE ?", "%(unused)"))  }
+
     def as_json(options = {})
         options[:methods] ||= [ :type ]
         options[:only] ||= [ :id, :duration ]

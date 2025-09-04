@@ -109,4 +109,26 @@ class ContentTest < ActiveSupport::TestCase
     assert_includes Content.upcoming.map(&:class).uniq, Graphic
     assert_includes Content.upcoming.map(&:class).uniq, RichText
   end
+
+  test "unused scope filters expired content with empty text and unused in name" do
+    unused_content = RichText.create!(
+      name: "Test Feed (unused)", duration: 30, text: "",
+      start_time: 2.hours.ago, end_time: 1.hour.ago,
+      config: { 'render_as': "plaintext" }, user: @admin
+    )
+    assert_includes Content.unused, unused_content
+    assert_not_includes Content.used, unused_content
+  end
+
+  test "used scope includes active, upcoming, and non-unused expired content" do
+    assert_includes Content.used, rich_texts(:active_richtext_with_end)
+    assert_includes Content.used, rich_texts(:upcoming_richtext_no_end)
+
+    expired_not_unused = RichText.create!(
+      name: "Expired but not unused", duration: 30, text: "Some content",
+      start_time: 2.hours.ago, end_time: 1.hour.ago,
+      config: { 'render_as': "plaintext" }, user: @admin
+    )
+    assert_includes Content.used, expired_not_unused
+  end
 end

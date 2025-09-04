@@ -42,4 +42,23 @@ class RssFeedsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to feeds_url
   end
+
+  test "should cleanup unused content" do
+    # Create some unused content by stubbing the refresh process
+    @rss_feed.stub :new_items, [ "Item 1", "Item 2" ] do
+      @rss_feed.refresh
+    end
+
+    @rss_feed.stub :new_items, [ "Updated Item 1" ] do
+      @rss_feed.refresh
+    end
+
+    # Should have unused content
+    assert @rss_feed.content.unused.count > 0
+
+    delete cleanup_rss_feed_url(@rss_feed)
+
+    assert_redirected_to rss_feed_url(@rss_feed)
+    assert_equal 0, @rss_feed.content.unused.count
+  end
 end

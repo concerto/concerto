@@ -1,5 +1,5 @@
 class RssFeedsController < ApplicationController
-  before_action :set_rss_feed, only: %i[ show edit update destroy refresh ]
+  before_action :set_rss_feed, only: %i[ show edit update destroy refresh cleanup ]
 
   # GET /rss_feeds/1 or /rss_feeds/1.json
   def show
@@ -20,6 +20,7 @@ class RssFeedsController < ApplicationController
 
     respond_to do |format|
       if @rss_feed.save
+        format.html { redirect_to rss_feed_url(@rss_feed), notice: "RSS Feed was successfully created." }
         format.html { redirect_to rss_feed_url(@rss_feed), notice: "RSS Feed was successfully created." }
         format.json { render :show, status: :created, location: @rss_feed }
       else
@@ -45,6 +46,11 @@ class RssFeedsController < ApplicationController
   def refresh
     @rss_feed.refresh
     redirect_to rss_feed_url(@rss_feed), notice: "RSS Feed was refreshed."
+  end
+
+  def cleanup
+    destroyed = @rss_feed.cleanup_unused_content
+    redirect_to rss_feed_url(@rss_feed), notice: "Cleaned up #{destroyed.length} unused pieces of content."
   end
 
   # DELETE /rss_feeds/1 or /rss_feeds/1.json

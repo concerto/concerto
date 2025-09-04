@@ -65,9 +65,9 @@
       <div class="mt-4">
         <%= button_to "Delete my account", 
             registration_path(resource_name),
-            data: { 
+            form: { data: {
               turbo_confirm: "Are you sure you want to delete your account? This action cannot be undone."
-            },
+            } },
             method: :delete,
             class: "inline-flex justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
         %>
