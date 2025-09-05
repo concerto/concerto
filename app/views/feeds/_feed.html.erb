@@ -1,9 +1,0 @@
-<div class="mb-4"><%= feed.description %></div>
-
-<h2 class="text-xl">Content</h2>
-
-<% if feed.content.empty? %>
-  <div class="pt-2 italic">This feed has no content. Consider uploading some?</div>
-<% end %>
-
-<%= render partial: "contents/grid", locals: {contents: feed.content} %>

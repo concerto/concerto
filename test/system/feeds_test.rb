@@ -29,7 +29,7 @@ class FeedsTest < ApplicationSystemTestCase
 
     fill_in "Description", with: @feed.description
     fill_in "Name", with: @feed.name
-    click_on "Create Feed"
+    click_on "Save Feed"
 
     assert_text "Feed was successfully created"
     click_on "Back"
@@ -37,11 +37,11 @@ class FeedsTest < ApplicationSystemTestCase
 
   test "should update Feed" do
     visit feed_url(@feed)
-    click_on "Edit this feed", match: :first
+    click_on "Edit Feed", match: :first
 
     fill_in "Description", with: @feed.description
     fill_in "Name", with: @feed.name
-    click_on "Update Feed"
+    click_on "Save Feed"
 
     assert_text "Feed was successfully updated"
     click_on "Back"
@@ -49,7 +49,9 @@ class FeedsTest < ApplicationSystemTestCase
 
   test "should destroy Feed" do
     visit feed_url(@feed)
-    click_on "Destroy this feed", match: :first
+    page.accept_confirm do
+      click_on "Destroy this Feed", match: :first
+    end
 
     assert_text "Feed was successfully destroyed"
   end
