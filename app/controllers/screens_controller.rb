@@ -9,12 +9,12 @@ class ScreensController < ApplicationController
 
   # GET /screens/1 or /screens/1.json
   def show
+    @subscriptions_by_field = @screen.subscriptions.includes(:feed).group_by(&:field_id)
   end
 
   # GET /screens/new
   def new
     @screen = Screen.new
-    @templates = Template.all
   end
 
   # GET /screens/1/edit
@@ -66,10 +66,7 @@ class ScreensController < ApplicationController
     end
 
     def set_templates
-      # Since 'Template' conflicts with ActionView::Template,
-      # we can't call `Template.all` in a view without errors.
-      # (this is a hack)
-      @templates = Template.all
+      @templates = Template.all.with_attached_image
     end
 
     # Only allow a list of trusted parameters through.

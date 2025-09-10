@@ -1,34 +1,138 @@
 <%= page_title "#{@screen.name}" %>
 
-<div class="grid grid-cols-3 gap-7">
-  <div class="col-span-2">
-    <% if @screen.template.image.attached? %>
-      <%= render partial: "templates/preview", locals: {template: @screen.template} %>
-    <% end %>
-  </div>
-  <div>
-    <h2 class="text-xl font-bold">Subscriptions</h2>
-    <div><%= link_to "Manage", screen_subscriptions_url(@screen), class: "btn text-xs" %></div>
-    <% @screen.template.positions.each do |position| %>
-      <div class="m-2">
-        <h3 class="text-l font-semibold"><%= position.field.name %></h3>
-        <ul class="list-disc pl-5">
-          <% @screen.subscriptions.where(field: position.field).each do |subscription| %>
-            <li><%= link_to subscription.feed.name, subscription.feed %></li>
-          <% end %>
-        </ul>
+<div class="max-w-7xl mx-auto">
+  <!-- Page Header -->
+  <div class="mb-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900"><%= @screen.name %></h1>
+        <p class="text-sm text-gray-600 mt-1">Manage screen configuration and feed subscriptions</p>
       </div>
-    <% end %>
+      <div class="flex space-x-3">
+        <%= link_to "Manage Subscriptions", screen_subscriptions_path(@screen), class: "btn-primary" %>
+        <%= link_to "Edit Screen", edit_screen_path(@screen), class: "btn-secondary" %>
+      </div>
+    </div>
   </div>
-</div>
 
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Template Preview Section -->
+    <div class="lg:col-span-2">
+      <div class="bg-white rounded-lg border border-gray-200 shadow-sm">
+        <div class="px-4 py-3 border-b border-gray-200">
+          <h2 class="text-lg font-semibold text-gray-900">Template Preview</h2>
+          <p class="text-sm text-gray-600 mt-1">Visual layout showing content positions</p>
+        </div>
+        <div class="p-4">
+          <% if @screen.template.image.attached? %>
+            <div class="bg-gray-50 rounded-lg p-4">
+              <%= render partial: "templates/preview", locals: {template: @screen.template} %>
+            </div>
+          <% else %>
+            <div class="bg-gray-50 rounded-lg p-8 text-center">
+              <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              <p class="text-gray-500">No template preview available</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
 
-<div>
-  <%= link_to "View in Player", frontend_player_path(@screen) %>
-</div>
-<div>
-  <%= link_to "Edit this screen", edit_screen_path(@screen) %> |
-  <%= link_to "Back to screens", screens_path %>
+      <!-- View in Player Section -->
+      <div class="mt-6">
+        <%= link_to "View in Player", frontend_player_path(@screen), class: "btn-secondary" %>
+      </div>
+    </div>
 
-  <%= button_to "Destroy this screen", @screen, method: :delete %>
+    <!-- Subscriptions Management Section -->
+    <div class="lg:col-span-1">
+      <div class="bg-white rounded-lg border border-gray-200 shadow-sm">
+        <div class="px-4 py-3 border-b border-gray-200">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-lg font-semibold text-gray-900">Feed Subscriptions</h2>
+              <p class="text-sm text-gray-600 mt-1">Content sources for each position</p>
+            </div>
+            <%= link_to "Manage All", screen_subscriptions_path(@screen), class: "inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+          </div>
+        </div>
+        <div class="p-4 space-y-4">
+          <% @screen.template.positions.each do |position| %>
+            <div class="border border-gray-200 rounded-lg p-3">
+              <h3 class="text-sm font-semibold text-gray-900 mb-2">
+                <%= position.field.name %>
+              </h3>
+              <% subscriptions = @subscriptions_by_field[position.field_id] || [] %>
+              <% if subscriptions.any? %>
+                <div class="space-y-2">
+                  <% subscriptions.each do |subscription| %>
+                    <div class="flex items-center justify-between bg-gray-50 rounded px-3 py-2">
+                      <div class="flex items-center space-x-2">
+                        <div class="w-2 h-2 <%= subscription.feed.content.active.exists? ? 'bg-green-500' : 'bg-yellow-500' %> rounded-full"></div>
+                        <%= link_to subscription.feed.name, subscription.feed,
+                            class: "text-sm text-gray-900 hover:text-blue-600 font-medium" %>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="text-center">
+                  <svg class="w-8 h-8 text-gray-300 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                  </svg>
+                  <p class="text-xs text-gray-500">No feeds subscribed</p>
+                  <%= link_to "Add Feed", screen_subscriptions_path(@screen), 
+                      class: "text-xs text-blue-600 hover:text-blue-800 font-medium" %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen Information Card -->
+  <div class="mt-6">
+    <div class="bg-white rounded-lg border border-gray-200 shadow-sm">
+      <div class="px-4 py-3 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Screen Information</h2>
+      </div>
+      <div class="p-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Screen Name</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @screen.name %></dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Template</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @screen.template.name %></dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Total Subscriptions</dt>
+            <dd class="mt-1 text-sm text-gray-900"><%= @screen.subscriptions.count %></dd>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="mt-6 flex items-center justify-between">
+    <div class="flex space-x-3">
+      <%= link_to "Back to Screens", screens_path, class: "btn-secondary" %>
+    </div>
+    <div class="flex space-x-3">
+      <%= button_to "Delete Screen", @screen,
+          method: :delete,
+          class: "btn-danger",
+          form: {
+            data: {
+              turbo_confirm: "Are you sure you want to delete this screen? This action cannot be undone."
+            },
+            class: "inline-block"
+          } %>
+    </div>
+  </div>
 </div>

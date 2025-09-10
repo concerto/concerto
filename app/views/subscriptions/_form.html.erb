@@ -1,23 +1,36 @@
-<%= form_with(model: [subscription.screen, subscription]) do |form| %>
+<%= form_with(model: [subscription.screen, subscription], class: "space-y-3") do |form| %>
   <% if subscription.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
-
-      <ul>
-        <% subscription.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <div class="bg-red-50 border border-red-200 rounded-md p-2">
+      <div class="flex items-start">
+        <svg class="w-4 h-4 text-red-400 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+        </svg>
+        <div class="flex-1">
+          <p class="text-xs font-medium text-red-800 mb-1">
+            <%= pluralize(subscription.errors.count, "error") %> prohibited saving:
+          </p>
+          <ul class="text-xs text-red-700 space-y-1">
+            <% subscription.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
     </div>
   <% end %>
+
   <%= form.hidden_field :field_id, value: subscription.field_id %>
 
-  <div class="my-2">
-    <%= form.label :feed_id, class: "frm-label" %>
-    <%= form.collection_select :feed_id, Feed.all, :id, :name %>
-  </div>
-
-  <div>
-    <%= form.submit class: "btn" %>
+  <div class="flex items-end space-x-2">
+    <div class="w-64">
+      <%= form.label :feed_id, "Add Feed", class: "block text-xs font-medium text-neutral-700 mb-1" %>
+      <%= form.collection_select :feed_id, @available_feeds, :id, :name,
+          { prompt: "Choose a feed..." },
+          { class: "block w-full px-2 py-1.5 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-brand focus:border-brand text-sm h-8" } %>
+    </div>
+    
+    <div class="flex-shrink-0">
+      <%= form.submit "Add", class: "btn-primary h-8 px-3 text-sm font-medium rounded-md" %>
+    </div>
   </div>
 <% end %>

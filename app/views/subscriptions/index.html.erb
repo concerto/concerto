@@ -1,34 +1,92 @@
 <%= page_title "#{@screen.name} Subscriptions" %>
 <% content_for :subheader do %>
-  <div><%= link_to "Back to screen", @screen, class: "underline" %></div>
+  <div class="flex items-center space-x-2">
+    <%= link_to @screen, class: "inline-flex items-center text-sm text-neutral-600 hover:text-neutral-900 transition-colors" do %>
+      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+      Back to screen
+    <% end %>
+  </div>
 <% end %>
 
-<% active_subscriptions = [] %>
-<% @screen.template.positions.each do |position| %>
-  <div id="<%= dom_id position %>" class="my-2">
-    <h2 class="text-xl font-semibold"><%= position.field.name %> Field</h2>
-    <% @screen.subscriptions.where(field: position.field).each do |subscription| %>
-      <% active_subscriptions.push(subscription) %>
-      <%= render subscription %>
-    <% end %>
-    <div class="p-4 border-2 bg-white my-4">
-      <h3 class="font-semibold">Add Subscription</h3>
-      <%= render "form", subscription: Subscription.new(screen: @screen, field: position.field) %>
+<div class="max-w-6xl mx-auto space-y-4">
+  <!-- Page Header -->
+  <div class="bg-white rounded-lg border border-neutral-200 shadow-sm">
+    <div class="px-4 py-3 border-b border-neutral-200">
+      <h1 class="text-h3 text-neutral-900">Feed Subscriptions</h1>
+      <p class="text-sm text-neutral-600">
+        Manage feeds for <strong><%= @screen.name %></strong>
+      </p>
     </div>
   </div>
-<% end %>
 
-<% inactive_subscriptions = @subscriptions - active_subscriptions %>
-<% if !inactive_subscriptions.empty? %>
-<div>
-  <h2 class="text-xl font-semibold">Inactive Subscriptions<h2>
-  <div class="italic text-sm p-2">Subscriptions not used in the current template.</div>
-  <% inactive_subscriptions.group_by{|s| s.field_id }.each do |field_id, subscriptions| %>
-    <h3 class="font-semibold"><%= subscriptions.first.field.name %> Field</h3>
-    <% subscriptions.each do |subscription| %>
-      <%= render subscription %>
-    <% end %>
+  <% active_subscriptions = [] %>
+  <% @screen.template.positions.each do |position| %>
+    <% field_subscriptions = @screen.subscriptions.where(field: position.field) %>
+    <div id="<%= dom_id position %>" class="bg-white rounded-lg border border-neutral-200 shadow-sm">
+      <!-- Field Header -->
+      <div class="px-4 py-3 border-b border-neutral-200">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold text-neutral-900"><%= position.field.name %> Field</h2>
+          <div class="text-xs text-neutral-500">
+            <%= pluralize(field_subscriptions.size, 'feed') %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content Area -->
+      <div class="px-4 py-3">
+        <!-- Current Subscriptions (Compact) -->
+        <% if field_subscriptions.any? %>
+          <div class="space-y-2 mb-4">
+            <% field_subscriptions.each do |subscription| %>
+              <% active_subscriptions.push(subscription) %>
+              <%= render subscription %>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-center py-3 mb-4 text-neutral-500">
+            <p class="text-sm">No feeds assigned</p>
+          </div>
+        <% end %>
+
+        <!-- Add Subscription Form (Inline) -->
+        <div class="bg-neutral-50 rounded-md border border-neutral-200 p-3">
+          <%= render "form", subscription: Subscription.new(screen: @screen, field: position.field) %>
+        </div>
+      </div>
+    </div>
   <% end %>
-  </div>
+
+  <!-- Inactive Subscriptions (Collapsed) -->
+  <% inactive_subscriptions = @subscriptions - active_subscriptions %>
+  <% if inactive_subscriptions.any? %>
+    <div class="bg-white rounded-lg border border-neutral-200 shadow-sm">
+      <div class="px-4 py-3 border-b border-neutral-200">
+        <div class="flex items-center">
+          <svg class="w-4 h-4 text-warning mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+          </svg>
+          <h2 class="text-lg font-semibold text-neutral-900">Inactive Subscriptions</h2>
+          <span class="ml-2 text-xs text-neutral-500">(<%= inactive_subscriptions.count %>)</span>
+        </div>
+      </div>
+      
+      <div class="px-4 py-3">
+        <% inactive_subscriptions.group_by(&:field_id).each do |field_id, subscriptions| %>
+          <div class="mb-3 last:mb-0">
+            <h4 class="text-sm font-medium text-neutral-700 mb-2">
+              <%= subscriptions.first.field.name %> Field
+            </h4>
+            <div class="space-y-2">
+              <% subscriptions.each do |subscription| %>
+                <%= render subscription %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 </div>
-<% end %>

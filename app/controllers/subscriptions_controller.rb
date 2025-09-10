@@ -4,7 +4,8 @@ class SubscriptionsController < ApplicationController
 
   # GET /subscriptions or /subscriptions.json
   def index
-    @subscriptions = @screen.subscriptions
+    @subscriptions = @screen.subscriptions.includes(:feed)
+    @available_feeds = Feed.all
   end
 
   # POST /subscriptions or /subscriptions.json
