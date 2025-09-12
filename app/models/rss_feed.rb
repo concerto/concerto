@@ -16,8 +16,13 @@ class RssFeed < Feed
 
     def headlines? = formatter == "headlines"
     def details? = formatter == "details"
+    def ticker? = formatter == "ticker"
     def self.formatters
-      { headlines: "headlines", details: "details" }
+      { headlines: "headlines", details: "details", ticker: "ticker" }
+    end
+
+    def render_mode
+      (ticker? ? RichText.render_as[:plaintext] : RichText.render_as[:html])
     end
 
     def refresh
@@ -29,6 +34,7 @@ class RssFeed < Feed
       existing_content.each.with_index do |content, index|
         # First, update all the existing content.
         if new_items.length > index
+          content.render_as = render_mode,
           content.text = new_items[index]
           content.name = "#{name} (#{index + 1})"
           content.start_time = nil
@@ -47,7 +53,7 @@ class RssFeed < Feed
       if offset > 0
         new_items[existing_content.length..].each.with_index do |item, index|
           content << RichText.new(
-            render_as: "html",
+            render_as: render_mode,
             name: "#{name} (#{index + 1})",
             text: item,
             user: User.find_by(is_system_user: true),
@@ -76,6 +82,10 @@ class RssFeed < Feed
           items.each do |item|
             description = ActionController::Base.helpers.sanitize(item[:description])
             contents << "<h1>#{CGI.escapeHTML(item[:title])}</h1><p>#{description}</p>"
+          end
+        elsif ticker?
+          items.each do |item|
+            contents << CGI.unescapeHTML(ActionController::Base.helpers.strip_tags(item[:title])).squish
           end
         else # headlines
           items.each_slice(5).with_index do |slice, index|

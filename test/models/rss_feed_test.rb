@@ -176,4 +176,44 @@ class RssFeedTest < ActiveSupport::TestCase
       assert_nil RichText.find_by(id: content_id), "Content #{content_id} should be destroyed after feed deletion"
     end
   end
+
+  test "parses ticker format from RSS feed with HTML stripping" do
+    @feed.formatter = "ticker"
+    mock_file = File.read("test/support/basic_rss_feed.xml")
+
+    mock = Minitest::Mock.new
+    mock.expect(:open, mock_file)
+
+    URI.stub(:parse, mock) do
+      items = @feed.new_items
+      assert_equal 10, items.length
+
+      # Ticker format should strip HTML and newlines, keeping only plain text titles
+      assert_equal "Item 1 Title", items[0]
+      assert_equal "Item 2 Title & is fancy", items[1]
+      assert_equal "Item 3 Title", items[2]
+    end
+    mock.verify
+  end
+
+  test "ticker format creates plaintext RichText content" do
+    feed = RssFeed.create(name: "Ticker Feed")
+    feed.formatter = "ticker"
+
+    mock_items = [ "Ticker Item 1", "Ticker Item 2" ]
+    feed.stub :new_items, mock_items do
+      feed.refresh
+    end
+
+    assert_equal 2, feed.content.count
+
+    # All content should be plaintext for ticker format
+    feed.content.each do |content|
+      assert content.plaintext?, "Ticker content should be plaintext"
+    end
+
+    # Verify content text
+    assert_equal "Ticker Item 1", feed.content.first.text
+    assert_equal "Ticker Item 2", feed.content.last.text
+  end
 end
