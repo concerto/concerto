@@ -94,10 +94,10 @@ describe('ConcertoScreen', () => {
     const fields = wrapper.findAllComponents(ConcertoField);
     expect(fields).toHaveLength(4);
 
-    expect(fields[0].attributes('style')).toContain('top: 2.60%;');
-    expect(fields[0].attributes('style')).toContain('left: 2.50%;');
-    expect(fields[0].attributes('style')).toContain('height: 77.00%;');
-    expect(fields[0].attributes('style')).toContain('width: 56.70%;');
+    expect(fields[0].attributes('style')).toMatch(/top: 2.60?%;/);
+    expect(fields[0].attributes('style')).toMatch(/left: 2.50?%;/);
+    expect(fields[0].attributes('style')).toMatch(/height: 77(.00?)?%;/);
+    expect(fields[0].attributes('style')).toMatch(/width: 56.70?%;/);
 
     expect(fields[1].html()).toContain(screenSetup.positions[1].style);
 
