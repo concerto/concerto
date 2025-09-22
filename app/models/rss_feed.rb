@@ -34,7 +34,7 @@ class RssFeed < Feed
       existing_content.each.with_index do |content, index|
         # First, update all the existing content.
         if new_items.length > index
-          content.render_as = render_mode,
+          content.render_as = render_mode
           content.text = new_items[index]
           content.name = "#{name} (#{index + 1})"
           content.start_time = nil

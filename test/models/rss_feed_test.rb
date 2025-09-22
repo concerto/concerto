@@ -71,9 +71,11 @@ class RssFeedTest < ActiveSupport::TestCase
     content = feed.content.sort_by { |c| c.name }
 
     assert_equal content[0].text, mock_items[0]
+    assert_equal content[0].render_as, "html"
     assert_nil content[0].end_time
 
     assert content[1].name.include?("unused")
+    assert_equal content[1].render_as, "html"
     assert_empty content[1].text
     assert_operator content[1].end_time, :<, Time.now
   end
