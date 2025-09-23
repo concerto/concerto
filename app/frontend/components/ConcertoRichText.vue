@@ -1,8 +1,22 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 
+
+/**
+ * @typedef {object} RichTextContent
+ * @property {string} render_as - The format of the text, either 'plaintext' or 'html'.
+ * @property {string} text - The actual text content to be rendered. May be plain text or HTML.
+ */
+
 const props = defineProps({
-  content: {type: Object, required: true}
+  /** @type {RichTextContent} */
+  content: {
+    type: Object,
+    required: true,
+    validator: (value) => {
+      return ['plaintext', 'html'].includes(value.render_as) && typeof value.text === 'string';
+    },
+  },
 });
 
 // A container stretched to fill the entire field.
