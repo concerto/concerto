@@ -6,6 +6,20 @@ class RichTextTest < ActiveSupport::TestCase
     @small_position = positions(:two_ticker)
   end
 
+  test "should have valid render_as values" do
+    rich_text = rich_texts(:plain_richtext)
+    assert rich_text.valid?, rich_text.errors.full_messages.to_sentence
+
+    rich_text.render_as = "html"
+    assert rich_text.valid?, rich_text.errors.full_messages.to_sentence
+
+    rich_text.render_as = "invalid_value"
+    assert_not rich_text.valid?, rich_text.errors.full_messages.to_sentence
+
+    rich_text.render_as = [ "html", "foo" ]
+    assert_not rich_text.valid?, rich_text.errors.full_messages.to_sentence
+  end
+
   test "should render in a small position with little text" do
     rich_text = RichText.new(text: "Some text")
     assert rich_text.should_render_in?(@small_position)

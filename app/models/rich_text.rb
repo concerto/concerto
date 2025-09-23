@@ -10,6 +10,9 @@ class RichText < Content
         { plaintext: "plaintext", html: "html" }
     end
 
+    validates :render_as, inclusion: { in: RichText.render_as.values }, allow_nil: false
+    validate :render_as_must_be_string
+
     def as_json(options = {})
         super(options).merge({
             render_as: render_as,
@@ -40,5 +43,13 @@ class RichText < Content
 
       # By default, rich text can be rendered.
       true
+    end
+
+    private
+
+    def render_as_must_be_string
+        return if render_as.nil? || render_as.is_a?(String)
+
+        errors.add(:render_as, "must be a string, not an array or other type")
     end
 end
