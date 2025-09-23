@@ -32,6 +32,12 @@ async function resizeText() {
   let fieldHeight = containerElement.offsetHeight;
   let fontScale = 100;
 
+  if (displayHeight === 0 || fieldHeight === 0) {
+    // Nothing to do.
+    console.error('Cannot resize text: zero height detected.');
+    return;
+  }
+
   console.debug(`Field height: ${fieldHeight}, Display height: ${displayHeight}`);
 
   // First expand the content to fill the height of the div.
