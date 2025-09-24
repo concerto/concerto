@@ -1,0 +1,91 @@
+<%= page_title "Groups" %>
+
+<div class="flex items-center justify-between mb-6">
+  <div>
+    <h1 class="text-h2 text-neutral-900">All Groups</h1>
+    <p class="text-body text-neutral-700 mt-1">Manage user groups and their memberships</p>
+  </div>
+  <div class="flex space-x-3">
+    <%= link_to new_group_path, class: "btn-primary btn-md whitespace-nowrap" do %>
+      <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
+      New Group
+    <% end %>
+  </div>
+</div>
+
+
+<div id="groups" class="space-y-4">
+  <% @groups.each do |group| %>
+    <div class="card hover:shadow-md transition-shadow duration-200">
+      <div class="card-body p-6">
+        <div class="flex items-start justify-between">
+          <div class="flex-1">
+            <div class="flex items-center mb-2">
+              <h3 class="text-h3 text-neutral-900">
+                <%= link_to group.name, group, class: "hover:text-brand transition-colors" %>
+              </h3>
+              <% if group.system_group? %>
+                <span class="ml-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-brand-100 text-brand-600">
+                  System Group
+                </span>
+              <% end %>
+            </div>
+            
+            <% if group.description.present? %>
+              <p class="text-body text-neutral-700 mb-4">
+                <%= group.description %>
+              </p>
+            <% end %>
+            
+            <div class="flex items-center space-x-6 text-caption text-neutral-500">
+              <div class="flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                </svg>
+                <%= pluralize(group.users.size, 'member') %>
+              </div>
+              
+              <div class="flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+                <%= pluralize(group.admins.size, 'admin') %>
+              </div>
+              
+              <div class="flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Updated <%= time_ago_in_words(group.updated_at) %> ago
+              </div>
+            </div>
+          </div>
+          
+          <div class="ml-4 flex items-center space-x-2">
+            <%= link_to group, class: "btn-secondary btn-sm" do %>
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+              </svg>
+              View
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  
+  <% if @groups.empty? %>
+    <div class="text-center py-12">
+      <svg class="mx-auto h-12 w-12 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+      </svg>
+      <h3 class="text-h3 text-neutral-900 mt-4">No groups yet</h3>
+      <p class="text-body text-neutral-500 mt-2">Create your first group to organize users and manage permissions.</p>
+      <%= link_to new_group_path, class: "btn-primary mt-4" do %>
+        <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
+        Create Group
+      <% end %>
+    </div>
+  <% end %>
+</div>

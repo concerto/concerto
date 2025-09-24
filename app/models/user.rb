@@ -9,6 +9,10 @@ class User < ApplicationRecord
   validates :last_name, presence: true
 
   has_many :contents, dependent: :destroy
+  has_many :memberships, dependent: :destroy
+  has_many :groups, through: :memberships
+
+  after_create :add_to_all_users_group
 
   def password_required?
     super && !is_system_user? # Do not require password for system user.
@@ -47,5 +51,13 @@ class User < ApplicationRecord
       end
     end
     user
+  end
+
+  private
+
+  def add_to_all_users_group
+    all_users_group = Group.find_or_create_by!(name: "All Registered Users")
+
+    self.groups << all_users_group unless self.groups.include?(all_users_group)
   end
 end

@@ -1,0 +1,26 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+admin_in_all_users:
+  user: admin
+  group: all_users
+  role: member
+
+regular_in_all_users:
+  user: regular
+  group: all_users
+  role: member
+
+admin_content_creator:
+  user: admin
+  group: content_creators
+  role: admin
+
+regular_content_creator:
+  user: regular
+  group: content_creators
+  role: member
+
+admin_moderator:
+  user: admin
+  group: moderators
+  role: admin

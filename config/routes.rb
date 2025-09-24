@@ -27,6 +27,11 @@ Rails.application.routes.draw do
 
   resources :users, only: [ :show ]
 
+  # Groups and membership management
+  resources :groups do
+    resources :memberships, only: [ :create, :update, :destroy ]
+  end
+
   # Admin routes
   get "/admin/settings", to: "admin#settings"
   patch "/admin/settings", to: "admin#update_settings"

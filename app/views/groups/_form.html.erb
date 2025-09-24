@@ -1,0 +1,63 @@
+<div class="max-w-4xl mx-auto">
+  <%= form_with(model: group, class: "space-y-4") do |form| %>
+    <% if group.errors.any? %>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <div class="flex items-start">
+          <svg class="w-5 h-5 text-red-400 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+          </svg>
+          <div class="flex-1">
+            <h3 class="text-sm font-semibold text-red-800 mb-2">
+              <%= pluralize(group.errors.count, "error") %> prohibited this group from being saved:
+            </h3>
+            <ul class="text-sm text-red-700 space-y-1">
+              <% group.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Form Content Card -->
+    <div class="bg-white rounded-lg border border-gray-200 shadow-sm">
+      <div class="px-4 py-3 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Group Configuration</h2>
+        <p class="text-sm text-gray-600 mt-1">Configure a group to organize users and manage permissions</p>
+      </div>
+      
+      <div class="p-4 space-y-4">
+        <!-- Group Name -->
+        <div>
+          <%= form.label :name, "Group Name", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= form.text_field :name,
+              class: "block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm",
+              placeholder: "Enter a descriptive name for this group" %>
+          <p class="text-xs text-gray-500 mt-1">A name to identify this group</p>
+        </div>
+
+        <!-- Group Description -->
+        <div>
+          <%= form.label :description, "Description", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= form.text_area :description,
+              class: "block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm",
+              rows: 3,
+              placeholder: "Describe the purpose and members of this group..." %>
+          <p class="text-xs text-gray-500 mt-1">Description of what this group is for</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="flex items-center justify-between pt-2">
+      <div class="flex space-x-3">
+        <%= link_to "Cancel", (group.persisted? ? group : groups_path), class: "btn-secondary" %>
+      </div>
+      <div class="flex space-x-3">
+        <%= form.submit "Save Group", class: "btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

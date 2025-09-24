@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+all_users:
+  name: All Registered Users
+  description: System group containing all registered users
+
+content_creators:
+  name: Content Creators
+  description: Group for users who create content
+
+moderators:
+  name: Moderators
+  description: Group for content moderators
