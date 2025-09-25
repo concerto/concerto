@@ -1,5 +1,5 @@
 class ScreensController < ApplicationController
-  before_action :set_templates, only: %i[ new edit ]
+  before_action :set_form_options, only: %i[ new edit ]
   before_action :set_screen, only: %i[ show edit update destroy ]
 
   # GET /screens or /screens.json
@@ -65,12 +65,14 @@ class ScreensController < ApplicationController
       @screen = Screen.find(params[:id])
     end
 
-    def set_templates
+    # Sets options for form selects.
+    def set_form_options
       @templates = Template.all.with_attached_image
+      @groups = Group.all
     end
 
     # Only allow a list of trusted parameters through.
     def screen_params
-      params.require(:screen).permit(:name, :template_id)
+      params.require(:screen).permit(:name, :template_id, :group_id)
     end
 end

@@ -100,10 +100,16 @@
         <h2 class="text-lg font-semibold text-gray-900">Screen Information</h2>
       </div>
       <div class="p-4">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
             <dt class="text-sm font-medium text-gray-500">Screen Name</dt>
             <dd class="mt-1 text-sm text-gray-900"><%= @screen.name %></dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Group</dt>
+            <dd class="mt-1 text-sm text-gray-900">
+              <%= link_to @screen.group.name, @screen.group, class: "text-blue-600 hover:text-blue-800" %>
+            </dd>
           </div>
           <div>
             <dt class="text-sm font-medium text-gray-500">Template</dt>

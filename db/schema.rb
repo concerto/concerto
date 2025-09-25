@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_24_041842) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_24_171155) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -106,6 +106,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_24_041842) do
     t.integer "template_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "group_id", null: false
+    t.index ["group_id"], name: "index_screens_on_group_id"
     t.index ["template_id"], name: "index_screens_on_template_id"
   end
 
@@ -169,6 +171,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_24_041842) do
   add_foreign_key "memberships", "users"
   add_foreign_key "positions", "fields"
   add_foreign_key "positions", "templates"
+  add_foreign_key "screens", "groups"
   add_foreign_key "screens", "templates"
   add_foreign_key "submissions", "contents"
   add_foreign_key "submissions", "feeds"

@@ -17,7 +17,7 @@ class ScreensControllerTest < ActionDispatch::IntegrationTest
 
   test "should create screen" do
     assert_difference("Screen.count") do
-      post screens_url, params: { screen: { name: @screen.name, template_id: @screen.template_id } }
+      post screens_url, params: { screen: { name: @screen.name, template_id: @screen.template_id, group_id: @screen.group_id } }
     end
 
     assert_redirected_to screen_url(Screen.last)
@@ -34,7 +34,7 @@ class ScreensControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update screen" do
-    patch screen_url(@screen), params: { screen: { name: @screen.name, template_id: @screen.template_id } }
+    patch screen_url(@screen), params: { screen: { name: @screen.name, template_id: @screen.template_id, group_id: @screen.group_id } }
     assert_redirected_to screen_url(@screen)
   end
 

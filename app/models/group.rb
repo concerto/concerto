@@ -2,6 +2,9 @@ class Group < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_many :users, through: :memberships
 
+  # Models that groups own or manage.
+  has_many :screens, dependent: :destroy
+
   validates :name, presence: true, uniqueness: true
 
   # Prevent deletion of system groups

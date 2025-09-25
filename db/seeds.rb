@@ -67,6 +67,8 @@ Graphic.transaction do
   end
 end
 
+demo_screen_group = Group.find_or_create_by!(name: "Demo Screen Owners", description: "Managers of the Demo Screen.")
+
 Field.transaction do
     main_field = Field.find_or_create_by!(name: "Main", alt_names: [ "Graphics" ])
     sidebar_field = Field.find_or_create_by!(name: "Sidebar", alt_names: [ "Text" ])
@@ -84,7 +86,7 @@ Field.transaction do
             template.save!
         end
 
-        screen = Screen.find_or_create_by!(name: "Demo Screen", template: template)
+        screen = Screen.find_or_create_by!(name: "Demo Screen", template: template, group: demo_screen_group)
         if screen.subscriptions.empty?
             screen.subscriptions.new(feed: general_feed, field: main_field)
             screen.subscriptions.new(feed: general_feed, field: ticker_field)

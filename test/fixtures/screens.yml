@@ -3,11 +3,14 @@
 one:
   name: Screen 1
   template: two
+  group: content_creators
 
 two:
   name: Screen 2
   template: two
+  group: screen_one_owners
 
 e2e:
   name: System Test Screen
   template: two
+  group: screen_two_owners

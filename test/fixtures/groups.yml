@@ -11,3 +11,11 @@ content_creators:
 moderators:
   name: Moderators
   description: Group for content moderators
+
+screen_one_owners:
+  name: Screen One Owners
+  description: Group owning Screen 1
+
+screen_two_owners:
+  name: Screen Two Owners
+  description: Group owning Screen 2
