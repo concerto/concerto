@@ -3,6 +3,7 @@ require "application_system_test_case"
 class ScreensTest < ApplicationSystemTestCase
   setup do
     @screen = screens(:one)
+    sign_in users(:admin)
   end
 
   test "visiting the index" do

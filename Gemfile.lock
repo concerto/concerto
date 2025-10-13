@@ -254,6 +254,8 @@ GEM
     public_suffix (6.0.2)
     puma (7.0.4)
       nio4r (~> 2.0)
+    pundit (2.5.2)
+      activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.8.1)
     rack (3.2.2)
@@ -461,6 +463,7 @@ DEPENDENCIES
   omniauth_openid_connect (~> 0.8.0)
   propshaft
   puma (>= 5.0)
+  pundit (~> 2.5)
   rails (~> 8.0.3)
   rubocop-rails-omakase
   selenium-webdriver

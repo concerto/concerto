@@ -3,7 +3,7 @@
 one:
   name: Screen 1
   template: two
-  group: content_creators
+  group: screen_one_owners
 
 two:
   name: Screen 2

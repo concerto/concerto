@@ -20,6 +20,18 @@ class Group < ApplicationRecord
     users.merge(Membership.member)
   end
 
+  # Check if a user is a member of the group.
+  def member?(user)
+    return false unless user
+    users.exists?(user.id)
+  end
+
+  # Check if a user is an admin of the group.
+  def admin?(user)
+    return false unless user
+    admins.exists?(user.id)
+  end
+
   # Class method to easily find the special group
   def self.all_users_group
     find_by(name: "All Registered Users")

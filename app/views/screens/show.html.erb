@@ -10,7 +10,9 @@
       </div>
       <div class="flex space-x-3">
         <%= link_to "Manage Subscriptions", screen_subscriptions_path(@screen), class: "btn-primary" %>
-        <%= link_to "Edit Screen", edit_screen_path(@screen), class: "btn-secondary" %>
+        <% if policy(@screen).edit? %>
+          <%= link_to "Edit Screen", edit_screen_path(@screen), class: "btn-secondary" %>
+        <% end %>
       </div>
     </div>
   </div>
@@ -130,15 +132,17 @@
       <%= link_to "Back to Screens", screens_path, class: "btn-secondary" %>
     </div>
     <div class="flex space-x-3">
-      <%= button_to "Delete Screen", @screen,
-          method: :delete,
-          class: "btn-danger",
-          form: {
-            data: {
-              turbo_confirm: "Are you sure you want to delete this screen? This action cannot be undone."
-            },
-            class: "inline-block"
-          } %>
+      <% if policy(@screen).destroy? %>
+        <%= button_to "Delete Screen", @screen,
+            method: :delete,
+            class: "btn-danger",
+            form: {
+              data: {
+                turbo_confirm: "Are you sure you want to delete this screen? This action cannot be undone."
+              },
+              class: "inline-block"
+            } %>
+      <% end %>
     </div>
   </div>
 </div>

@@ -11,6 +11,8 @@ class User < ApplicationRecord
   has_many :contents, dependent: :destroy
   has_many :memberships, dependent: :destroy
   has_many :groups, through: :memberships
+  has_many :admin_memberships, -> { admin }, class_name: "Membership"
+  has_many :admin_groups, through: :admin_memberships, source: :group
 
   after_create :add_to_all_users_group
 
