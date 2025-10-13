@@ -49,9 +49,9 @@ class GraphicsTest < ApplicationSystemTestCase
 
     visit graphic_url(@graphic)
     page.accept_confirm do
-      click_on "Destroy this graphic", match: :first
+      click_on "Delete this graphic", match: :first
     end
 
-    assert_text "Graphic was successfully destroyed"
+    assert_text "Graphic was successfully deleted"
   end
 end

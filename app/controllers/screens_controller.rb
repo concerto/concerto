@@ -71,7 +71,7 @@ class ScreensController < ApplicationController
     @screen.destroy!
 
     respond_to do |format|
-      format.html { redirect_to screens_url, notice: "Screen was successfully destroyed." }
+      format.html { redirect_to screens_url, notice: "Screen was successfully deleted." }
       format.json { head :no_content }
     end
   end

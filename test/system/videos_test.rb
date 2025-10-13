@@ -44,9 +44,9 @@ class VideosTest < ApplicationSystemTestCase
 
     visit video_url(@video)
     page.accept_confirm do
-      click_on "Destroy this video", match: :first
+      click_on "Delete this video", match: :first
     end
 
-    assert_text "Video was successfully destroyed"
+    assert_text "Video was successfully deleted"
   end
 end

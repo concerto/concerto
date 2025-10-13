@@ -43,6 +43,6 @@ class ScreensTest < ApplicationSystemTestCase
       click_on "Delete Screen", match: :first
     end
 
-    assert_text "Screen was successfully destroyed"
+    assert_text "Screen was successfully deleted"
   end
 end

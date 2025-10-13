@@ -52,7 +52,7 @@ class TemplatesController < ApplicationController
     @template.destroy!
 
     respond_to do |format|
-      format.html { redirect_to templates_url, notice: "Template was successfully destroyed." }
+      format.html { redirect_to templates_url, notice: "Template was successfully deleted." }
       format.json { head :no_content }
     end
   end

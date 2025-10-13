@@ -52,9 +52,9 @@ class RichTextsTest < ApplicationSystemTestCase
 
     visit rich_text_url(@rich_text)
     page.accept_confirm do
-      click_on "Destroy this rich text", match: :first
+      click_on "Delete this rich text", match: :first
     end
 
-    assert_text "Rich text was successfully destroyed"
+    assert_text "Rich text was successfully deleted"
   end
 end

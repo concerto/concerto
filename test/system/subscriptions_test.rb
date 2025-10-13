@@ -32,6 +32,6 @@ class SubscriptionsTest < ApplicationSystemTestCase
       end
     end
 
-    assert_text "#{subscription.field.name} field subscription to #{subscription.feed.name} feed was successfully destroyed"
+    assert_text "#{subscription.field.name} field subscription to #{subscription.feed.name} feed was successfully removed"
   end
 end

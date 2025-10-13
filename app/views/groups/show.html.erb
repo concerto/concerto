@@ -168,7 +168,7 @@
       
       <% unless @group.system_group? %>
         <div class="flex-shrink-0">
-          <%= button_to "Destroy this Group", group_path(@group),
+          <%= button_to "Delete this Group", group_path(@group),
               method: :delete,
               class: "btn btn-danger",
               form_class: "inline-block",

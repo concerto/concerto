@@ -29,7 +29,7 @@ class SubscriptionsController < ApplicationController
     @subscription.destroy!
 
     respond_to do |format|
-      format.html { redirect_to screen_subscriptions_url(@screen), notice: "#{@subscription.field.name} field subscription to #{@subscription.feed.name} feed was successfully destroyed." }
+      format.html { redirect_to screen_subscriptions_url(@screen), notice: "#{@subscription.field.name} field subscription to #{@subscription.feed.name} feed was successfully removed." }
       format.json { head :no_content }
     end
   end

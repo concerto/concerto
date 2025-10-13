@@ -50,9 +50,9 @@ class FeedsTest < ApplicationSystemTestCase
   test "should destroy Feed" do
     visit feed_url(@feed)
     page.accept_confirm do
-      click_on "Destroy this Feed", match: :first
+      click_on "Delete this Feed", match: :first
     end
 
-    assert_text "Feed was successfully destroyed"
+    assert_text "Feed was successfully deleted"
   end
 end

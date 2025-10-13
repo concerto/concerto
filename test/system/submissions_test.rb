@@ -36,8 +36,8 @@ class SubmissionsTest < ApplicationSystemTestCase
 
   test "should destroy Submission" do
     visit submission_url(@submission)
-    click_on "Destroy this submission", match: :first
+    click_on "Remove this submission", match: :first
 
-    assert_text "Submission was successfully destroyed"
+    assert_text "Submission was successfully removed"
   end
 end
