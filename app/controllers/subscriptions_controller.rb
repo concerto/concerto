@@ -5,7 +5,10 @@ class SubscriptionsController < ApplicationController
   # GET /subscriptions or /subscriptions.json
   def index
     @subscriptions = @screen.subscriptions.includes(:feed)
-    @available_feeds = Feed.all
+    @available_feeds_by_field = {}
+    @screen.template.positions.each do |position|
+      @available_feeds_by_field[position.field_id] = available_feeds_for_field(position.field_id)
+    end
   end
 
   # POST /subscriptions or /subscriptions.json
@@ -48,5 +51,18 @@ class SubscriptionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def subscription_params
       params.require(:subscription).permit(:field_id, :feed_id)
+    end
+
+    # Get feeds that are not already subscribed to for a specific field
+    def available_feeds_for_field(field_id)
+      # Get IDs of feeds already subscribed to this field on this screen
+      subscribed_feed_ids = @screen.subscriptions.where(field_id: field_id).pluck(:feed_id)
+
+      # Return feeds that are not in the subscribed list
+      if subscribed_feed_ids.any?
+        Feed.where.not(id: subscribed_feed_ids)
+      else
+        Feed.all
+      end
     end
 end
