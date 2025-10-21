@@ -401,7 +401,7 @@ GEM
       tailwindcss-ruby (~> 4.0)
     tailwindcss-ruby (4.1.11-x86_64-linux-gnu)
     thor (1.4.0)
-    thruster (0.1.15-x86_64-linux)
+    thruster (0.1.16-x86_64-linux)
     timeout (0.4.3)
     tsort (0.2.0)
     turbo-rails (2.0.17)
