@@ -6,9 +6,9 @@ import ConcertoVimeoVideo from '~/components/ConcertoVimeoVideo.vue';
 // Mock Vimeo API
 /* global global */
 global.Vimeo = {
-  Player: vi.fn().mockImplementation(() => ({
-    on: vi.fn(),
-  })),
+  Player: vi.fn().mockImplementation(function() {
+    this.on = vi.fn();
+  }),
 };
 
 describe('ConcertoVimeoVideo', () => {
@@ -29,7 +29,9 @@ describe('ConcertoVimeoVideo duration control', () => {
     mockPlayer = {
       on: vi.fn(),
     };
-    global.Vimeo.Player.mockImplementation(() => mockPlayer);
+    global.Vimeo.Player.mockImplementation(function() {
+      return mockPlayer;
+    });
   });
 
   it('takes over timer control when video has no duration', async () => {
@@ -40,7 +42,7 @@ describe('ConcertoVimeoVideo duration control', () => {
     const wrapper = mount(ConcertoVimeoVideo, { props: { content: content } });
 
     // Simulate 'play' event
-    const playCallback = mockPlayer.on.mock.calls.find(call => call[0] === 'play')[1];
+    const playCallback = mockPlayer.on.mock.calls.find(call => call[0] === 'play')?.[1];
     playCallback();
 
     expect(wrapper.emitted('takeOverTimer')).toBeTruthy();
@@ -54,7 +56,7 @@ describe('ConcertoVimeoVideo duration control', () => {
     const wrapper = mount(ConcertoVimeoVideo, { props: { content: content } });
 
     // Simulate 'ended' event
-    const endedCallback = mockPlayer.on.mock.calls.find(call => call[0] === 'ended')[1];
+    const endedCallback = mockPlayer.on.mock.calls.find(call => call[0] === 'ended')?.[1];
     endedCallback();
 
     expect(wrapper.emitted('next')).toBeTruthy();
@@ -68,7 +70,7 @@ describe('ConcertoVimeoVideo duration control', () => {
     const wrapper = mount(ConcertoVimeoVideo, { props: { content: content } });
 
     // Simulate 'play' event
-    const playCallback = mockPlayer.on.mock.calls.find(call => call[0] === 'play')[1];
+    const playCallback = mockPlayer.on.mock.calls.find(call => call[0] === 'play')?.[1];
     playCallback();
 
     expect(wrapper.emitted('takeOverTimer')).toBeFalsy();
