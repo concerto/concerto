@@ -4,24 +4,44 @@ class SubscriptionsController < ApplicationController
 
   # GET /subscriptions or /subscriptions.json
   def index
-    @subscriptions = @screen.subscriptions.includes(:feed)
+    @subscriptions = @screen.subscriptions.includes(:feed, :field)
+
+    # Initialize the hash to avoid nil errors
     @available_feeds_by_field = {}
-    @screen.template.positions.each do |position|
-      @available_feeds_by_field[position.field_id] = available_feeds_for_field(position.field_id)
+
+    # Check if screen has template and positions
+    if @screen.template && @screen.template.positions.any?
+      field_ids = @screen.template.positions.pluck(:field_id)
+
+      # Get all subscribed feed IDs for these fields in one query
+      subscribed_feeds = @screen.subscriptions.where(field_id: field_ids).pluck(:field_id, :feed_id)
+      subscribed_by_field = subscribed_feeds.group_by(&:first).transform_values { |pairs| pairs.map(&:second) }
+
+      all_feeds = Feed.all.to_a
+
+      field_ids.each do |field_id|
+        subscribed_feed_ids = subscribed_by_field[field_id] || []
+        @available_feeds_by_field[field_id] = all_feeds.reject { |feed| subscribed_feed_ids.include?(feed.id) }
+      end
+    end
+
+    # Ensure all existing subscriptions have entries (for inactive subscriptions display)
+    @subscriptions.pluck(:field_id).uniq.each do |field_id|
+      @available_feeds_by_field[field_id] ||= Feed.none
     end
   end
 
   # POST /subscriptions or /subscriptions.json
   def create
-    @subscription = Subscription.new(subscription_params)
-    @subscription.screen = @screen
+    @subscription = @screen.subscriptions.build(subscription_params)
 
     respond_to do |format|
       if @subscription.save
         format.html { redirect_to screen_subscriptions_url(@screen), notice: "#{@subscription.field.name} field subscription to #{@subscription.feed.name} feed was successfully created." }
         format.json { render :show, status: :created, location: @subscription }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        error_message = @subscription.errors.full_messages.join(", ")
+        format.html { redirect_to screen_subscriptions_url(@screen), alert: "Failed to create subscription: #{error_message}" }
         format.json { render json: @subscription.errors, status: :unprocessable_entity }
       end
     end
@@ -51,18 +71,5 @@ class SubscriptionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def subscription_params
       params.require(:subscription).permit(:field_id, :feed_id)
-    end
-
-    # Get feeds that are not already subscribed to for a specific field
-    def available_feeds_for_field(field_id)
-      # Get IDs of feeds already subscribed to this field on this screen
-      subscribed_feed_ids = @screen.subscriptions.where(field_id: field_id).pluck(:feed_id)
-
-      # Return feeds that are not in the subscribed list
-      if subscribed_feed_ids.any?
-        Feed.where.not(id: subscribed_feed_ids)
-      else
-        Feed.all
-      end
     end
 end

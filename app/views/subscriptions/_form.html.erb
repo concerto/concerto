@@ -21,16 +21,30 @@
 
   <%= form.hidden_field :field_id, value: subscription.field_id %>
 
-  <div class="flex items-end space-x-2">
-    <div class="w-64">
-      <%= form.label :feed_id, "Add Feed", class: "block text-xs font-medium text-neutral-700 mb-1" %>
-      <%= form.collection_select :feed_id, @available_feeds_by_field[subscription.field_id], :id, :name,
-          { prompt: "Choose a feed..." },
-          { class: "block w-full px-2 py-1.5 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-brand focus:border-brand text-sm h-8" } %>
+  <% if available_feeds && available_feeds.any? %>
+    <div class="flex items-end space-x-2">
+      <div class="w-64">
+        <%= form.label :feed_id, "Add Feed", class: "block text-xs font-medium text-neutral-700 mb-1" %>
+        <%= form.collection_select :feed_id, available_feeds, :id, :name,
+            { prompt: "Choose a feed..." },
+            {
+              class: "block w-full px-2 py-1.5 border border-neutral-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-brand focus:border-brand text-sm h-8",
+              required: true
+            } %>
+      </div>
+
+      <div class="flex-shrink-0">
+        <%= form.submit "Add", class: "btn-primary h-8 px-3 text-sm font-medium rounded-md" %>
+      </div>
     </div>
-    
-    <div class="flex-shrink-0">
-      <%= form.submit "Add", class: "btn-primary h-8 px-3 text-sm font-medium rounded-md" %>
+  <% else %>
+    <div class="text-center py-3">
+      <div class="flex items-center justify-center space-x-2 text-neutral-500">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+        </svg>
+        <span class="text-sm">This field is already subscribed to all available feeds.</span>
+      </div>
     </div>
-  </div>
+  <% end %>
 <% end %>

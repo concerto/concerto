@@ -13,7 +13,8 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create subscription" do
     assert_difference("Subscription.count") do
-      post screen_subscriptions_url(@screen), params: { subscription: { feed_id: @subscription.feed_id, field_id: @subscription.field_id } }
+      # Use different field/feed combination that doesn't conflict with existing subscriptions
+      post screen_subscriptions_url(@screen), params: { subscription: { feed_id: feeds(:two).id, field_id: fields(:ticker).id } }
     end
 
     assert_redirected_to screen_subscriptions_url(Subscription.last.screen)
