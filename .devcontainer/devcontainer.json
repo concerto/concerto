@@ -10,7 +10,7 @@
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {},
     "ghcr.io/rails/devcontainer/features/activestorage": {},
-    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {"moby":false},
     "ghcr.io/rails/devcontainer/features/sqlite3": {},
     "ghcr.io/devcontainers/features/node:1": {}
   },

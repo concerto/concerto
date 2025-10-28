@@ -1,7 +1,7 @@
 # Name of your application. Used to uniquely configure containers.
 service: concerto
 
-# Name of the container image.
+# Name of the container image (use your-user/app-name on external registries).
 image: bamnet/concerto
 
 # Deploy to these servers.
@@ -21,11 +21,12 @@ proxy:
   ssl: false
   # host: app.example.com
 
-# Credentials for your image host.
+# Where you keep your container images.
 registry:
-  # Specify the registry server, if you're not using Docker Hub
-  # server: registry.digitalocean.com / ghcr.io / ...
+  # Alternatives: hub.docker.com / registry.digitalocean.com / ghcr.io / ...
   server: ghcr.io
+
+  # Needed for authenticated registries.
   username: bamnet
 
   # Always use an access token rather than real password when possible.
@@ -60,8 +61,7 @@ aliases:
   console: app exec --interactive --reuse "bin/rails console"
   shell: app exec --interactive --reuse "bash"
   logs: app logs -f
-  dbc: app exec --interactive --reuse "bin/rails dbconsole"
-
+  dbc: app exec --interactive --reuse "bin/rails dbconsole --include-password"
 
 # Use a persistent storage volume for sqlite database files and local Active Storage files.
 # Recommended to change this to a mounted volume path that is backed up off server.
@@ -87,7 +87,7 @@ builder:
   #
   # # Pass arguments and secrets to the Docker build process
   # args:
-  #   RUBY_VERSION: 3.3.0
+  #   RUBY_VERSION: 3.3.9
   # secrets:
   #   - GITHUB_TOKEN
   #   - RAILS_MASTER_KEY
@@ -105,7 +105,7 @@ retain_containers: 3
 #     image: mysql:8.0
 #     host: 192.168.0.2
 #     # Change to 3306 to expose port to the world instead of just local network.
-#     port: 3306
+#     port: "127.0.0.1:3306:3306"
 #     env:
 #       clear:
 #         MYSQL_ROOT_HOST: '%'
@@ -117,7 +117,7 @@ retain_containers: 3
 #     directories:
 #       - data:/var/lib/mysql
 #   redis:
-#     image: redis:7.0
+#     image: valkey/valkey:8
 #     host: 192.168.0.2
 #     port: 6379
 #     directories:
