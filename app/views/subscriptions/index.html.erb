@@ -52,9 +52,12 @@
         <% end %>
 
         <!-- Add Subscription Form (Inline) -->
-        <div class="bg-neutral-50 rounded-md border border-neutral-200 p-3">
-          <%= render "form", subscription: Subscription.new(screen: @screen, field: position.field), available_feeds: @available_feeds_by_field[position.field_id] || Feed.none %>
-        </div>
+        <% new_subscription = Subscription.new(screen: @screen, field: position.field) %>
+        <% if policy(new_subscription).create? %>
+          <div class="bg-neutral-50 rounded-md border border-neutral-200 p-3">
+            <%= render "form", subscription: new_subscription, available_feeds: @available_feeds_by_field[position.field_id] || Feed.none %>
+          </div>
+        <% end %>
       </div>
     </div>
   <% end %>

@@ -1,10 +1,15 @@
 class SubscriptionsController < ApplicationController
+  before_action :authenticate_user!, except: [ :index ]
   before_action :set_screen
   before_action :set_subscription, only: %i[ destroy ]
 
+  # Ensure that Pundit authorization has been performed for every action.
+  after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
+
   # GET /subscriptions or /subscriptions.json
   def index
-    @subscriptions = @screen.subscriptions.includes(:feed, :field)
+    @subscriptions = policy_scope(@screen.subscriptions).includes(:feed, :field)
 
     # Initialize the hash to avoid nil errors
     @available_feeds_by_field = {}
@@ -35,6 +40,8 @@ class SubscriptionsController < ApplicationController
   def create
     @subscription = @screen.subscriptions.build(subscription_params)
 
+    authorize @subscription
+
     respond_to do |format|
       if @subscription.save
         format.html { redirect_to screen_subscriptions_url(@screen), notice: "#{@subscription.field.name} field subscription to #{@subscription.feed.name} feed was successfully created." }
@@ -49,6 +56,8 @@ class SubscriptionsController < ApplicationController
 
   # DELETE /subscriptions/1 or /subscriptions/1.json
   def destroy
+    authorize @subscription
+
     @subscription.destroy!
 
     respond_to do |format|
