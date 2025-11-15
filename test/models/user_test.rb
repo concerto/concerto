@@ -60,4 +60,56 @@ class UserTest < ActiveSupport::TestCase
     assert_nil Content.find_by(id: rich_text1_id)
     assert_nil Content.find_by(id: rich_text2_id)
   end
+
+  test "system_admin? returns false for regular users" do
+    regular_user = users(:regular)
+    assert_not regular_user.system_admin?
+  end
+
+  test "system_admin? returns false for group admins" do
+    admin_user = users(:admin)
+    assert_not admin_user.system_admin?
+  end
+
+  test "system_admin? returns true for system administrators" do
+    system_admin_user = User.create!(
+      first_name: "System",
+      last_name: "Admin",
+      email: "sysadmin@example.com",
+      password: "password123"
+    )
+
+    system_admins_group = Group.find_or_create_by!(name: Group::SYSTEM_ADMIN_GROUP_NAME)
+    Membership.create!(user: system_admin_user, group: system_admins_group, role: :admin)
+
+    assert system_admin_user.system_admin?
+  end
+
+  test "system_admin? returns false when user is member but not admin of system administrators group" do
+    member_user = User.create!(
+      first_name: "Member",
+      last_name: "User",
+      email: "member@example.com",
+      password: "password123"
+    )
+
+    system_admins_group = Group.find_or_create_by!(name: Group::SYSTEM_ADMIN_GROUP_NAME)
+    Membership.create!(user: member_user, group: system_admins_group, role: :member)
+
+    assert_not member_user.system_admin?
+  end
+
+  test "system_admin? returns false when system administrators group does not exist" do
+    user_without_group = User.create!(
+      first_name: "No",
+      last_name: "Group",
+      email: "nogroup@example.com",
+      password: "password123"
+    )
+
+    # Ensure the system administrators group doesn't exist for this test
+    Group.where(name: Group::SYSTEM_ADMIN_GROUP_NAME).destroy_all
+
+    assert_not user_without_group.system_admin?
+  end
 end
