@@ -44,7 +44,7 @@ end
 
 rss_feed = RssFeed.find_or_initialize_by(name: "Yahoo News", description: "The latest news and headlines from Yahoo! News' RSS feed.")
 if rss_feed.new_record?
-    rss_feed.url = "https://www.yahoo.com/news/rss"
+    rss_feed.url = "http://news.yahoo.com/rss"
     rss_feed.save!
 
     rss_feed.refresh
