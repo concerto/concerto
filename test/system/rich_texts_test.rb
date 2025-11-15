@@ -51,7 +51,7 @@ class RichTextsTest < ApplicationSystemTestCase
     sign_in @user
 
     visit rich_text_url(@rich_text)
-    page.accept_confirm do
+    accept_confirm do
       click_on "Delete this rich text", match: :first
     end
 

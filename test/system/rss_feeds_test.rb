@@ -33,7 +33,7 @@ class RssFeedsTest < ApplicationSystemTestCase
 
   test "should destroy Rss feed" do
     visit rss_feed_url(@rss_feed)
-    page.accept_confirm do
+    accept_confirm do
       click_on "Delete this RSS Feed", match: :first
     end
 

@@ -49,7 +49,7 @@ class FeedsTest < ApplicationSystemTestCase
 
   test "should destroy Feed" do
     visit feed_url(@feed)
-    page.accept_confirm do
+    accept_confirm do
       click_on "Delete this Feed", match: :first
     end
 

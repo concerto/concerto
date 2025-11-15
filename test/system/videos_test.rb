@@ -43,7 +43,7 @@ class VideosTest < ApplicationSystemTestCase
     sign_in @user
 
     visit video_url(@video)
-    page.accept_confirm do
+    accept_confirm do
       click_on "Delete this video", match: :first
     end
 

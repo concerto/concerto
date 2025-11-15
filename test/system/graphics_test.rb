@@ -48,7 +48,7 @@ class GraphicsTest < ApplicationSystemTestCase
     sign_in @user
 
     visit graphic_url(@graphic)
-    page.accept_confirm do
+    accept_confirm do
       click_on "Delete this graphic", match: :first
     end
 
