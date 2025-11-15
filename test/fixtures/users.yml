@@ -3,6 +3,12 @@
 system_user: # Seeds do not run in test, so we need to manually create this user.
   is_system_user: true
 
+system_admin:
+  email: sysadmin@concerto.test
+  first_name: System
+  last_name: Administrator
+  encrypted_password: <%= User.new.send(:password_digest, 'password123') %>
+
 admin:
   email: admin@concerto.test
   first_name: Admin

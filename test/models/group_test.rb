@@ -28,12 +28,12 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   test "should find system admins group" do
-    system_admins = Group.find_or_create_by!(name: Group::SYSTEM_ADMIN_GROUP_NAME)
+     system_admins = groups(:system_administrators)
     assert_equal system_admins, Group.system_admins_group
   end
 
   test "should identify system administrators group" do
-    system_admins = Group.find_or_create_by!(name: Group::SYSTEM_ADMIN_GROUP_NAME)
+     system_admins = groups(:system_administrators)
     regular_group = groups(:content_creators)
 
     assert system_admins.system_admin_group?
@@ -41,7 +41,7 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   test "should include system administrators in system groups" do
-    system_admins = Group.find_or_create_by!(name: Group::SYSTEM_ADMIN_GROUP_NAME)
+     system_admins = groups(:system_administrators)
     all_users = groups(:all_users)
     regular_group = groups(:content_creators)
 
@@ -58,7 +58,7 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   test "should not destroy system administrators group" do
-    system_admins = Group.find_or_create_by!(name: Group::SYSTEM_ADMIN_GROUP_NAME)
+     system_admins = groups(:system_administrators)
     assert_not system_admins.destroy
   end
 
@@ -91,7 +91,7 @@ class GroupTest < ActiveSupport::TestCase
   end
 
   test "should not rename System Administrators group" do
-    system_admins = Group.find_or_create_by!(name: Group::SYSTEM_ADMIN_GROUP_NAME)
+     system_admins = groups(:system_administrators)
     original_name = system_admins.name
 
     system_admins.name = "Super Admins"

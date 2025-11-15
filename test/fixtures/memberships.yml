@@ -1,5 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+system_admin_in_all_users:
+  user: system_admin
+  group: all_users
+  role: member
+
+system_admin_in_system_administrators:
+  user: system_admin
+  group: system_administrators
+  role: admin
+
 admin_in_all_users:
   user: admin
   group: all_users

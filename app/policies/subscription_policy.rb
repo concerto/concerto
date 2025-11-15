@@ -17,19 +17,19 @@ class SubscriptionPolicy < ApplicationPolicy
   end
 
   def new?
-    member_of_screen_group?
+    super || member_of_screen_group?
   end
 
   def create?
-    member_of_screen_group?
+    super || member_of_screen_group?
   end
 
   def update?
-    member_of_screen_group?
+    super || member_of_screen_group?
   end
 
   def destroy?
-    member_of_screen_group?
+    super || member_of_screen_group?
   end
 
   private

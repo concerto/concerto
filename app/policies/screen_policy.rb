@@ -21,25 +21,49 @@ class ScreenPolicy < ApplicationPolicy
   end
 
   def new?
-    # Screens can be created by any admin of any group.
+    super || can_create_new_screen?
+  end
+
+  def create?
+    super || can_create_screen?
+  end
+
+  def edit?
+    super || can_edit_screen?
+  end
+
+  def update?
+    super || can_update_screen?
+  end
+
+  def destroy?
+    super || can_destroy_screen?
+  end
+
+  private
+
+  # Screens can be created by any admin of any group.
+  def can_create_new_screen?
     return false unless user
     user.admin_groups.any?
   end
 
-  def create?
-    # Screens can be created by any admin of the associated group.
+  # Screens can be created by any admin of the associated group.
+  def can_create_screen?
     return false unless user
     record.group.admin?(user)
   end
 
-  def edit?
-    # Screens can be edited by any member of the associated group.
+  # Screens can be edited by any member of the associated group.
+  def can_edit_screen?
     return false unless user
     record.group.member?(user)
   end
 
-  def update?
-    return false unless edit?
+  # Screens can be updated by members of the group, but group changes
+  # require admin permissions on both the old and new groups.
+  def can_update_screen?
+    return false unless can_edit_screen?
 
     # If group_id is being changed, ensure user is admin of both
     # the current group and the new group.
@@ -58,11 +82,13 @@ class ScreenPolicy < ApplicationPolicy
     true
   end
 
-  def destroy?
-    # Screens can be deleted by any admin of the associated group.
+  # Screens can be deleted by any admin of the associated group.
+  def can_destroy_screen?
     return false unless user
     record.group.admin?(user)
   end
+
+  public
 
   def permitted_attributes
     if can_edit_group?
@@ -76,6 +102,7 @@ class ScreenPolicy < ApplicationPolicy
   #
   # This is used both in the policy and in the view to disable UI elements.
   def can_edit_group?
+    return true if user&.system_admin?
     return false unless user
     record.new_record? || record.group.admin?(user)
   end

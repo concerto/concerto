@@ -4,6 +4,10 @@ all_users:
   name: All Registered Users
   description: System group containing all registered users
 
+system_administrators:
+  name: System Administrators
+  description: System group for system administrators
+
 content_creators:
   name: Content Creators
   description: Group for users who create content

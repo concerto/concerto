@@ -2,6 +2,7 @@ require "test_helper"
 
 class SubscriptionPolicyTest < ActiveSupport::TestCase
   setup do
+    @system_admin_user = users(:system_admin)
     @group_admin_user = users(:admin)
     @group_regular_user = users(:regular)
     @non_group_user = users(:non_member)
@@ -27,6 +28,10 @@ class SubscriptionPolicyTest < ActiveSupport::TestCase
 
   # --- Create, Edit, Destroy Tests --- #
 
+  test "new? is permitted for system admin" do
+    assert SubscriptionPolicy.new(@system_admin_user, @subscription).new?
+  end
+
   test "new? is permitted for a group admin" do
     assert SubscriptionPolicy.new(@group_admin_user, @subscription).new?
   end
@@ -41,6 +46,10 @@ class SubscriptionPolicyTest < ActiveSupport::TestCase
 
   test "new? is denied for non-logged-in user" do
     refute SubscriptionPolicy.new(nil, @subscription).new?
+  end
+
+  test "create? is permitted for system admin" do
+    assert SubscriptionPolicy.new(@system_admin_user, @subscription).create?
   end
 
   test "create? is permitted for a group admin" do
@@ -73,6 +82,10 @@ class SubscriptionPolicyTest < ActiveSupport::TestCase
 
   test "update? is denied for non-logged-in user" do
     refute SubscriptionPolicy.new(nil, @subscription).update?
+  end
+
+  test "destroy? is permitted for system admin" do
+    assert SubscriptionPolicy.new(@system_admin_user, @subscription).destroy?
   end
 
   test "destroy? is permitted for a group admin" do

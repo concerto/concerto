@@ -56,8 +56,10 @@ class User < ApplicationRecord
   end
 
   # Check if the user is a system administrator.
+  #
+  # System administrators are any members of the "System Administrators" group.
   def system_admin?
-    Group.system_admins_group&.admin?(self)
+    Group.system_admins_group&.member?(self)
   end
 
   private

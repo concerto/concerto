@@ -2,6 +2,7 @@ require "test_helper"
 
 class ScreenPolicyTest < ActiveSupport::TestCase
   setup do
+    @system_admin_user = users(:system_admin)
     @group_admin_user = users(:admin)
     @group_regular_user = users(:regular)
     @non_group_user = users(:non_member)
@@ -18,6 +19,10 @@ class ScreenPolicyTest < ActiveSupport::TestCase
     assert ScreenPolicy.new(@non_group_user, @screen).show?
   end
 
+  test "new? is permitted for system admin" do
+    assert ScreenPolicy.new(@system_admin_user, Screen.new).new?
+  end
+
   test "new? is permitted for user who is an admin of any group" do
     assert ScreenPolicy.new(@group_admin_user, Screen.new).new?
   end
@@ -32,6 +37,10 @@ class ScreenPolicyTest < ActiveSupport::TestCase
   end
 
   # --- Create, Edit, Destroy Tests --- #
+
+  test "create? is permitted for system admin" do
+    assert ScreenPolicy.new(@system_admin_user, @screen).create?
+  end
 
   test "create? is permitted for a group admin" do
     assert ScreenPolicy.new(@group_admin_user, @screen).create?
@@ -55,6 +64,10 @@ class ScreenPolicyTest < ActiveSupport::TestCase
 
   test "edit? is denied for a non-group member" do
     refute ScreenPolicy.new(@non_group_user, @screen).edit?
+  end
+
+  test "destroy? is permitted for system admin" do
+    assert ScreenPolicy.new(@system_admin_user, @screen).destroy?
   end
 
   test "destroy? is permitted for a group admin" do
