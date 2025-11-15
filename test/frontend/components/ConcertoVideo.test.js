@@ -4,6 +4,7 @@ import { mount } from '@vue/test-utils';
 import ConcertoVideo from '~/components/ConcertoVideo.vue';
 import ConcertoYoutubeVideo from '~/components/ConcertoYoutubeVideo.vue';
 import ConcertoVimeoVideo from '~/components/ConcertoVimeoVideo.vue';
+import ConcertoTiktokVideo from '~/components/ConcertoTiktokVideo.vue';
 
 describe('ConcertoVideo', () => {
   it('renders ConcertoYoutubeVideo when video_source is youtube', () => {
@@ -26,6 +27,18 @@ describe('ConcertoVideo', () => {
 
     expect(wrapper.findComponent(ConcertoVimeoVideo).exists()).toBe(true);
     expect(wrapper.findComponent(ConcertoYoutubeVideo).exists()).toBe(false);
+  });
+
+  it('renders ConcertoTiktokVideo when video_source is tiktok', () => {
+    const content = {
+      video_source: 'tiktok',
+      video_id: '6718335390845095173',
+    };
+    const wrapper = mount(ConcertoVideo, { props: { content: content } });
+
+    expect(wrapper.findComponent(ConcertoTiktokVideo).exists()).toBe(true);
+    expect(wrapper.findComponent(ConcertoYoutubeVideo).exists()).toBe(false);
+    expect(wrapper.findComponent(ConcertoVimeoVideo).exists()).toBe(false);
   });
 
   it('renders unsupported message for unknown video_source', () => {

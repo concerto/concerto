@@ -23,6 +23,16 @@
                   allowfullscreen
                   loading="lazy">
           </iframe>
+        <% elsif video.video_source == "tiktok" %>
+          <iframe
+                  class="rounded-lg shadow-sm border border-neutral-200"
+                  width="600"
+                  height="480"
+                  src="https://www.tiktok.com/player/v1/<%= video.video_id %>"
+                  allow="autoplay; encrypted-media"
+                  allowfullscreen
+                  loading="lazy">
+          </iframe>
         <% else %>
           <div class="text-center py-12">
             <p class="text-body text-neutral-500">Unsupported video source</p>

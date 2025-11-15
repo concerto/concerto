@@ -116,8 +116,31 @@ yarn install
 bin/importmap pin package-name
 
 # Run ESLint
-yarn run eslint
+yarn run eslint "{app,test}/frontend/**/*.{js,vue}"
+
+# Auto-fix ESLint issues
+yarn run eslint --fix "{app,test}/frontend/**/*.{js,vue}"
 ```
+
+### Pre-Commit Checklist
+
+**IMPORTANT**: Before committing code or creating a pull request, always run:
+
+```shell
+# 1. Run all tests
+bin/rails test
+yarn run vitest
+
+# 2. Run linters
+bin/rails rubocop -A  # Ruby code (auto-fix)
+yarn run eslint --fix "{app,test}/frontend/**/*.{js,vue}"  # Frontend code (auto-fix)
+
+# 3. Verify everything passes
+bin/rails rubocop
+yarn run eslint "{app,test}/frontend/**/*.{js,vue}"
+```
+
+If any linter or test fails, fix the issues before committing.
 
 ### Deployment
 

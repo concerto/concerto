@@ -25,3 +25,11 @@ video_vimeo:
   end_time: 2024-12-24 03:10:59
   config: {'url': 'https://vimeo.com/897211169'}
   user: admin
+
+video_tiktok:
+  type: Video
+  name: Sample TikTok Video
+  start_time: 2024-12-24 03:10:59
+  end_time: 2024-12-24 03:10:59
+  config: {'url': 'https://www.tiktok.com/@scout2015/video/6718335390845095173'}
+  user: admin

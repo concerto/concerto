@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import ConcertoYoutubeVideo from './ConcertoYoutubeVideo.vue';
 import ConcertoVimeoVideo from './ConcertoVimeoVideo.vue';
+import ConcertoTiktokVideo from './ConcertoTiktokVideo.vue';
 
 const props = defineProps({
   content: { type: Object, required: true }
@@ -20,6 +21,10 @@ const videoSource = computed(() => {
   />
   <ConcertoVimeoVideo
     v-else-if="videoSource === 'vimeo'"
+    :content="content"
+  />
+  <ConcertoTiktokVideo
+    v-else-if="videoSource === 'tiktok'"
     :content="content"
   />
   <div v-else>
