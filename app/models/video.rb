@@ -22,7 +22,7 @@ class Video < Content
   def video_id
     if url.present?
       if video_source == "youtube"
-        match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i)
+        match = url.match(/(?:youtube\.com\/(?:shorts\/|[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i)
         match[1] if match
       elsif video_source == "vimeo"
         match = url.match(/vimeo\.com\/(\d+)/)

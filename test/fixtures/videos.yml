@@ -9,6 +9,15 @@ video_youtube:
   config: {'url': 'https://www.youtube.com/watch?v=eT4OAYjzV-s'}
   user: admin
 
+video_youtube_short:
+  type: Video
+  name: Sample YouTube Short
+  duration: 30
+  start_time: 2024-12-24 03:10:59
+  end_time: 2024-12-24 03:10:59
+  config: {'url': 'https://www.youtube.com/shorts/JnKnz3QaYhA'}
+  user: admin
+
 video_two:
   type: Video
   name: MyString

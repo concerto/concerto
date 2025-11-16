@@ -3,6 +3,7 @@ require "test_helper"
 class VideoTest < ActiveSupport::TestCase
   setup do
     @youtube_video = videos(:video_youtube)
+    @youtube_short = videos(:video_youtube_short)
     @vimeo_video = videos(:video_vimeo) # Assuming a fixture for Vimeo videos exists
     @tiktok_video = videos(:video_tiktok)
   end
@@ -20,6 +21,14 @@ class VideoTest < ActiveSupport::TestCase
 
   test "extracts video id from youtube url" do
     assert_equal "eT4OAYjzV-s", @youtube_video.video_id
+  end
+
+  test "extracts video id from youtube shorts url" do
+    assert_equal "JnKnz3QaYhA", @youtube_short.video_id
+  end
+
+  test "youtube shorts have correct video source" do
+    assert_equal "youtube", @youtube_short.video_source
   end
 
   test "extracts video id from vimeo url" do
