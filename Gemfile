@@ -74,7 +74,7 @@ gem "vite_rails"
 gem "devise", "~> 4.9"
 
 # Use Devise OpenID Connect for SSO.
-gem "omniauth-rails_csrf_protection", "~> 1.0"
+gem "omniauth-rails_csrf_protection", "~> 2.0"
 gem "omniauth_openid_connect", "~> 0.8.0"
 
 # Use pundit to provide authorization checks.

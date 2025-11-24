@@ -194,7 +194,7 @@ GEM
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
-    minitest (5.26.1)
+    minitest (5.26.2)
     msgpack (1.8.0)
     mutex_m (0.3.0)
     net-http (0.6.0)
@@ -221,7 +221,7 @@ GEM
       logger
       rack (>= 2.2.3)
       rack-protection
-    omniauth-rails_csrf_protection (1.0.2)
+    omniauth-rails_csrf_protection (2.0.0)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
     omniauth_openid_connect (0.8.0)
@@ -464,7 +464,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
-  omniauth-rails_csrf_protection (~> 1.0)
+  omniauth-rails_csrf_protection (~> 2.0)
   omniauth_openid_connect (~> 0.8.0)
   propshaft
   puma (>= 5.0)
