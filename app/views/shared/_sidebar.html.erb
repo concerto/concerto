@@ -52,7 +52,9 @@
       <div class="space-y-1">
         <%= sidebar_nav_link_to "Groups", groups_path, "users" %>
         <%= sidebar_nav_link_to "Templates", templates_path, "template" %>
-        <%= sidebar_nav_link_to "Settings", admin_settings_path, "cog" %>
+        <% if policy(Setting).index? %>
+          <%= sidebar_nav_link_to "Settings", admin_settings_path, "cog" %>
+        <% end %>
         <%= sidebar_nav_link_to "Users", "#", "user" %>
         <%= sidebar_nav_link_to "System", "#", "server" %>
       </div>

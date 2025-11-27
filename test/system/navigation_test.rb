@@ -54,18 +54,36 @@ class NavigationTest < ApplicationSystemTestCase
     end
   end
 
-  test "sidebar navigation shows admin links when authenticated" do
+  test "sidebar navigation shows admin links when authenticated as system admin" do
     # Set desktop viewport size
     page.driver.browser.manage.window.resize_to(1024, 680)
 
-    user = users(:admin)
+    user = users(:system_admin)
     sign_in user
     visit feeds_path
 
-    # Check admin section is visible in sidebar
+    # Check admin section is visible in sidebar with Settings link
     assert_selector "[data-sidebar-target='sidebar']" do
       assert_text "ADMINISTRATION"
       assert_link "Settings", href: admin_settings_path
+      assert_link "Templates", href: templates_path
+      assert_link "Users"
+      assert_link "System"
+    end
+  end
+
+  test "sidebar navigation hides settings link for non-system admins" do
+    # Set desktop viewport size
+    page.driver.browser.manage.window.resize_to(1024, 680)
+
+    user = users(:regular)
+    sign_in user
+    visit feeds_path
+
+    # Check admin section is visible but Settings link is hidden
+    assert_selector "[data-sidebar-target='sidebar']" do
+      assert_text "ADMINISTRATION"
+      assert_no_link "Settings", href: admin_settings_path
       assert_link "Templates", href: templates_path
       assert_link "Users"
       assert_link "System"
@@ -106,8 +124,8 @@ class NavigationTest < ApplicationSystemTestCase
       assert_no_text "Administration"
     end
 
-    # Test authenticated state
-    user = users(:admin)
+    # Test authenticated state as system admin
+    user = users(:system_admin)
     sign_in user
     visit feeds_path
 
@@ -115,6 +133,22 @@ class NavigationTest < ApplicationSystemTestCase
     within "[data-sidebar-target='sidebar']" do
       assert_text "ADMINISTRATION"
       assert_link "Settings", href: admin_settings_path
+    end
+  end
+
+  test "mobile sidebar hides settings for regular users" do
+    # Set mobile viewport size
+    page.driver.browser.manage.window.resize_to(375, 667)
+
+    # Test authenticated state as regular user
+    user = users(:regular)
+    sign_in user
+    visit feeds_path
+
+    find("[data-action='click->sidebar#toggle']").click
+    within "[data-sidebar-target='sidebar']" do
+      assert_text "ADMINISTRATION"
+      assert_no_link "Settings", href: admin_settings_path
     end
   end
 

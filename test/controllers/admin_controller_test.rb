@@ -1,7 +1,48 @@
 require "test_helper"
 
 class AdminControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @system_admin = users(:system_admin)
+    @regular_user = users(:regular)
+  end
+
+  # Authorization tests
+  test "settings index requires system admin" do
+    sign_in @regular_user
+    get admin_settings_path
+    assert_redirected_to root_path
+    assert_equal "You are not authorized to perform this action.", flash[:alert]
+  end
+
+  test "update_settings requires system admin" do
+    sign_in @regular_user
+    patch admin_settings_path, params: {
+      settings: { site_name: "Hacked" }
+    }
+    assert_redirected_to root_path
+    assert_equal "You are not authorized to perform this action.", flash[:alert]
+    # Verify the setting was NOT updated
+    refute_equal "Hacked", Setting[:site_name]
+  end
+
+  test "settings index allowed for system admin" do
+    sign_in @system_admin
+    get admin_settings_path
+    assert_response :success
+  end
+
+  test "update_settings allowed for system admin" do
+    sign_in @system_admin
+    patch admin_settings_path, params: {
+      settings: { site_name: "Updated by Admin" }
+    }
+    assert_redirected_to admin_settings_path
+    assert_equal "Updated by Admin", Setting[:site_name]
+  end
+
+  # Original functionality tests
   test "settings index groups settings by prefix" do
+    sign_in @system_admin
     get admin_settings_path
     assert_response :success
 
@@ -19,6 +60,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "updates multiple settings at once" do
+    sign_in @system_admin
     patch admin_settings_path, params: {
       settings: {
         site_name: "Updated Site",
@@ -37,6 +79,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "handles different setting types correctly" do
+    sign_in @system_admin
     patch admin_settings_path, params: {
       settings: {
         items_per_page: "15",
