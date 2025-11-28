@@ -2,8 +2,12 @@
 <%= render @template %>
 
 <div>
-  <%= link_to "Edit this template", edit_template_path(@template) %> |
+  <% if policy(@template).edit? %>
+    <%= link_to "Edit this template", edit_template_path(@template) %> |
+  <% end %>
   <%= link_to "Back to templates", templates_path %>
 
-  <%= button_to "Delete this template", @template, method: :delete %>
+  <% if policy(@template).destroy? %>
+    <%= button_to "Delete this template", @template, method: :delete %>
+  <% end %>
 </div>

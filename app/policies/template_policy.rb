@@ -1,19 +1,20 @@
 class TemplatePolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
-    # All users (including anonymous) can see all templates
+    # Only signed-in users can see templates
     def resolve
+      return scope.none unless user
       scope.all
     end
   end
 
   def index?
-    # Everyone can view the list
-    true
+    # Only signed-in users can view the list
+    user.present?
   end
 
   def show?
-    # Everyone can view individual templates
-    true
+    # Only signed-in users can view individual templates
+    user.present?
   end
 
   def new?

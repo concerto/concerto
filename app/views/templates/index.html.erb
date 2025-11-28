@@ -19,4 +19,6 @@
   <% end %>
 </div>
 
-<%= link_to "New template", new_template_path, class: "btn" %>
+<% if policy(::Template.new).new? %>
+  <%= link_to "New template", new_template_path, class: "btn" %>
+<% end %>

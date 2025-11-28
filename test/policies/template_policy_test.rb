@@ -9,22 +9,30 @@ class TemplatePolicyTest < ActiveSupport::TestCase
     @template = templates(:one)
   end
 
-  test "scope returns all templates for everyone" do
-    resolved_scope = TemplatePolicy::Scope.new(nil, Template.all).resolve
-    assert_equal Template.all.to_a, resolved_scope.to_a
-
+  test "scope returns all templates for signed-in users" do
     resolved_scope = TemplatePolicy::Scope.new(@group_regular_user, Template.all).resolve
     assert_equal Template.all.to_a, resolved_scope.to_a
   end
 
-  test "index? is permitted for everyone" do
-    assert TemplatePolicy.new(nil, Template).index?
+  test "scope returns no templates for anonymous users" do
+    resolved_scope = TemplatePolicy::Scope.new(nil, Template.all).resolve
+    assert_equal [], resolved_scope.to_a
+  end
+
+  test "index? is permitted for signed-in users" do
     assert TemplatePolicy.new(@non_group_user, Template).index?
   end
 
-  test "show? is permitted for everyone" do
-    assert TemplatePolicy.new(nil, @template).show?
+  test "index? is denied for anonymous users" do
+    refute TemplatePolicy.new(nil, Template).index?
+  end
+
+  test "show? is permitted for signed-in users" do
     assert TemplatePolicy.new(@non_group_user, @template).show?
+  end
+
+  test "show? is denied for anonymous users" do
+    refute TemplatePolicy.new(nil, @template).show?
   end
 
   test "new? is permitted for system admin" do

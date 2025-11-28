@@ -6,11 +6,13 @@ class TemplatesTest < ApplicationSystemTestCase
   end
 
   test "visiting the index" do
+    sign_in users(:regular)
     visit templates_url
     assert_selector "h1", text: "Templates"
   end
 
   test "should create template" do
+    sign_in users(:system_admin)
     visit templates_url
     click_on "New template"
 
@@ -34,6 +36,7 @@ class TemplatesTest < ApplicationSystemTestCase
   end
 
   test "should update Template" do
+    sign_in users(:system_admin)
     visit template_url(@template)
     click_on "Edit this template", match: :first
 
@@ -56,6 +59,7 @@ class TemplatesTest < ApplicationSystemTestCase
   end
 
   test "should destroy Template" do
+    sign_in users(:system_admin)
     visit template_url(templates(:unused))
     click_on "Delete this template", match: :first
 

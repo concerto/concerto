@@ -1,27 +1,34 @@
 class TemplatesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_template, only: %i[ show edit update destroy ]
+  after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
 
   # GET /templates or /templates.json
   def index
-    @templates = Template.all
+    @templates = policy_scope(Template).all
   end
 
   # GET /templates/1 or /templates/1.json
   def show
+    authorize @template
   end
 
   # GET /templates/new
   def new
     @template = Template.new
+    authorize @template
   end
 
   # GET /templates/1/edit
   def edit
+    authorize @template
   end
 
   # POST /templates or /templates.json
   def create
     @template = Template.new(template_params)
+    authorize @template
 
     respond_to do |format|
       if @template.save
@@ -36,6 +43,7 @@ class TemplatesController < ApplicationController
 
   # PATCH/PUT /templates/1 or /templates/1.json
   def update
+    authorize @template
     respond_to do |format|
       if @template.update(template_params)
         format.html { redirect_to template_url(@template), notice: "Template was successfully updated." }
@@ -49,6 +57,7 @@ class TemplatesController < ApplicationController
 
   # DELETE /templates/1 or /templates/1.json
   def destroy
+    authorize @template
     @template.destroy!
 
     respond_to do |format|
