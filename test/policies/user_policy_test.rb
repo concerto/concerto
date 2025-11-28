@@ -25,9 +25,12 @@ class UserPolicyTest < ActiveSupport::TestCase
     refute UserPolicy.new(nil, User).index?
   end
 
-  test "show? is permitted for everyone" do
-    assert UserPolicy.new(nil, @regular_user).show?
+  test "show? is permitted for signed-in users" do
     assert UserPolicy.new(@other_user, @regular_user).show?
+  end
+
+  test "show? is denied for anonymous users" do
+    refute UserPolicy.new(nil, @regular_user).show?
   end
 
   test "new? is permitted for everyone (Devise handles registration)" do

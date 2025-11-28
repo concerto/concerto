@@ -2,9 +2,11 @@ class MembershipsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group
   before_action :set_membership, only: [ :update, :destroy ]
+  after_action :verify_authorized
 
   def create
     @membership = @group.memberships.build(membership_params)
+    authorize @membership
 
     if @membership.save
       redirect_to @group, notice: "#{@membership.user.full_name} has been added to the group."
@@ -14,6 +16,7 @@ class MembershipsController < ApplicationController
   end
 
   def update
+    authorize @membership
     if @membership.update(membership_params)
       redirect_to @group, notice: "#{@membership.user.full_name}'s role has been updated."
     else
@@ -22,6 +25,7 @@ class MembershipsController < ApplicationController
   end
 
   def destroy
+    authorize @membership
     user_name = @membership.user.full_name
 
     if @membership.destroy
@@ -42,9 +46,8 @@ class MembershipsController < ApplicationController
   end
 
   def membership_params
-    attrs = [ :role ]
-    # Only allow user_id on new memberships.
-    attrs << :user_id if action_name == "create"
-    params.require(:membership).permit(*attrs)
+    # Use policy-based permitted attributes for dynamic strong parameters
+    target_membership = @membership || @group.memberships.build
+    params.require(:membership).permit(policy(target_membership).permitted_attributes)
   end
 end

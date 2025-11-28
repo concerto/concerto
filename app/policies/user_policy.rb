@@ -13,8 +13,8 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-    # Everyone can view an individual user
-    true
+    # Only signed-in users can view user profiles
+    user.present?
   end
 
   def new?

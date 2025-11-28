@@ -9,22 +9,30 @@ class GroupPolicyTest < ActiveSupport::TestCase
     @group = groups(:content_creators)
   end
 
-  test "scope returns all groups for everyone" do
-    resolved_scope = GroupPolicy::Scope.new(nil, Group.all).resolve
-    assert_equal Group.all.to_a, resolved_scope.to_a
-
+  test "scope returns all groups for signed-in users" do
     resolved_scope = GroupPolicy::Scope.new(@group_regular_user, Group.all).resolve
     assert_equal Group.all.to_a, resolved_scope.to_a
   end
 
-  test "index? is permitted for everyone" do
-    assert GroupPolicy.new(nil, Group).index?
+  test "scope returns no groups for anonymous users" do
+    resolved_scope = GroupPolicy::Scope.new(nil, Group.all).resolve
+    assert_equal [], resolved_scope.to_a
+  end
+
+  test "index? is permitted for signed-in users" do
     assert GroupPolicy.new(@non_group_user, Group).index?
   end
 
-  test "show? is permitted for everyone" do
-    assert GroupPolicy.new(nil, @group).show?
+  test "index? is denied for anonymous users" do
+    refute GroupPolicy.new(nil, Group).index?
+  end
+
+  test "show? is permitted for signed-in users" do
     assert GroupPolicy.new(@non_group_user, @group).show?
+  end
+
+  test "show? is denied for anonymous users" do
+    refute GroupPolicy.new(nil, @group).show?
   end
 
   test "new? is permitted for system admin only" do

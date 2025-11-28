@@ -6,9 +6,11 @@
     <p class="text-body text-neutral-700 mt-1">Manage user groups and their memberships</p>
   </div>
   <div class="flex space-x-3">
-    <%= link_to new_group_path, class: "btn-primary btn-md whitespace-nowrap" do %>
-      <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
-      New Group
+    <% if policy(Group).new? %>
+      <%= link_to new_group_path, class: "btn-primary btn-md whitespace-nowrap" do %>
+        <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
+        New Group
+      <% end %>
     <% end %>
   </div>
 </div>
@@ -82,9 +84,11 @@
       </svg>
       <h3 class="text-h3 text-neutral-900 mt-4">No groups yet</h3>
       <p class="text-body text-neutral-500 mt-2">Create your first group to organize users and manage permissions.</p>
-      <%= link_to new_group_path, class: "btn-primary mt-4" do %>
-        <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
-        Create Group
+      <% if policy(Group).new? %>
+        <%= link_to new_group_path, class: "btn-primary mt-4" do %>
+          <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
+          Create Group
+        <% end %>
       <% end %>
     </div>
   <% end %>

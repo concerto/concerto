@@ -1,19 +1,20 @@
 class GroupPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
-    # All users (including anonymous) can see all groups
+    # Only signed-in users can see groups
     def resolve
+      return scope.none unless user
       scope.all
     end
   end
 
   def index?
-    # Everyone can see the list
-    true
+    # Only signed-in users can see the list
+    user.present?
   end
 
   def show?
-    # Everyone can view individual groups
-    true
+    # Only signed-in users can view individual groups
+    user.present?
   end
 
   def new?
