@@ -3,9 +3,12 @@ class GraphicsController < ApplicationController
 
   before_action :authenticate_user!, except: %i[show]
   before_action :set_graphic, only: %i[show edit update destroy]
+  after_action :verify_authorized
 
   # GET /graphics/1 or /graphics/1.json
   def show
+    authorize @graphic
+
     if @graphic.image.attached? && !@graphic.image.analyzed?
       @graphic.image.analyze_later()
       flash[:alert] = "This graphic is queued for re-processing."
@@ -15,16 +18,20 @@ class GraphicsController < ApplicationController
   # GET /graphics/new
   def new
     @graphic = Graphic.new
+    authorize @graphic
   end
 
   # GET /graphics/1/edit
   def edit
+    authorize @graphic
   end
 
   # POST /graphics or /graphics.json
   def create
     @graphic = Graphic.new(graphic_params)
     @graphic.user = current_user
+
+    authorize @graphic
 
     respond_to do |format|
       if @graphic.save
@@ -39,6 +46,8 @@ class GraphicsController < ApplicationController
 
   # PATCH/PUT /graphics/1 or /graphics/1.json
   def update
+    authorize @graphic
+
     respond_to do |format|
       if @graphic.update(graphic_params)
         format.html { redirect_to graphic_url(@graphic), notice: "Graphic was successfully updated." }
@@ -52,6 +61,8 @@ class GraphicsController < ApplicationController
 
   # DELETE /graphics/1 or /graphics/1.json
   def destroy
+    authorize @graphic
+
     @graphic.destroy!
 
     respond_to do |format|
@@ -68,6 +79,6 @@ class GraphicsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def graphic_params
-      params.require(:graphic).permit(*ContentsController::PARAMS, :image)
+      params.require(:graphic).permit(policy(@graphic || Graphic.new).permitted_attributes + [ :image ])
     end
 end

@@ -10,4 +10,6 @@
   <% end %>
 </div>
 
-<%= link_to "New submission", new_submission_path %>
+<% if policy(Submission).create? %>
+  <%= link_to "New submission", new_submission_path %>
+<% end %>

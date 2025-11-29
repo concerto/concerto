@@ -2,8 +2,12 @@
 <%= render @submission %>
 
 <div>
-  <%= link_to "Edit this submission", edit_submission_path(@submission) %> |
+  <% if policy(@submission).edit? %>
+    <%= link_to "Edit this submission", edit_submission_path(@submission) %> |
+  <% end %>
   <%= link_to "Back to submissions", submissions_path %>
 
-  <%= button_to "Remove this submission", @submission, method: :delete %>
+  <% if policy(@submission).destroy? %>
+    <%= button_to "Remove this submission", @submission, method: :delete %>
+  <% end %>
 </div>

@@ -3,6 +3,11 @@ class Content < ApplicationRecord
     has_many :feeds, through: :submissions
     belongs_to :user
 
+    # Use ContentPolicy for Pundit authorization (including STI subclasses)
+    def self.policy_class
+      ContentPolicy
+    end
+
     scope :active, -> { where("(start_time IS NULL OR start_time < :now) AND (end_time IS NULL OR end_time > :now)", { now: Time.current }) }
     scope :expired, -> { where("end_time IS NOT NULL AND end_time < :now", { now: Time.current }) }
     scope :upcoming, -> { where("start_time IS NOT NULL AND start_time > :now", { now: Time.current }) }

@@ -18,6 +18,7 @@ class ContentsTest < ApplicationSystemTestCase
   end
 
   test "should link to create content" do
+    sign_in users(:admin)
     visit contents_url
     click_on "New Content", match: :first
 

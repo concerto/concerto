@@ -48,9 +48,11 @@
       <% end %>
     </div>
     
-    <%= link_to new_content_path, class: "btn-primary btn-md whitespace-nowrap self-start sm:self-auto" do %>
-      <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
-      New Content
+    <% if policy(Content).create? %>
+      <%= link_to new_content_path, class: "btn-primary btn-md whitespace-nowrap self-start sm:self-auto" do %>
+        <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
+        New Content
+      <% end %>
     <% end %>
   </div>
 </div>

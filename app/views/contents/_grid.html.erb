@@ -28,9 +28,11 @@
         <%= heroicon("document-add", class: "mx-auto h-12 w-12 text-neutral-400") %>
         <h3 class="text-h3 text-neutral-900 mt-4">No content yet</h3>
         <p class="text-body text-neutral-500 mt-2">Get started by creating your first piece of content.</p>
-        <%= link_to new_content_path, class: "btn-primary mt-4" do %>
-          <%= heroicon("plus", class: "w-4 h-4 mr-2") %>
-          Create Content
+        <% if policy(Content).create? %>
+          <%= link_to new_content_path, class: "btn-primary mt-4" do %>
+            <%= heroicon("plus", class: "w-4 h-4 mr-2") %>
+            Create Content
+          <% end %>
         <% end %>
       </div>
     </div>

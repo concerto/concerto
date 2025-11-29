@@ -3,6 +3,7 @@
 <%= render @graphic %>
 
 <%= render "contents/actions",
+    content: @graphic,
     content_type: "graphic",
     edit_path: edit_graphic_path(@graphic),
     destroy_path: @graphic %>

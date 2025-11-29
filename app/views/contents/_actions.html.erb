@@ -3,21 +3,25 @@
   <div class="card-body">
     <div class="flex flex-col sm:flex-row gap-6 justify-between items-start sm:items-center">
       <div class="flex flex-col sm:flex-row gap-4">
-        <%= link_to "Edit this #{content_type}", edit_path, 
-            class: "btn btn-primary" %>
-        <%= link_to "Back to content", contents_path, 
+        <% if policy(content).edit? %>
+          <%= link_to "Edit this #{content_type}", edit_path,
+              class: "btn btn-primary" %>
+        <% end %>
+        <%= link_to "Back to content", contents_path,
             class: "btn btn-secondary" %>
       </div>
-      
-      <div class="flex-shrink-0">
-        <%= button_to "Delete this #{content_type}", destroy_path,
-            method: :delete,
-            class: "btn btn-danger",
-            form_class: "inline-block",
-            form: { data: {
-              turbo_confirm: "Are you sure you want to delete this #{content_type}? This action cannot be undone."
-            } } %>
-      </div>
+
+      <% if policy(content).destroy? %>
+        <div class="flex-shrink-0">
+          <%= button_to "Delete this #{content_type}", destroy_path,
+              method: :delete,
+              class: "btn btn-danger",
+              form_class: "inline-block",
+              form: { data: {
+                turbo_confirm: "Are you sure you want to delete this #{content_type}? This action cannot be undone."
+              } } %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

@@ -3,6 +3,7 @@
 <%= render @rich_text %>
 
 <%= render "contents/actions",
+    content: @rich_text,
     content_type: "rich text",
     edit_path: edit_rich_text_path(@rich_text),
     destroy_path: @rich_text %>

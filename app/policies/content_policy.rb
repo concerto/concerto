@@ -48,4 +48,10 @@ class ContentPolicy < ApplicationPolicy
     return false unless user
     record.user_id == user.id
   end
+
+  public
+
+  def permitted_attributes
+    [ :name, :duration, :start_time, :end_time, { feed_ids: [] } ]
+  end
 end

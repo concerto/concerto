@@ -40,6 +40,16 @@ class FeedPolicy < ApplicationPolicy
     super
   end
 
+  def refresh?
+    # Refresh requires update permissions
+    update?
+  end
+
+  def cleanup?
+    # Cleanup requires update permissions
+    update?
+  end
+
   private
 
   # Feeds can be created by any admin of any group

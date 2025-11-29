@@ -1,27 +1,34 @@
 class FeedsController < ApplicationController
   before_action :set_feed, only: %i[ show edit update destroy ]
+  after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
 
   # GET /feeds or /feeds.json
   def index
-    @feeds = Feed.all
+    @feeds = policy_scope(Feed)
   end
 
   # GET /feeds/1 or /feeds/1.json
   def show
+    authorize @feed
   end
 
   # GET /feeds/new
   def new
     @feed = Feed.new
+    authorize @feed
   end
 
   # GET /feeds/1/edit
   def edit
+    authorize @feed
   end
 
   # POST /feeds or /feeds.json
   def create
     @feed = Feed.new(feed_params)
+
+    authorize @feed
 
     respond_to do |format|
       if @feed.save
@@ -36,6 +43,8 @@ class FeedsController < ApplicationController
 
   # PATCH/PUT /feeds/1 or /feeds/1.json
   def update
+    authorize @feed
+
     respond_to do |format|
       if @feed.update(feed_params)
         format.html { redirect_to feed_url(@feed), notice: "Feed was successfully updated." }
@@ -49,6 +58,8 @@ class FeedsController < ApplicationController
 
   # DELETE /feeds/1 or /feeds/1.json
   def destroy
+    authorize @feed
+
     @feed.destroy!
 
     respond_to do |format|
@@ -65,6 +76,6 @@ class FeedsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def feed_params
-      params.require(:feed).permit(:name, :description)
+      params.require(:feed).permit(policy(@feed || Feed.new).permitted_attributes)
     end
 end

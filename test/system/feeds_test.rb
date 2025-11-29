@@ -3,6 +3,7 @@ require "application_system_test_case"
 class FeedsTest < ApplicationSystemTestCase
   setup do
     @feed = feeds(:one)
+    @system_admin = users(:system_admin)
   end
 
   test "visiting the index" do
@@ -24,6 +25,7 @@ class FeedsTest < ApplicationSystemTestCase
   end
 
   test "should create feed" do
+    sign_in @system_admin
     visit feeds_url
     click_on "New Feed"
 
@@ -36,6 +38,7 @@ class FeedsTest < ApplicationSystemTestCase
   end
 
   test "should update Feed" do
+    sign_in @system_admin
     visit feed_url(@feed)
     click_on "Edit Feed", match: :first
 
@@ -48,6 +51,7 @@ class FeedsTest < ApplicationSystemTestCase
   end
 
   test "should destroy Feed" do
+    sign_in @system_admin
     visit feed_url(@feed)
     accept_confirm do
       click_on "Delete this Feed", match: :first

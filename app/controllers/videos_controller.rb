@@ -3,24 +3,30 @@ class VideosController < ApplicationController
 
   before_action :authenticate_user!, except: %i[show]
   before_action :set_video, only: %i[show edit update destroy]
+  after_action :verify_authorized
 
   # GET /videos/1 or /videos/1.json
   def show
+    authorize @video
   end
 
   # GET /videos/new
   def new
     @video = Video.new
+    authorize @video
   end
 
   # GET /videos/1/edit
   def edit
+    authorize @video
   end
 
   # POST /videos or /videos.json
   def create
     @video = Video.new(video_params)
     @video.user = current_user
+
+    authorize @video
 
     respond_to do |format|
       if @video.save
@@ -35,6 +41,8 @@ class VideosController < ApplicationController
 
   # PATCH/PUT /videos/1 or /videos/1.json
   def update
+    authorize @video
+
     respond_to do |format|
       if @video.update(video_params)
         format.html { redirect_to video_url(@video), notice: "Video was successfully updated." }
@@ -48,6 +56,8 @@ class VideosController < ApplicationController
 
   # DELETE /videos/1 or /videos/1.json
   def destroy
+    authorize @video
+
     @video.destroy!
 
     respond_to do |format|
@@ -64,7 +74,6 @@ class VideosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def video_params
-      # params.require(:video).permit(*ContentsController::PARAMS, :url)
-      params.expect(video: [ *ContentsController::PARAMS, :url ])
+      params.expect(video: policy(@video || Video.new).permitted_attributes + [ :url ])
     end
 end

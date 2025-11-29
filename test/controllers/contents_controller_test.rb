@@ -6,7 +6,8 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get new" do
+  test "should get new when signed in" do
+    sign_in users(:admin)
     get new_content_url
     assert_response :success
   end

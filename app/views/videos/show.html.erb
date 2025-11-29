@@ -3,6 +3,7 @@
 <%= render @video %>
 
 <%= render "contents/actions",
+    content: @video,
     content_type: "video",
     edit_path: edit_video_path(@video),
     destroy_path: @video %>

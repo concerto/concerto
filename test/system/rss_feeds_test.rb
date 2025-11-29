@@ -3,9 +3,11 @@ require "application_system_test_case"
 class RssFeedsTest < ApplicationSystemTestCase
   setup do
     @rss_feed = rss_feeds(:yahoo_rssfeed)
+    @system_admin = users(:system_admin)
   end
 
   test "should create rss feed" do
+    sign_in @system_admin
     visit feeds_url
     click_on "New RSS Feed"
 
@@ -19,6 +21,7 @@ class RssFeedsTest < ApplicationSystemTestCase
   end
 
   test "should update Rss feed" do
+    sign_in @system_admin
     visit rss_feed_url(@rss_feed)
     click_on "Edit RSS Feed", match: :first
 
@@ -32,6 +35,7 @@ class RssFeedsTest < ApplicationSystemTestCase
   end
 
   test "should destroy Rss feed" do
+    sign_in @system_admin
     visit rss_feed_url(@rss_feed)
     accept_confirm do
       click_on "Delete this RSS Feed", match: :first

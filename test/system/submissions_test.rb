@@ -3,6 +3,7 @@ require "application_system_test_case"
 class SubmissionsTest < ApplicationSystemTestCase
   setup do
     @submission = submissions(:one)
+    @admin = users(:admin)
   end
 
   test "visiting the index" do
@@ -11,6 +12,7 @@ class SubmissionsTest < ApplicationSystemTestCase
   end
 
   test "should create submission" do
+    sign_in @admin
     visit submissions_url
     click_on "New submission"
 
@@ -23,6 +25,7 @@ class SubmissionsTest < ApplicationSystemTestCase
   end
 
   test "should update Submission" do
+    sign_in users(:system_admin)
     visit submission_url(@submission)
     click_on "Edit this submission", match: :first
 
@@ -35,6 +38,7 @@ class SubmissionsTest < ApplicationSystemTestCase
   end
 
   test "should destroy Submission" do
+    sign_in @admin
     visit submission_url(@submission)
     click_on "Remove this submission", match: :first
 

@@ -90,4 +90,32 @@ class GraphicsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to contents_url
   end
+
+  # Authorization tests
+  test "should not allow non-owner to edit graphic" do
+    sign_in users(:non_member)
+    get edit_graphic_url(@graphic), headers: { "Referer" => graphic_url(@graphic) }
+    assert_redirected_to graphic_url(@graphic)
+    assert_equal "You are not authorized to perform this action.", flash[:alert]
+  end
+
+  test "should not allow non-owner to update graphic" do
+    sign_in users(:non_member)
+    patch graphic_url(@graphic), params: { graphic: {
+      name: "Unauthorized update"
+    } }
+    assert_redirected_to root_url
+    assert_equal "You are not authorized to perform this action.", flash[:alert]
+    @graphic.reload
+    assert_not_equal "Unauthorized update", @graphic.name
+  end
+
+  test "should not allow non-owner to destroy graphic" do
+    sign_in users(:non_member)
+    assert_no_difference("Graphic.count") do
+      delete graphic_url(@graphic)
+    end
+    assert_redirected_to root_url
+    assert_equal "You are not authorized to perform this action.", flash[:alert]
+  end
 end

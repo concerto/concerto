@@ -3,24 +3,30 @@ class RichTextsController < ApplicationController
 
   before_action :authenticate_user!, except: %i[show]
   before_action :set_rich_text, only: %i[show edit update destroy]
+  after_action :verify_authorized
 
   # GET /rich_texts/1 or /rich_texts/1.json
   def show
+    authorize @rich_text
   end
 
   # GET /rich_texts/new
   def new
     @rich_text = RichText.new(render_as: :plaintext)
+    authorize @rich_text
   end
 
   # GET /rich_texts/1/edit
   def edit
+    authorize @rich_text
   end
 
   # POST /rich_texts or /rich_texts.json
   def create
     @rich_text = RichText.new(rich_text_params)
     @rich_text.user = current_user
+
+    authorize @rich_text
 
     respond_to do |format|
       if @rich_text.save
@@ -35,6 +41,8 @@ class RichTextsController < ApplicationController
 
   # PATCH/PUT /rich_texts/1 or /rich_texts/1.json
   def update
+    authorize @rich_text
+
     respond_to do |format|
       if @rich_text.update(rich_text_params)
         format.html { redirect_to rich_text_url(@rich_text), notice: "Rich text was successfully updated." }
@@ -48,6 +56,8 @@ class RichTextsController < ApplicationController
 
   # DELETE /rich_texts/1 or /rich_texts/1.json
   def destroy
+    authorize @rich_text
+
     @rich_text.destroy!
 
     respond_to do |format|
@@ -64,6 +74,6 @@ class RichTextsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def rich_text_params
-      params.require(:rich_text).permit(*ContentsController::PARAMS, :text, :render_as)
+      params.require(:rich_text).permit(policy(@rich_text || RichText.new).permitted_attributes + [ :text, :render_as ])
     end
 end

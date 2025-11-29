@@ -89,4 +89,32 @@ class VideosControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to contents_url
   end
+
+  # Authorization tests
+  test "should not allow non-owner to edit video" do
+    sign_in users(:non_member)
+    get edit_video_url(@video), headers: { "Referer" => video_url(@video) }
+    assert_redirected_to video_url(@video)
+    assert_equal "You are not authorized to perform this action.", flash[:alert]
+  end
+
+  test "should not allow non-owner to update video" do
+    sign_in users(:non_member)
+    patch video_url(@video), params: { video: {
+      name: "Unauthorized update"
+    } }
+    assert_redirected_to root_url
+    assert_equal "You are not authorized to perform this action.", flash[:alert]
+    @video.reload
+    assert_not_equal "Unauthorized update", @video.name
+  end
+
+  test "should not allow non-owner to destroy video" do
+    sign_in users(:non_member)
+    assert_no_difference("Video.count") do
+      delete video_url(@video)
+    end
+    assert_redirected_to root_url
+    assert_equal "You are not authorized to perform this action.", flash[:alert]
+  end
 end
