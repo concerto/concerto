@@ -16,7 +16,7 @@ class ScreensTest < ApplicationSystemTestCase
     click_on "New Screen"
 
     fill_in "Name", with: @screen.name
-    select @screen.group.name, from: "Group"
+    select @screen.group.name, from: "Managers"
     choose @screen.template.name, allow_label_click: true
     click_on "Save Screen"
 
@@ -29,7 +29,7 @@ class ScreensTest < ApplicationSystemTestCase
     click_on "Edit Screen", match: :first
 
     fill_in "Name", with: @screen.name
-    select @screen.group.name, from: "Group"
+    select @screen.group.name, from: "Managers"
     choose @screen.template.name, allow_label_click: true
     click_on "Save Screen"
 

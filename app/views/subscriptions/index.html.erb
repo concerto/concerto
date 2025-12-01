@@ -1,14 +1,4 @@
 <%= page_title "#{@screen.name} Subscriptions" %>
-<% content_for :subheader do %>
-  <div class="flex items-center space-x-2">
-    <%= link_to @screen, class: "inline-flex items-center text-sm text-neutral-600 hover:text-neutral-900 transition-colors" do %>
-      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-      </svg>
-      Back to screen
-    <% end %>
-  </div>
-<% end %>
 
 <div class="max-w-6xl mx-auto space-y-4">
   <!-- Page Header -->
@@ -92,4 +82,14 @@
       </div>
     </div>
   <% end %>
+
+  <!-- Back to Screen Button -->
+  <div class="mt-6">
+    <%= link_to @screen, class: "btn btn-secondary" do %>
+      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+      Back to Screen
+    <% end %>
+  </div>
 </div>

@@ -89,7 +89,7 @@
 
         <!-- Group Selection -->
         <div>
-          <%= form.label :group_id, "Group", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= form.label :group_id, "Managers", class: "block text-sm font-medium text-gray-700 mb-2" %>
           <% can_edit_group = policy(screen).can_edit_group? %>
           <%= form.collection_select :group_id, @groups, :id, :name,
               { prompt: "Select a group" },

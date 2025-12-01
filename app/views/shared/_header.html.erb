@@ -40,9 +40,11 @@
       </div>
 
       <!-- Quick action: New Content -->
-      <%= link_to new_content_path, class: "btn-primary btn-md hidden sm:inline-flex" do %>
-        <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
-        New Content
+      <% if policy(Content).create? %>
+        <%= link_to new_content_path, class: "btn-primary btn-md hidden sm:inline-flex" do %>
+          <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
+          New Content
+        <% end %>
       <% end %>
 
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="h-full bg-neutral-100">
   <head>
-    <title>Concerto <%= content_for?(:title) ? " - " + yield(:title) : "" %> </title>
+    <title>Concerto<%= content_for?(:title) ? " - #{sanitize(yield(:title), tags: [])}" : "" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Concerto">
@@ -39,7 +39,6 @@
           <h1 class="text-h2 text-neutral-900">
             <%= content_for?(:title) ? yield(:title) : "Dashboard" %>
           </h1>
-          <%= yield :subheader %>
         </div>
 
         <!-- Flash Messages -->

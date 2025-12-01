@@ -108,14 +108,14 @@
             <dd class="mt-1 text-sm text-gray-900"><%= @screen.name %></dd>
           </div>
           <div>
-            <dt class="text-sm font-medium text-gray-500">Group</dt>
+            <dt class="text-sm font-medium text-gray-500">Managers</dt>
             <dd class="mt-1 text-sm text-gray-900">
               <%= link_to @screen.group.name, @screen.group, class: "text-blue-600 hover:text-blue-800" %>
             </dd>
           </div>
           <div>
             <dt class="text-sm font-medium text-gray-500">Template</dt>
-            <dd class="mt-1 text-sm text-gray-900"><%= @screen.template.name %></dd>
+            <dd class="mt-1 text-sm text-gray-900"><%= link_to @screen.template.name, @screen.template, class: "text-blue-600 hover:text-blue-800" %></dd>
           </div>
           <div>
             <dt class="text-sm font-medium text-gray-500">Total Subscriptions</dt>
