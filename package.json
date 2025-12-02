@@ -13,7 +13,7 @@
     "globals": "^16.5.0",
     "jsdom": "^27.2.0",
     "msw": "^2.12.3",
-    "vite": "^7.2.4",
+    "vite": "^7.2.6",
     "vite-plugin-ruby": "^5.1.1",
     "vitest": "^4.0.13",
     "vue-eslint-parser": "^10.2.0"
