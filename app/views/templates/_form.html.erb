@@ -1,52 +1,173 @@
 <%= form_with(model: template, data: {
-    controller: 'template',
-    nested_form_wrapper_selector_value: '.nested-form-wrapper'
+  controller: "template-editor",
+  template_editor_positions_value: template.positions.map { |p|
+    {
+      id: "pos_#{p.id || rand(10000)}",
+      record_id: p.id,
+      field_id: p.field_id,
+      field_name: ERB::Util.html_escape(p.field&.name || 'Unnamed'),
+      left: p.left&.to_f || 0,
+      top: p.top&.to_f || 0,
+      right: p.right&.to_f || 0,
+      bottom: p.bottom&.to_f || 0,
+      style: p.style || '',
+      _destroy: false
+    }
+  }.to_json,
+  action: "submit->template-editor#submitForm"
 }) do |form| %>
-  <template data-template-target="template">
-    <%= form.fields_for :positions, Position.new, child_index: 'NEW_RECORD' do |position_fields| %>
-      <%= render "position_form", form: position_fields %>
+
+  <% if template.errors.any? %>
+    <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded">
+      <h2 class="text-red-800 font-semibold mb-2"><%= pluralize(template.errors.count, "error") %> prohibited this template from being saved:</h2>
+      <ul class="list-disc list-inside text-red-700">
+        <% template.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- Basic Info -->
+  <div class="grid grid-cols-2 gap-6 mb-6">
+    <div>
+      <%= form.label :name, class: "block font-medium mb-2" %>
+      <%= form.text_field :name, class: "w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+
+    <div>
+      <%= form.label :author, class: "block font-medium mb-2" %>
+      <%= form.text_field :author, class: "w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+    </div>
+  </div>
+
+  <!-- Image Upload -->
+  <div class="mb-6">
+    <%= form.label :image, "Background Image", class: "block font-medium mb-2" %>
+    <%= form.file_field :image,
+      accept: "image/*",
+      data: {
+        template_editor_target: "imageInput",
+        action: "change->template-editor#imageChanged"
+      },
+      class: "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" %>
+
+    <% if template.image.attached? %>
+      <div class="mt-2 text-sm text-gray-600">
+        Current image: <%= template.image.filename %>
+      </div>
     <% end %>
-  </template>
-
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
   </div>
 
-  <div>
-    <%= form.label :author, style: "display: block" %>
-    <%= form.text_field :author %>
+  <!-- Canvas + Inspector Layout -->
+  <div class="grid grid-cols-3 gap-6 mb-6">
+    <!-- Canvas Area (2/3 width) -->
+    <div class="col-span-2">
+      <h3 class="text-lg font-semibold mb-3">Template Canvas</h3>
+      <div
+        data-template-editor-target="canvas"
+        class="relative border-2 border-gray-300 rounded-lg bg-gray-50 overflow-hidden"
+        style="width: 100%; aspect-ratio: 16/9; max-width: 800px;">
+
+        <% if template.image.attached? %>
+          <img
+            data-template-editor-target="image"
+            src="<%= url_for(template.image) %>"
+            class="absolute inset-0 w-full h-full object-contain"
+            style="pointer-events: none;">
+        <% else %>
+          <img
+            data-template-editor-target="image"
+            class="absolute inset-0 w-full h-full object-contain"
+            style="display: none; pointer-events: none;">
+        <% end %>
+
+        <div
+          data-template-editor-target="placeholder"
+          class="absolute inset-0 flex items-center justify-center text-gray-400 pointer-events-none"
+          style="<%= 'display: none;' if template.image.attached? %>">
+          <div class="text-center">
+            <svg class="mx-auto h-12 w-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <p>Upload an image to get started</p>
+          </div>
+        </div>
+
+        <!-- Position rectangles will be rendered here by JavaScript -->
+      </div>
+    </div>
+
+    <!-- Inspector Panel (1/3 width) -->
+    <div class="col-span-1">
+      <h3 class="text-lg font-semibold mb-3">Positions</h3>
+
+      <!-- Position List -->
+      <div data-template-editor-target="positionsList" class="mb-4 space-y-2">
+        <!-- Rendered by JS -->
+      </div>
+
+      <button
+        type="button"
+        data-template-editor-target="addPositionButton"
+        data-action="click->template-editor#addPosition"
+        class="w-full px-4 py-2 bg-gray-200 text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-300 hover:border-gray-500 transition-colors mb-6 disabled:opacity-50 disabled:cursor-not-allowed">
+        + Add Position
+      </button>
+
+      <!-- Position Inspector (shown when selected) -->
+      <div
+        data-template-editor-target="inspector"
+        class="border border-gray-300 rounded-lg p-4 bg-white"
+        style="display: none;">
+
+        <h4 class="font-semibold mb-3">Position Details</h4>
+
+        <div class="mb-4">
+          <label class="block font-medium text-sm mb-1">Field</label>
+          <select
+            data-template-editor-target="fieldSelect"
+            data-action="change->template-editor#updateField"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <% Field.all.each do |field| %>
+              <option value="<%= field.id %>"><%= field.name %></option>
+            <% end %>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label class="block font-medium text-sm mb-1">Style (CSS)</label>
+          <textarea
+            data-template-editor-target="styleInput"
+            data-action="input->template-editor#updateStyle"
+            rows="4"
+            placeholder="color: #fff; border: 2px solid #ccc;"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+        </div>
+
+        <div class="mb-4 text-sm text-gray-600 bg-gray-50 p-3 rounded">
+          <div class="font-medium mb-2">Coordinates:</div>
+          <div class="grid grid-cols-2 gap-2 font-mono">
+            <div>L: <span data-template-editor-target="coordLeft">0.000</span></div>
+            <div>T: <span data-template-editor-target="coordTop">0.000</span></div>
+            <div>R: <span data-template-editor-target="coordRight">0.000</span></div>
+            <div>B: <span data-template-editor-target="coordBottom">0.000</span></div>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          data-action="click->template-editor#removePosition"
+          class="w-full px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+          Remove Position
+        </button>
+      </div>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :image, style: "display: block" %>
-    <%= form.file_field :image, class: "frm-file-input" %>
-  </div>
-
-  <table>
-    <thead>
-        <tr>
-            <th>Field</th>
-            <th>Top</th>
-            <th>Left</th>
-            <th>Bottom</th>
-            <th>Right</th>
-            <th>Style</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    <%= form.fields_for :positions do |position_fields| %>
-        <%= render "position_form", form: position_fields%>
-    <% end %>
-    <!-- Insert new positions here -->
-    <tr data-template-target="target"></tr>
-    </tbody>
-  </table>
-
-  <button type="button" class="btn" data-action="template#add">Add Position</button>
-
-  <div>
-    <%= form.submit class: "btn" %>
+  <!-- Form Actions -->
+  <div class="flex gap-3">
+    <%= form.submit "Save Template", class: "px-6 py-2 bg-blue-600 text-white border border-blue-600 rounded-lg hover:bg-blue-700 hover:border-blue-700 hover:shadow-md transition-colors" %>
+    <%= link_to "Cancel", templates_path, class: "px-6 py-2 bg-gray-200 text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-300 hover:border-gray-500 transition-colors" %>
   </div>
 <% end %>

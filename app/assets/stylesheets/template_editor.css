@@ -1,0 +1,125 @@
+/* Template Editor Canvas Styles */
+
+.position-rectangle {
+  position: absolute;
+  border: 2px solid #007BFF;
+  background: rgba(0, 123, 255, 0.1);
+  cursor: move;
+  transition: border-color 0.2s, background-color 0.2s;
+  box-sizing: border-box;
+}
+
+.position-rectangle:hover {
+  border-color: #0056B3;
+  background: rgba(0, 123, 255, 0.15);
+}
+
+.position-rectangle.selected {
+  border-color: #0056B3;
+  border-width: 3px;
+  background: rgba(0, 123, 255, 0.2);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+  z-index: 10;
+}
+
+/* Position Label */
+.position-label {
+  position: absolute;
+  top: -26px;
+  left: 0;
+  background: #007BFF;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+.position-label.label-below {
+  top: auto;
+  bottom: -26px;
+}
+
+.position-label.label-inside {
+  top: 4px;
+  left: 4px;
+  background: rgba(0, 123, 255, 0.9);
+}
+
+.position-rectangle.selected .position-label {
+  background: #0056B3;
+}
+
+/* Resize Handles */
+.resize-handle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: white;
+  border: 2px solid #007BFF;
+  border-radius: 50%;
+  box-sizing: border-box;
+  transition: transform 0.1s, background-color 0.2s;
+}
+
+.resize-handle:hover {
+  background: #CCE5FF;
+  transform: scale(1.2);
+}
+
+.resize-handle.nw {
+  top: -6px;
+  left: -6px;
+  cursor: nw-resize;
+}
+
+.resize-handle.ne {
+  top: -6px;
+  right: -6px;
+  cursor: ne-resize;
+}
+
+.resize-handle.sw {
+  bottom: -6px;
+  left: -6px;
+  cursor: sw-resize;
+}
+
+.resize-handle.se {
+  bottom: -6px;
+  right: -6px;
+  cursor: se-resize;
+}
+
+/* Position List Item */
+.position-list-item {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.position-list-item.selected > div {
+  background-color: #CCE5FF;
+  border-color: #007BFF;
+}
+
+.position-list-item:hover {
+  background-color: #F8F9FA;
+}
+
+/* Prevent text selection during drag */
+.position-rectangle,
+.resize-handle {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Canvas placeholder */
+.canvas-placeholder {
+  pointer-events: none;
+  user-select: none;
+}

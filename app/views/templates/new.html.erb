@@ -1,9 +1,16 @@
-<h1>New template</h1>
+<%= page_title "New Template" %>
 
-<%= render "form", template: @template %>
+<div class="max-w-7xl mx-auto">
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Create New Template</h1>
+    <p class="mt-1 text-sm text-gray-600">
+      Upload a background image and define content areas for your digital signage template.
+    </p>
+  </div>
 
-<br>
+  <%= render "form", template: @template %>
 
-<div>
-  <%= link_to "Back to templates", templates_path %>
+  <div class="mt-6">
+    <%= link_to "← Back to templates", templates_path, class: "text-blue-600 hover:text-blue-800" %>
+  </div>
 </div>

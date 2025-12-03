@@ -1,10 +1,18 @@
-<h1>Editing template</h1>
+<%= page_title "Edit Template" %>
 
-<%= render "form", template: @template %>
+<div class="max-w-7xl mx-auto">
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Edit Template</h1>
+    <p class="mt-1 text-sm text-gray-600">
+      Modify the template layout, positions, and styling.
+    </p>
+  </div>
 
-<br>
+  <%= render "form", template: @template %>
 
-<div>
-  <%= link_to "Show this template", @template %> |
-  <%= link_to "Back to templates", templates_path %>
+  <div class="mt-6 flex gap-4">
+    <%= link_to "← Back to template", @template, class: "text-blue-600 hover:text-blue-800" %>
+    <span class="text-gray-300">|</span>
+    <%= link_to "View all templates", templates_path, class: "text-blue-600 hover:text-blue-800" %>
+  </div>
 </div>
