@@ -14,7 +14,7 @@
       _destroy: false
     }
   }.to_json,
-  action: "submit->template-editor#submitForm"
+  action: "submit->template-editor#submitForm template-importer:imported->template-editor#handleImport"
 }) do |form| %>
 
   <% if template.errors.any? %>
@@ -25,6 +25,33 @@
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
+    </div>
+  <% end %>
+
+  <!-- Import Template -->
+  <% if template.new_record? %>
+    <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg" data-controller="template-importer">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="font-semibold text-blue-900">Import Template</h3>
+          <p class="text-sm text-blue-700">Upload a Concerto 1/2 template ZIP file to pre-populate this form</p>
+        </div>
+        <div>
+          <input
+            type="file"
+            accept=".zip"
+            data-template-importer-target="fileInput"
+            data-action="change->template-importer#importZip"
+            class="hidden"
+            id="zip-upload">
+          <label
+            for="zip-upload"
+            data-template-importer-target="importButton"
+            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer inline-block transition-colors">
+            Choose ZIP File
+          </label>
+        </div>
+      </div>
     </div>
   <% end %>
 
@@ -130,7 +157,7 @@
             data-action="change->template-editor#updateField"
             class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
             <% Field.all.each do |field| %>
-              <option value="<%= field.id %>"><%= field.name %></option>
+              <option value="<%= field.id %>" data-alt-names="<%= field.alt_names.to_json %>"><%= field.name %></option>
             <% end %>
           </select>
         </div>
