@@ -13,6 +13,7 @@ class RssFeedsTest < ApplicationSystemTestCase
 
     fill_in "Name", with: @rss_feed.name
     fill_in "Description", with: @rss_feed.description
+    select @rss_feed.group.name, from: "Managers"
     fill_in "URL", with: @rss_feed.url
     click_on "Save RSS Feed"
 
@@ -27,6 +28,7 @@ class RssFeedsTest < ApplicationSystemTestCase
 
     fill_in "Name", with: @rss_feed.name
     fill_in "Description", with: @rss_feed.description
+    select @rss_feed.group.name, from: "Managers"
     fill_in "URL", with: @rss_feed.url
     click_on "Save RSS Feed"
 

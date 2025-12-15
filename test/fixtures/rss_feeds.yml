@@ -5,9 +5,18 @@ yahoo_rssfeed:
   name: Yahoo News RSS
   description: MyText
   config: {'url': 'https://news.yahoo.com/rss/us', 'formatter': 'headlines'}
+  group: system_administrators
 
 nytimes_rssfeed:
   type: RssFeed
   name: NYTimes RSS
   description: MyText
   config: {'url': 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml', 'formatter': 'details'}
+  group: system_administrators
+
+test_rssfeed:
+  type: RssFeed
+  name: Test RSS Feed
+  description: RSS feed for testing group permissions
+  config: {'url': 'https://news.yahoo.com/rss/us', 'formatter': 'headlines'}
+  group: feed_one_owners

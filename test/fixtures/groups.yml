@@ -23,3 +23,11 @@ screen_one_owners:
 screen_two_owners:
   name: Screen Two Owners
   description: Group owning Screen 2
+
+feed_one_owners:
+  name: Feed One Owners
+  description: Group owning Feed One
+
+feed_two_owners:
+  name: Feed Two Owners
+  description: Group owning Feed Two

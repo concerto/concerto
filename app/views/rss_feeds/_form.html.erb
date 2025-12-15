@@ -47,6 +47,26 @@
           <p class="text-xs text-gray-500 mt-1">Description of what this feed contains</p>
         </div>
 
+        <!-- Group Selection -->
+        <div>
+          <%= form.label :group_id, "Managers", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <% can_edit_group = policy(rss_feed).can_edit_group? %>
+          <% select_classes = [ "block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm text-sm" ] %>
+          <% select_classes << (can_edit_group ? "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" : "bg-gray-100 text-gray-500 cursor-not-allowed") %>
+          <%= form.collection_select :group_id, @groups, :id, :name,
+              { prompt: "Select a group" },
+              {
+                class: select_classes.join(" "),
+                disabled: !can_edit_group
+              } %>
+          <% unless can_edit_group %>
+            <%= form.hidden_field :group_id %>
+          <% end %>
+          <p class="text-xs text-gray-500 mt-1">
+            <%= can_edit_group ? "Choose which group manages this feed" : "You don't have permission to change the group for this feed" %>
+          </p>
+        </div>
+
         <!-- RSS URL -->
         <div>
           <%= form.label :url, "RSS Feed URL", class: "block text-sm font-medium text-gray-700 mb-2" %>

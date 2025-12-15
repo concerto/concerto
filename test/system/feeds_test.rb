@@ -29,8 +29,9 @@ class FeedsTest < ApplicationSystemTestCase
     visit feeds_url
     click_on "New Feed"
 
-    fill_in "Description", with: @feed.description
     fill_in "Name", with: @feed.name
+    fill_in "Description", with: @feed.description
+    select @feed.group.name, from: "Managers"
     click_on "Save Feed"
 
     assert_text "Feed was successfully created"
@@ -42,8 +43,9 @@ class FeedsTest < ApplicationSystemTestCase
     visit feed_url(@feed)
     click_on "Edit Feed", match: :first
 
-    fill_in "Description", with: @feed.description
     fill_in "Name", with: @feed.name
+    fill_in "Description", with: @feed.description
+    select @feed.group.name, from: "Managers"
     click_on "Save Feed"
 
     assert_text "Feed was successfully updated"

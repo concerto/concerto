@@ -8,25 +8,29 @@ class RefreshRssFeedsJobTest < ActiveJob::TestCase
     # Create test feeds with different scenarios
     @feed_due_for_refresh = RssFeed.create!(
       name: "Due for refresh",
-      url: "https://news.yahoo.com/rss/us"
+      url: "https://news.yahoo.com/rss/us",
+      group: groups(:system_administrators)
     )
     @feed_due_for_refresh.last_refreshed = 2.hours.ago
     @feed_due_for_refresh.refresh_interval = 1.hour
     @feed_due_for_refresh.save!
 
     @feed_not_due = RssFeed.create!(
-      name: "Not due yet"
+      name: "Not due yet",
+      group: groups(:system_administrators)
     )
     @feed_not_due.last_refreshed = 30.minutes.ago
     @feed_not_due.refresh_interval = 1.hour
     @feed_not_due.save!
 
     @feed_never_refreshed = RssFeed.create!(
-      name: "Never refreshed"
+      name: "Never refreshed",
+      group: groups(:system_administrators)
     )
 
     @feed_custom_interval = RssFeed.create!(
-      name: "Custom interval"
+      name: "Custom interval",
+      group: groups(:system_administrators)
     )
     @feed_custom_interval.last_refreshed = 3.hours.ago
     @feed_custom_interval.refresh_interval = 4.hours
@@ -93,6 +97,7 @@ class RefreshRssFeedsJobTest < ActiveJob::TestCase
     # Create a feed with nil refresh_interval to test the default
     feed_nil_interval = RssFeed.create!(
       name: "Nil interval",
+      group: groups(:system_administrators),
       last_refreshed: 2.hours.ago,
       refresh_interval: nil
     )

@@ -6,7 +6,7 @@
     <p class="text-body text-neutral-700 mt-1">Organize content into feeds for your digital displays</p>
   </div>
   <div class="flex space-x-3">
-    <% if policy(Feed).create? %>
+    <% if policy(Feed.new).new? %>
       <%= link_to new_feed_path, class: "btn-primary btn-md whitespace-nowrap" do %>
         <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
         New Feed

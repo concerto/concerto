@@ -1,14 +1,13 @@
 <%= page_title "#{@rss_feed.name}" %>
 
 <div id="<%= dom_id @rss_feed %>">
-  <!-- RSS Feed Configuration Card -->
+  <!-- RSS Feed Details Card -->
   <div class="card mb-6">
     <div class="card-body">
       <div class="border-b border-neutral-200 pb-4 mb-6">
         <div class="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
           <div>
             <h1 class="text-h2 text-neutral-900"><%= @rss_feed.name %></h1>
-            <p class="text-body text-neutral-700 mt-1">RSS Feed Configuration</p>
           </div>
           <div class="flex gap-3">
             <% if policy(@rss_feed).refresh? %>
@@ -27,6 +26,13 @@
           <dt class="text-body font-medium text-neutral-700">Description</dt>
           <dd class="text-body text-neutral-900 sm:col-span-2">
             <%= @rss_feed.description.present? ? @rss_feed.description : "No description provided" %>
+          </dd>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <dt class="text-body font-medium text-neutral-700">Managers</dt>
+          <dd class="text-body text-neutral-900 sm:col-span-2">
+            <%= link_to @rss_feed.group.name, @rss_feed.group %>
           </dd>
         </div>
 

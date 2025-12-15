@@ -36,7 +36,7 @@ class RssFeedTest < ActiveSupport::TestCase
   end
 
   test "creates new content items when there are none" do
-    feed = RssFeed.create()
+    feed = RssFeed.create(group: groups(:system_administrators))
 
     assert_equal feed.content.length, 0
 
@@ -55,7 +55,7 @@ class RssFeedTest < ActiveSupport::TestCase
   end
 
   test "updates existing and expires unneeded content items" do
-    feed = RssFeed.create()
+    feed = RssFeed.create(group: groups(:system_administrators))
 
     original_items = [ "Item 1", "Item 2" ]
     feed.stub :new_items, original_items do
@@ -105,7 +105,7 @@ class RssFeedTest < ActiveSupport::TestCase
   end
 
   test "refresh creates used and unused content correctly" do
-    feed = RssFeed.create(name: "Test Feed")
+    feed = RssFeed.create(name: "Test Feed", group: groups(:system_administrators))
 
     # Create content then refresh with fewer items to create unused content
     feed.stub :new_items, [ "Item 1", "Item 2", "Item 3" ] do
@@ -129,7 +129,7 @@ class RssFeedTest < ActiveSupport::TestCase
   end
 
   test "cleanup_unused_content deletes only unused content" do
-    feed = RssFeed.create(name: "Test Feed")
+    feed = RssFeed.create(name: "Test Feed", group: groups(:system_administrators))
 
     # Create content then refresh to create unused content
     feed.stub :new_items, [ "Item 1", "Item 2", "Item 3" ] do
@@ -154,7 +154,7 @@ class RssFeedTest < ActiveSupport::TestCase
   end
 
   test "destroys all associated content when RSS feed is deleted" do
-    feed = RssFeed.create(name: "Test Feed")
+    feed = RssFeed.create(name: "Test Feed", group: groups(:system_administrators))
 
     # Create some content for the feed
     feed.stub :new_items, [ "Item 1", "Item 2", "Item 3" ] do
@@ -199,7 +199,7 @@ class RssFeedTest < ActiveSupport::TestCase
   end
 
   test "ticker format creates plaintext RichText content" do
-    feed = RssFeed.create(name: "Ticker Feed")
+    feed = RssFeed.create(name: "Ticker Feed", group: groups(:system_administrators))
     feed.formatter = "ticker"
 
     mock_items = [ "Ticker Item 1", "Ticker Item 2" ]

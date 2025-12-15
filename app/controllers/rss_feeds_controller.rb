@@ -1,5 +1,7 @@
 class RssFeedsController < ApplicationController
   before_action :set_rss_feed, only: %i[ show edit update destroy refresh cleanup ]
+  before_action :set_form_options, only: %i[ new edit create update ]
+
   after_action :verify_authorized
 
   # GET /rss_feeds/1 or /rss_feeds/1.json
@@ -21,11 +23,11 @@ class RssFeedsController < ApplicationController
   # POST /rss_feeds or /rss_feeds.json
   def create
     @rss_feed = RssFeed.new(rss_feed_params)
+
     authorize @rss_feed
 
     respond_to do |format|
       if @rss_feed.save
-        format.html { redirect_to rss_feed_url(@rss_feed), notice: "RSS Feed was successfully created." }
         format.html { redirect_to rss_feed_url(@rss_feed), notice: "RSS Feed was successfully created." }
         format.json { render :show, status: :created, location: @rss_feed }
       else
@@ -37,9 +39,12 @@ class RssFeedsController < ApplicationController
 
   # PATCH/PUT /rss_feeds/1 or /rss_feeds/1.json
   def update
+    @rss_feed.assign_attributes(rss_feed_params)
+
     authorize @rss_feed
+
     respond_to do |format|
-      if @rss_feed.update(rss_feed_params)
+      if @rss_feed.save
         format.html { redirect_to rss_feed_url(@rss_feed), notice: "RSS Feed was successfully updated." }
         format.json { render :show, status: :ok, location: @rss_feed }
       else
@@ -76,6 +81,22 @@ class RssFeedsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_rss_feed
       @rss_feed = RssFeed.find(params[:id])
+    end
+
+    # Sets options for form selects.
+    def set_form_options
+      if current_user.system_admin?
+        @groups = Group.all
+      else
+        # In an edit context, ensure the feed's current group is in the list for display,
+        # even if the user is not an admin of it. They won't be able to *switch* to it,
+        # but they should be able to see it.
+        @groups = if @rss_feed&.persisted?
+          (current_user.admin_groups + [ @rss_feed.group ]).compact.uniq
+        else
+          current_user.admin_groups
+        end
+      end
     end
 
     # Only allow a list of trusted parameters through.

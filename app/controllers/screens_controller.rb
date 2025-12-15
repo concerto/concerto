@@ -85,13 +85,17 @@ class ScreensController < ApplicationController
     # Sets options for form selects.
     def set_form_options
       @templates = Template.all.with_attached_image
-      # In an edit context, ensure the screen's current group is in the list for display,
-      # even if the user is not an admin of it. They won't be able to *switch* to it,
-      # but they should be able to see it.
-      @groups = if @screen&.persisted?
-        (current_user.admin_groups + [ @screen.group ]).compact.uniq
+      if current_user.system_admin?
+        @groups = Group.all
       else
-        current_user.admin_groups
+        # In an edit context, ensure the screen's current group is in the list for display,
+        # even if the user is not an admin of it. They won't be able to *switch* to it,
+        # but they should be able to see it.
+        @groups = if @screen&.persisted?
+          (current_user.admin_groups + [ @screen.group ]).compact.uniq
+        else
+          current_user.admin_groups
+        end
       end
     end
 

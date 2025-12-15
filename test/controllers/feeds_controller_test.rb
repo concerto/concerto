@@ -20,7 +20,7 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
   test "should create feed with system admin" do
     sign_in @system_admin
     assert_difference("Feed.count") do
-      post feeds_url, params: { feed: { description: @feed.description, name: @feed.name } }
+      post feeds_url, params: { feed: { description: @feed.description, name: @feed.name, group_id: @feed.group_id } }
     end
 
     assert_redirected_to feed_url(Feed.last)
@@ -39,7 +39,7 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update feed with system admin" do
     sign_in @system_admin
-    patch feed_url(@feed), params: { feed: { description: @feed.description, name: @feed.name } }
+    patch feed_url(@feed), params: { feed: { description: @feed.description, name: @feed.name, group_id: @feed.group_id } }
     assert_redirected_to feed_url(@feed)
   end
 
@@ -56,7 +56,7 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
   test "should allow group admin to create feed" do
     sign_in users(:admin)  # admin is a group admin
     assert_difference("Feed.count") do
-      post feeds_url, params: { feed: { description: "New feed", name: "Test Feed" } }
+      post feeds_url, params: { feed: { description: "New feed", name: "Test Feed", group_id: groups(:moderators).id } }
     end
     assert_redirected_to feed_url(Feed.last)
   end
@@ -64,7 +64,7 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
   test "should not allow non-group-admin to create feed" do
     sign_in users(:non_member)  # not a group admin
     assert_no_difference("Feed.count") do
-      post feeds_url, params: { feed: { description: "New feed", name: "Test Feed" } }
+      post feeds_url, params: { feed: { description: "New feed", name: "Test Feed", group_id: groups(:moderators).id } }
     end
     assert_redirected_to root_url
     assert_equal "You are not authorized to perform this action.", flash[:alert]
@@ -78,8 +78,24 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Updated by system admin", @feed.name
   end
 
-  test "should not allow non-system-admin to update feed" do
-    sign_in users(:admin)  # even group admin can't update (limitation until #511)
+  test "should allow group admin to update feed" do
+    sign_in users(:admin)  # admin is admin of feed_one_owners
+    patch feed_url(@feed), params: { feed: { name: "Updated by group admin" } }
+    assert_redirected_to feed_url(@feed)
+    @feed.reload
+    assert_equal "Updated by group admin", @feed.name
+  end
+
+  test "should allow group member to update feed" do
+    sign_in users(:regular)  # regular is member of feed_one_owners
+    patch feed_url(@feed), params: { feed: { name: "Updated by group member" } }
+    assert_redirected_to feed_url(@feed)
+    @feed.reload
+    assert_equal "Updated by group member", @feed.name
+  end
+
+  test "should not allow non-group member to update feed" do
+    sign_in users(:non_member)  # non_member is not in feed_one_owners
     patch feed_url(@feed), params: { feed: { name: "Unauthorized update" } }
     assert_redirected_to root_url
     assert_equal "You are not authorized to perform this action.", flash[:alert]
@@ -95,8 +111,25 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to feeds_url
   end
 
-  test "should not allow non-system-admin to destroy feed" do
-    sign_in users(:admin)  # even group admin can't destroy (limitation until #511)
+  test "should allow group admin to destroy feed" do
+    sign_in users(:admin)  # admin is admin of feed_one_owners
+    assert_difference("Feed.count", -1) do
+      delete feed_url(@feed)
+    end
+    assert_redirected_to feeds_url
+  end
+
+  test "should not allow group member to destroy feed" do
+    sign_in users(:regular)  # regular is only a member, not admin
+    assert_no_difference("Feed.count") do
+      delete feed_url(@feed)
+    end
+    assert_redirected_to root_url
+    assert_equal "You are not authorized to perform this action.", flash[:alert]
+  end
+
+  test "should not allow non-group member to destroy feed" do
+    sign_in users(:non_member)  # non_member is not in feed_one_owners
     assert_no_difference("Feed.count") do
       delete feed_url(@feed)
     end

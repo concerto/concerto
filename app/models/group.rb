@@ -8,6 +8,7 @@ class Group < ApplicationRecord
 
   # Models that groups own or manage.
   has_many :screens, dependent: :destroy
+  has_many :feeds, dependent: :destroy
 
   validates :name, presence: true, uniqueness: true
 

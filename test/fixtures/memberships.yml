@@ -49,3 +49,18 @@ admin_screen_two_owners:
   user: admin
   group: screen_two_owners
   role: member
+
+admin_feed_one_owners:
+  user: admin
+  group: feed_one_owners
+  role: admin
+
+regular_feed_one_owners:
+  user: regular
+  group: feed_one_owners
+  role: member
+
+admin_feed_two_owners:
+  user: admin
+  group: feed_two_owners
+  role: admin

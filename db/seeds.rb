@@ -13,7 +13,9 @@ Group.find_or_create_by!(name: Group::SYSTEM_ADMIN_GROUP_NAME, description: "Sys
 
 system_user = User.find_or_create_by!(is_system_user: true, first_name: "Concerto", last_name: "System User")
 
-general_feed = Feed.find_or_create_by!(name: "General")
+
+demo_feed_group = Group.find_or_create_by!(name: "Demo Feed Owners", description: "Managers of the Demo Feeds.")
+general_feed = Feed.find_or_create_by!(name: "General", group: demo_feed_group)
 
 plain_ticker = RichText.find_or_initialize_by(name: "Welcome Ticker", text: "Welcome to Concerto!", user: system_user)
 if plain_ticker.new_record?
@@ -43,7 +45,7 @@ if graphic2.new_record?
     graphic2.save!
 end
 
-rss_feed = RssFeed.find_or_initialize_by(name: "Yahoo News", description: "The latest news and headlines from Yahoo! News' RSS feed.")
+rss_feed = RssFeed.find_or_initialize_by(name: "Yahoo News", description: "The latest news and headlines from Yahoo! News' RSS feed.", group: demo_feed_group)
 if rss_feed.new_record?
     rss_feed.url = "http://news.yahoo.com/rss"
     rss_feed.save!
@@ -51,7 +53,7 @@ if rss_feed.new_record?
     rss_feed.refresh
 end
 
-landscape_feed = Feed.find_or_create_by!(name: "Landscapes")
+landscape_feed = Feed.find_or_create_by!(name: "Landscapes", group: demo_feed_group)
 
 (1..6).each do |i|
   landscape = Graphic.find_or_initialize_by(name: "Landscape #{i}", duration: 10 + 2*i, user: system_user)

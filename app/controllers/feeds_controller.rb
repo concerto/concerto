@@ -1,5 +1,7 @@
 class FeedsController < ApplicationController
   before_action :set_feed, only: %i[ show edit update destroy ]
+  before_action :set_form_options, only: %i[ new edit create update ]
+
   after_action :verify_authorized, except: :index
   after_action :verify_policy_scoped, only: :index
 
@@ -43,10 +45,12 @@ class FeedsController < ApplicationController
 
   # PATCH/PUT /feeds/1 or /feeds/1.json
   def update
+    @feed.assign_attributes(feed_params)
+
     authorize @feed
 
     respond_to do |format|
-      if @feed.update(feed_params)
+      if @feed.save
         format.html { redirect_to feed_url(@feed), notice: "Feed was successfully updated." }
         format.json { render :show, status: :ok, location: @feed }
       else
@@ -72,6 +76,22 @@ class FeedsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_feed
       @feed = Feed.find(params[:id])
+    end
+
+    # Sets options for form selects.
+    def set_form_options
+      if current_user.system_admin?
+        @groups = Group.all
+      else
+        # In an edit context, ensure the feed's current group is in the list for display,
+        # even if the user is not an admin of it. They won't be able to *switch* to it,
+        # but they should be able to see it.
+        @groups = if @feed&.persisted?
+          (current_user.admin_groups + [ @feed.group ]).compact.uniq
+        else
+          current_user.admin_groups
+        end
+      end
     end
 
     # Only allow a list of trusted parameters through.

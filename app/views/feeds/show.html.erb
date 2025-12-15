@@ -4,19 +4,38 @@
   <!-- Feed Header -->
   <div class="card mb-6">
     <div class="card-body">
-      <div class="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
-        <div>
-          <h1 class="text-h2 text-neutral-900"><%= @feed.name %></h1>
-          <% if @feed.description.present? %>
-            <p class="text-body text-neutral-700 mt-1"><%= @feed.description %></p>
-          <% end %>
-        </div>
-        <div class="flex gap-3">
-          <% if policy(@feed).edit? %>
-            <%= link_to "Edit Feed", edit_feed_path(@feed), class: "btn btn-primary" %>
-          <% end %>
+      <div class="border-b border-neutral-200 pb-4 mb-6">
+        <div class="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+          <div>
+            <h1 class="text-h2 text-neutral-900"><%= @feed.name %></h1>
+          </div>
+          <div class="flex gap-3">
+            <% if policy(@feed).edit? %>
+              <%= link_to "Edit Feed", edit_feed_path(@feed), class: "btn btn-primary" %>
+            <% end %>
+          </div>
         </div>
       </div>
+
+      <dl class="space-y-6">
+        <!-- Description -->
+        <% if @feed.description.present? %>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <dt class="text-body font-medium text-neutral-700">Description</dt>
+            <dd class="text-body text-neutral-900 sm:col-span-2">
+              <%= @feed.description %>
+            </dd>
+          </div>
+        <% end %>
+
+        <!-- Managers -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <dt class="text-body font-medium text-neutral-700">Managers</dt>
+          <dd class="text-body text-neutral-900 sm:col-span-2">
+            <%= link_to @feed.group.name, @feed.group %>
+          </dd>
+        </div>
+      </dl>
     </div>
   </div>
 
