@@ -1,6 +1,19 @@
 <%= page_title "Templates" %>
 
-<h1 class="text-xl">All Templates</h1>
+<div class="flex items-center justify-between mb-6">
+  <div>
+    <h1 class="text-h2 text-neutral-900">All Templates</h1>
+    <p class="text-body text-neutral-700 mt-1">Manage screen templates</p>
+  </div>
+  <div class="flex space-x-3">
+    <% if policy(::Template.new).new? %>
+      <%= link_to new_template_path, class: "btn-primary btn-md whitespace-nowrap" do %>
+        <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
+        New Template
+      <% end %>
+    <% end %>
+  </div>
+</div>
 
 <div id="templates" class="flex flex-wrap gap-4 my-4">
   <% @templates.each do |template| %>
@@ -18,7 +31,3 @@
     <% end %>
   <% end %>
 </div>
-
-<% if policy(::Template.new).new? %>
-  <%= link_to "New template", new_template_path, class: "btn" %>
-<% end %>

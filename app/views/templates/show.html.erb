@@ -1,13 +1,52 @@
+<%= page_title "#{@template.name}" %>
 
-<%= render @template %>
+<div id="<%= dom_id @template %>">
+  <div class="card mb-6">
+    <div class="card-body">
+      <!-- Header -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center mb-6">
+        <div>
+          <h1 class="text-h2 text-neutral-900"><%= @template.name %></h1>
+          <% if @template.author.present? %>
+            <p class="text-body text-neutral-700 mt-1">by <%= @template.author %></p>
+          <% end %>
+        </div>
+        <div class="flex gap-3">
+          <% if policy(@template).edit? %>
+            <%= link_to "Edit this template", edit_template_path(@template), class: "btn btn-primary" %>
+          <% end %>
+        </div>
+      </div>
 
-<div>
-  <% if policy(@template).edit? %>
-    <%= link_to "Edit this template", edit_template_path(@template) %> |
-  <% end %>
-  <%= link_to "Back to templates", templates_path %>
+      <!-- Preview -->
+      <% if @template.image.attached? %>
+        <div class="border-t border-neutral-200 pt-6">
+          <%= render partial: "templates/preview", locals: {template: @template} %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 
-  <% if policy(@template).destroy? %>
-    <%= button_to "Delete this template", @template, method: :delete %>
-  <% end %>
+  <!-- Actions -->
+  <div class="card">
+    <div class="card-body">
+      <div class="flex flex-col sm:flex-row gap-6 justify-between items-start sm:items-center">
+        <div class="flex flex-col sm:flex-row gap-4">
+          <%= link_to "Back to Templates", templates_path, class: "btn btn-secondary" %>
+        </div>
+
+        <% if policy(@template).destroy? %>
+          <div class="flex-shrink-0">
+            <%= button_to "Delete this template", template_path(@template),
+                method: :delete,
+                class: "btn btn-danger",
+                form_class: "inline-block",
+                form: { data: {
+                  turbo_confirm: "Are you sure you want to delete this template? This action cannot be undone."
+                } } %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

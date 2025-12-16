@@ -14,7 +14,7 @@ class TemplatesTest < ApplicationSystemTestCase
   test "should create template" do
     sign_in users(:system_admin)
     visit templates_url
-    click_on "New template"
+    click_on "New Template"
 
     fill_in "Author", with: @template.author
     fill_in "Name", with: @template.name
@@ -140,7 +140,9 @@ class TemplatesTest < ApplicationSystemTestCase
   test "should destroy Template" do
     sign_in users(:system_admin)
     visit template_url(templates(:unused))
-    click_on "Delete this template", match: :first
+    accept_confirm do
+      click_on "Delete this template", match: :first
+    end
 
     assert_text "Template was successfully deleted"
   end
