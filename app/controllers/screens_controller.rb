@@ -83,6 +83,10 @@ class ScreensController < ApplicationController
     end
 
     # Sets options for form selects.
+    #
+    # NOTE: This method's group logic is duplicated in FeedsController#set_form_options.
+    # If you modify the group selection logic here, update FeedsController to match.
+    # (Not extracted to a concern to keep controller logic simple and conventional.)
     def set_form_options
       @templates = Template.all.with_attached_image
       if current_user.system_admin?
