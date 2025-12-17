@@ -102,4 +102,81 @@ class UserTest < ActiveSupport::TestCase
 
     assert_not user_without_group.system_admin?
   end
+
+  test "first human user is automatically added to system administrators group as admin" do
+    # Clear all non-system users to ensure we're creating the first one
+    User.where(is_system_user: [ nil, false ]).destroy_all
+
+    first_user = User.create!(
+      first_name: "First",
+      last_name: "User",
+      email: "first@example.com",
+      password: "password123"
+    )
+
+    assert first_user.system_admin?, "First user should be a system administrator"
+
+    system_admins_group = Group.find_by(name: Group::SYSTEM_ADMIN_GROUP_NAME)
+    membership = Membership.find_by(user: first_user, group: system_admins_group)
+
+    assert_not_nil membership, "First user should have a membership in system administrators group"
+    assert_equal "admin", membership.role, "First user should be an admin, not just a member"
+  end
+
+  test "second human user is not automatically added to system administrators group" do
+    # Clear all non-system users and create first user
+    User.where(is_system_user: [ nil, false ]).destroy_all
+
+    User.create!(
+      first_name: "First",
+      last_name: "User",
+      email: "first@example.com",
+      password: "password123"
+    )
+
+    # Create second user
+    second_user = User.create!(
+      first_name: "Second",
+      last_name: "User",
+      email: "second@example.com",
+      password: "password123"
+    )
+
+    assert_not second_user.system_admin?, "Second user should not be a system administrator"
+  end
+
+  test "system user is not added to system administrators group even if first" do
+    # Clear all users to ensure we're creating the very first one
+    User.destroy_all
+
+    system_user = User.create!(
+      first_name: "System",
+      last_name: "User",
+      is_system_user: true
+    )
+
+    assert_not system_user.system_admin?, "System users should not be automatically made system administrators"
+  end
+
+  test "first human user after system users is added to system administrators group" do
+    # Clear all users
+    User.destroy_all
+
+    # Create a system user first
+    User.create!(
+      first_name: "System",
+      last_name: "User",
+      is_system_user: true
+    )
+
+    # Create first human user
+    first_human = User.create!(
+      first_name: "First",
+      last_name: "Human",
+      email: "firsthuman@example.com",
+      password: "password123"
+    )
+
+    assert first_human.system_admin?, "First human user should be a system administrator even if system users exist"
+  end
 end
