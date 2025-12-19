@@ -120,6 +120,7 @@ onMounted(() => {
 <style scoped>
   .field {
     position: absolute;
+    box-sizing: border-box;
   }
 
   .dev-border {
