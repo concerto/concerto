@@ -1,5 +1,8 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onBeforeUnmount, ref } from 'vue';
+
+const VIMEO_API_URL = 'https://player.vimeo.com/api/player.js';
+const API_LOAD_TIMEOUT_MS = 30000; // 30 seconds
 
 const props = defineProps({
   content: { type: Object, required: true }
@@ -16,6 +19,7 @@ const videoUrl = computed(() => {
 });
 
 const playerRef = ref(null);
+let player = null;
 
 const hasDuration = computed(() => {
   return props.content.duration && props.content.duration > 0;
@@ -27,9 +31,29 @@ function isVimeoAPILoaded() {
 }
 
 async function loadVimeoAPI() {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
+    // Check if script is already in the DOM
+    const existingScript = document.querySelector(`script[src="${VIMEO_API_URL}"]`);
+    if (existingScript) {
+      // Script exists but API might still be loading
+      // Wait for it to be ready with timeout
+      const maxAttempts = API_LOAD_TIMEOUT_MS / 100;
+      let attempts = 0;
+      const checkReady = setInterval(() => {
+        if (isVimeoAPILoaded()) {
+          clearInterval(checkReady);
+          resolve();
+        } else if (attempts++ >= maxAttempts) {
+          clearInterval(checkReady);
+          console.error('Timed out waiting for Vimeo API to load.');
+          reject(new Error('Vimeo API load timeout'));
+        }
+      }, 100);
+      return;
+    }
+
     const script = document.createElement('script');
-    script.src = 'https://player.vimeo.com/api/player.js';
+    script.src = VIMEO_API_URL;
     script.onload = () => {
       console.debug('Vimeo Iframe API loaded');
       resolve();
@@ -43,7 +67,7 @@ onMounted(async () => {
     await loadVimeoAPI();
   }
 
-  const player = new Vimeo.Player(playerRef.value);
+  player = new Vimeo.Player(playerRef.value);
 
   player.on('play', () => {
     console.debug('Vimeo video is playing');
@@ -64,6 +88,13 @@ onMounted(async () => {
       emit('next', {});
     }
   });
+})
+
+onBeforeUnmount(() => {
+  if (player && typeof player.destroy === 'function') {
+    player.destroy();
+    player = null;
+  }
 });
 </script>
 
