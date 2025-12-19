@@ -12,6 +12,9 @@ const defaultDuration = 10;
 // This is helpful when debugging when you need to "freeze" the frontend.
 const disableTimer = false;
 
+// Show debug border only in development mode
+const isDevelopment = import.meta.env.DEV;
+
 const contentTypeMap = new Map([
   ["Graphic", ConcertoGraphic],
   ["RichText", ConcertoRichText],
@@ -98,6 +101,7 @@ onMounted(() => {
 <template>
   <div
     class="field"
+    :class="{ 'dev-border': isDevelopment }"
     :style="fieldStyle"
   >
     <Transition>
@@ -116,6 +120,9 @@ onMounted(() => {
 <style scoped>
   .field {
     position: absolute;
+  }
+
+  .dev-border {
     border: 1px dashed yellow;
   }
 
