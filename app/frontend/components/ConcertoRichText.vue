@@ -25,38 +25,48 @@ const container = ref();
 const child = ref();
 
 async function resizeText() {
-  let containerElement = container.value;
-  let contentElement = child.value;
+  const containerElement = container.value;
+  const contentElement = child.value;
 
-  let displayHeight = contentElement.scrollHeight;
-  let fieldHeight = containerElement.offsetHeight;
-  let fontScale = 100;
+  const fieldHeight = containerElement.offsetHeight;
+  const initialHeight = contentElement.scrollHeight;
 
-  if (displayHeight === 0 || fieldHeight === 0) {
+  if (initialHeight === 0 || fieldHeight === 0) {
     // Nothing to do.
     console.error('Cannot resize text: zero height detected.');
     return;
   }
 
-  console.debug(`Field height: ${fieldHeight}, Display height: ${displayHeight}`);
+  console.debug(`Field height: ${fieldHeight}, Initial content height: ${initialHeight}`);
 
-  // First expand the content to fill the height of the div.
-  while (displayHeight < fieldHeight) {
-    container.value.style.fontSize = `${fontScale}%`;
-    fontScale++;
+  // Use binary search to find optimal font size
+  // This reduces layout reflows from O(n) to O(log n)
+  const MIN_FONT_SIZE = 1;
+  const MAX_FONT_SIZE = 2000; // Maximum font size for large TV displays
+  let minSize = MIN_FONT_SIZE;
+  let maxSize = MAX_FONT_SIZE;
+  let bestSize = MIN_FONT_SIZE;
 
-    displayHeight = contentElement.scrollHeight;
+  // Binary search for the largest font size that fits
+  while (minSize <= maxSize) {
+    const midSize = Math.floor((minSize + maxSize) / 2);
+
+    // Set the font size and measure once
+    containerElement.style.fontSize = `${midSize}%`;
+    const currentHeight = containerElement.scrollHeight;
+
+    if (currentHeight <= fieldHeight) {
+      // This size fits, try larger
+      bestSize = midSize;
+      minSize = midSize + 1;
+    } else {
+      // Too large, try smaller
+      maxSize = midSize - 1;
+    }
   }
 
-  // Then shrink it to fit.
-  // Shrinking works better using the container scrollHeight instead of the content.
-  displayHeight = containerElement.scrollHeight;
-  while (displayHeight > fieldHeight && fontScale > 1) {
-    container.value.style.fontSize = `${fontScale}%`;
-    fontScale--;
-
-    displayHeight = containerElement.scrollHeight;
-  }
+  // Apply the best size found
+  containerElement.style.fontSize = `${bestSize}%`;
 }
 
 // lifecycle hooks
