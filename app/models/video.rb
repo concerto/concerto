@@ -16,7 +16,7 @@ class Video < Content
   def should_render_in?(position)
     # I don't really know what these numbers should be, there
     # is room for tuning.
-    (0.25 < position.aspect_ratio && position.aspect_ratio < 1)
+    (0.25 < position.aspect_ratio && position.aspect_ratio <= 1)
   end
 
   def video_id
