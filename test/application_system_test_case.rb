@@ -1,6 +1,11 @@
 require "test_helper"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  # Disable parallel execution for system tests to avoid ActiveStorage race conditions.
+  # System tests run a separate server process that can conflict with parallel workers
+  # cleaning up shared fixture files in tmp/storage_fixtures.
+  parallelize(workers: 1)
+
   if ENV["CAPYBARA_SERVER_PORT"]
     served_by host: "rails-app", port: ENV["CAPYBARA_SERVER_PORT"]
 
