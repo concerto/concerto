@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, onBeforeUnmount, ref, shallowRef } from 'vue'
 
-import ConcertoGraphic from './ConcertoGraphic.vue';
+import ConcertoGraphic, { preload as preloadGraphic } from './ConcertoGraphic.vue';
 import ConcertoRichText from './ConcertoRichText.vue';
 import ConcertoVideo from './ConcertoVideo.vue';
 
@@ -24,6 +24,15 @@ const contentTypeMap = new Map([
   ["Graphic", ConcertoGraphic],
   ["RichText", ConcertoRichText],
   ["Video", ConcertoVideo]
+]);
+
+/**
+ * Map of content types to their preload functions.
+ * Components that support preloading should export a preload(content) function.
+ * The preload function should return a Promise that resolves when preloading completes.
+ */
+const preloadFunctionMap = new Map([
+  ["Graphic", preloadGraphic],
 ]);
 
 const props = defineProps({
@@ -80,6 +89,37 @@ async function loadContent(retryCount = 0) {
   }
 }
 
+/**
+ * Preloads the next content in the queue if it supports preloading.
+ * Only checks the immediate next item - if it doesn't support preloading,
+ * we'll try again when the next content comes up.
+ * This is non-blocking and failures don't affect content display.
+ */
+async function preloadNextContent() {
+  if (contentQueue.length === 0) {
+    // No content to preload
+    return;
+  }
+
+  const nextContent = contentQueue[0]; // Peek at next item
+  const preloadFunction = preloadFunctionMap.get(nextContent.type);
+
+  if (!preloadFunction) {
+    // This content type doesn't support preloading, skip it
+    return;
+  }
+
+  console.debug(`Preloading next content (${nextContent.type}):`, nextContent.id);
+
+  try {
+    await preloadFunction(nextContent);
+  } catch (error) {
+    // Preload errors are logged by the preload function
+    // We catch here to prevent unhandled promise rejections
+    console.error('Unexpected error in preload:', error);
+  }
+}
+
 function showNextContent() {
   clearTimeout(nextContentTimer);
 
@@ -93,8 +133,11 @@ function showNextContent() {
     }
     currentContent.value = nextContentType;
     currentContentConfig.value = nextContent;
+
+    // Preload next content (non-blocking)
+    preloadNextContent();
   }
-  
+
   const duration = (nextContent?.duration || defaultDuration) * 1000;
   if (!disableTimer) {
     nextContentTimer = setTimeout(next, duration);
