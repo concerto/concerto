@@ -32,6 +32,10 @@ class ScreenPolicy < ApplicationPolicy
   private
 
   def entity_specific_attributes
-    [ :name, :template_id ]
+    [
+      :name,
+      :template_id,
+      field_configs_attributes: [ :id, :field_id, :pinned_content_id, :_destroy ]
+    ]
   end
 end

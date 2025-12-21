@@ -4,4 +4,5 @@ class Field < ApplicationRecord
     serialize :alt_names, coder: JSON, type: Array
 
     has_many :subscriptions
+    has_many :field_configs
 end

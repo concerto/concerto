@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_15_024123) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_21_002855) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -62,6 +62,18 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_15_024123) do
     t.string "type"
     t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_feeds_on_group_id"
+  end
+
+  create_table "field_configs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "field_id", null: false
+    t.integer "pinned_content_id"
+    t.integer "screen_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["field_id"], name: "index_field_configs_on_field_id"
+    t.index ["pinned_content_id"], name: "index_field_configs_on_pinned_content_id"
+    t.index ["screen_id", "field_id"], name: "index_field_configs_on_screen_id_and_field_id", unique: true
+    t.index ["screen_id"], name: "index_field_configs_on_screen_id"
   end
 
   create_table "fields", force: :cascade do |t|
@@ -171,6 +183,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_15_024123) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "contents", "users"
   add_foreign_key "feeds", "groups"
+  add_foreign_key "field_configs", "contents", column: "pinned_content_id"
+  add_foreign_key "field_configs", "fields"
+  add_foreign_key "field_configs", "screens"
   add_foreign_key "memberships", "groups"
   add_foreign_key "memberships", "users"
   add_foreign_key "positions", "fields"

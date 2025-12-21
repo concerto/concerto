@@ -65,9 +65,25 @@
               <h3 class="text-sm font-semibold text-gray-900 mb-2">
                 <%= position.field.name %>
               </h3>
+              <% field_config = @field_configs_by_field[position.field_id] %>
               <% subscriptions = @subscriptions_by_field[position.field_id] || [] %>
-              <% if subscriptions.any? %>
+              <% if field_config || subscriptions.any? %>
                 <div class="space-y-2">
+                  <!-- Pinned Content -->
+                  <% if field_config %>
+                    <div class="flex items-center justify-between bg-amber-50 border border-amber-200 rounded px-3 py-2">
+                      <div class="flex items-center space-x-2">
+                        <svg class="w-3 h-3 text-amber-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 002 0V6zm0 8a1 1 0 10-2 0 1 1 0 002 0z" clip-rule="evenodd"/>
+                        </svg>
+                        <span class="text-sm text-gray-900 font-medium"><%= link_to field_config.pinned_content.name, field_config.pinned_content %></span>
+                        <span class="text-xs text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">Pinned</span>
+                      </div>
+                    </div>
+                  <% end %>
+
+                  <!-- Feed Subscriptions -->
                   <% subscriptions.each do |subscription| %>
                     <div class="flex items-center justify-between bg-gray-50 rounded px-3 py-2">
                       <div class="flex items-center space-x-2">
@@ -84,7 +100,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                   </svg>
                   <p class="text-xs text-gray-500">No feeds subscribed</p>
-                  <%= link_to "Add Feed", screen_subscriptions_path(@screen), 
+                  <%= link_to "Add Feed", screen_subscriptions_path(@screen),
                       class: "text-xs text-blue-600 hover:text-blue-800 font-medium" %>
                 </div>
               <% end %>

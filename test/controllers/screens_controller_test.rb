@@ -188,4 +188,136 @@ class ScreensControllerTest < ActionDispatch::IntegrationTest
     # Check that new screen button is NOT present
     assert_select "*", text: "New Screen", count: 0
   end
+
+  # --- Field Config Tests --- #
+
+  test "should create field config through nested attributes when updating screen" do
+    sign_in users(:admin)
+    content = rich_texts(:plain_richtext)
+
+    assert_difference("FieldConfig.count") do
+      patch screen_url(@screen), params: {
+        screen: {
+          name: @screen.name,
+          template_id: @screen.template_id,
+          group_id: @screen.group_id,
+          field_configs_attributes: [
+            { field_id: fields(:ticker).id, pinned_content_id: content.id }
+          ]
+        }
+      }
+    end
+
+    assert_redirected_to screen_url(@screen)
+    @screen.reload
+    field_config = @screen.field_configs.find_by(field_id: fields(:ticker).id)
+    assert_not_nil field_config
+    assert_equal content.id, field_config.pinned_content_id
+  end
+
+  test "should update existing field config through nested attributes" do
+    sign_in users(:admin)
+    existing_config = field_configs(:with_pinned_content)
+    new_content = rich_texts(:active_richtext_with_end)
+
+    assert_no_difference("FieldConfig.count") do
+      patch screen_url(@screen), params: {
+        screen: {
+          name: @screen.name,
+          template_id: @screen.template_id,
+          group_id: @screen.group_id,
+          field_configs_attributes: [
+            { id: existing_config.id, field_id: existing_config.field_id, pinned_content_id: new_content.id }
+          ]
+        }
+      }
+    end
+
+    assert_redirected_to screen_url(@screen)
+    existing_config.reload
+    assert_equal new_content.id, existing_config.pinned_content_id
+  end
+
+  test "should remove pinned content by setting it to blank" do
+    sign_in users(:admin)
+    existing_config = field_configs(:with_pinned_content)
+
+    assert_no_difference("FieldConfig.count") do
+      patch screen_url(@screen), params: {
+        screen: {
+          name: @screen.name,
+          template_id: @screen.template_id,
+          group_id: @screen.group_id,
+          field_configs_attributes: [
+            { id: existing_config.id, field_id: existing_config.field_id, pinned_content_id: "" }
+          ]
+        }
+      }
+    end
+
+    assert_redirected_to screen_url(@screen)
+    existing_config.reload
+    assert_nil existing_config.pinned_content_id
+  end
+
+  test "should destroy field config through nested attributes" do
+    sign_in users(:admin)
+    existing_config = field_configs(:with_pinned_content)
+
+    assert_difference("FieldConfig.count", -1) do
+      patch screen_url(@screen), params: {
+        screen: {
+          name: @screen.name,
+          template_id: @screen.template_id,
+          group_id: @screen.group_id,
+          field_configs_attributes: [
+            { id: existing_config.id, _destroy: "1" }
+          ]
+        }
+      }
+    end
+
+    assert_redirected_to screen_url(@screen)
+    assert_nil FieldConfig.find_by(id: existing_config.id)
+  end
+
+  test "regular group member can manage field configs for their screen" do
+    sign_in users(:regular)
+    content = rich_texts(:plain_richtext)
+
+    assert_difference("FieldConfig.count") do
+      patch screen_url(@screen), params: {
+        screen: {
+          name: @screen.name,
+          template_id: @screen.template_id,
+          field_configs_attributes: [
+            { field_id: fields(:ticker).id, pinned_content_id: content.id }
+          ]
+        }
+      }
+    end
+
+    assert_redirected_to screen_url(@screen)
+  end
+
+  test "non-member cannot manage field configs for screen they don't have access to" do
+    sign_in users(:non_member)
+    content = rich_texts(:plain_richtext)
+
+    assert_no_difference("FieldConfig.count") do
+      patch screen_url(@screen), params: {
+        screen: {
+          name: @screen.name,
+          template_id: @screen.template_id,
+          field_configs_attributes: [
+            { field_id: fields(:ticker).id, pinned_content_id: content.id }
+          ]
+        }
+      }
+    end
+
+    # Should be redirected to root due to authorization failure
+    assert_redirected_to root_url
+    assert_equal "You are not authorized to perform this action.", flash[:alert]
+  end
 end

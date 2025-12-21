@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# Field config with pinned content
+with_pinned_content:
+  screen: one
+  field: main
+  pinned_content: plain_richtext
+
+# Field config without pinned content
+without_pinned_content:
+  screen: one
+  field: sidebar
+  pinned_content:
