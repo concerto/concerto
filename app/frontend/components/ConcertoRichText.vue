@@ -1,6 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-
+import { useTextResize } from '../composables/useTextResize'
 
 /**
  * @typedef {object} RichTextContent
@@ -19,60 +18,8 @@ const props = defineProps({
   },
 });
 
-// A container stretched to fill the entire field.
-const container = ref();
-// The main div which holds the text.
-const child = ref();
-
-async function resizeText() {
-  const containerElement = container.value;
-  const contentElement = child.value;
-
-  const fieldHeight = containerElement.offsetHeight;
-  const initialHeight = contentElement.scrollHeight;
-
-  if (initialHeight === 0 || fieldHeight === 0) {
-    // Nothing to do.
-    console.error('Cannot resize text: zero height detected.');
-    return;
-  }
-
-  console.debug(`Field height: ${fieldHeight}, Initial content height: ${initialHeight}`);
-
-  // Use binary search to find optimal font size
-  // This reduces layout reflows from O(n) to O(log n)
-  const MIN_FONT_SIZE = 1;
-  const MAX_FONT_SIZE = 2000; // Maximum font size for large TV displays
-  let minSize = MIN_FONT_SIZE;
-  let maxSize = MAX_FONT_SIZE;
-  let bestSize = MIN_FONT_SIZE;
-
-  // Binary search for the largest font size that fits
-  while (minSize <= maxSize) {
-    const midSize = Math.floor((minSize + maxSize) / 2);
-
-    // Set the font size and measure once
-    containerElement.style.fontSize = `${midSize}%`;
-    const currentHeight = containerElement.scrollHeight;
-
-    if (currentHeight <= fieldHeight) {
-      // This size fits, try larger
-      bestSize = midSize;
-      minSize = midSize + 1;
-    } else {
-      // Too large, try smaller
-      maxSize = midSize - 1;
-    }
-  }
-
-  // Apply the best size found
-  containerElement.style.fontSize = `${bestSize}%`;
-}
-
-// lifecycle hooks
-onMounted(() => {
-  resizeText();
-})
+// Use the text resize composable
+const { containerRef: container, childRef: child } = useTextResize()
 
 </script>
 

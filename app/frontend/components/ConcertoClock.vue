@@ -1,9 +1,10 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 // TODO: Migrate from date-fns to the Temporal API (https://tc39.es/proposal-temporal/docs/)
 // once it has broad browser support. Temporal provides native date/time formatting
 // and manipulation without requiring a third-party library.
 import { format as formatDate } from 'date-fns'
+import { useTextResize } from '../composables/useTextResize'
 
 // How frequently the clock updates.
 const UPDATE_INTERVAL_MS = 1000;
@@ -27,10 +28,22 @@ const props = defineProps({
 const currentTime = ref('');
 let updateInterval = null;
 
-function updateTime() {
+// Use the text resize composable
+const { containerRef, childRef, resizeText } = useTextResize()
+
+async function updateTime() {
   try {
     const now = new Date();
-    currentTime.value = formatDate(now, props.content.format);
+    const newTime = formatDate(now, props.content.format);
+
+    // Only update and resize if the time has actually changed
+    if (newTime !== currentTime.value) {
+      currentTime.value = newTime;
+
+      // Wait for DOM update, then resize
+      await nextTick();
+      resizeText();
+    }
   } catch (error) {
     console.error('Error formatting time:', error);
     currentTime.value = 'Invalid format';
@@ -53,8 +66,14 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="concerto-clock">
-    <div class="clock-display">
+  <div
+    ref="containerRef"
+    class="concerto-clock"
+  >
+    <div
+      ref="childRef"
+      class="clock-display"
+    >
       {{ currentTime }}
     </div>
   </div>
@@ -67,6 +86,8 @@ onBeforeUnmount(() => {
   justify-content: center;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  font-size: 100%; /* Initial font size */
 }
 
 .clock-display {
