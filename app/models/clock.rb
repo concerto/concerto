@@ -21,6 +21,11 @@ class Clock < Content
     })
   end
 
+  # Returns true if the format is a custom format (not one of the presets)
+  def custom_format?
+    format.present? && !self.class.formats.values.include?(format)
+  end
+
   private
 
   def format_must_be_string

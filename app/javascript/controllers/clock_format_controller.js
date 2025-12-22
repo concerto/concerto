@@ -1,21 +1,20 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["customInput", "presetRadio"]
+  static targets = ["customInput", "customRadio"]
 
   connect() {
-    this.updateCustomInputState()
+    this.updateCustomInputState(false) // Don't clear on initial load
   }
 
   // Called when any radio button changes
-  handleRadioChange(event) {
-    this.updateCustomInputState()
+  handleRadioChange() {
+    this.updateCustomInputState(true) // Clear when switching radios
   }
 
-  updateCustomInputState() {
+  updateCustomInputState(shouldClearWhenDisabled = false) {
     // Check if the custom format radio is selected
-    const customRadio = this.element.querySelector('#clock_format_custom')
-    const isCustomSelected = customRadio && customRadio.checked
+    const isCustomSelected = this.hasCustomRadioTarget && this.customRadioTarget.checked
 
     if (this.hasCustomInputTarget) {
       if (isCustomSelected) {
@@ -23,9 +22,12 @@ export default class extends Controller {
         this.customInputTarget.disabled = false
         this.customInputTarget.focus()
       } else {
-        // Disable and clear the custom input when a preset is selected
+        // Disable the custom input when a preset is selected
         this.customInputTarget.disabled = true
-        this.customInputTarget.value = ''
+        // Only clear the value when user is actively switching (not on page load)
+        if (shouldClearWhenDisabled) {
+          this.customInputTarget.value = ''
+        }
       }
     }
   }
