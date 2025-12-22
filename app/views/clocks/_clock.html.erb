@@ -1,0 +1,26 @@
+<div id="<%= dom_id clock %>">
+  <!-- Content Preview -->
+  <div class="card mb-6">
+    <div class="card-body">
+      <div class="text-center">
+        <p class="text-sm text-gray-600 mb-2">Preview</p>
+        <p class="text-2xl font-mono text-gray-900">
+          Clock will display current date/time using format: <code class="text-blue-600"><%= clock.format %></code>
+        </p>
+        <p class="text-xs text-gray-500 mt-2">The actual time will be rendered on the frontend player using JavaScript</p>
+      </div>
+    </div>
+  </div>
+
+  <%= render "contents/show_details", content: clock do %>
+    <!-- Format Field -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <dt class="text-body font-medium text-neutral-700">Format:</dt>
+      <dd class="text-body text-neutral-900 sm:col-span-2">
+        <code class="px-2 py-1 bg-neutral-100 text-neutral-900 rounded text-caption font-mono">
+          <%= clock.format %>
+        </code>
+      </dd>
+    </div>
+  <% end %>
+</div>

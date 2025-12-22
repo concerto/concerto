@@ -1,0 +1,9 @@
+<%= page_title "#{@clock.name}" %>
+
+<%= render @clock %>
+
+<%= render "contents/actions",
+    content: @clock,
+    content_type: "clock",
+    edit_path: edit_clock_path(@clock),
+    destroy_path: @clock %>

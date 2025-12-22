@@ -1,0 +1,102 @@
+<div class="max-w-4xl mx-auto">
+  <%= form_with(model: clock, class: "space-y-4") do |form| %>
+    <% if clock.errors.any? %>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <div class="flex items-start">
+          <svg class="w-5 h-5 text-red-400 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+          </svg>
+          <div class="flex-1">
+            <h3 class="text-sm font-semibold text-red-800 mb-2">
+              <%= pluralize(clock.errors.count, "error") %> prohibited this clock from being saved:
+            </h3>
+            <ul class="text-sm text-red-700 space-y-1">
+              <% clock.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Form Content Card -->
+    <div class="bg-white rounded-lg border border-gray-200 shadow-sm">
+      <div class="px-4 py-3 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Clock Format</h2>
+        <p class="text-sm text-gray-600 mt-1">Choose how date and time will be displayed</p>
+      </div>
+
+      <div class="p-4 space-y-4">
+        <!-- Format Selection -->
+        <div data-controller="clock-format">
+          <%= form.label :format, "Display Format", class: "block text-sm font-medium text-gray-700 mb-3" %>
+          <div class="space-y-3">
+            <div class="flex items-center">
+              <%= form.radio_button :format, Clock.formats[:time_12h],
+                  class: "h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500 focus:ring-2",
+                  id: "clock_format_time_12h",
+                  data: { action: "change->clock-format#handleRadioChange", clock_format_target: "presetRadio" } %>
+              <%= form.label :format_time_12h, class: "ml-3 cursor-pointer" do %>
+                <span class="text-sm font-medium text-gray-700">Time (12-hour)</span>
+                <span class="block text-xs text-gray-500">Example: 12:34 PM</span>
+              <% end %>
+            </div>
+            <div class="flex items-center">
+              <%= form.radio_button :format, Clock.formats[:date_short],
+                  class: "h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500 focus:ring-2",
+                  id: "clock_format_date_short",
+                  data: { action: "change->clock-format#handleRadioChange", clock_format_target: "presetRadio" } %>
+              <%= form.label :format_date_short, class: "ml-3 cursor-pointer" do %>
+                <span class="text-sm font-medium text-gray-700">Date</span>
+                <span class="block text-xs text-gray-500">Example: Mon, Dec 21</span>
+              <% end %>
+            </div>
+            <div class="flex items-center">
+              <%= form.radio_button :format, Clock.formats[:datetime_short],
+                  class: "h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500 focus:ring-2",
+                  id: "clock_format_datetime_short",
+                  data: { action: "change->clock-format#handleRadioChange", clock_format_target: "presetRadio" } %>
+              <%= form.label :format_datetime_short, class: "ml-3 cursor-pointer" do %>
+                <span class="text-sm font-medium text-gray-700">Date & Time</span>
+                <span class="block text-xs text-gray-500">Example: 2:34 PM, Dec 21</span>
+              <% end %>
+            </div>
+            <div class="flex items-start">
+              <%= form.radio_button :format, "custom",
+                  class: "h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500 focus:ring-2 mt-1",
+                  id: "clock_format_custom",
+                  data: { action: "change->clock-format#handleRadioChange" } %>
+              <div class="ml-3 flex-1">
+                <%= form.label :format_custom, class: "cursor-pointer" do %>
+                  <span class="text-sm font-medium text-gray-700">Custom Format</span>
+                  <span class="block text-xs text-gray-500 mb-2">Use date-fns format tokens (e.g., "h:mm:ss a" for 2:34:56 PM)</span>
+                <% end %>
+                <%= form.text_field :format,
+                    class: "block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed",
+                    placeholder: "Enter custom format string",
+                    id: "clock_custom_format_input",
+                    data: { clock_format_target: "customInput" } %>
+                <p class="text-xs text-gray-500 mt-1">
+                  <a href="https://date-fns.org/docs/format" target="_blank" class="text-blue-600 hover:text-blue-800">View format reference</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <%= render "contents/form", form: form %>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="flex items-center justify-between pt-2">
+      <div class="flex space-x-3">
+        <%= link_to "Cancel", contents_path, class: "btn-secondary" %>
+      </div>
+      <div class="flex space-x-3">
+        <%= form.submit "Save Clock", class: "btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

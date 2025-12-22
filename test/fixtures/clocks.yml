@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+time_12h:
+  type: Clock
+  name: "12-Hour Clock"
+  duration: 10
+  config: {'format': 'h:mm a'}
+  user: admin
+
+date_short:
+  type: Clock
+  name: "Date Display"
+  duration: 10
+  config: {'format': 'EEE, MMM d'}
+  user: admin
+
+datetime_short:
+  type: Clock
+  name: "Date & Time Display"
+  duration: 10
+  config: {'format': 'h:mm a, MMM d'}
+  user: admin
+
+custom_format:
+  type: Clock
+  name: "Custom Format Clock"
+  duration: 10
+  config: {'format': 'EEEE, MMMM do, yyyy - h:mm:ss a'}
+  user: admin

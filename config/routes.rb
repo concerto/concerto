@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   resources :rich_texts, except: [ :index ]
   resources :graphics, except: [ :index ]
   resources :videos, except: [ :index ]
+  resources :clocks, except: [ :index ]
 
   resources :users, only: [ :show ]
 

@@ -4,6 +4,7 @@ import { onMounted, onBeforeUnmount, ref, shallowRef } from 'vue'
 import ConcertoGraphic, { preload as preloadGraphic } from './ConcertoGraphic.vue';
 import ConcertoRichText from './ConcertoRichText.vue';
 import ConcertoVideo from './ConcertoVideo.vue';
+import ConcertoClock from './ConcertoClock.vue';
 
 // Content is shown for 10 seconds if it does not have it's own duration.
 const defaultDuration = 10;
@@ -23,7 +24,8 @@ const LONG_RETRY_DELAY_MS = 60000;
 const contentTypeMap = new Map([
   ["Graphic", ConcertoGraphic],
   ["RichText", ConcertoRichText],
-  ["Video", ConcertoVideo]
+  ["Video", ConcertoVideo],
+  ["Clock", ConcertoClock]
 ]);
 
 /**
