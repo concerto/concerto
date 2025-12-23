@@ -10,8 +10,25 @@ import { useTextResize } from '../composables/useTextResize'
 const UPDATE_INTERVAL_MS = 1000;
 
 /**
+ * MULTI-LINE FORMAT SUPPORT
+ *
+ * Supports multi-line displays using {br} delimiter. Format string is split on "{br}"
+ * and each segment is formatted independently with date-fns.
+ *
+ * Examples:
+ * - "M/d/yyyy{br}h:mm a" → displays date and time on separate lines
+ * - "EEEE{br}M/d{br}h:mm a" → displays day, date, and time on three lines
+ *
+ * Notes:
+ * - {br} is case-sensitive and whitespace around it is trimmed
+ * - Empty segments render as blank lines
+ * - {br} was chosen over \n or <br> for visibility in text inputs and safety (no v-html)
+ */
+
+/**
  * @typedef {object} ClockContent
  * @property {string} format - The date-fns format string for displaying the time.
+ *                             Can include {br} tokens for multi-line display.
  */
 
 const props = defineProps({
@@ -25,28 +42,50 @@ const props = defineProps({
   },
 });
 
-const currentTime = ref('');
+// Store formatted time as array of lines (supports multi-line via {br} delimiter)
+const currentTimeLines = ref([]);
 let updateInterval = null;
 
 // Use the text resize composable
 const { containerRef, childRef, resizeText } = useTextResize()
 
+/**
+ * Updates the displayed time by formatting the current date/time.
+ *
+ * If the format string contains {br} delimiters, it splits the format
+ * and formats each segment independently, creating a multi-line display.
+ */
 async function updateTime() {
   try {
     const now = new Date();
-    const newTime = formatDate(now, props.content.format);
 
-    // Only update and resize if the time has actually changed
-    if (newTime !== currentTime.value) {
-      currentTime.value = newTime;
+    // Split format string on {br} delimiter for multi-line support
+    // Example: "M/d/yyyy{br}h:mm a" becomes ["M/d/yyyy", "h:mm a"]
+    const formatSegments = props.content.format.split('{br}');
 
-      // Wait for DOM update, then resize
+    // Format each segment separately using date-fns
+    // Empty segments (from consecutive {br} or leading/trailing {br}) render as blank lines
+    const newTimeLines = formatSegments.map(segment => {
+      const trimmed = segment.trim();
+      return trimmed ? formatDate(now, trimmed) : '';
+    });
+
+    // Compare arrays by joining to string (simple equality check)
+    // Only update if the formatted time has actually changed
+    const newTimeString = newTimeLines.join('|');
+    const currentTimeString = currentTimeLines.value.join('|');
+
+    if (newTimeString !== currentTimeString) {
+      currentTimeLines.value = newTimeLines;
+
+      // Wait for DOM update, then resize to fit the (potentially multi-line) content
       await nextTick();
       resizeText();
     }
   } catch (error) {
     console.error('Error formatting time:', error);
-    currentTime.value = 'Invalid format';
+    // On error, show a single line with error message
+    currentTimeLines.value = ['Invalid format'];
   }
 }
 
@@ -74,7 +113,15 @@ onBeforeUnmount(() => {
       ref="childRef"
       class="clock-display"
     >
-      {{ currentTime }}
+      <!-- Render each line separately for multi-line support -->
+      <!-- Single-line formats will have one line, multi-line will have multiple -->
+      <div
+        v-for="(line, index) in currentTimeLines"
+        :key="index"
+        class="clock-line"
+      >
+        {{ line }}
+      </div>
     </div>
   </div>
 </template>
@@ -94,6 +141,10 @@ onBeforeUnmount(() => {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-weight: 600;
   text-align: center;
+}
+
+.clock-line {
+  /* Each line in a multi-line clock */
   white-space: nowrap;
 }
 </style>

@@ -135,4 +135,104 @@ describe('ConcertoClock', () => {
 
     expect(clearIntervalSpy).toHaveBeenCalled();
   });
+
+  // Multi-line format tests ({br} delimiter support)
+  it('renders multi-line format with {br} delimiter', async () => {
+    const testDate = new Date('2025-12-22T14:34:56');
+    vi.setSystemTime(testDate);
+
+    const content = {
+      format: 'M/d/yyyy{br}h:mm:ss a',
+    };
+    const wrapper = mount(ConcertoClock, { props: { content } });
+    await nextTick();
+
+    // Should render two separate lines
+    const lines = wrapper.findAll('.clock-line');
+    expect(lines).toHaveLength(2);
+
+    // First line should be the date
+    expect(lines[0].text()).toBe('12/22/2025');
+
+    // Second line should be the time
+    expect(lines[1].text()).toBe('2:34:56 PM');
+  });
+
+  it('renders multi-line format with multiple {br} delimiters', async () => {
+    const testDate = new Date('2025-12-21T14:34:00'); // Dec 21, 2025 is a Sunday
+    vi.setSystemTime(testDate);
+
+    const content = {
+      format: 'EEEE{br}M/d/yyyy{br}h:mm a',
+    };
+    const wrapper = mount(ConcertoClock, { props: { content } });
+    await nextTick();
+
+    // Should render three separate lines
+    const lines = wrapper.findAll('.clock-line');
+    expect(lines).toHaveLength(3);
+
+    // First line: day of week
+    expect(lines[0].text()).toBe('Sunday');
+
+    // Second line: date
+    expect(lines[1].text()).toBe('12/21/2025');
+
+    // Third line: time
+    expect(lines[2].text()).toBe('2:34 PM');
+  });
+
+  it('handles whitespace around {br} correctly', async () => {
+    const testDate = new Date('2025-12-22T14:34:00');
+    vi.setSystemTime(testDate);
+
+    const content = {
+      // Extra spaces around {br} - should be trimmed
+      format: 'M/d/yyyy {br} h:mm a',
+    };
+    const wrapper = mount(ConcertoClock, { props: { content } });
+    await nextTick();
+
+    const lines = wrapper.findAll('.clock-line');
+    expect(lines).toHaveLength(2);
+
+    // Whitespace should be trimmed from each segment
+    expect(lines[0].text()).toBe('12/22/2025');
+    expect(lines[1].text()).toBe('2:34 PM');
+  });
+
+  it('still works with single-line format (no {br})', async () => {
+    // Ensure backward compatibility - formats without {br} work as before
+    const testDate = new Date('2025-12-22T14:34:00');
+    vi.setSystemTime(testDate);
+
+    const content = {
+      format: 'h:mm a',
+    };
+    const wrapper = mount(ConcertoClock, { props: { content } });
+    await nextTick();
+
+    // Should render single line
+    const lines = wrapper.findAll('.clock-line');
+    expect(lines).toHaveLength(1);
+    expect(lines[0].text()).toBe('2:34 PM');
+  });
+
+  it('handles consecutive {br} delimiters as empty lines', async () => {
+    const testDate = new Date('2025-12-22T14:34:00');
+    vi.setSystemTime(testDate);
+
+    const content = {
+      format: 'h:mm a{br}{br}M/d/yyyy',
+    };
+    const wrapper = mount(ConcertoClock, { props: { content } });
+    await nextTick();
+
+    // Should render three lines: time, blank, date
+    const lines = wrapper.findAll('.clock-line');
+    expect(lines).toHaveLength(3);
+    expect(lines[0].text()).toBe('2:34 PM');
+    expect(lines[1].text()).toBe(''); // Empty line
+    expect(lines[2].text()).toBe('12/22/2025');
+  });
 });
