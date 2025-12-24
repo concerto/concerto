@@ -96,7 +96,7 @@ class ClocksTest < ApplicationSystemTestCase
     choose "clock_format_time_12h"
 
     # The custom input should be disabled
-    assert find_field("clock_custom_format_input").disabled?
+    assert find("#clock_custom_format_input").disabled?
 
     click_on "Save Clock"
 
