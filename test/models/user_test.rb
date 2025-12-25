@@ -179,4 +179,31 @@ class UserTest < ActiveSupport::TestCase
 
     assert first_human.system_admin?, "First human user should be a system administrator even if system users exist"
   end
+
+  test "screen_manager? returns true when user belongs to group with screens" do
+    admin_user = users(:admin)
+    # Admin user is in screen_one_owners group which has screens
+    assert admin_user.screen_manager?, "User in a group with screens should be a screen manager"
+  end
+
+  test "screen_manager? returns false when user has no groups with screens" do
+    non_member = users(:non_member)
+    # non_member is only in all_users group which has no screens
+    assert_not non_member.screen_manager?, "User with no groups that own screens should not be a screen manager"
+  end
+
+  test "screen_manager? returns false when user belongs to groups without screens" do
+    user_without_screens = User.create!(
+      first_name: "No",
+      last_name: "Screens",
+      email: "noscreens@example.com",
+      password: "password123"
+    )
+
+    # Add user to a group that doesn't own any screens
+    content_creators = groups(:content_creators)
+    Membership.create!(user: user_without_screens, group: content_creators, role: :member)
+
+    assert_not user_without_screens.screen_manager?, "User in groups without screens should not be a screen manager"
+  end
 end

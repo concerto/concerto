@@ -114,7 +114,63 @@ class ClocksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to contents_url
   end
 
-  # Authorization tests
+  # Authorization tests - Screen manager permissions
+  test "screen managers can access new clock page" do
+    screen_manager = users(:admin)  # In screen_one_owners group
+    sign_in screen_manager
+    get new_clock_url
+    assert_response :success
+  end
+
+  test "non-screen managers cannot access new clock page" do
+    non_screen_manager = users(:non_member)  # Only in all_users group
+    sign_in non_screen_manager
+    get new_clock_url
+    assert_redirected_to root_url
+    assert_equal "You are not authorized to perform this action.", flash[:alert]
+  end
+
+  test "screen managers can create clocks" do
+    screen_manager = users(:admin)  # In screen_one_owners group
+    sign_in screen_manager
+    assert_difference("Clock.count") do
+      post clocks_url, params: { clock: {
+        name: "Screen Manager Clock",
+        duration: 10,
+        format: "h:mm a"
+      } }
+    end
+    assert_redirected_to clock_url(Clock.last)
+  end
+
+  test "non-screen managers cannot create clocks" do
+    non_screen_manager = users(:non_member)  # Only in all_users group
+    sign_in non_screen_manager
+    assert_no_difference("Clock.count") do
+      post clocks_url, params: { clock: {
+        name: "Unauthorized Clock",
+        duration: 10,
+        format: "h:mm a"
+      } }
+    end
+    assert_redirected_to root_url
+    assert_equal "You are not authorized to perform this action.", flash[:alert]
+  end
+
+  test "system admins can create clocks even without managing screens" do
+    system_admin = users(:system_admin)
+    sign_in system_admin
+    assert_difference("Clock.count") do
+      post clocks_url, params: { clock: {
+        name: "System Admin Clock",
+        duration: 10,
+        format: "h:mm a"
+      } }
+    end
+    assert_redirected_to clock_url(Clock.last)
+  end
+
+  # Authorization tests - Owner-based permissions
   test "should not allow non-owner to edit clock" do
     sign_in users(:non_member)
     get edit_clock_url(@clock), headers: { "Referer" => clock_url(@clock) }

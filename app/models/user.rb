@@ -63,6 +63,11 @@ class User < ApplicationRecord
     Group.system_admins_group&.member?(self)
   end
 
+  # Check if the user manages any screens.
+  def screen_manager?
+    groups.joins(:screens).exists?
+  end
+
   private
 
   def add_to_all_users_group

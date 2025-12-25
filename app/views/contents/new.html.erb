@@ -59,20 +59,29 @@
             <p class="text-body text-neutral-700">Play videos from supported platforms.</p>
           </div>
         <% end %>
-
-        <!-- Clock Content -->
-        <%= link_to new_clock_path, class: "group block p-6 bg-white border-2 border-neutral-200 rounded-lg hover:border-brand hover:shadow-lg transition-all duration-200" do %>
-          <div class="flex flex-col items-center text-center">
-            <div class="w-12 h-12 bg-brand-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-brand-500 transition-colors duration-200">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-brand group-hover:text-white" aria-hidden="true" focusable="false">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-              </svg>
-            </div>
-            <h3 class="text-h4 text-neutral-900 mb-2 group-hover:text-brand transition-colors duration-200">Add Clock</h3>
-            <p class="text-body text-neutral-700">Display current date and time on screens.</p>
-          </div>
-        <% end %>
       </div>
+
+      <!-- Advanced Content Types -->
+      <% if policy(Clock.new).new? %>
+        <div class="mt-12">
+          <h2 class="text-h3 text-neutral-900 mb-1">Advanced</h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Clock Content -->
+            <%= link_to new_clock_path, class: "group block p-6 bg-white border-2 border-neutral-200 rounded-lg hover:border-brand hover:shadow-lg transition-all duration-200" do %>
+              <div class="flex flex-col items-center text-center">
+                <div class="w-12 h-12 bg-brand-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-brand-500 transition-colors duration-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-brand group-hover:text-white" aria-hidden="true" focusable="false">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                </div>
+                <h3 class="text-h4 text-neutral-900 mb-2 group-hover:text-brand transition-colors duration-200">Add Clock</h3>
+                <p class="text-body text-neutral-700">Display current date and time on screens.</p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
     </div>
 
     <!-- Navigation -->
