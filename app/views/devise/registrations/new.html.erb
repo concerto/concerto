@@ -25,7 +25,7 @@
       <div>
         <%= f.label :password, class: "frm-label" %>
         <% if @minimum_password_length %>
-          <span class="text-sm text-gray-500">(<%= @minimum_password_length %> characters minimum)</span>
+          <span class="text-sm text-neutral-500">(<%= @minimum_password_length %> characters minimum)</span>
         <% end %>
         <%= f.password_field :password, autocomplete: "new-password", class: "frm-input" %>
       </div>
@@ -36,7 +36,7 @@
       </div>
 
       <div>
-        <%= f.submit "Sign up", class: "btn w-full" %>
+        <%= f.submit "Sign up", class: "btn btn-primary w-full" %>
       </div>
     <% end %>
 

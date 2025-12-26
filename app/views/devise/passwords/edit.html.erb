@@ -2,7 +2,7 @@
 
 <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
   <div class="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
-    <h2 class="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 mb-6">Change your password</h2>
+    <h2 class="text-center text-2xl font-bold leading-9 tracking-tight text-neutral-900 mb-6">Change your password</h2>
 
     <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "space-y-6" }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
@@ -11,7 +11,7 @@
       <div>
         <%= f.label :password, "New password", class: "frm-label" %>
         <% if @minimum_password_length %>
-          <span class="text-sm text-gray-500">(<%= @minimum_password_length %> characters minimum)</span>
+          <span class="text-sm text-neutral-500">(<%= @minimum_password_length %> characters minimum)</span>
         <% end %>
         <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "frm-input" %>
       </div>
@@ -22,7 +22,7 @@
       </div>
 
       <div>
-        <%= f.submit "Change my password", class: "btn w-full" %>
+        <%= f.submit "Change my password", class: "btn btn-primary w-full" %>
       </div>
     <% end %>
 

@@ -17,13 +17,13 @@
 
       <% if devise_mapping.rememberable? %>
         <div class="flex items-center">
-          <%= f.check_box :remember_me, class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-600" %>
-          <%= f.label :remember_me, class: "ml-2 block text-sm text-gray-700" %>
+          <%= f.check_box :remember_me, class: "h-4 w-4 rounded border-gray-300 text-brand-500 focus:ring-brand-100" %>
+          <%= f.label :remember_me, class: "ml-2 block text-sm text-neutral-700" %>
         </div>
       <% end %>
 
       <div>
-        <%= f.submit "Log in", class: "btn w-full" %>
+        <%= f.submit "Log in", class: "btn btn-primary w-full" %>
       </div>
     <% end %>
 
