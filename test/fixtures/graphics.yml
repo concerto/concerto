@@ -4,16 +4,16 @@ one:
   type: Graphic
   name: MyString
   duration: 1
-  start_time: 2024-02-10 20:33:46
-  end_time: 2024-02-10 20:33:46
+  start_time: <%= 1.hour.ago %>
+  end_time: <%= 1.hour.from_now %>
   user: admin
 
 two:
   type: Graphic
   name: MyString
   duration: 1
-  start_time: 2024-02-10 20:33:46
-  end_time: 2024-02-10 20:33:46
+  start_time: <%= 1.hour.ago %>
+  end_time: <%= 1.hour.from_now %>
   user: admin
 
 e2e_graphic_1:

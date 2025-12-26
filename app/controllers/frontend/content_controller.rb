@@ -18,7 +18,7 @@ class Frontend::ContentController < Frontend::ApplicationController
     if @content.empty?
       @subscriptions = @screen.subscriptions.where(field_id: @field.id).to_a
       @content = @subscriptions.flat_map do |subscription|
-        subscription.contents
+        subscription.contents.active
       end
 
       # Remove content which should not be rendered in this position.

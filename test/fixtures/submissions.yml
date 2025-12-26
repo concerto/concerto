@@ -13,7 +13,11 @@ three:
   feed: two
 
 four:
-  content: plain_richtext
+  content: html_richtext
+  feed: two
+
+five:
+  content: active_ticker_text
   feed: two
 
 e2e_ticker_1:
