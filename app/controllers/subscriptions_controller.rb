@@ -1,7 +1,7 @@
 class SubscriptionsController < ApplicationController
   before_action :authenticate_user!, except: [ :index ]
   before_action :set_screen
-  before_action :set_subscription, only: %i[ destroy ]
+  before_action :set_subscription, only: %i[ update destroy ]
 
   # Ensure that Pundit authorization has been performed for every action.
   after_action :verify_authorized, except: :index
@@ -54,6 +54,22 @@ class SubscriptionsController < ApplicationController
     end
   end
 
+  # PATCH/PUT /subscriptions/1 or /subscriptions/1.json
+  def update
+    authorize @subscription
+
+    respond_to do |format|
+      if @subscription.update(subscription_params)
+        format.html { redirect_to screen_subscriptions_url(@screen), notice: "Subscription weight was successfully updated." }
+        format.json { render :show, status: :ok, location: @subscription }
+      else
+        error_message = @subscription.errors.full_messages.join(", ")
+        format.html { redirect_to screen_subscriptions_url(@screen), alert: "Failed to update subscription: #{error_message}" }
+        format.json { render json: @subscription.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /subscriptions/1 or /subscriptions/1.json
   def destroy
     authorize @subscription
@@ -79,6 +95,6 @@ class SubscriptionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def subscription_params
-      params.require(:subscription).permit(:field_id, :feed_id)
+      params.require(:subscription).permit(:field_id, :feed_id, :weight)
     end
 end

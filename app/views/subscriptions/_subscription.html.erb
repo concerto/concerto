@@ -1,5 +1,5 @@
 <div id="<%= dom_id subscription %>" class="flex items-center justify-between p-3 bg-white border border-neutral-200 rounded-md hover:bg-neutral-50 transition-colors">
-  <div class="flex items-center space-x-2">
+  <div class="flex items-center space-x-3 flex-1 min-w-0">
     <div class="flex-shrink-0">
       <div class="w-6 h-6 bg-brand-light rounded flex items-center justify-center">
         <svg class="w-3 h-3 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -13,8 +13,31 @@
         <p class="text-xs text-neutral-500 truncate"><%= truncate(subscription.feed.description, length: 60) %></p>
       <% end %>
     </div>
+
+    <% if policy(subscription).update? %>
+      <%= form_with(model: [subscription.screen, subscription], data: { controller: "weight-slider" }, class: "flex-shrink-0 mr-2") do |form| %>
+        <div class="w-48">
+          <div class="flex items-center space-x-2">
+            <span class="text-xs text-neutral-500">Low</span>
+            <%= range_field_tag nil, nil,
+                min: 1,
+                max: 5,
+                class: "flex-1 h-1.5 bg-neutral-200 rounded-lg appearance-none cursor-pointer accent-brand",
+                data: {
+                  weight_slider_target: "slider",
+                  action: "input->weight-slider#handleSliderChange change->weight-slider#submitForm"
+                } %>
+            <span class="text-xs text-neutral-500">High</span>
+          </div>
+          <%= form.hidden_field :weight, value: subscription.weight, data: { weight_slider_target: "weightInput" } %>
+          <p class="text-xs text-neutral-500 mt-0.5 text-center">
+            <span data-weight-slider-target="label"></span>
+          </p>
+        </div>
+      <% end %>
+    <% end %>
   </div>
-  
+
   <% if policy(subscription).destroy? %>
     <div class="flex-shrink-0 ml-2">
       <%= button_to [@screen, subscription],

@@ -35,7 +35,7 @@ class ScreenPolicy < ApplicationPolicy
     [
       :name,
       :template_id,
-      field_configs_attributes: [ :id, :field_id, :pinned_content_id, :_destroy ]
+      field_configs_attributes: [ :id, :field_id, :pinned_content_id, :ordering_strategy, :_destroy ]
     ]
   end
 end

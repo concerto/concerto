@@ -59,4 +59,51 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     assert_equal "You are not authorized to perform this action.", flash[:alert]
   end
+
+  test "should update subscription weight" do
+    original_weight = @subscription.weight
+    new_weight = 8
+
+    patch screen_subscription_url(@screen, @subscription),
+          params: { subscription: { weight: new_weight } }
+
+    assert_redirected_to screen_subscriptions_url(@screen)
+    assert_equal new_weight, @subscription.reload.weight
+    assert_not_equal original_weight, @subscription.reload.weight
+  end
+
+  test "should not update subscription when not authorized" do
+    sign_in users(:non_member)
+    original_weight = @subscription.weight
+
+    patch screen_subscription_url(@screen, @subscription),
+          params: { subscription: { weight: 8 } },
+          headers: { "Referer" => screen_subscriptions_url(@screen) }
+
+    assert_response :redirect
+    assert_equal "You are not authorized to perform this action.", flash[:alert]
+    assert_equal original_weight, @subscription.reload.weight
+  end
+
+  test "should not update subscription with invalid weight" do
+    original_weight = @subscription.weight
+
+    patch screen_subscription_url(@screen, @subscription),
+          params: { subscription: { weight: 99 } }
+
+    assert_response :redirect
+    assert_match(/Failed to update subscription/, flash[:alert])
+    assert_equal original_weight, @subscription.reload.weight
+  end
+
+  test "should not update subscription with weight below minimum" do
+    original_weight = @subscription.weight
+
+    patch screen_subscription_url(@screen, @subscription),
+          params: { subscription: { weight: 0 } }
+
+    assert_response :redirect
+    assert_match(/Failed to update subscription/, flash[:alert])
+    assert_equal original_weight, @subscription.reload.weight
+  end
 end

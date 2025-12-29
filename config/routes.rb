@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     get "/:id", to: "player#show", as: "player"
   end
   resources :screens do
-    resources :subscriptions, only: [ :index, :create, :destroy ]
+    resources :subscriptions, only: [ :index, :create, :update, :destroy ]
   end
   resources :templates
   resources :submissions
