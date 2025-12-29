@@ -5,6 +5,7 @@ class Subscription < ApplicationRecord
 
   validates :screen, :field, :feed, presence: true
   validates :feed_id, uniqueness: { scope: [ :screen_id, :field_id ], message: "is already subscribed to this field on this screen" }
+  validates :weight, numericality: { only_integer: true, in: 1..10 }
 
   def contents
     self.feed.content

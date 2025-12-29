@@ -179,6 +179,124 @@ class Frontend::ContentControllerTest < ActionDispatch::IntegrationTest
     assert_equal always_active_content.id, data.first["id"]
   end
 
+  test "should use random ordering by default" do
+    setup_subscription_scenario
+
+    content1 = RichText.create!(
+      name: "Content 1",
+      text: "Content 1 " * 20,
+      user: users(:admin),
+      duration: 10,
+      config: { render_as: "plaintext" }
+    )
+    Submission.create!(content: content1, feed: @feed)
+
+    get frontend_content_url(screen_id: @screen.id, field_id: @field.id, position_id: @position.id)
+    assert_response :success
+
+    # Verify content is returned (ordering is non-deterministic)
+    assert response.parsed_body.any?
+  end
+
+  test "should use weighted ordering when configured" do
+    setup_subscription_scenario
+
+    # Create FieldConfig with weighted strategy
+    FieldConfig.create!(
+      screen: @screen,
+      field: @field,
+      ordering_strategy: "weighted"
+    )
+
+    content1 = RichText.create!(
+      name: "Content 1",
+      text: "Content 1 " * 20,
+      user: users(:admin),
+      duration: 10,
+      config: { render_as: "plaintext" }
+    )
+    Submission.create!(content: content1, feed: @feed)
+
+    get frontend_content_url(screen_id: @screen.id, field_id: @field.id, position_id: @position.id)
+    assert_response :success
+
+    # Note: This test verifies that the weighted strategy is applied without errors.
+    # It does not verify the actual weighting behavior - that's covered by unit tests.
+    assert response.parsed_body.any?
+  end
+
+  test "should use strict priority ordering when configured" do
+    setup_subscription_scenario
+
+    # Create FieldConfig with strict_priority strategy
+    FieldConfig.create!(
+      screen: @screen,
+      field: @field,
+      ordering_strategy: "strict_priority"
+    )
+
+    content1 = RichText.create!(
+      name: "Content 1",
+      text: "Content 1 " * 20,
+      user: users(:admin),
+      duration: 10,
+      config: { render_as: "plaintext" }
+    )
+    Submission.create!(content: content1, feed: @feed)
+
+    get frontend_content_url(screen_id: @screen.id, field_id: @field.id, position_id: @position.id)
+    assert_response :success
+
+    # Verify content is returned
+    assert response.parsed_body.any?
+  end
+
+  test "should apply ordering strategy to multiple feeds" do
+    setup_subscription_scenario
+
+    # Create another feed with higher weight
+    feed2 = Feed.create!(name: "High Priority Feed", group: groups(:feed_one_owners))
+    subscription2 = Subscription.create!(screen: @screen, field: @field, feed: feed2, weight: 10)
+
+    # Set original subscription to lower weight
+    Subscription.find_by(screen: @screen, field: @field, feed: @feed).update!(weight: 2)
+
+    # Create FieldConfig with strict_priority strategy
+    FieldConfig.create!(
+      screen: @screen,
+      field: @field,
+      ordering_strategy: "strict_priority"
+    )
+
+    # Add content to lower priority feed
+    low_content = RichText.create!(
+      name: "Low Priority Content",
+      text: "Low Priority Content " * 20,
+      user: users(:admin),
+      duration: 10,
+      config: { render_as: "plaintext" }
+    )
+    Submission.create!(content: low_content, feed: @feed)
+
+    # Add content to high priority feed
+    high_content = RichText.create!(
+      name: "High Priority Content",
+      text: "High Priority Content " * 20,
+      user: users(:admin),
+      duration: 10,
+      config: { render_as: "plaintext" }
+    )
+    Submission.create!(content: high_content, feed: feed2)
+
+    get frontend_content_url(screen_id: @screen.id, field_id: @field.id, position_id: @position.id)
+    assert_response :success
+
+    data = response.parsed_body
+    # Should only contain high priority content
+    assert_equal 1, data.length
+    assert_equal high_content.id, data.first["id"]
+  end
+
   private
 
   def setup_subscription_scenario

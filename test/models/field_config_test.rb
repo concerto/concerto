@@ -160,4 +160,45 @@ class FieldConfigTest < ActiveSupport::TestCase
 
     assert field_config.valid?
   end
+
+  test "accepts valid ordering_strategy" do
+    field_config = FieldConfig.new(
+      screen: @screen,
+      field: @field,
+      ordering_strategy: "weighted"
+    )
+
+    assert field_config.valid?
+  end
+
+  test "rejects invalid ordering_strategy" do
+    field_config = FieldConfig.new(
+      screen: @screen,
+      field: @field,
+      ordering_strategy: "invalid_strategy"
+    )
+
+    assert_not field_config.valid?
+    assert_includes field_config.errors[:ordering_strategy], "is not included in the list"
+  end
+
+  test "allows blank ordering_strategy" do
+    field_config = FieldConfig.new(
+      screen: @screen,
+      field: @field,
+      ordering_strategy: ""
+    )
+
+    assert field_config.valid?
+  end
+
+  test "allows nil ordering_strategy" do
+    field_config = FieldConfig.new(
+      screen: @screen,
+      field: @field,
+      ordering_strategy: nil
+    )
+
+    assert field_config.valid?
+  end
 end
