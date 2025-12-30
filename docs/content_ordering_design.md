@@ -96,15 +96,13 @@ end
 ```ruby
 # app/models/field_config.rb
 class FieldConfig < ApplicationRecord
-  validates :ordering_strategy, inclusion: { in: ContentOrderers::STRATEGIES.keys }, allow_nil: true
-
-  def ordering_strategy
-    super || "random"
-  end
+  validates :ordering_strategy, inclusion: { in: ContentOrderers::STRATEGIES.keys }, allow_blank: true
 end
 ```
 
 This references `ContentOrderers::STRATEGIES` as the single source of truth, so adding a new orderer only requires updating the registry.
+
+**Note:** The database default is "random" to provide a safe fallback when configuration is missing or incomplete. However, the admin UI defaults to "weighted" when creating new configurations to encourage proper subscription weight setup.
 
 ### Service Objects
 
@@ -237,18 +235,15 @@ class Frontend::ContentController < Frontend::ApplicationController
 
     # Build content items with subscription metadata
     content_items = subscriptions.flat_map do |subscription|
-      subscription.contents.active.map do |content|
-        { content: content, subscription: subscription }
+      subscription.contents.active.filter_map do |content|
+        { content: content, subscription: subscription } if content.should_render_in?(@position)
       end
     end
 
-    # Apply ordering strategy
-    strategy = field_config&.ordering_strategy || "random"
+    # Apply ordering strategy (defaults to "random" if no config or blank strategy)
+    strategy = field_config&.ordering_strategy.presence || "random"
     orderer = ContentOrderers.for(strategy)
-    ordered_content = orderer.call(content_items)
-
-    # Filter by position compatibility
-    ordered_content.select { |c| c.should_render_in?(@position) }
+    orderer.call(content_items)
   end
 end
 ```
@@ -270,9 +265,11 @@ The UI should explain each strategy:
 
 | Strategy | Description |
 |----------|-------------|
-| Random | Content appears in random order (default) |
-| Weighted | Higher-weighted feeds appear more often |
+| Random | Content appears in random order |
+| Weighted | Higher-weighted feeds appear more often (recommended) |
 | Strict Priority | Only shows content from highest-priority feed |
+
+**UI Default:** When creating new field configurations, the dropdown defaults to "Weighted" and displays it as "Weighted (Default)" to encourage admins to properly configure subscription weights.
 
 ### Subscription Weight UI
 
@@ -372,7 +369,10 @@ end
 
 2. **No strategy-specific configuration**: To support long-term maintainability, strategies are self-contained with no additional options.
 
-3. **Default strategy is "random"**: Existing screens will behave similarly to current implementation.
+3. **Fallback strategy is "random", UI default is "weighted"**:
+   - **Database/Code Fallback:** The database default and code fallbacks use "random" as a safe default when configuration is missing, incomplete, or invalid. This ensures graceful degradation when subscription weights aren't properly configured.
+   - **Admin UI Default:** The admin interface defaults to "weighted" when creating new field configurations and displays it as "Weighted (Default)" to encourage best practices and proper subscription weight setup.
+   - **Rationale:** Weighted ordering requires properly configured subscription weights. When falling back to a default (because no FieldConfig exists or strategy is blank), those weights may not be available or meaningful, making "random" the safer choice. However, when admins are actively configuring a field, we encourage them to use weighted ordering.
 
 4. **Pure random ordering**: No seeded randomness; content order varies on each request.
 
