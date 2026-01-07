@@ -14,6 +14,8 @@ class Frontend::ScreensController < Frontend::ApplicationController
       }
     }
 
+    response.headers["X-Config-Version"] = @screen.config_version
+
     render json: {
       template: {
         background_uri: url_for(@screen.template.image)
@@ -25,6 +27,8 @@ class Frontend::ScreensController < Frontend::ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_screen
-    @screen = Screen.find(params[:id])
+    @screen = Screen
+      .includes(:field_configs, template: [ :positions, { image_attachment: :blob } ])
+      .find(params[:id])
   end
 end

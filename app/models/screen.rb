@@ -22,4 +22,20 @@ class Screen < ApplicationRecord
     }
 
   validates :name, presence: true
+
+  # Returns an MD5 hash of the most recent configuration change timestamp.
+  # This is used by the frontend to detect when the screen configuration has changed
+  # and trigger a reload.
+  def config_version
+    timestamps = [
+      updated_at,
+      template.updated_at,
+      template.positions.map(&:updated_at).max,
+      field_configs.map(&:updated_at).max,
+      template.image.attachment&.updated_at
+    ].compact
+
+    max_timestamp = timestamps.max
+    Digest::MD5.hexdigest(max_timestamp.to_s)
+  end
 end

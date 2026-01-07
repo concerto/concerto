@@ -8,13 +8,17 @@ class Frontend::ContentController < Frontend::ApplicationController
 
     logger.debug "Found #{@content.count} content to render in #{@screen.name}'s #{@field.name} field"
 
+    response.headers["X-Config-Version"] = @screen.config_version
+
     render json: @content
   end
 
   private
 
   def set_field_config
-    @screen = Screen.find(params[:screen_id])
+    @screen = Screen
+      .includes(:field_configs, template: [ :positions, { image_attachment: :blob } ])
+      .find(params[:screen_id])
     @field = Field.find(params[:field_id])
     @field_config = FieldConfig.find_by(screen: @screen, field: @field)
   end

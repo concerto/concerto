@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import ConcertoField from './ConcertoField.vue'
+import { useConfigVersion } from '../composables/useConfigVersion.js'
 
 // Retry configuration
 const INITIAL_RETRY_DELAY_MS = 1000;
@@ -15,6 +16,9 @@ const backgroundImage = ref("");
 const positions = ref([]);
 let loadConfigRetryTimer = null;
 
+// Track config version to detect changes
+const { check: checkConfigVersion } = useConfigVersion('Screen');
+
 const backgroundImageStyle = computed(() => {
   return `url(${backgroundImage.value})`;
 });
@@ -28,6 +32,11 @@ async function loadConfig(retryCount = 0) {
 
     if (!resp.ok) {
       throw new Error(`HTTP error! status: ${resp.status}`);
+    }
+
+    // Check for config version changes and reload if needed
+    if (checkConfigVersion(resp)) {
+      return; // Stop processing since page is reloading
     }
 
     const screen = await resp.json();

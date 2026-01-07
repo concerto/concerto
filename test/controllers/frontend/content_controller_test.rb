@@ -297,6 +297,17 @@ class Frontend::ContentControllerTest < ActionDispatch::IntegrationTest
     assert_equal high_content.id, data.first["id"]
   end
 
+  test "should include config version header" do
+    screen = screens(:one)
+    get frontend_content_url(screen_id: screen.id, field_id: fields(:main).id, position_id: positions(:two_graphic).id)
+    assert_response :success
+
+    config_version = response.headers["X-Config-Version"]
+    assert_not_nil config_version
+    assert_equal 32, config_version.length
+    assert_match(/^[a-f0-9]{32}$/, config_version)
+  end
+
   private
 
   def setup_subscription_scenario

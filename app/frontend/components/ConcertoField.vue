@@ -5,6 +5,7 @@ import ConcertoGraphic, { preload as preloadGraphic } from './ConcertoGraphic.vu
 import ConcertoRichText from './ConcertoRichText.vue';
 import ConcertoVideo from './ConcertoVideo.vue';
 import ConcertoClock from './ConcertoClock.vue';
+import { useConfigVersion } from '../composables/useConfigVersion.js';
 
 // Content is shown for 10 seconds if it does not have it's own duration.
 const defaultDuration = 10;
@@ -20,6 +21,9 @@ const isDevelopment = import.meta.env.DEV;
 const INITIAL_RETRY_DELAY_MS = 1000;
 const MAX_RETRY_DELAY_MS = 10000;
 const LONG_RETRY_DELAY_MS = 60000;
+
+// Track config version to detect changes
+const { check: checkConfigVersion } = useConfigVersion('Field');
 
 const contentTypeMap = new Map([
   ["Graphic", ConcertoGraphic],
@@ -69,6 +73,11 @@ async function loadContent(retryCount = 0) {
 
     if (!resp.ok) {
       throw new Error(`HTTP error! status: ${resp.status}`);
+    }
+
+    // Check for config version changes and reload if needed
+    if (checkConfigVersion(resp)) {
+      return; // Stop processing since page is reloading
     }
 
     const contents = await resp.json();
