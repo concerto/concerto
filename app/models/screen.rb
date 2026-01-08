@@ -32,7 +32,7 @@ class Screen < ApplicationRecord
       template.updated_at,
       template.positions.map(&:updated_at).max,
       field_configs.map(&:updated_at).max,
-      template.image.attachment&.updated_at
+      template.image.attachment&.created_at
     ].compact
 
     max_timestamp = timestamps.max

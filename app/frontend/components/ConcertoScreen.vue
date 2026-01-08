@@ -20,7 +20,7 @@ let loadConfigRetryTimer = null;
 const { check: checkConfigVersion } = useConfigVersion('Screen');
 
 const backgroundImageStyle = computed(() => {
-  return `url(${backgroundImage.value})`;
+  return backgroundImage.value ? `url(${backgroundImage.value})` : 'none';
 });
 
 async function loadConfig(retryCount = 0) {

@@ -18,7 +18,7 @@ class Frontend::ScreensController < Frontend::ApplicationController
 
     render json: {
       template: {
-        background_uri: url_for(@screen.template.image)
+        background_uri: @screen.template.image.attached? ? url_for(@screen.template.image) : nil
       },
       positions: positions
     }

@@ -83,4 +83,40 @@ class ScreenTest < ActiveSupport::TestCase
       assert_kind_of String, version
     end
   end
+
+  test "config_version works with template that has attached image" do
+    screen = screens(:one)
+
+    # Ensure the template has an attached image
+    assert screen.template.image.attached?, "Test requires template with attached image"
+
+    # Should not raise an error
+    assert_nothing_raised do
+      version = screen.config_version
+      assert_kind_of String, version
+      assert_equal 32, version.length
+    end
+  end
+
+  test "config_version changes when template image is replaced" do
+    screen = screens(:one)
+
+    # Skip if no image is attached
+    skip "Template must have an attached image" unless screen.template.image.attached?
+
+    old_version = screen.config_version
+
+    travel 1.second do
+      # Attach a new image (this creates a new attachment record)
+      screen.template.image.attach(
+        io: StringIO.new("new image content"),
+        filename: "new_image.png",
+        content_type: "image/png"
+      )
+      screen.reload
+      new_version = screen.config_version
+
+      assert_not_equal old_version, new_version, "Config version should change when image is replaced"
+    end
+  end
 end
