@@ -65,6 +65,9 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+
+  # Temporary workaround for https://github.com/rails/rails/issues/56406
+  gem "minitest", "< 6"
 end
 
 # Use Vite & Vue for the frontend player.
