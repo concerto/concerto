@@ -195,7 +195,9 @@ GEM
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
-    minitest (5.27.0)
+    minitest (6.0.1)
+      prism (~> 1.5)
+    minitest-mock (5.27.0)
     msgpack (1.8.0)
     mutex_m (0.3.0)
     net-http (0.6.0)
@@ -471,7 +473,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
-  minitest (< 6)
+  minitest-mock
   omniauth-rails_csrf_protection (~> 2.0)
   omniauth_openid_connect (~> 0.8.0)
   propshaft

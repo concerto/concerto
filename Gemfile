@@ -54,6 +54,9 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # Use mocks for some tests, like RSS Feeds.
+  gem "minitest-mock"
 end
 
 group :development do
@@ -65,9 +68,6 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-
-  # Temporary workaround for https://github.com/rails/rails/issues/56406
-  gem "minitest", "< 6"
 end
 
 # Use Vite & Vue for the frontend player.
