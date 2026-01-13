@@ -2,6 +2,7 @@
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import ConcertoField from './ConcertoField.vue'
 import { useConfigVersion } from '../composables/useConfigVersion.js'
+import { useWakeLock } from '../composables/useWakeLock.js'
 
 // Retry configuration
 const INITIAL_RETRY_DELAY_MS = 1000;
@@ -18,6 +19,9 @@ let loadConfigRetryTimer = null;
 
 // Track config version to detect changes
 const { check: checkConfigVersion } = useConfigVersion('Screen');
+
+// Keep screen awake to prevent display from dimming or turning off
+useWakeLock();
 
 const backgroundImageStyle = computed(() => {
   return backgroundImage.value ? `url(${backgroundImage.value})` : 'none';
