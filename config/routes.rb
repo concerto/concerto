@@ -6,6 +6,9 @@ Rails.application.routes.draw do
     resources :screens, only: [ :show ]
     get "/screens/:screen_id/fields/:field_id/content/", to: "content#index", as: "content"
 
+    # PWA manifest for player
+    get "/manifest/:screen_id", to: "pwa#manifest", as: "manifest", defaults: { format: :json }
+
     # The main landing page for the frontend player.
     get "/:id", to: "player#show", as: "player"
   end

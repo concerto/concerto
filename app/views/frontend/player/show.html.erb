@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <%# PWA Configuration %>
+    <%= tag.link rel: "manifest", href: frontend_manifest_path(@screen.id) %>
+    <%= tag.meta name: "theme-color", content: "#007BFF" %>
+    <%= tag.meta name: "mobile-web-app-capable", content: "yes" %>
+    <%= tag.meta name: "apple-mobile-web-app-capable", content: "yes" %>
+    <%= tag.meta name: "apple-mobile-web-app-status-bar-style", content: "black-fullscreen" %>
+    <%= tag.meta name: "apple-mobile-web-app-title", content: "Concerto" %>
+    <%= tag.link rel: "apple-touch-icon", href: "/apple-touch-icon.png" %>
+
     <%= vite_client_tag %>
     <%= vite_javascript_tag 'player' %>
     <style>
