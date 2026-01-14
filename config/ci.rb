@@ -2,6 +2,7 @@
 
 CI.run do
   step "Setup", "bin/setup --skip-server"
+  step "Build: Vite assets for test", "bin/rails vite:build RAILS_ENV=test"
 
   step "Style: Ruby", "bin/rubocop"
 

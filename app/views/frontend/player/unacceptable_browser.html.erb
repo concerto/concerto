@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Browser Not Supported - Concerto Player</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="utf-8">
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+        background-color: #1a1a1a;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      .content {
+        max-width: 900px;
+        padding: 60px 40px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin: 0 0 30px 0;
+        color: #ff6b6b;
+        line-height: 1.2;
+      }
+
+      .intro {
+        font-size: 2rem;
+        line-height: 1.6;
+        margin: 0 0 40px 0;
+        color: #e0e0e0;
+      }
+
+      .section {
+        background-color: #2a2a2a;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 0 0 20px 0;
+        text-align: left;
+      }
+
+      h2 {
+        font-size: 2.2rem;
+        font-weight: 600;
+        margin: 0 0 25px 0;
+        color: #ffffff;
+      }
+
+      ul {
+        font-size: 1.5rem;
+        line-height: 1.5;
+        margin: 0;
+        padding-left: 30px;
+        color: #e0e0e0;
+      }
+
+      li {
+        margin-bottom: 15px;
+      }
+
+      .help-text {
+        font-size: 1.5rem;
+        margin: 0 0 15px 0;
+        color: #a0a0a0;
+      }
+
+      pre {
+        font-size: 1.4rem;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+        background-color: #1a1a1a;
+        border-radius: 4px;
+        color: #00ff88;
+        overflow-wrap: break-word;
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <h1>Browser Not Supported</h1>
+
+      <p class="intro">
+        Your browser version is too old to display this content.
+      </p>
+
+      <div class="section">
+        <h2>Minimum Requirements</h2>
+
+        <ul>
+          <li>Chrome 64 or newer</li>
+          <li>Firefox 69 or newer</li>
+          <li>Safari 13.1 or newer</li>
+          <li>Opera 51 or newer</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>Technical Details</h2>
+
+        <p class="help-text">For bug reports, please include this information:</p>
+
+        <pre><%= request.user_agent %></pre>
+      </div>
+    </div>
+  </body>
+</html>
