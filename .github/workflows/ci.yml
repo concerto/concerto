@@ -103,8 +103,13 @@ jobs:
         with:
           cache: 'yarn'
 
+      - name: Install Node packages
+        run: yarn install
+
       - name: Build assets (esp frontend player)
         run: bin/rake assets:precompile
+        env:
+          RAILS_ENV: test
 
       - name: Run tests
         env:
@@ -156,8 +161,13 @@ jobs:
         with:
           cache: 'yarn'
 
+      - name: Install Node packages
+        run: yarn install
+
       - name: Build assets (esp frontend player)
         run: bin/rake assets:precompile
+        env:
+          RAILS_ENV: test
 
       - name: Run System Tests
         env:
