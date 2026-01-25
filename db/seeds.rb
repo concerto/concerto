@@ -18,6 +18,7 @@ system_user = User.find_or_create_by!(is_system_user: true, first_name: "Concert
 puts "Seeding application settings..."
 
 initial_settings = {
+    public_registration: true,
     oidc_issuer: "",
     oidc_client_id: "",
     oidc_client_secret: ""

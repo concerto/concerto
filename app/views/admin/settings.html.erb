@@ -10,12 +10,13 @@
             <% settings.each do |setting| %>
               <div>
                 <%= label_tag "settings[#{setting.key}]", setting.key.split('_')[1..-1].join(' ').titleize, class: "frm-label" %>
-                <%= case setting.value_type 
-                    when "boolean"
-                      check_box_tag "settings[#{setting.key}]", "true", setting.typed_value, class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-600"
-                    else
-                      text_field_tag "settings[#{setting.key}]", setting.typed_value, class: "frm-input"
-                    end %>
+                <% case setting.value_type
+                  when "boolean" %>
+                    <%= hidden_field_tag "settings[#{setting.key}]", "false" %>
+                    <%= check_box_tag "settings[#{setting.key}]", "true", setting.typed_value, class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-600" %>
+                <% else %>
+                    <%= text_field_tag "settings[#{setting.key}]", setting.typed_value, class: "frm-input" %>
+                <% end %>
               </div>
             <% end %>
           </div>

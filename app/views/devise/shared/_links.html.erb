@@ -3,7 +3,7 @@
     <%= link_to "Log in", new_session_path(resource_name), class: "text-brand-500 hover:text-brand-600" %>
   <% end %>
 
-  <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+  <%- if devise_mapping.registerable? && controller_name != 'registrations' && Setting[:public_registration] != false %>
     <%= link_to "Sign up", new_registration_path(resource_name), class: "btn btn-secondary text-base w-full justify-center" %>
   <% end %>
 
