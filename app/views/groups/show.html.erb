@@ -80,16 +80,16 @@
                       <%= user_initials(membership.user) %>
                     </div>
                     <div class="ml-3">
-                      <p class="text-body font-medium text-neutral-900"><%= membership.user.full_name %></p>
+                      <p class="text-body font-medium text-neutral-900">
+                        <%= link_to membership.user.full_name, user_path(membership.user), class: "text-brand hover:text-brand-600" %>
+                      </p>
                       <p class="text-caption text-neutral-500"><%= membership.user.email %></p>
                     </div>
                   </div>
                 </td>
                 <td class="px-6 py-4">
                   <% if @group.system_group? || !policy(membership).update? %>
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-neutral-100 text-neutral-800">
-                      <%= membership.role.humanize %>
-                    </span>
+                    <%= membership_role_badge(membership) %>
                   <% else %>
                     <%= form_with model: [@group, membership], method: :patch, local: true, class: "inline-block" do |form| %>
                       <%= form.select :role,

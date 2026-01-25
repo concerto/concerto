@@ -25,7 +25,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = users(:admin)
     get user_url(user)
     assert_response :success
-    assert_select "h1", text: "#{user.display_name} User Profile"
+    assert_select "h1", text: user.display_name
   end
 
   test "should show message when user has no content" do
@@ -33,6 +33,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     user = users(:regular)
     get user_url(user)
     assert_response :success
-    assert_select "div", text: "This user has not uploaded any content."
+    assert_select "h3", text: "No content yet"
   end
 end
