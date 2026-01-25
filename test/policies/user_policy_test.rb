@@ -78,4 +78,39 @@ class UserPolicyTest < ActiveSupport::TestCase
   test "destroy? is denied for user destroying someone else" do
     refute UserPolicy.new(@regular_user, @other_user).destroy?
   end
+
+  # --- Admin Interface Methods ---
+
+  test "admin_create? is permitted for system admins" do
+    assert UserPolicy.new(@system_admin_user, User.new).admin_create?
+  end
+
+  test "admin_create? is denied for regular users" do
+    refute UserPolicy.new(@regular_user, User.new).admin_create?
+  end
+
+  test "admin_create? is denied for anonymous users" do
+    refute UserPolicy.new(nil, User.new).admin_create?
+  end
+
+  test "admin_manage? is permitted for system admin managing other users" do
+    assert UserPolicy.new(@system_admin_user, @regular_user).admin_manage?
+  end
+
+  test "admin_manage? is denied for system admin managing themselves" do
+    refute UserPolicy.new(@system_admin_user, @system_admin_user).admin_manage?
+  end
+
+  test "admin_manage? is denied for system admin managing system users" do
+    system_user = users(:system_user)
+    refute UserPolicy.new(@system_admin_user, system_user).admin_manage?
+  end
+
+  test "admin_manage? is denied for regular users" do
+    refute UserPolicy.new(@regular_user, @other_user).admin_manage?
+  end
+
+  test "admin_manage? is denied for anonymous users" do
+    refute UserPolicy.new(nil, @regular_user).admin_manage?
+  end
 end

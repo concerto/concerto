@@ -39,6 +39,9 @@ Rails.application.routes.draw do
   # Admin routes
   get "/admin/settings", to: "admin#settings"
   patch "/admin/settings", to: "admin#update_settings"
+  namespace :admin do
+    resources :users, only: [ :new, :create, :edit, :update, :destroy ]
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

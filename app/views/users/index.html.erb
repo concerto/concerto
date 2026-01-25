@@ -1,8 +1,18 @@
 <%= page_title "Users" %>
 
-<div class="mb-6">
-  <h1 class="text-h2 text-neutral-900">All Users</h1>
-  <p class="text-body text-neutral-700 mt-1">View and manage user accounts</p>
+<div class="flex items-center justify-between mb-6">
+  <div>
+    <h1 class="text-h2 text-neutral-900">All Users</h1>
+    <p class="text-body text-neutral-700 mt-1">View and manage user accounts</p>
+  </div>
+  <% if policy(User).admin_create? %>
+    <%= link_to new_admin_user_path, class: "btn-primary" do %>
+      <svg class="h-5 w-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.5v15m7.5-7.5h-15" />
+      </svg>
+      New User
+    <% end %>
+  <% end %>
 </div>
 
 <div class="card">
