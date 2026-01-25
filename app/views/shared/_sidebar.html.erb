@@ -55,7 +55,7 @@
         <% if policy(Setting).index? %>
           <%= sidebar_nav_link_to "Settings", admin_settings_path, "cog" %>
         <% end %>
-        <%= sidebar_nav_link_to "Users", "#", "user" %>
+        <%= sidebar_nav_link_to "Users", users_path, "user" %>
         <%= sidebar_nav_link_to "System", "#", "server" %>
       </div>
     </div>

@@ -1,0 +1,67 @@
+<%= page_title "Users" %>
+
+<div class="mb-6">
+  <h1 class="text-h2 text-neutral-900">All Users</h1>
+  <p class="text-body text-neutral-700 mt-1">View and manage user accounts</p>
+</div>
+
+<div class="card">
+  <div class="card-body p-0">
+    <% if @users.any? %>
+      <div class="overflow-x-auto">
+        <table class="min-w-full">
+          <thead class="bg-neutral-100">
+            <tr>
+              <th class="px-6 py-3 text-left text-label text-neutral-700">User</th>
+              <th class="px-6 py-3 text-left text-label text-neutral-700">Roles</th>
+              <th class="px-6 py-3 text-left text-label text-neutral-700">Groups</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-neutral-200">
+            <% @users.each do |user| %>
+              <tr>
+                <td class="px-6 py-4">
+                  <div class="flex items-center">
+                    <div class="h-8 w-8 rounded-full flex items-center justify-center text-white font-medium bg-gradient-to-br from-brand to-brand-600 text-sm">
+                      <%= user_initials(user) %>
+                    </div>
+                    <div class="ml-3">
+                      <p class="text-body font-medium text-neutral-900">
+                        <%= link_to user.display_name, user_path(user), class: "text-brand hover:text-brand-600" %>
+                      </p>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="flex flex-wrap gap-1">
+                    <% if user.is_system_user %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-neutral-200 text-neutral-800">
+                        System User
+                      </span>
+                    <% end %>
+                    <% if user.system_admin? %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-brand-100 text-brand-600">
+                        System Administrator
+                      </span>
+                    <% end %>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-body text-neutral-700">
+                  <%= pluralize(user.groups.size, 'group') %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="px-6 py-12 text-center">
+        <svg class="mx-auto h-12 w-12 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+        </svg>
+        <h3 class="text-h3 text-neutral-900 mt-4">No users yet</h3>
+        <p class="text-body text-neutral-500 mt-2">There are no user accounts in the system.</p>
+      </div>
+    <% end %>
+  </div>
+</div>

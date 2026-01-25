@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   resources :videos, except: [ :index ]
   resources :clocks, except: [ :index ]
 
-  resources :users, only: [ :show ]
+  resources :users, only: [ :index, :show ]
 
   # Groups and membership management
   resources :groups do

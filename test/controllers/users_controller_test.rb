@@ -7,6 +7,17 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   # Authorization tests
+  test "signed in users can view user list" do
+    sign_in @user
+    get users_url
+    assert_response :success
+  end
+
+  test "unauthenticated users cannot view user list" do
+    get users_url
+    assert_redirected_to new_user_session_path
+  end
+
   test "signed in users can view user profiles" do
     sign_in @user
     get user_url(@user)
@@ -15,11 +26,19 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "unauthenticated users cannot view user profiles" do
     get user_url(@user)
-    assert_redirected_to root_path
-    assert_equal "You are not authorized to perform this action.", flash[:alert]
+    assert_redirected_to new_user_session_path
   end
 
-  # Original functionality tests
+  # Index functionality tests
+  test "should show user list with all users" do
+    sign_in @user
+    get users_url
+    assert_response :success
+    assert_select "h1", text: "All Users"
+    assert_select "table tbody tr", minimum: 1
+  end
+
+  # Show functionality tests
   test "should show user profile with display name" do
     sign_in @user
     user = users(:admin)

@@ -1,6 +1,13 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_user, only: %i[ show ]
-  after_action :verify_authorized
+  after_action :verify_authorized, except: [ :index ]
+  after_action :verify_policy_scoped, only: [ :index ]
+
+  # GET /users
+  def index
+    @users = policy_scope(User).includes(:groups).order(:email)
+  end
 
   # GET /users/1 or /users/1.json
   def show
