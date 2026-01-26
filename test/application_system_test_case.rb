@@ -6,6 +6,11 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # cleaning up shared fixture files in tmp/storage_fixtures.
   parallelize(workers: 1)
 
+  # System tests render full pages that often include video thumbnails
+  setup do
+    stub_oembed_apis
+  end
+
   if ENV["CAPYBARA_SERVER_PORT"]
     served_by host: "rails-app", port: ENV["CAPYBARA_SERVER_PORT"]
 

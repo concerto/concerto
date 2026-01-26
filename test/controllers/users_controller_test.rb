@@ -2,6 +2,7 @@ require "test_helper"
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
+    stub_oembed_apis  # User profiles display video thumbnails
     @user = users(:regular)
     @system_admin = users(:system_admin)
   end

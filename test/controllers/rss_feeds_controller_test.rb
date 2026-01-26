@@ -2,6 +2,7 @@ require "test_helper"
 
 class RssFeedsControllerTest < ActionDispatch::IntegrationTest
   setup do
+    stub_rss_feeds
     @rss_feed = rss_feeds(:yahoo_rssfeed)
     @system_admin = users(:system_admin)
   end
