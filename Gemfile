@@ -77,7 +77,7 @@ end
 gem "vite_rails"
 
 # Use Devise for authentication.
-gem "devise", "~> 4.9"
+gem "devise", "~> 5.0"
 
 # Use Devise OpenID Connect for SSO.
 gem "omniauth-rails_csrf_protection", "~> 2.0"
