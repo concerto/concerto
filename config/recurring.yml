@@ -17,3 +17,7 @@ production:
   refresh_rss_feeds:
     class: RefreshRssFeedsJob
     schedule: every 5 minutes
+
+  refresh_remote_feeds:
+    class: RefreshRemoteFeedsJob
+    schedule: every 5 minutes

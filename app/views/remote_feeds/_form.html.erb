@@ -1,0 +1,91 @@
+<div class="max-w-4xl mx-auto">
+  <%= form_with(model: remote_feed, class: "space-y-4") do |form| %>
+    <% if remote_feed.errors.any? %>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <div class="flex items-start">
+          <svg class="w-5 h-5 text-red-400 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+          </svg>
+          <div class="flex-1">
+            <h3 class="text-sm font-semibold text-red-800 mb-2">
+              <%= pluralize(remote_feed.errors.count, "error") %> prohibited this remote feed from being saved:
+            </h3>
+            <ul class="text-sm text-red-700 space-y-1">
+              <% remote_feed.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Form Content Card -->
+    <div class="bg-white rounded-lg border border-gray-200 shadow-sm">
+      <div class="px-4 py-3 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-900">Remote Feed Configuration</h2>
+        <p class="text-sm text-gray-600 mt-1">Configure a remote feed to automatically import content from a JSON endpoint</p>
+      </div>
+
+      <div class="p-4 space-y-4">
+        <!-- Feed Name -->
+        <div>
+          <%= form.label :name, "Feed Name", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= form.text_field :name,
+              class: "block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm",
+              placeholder: "Enter a descriptive name for this remote feed" %>
+          <p class="text-xs text-gray-500 mt-1">A name to identify this remote feed</p>
+        </div>
+
+        <!-- Feed Description -->
+        <div>
+          <%= form.label :description, "Description", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= form.text_area :description,
+              class: "block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm",
+              rows: 3,
+              placeholder: "Describe the purpose and content of this remote feed..." %>
+          <p class="text-xs text-gray-500 mt-1">Description of what this feed contains</p>
+        </div>
+
+        <!-- Group Selection -->
+        <div>
+          <%= form.label :group_id, "Managers", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <% can_edit_group = policy(remote_feed).can_edit_group? %>
+          <% select_classes = [ "block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm text-sm" ] %>
+          <% select_classes << (can_edit_group ? "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" : "bg-gray-100 text-gray-500 cursor-not-allowed") %>
+          <%= form.collection_select :group_id, @groups, :id, :name,
+              { prompt: "Select a group" },
+              {
+                class: select_classes.join(" "),
+                disabled: !can_edit_group
+              } %>
+          <% unless can_edit_group %>
+            <%= form.hidden_field :group_id %>
+          <% end %>
+          <p class="text-xs text-gray-500 mt-1">
+            <%= can_edit_group ? "Choose which group manages this feed" : "You don't have permission to change the group for this feed" %>
+          </p>
+        </div>
+
+        <!-- Remote URL -->
+        <div>
+          <%= form.label :url, "Remote Feed URL", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= form.url_field :url,
+              class: "block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm",
+              placeholder: "https://example.com/concerto/contents" %>
+          <p class="text-xs text-gray-500 mt-1">The URL to a JSON endpoint that returns content items</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="flex items-center justify-between pt-2">
+      <div class="flex space-x-3">
+        <%= link_to "Cancel", (remote_feed.persisted? ? remote_feed : feeds_path), class: "btn-secondary" %>
+      </div>
+      <div class="flex space-x-3">
+        <%= form.submit "Save Remote Feed", class: "btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+</div>

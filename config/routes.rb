@@ -22,6 +22,9 @@ Rails.application.routes.draw do
     get "refresh", on: :member
     delete "cleanup", on: :member
   end
+  resources :remote_feeds, except: [ :index ] do
+    get "refresh", on: :member
+  end
   resources :feeds
   resources :contents, only: [ :index, :new ]
 

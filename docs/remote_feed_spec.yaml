@@ -1,0 +1,100 @@
+openapi: 3.1.0
+info:
+  title: Concerto Remote Feed
+  description: >
+    Schema specification for a remote feed that provides content to Concerto.
+    Concerto polls a user-configured URL to retrieve content objects (RichText, Graphic, Video).
+    The endpoint must return a JSON array of Content objects as described below.
+    The URL path is not prescribed — any URL returning this format will work
+    (e.g. https://example.com/feed_contents.json).
+  version: 0.0.0
+
+paths: {}
+
+components:
+  schemas:
+    ContentBase:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Display name of the content.
+        duration:
+          type: integer
+          description: How long the content should be displayed, in seconds. If omitted, the Concerto player will use its own default duration.
+        start_time:
+          type: string
+          format: date-time
+          description: When the content becomes active. Active immediately if omitted.
+        end_time:
+          type: string
+          format: date-time
+          description: When the content expires. No expiration if omitted.
+
+    RichText:
+      allOf:
+        - $ref: "#/components/schemas/ContentBase"
+        - type: object
+          required:
+            - type
+            - text
+            - render_as
+          properties:
+            type:
+              type: string
+              const: RichText
+            text:
+              type: string
+              description: The text content to display.
+            render_as:
+              type: string
+              enum:
+                - plaintext
+                - html
+              description: How the text should be rendered.
+
+    Graphic:
+      allOf:
+        - $ref: "#/components/schemas/ContentBase"
+        - type: object
+          required:
+            - type
+            - url
+          properties:
+            type:
+              type: string
+              const: Graphic
+            url:
+              type: string
+              format: uri
+              description: URL to the image file. This URL must be publicly accessible, as Concerto will attempt to download the image.
+
+    Video:
+      allOf:
+        - $ref: "#/components/schemas/ContentBase"
+        - type: object
+          required:
+            - type
+            - url
+          properties:
+            type:
+              type: string
+              const: Video
+            url:
+              type: string
+              format: uri
+              description: URL of the video (e.g. YouTube, Vimeo, or TikTok link).
+
+    Content:
+      oneOf:
+        - $ref: "#/components/schemas/RichText"
+        - $ref: "#/components/schemas/Graphic"
+        - $ref: "#/components/schemas/Video"
+      discriminator:
+        propertyName: type
+        mapping:
+          RichText: "#/components/schemas/RichText"
+          Graphic: "#/components/schemas/Graphic"
+          Video: "#/components/schemas/Video"

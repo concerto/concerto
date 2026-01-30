@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+test_remote_feed:
+  type: RemoteFeed
+  name: Test Remote Feed
+  description: Remote feed for testing
+  config: {'url': 'https://example.com/concerto/contents'}
+  group: feed_one_owners
+
+system_remote_feed:
+  type: RemoteFeed
+  name: System Remote Feed
+  description: Remote feed for system admin testing
+  config: {'url': 'https://example.com/concerto/contents'}
+  group: system_administrators

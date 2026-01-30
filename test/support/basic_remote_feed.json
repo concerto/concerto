@@ -1,0 +1,22 @@
+[
+  {
+    "type": "RichText",
+    "name": "Welcome Message",
+    "text": "<h1>Welcome</h1><p>Hello world!</p>",
+    "render_as": "html",
+    "duration": 10
+  },
+  {
+    "type": "RichText",
+    "name": "Plain Announcement",
+    "text": "This is a plain text announcement",
+    "render_as": "plaintext",
+    "duration": 8
+  },
+  {
+    "type": "Video",
+    "name": "Featured Video",
+    "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "duration": 30
+  }
+]
