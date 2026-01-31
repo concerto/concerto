@@ -36,15 +36,21 @@
           </dd>
         </div>
 
-        <!-- Remote URL -->
+        <!-- Remote URL (only visible to editors, may contain sensitive keys) -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <dt class="text-body font-medium text-neutral-700">Remote Feed URL</dt>
           <dd class="text-body text-neutral-900 sm:col-span-2">
-            <div class="flex items-center gap-2">
-              <code class="px-2 py-1 bg-neutral-100 text-neutral-900 rounded text-caption font-mono flex-1">
-                <%= @remote_feed.url %>
+            <% if policy(@remote_feed).permitted_attributes_for_show.include?(:url) %>
+              <div class="flex items-center gap-2">
+                <code class="px-2 py-1 bg-neutral-100 text-neutral-900 rounded text-caption font-mono flex-1">
+                  <%= @remote_feed.url %>
+                </code>
+              </div>
+            <% else %>
+              <code class="px-2 py-1 bg-neutral-100 text-neutral-500 rounded text-caption font-mono">
+                ••••••••••••••••
               </code>
-            </div>
+            <% end %>
           </dd>
         </div>
 

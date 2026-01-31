@@ -161,4 +161,84 @@ class RemoteFeedsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
     assert_equal "You are not authorized to perform this action.", flash[:alert]
   end
+
+  # URL visibility tests
+  test "should show URL to system admin" do
+    sign_in @system_admin
+    get remote_feed_url(@remote_feed)
+    assert_response :success
+    assert_select "code", text: @remote_feed.url
+  end
+
+  test "should show URL to group admin" do
+    sign_in users(:admin)
+    get remote_feed_url(@remote_feed)
+    assert_response :success
+    assert_select "code", text: @remote_feed.url
+  end
+
+  test "should show URL to group member" do
+    sign_in users(:regular)
+    get remote_feed_url(@remote_feed)
+    assert_response :success
+    assert_select "code", text: @remote_feed.url
+  end
+
+  test "should not show URL to non-member" do
+    sign_in users(:non_member)
+    get remote_feed_url(@remote_feed)
+    assert_response :success
+    assert_select "code", text: @remote_feed.url, count: 0
+    assert_select "code", text: "••••••••••••••••"
+  end
+
+  test "should not show URL to anonymous user" do
+    get remote_feed_url(@remote_feed)
+    assert_response :success
+    assert_select "code", text: @remote_feed.url, count: 0
+    assert_select "code", text: "••••••••••••••••"
+  end
+
+  # JSON API URL visibility tests
+  test "should include config in JSON for system admin" do
+    sign_in @system_admin
+    get remote_feed_url(@remote_feed, format: :json)
+    assert_response :success
+    json = JSON.parse(response.body)
+    assert_not_nil json["config"]
+    assert_equal @remote_feed.url, json["config"]["url"]
+  end
+
+  test "should include config in JSON for group admin" do
+    sign_in users(:admin)
+    get remote_feed_url(@remote_feed, format: :json)
+    assert_response :success
+    json = JSON.parse(response.body)
+    assert_not_nil json["config"]
+    assert_equal @remote_feed.url, json["config"]["url"]
+  end
+
+  test "should include config in JSON for group member" do
+    sign_in users(:regular)
+    get remote_feed_url(@remote_feed, format: :json)
+    assert_response :success
+    json = JSON.parse(response.body)
+    assert_not_nil json["config"]
+    assert_equal @remote_feed.url, json["config"]["url"]
+  end
+
+  test "should not include config in JSON for non-member" do
+    sign_in users(:non_member)
+    get remote_feed_url(@remote_feed, format: :json)
+    assert_response :success
+    json = JSON.parse(response.body)
+    assert_nil json["config"]
+  end
+
+  test "should not include config in JSON for anonymous user" do
+    get remote_feed_url(@remote_feed, format: :json)
+    assert_response :success
+    json = JSON.parse(response.body)
+    assert_nil json["config"]
+  end
 end

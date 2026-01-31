@@ -15,6 +15,11 @@ class RemoteFeed < Feed
 
     before_destroy :destroy_associated_content, prepend: true
 
+    # Use RemoteFeedPolicy for authorization (overrides Feed's policy_class)
+    def self.policy_class
+      RemoteFeedPolicy
+    end
+
     def last_refreshed
       DateTime.parse(super) if super
     end
