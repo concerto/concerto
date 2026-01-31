@@ -31,6 +31,44 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should redirect STI feed to proper controller" do
+    rss_feed = rss_feeds(:yahoo_rssfeed)
+    get feed_url(rss_feed)
+    assert_redirected_to rss_feed_url(rss_feed)
+    assert_response :moved_permanently
+  end
+
+  test "should redirect STI feed with format" do
+    rss_feed = rss_feeds(:yahoo_rssfeed)
+    get feed_url(rss_feed, format: :json)
+    assert_redirected_to rss_feed_url(rss_feed, format: :json)
+    assert_response :moved_permanently
+  end
+
+  test "should redirect STI feed edit to proper controller" do
+    sign_in @system_admin
+    rss_feed = rss_feeds(:yahoo_rssfeed)
+    get edit_feed_url(rss_feed)
+    assert_redirected_to edit_rss_feed_url(rss_feed)
+    assert_response :moved_permanently
+  end
+
+  test "should not allow updating STI feed via base controller" do
+    sign_in @system_admin
+    rss_feed = rss_feeds(:yahoo_rssfeed)
+    patch feed_url(rss_feed), params: { feed: { name: "Updated name" } }
+    assert_response :method_not_allowed
+  end
+
+  test "should not allow destroying STI feed via base controller" do
+    sign_in @system_admin
+    rss_feed = rss_feeds(:yahoo_rssfeed)
+    assert_no_difference("Feed.count") do
+      delete feed_url(rss_feed)
+    end
+    assert_response :method_not_allowed
+  end
+
   test "should get edit with system admin" do
     sign_in @system_admin
     get edit_feed_url(@feed)
