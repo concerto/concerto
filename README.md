@@ -1,9 +1,26 @@
-# Concerto (Fresh)
+# Concerto Digital Signage System
 
 ![CI workflow](https://github.com/bamnet/concerto-fresh/actions/workflows/ci.yml/badge.svg)
 
-Concerto (fresh) is an experiment in radically simplifying Concerto 2 to
-enable long-term support and easy maintance.
+## What is Concerto?
+
+Concerto is an open source digital signage system. Users submit graphic, textual, and other content, and moderators approve that content for use in a variety of content feeds which are displayed on screens connected to computers displaying the Concerto frontend.
+
+Each screen has a template that has fields designated for content. The template can also have a background graphic and a CSS stylesheet. You can easily define your own templates.
+
+A screen can subscribe its fields to feeds (or channels). Screens can be public or private (requiring a token).
+
+Users can create content (an image, an iframe, video, rss content, etc.) and submit it to various feeds. The content can be scheduled for a specific date range. Content submitted to a feed can be ordered on that feed if desired. The default ordering is by content start date.
+
+Feeds can be hidden or locked. Feeds belong to groups. If the user that submitted the content is an administrator or is authorized to moderate content on the feed based on their group membership permissions then the submission is automatically approved. Otherwise the content submission to the feed is pending a moderator’s approval.
+
+A screen can define the content display rules for each field. This includes whether content should be displayed in order or randomly or based on priority. It can also designate the animation for transitions when content is swapped out and in.
+
+### What's new in Concerto 3?
+
+Concerto 3 is a re-write of Concerto 2, focused on long-term support and easy maintenance. It drops support for several features that were difficult to maintain during Rails upgrades (e.g. dynamic plugins) and focuses on core functionality closer to Concerto 1.
+
+The Concerto 2 codebase can be found in the [2.x branch](https://github.com/concerto/concerto/tree/2.x).
 
 ## Installation
 
@@ -48,9 +65,10 @@ To start a local development server:
 bin/dev
 ```
 
-Misc Notes:
+Development Notes:
 
-- We use ImportMaps to manage JS deps. Add dependencies using a command like `bin/importmap pin @stimulus-components/dropdown`
+- In the admin console (aka Rails views) we use ImportMaps to manage JS deps. Add dependencies using a command like `bin/importmap pin @stimulus-components/dropdown`.
+- The frontend player is a Vite / Vue / Yarn app in `app/frontend` written in JavaScript. It does _not_ use ImportMaps.
 - Needs icons? Copy and paste SVG from https://heroicons.com/.
 
 ### Testing
@@ -71,4 +89,10 @@ Frontend tests:
 
 ```shell
 yarn run vitest
+```
+
+Full CI suite:
+
+```shell
+bin/ci
 ```
