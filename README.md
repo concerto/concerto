@@ -1,6 +1,6 @@
 # Concerto Digital Signage System
 
-![CI workflow](https://github.com/bamnet/concerto-fresh/actions/workflows/ci.yml/badge.svg)
+![CI workflow](../../actions/workflows/ci.yml/badge.svg)
 
 ## What is Concerto?
 
@@ -33,17 +33,17 @@ The easiest way to get Concerto running is with Docker.
 #### Steps
 
 ```shell
-docker pull ghcr.io/bamnet/concerto:latest
+docker pull ghcr.io/concerto/concerto:latest
 
 # If you need to generate a secret
-docker run --rm ghcr.io/bamnet/concerto:latest bin/rails secret
+docker run --rm ghcr.io/concerto/concerto:latest bin/rails secret
 
 docker run -d \
      -p 80:80 \
      -e SECRET_KEY_BASE=<your-generated-secret> \
      -v concerto_storage:/rails/storage \
      --name concerto \
-     ghcr.io/bamnet/concerto:latest
+     ghcr.io/concerto/concerto:latest
 ```
 
 Open your browser and navigate to `http://localhost`.
