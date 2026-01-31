@@ -2,12 +2,12 @@
 service: concerto
 
 # Name of the container image (use your-user/app-name on external registries).
-image: bamnet/concerto
+image: concerto/concerto
 
 # Deploy to these servers.
 servers:
   web:
-    - concerto-fresh-demo
+    - concerto
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -27,7 +27,7 @@ registry:
   server: ghcr.io
 
   # Needed for authenticated registries.
-  username: bamnet
+  username: concerto
 
   # Always use an access token rather than real password when possible.
   password:
