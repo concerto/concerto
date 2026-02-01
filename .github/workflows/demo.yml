@@ -46,10 +46,6 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.1
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: Setup Rails Key
-        env:
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-        run: echo "$RAILS_MASTER_KEY" >> config/master.key
       - name: Deploy
         run: bin/kamal deploy
         env:
