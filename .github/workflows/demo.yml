@@ -50,3 +50,4 @@ jobs:
         run: bin/kamal deploy
         env:
           KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
