@@ -98,8 +98,8 @@ builder:
 retain_containers: 3
 
 # Use a different ssh user than root
-ssh:
-  keys: [ "~/.ssh/concerto_demo" ]
+# ssh:
+#   user: app
 
 # Use accessory services (secrets come from .kamal/secrets).
 # accessories:
