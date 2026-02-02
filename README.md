@@ -1,6 +1,7 @@
 # Concerto Digital Signage System
 
 ![CI workflow](../../actions/workflows/ci.yml/badge.svg)
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Fdemo.concerto-signage.org%2Fup&label=demo%20instance)](https://demo.concerto-signage.org)
 
 ## What is Concerto?
 
@@ -59,14 +60,36 @@ Open your browser and navigate to `http://localhost`.
 
 ## Development
 
-To start a local development server:
+Concerto can be developed on any machine that supports a standard Ruby on Rails development enviroment.
+See the [Ruby on Rails documentation](https://guides.rubyonrails.org/index.html) for more information.
+A devcontainer is also available for containerized development in supported platforms e.g. VSCode.
+
+System Requirements:
+
+* ruby 3.3
+* node, npm
+* yarn, for the frontend
+* libvips, for image resizing
+
+Initial setup:
+
+```shell
+bundle install
+yarn install
+bin/rails db:setup
+```
+
+Starting a development server:
 
 ```shell
 bin/dev
 ```
 
+This will start a server accessible at http://localhost:3000.
+
 Development Notes:
 
+- As dependencies update, you'll probably need to run `bundle install && yarn install` regularly to keep up with dependabot.
 - In the admin console (aka Rails views) we use ImportMaps to manage JS deps. Add dependencies using a command like `bin/importmap pin @stimulus-components/dropdown`.
 - The frontend player is a Vite / Vue / Yarn app in `app/frontend` written in JavaScript. It does _not_ use ImportMaps.
 - Needs icons? Copy and paste SVG from https://heroicons.com/.
