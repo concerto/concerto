@@ -28,7 +28,7 @@ class ScreenTest < ActiveSupport::TestCase
     assert_match(/^[a-f0-9]{32}$/, version)
   end
 
-  test "config_version changes when screen is updated" do
+  test "config_version does not change when only screen attributes are updated" do
     screen = screens(:one)
     old_version = screen.config_version
 
@@ -36,7 +36,7 @@ class ScreenTest < ActiveSupport::TestCase
       screen.update!(name: "Updated Name")
       new_version = screen.config_version
 
-      assert_not_equal old_version, new_version
+      assert_equal old_version, new_version
     end
   end
 

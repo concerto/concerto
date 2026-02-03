@@ -34,7 +34,6 @@ class Screen < ApplicationRecord
   # and trigger a reload.
   def config_version
     timestamps = [
-      updated_at,
       template.updated_at,
       template.positions.map(&:updated_at).max,
       field_configs.map(&:updated_at).max,
