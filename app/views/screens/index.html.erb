@@ -28,11 +28,16 @@
           
           <div class="space-y-2 text-caption text-neutral-500">
             <div class="flex items-center justify-center">
-              <%= heroicon('check-circle', class: 'w-4 h-4 mr-1') %>
-              <span class="text-success">Online</span>
+              <% if screen.online? %>
+                <%= heroicon('check-circle', class: 'w-4 h-4 mr-1') %>
+                <span class="text-success">Online</span>
+              <% else %>
+                <%= heroicon('x-circle', class: 'w-4 h-4 mr-1') %>
+                <span class="text-neutral-500">Offline</span>
+              <% end %>
             </div>
-            
-            <div>Last seen <%= time_ago_in_words(screen.updated_at) %> ago</div>
+
+            <div>Last seen <%= screen.last_seen_at ? "#{time_ago_in_words(screen.last_seen_at)} ago" : "Never" %></div>
           </div>
         </div>
       </div>
