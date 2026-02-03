@@ -1,6 +1,24 @@
 require "test_helper"
 
 class ScreenTest < ActiveSupport::TestCase
+  test "online? returns true when last_seen_at is recent" do
+    screen = screens(:one)
+    screen.update_column(:last_seen_at, 1.minute.ago)
+    assert screen.online?
+  end
+
+  test "online? returns false when last_seen_at is old" do
+    screen = screens(:one)
+    screen.update_column(:last_seen_at, 10.minutes.ago)
+    assert_not screen.online?
+  end
+
+  test "online? returns false when last_seen_at is nil" do
+    screen = screens(:one)
+    screen.update_column(:last_seen_at, nil)
+    assert_not screen.online?
+  end
+
   test "config_version returns MD5 hash string" do
     screen = screens(:one)
     version = screen.config_version

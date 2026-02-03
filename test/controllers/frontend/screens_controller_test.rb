@@ -26,6 +26,16 @@ class Frontend::ScreensControllerTest < ActionDispatch::IntegrationTest
     assert_match(/^[a-f0-9]{32}$/, config_version)
   end
 
+  test "should update last_seen_at" do
+    assert_nil @screen.last_seen_at
+
+    get frontend_screen_url(id: @screen.id, format: :json)
+    assert_response :success
+
+    @screen.reload
+    assert_not_nil @screen.last_seen_at
+  end
+
   test "should handle template without attached image" do
     # Create a screen with a template that has no image attached
     template_without_image = Template.create!(name: "Template Without Image")

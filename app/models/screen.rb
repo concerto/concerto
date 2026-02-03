@@ -23,6 +23,12 @@ class Screen < ApplicationRecord
 
   validates :name, presence: true
 
+  ONLINE_THRESHOLD = 5.minutes
+
+  def online?
+    last_seen_at.present? && last_seen_at > ONLINE_THRESHOLD.ago
+  end
+
   # Returns an MD5 hash of the most recent configuration change timestamp.
   # This is used by the frontend to detect when the screen configuration has changed
   # and trigger a reload.

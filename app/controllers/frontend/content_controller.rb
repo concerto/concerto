@@ -8,6 +8,8 @@ class Frontend::ContentController < Frontend::ApplicationController
 
     logger.debug "Found #{@content.count} content to render in #{@screen.name}'s #{@field.name} field"
 
+    @screen.touch(:last_seen_at)
+
     response.headers["X-Config-Version"] = @screen.config_version
 
     render json: @content

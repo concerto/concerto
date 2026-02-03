@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_29_154504) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_03_035147) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -120,6 +120,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_29_154504) do
   create_table "screens", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "group_id", null: false
+    t.datetime "last_seen_at"
     t.string "name"
     t.integer "template_id", null: false
     t.datetime "updated_at", null: false

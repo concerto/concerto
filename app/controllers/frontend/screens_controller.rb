@@ -14,6 +14,8 @@ class Frontend::ScreensController < Frontend::ApplicationController
       }
     }
 
+    @screen.touch(:last_seen_at)
+
     response.headers["X-Config-Version"] = @screen.config_version
 
     render json: {
