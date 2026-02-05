@@ -17,7 +17,14 @@ Rails.application.routes.draw do
     resources :subscriptions, only: [ :index, :create, :update, :destroy ]
   end
   resources :templates
-  resources :submissions
+  resources :submissions do
+    collection do
+      get :pending
+    end
+    member do
+      patch :moderate
+    end
+  end
   resources :rss_feeds, except: [ :index ] do
     get "refresh", on: :member
     delete "cleanup", on: :member

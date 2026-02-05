@@ -131,4 +131,79 @@ class ContentTest < ActiveSupport::TestCase
     )
     assert_includes Content.used, expired_not_unused
   end
+
+  test "updating tracked fields triggers submission re-moderation for non-members" do
+    non_member = users(:non_member)
+    feed = feeds(:one)
+
+    content = RichText.create!(
+      name: "Test", text: "Original", duration: 10, user: non_member,
+      config: { "render_as" => "plaintext" }
+    )
+    submission = Submission.create!(content: content, feed: feed)
+
+    # Non-member submission should be pending
+    assert submission.pending?
+
+    # Human moderator approves
+    submission.moderate!(status: :approved, moderator: @admin, reason: "OK")
+    assert submission.approved?
+    assert_equal @admin, submission.moderator
+
+    # Update content text (tracked field) - should reset for re-moderation
+    content.update!(text: "Updated")
+    submission.reload
+
+    # Should be pending again because substantive changes require re-review
+    assert submission.pending?
+    assert_nil submission.moderator
+  end
+
+  test "updating tracked fields resets auto-approved submissions" do
+    non_member = users(:non_member)
+    rss_feed = rss_feeds(:test_rssfeed)  # auto-approves
+
+    content = RichText.create!(
+      name: "Test", text: "Original", duration: 10, user: non_member,
+      config: { "render_as" => "plaintext" }
+    )
+    submission = Submission.create!(content: content, feed: rss_feed)
+
+    # Should be auto-approved
+    assert submission.approved?
+    assert_nil submission.moderator
+
+    # Change to a non-auto-approving feed
+    regular_feed = feeds(:one)
+    submission.update!(feed: regular_feed)
+
+    # Update content (tracked field)
+    content.update!(name: "Updated Name")
+    submission.reload
+
+    # Should now be pending because user is not a member of the feed's group
+    assert submission.pending?
+  end
+
+  test "updating config triggers re-moderation for non-members" do
+    non_member = users(:non_member)
+    feed = feeds(:one)
+
+    content = RichText.create!(
+      name: "Test", text: "Original", duration: 10, user: non_member,
+      config: { "render_as" => "plaintext" }
+    )
+    submission = Submission.create!(content: content, feed: feed)
+
+    # Approve manually
+    submission.moderate!(status: :approved, moderator: @admin, reason: "OK")
+    assert submission.approved?
+
+    # Update config (render_as) - should trigger re-moderation
+    content.update!(config: { "render_as" => "html" })
+    submission.reload
+
+    # Should be pending again because substantive changes require re-review
+    assert submission.pending?
+  end
 end

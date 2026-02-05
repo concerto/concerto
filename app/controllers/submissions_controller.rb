@@ -1,11 +1,19 @@
 class SubmissionsController < ApplicationController
-  before_action :set_submission, only: %i[ show edit update destroy ]
-  after_action :verify_authorized, except: :index
-  after_action :verify_policy_scoped, only: :index
+  before_action :set_submission, only: %i[ show edit update destroy moderate ]
+  after_action :verify_authorized, except: [ :index, :pending ]
+  after_action :verify_policy_scoped, only: [ :index, :pending ]
 
   # GET /submissions or /submissions.json
   def index
     @submissions = policy_scope(Submission)
+  end
+
+  # GET /submissions/pending
+  def pending
+    @submissions = policy_scope(Submission, policy_scope_class: SubmissionPolicy::ModerationScope)
+                     .pending
+                     .includes(:content, :feed, content: :user)
+                     .order(created_at: :asc)
   end
 
   # GET /submissions/1 or /submissions/1.json
@@ -56,6 +64,22 @@ class SubmissionsController < ApplicationController
     end
   end
 
+  # PATCH /submissions/1/moderate
+  def moderate
+    authorize @submission
+
+    status = moderation_params[:moderation_status]
+    reason = moderation_params[:moderation_reason]
+
+    @submission.moderate!(status: status, moderator: current_user, reason: reason)
+
+    status_label = status == "approved" ? "approved" : "rejected"
+    respond_to do |format|
+      format.html { redirect_to pending_submissions_path, notice: "Submission was #{status_label}." }
+      format.json { render :show, status: :ok, location: @submission }
+    end
+  end
+
   # DELETE /submissions/1 or /submissions/1.json
   def destroy
     authorize @submission
@@ -76,6 +100,10 @@ class SubmissionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def submission_params
-      params.require(:submission).permit(:content_id, :feed_id)
+      params.require(:submission).permit(policy(@submission || Submission).permitted_attributes)
+    end
+
+    def moderation_params
+      params.require(:submission).permit(policy(@submission).permitted_attributes_for_moderation)
     end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_03_035147) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_04_030410) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -141,9 +141,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_03_035147) do
     t.integer "content_id", null: false
     t.datetime "created_at", null: false
     t.integer "feed_id", null: false
+    t.datetime "moderated_at"
+    t.text "moderation_reason"
+    t.integer "moderation_status", default: 0, null: false
+    t.integer "moderator_id"
     t.datetime "updated_at", null: false
     t.index ["content_id"], name: "index_submissions_on_content_id"
     t.index ["feed_id"], name: "index_submissions_on_feed_id"
+    t.index ["moderation_status"], name: "index_submissions_on_moderation_status"
+    t.index ["moderator_id"], name: "index_submissions_on_moderator_id"
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -197,6 +203,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_03_035147) do
   add_foreign_key "screens", "templates"
   add_foreign_key "submissions", "contents"
   add_foreign_key "submissions", "feeds"
+  add_foreign_key "submissions", "users", column: "moderator_id"
   add_foreign_key "subscriptions", "feeds"
   add_foreign_key "subscriptions", "fields"
   add_foreign_key "subscriptions", "screens"

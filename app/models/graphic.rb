@@ -6,6 +6,10 @@ class Graphic < Content
   # URL Helpers are needed so we can generate a URL to the image in the JSON.
   include Rails.application.routes.url_helpers
 
+  # Track image attachment changes for re-moderation
+  before_save :track_image_change
+  after_commit :reevaluate_submissions_for_image_change, on: [ :create, :update ]
+
   def as_json(options = {})
     super(options).merge({
         image: rails_blob_path(image, only_path: true)
@@ -34,5 +38,17 @@ class Graphic < Content
     position_aspect_ratio = position.aspect_ratio
 
     (position_aspect_ratio / 2.0) <= content_aspect_ratio && content_aspect_ratio <= (position_aspect_ratio * 2.0)
+  end
+
+  private
+
+  def track_image_change
+    @image_will_change = attachment_changes.key?("image")
+  end
+
+  def reevaluate_submissions_for_image_change
+    return unless @image_will_change
+
+    submissions.each(&:reevaluate_moderation!)
   end
 end

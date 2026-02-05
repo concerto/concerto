@@ -11,6 +11,11 @@ class RemoteFeed < Feed
 
     store_accessor :config, [ :url, :last_refreshed, :refresh_interval ]
 
+    # Remote feed content is auto-approved since it's system-generated
+    def auto_approves_submissions?
+      true
+    end
+
     validates :url, presence: true, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]) }
 
     before_destroy :destroy_associated_content, prepend: true
