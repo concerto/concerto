@@ -3,35 +3,49 @@
 one:
   content: one
   feed: one
+  moderation_status: approved
 
 two:
   content: two
   feed: two
+  moderation_status: approved
 
 three:
   content: plain_richtext
   feed: two
+  moderation_status: approved
 
 four:
   content: html_richtext
   feed: two
+  moderation_status: approved
 
 five:
   content: active_ticker_text
   feed: two
+  moderation_status: approved
 
 e2e_ticker_1:
   content: e2e_ticker_1
   feed: e2e_ticker_feed
+  moderation_status: approved
 
 e2e_ticker_2:
   content: e2e_ticker_2
   feed: e2e_ticker_feed
+  moderation_status: approved
 
 e2e_graphic_1:
   content: e2e_graphic_1
   feed: e2e_graphic_feed
+  moderation_status: approved
 
 e2e_graphic_2:
   content: e2e_graphic_2
   feed: e2e_graphic_feed
+  moderation_status: approved
+
+pending_submission:
+  content: plain_richtext
+  feed: one
+  moderation_status: pending

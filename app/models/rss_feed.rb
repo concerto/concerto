@@ -3,6 +3,11 @@ require "open-uri"
 class RssFeed < Feed
     store_accessor :config, [ :url, :last_refreshed, :refresh_interval, :formatter ]
 
+    # RSS feed content is auto-approved since it's system-generated
+    def auto_approves_submissions?
+      true
+    end
+
     # Destroy all associated content when an RSS feed is deleted
     before_destroy :destroy_associated_content, prepend: true
 

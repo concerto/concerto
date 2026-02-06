@@ -9,4 +9,25 @@
     <%= link_to submission.feed.name, submission.feed %>
   </p>
 
+  <p>
+    <strong>Status:</strong>
+    <%= moderation_status_badge(submission) %>
+  </p>
+
+  <% if submission.moderation_reason.present? %>
+    <p>
+      <strong>Reason:</strong>
+      <%= submission.moderation_reason %>
+    </p>
+  <% end %>
+
+  <% if submission.moderator.present? %>
+    <p>
+      <strong>Moderated by:</strong>
+      <%= submission.moderator.email %>
+      <% if submission.moderated_at.present? %>
+        (<%= time_ago_in_words(submission.moderated_at) %> ago)
+      <% end %>
+    </p>
+  <% end %>
 </div>

@@ -67,28 +67,63 @@ class SubmissionPolicyTest < ActiveSupport::TestCase
     refute SubmissionPolicy.new(nil, new_submission).create?
   end
 
-  test "edit? is permitted for system admin only" do
+  test "edit? is permitted for system admin" do
     assert SubmissionPolicy.new(@system_admin_user, @submission).edit?
   end
 
-  test "edit? is denied for content owner (no moderation yet)" do
-    refute SubmissionPolicy.new(@content_owner, @submission).edit?
+  test "edit? is permitted for feed group member (can moderate)" do
+    # admin user is a member of feed_two_owners, which owns feed two
+    assert SubmissionPolicy.new(@content_owner, @submission).edit?
   end
 
-  test "edit? is denied for other users" do
-    refute SubmissionPolicy.new(@other_user, @submission).edit?
+  test "edit? is denied for non-member of feed group" do
+    refute SubmissionPolicy.new(@non_member, @submission).edit?
   end
 
-  test "update? is permitted for system admin only" do
+  test "update? is permitted for system admin" do
     assert SubmissionPolicy.new(@system_admin_user, @submission).update?
   end
 
-  test "update? is denied for content owner (no moderation yet)" do
-    refute SubmissionPolicy.new(@content_owner, @submission).update?
+  test "update? is permitted for feed group member (can moderate)" do
+    # admin user is a member of feed_two_owners, which owns feed two
+    assert SubmissionPolicy.new(@content_owner, @submission).update?
   end
 
-  test "update? is denied for other users" do
-    refute SubmissionPolicy.new(@other_user, @submission).update?
+  test "update? is denied for non-member of feed group" do
+    refute SubmissionPolicy.new(@non_member, @submission).update?
+  end
+
+  # Moderation-specific tests
+  test "moderate? is permitted for feed group member" do
+    assert SubmissionPolicy.new(@content_owner, @submission).moderate?
+  end
+
+  test "moderate? is denied for non-member" do
+    refute SubmissionPolicy.new(@non_member, @submission).moderate?
+  end
+
+  test "moderate? is denied for anonymous users" do
+    refute SubmissionPolicy.new(nil, @submission).moderate?
+  end
+
+  test "pending? is permitted for signed-in users" do
+    assert SubmissionPolicy.new(@content_owner, Submission).pending?
+    assert SubmissionPolicy.new(@other_user, Submission).pending?
+  end
+
+  test "pending? is denied for anonymous users" do
+    refute SubmissionPolicy.new(nil, Submission).pending?
+  end
+
+  test "ModerationScope returns submissions in user's groups" do
+    # admin is a member of feed_one_owners and feed_two_owners
+    scope = SubmissionPolicy::ModerationScope.new(@content_owner, Submission.all).resolve
+    assert scope.exists?(id: @submission.id)
+  end
+
+  test "ModerationScope returns nothing for non-member" do
+    scope = SubmissionPolicy::ModerationScope.new(@non_member, Submission.all).resolve
+    assert_empty scope
   end
 
   test "destroy? is permitted for system admin" do
@@ -105,5 +140,10 @@ class SubmissionPolicyTest < ActiveSupport::TestCase
 
   test "destroy? is denied for anonymous users" do
     refute SubmissionPolicy.new(nil, @submission).destroy?
+  end
+
+  test "permitted_attributes_for_moderation" do
+    policy = SubmissionPolicy.new(@member, @submission)
+    assert_equal [ :moderation_status, :moderation_reason ], policy.permitted_attributes_for_moderation
   end
 end

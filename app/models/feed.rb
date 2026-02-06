@@ -9,4 +9,9 @@ class Feed < ApplicationRecord
     def self.policy_class
       FeedPolicy
     end
+
+    # Override in subclasses that should auto-approve submissions (e.g., RssFeed, RemoteFeed)
+    def auto_approves_submissions?
+      false
+    end
 end

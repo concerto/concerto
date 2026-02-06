@@ -7,8 +7,9 @@ class Subscription < ApplicationRecord
   validates :feed_id, uniqueness: { scope: [ :screen_id, :field_id ], message: "is already subscribed to this field on this screen" }
   validates :weight, numericality: { only_integer: true, in: 1..10 }
 
+  # Returns only content from approved submissions
   def contents
-    self.feed.content
+    feed.content.where(submissions: { moderation_status: :approved })
   end
 
   # Scope to find subscriptions for a specific screen and field

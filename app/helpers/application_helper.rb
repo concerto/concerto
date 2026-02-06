@@ -33,6 +33,38 @@ module ApplicationHelper
         end
     end
 
+    def sidebar_nav_link_to_with_badge(text, path, icon_name, badge_count)
+        css = "group flex items-center justify-between px-2 py-1 text-sm font-medium rounded-md transition-colors duration-200 "
+        aria = {}
+
+        if current_page?(path)
+            css += "bg-brand-100 text-brand border-l-4 border-brand"
+            aria = { current: "page" }
+            icon_css = "text-brand"
+        else
+            css += "text-neutral-300 hover:bg-neutral-700 hover:text-white"
+            icon_css = "text-neutral-300 group-hover:text-white"
+        end
+
+        link_to(path, class: css, aria: aria) do
+            content_tag(:div, class: "flex items-center justify-between w-full") do
+                left = content_tag(:div, class: "flex items-center") do
+                    heroicon(icon_name, class: "w-4 h-4 mr-2 #{icon_css}") +
+                    content_tag(:span, text)
+                end
+
+                badge = if badge_count && badge_count > 0
+                    content_tag(:span, badge_count,
+                        class: "ml-2 px-1.5 py-0.5 text-xs bg-warning text-white rounded-full")
+                else
+                    "".html_safe
+                end
+
+                left + badge
+            end
+        end
+    end
+
     def heroicon(name, options = {})
         if name == "chevron"
           return content_tag(:svg, class: "w-4 h-4", fill: "currentColor", viewBox: "0 0 20 20") do
@@ -59,7 +91,8 @@ module ApplicationHelper
             "check-circle" => "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
             "document-add" => "M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
             "chevron" => "M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z",
-            "x-circle"=> "m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+            "x-circle"=> "m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
+            "clipboard-document-check" => "M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75"
         }
 
         path = icons[name] || icons["home"] # fallback to home icon
