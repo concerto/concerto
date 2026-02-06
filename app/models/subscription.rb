@@ -9,9 +9,7 @@ class Subscription < ApplicationRecord
 
   # Returns only content from approved submissions
   def contents
-    feed.content.joins(:submissions)
-        .where(submissions: { feed_id: feed_id, moderation_status: :approved })
-        .distinct
+    feed.content.where(submissions: { moderation_status: :approved })
   end
 
   # Scope to find subscriptions for a specific screen and field
