@@ -38,13 +38,14 @@ class Content < ApplicationRecord
 
     # Fields that trigger re-moderation when changed
     # Includes 'config' for Video URL and RichText render_as changes
-    MODERATION_TRACKED_FIELDS = %w[name text config duration start_time end_time].freeze
+    # Note: 'name' is not tracked since it's not displayed in the player
+    MODERATION_TRACKED_FIELDS = %w[text config duration start_time end_time].freeze
 
     def content_fields_changed?
       (saved_changes.keys & MODERATION_TRACKED_FIELDS).any?
     end
 
     def reevaluate_submissions_moderation
-      submissions.each(&:reevaluate_moderation!)
+      submissions.find_each(&:reevaluate_moderation!)
     end
 end

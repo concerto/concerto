@@ -136,4 +136,21 @@ class SubmissionTest < ActiveSupport::TestCase
     # Should still be approved because user is a member
     assert submission.approved?
   end
+
+  test "reevaluate_moderation! clears moderator data when auto-approving" do
+    content = RichText.create!(name: "Test", text: "Test", user: @user, duration: 10, config: { render_as: "plaintext" })
+    submission = Submission.create!(content: content, feed: @feed)
+
+    # Manually moderate (e.g., system admin reviewing)
+    submission.moderate!(status: :approved, moderator: users(:system_admin), reason: "Checked")
+    assert_equal users(:system_admin), submission.moderator
+    assert_equal "Checked", submission.moderation_reason
+
+    # Re-evaluate - should auto-approve and clear moderator data
+    submission.reevaluate_moderation!
+
+    assert submission.approved?
+    assert_nil submission.moderator, "Moderator should be cleared for auto-approval"
+    assert_nil submission.moderation_reason, "Moderation reason should be cleared"
+  end
 end

@@ -49,6 +49,6 @@ class Graphic < Content
   def reevaluate_submissions_for_image_change
     return unless @image_will_change
 
-    submissions.each(&:reevaluate_moderation!)
+    submissions.find_each(&:reevaluate_moderation!)
   end
 end

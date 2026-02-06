@@ -1,15 +1,11 @@
 class SubmissionsController < ApplicationController
   before_action :set_submission, only: %i[ show edit update destroy moderate ]
-  after_action :verify_authorized, except: [ :index, :pending ]
-  after_action :verify_policy_scoped, only: [ :index, :pending ]
+  after_action :verify_authorized, except: [ :index ]
+  after_action :verify_policy_scoped, only: [ :index ]
 
   # GET /submissions or /submissions.json
+  # Shows pending submissions for moderation
   def index
-    @submissions = policy_scope(Submission)
-  end
-
-  # GET /submissions/pending
-  def pending
     @submissions = policy_scope(Submission, policy_scope_class: SubmissionPolicy::ModerationScope)
                      .pending
                      .includes(:content, :feed, content: :user)
@@ -71,11 +67,17 @@ class SubmissionsController < ApplicationController
     status = moderation_params[:moderation_status]
     reason = moderation_params[:moderation_reason]
 
+    unless %w[approved rejected].include?(status)
+      return respond_to do |format|
+        format.html { redirect_to submissions_path, alert: "Invalid moderation action." }
+        format.json { render json: { error: "Invalid moderation action" }, status: :bad_request }
+      end
+    end
+
     @submission.moderate!(status: status, moderator: current_user, reason: reason)
 
-    status_label = status == "approved" ? "approved" : "rejected"
     respond_to do |format|
-      format.html { redirect_to pending_submissions_path, notice: "Submission was #{status_label}." }
+      format.html { redirect_to submissions_path, notice: "Submission was #{status}." }
       format.json { render :show, status: :ok, location: @submission }
     end
   end

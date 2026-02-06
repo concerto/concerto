@@ -30,7 +30,7 @@
         <%= sidebar_nav_link_to "Add Content", new_content_path, "plus" %>
         <%= sidebar_nav_link_to "Browse Content", contents_path, "collection" %>
         <% if user_signed_in? %>
-          <%= sidebar_nav_link_to_with_badge "Moderation", pending_submissions_path, "clipboard-document-check", pending_moderation_count %>
+          <%= sidebar_nav_link_to_with_badge "Moderation", submissions_path, "clipboard-document-check", pending_moderation_count %>
         <% end %>
       </div>
     </div>

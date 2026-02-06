@@ -18,9 +18,6 @@ Rails.application.routes.draw do
   end
   resources :templates
   resources :submissions do
-    collection do
-      get :pending
-    end
     member do
       patch :moderate
     end

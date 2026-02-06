@@ -21,7 +21,7 @@ class Submission < ApplicationRecord
   # Substantive content changes require re-moderation, even for human-approved submissions
   def reevaluate_moderation!
     if should_auto_approve?
-      update!(moderation_status: :approved, moderated_at: Time.current)
+      update!(moderation_status: :approved, moderated_at: Time.current, moderator: nil, moderation_reason: nil)
     else
       update!(moderation_status: :pending, moderator: nil, moderation_reason: nil, moderated_at: nil)
     end

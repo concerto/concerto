@@ -177,8 +177,8 @@ class ContentTest < ActiveSupport::TestCase
     regular_feed = feeds(:one)
     submission.update!(feed: regular_feed)
 
-    # Update content (tracked field)
-    content.update!(name: "Updated Name")
+    # Update content text (tracked field)
+    content.update!(text: "Updated text")
     submission.reload
 
     # Should now be pending because user is not a member of the feed's group
@@ -205,5 +205,28 @@ class ContentTest < ActiveSupport::TestCase
 
     # Should be pending again because substantive changes require re-review
     assert submission.pending?
+  end
+
+  test "updating name does not trigger re-moderation" do
+    non_member = users(:non_member)
+    feed = feeds(:one)
+
+    content = RichText.create!(
+      name: "Test", text: "Original", duration: 10, user: non_member,
+      config: { "render_as" => "plaintext" }
+    )
+    submission = Submission.create!(content: content, feed: feed)
+
+    # Approve manually
+    submission.moderate!(status: :approved, moderator: @admin, reason: "OK")
+    assert submission.approved?
+
+    # Update name (not tracked) - should NOT trigger re-moderation
+    content.update!(name: "Updated Name")
+    submission.reload
+
+    # Should still be approved because name changes don't affect player display
+    assert submission.approved?
+    assert_equal @admin, submission.moderator
   end
 end

@@ -44,3 +44,8 @@ e2e_graphic_2:
   content: e2e_graphic_2
   feed: e2e_graphic_feed
   moderation_status: approved
+
+pending_submission:
+  content: plain_richtext
+  feed: one
+  moderation_status: pending
