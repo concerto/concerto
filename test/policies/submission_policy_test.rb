@@ -141,4 +141,9 @@ class SubmissionPolicyTest < ActiveSupport::TestCase
   test "destroy? is denied for anonymous users" do
     refute SubmissionPolicy.new(nil, @submission).destroy?
   end
+
+  test "permitted_attributes_for_moderation" do
+    policy = SubmissionPolicy.new(@member, @submission)
+    assert_equal [ :moderation_status, :moderation_reason ], policy.permitted_attributes_for_moderation
+  end
 end
