@@ -30,7 +30,7 @@ class SubmissionsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to submissions_path, notice: "Submission was #{status}." }
-      format.json { render :show, status: :ok, location: @submission }
+      format.json { render json: @submission, status: :ok }
     end
   end
 

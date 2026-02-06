@@ -56,7 +56,7 @@ class SubmissionPolicyTest < ActiveSupport::TestCase
   end
 
   test "permitted_attributes_for_moderation" do
-    policy = SubmissionPolicy.new(@member, @submission)
+    policy = SubmissionPolicy.new(@content_owner, @submission)
     assert_equal [ :moderation_status, :moderation_reason ], policy.permitted_attributes_for_moderation
   end
 end
