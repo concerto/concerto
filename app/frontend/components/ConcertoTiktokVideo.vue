@@ -61,6 +61,9 @@ function handlePlayerMessage(event) {
       break;
     }
     break;
+  case 'onCurrentTime':
+    watchdogPing();
+    break;
   case 'onPlayerReady':
     console.debug('TikTok player is ready');
     break;

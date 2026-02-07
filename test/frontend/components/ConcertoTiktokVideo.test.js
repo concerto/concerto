@@ -173,6 +173,43 @@ describe('ConcertoTiktokVideo watchdog', () => {
     expect(nextEvents).toHaveLength(1);
   });
 
+  it('does not stall when onCurrentTime events keep arriving', async () => {
+    const content = {
+      video_id: '6718335390845095173',
+      duration: null
+    };
+    const wrapper = mount(ConcertoTiktokVideo, { props: { content: content } });
+
+    // Simulate playing state.
+    const playEvent = new MessageEvent('message', {
+      origin: 'https://www.tiktok.com',
+      data: {
+        'x-tiktok-player': true,
+        type: 'onStateChange',
+        value: 1
+      }
+    });
+    window.dispatchEvent(playEvent);
+    await wrapper.vm.$nextTick();
+
+    // Simulate regular onCurrentTime events keeping the watchdog alive.
+    for (let i = 0; i < 5; i++) {
+      vi.advanceTimersByTime(5000);
+      const timeEvent = new MessageEvent('message', {
+        origin: 'https://www.tiktok.com',
+        data: {
+          'x-tiktok-player': true,
+          type: 'onCurrentTime',
+          value: i * 5
+        }
+      });
+      window.dispatchEvent(timeEvent);
+      await wrapper.vm.$nextTick();
+    }
+
+    expect(wrapper.emitted('next')).toBeUndefined();
+  });
+
   it('does not trigger watchdog after video ends normally', async () => {
     const content = {
       video_id: '6718335390845095173',
