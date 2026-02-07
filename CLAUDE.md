@@ -50,7 +50,7 @@ Content uses Single Table Inheritance (STI):
 Feeds also use STI:
 - `RssFeed`: Automatically pulls content from RSS feeds (has refresh/cleanup actions)
 - `RemoteFeed`: Polls external JSON APIs for content, uses digest-based tracking to add/remove items (see `docs/remote_feed_spec.yaml`)
-- Both auto-approve submissions since they are system-generated
+- System-generated feeds (`RssFeed`, `RemoteFeed`) auto-approve submissions.
 - Base class: `Feed` with config JSON field for type-specific settings
 
 ### Content Ordering
