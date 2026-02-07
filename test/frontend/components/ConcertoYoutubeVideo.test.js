@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import ConcertoYoutubeVideo from '~/components/ConcertoYoutubeVideo.vue'
@@ -77,5 +77,58 @@ describe('ConcertoYoutubeVideo duration control', () => {
     playerCallback({ data: YT.PlayerState.PLAYING });
 
     expect(wrapper.emitted('takeOverTimer')).toBeFalsy();
+  });
+});
+
+describe('ConcertoYoutubeVideo watchdog', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    global.YT = {
+      Player: vi.fn(),
+      PlayerState: {
+        PLAYING: 1,
+        PAUSED: 2,
+        ENDED: 0
+      }
+    };
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('emits next when player stalls after playing', async () => {
+    const content = {
+      video_id: 'z7HyF46-Zd0',
+      duration: null
+    };
+    const wrapper = mount(ConcertoYoutubeVideo, { props: { content: content } });
+
+    const playerCallback = global.YT.Player.mock.calls[0][1].events.onStateChange;
+    playerCallback({ data: YT.PlayerState.PLAYING });
+
+    // No further events for 15 seconds (player crashed).
+    vi.advanceTimersByTime(15000);
+
+    const nextEvents = wrapper.emitted('next');
+    expect(nextEvents).toBeTruthy();
+    expect(nextEvents).toHaveLength(1);
+  });
+
+  it('does not trigger watchdog after video ends normally', async () => {
+    const content = {
+      video_id: 'z7HyF46-Zd0',
+      duration: null
+    };
+    const wrapper = mount(ConcertoYoutubeVideo, { props: { content: content } });
+
+    const playerCallback = global.YT.Player.mock.calls[0][1].events.onStateChange;
+    playerCallback({ data: YT.PlayerState.PLAYING });
+    playerCallback({ data: YT.PlayerState.ENDED });
+
+    // Watchdog should be stopped, no extra next event.
+    vi.advanceTimersByTime(15000);
+
+    expect(wrapper.emitted('next')).toHaveLength(1);
   });
 });

@@ -1,8 +1,10 @@
 <script setup>
 import { computed, onMounted, onBeforeUnmount, ref } from 'vue';
+import { useVideoWatchdog } from '../composables/useVideoWatchdog.js';
 
 const YOUTUBE_API_URL = 'https://www.youtube.com/iframe_api';
 const API_LOAD_TIMEOUT_MS = 30000; // 30 seconds
+const TIME_CHECK_INTERVAL_MS = 5000;
 
 const props = defineProps({
   content: { type: Object, required: true }
@@ -13,6 +15,7 @@ const hasDuration = computed(() => {
 });
 
 const emit = defineEmits(['takeOverTimer', 'next'])
+const { ping: watchdogPing, stop: watchdogStop } = useVideoWatchdog(emit);
 
 const videoUrl = computed(() => {
   return `https://www.youtube-nocookie.com/embed/${props.content.video_id}?rel=0&iv_load_policy=3&autoplay=1&controls=0&playsinline=1&mute=1&enablejsapi=1`;
@@ -20,6 +23,8 @@ const videoUrl = computed(() => {
 
 const playerRef = ref(null);
 let player = null;
+let timeCheckInterval = null;
+let lastKnownTime = -1;
 
 function isYTAPILoaded() {
   /* global YT */
@@ -61,10 +66,34 @@ async function loadYTAPI() {
   });
 }
 
+function startTimeCheck() {
+  stopTimeCheck();
+  timeCheckInterval = setInterval(() => {
+    if (player && typeof player.getCurrentTime === 'function') {
+      try {
+        const currentTime = player.getCurrentTime();
+        if (currentTime !== lastKnownTime) {
+          lastKnownTime = currentTime;
+          watchdogPing();
+        }
+      } catch {
+        // Player may be destroyed or in error state
+      }
+    }
+  }, TIME_CHECK_INTERVAL_MS);
+}
+
+function stopTimeCheck() {
+  clearInterval(timeCheckInterval);
+  timeCheckInterval = null;
+}
+
 function onPlayerStateChange(event) {
   switch (event.data) {
   case YT.PlayerState.PLAYING:
     console.debug('Video is playing');
+    watchdogPing();
+    startTimeCheck();
     if (!hasDuration.value) {
       emit('takeOverTimer', {});
     } else {
@@ -73,9 +102,12 @@ function onPlayerStateChange(event) {
     break;
   case YT.PlayerState.PAUSED:
     console.debug('Video is paused');
+    stopTimeCheck();
     break;
   case YT.PlayerState.ENDED:
     console.debug('Video has ended');
+    stopTimeCheck();
+    watchdogStop();
     if (!hasDuration.value) {
       emit('next', {});
     }
@@ -98,6 +130,7 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => {
+  stopTimeCheck();
   if (player && typeof player.destroy === 'function') {
     player.destroy();
     player = null;

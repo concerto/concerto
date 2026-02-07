@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 
 import { mount } from '@vue/test-utils'
 import ConcertoTiktokVideo from '~/components/ConcertoTiktokVideo.vue'
@@ -133,5 +133,79 @@ describe('ConcertoTiktokVideo duration control', () => {
     await wrapper.vm.$nextTick();
 
     expect(wrapper.emitted('takeOverTimer')).toBeFalsy();
+  });
+});
+
+describe('ConcertoTiktokVideo watchdog', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('emits next when player stalls after playing', async () => {
+    const content = {
+      video_id: '6718335390845095173',
+      duration: null
+    };
+    const wrapper = mount(ConcertoTiktokVideo, { props: { content: content } });
+
+    // Simulate playing state.
+    const playEvent = new MessageEvent('message', {
+      origin: 'https://www.tiktok.com',
+      data: {
+        'x-tiktok-player': true,
+        type: 'onStateChange',
+        value: 1
+      }
+    });
+    window.dispatchEvent(playEvent);
+    await wrapper.vm.$nextTick();
+
+    // No further events for 15 seconds (player crashed).
+    vi.advanceTimersByTime(15000);
+
+    const nextEvents = wrapper.emitted('next');
+    expect(nextEvents).toBeTruthy();
+    expect(nextEvents).toHaveLength(1);
+  });
+
+  it('does not trigger watchdog after video ends normally', async () => {
+    const content = {
+      video_id: '6718335390845095173',
+      duration: null
+    };
+    const wrapper = mount(ConcertoTiktokVideo, { props: { content: content } });
+
+    // Simulate playing then ended.
+    const playEvent = new MessageEvent('message', {
+      origin: 'https://www.tiktok.com',
+      data: {
+        'x-tiktok-player': true,
+        type: 'onStateChange',
+        value: 1
+      }
+    });
+    window.dispatchEvent(playEvent);
+    await wrapper.vm.$nextTick();
+
+    const endEvent = new MessageEvent('message', {
+      origin: 'https://www.tiktok.com',
+      data: {
+        'x-tiktok-player': true,
+        type: 'onStateChange',
+        value: 0
+      }
+    });
+    window.dispatchEvent(endEvent);
+    await wrapper.vm.$nextTick();
+
+    // Watchdog should be stopped, no extra next event.
+    vi.advanceTimersByTime(15000);
+
+    expect(wrapper.emitted('next')).toHaveLength(1);
   });
 });

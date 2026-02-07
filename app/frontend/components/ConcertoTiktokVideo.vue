@@ -1,11 +1,13 @@
 <script setup>
 import { computed, onMounted, onBeforeUnmount, ref } from 'vue';
+import { useVideoWatchdog } from '../composables/useVideoWatchdog.js';
 
 const props = defineProps({
   content: { type: Object, required: true }
 });
 
 const emit = defineEmits(['takeOverTimer', 'next']);
+const { ping: watchdogPing, stop: watchdogStop } = useVideoWatchdog(emit);
 
 const videoId = computed(() => {
   return props.content.video_id;
@@ -40,6 +42,7 @@ function handlePlayerMessage(event) {
     switch (value) {
     case 1: // playing
       console.debug('TikTok video is playing');
+      watchdogPing();
       if (!hasDuration.value) {
         emit('takeOverTimer', {});
       } else {
@@ -51,6 +54,7 @@ function handlePlayerMessage(event) {
       break;
     case 0: // ended
       console.debug('TikTok video ended');
+      watchdogStop();
       if (!hasDuration.value) {
         emit('next', {});
       }
