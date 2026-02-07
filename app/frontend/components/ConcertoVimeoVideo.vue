@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onMounted, onBeforeUnmount, ref } from 'vue';
+import { useVideoWatchdog } from '../composables/useVideoWatchdog.js';
 
 const VIMEO_API_URL = 'https://player.vimeo.com/api/player.js';
 const API_LOAD_TIMEOUT_MS = 30000; // 30 seconds
@@ -9,6 +10,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['takeOverTimer', 'next']);
+const { ping: watchdogPing, stop: watchdogStop } = useVideoWatchdog(emit);
 
 const videoId = computed(() => {
   return props.content.video_id;
@@ -71,11 +73,16 @@ onMounted(async () => {
 
   player.on('play', () => {
     console.debug('Vimeo video is playing');
+    watchdogPing();
     if (!hasDuration.value) {
       emit('takeOverTimer', {});
     } else {
       console.debug('Vimeo video has a duration, not taking over timer');
     }
+  });
+
+  player.on('timeupdate', () => {
+    watchdogPing();
   });
 
   player.on('pause', () => {
@@ -84,6 +91,7 @@ onMounted(async () => {
 
   player.on('ended', () => {
     console.debug('Vimeo video ended');
+    watchdogStop();
     if (!hasDuration.value) {
       emit('next', {});
     }
