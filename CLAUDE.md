@@ -19,14 +19,16 @@ The application consists of:
 The system is built around these key relationships:
 
 1. **Content Flow**: `Content` → `Submission` → `Feed` → `Subscription` → `Screen`
-   - Content (RichText, Graphic, Video) is submitted to Feeds
+   - Content (RichText, Graphic, Video, Clock) is submitted to Feeds
    - Feeds are subscribed to specific Fields on Screens via Subscriptions
    - Content has start_time/end_time for scheduling (see `active`, `expired`, `upcoming` scopes)
+   - Submissions have a moderation workflow (pending/approved/rejected); auto-approved for feed group members and system feeds
 
 2. **Screen Configuration**: `Screen` → `Template` → `Position` → `Field`
    - Each Screen uses a Template that defines layout Positions
    - Positions reference Fields (content areas like "main", "ticker", etc.)
    - Templates can have attached images for preview
+   - `FieldConfig` stores per-screen/field settings (ordering strategy, pinned content)
 
 3. **Authorization**: `User` ↔ `Membership` ↔ `Group` ← `Screen`
    - Users belong to Groups via Memberships (role: member or admin)
@@ -39,14 +41,25 @@ The system is built around these key relationships:
 Content uses Single Table Inheritance (STI):
 - `RichText`: Text-based content stored in `text` field
 - `Graphic`: Image-based content via ActiveStorage
-- `Video`: Video content via ActiveStorage
+- `Video`: URL-based video (YouTube, Vimeo, TikTok) with oEmbed integration; URL stored in `config`
+- `Clock`: Displays time/date using configurable format strings (stored in `config`); has its own `ClockPolicy`
 - Base class: `Content` with common fields (duration, start_time, end_time, user_id)
 
 ### Feed Types
 
 Feeds also use STI:
 - `RssFeed`: Automatically pulls content from RSS feeds (has refresh/cleanup actions)
+- `RemoteFeed`: Polls external JSON APIs for content, uses digest-based tracking to add/remove items (see `docs/remote_feed_spec.yaml`)
+- System-generated feeds (`RssFeed`, `RemoteFeed`) auto-approve submissions.
 - Base class: `Feed` with config JSON field for type-specific settings
+
+### Content Ordering
+
+Content ordering on screen fields is handled by `ContentOrderers` (`app/services/content_orderers/`):
+- `random`: Shuffles content (default)
+- `weighted`: Respects subscription weights (1-10, default 5)
+- `strict_priority`: Only shows content from the highest-weighted subscription
+- Strategy is configured per screen/field via `FieldConfig#ordering_strategy`
 
 ## Development Commands
 
@@ -75,6 +88,9 @@ bin/rails test test/models/content_test.rb
 
 # Run a single test by line number
 bin/rails test test/models/content_test.rb:42
+
+# Run full CI suite locally (setup, lint, security, all tests)
+bin/ci
 ```
 
 ### Database
@@ -190,7 +206,9 @@ The frontend uses a hybrid approach:
 - Vite for bundling (config in `config/vite.json` and `vite.config.ts`)
 - Entry point: `app/frontend/entrypoints/player.js`
 - Components in `app/frontend/components/`
+- Composables in `app/frontend/composables/` (text resize, config versioning, wake lock, video watchdog)
 - Frontend route: `/frontend/:id` renders the player
+- PWA support via `Frontend::PwaController`
 
 ### Adding JavaScript Dependencies
 
@@ -279,6 +297,13 @@ Application settings use a key-value store via the `Setting` model:
 - Accessed via admin interface at `/admin/settings`
 - Supports different value types (stored in `value_type` field)
 - Examples: site name, default durations, RSS feed configuration
+
+## Background Jobs
+
+Recurring jobs are configured in `config/recurring.yml` (production only):
+- `RefreshRssFeedsJob`: Refreshes RSS feeds every 5 minutes
+- `RefreshRemoteFeedsJob`: Refreshes remote feeds every 5 minutes
+- Solid Queue finished jobs are cleared hourly
 
 ## Notes
 
