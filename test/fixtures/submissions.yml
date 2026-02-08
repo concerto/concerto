@@ -49,3 +49,9 @@ pending_submission:
   content: plain_richtext
   feed: one
   moderation_status: pending
+
+rejected_submission:
+  content: html_richtext
+  feed: one
+  moderation_status: rejected
+  moderation_reason: Not appropriate for this feed

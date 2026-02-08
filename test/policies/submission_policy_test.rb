@@ -59,4 +59,77 @@ class SubmissionPolicyTest < ActiveSupport::TestCase
     policy = SubmissionPolicy.new(@content_owner, @submission)
     assert_equal [ :moderation_status, :moderation_reason ], policy.permitted_attributes_for_moderation
   end
+
+  # visible_submissions tests
+  test "visible_submissions returns only approved submissions for anonymous user" do
+    content = rich_texts(:plain_richtext)
+    visible = SubmissionPolicy.visible_submissions(nil, content)
+    assert visible.all?(&:approved?)
+    refute visible.any?(&:pending?)
+  end
+
+  test "visible_submissions returns all submissions for content owner" do
+    content = rich_texts(:plain_richtext)
+    visible = SubmissionPolicy.visible_submissions(@content_owner, content)
+    assert_includes visible, submissions(:three)
+    assert_includes visible, submissions(:pending_submission)
+  end
+
+  test "visible_submissions returns all submissions for system admin" do
+    content = rich_texts(:plain_richtext)
+    visible = SubmissionPolicy.visible_submissions(@system_admin_user, content)
+    assert_includes visible, submissions(:three)
+    assert_includes visible, submissions(:pending_submission)
+  end
+
+  test "visible_submissions returns approved plus own group pending for feed group member" do
+    content = rich_texts(:plain_richtext)
+    # regular user is a member of feed_one_owners but NOT feed_two_owners
+    visible = SubmissionPolicy.visible_submissions(@other_user, content)
+    # Should see approved submission (three, on feed two) and pending (on feed one, their group)
+    assert_includes visible, submissions(:three)
+    assert_includes visible, submissions(:pending_submission)
+  end
+
+  test "visible_submissions returns only approved for non-member" do
+    content = rich_texts(:plain_richtext)
+    visible = SubmissionPolicy.visible_submissions(@non_member, content)
+    assert_includes visible, submissions(:three)
+    refute_includes visible, submissions(:pending_submission)
+  end
+
+  test "visible_submissions returns nothing when content has only pending submissions and user is non-member" do
+    content = rich_texts(:plain_richtext)
+    # Remove approved submissions for this content, leaving only pending
+    submissions(:three).update!(moderation_status: :pending)
+    visible = SubmissionPolicy.visible_submissions(@non_member, content)
+    assert_empty visible
+  end
+
+  # show_reason? tests
+  test "show_reason? returns true for content owner" do
+    submission = submissions(:rejected_submission)
+    assert SubmissionPolicy.new(@content_owner, submission).show_reason?
+  end
+
+  test "show_reason? returns true for system admin" do
+    submission = submissions(:rejected_submission)
+    assert SubmissionPolicy.new(@system_admin_user, submission).show_reason?
+  end
+
+  test "show_reason? returns true for feed group member" do
+    submission = submissions(:rejected_submission)
+    # regular user is a member of feed_one_owners, and rejected_submission is on feed one
+    assert SubmissionPolicy.new(@other_user, submission).show_reason?
+  end
+
+  test "show_reason? returns false for non-member" do
+    submission = submissions(:rejected_submission)
+    refute SubmissionPolicy.new(@non_member, submission).show_reason?
+  end
+
+  test "show_reason? returns false for anonymous user" do
+    submission = submissions(:rejected_submission)
+    refute SubmissionPolicy.new(nil, submission).show_reason?
+  end
 end
