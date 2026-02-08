@@ -31,6 +31,59 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  # Feed show status filtering tests
+  test "anonymous user sees only approved content on feed show" do
+    get feed_url(@feed)
+    assert_response :success
+    assert_select "a[href='#{graphic_path(graphics(:one))}']"
+  end
+
+  test "anonymous user does not see moderation toggle" do
+    get feed_url(@feed)
+    assert_response :success
+    assert_select "div.bg-neutral-100 a[href*='status=pending']", count: 0
+  end
+
+  test "group member sees moderation toggle buttons" do
+    sign_in users(:regular)
+    get feed_url(@feed)
+    assert_response :success
+    assert_select "a[href*='status=approved']"
+    assert_select "a[href*='status=pending']"
+    assert_select "a[href*='status=rejected']"
+  end
+
+  test "group member with status=pending sees pending submissions" do
+    sign_in users(:regular)
+    get feed_url(@feed, status: "pending")
+    assert_response :success
+    # Should see the pending submission content name
+    assert_select "a[href='#{rich_text_path(rich_texts(:plain_richtext))}']"
+  end
+
+  test "group member with status=rejected sees rejected submissions" do
+    sign_in users(:regular)
+    get feed_url(@feed, status: "rejected")
+    assert_response :success
+    assert_select "a[href='#{rich_text_path(rich_texts(:html_richtext))}']"
+  end
+
+  test "non-member does not see moderation toggle" do
+    sign_in users(:non_member)
+    get feed_url(@feed)
+    assert_response :success
+    assert_select "a[href*='status=pending']", count: 0
+  end
+
+  test "non-member with status=pending param still sees only approved content" do
+    sign_in users(:non_member)
+    get feed_url(@feed, status: "pending")
+    assert_response :success
+    # Should see approved content, not pending submissions
+    assert_select "a[href='#{graphic_path(graphics(:one))}']"
+    assert_select "a[href*='status=pending']", count: 0
+  end
+
   test "should redirect STI feed to proper controller" do
     rss_feed = rss_feeds(:yahoo_rssfeed)
     get feed_url(rss_feed)
