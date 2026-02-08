@@ -5,7 +5,7 @@ class ContentsTest < ApplicationSystemTestCase
     visit contents_url
     assert_selector "h1", text: "Active Content"
 
-    assert_selector "#contents img", count: (Graphic.active.count + Video.active.count)
+    assert_selector "#contents img", count: (Graphic.approved.active.count + Video.approved.active.count)
     assert_selector "#contents div", text: rich_texts(:e2e_ticker_1).text
   end
 
@@ -13,7 +13,7 @@ class ContentsTest < ApplicationSystemTestCase
     visit contents_url(scope: "expired")
     assert_selector "h1", text: "Expired Content"
 
-    assert_selector "#contents img", count: (Graphic.expired.count + Video.expired.count)
+    assert_selector "#contents img", count: (Graphic.approved.expired.count + Video.approved.expired.count)
     assert_selector "#contents div", text: rich_texts(:plain_richtext).text
   end
 

@@ -27,7 +27,7 @@
           class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@scope == 'active' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
         Active
         <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-success text-white rounded-full">
-          <%= Content.active.count %>
+          <%= Content.approved.active.count %>
         </span>
       <% end %>
       
@@ -35,7 +35,7 @@
           class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@scope == 'upcoming' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
         Upcoming
         <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-warning text-white rounded-full">
-          <%= Content.upcoming.count %>
+          <%= Content.approved.upcoming.count %>
         </span>
       <% end %>
       
@@ -43,7 +43,7 @@
           class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@scope == 'expired' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
         Expired
         <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-error text-white rounded-full">
-          <%= Content.expired.count %>
+          <%= Content.approved.expired.count %>
         </span>
       <% end %>
     </div>

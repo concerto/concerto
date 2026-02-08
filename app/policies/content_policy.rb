@@ -1,8 +1,8 @@
 class ContentPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
-    # All users (including anonymous) can see all content
+    # All users (including anonymous) can see approved content
     def resolve
-      scope.all
+      scope.approved
     end
   end
 
