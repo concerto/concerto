@@ -19,7 +19,7 @@ class FeedsTest < ApplicationSystemTestCase
     click_on @feed.name
     assert_selector "h1", text: @feed.name
 
-    @feed.content.each do |c|
+    @feed.content.active.each do |c|
       assert_text c.name
     end
   end
