@@ -78,25 +78,52 @@
       </div>
 
       <% if @status == "approved" %>
+        <%# Scope toggle for approved content - visible to all users %>
         <% approved_content = @feed.approved_content %>
-        <% if approved_content.empty? %>
+        <div class="flex items-center gap-4 mb-6 border-b border-neutral-200">
+          <%= link_to feed_path(@feed, status: @status, scope: "active"),
+              class: "pb-2 text-sm font-medium border-b-2 transition-colors #{@scope == 'active' ? 'border-brand-500 text-brand-500' : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'}" do %>
+            Active
+            <span class="ml-1 text-xs text-neutral-400">(<%= approved_content.active.count %>)</span>
+          <% end %>
+
+          <%= link_to feed_path(@feed, status: @status, scope: "upcoming"),
+              class: "pb-2 text-sm font-medium border-b-2 transition-colors #{@scope == 'upcoming' ? 'border-brand-500 text-brand-500' : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'}" do %>
+            Upcoming
+            <span class="ml-1 text-xs text-neutral-400">(<%= approved_content.upcoming.count %>)</span>
+          <% end %>
+
+          <%= link_to feed_path(@feed, status: @status, scope: "expired"),
+              class: "pb-2 text-sm font-medium border-b-2 transition-colors #{@scope == 'expired' ? 'border-brand-500 text-brand-500' : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'}" do %>
+            Expired
+            <span class="ml-1 text-xs text-neutral-400">(<%= approved_content.expired.count %>)</span>
+          <% end %>
+        </div>
+
+        <% scoped_content = case @scope
+                            when "active" then approved_content.active
+                            when "upcoming" then approved_content.upcoming
+                            when "expired" then approved_content.expired
+                            else approved_content.active
+                            end %>
+        <% if scoped_content.empty? %>
           <div class="text-center py-12">
             <div class="text-neutral-500 mb-4">
               <svg class="mx-auto h-12 w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
               </svg>
             </div>
-            <h3 class="text-body font-medium text-neutral-900 mb-2">No content available</h3>
-            <p class="text-body text-neutral-700 mb-6">This feed has no approved content yet. Consider uploading some content to get started.</p>
+            <h3 class="text-body font-medium text-neutral-900 mb-2">No <%= @scope %> content</h3>
+            <p class="text-body text-neutral-700 mb-6">This feed has no <%= @scope %> approved content.</p>
             <% if policy(Content).create? %>
               <%= link_to "Add Content", new_content_path, class: "btn btn-primary" %>
             <% end %>
           </div>
         <% else %>
-          <%= render partial: "contents/grid", locals: {contents: approved_content} %>
+          <%= render partial: "contents/grid", locals: {contents: scoped_content} %>
         <% end %>
       <% else %>
-        <% submissions = @feed.submissions.where(moderation_status: @status) %>
+        <% submissions = @feed.submissions.includes(content: :user).where(moderation_status: @status) %>
         <% if submissions.any? %>
           <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             <% submissions.each do |submission| %>

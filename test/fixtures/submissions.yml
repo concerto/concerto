@@ -45,6 +45,16 @@ e2e_graphic_2:
   feed: e2e_graphic_feed
   moderation_status: approved
 
+expired_approved_submission:
+  content: expired_graphic
+  feed: one
+  moderation_status: approved
+
+upcoming_approved_submission:
+  content: upcoming_graphic
+  feed: one
+  moderation_status: approved
+
 pending_submission:
   content: plain_richtext
   feed: one

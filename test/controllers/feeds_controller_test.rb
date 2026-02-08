@@ -84,6 +84,51 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href*='status=pending']", count: 0
   end
 
+  # Scope filtering tests
+  test "feed show defaults to active scope" do
+    get feed_url(@feed)
+    assert_response :success
+    assert_select "a[href='#{graphic_path(graphics(:one))}']"
+    # Should not show expired or upcoming content
+    assert_select "a[href='#{graphic_path(graphics(:expired_graphic))}']", count: 0
+    assert_select "a[href='#{graphic_path(graphics(:upcoming_graphic))}']", count: 0
+  end
+
+  test "feed show with scope=upcoming shows upcoming content" do
+    get feed_url(@feed, scope: "upcoming")
+    assert_response :success
+    assert_select "a[href='#{graphic_path(graphics(:upcoming_graphic))}']"
+    assert_select "a[href='#{graphic_path(graphics(:one))}']", count: 0
+  end
+
+  test "feed show with scope=expired shows expired content" do
+    get feed_url(@feed, scope: "expired")
+    assert_response :success
+    assert_select "a[href='#{graphic_path(graphics(:expired_graphic))}']"
+    assert_select "a[href='#{graphic_path(graphics(:one))}']", count: 0
+  end
+
+  test "feed show with invalid scope defaults to active" do
+    get feed_url(@feed, scope: "invalid")
+    assert_response :success
+    assert_select "a[href='#{graphic_path(graphics(:one))}']"
+  end
+
+  test "scope toggle is visible to anonymous users" do
+    get feed_url(@feed)
+    assert_response :success
+    assert_select "a[href*='scope=active']"
+    assert_select "a[href*='scope=upcoming']"
+    assert_select "a[href*='scope=expired']"
+  end
+
+  test "moderator scope links preserve status param" do
+    sign_in users(:regular)
+    get feed_url(@feed, status: "approved")
+    assert_response :success
+    assert_select "a[href*='status=approved'][href*='scope=active']"
+  end
+
   test "should redirect STI feed to proper controller" do
     rss_feed = rss_feeds(:yahoo_rssfeed)
     get feed_url(rss_feed)
