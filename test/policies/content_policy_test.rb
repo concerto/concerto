@@ -9,12 +9,58 @@ class ContentPolicyTest < ActiveSupport::TestCase
     @content = rich_texts(:plain_richtext)  # Owned by admin user
   end
 
-  test "scope returns all content for everyone" do
+  test "scope returns only approved content for everyone" do
     resolved_scope = ContentPolicy::Scope.new(nil, Content.all).resolve
-    assert_equal Content.all.to_a, resolved_scope.to_a
+    assert_equal Content.approved.to_a, resolved_scope.to_a
 
     resolved_scope = ContentPolicy::Scope.new(@other_user, Content.all).resolve
-    assert_equal Content.all.to_a, resolved_scope.to_a
+    assert_equal Content.approved.to_a, resolved_scope.to_a
+  end
+
+  test "scope excludes content with only pending submissions" do
+    content = RichText.create!(
+      name: "Pending Only", text: "Test", duration: 10, user: @non_member,
+      config: { "render_as" => "plaintext" }
+    )
+    submission = Submission.create!(content: content, feed: feeds(:one))
+    assert submission.pending?, "Expected submission to be pending for non-member"
+
+    resolved_scope = ContentPolicy::Scope.new(nil, Content.all).resolve
+    assert_not_includes resolved_scope, content
+  end
+
+  test "scope excludes content with only rejected submissions" do
+    content = RichText.create!(
+      name: "Rejected Only", text: "Test", duration: 10, user: @non_member,
+      config: { "render_as" => "plaintext" }
+    )
+    submission = Submission.create!(content: content, feed: feeds(:one))
+    submission.moderate!(status: :rejected, moderator: @content_owner, reason: "No")
+
+    resolved_scope = ContentPolicy::Scope.new(nil, Content.all).resolve
+    assert_not_includes resolved_scope, content
+  end
+
+  test "scope includes content with at least one approved submission" do
+    content = RichText.create!(
+      name: "Has Approved", text: "Test", duration: 10, user: @non_member,
+      config: { "render_as" => "plaintext" }
+    )
+    Submission.create!(content: content, feed: feeds(:one)) # pending for non-member
+    Submission.create!(content: content, feed: feeds(:two)).moderate!(status: :approved, moderator: @content_owner, reason: "OK")
+
+    resolved_scope = ContentPolicy::Scope.new(nil, Content.all).resolve
+    assert_includes resolved_scope, content
+  end
+
+  test "scope excludes content with no submissions" do
+    content = RichText.create!(
+      name: "No Submissions", text: "Test", duration: 10, user: @non_member,
+      config: { "render_as" => "plaintext" }
+    )
+
+    resolved_scope = ContentPolicy::Scope.new(nil, Content.all).resolve
+    assert_not_includes resolved_scope, content
   end
 
   test "index? is permitted for everyone" do

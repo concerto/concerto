@@ -132,6 +132,72 @@ class ContentTest < ActiveSupport::TestCase
     assert_includes Content.used, expired_not_unused
   end
 
+  test "approved scope includes content with at least one approved submission" do
+    content = RichText.create!(
+      name: "Approved Content", text: "Test", duration: 10, user: @admin,
+      config: { "render_as" => "plaintext" }
+    )
+    Submission.create!(content: content, feed: feeds(:one), moderation_status: :approved)
+
+    assert_includes Content.approved, content
+  end
+
+  test "approved scope excludes content with only pending submissions" do
+    non_member = users(:non_member)
+    content = RichText.create!(
+      name: "Pending Content", text: "Test", duration: 10, user: non_member,
+      config: { "render_as" => "plaintext" }
+    )
+    submission = Submission.create!(content: content, feed: feeds(:one))
+    assert submission.pending?, "Expected submission to be pending for non-member"
+
+    assert_not_includes Content.approved, content
+  end
+
+  test "approved scope excludes content with only rejected submissions" do
+    non_member = users(:non_member)
+    content = RichText.create!(
+      name: "Rejected Content", text: "Test", duration: 10, user: non_member,
+      config: { "render_as" => "plaintext" }
+    )
+    submission = Submission.create!(content: content, feed: feeds(:one))
+    submission.moderate!(status: :rejected, moderator: @admin, reason: "No")
+
+    assert_not_includes Content.approved, content
+  end
+
+  test "approved scope includes content with mixed submissions if one is approved" do
+    non_member = users(:non_member)
+    content = RichText.create!(
+      name: "Mixed Content", text: "Test", duration: 10, user: non_member,
+      config: { "render_as" => "plaintext" }
+    )
+    Submission.create!(content: content, feed: feeds(:one)) # pending for non-member
+    Submission.create!(content: content, feed: feeds(:two)).moderate!(status: :approved, moderator: @admin, reason: "OK")
+
+    assert_includes Content.approved, content
+  end
+
+  test "approved scope excludes content with no submissions" do
+    content = RichText.create!(
+      name: "No Submissions", text: "Test", duration: 10, user: @admin,
+      config: { "render_as" => "plaintext" }
+    )
+
+    assert_not_includes Content.approved, content
+  end
+
+  test "approved scope chains with active scope" do
+    content = RichText.create!(
+      name: "Active Approved", text: "Test", duration: 10, user: @admin,
+      start_time: 1.hour.ago, end_time: 1.hour.from_now,
+      config: { "render_as" => "plaintext" }
+    )
+    Submission.create!(content: content, feed: feeds(:one), moderation_status: :approved)
+
+    assert_includes Content.approved.active, content
+  end
+
   test "updating tracked fields triggers submission re-moderation for non-members" do
     non_member = users(:non_member)
     feed = feeds(:one)

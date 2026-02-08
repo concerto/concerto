@@ -15,6 +15,7 @@ class Content < ApplicationRecord
     scope :active, -> { where("(start_time IS NULL OR start_time < :now) AND (end_time IS NULL OR end_time > :now)", { now: Time.current }) }
     scope :expired, -> { where("end_time IS NOT NULL AND end_time < :now", { now: Time.current }) }
     scope :upcoming, -> { where("start_time IS NOT NULL AND start_time > :now", { now: Time.current }) }
+    scope :approved, -> { where(id: Submission.where(moderation_status: :approved).select(:content_id)) }
 
     # Scopes for RSS feed content filtering
     scope :unused, -> { expired.where(text: [ nil, "" ]).where("name LIKE ?", "%(unused)") }
