@@ -43,31 +43,77 @@
   <div class="card mb-6">
     <div class="card-body">
       <div class="border-b border-neutral-200 pb-4 mb-6">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <h2 class="text-h3 text-neutral-900">Content</h2>
-          <div class="flex items-center gap-4">
-            <span class="text-caption text-neutral-700">
-              <%= pluralize(@feed.content.count, 'item') %>
-            </span>
-          </div>
+
+          <% if policy(@feed).edit? %>
+            <!-- Moderation Status Toggle -->
+            <div class="flex space-x-1 bg-neutral-100 p-1 rounded-lg">
+              <%= link_to feed_path(@feed, status: "approved"),
+                  class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@status == 'approved' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
+                Approved
+                <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-success text-white rounded-full">
+                  <%= @feed.approved_submissions.count %>
+                </span>
+              <% end %>
+
+              <%= link_to feed_path(@feed, status: "pending"),
+                  class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@status == 'pending' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
+                Pending
+                <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-warning text-white rounded-full">
+                  <%= @feed.submissions.pending.count %>
+                </span>
+              <% end %>
+
+              <%= link_to feed_path(@feed, status: "rejected"),
+                  class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@status == 'rejected' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
+                Rejected
+                <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-error text-white rounded-full">
+                  <%= @feed.submissions.rejected.count %>
+                </span>
+              <% end %>
+            </div>
+          <% end %>
         </div>
       </div>
 
-      <% unless @feed.content.exists? %>
-        <div class="text-center py-12">
-          <div class="text-neutral-500 mb-4">
-            <svg class="mx-auto h-12 w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-            </svg>
+      <% if @status == "approved" %>
+        <% approved_content = @feed.approved_content %>
+        <% if approved_content.empty? %>
+          <div class="text-center py-12">
+            <div class="text-neutral-500 mb-4">
+              <svg class="mx-auto h-12 w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+            <h3 class="text-body font-medium text-neutral-900 mb-2">No content available</h3>
+            <p class="text-body text-neutral-700 mb-6">This feed has no approved content yet. Consider uploading some content to get started.</p>
+            <% if policy(Content).create? %>
+              <%= link_to "Add Content", new_content_path, class: "btn btn-primary" %>
+            <% end %>
           </div>
-          <h3 class="text-body font-medium text-neutral-900 mb-2">No content available</h3>
-          <p class="text-body text-neutral-700 mb-6">This feed has no content yet. Consider uploading some content to get started.</p>
-          <% if policy(Content).create? %>
-            <%= link_to "Add Content", new_content_path, class: "btn btn-primary" %>
-          <% end %>
-        </div>
+        <% else %>
+          <%= render partial: "contents/grid", locals: {contents: approved_content} %>
+        <% end %>
       <% else %>
-        <%= render partial: "contents/grid", locals: {contents: @feed.content} %>
+        <% submissions = @feed.submissions.where(moderation_status: @status) %>
+        <% if submissions.any? %>
+          <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            <% submissions.each do |submission| %>
+              <%= render partial: "submissions/card", locals: { submission: submission } %>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-center py-12">
+            <div class="text-neutral-500 mb-4">
+              <svg class="mx-auto h-12 w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+            <h3 class="text-body font-medium text-neutral-900 mb-2">No <%= @status %> submissions</h3>
+            <p class="text-body text-neutral-700">There are no <%= @status %> submissions for this feed.</p>
+          </div>
+        <% end %>
       <% end %>
     </div>
   </div>
