@@ -37,7 +37,7 @@ class SubmissionPolicy < ApplicationPolicy
 
   # Returns submissions visible to the user on a content show page.
   def self.visible_submissions(user, content)
-    submissions = content.submissions.includes(:feed)
+    submissions = content.submissions.includes(feed: :group)
 
     return submissions if user&.system_admin?
     return submissions if user && content.user_id == user.id
@@ -54,11 +54,9 @@ class SubmissionPolicy < ApplicationPolicy
   end
 
   # Whether the user can see a submission's moderation reason.
+  # Visible to: system admins, the content owner, or members of the feed's group.
   def show_reason?
-    return false unless user
-    return true if user.system_admin?
-    return true if record.content.user_id == user.id
-    user.memberships.exists?(group: record.feed.group)
+    user && (user.system_admin? || record.content.user_id == user.id || user.memberships.exists?(group: record.feed.group))
   end
 
   def permitted_attributes_for_moderation
