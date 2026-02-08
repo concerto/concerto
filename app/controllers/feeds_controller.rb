@@ -15,6 +15,12 @@ class FeedsController < ApplicationController
   # GET /feeds/1 or /feeds/1.json
   def show
     authorize @feed
+    @status = params[:status] || "approved"
+    # Non-moderators always see approved only
+    @status = "approved" unless policy(@feed).edit? && Submission.moderation_statuses.keys.include?(@status)
+
+    @scope = params[:scope] || "active"
+    @scope = "active" unless %w[active upcoming expired].include?(@scope)
   end
 
   # GET /feeds/new

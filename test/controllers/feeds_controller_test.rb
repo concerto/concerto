@@ -31,6 +31,104 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  # Feed show status filtering tests
+  test "anonymous user sees only approved content on feed show" do
+    get feed_url(@feed)
+    assert_response :success
+    assert_select "a[href='#{graphic_path(graphics(:one))}']"
+  end
+
+  test "anonymous user does not see moderation toggle" do
+    get feed_url(@feed)
+    assert_response :success
+    assert_select "div.bg-neutral-100 a[href*='status=pending']", count: 0
+  end
+
+  test "group member sees moderation toggle buttons" do
+    sign_in users(:regular)
+    get feed_url(@feed)
+    assert_response :success
+    assert_select "a[href*='status=approved']"
+    assert_select "a[href*='status=pending']"
+    assert_select "a[href*='status=rejected']"
+  end
+
+  test "group member with status=pending sees pending submissions" do
+    sign_in users(:regular)
+    get feed_url(@feed, status: "pending")
+    assert_response :success
+    # Should see the pending submission content name
+    assert_select "a[href='#{rich_text_path(rich_texts(:plain_richtext))}']"
+  end
+
+  test "group member with status=rejected sees rejected submissions" do
+    sign_in users(:regular)
+    get feed_url(@feed, status: "rejected")
+    assert_response :success
+    assert_select "a[href='#{rich_text_path(rich_texts(:html_richtext))}']"
+  end
+
+  test "non-member does not see moderation toggle" do
+    sign_in users(:non_member)
+    get feed_url(@feed)
+    assert_response :success
+    assert_select "a[href*='status=pending']", count: 0
+  end
+
+  test "non-member with status=pending param still sees only approved content" do
+    sign_in users(:non_member)
+    get feed_url(@feed, status: "pending")
+    assert_response :success
+    # Should see approved content, not pending submissions
+    assert_select "a[href='#{graphic_path(graphics(:one))}']"
+    assert_select "a[href*='status=pending']", count: 0
+  end
+
+  # Scope filtering tests
+  test "feed show defaults to active scope" do
+    get feed_url(@feed)
+    assert_response :success
+    assert_select "a[href='#{graphic_path(graphics(:one))}']"
+    # Should not show expired or upcoming content
+    assert_select "a[href='#{graphic_path(graphics(:expired_graphic))}']", count: 0
+    assert_select "a[href='#{graphic_path(graphics(:upcoming_graphic))}']", count: 0
+  end
+
+  test "feed show with scope=upcoming shows upcoming content" do
+    get feed_url(@feed, scope: "upcoming")
+    assert_response :success
+    assert_select "a[href='#{graphic_path(graphics(:upcoming_graphic))}']"
+    assert_select "a[href='#{graphic_path(graphics(:one))}']", count: 0
+  end
+
+  test "feed show with scope=expired shows expired content" do
+    get feed_url(@feed, scope: "expired")
+    assert_response :success
+    assert_select "a[href='#{graphic_path(graphics(:expired_graphic))}']"
+    assert_select "a[href='#{graphic_path(graphics(:one))}']", count: 0
+  end
+
+  test "feed show with invalid scope defaults to active" do
+    get feed_url(@feed, scope: "invalid")
+    assert_response :success
+    assert_select "a[href='#{graphic_path(graphics(:one))}']"
+  end
+
+  test "scope toggle is visible to anonymous users" do
+    get feed_url(@feed)
+    assert_response :success
+    assert_select "a[href*='scope=active']"
+    assert_select "a[href*='scope=upcoming']"
+    assert_select "a[href*='scope=expired']"
+  end
+
+  test "moderator scope links preserve status param" do
+    sign_in users(:regular)
+    get feed_url(@feed, status: "approved")
+    assert_response :success
+    assert_select "a[href*='status=approved'][href*='scope=active']"
+  end
+
   test "should redirect STI feed to proper controller" do
     rss_feed = rss_feeds(:yahoo_rssfeed)
     get feed_url(rss_feed)
