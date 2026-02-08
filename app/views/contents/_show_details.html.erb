@@ -48,21 +48,28 @@
         </dd>
       </div>
       
-      <!-- Submitted to Feeds -->
+      <!-- Feeds -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <dt class="text-body font-medium text-neutral-700">Submitted to Feeds</dt>
+        <dt class="text-body font-medium text-neutral-700">Feeds</dt>
         <dd class="text-body text-neutral-900 sm:col-span-2">
-          <% if content.feeds.any? %>
+          <% visible = SubmissionPolicy.visible_submissions(current_user, content) %>
+          <% if visible.any? %>
             <ul class="space-y-2">
-              <% content.feeds.each do |feed| %>
+              <% visible.each do |submission| %>
                 <li>
-                  <%= link_to feed.name, feed,
+                  <%= link_to submission.feed.name, submission.feed,
                       class: "text-brand hover:text-brand-600 font-medium transition-colors duration-200" %>
+                  <% unless submission.approved? %>
+                    <%= moderation_status_badge(submission) %>
+                  <% end %>
+                  <% if submission.moderation_reason.present? && policy(submission).show_reason? %>
+                    <p class="text-caption text-neutral-600 mt-1 pl-2 border-l-2 border-neutral-300"><%= submission.moderation_reason %></p>
+                  <% end %>
                 </li>
               <% end %>
             </ul>
           <% else %>
-            <span class="text-neutral-500 italic">Not submitted to any feeds</span>
+            <span class="text-neutral-500 italic">Not approved on any feeds</span>
           <% end %>
         </dd>
       </div>

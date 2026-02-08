@@ -145,4 +145,23 @@ class RichTextsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to contents_url
   end
+
+  # Submission visibility tests
+  test "anonymous user sees approved feed but not pending feed on show page" do
+    get rich_text_url(@rich_text)
+    assert_response :success
+    # plain_richtext has approved submission to Feed Two and pending to Feed One
+    assert_select "a", text: feeds(:two).name
+    assert_select "a", text: feeds(:one).name, count: 0
+  end
+
+  test "content owner sees all submissions with non-approved badges on show page" do
+    sign_in @user
+    get rich_text_url(@rich_text)
+    assert_response :success
+    assert_select "a", text: feeds(:two).name
+    assert_select "a", text: feeds(:one).name
+    assert_select "span", text: "Pending"
+    assert_select "span", text: "Approved", count: 0
+  end
 end
