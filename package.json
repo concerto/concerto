@@ -3,7 +3,7 @@
   "type": "module",
   "dependencies": {
     "date-fns": "^4.1.0",
-    "vue": "^3.5.27"
+    "vue": "^3.5.28"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^5.7.1",
