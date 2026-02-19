@@ -10,7 +10,7 @@ describe('ConcertoGraphic', () => {
     };
     const wrapper = mount(ConcertoGraphic, { props: { content: content }});
 
-    const style = getComputedStyle(wrapper.get('.graphic').element);
+    const style = wrapper.get('.graphic').element.style;
 
     expect(style.cssText).toContain('url(image.jpg)');
   })
