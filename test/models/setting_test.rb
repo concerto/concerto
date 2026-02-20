@@ -92,6 +92,36 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal({}, Setting[:hash_setting])
   end
 
+  test "stores and retrieves secret values encrypted" do
+    setting = Setting.create!(key: "my_secret", value_type: "secret")
+    setting.typed_value = "super_secret_value"
+    setting.save!
+
+    # The raw column should not contain the plaintext
+    raw = Setting.connection.select_value("SELECT encrypted_value FROM settings WHERE key = 'my_secret'")
+    assert_not_equal "super_secret_value", raw
+
+    # But retrieval through the model should return the plaintext
+    assert_equal "super_secret_value", Setting.find_by(key: "my_secret").typed_value
+    assert_equal "super_secret_value", Setting[:my_secret]
+  end
+
+  test "updating a secret setting via []= preserves encrypted storage" do
+    setting = Setting.create!(key: "updateable_secret", value_type: "secret")
+    Setting[:updateable_secret] = "first_secret"
+    assert_equal "first_secret", Setting[:updateable_secret]
+
+    Setting[:updateable_secret] = "second_secret"
+    assert_equal "second_secret", Setting[:updateable_secret]
+  end
+
+  test "fixture loads oidc_client_secret as encrypted secret" do
+    setting = settings(:oidc_client_secret)
+    assert_equal "secret", setting.value_type
+    assert_equal "test_secret", setting.typed_value
+    assert_nil setting.value
+  end
+
   test "uses cache for retrieving values" do
     Setting[:cached_key] = "cached value"
 

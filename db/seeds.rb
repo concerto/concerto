@@ -20,8 +20,7 @@ puts "Seeding application settings..."
 initial_settings = {
     public_registration: true,
     oidc_issuer: "",
-    oidc_client_id: "",
-    oidc_client_secret: ""
+    oidc_client_id: ""
 }
 
 initial_settings.each do |key, value|
@@ -32,11 +31,15 @@ initial_settings.each do |key, value|
     puts "  Created setting: #{key} = #{value}"
   else
     puts "  Setting already exists: #{key}"
-    # If you *did* want to ensure the seed value is always the current value,
-    # you would remove the 'unless' block:
-    # Setting[key] = value
-    # puts "  Updated setting: #{key} = #{value}"
   end
+end
+
+# oidc_client_secret is stored encrypted; create separately with the correct value_type.
+unless Setting.exists?(key: :oidc_client_secret)
+  Setting.create!(key: "oidc_client_secret", value_type: "secret")
+  puts "  Created setting: oidc_client_secret (encrypted)"
+else
+  puts "  Setting already exists: oidc_client_secret"
 end
 
 puts "Seeding clock..."

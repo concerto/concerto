@@ -32,8 +32,8 @@ oidc_client_id:
 
 oidc_client_secret:
   key: oidc_client_secret
-  value: "test_secret"
-  value_type: string
+  encrypted_value: "test_secret"
+  value_type: secret
 
 server_config:
   key: server_config

@@ -1,4 +1,6 @@
 class Setting < ApplicationRecord
+  encrypts :encrypted_value
+
   validates :key, presence: true, uniqueness: true
 
   # Getter for type casting
@@ -7,6 +9,7 @@ class Setting < ApplicationRecord
     when "integer" then value.to_i
     when "boolean" then value == "true"
     when "array", "hash" then JSON.parse(value)
+    when "secret" then encrypted_value
     when "string" then value # Default for string
     else value # Fallback if value_type is nil or unknown
     end
@@ -16,6 +19,11 @@ class Setting < ApplicationRecord
 
   # Setter for type casting and setting the string value_type
   def typed_value=(val)
+    if value_type == "secret"
+      self.encrypted_value = val.to_s
+      return
+    end
+
     self.value_type = case val
     when Integer then "integer"
     when TrueClass, FalseClass then "boolean"
@@ -40,6 +48,7 @@ class Setting < ApplicationRecord
       val = case setting.value_type
       when "integer" then val.to_i
       when "boolean" then val.to_s == "true"
+      when "secret" then val.to_s
       when "array" then
         begin
           JSON.parse(val.is_a?(String) ? val : val.to_json)

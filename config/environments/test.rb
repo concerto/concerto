@@ -53,4 +53,9 @@ Rails.application.configure do
 
   # https://github.com/rails/rails/issues/46797
   config.active_job.queue_adapter = :test
+
+  # Allow fixtures to store plaintext in encrypted columns without failing.
+  # Fixtures bypass the model layer and insert raw SQL, so encrypted_value
+  # contains plaintext that cannot be decrypted.
+  config.active_record.encryption.support_unencrypted_data = true
 end
