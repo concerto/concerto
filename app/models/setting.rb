@@ -36,9 +36,11 @@ class Setting < ApplicationRecord
 
   # Helper methods for easy access (remain unchanged)
   def self.[](key)
-    Rails.cache.fetch("settings/#{key}") do
-      find_by(key: key)&.typed_value
-    end
+    setting = find_by(key: key)
+    # Never cache secret settings — the cache may store values in cleartext.
+    return setting&.typed_value if setting&.value_type == "secret"
+
+    Rails.cache.fetch("settings/#{key}") { setting&.typed_value }
   end
 
   def self.[]=(key, val)
