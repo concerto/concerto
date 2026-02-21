@@ -26,8 +26,12 @@ class SubmissionPolicy < ApplicationPolicy
   end
 
   # Can the user view the pending moderation queue?
+  # True for system admins and members of any group that manages a feed.
   def pending?
-    user.present?
+    return false unless user
+    return true if user.system_admin?
+
+    user.groups.joins(:feeds).exists?
   end
 
   # Can the user moderate this submission?

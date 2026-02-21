@@ -35,9 +35,17 @@ class SubmissionPolicyTest < ActiveSupport::TestCase
     refute SubmissionPolicy.new(nil, @submission).moderate?
   end
 
-  test "pending? is permitted for signed-in users" do
+  test "pending? is permitted for system admins" do
+    assert SubmissionPolicy.new(@system_admin_user, Submission).pending?
+  end
+
+  test "pending? is permitted for members of a group that manages a feed" do
     assert SubmissionPolicy.new(@content_owner, Submission).pending?
     assert SubmissionPolicy.new(@other_user, Submission).pending?
+  end
+
+  test "pending? is denied for signed-in users with no feed group membership" do
+    refute SubmissionPolicy.new(@non_member, Submission).pending?
   end
 
   test "pending? is denied for anonymous users" do
