@@ -31,7 +31,7 @@ class SubmissionPolicy < ApplicationPolicy
     return false unless user
     return true if user.system_admin?
 
-    Feed.where(group_id: user.memberships.select(:group_id)).exists?
+    user.groups.joins(:feeds).exists?
   end
 
   # Can the user moderate this submission?
