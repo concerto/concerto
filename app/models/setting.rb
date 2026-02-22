@@ -21,6 +21,7 @@ class Setting < ApplicationRecord
   def typed_value=(val)
     if value_type == "secret"
       self.encrypted_value = val.to_s
+      self.value = nil
       return
     end
 
