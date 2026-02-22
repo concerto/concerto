@@ -13,6 +13,8 @@ class AdminController < ApplicationController
     authorize Setting, :update?
 
     setting_params.each do |key, value|
+      setting = Setting.find_by(key: key)
+      next if setting&.value_type == "secret" && value.blank?
       Setting[key] = value
     end
     redirect_to admin_settings_path, notice: "Settings were successfully updated."
