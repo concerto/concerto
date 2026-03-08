@@ -1,7 +1,4 @@
-<%# Inline re-moderation form for a single submission.
-    Expects: submission
-    Outer div is scoped to this submission's toggle controller (show/hide reject form). %>
-<div data-controller="toggle" class="max-w-sm">
+<div data-controller="toggle">
   <div class="flex gap-2">
     <% unless submission.approved? %>
       <%= form_with model: submission, url: moderate_submission_path(submission), method: :patch, class: "flex-1" do |form| %>
@@ -11,7 +8,7 @@
     <% end %>
 
     <button type="button"
-            data-action="toggle#toggle"
+            data-action="toggle#toggle toggle#stop"
             class="btn-danger flex-1 text-sm">
       <%= submission.rejected? ? "Update Rejection" : "Reject" %>
     </button>

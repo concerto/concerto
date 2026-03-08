@@ -73,7 +73,7 @@
                     <p class="text-caption text-neutral-600 mt-1 pl-2 border-l-2 border-neutral-300"><%= submission.moderation_reason %></p>
                   <% end %>
                   <% if policy(submission).moderate? %>
-                    <div data-toggle-target="content" class="hidden mt-2">
+                    <div data-toggle-target="content" class="hidden mt-2 max-w-sm">
                       <%= render "submissions/moderation_actions", submission: submission %>
                     </div>
                   <% end %>
