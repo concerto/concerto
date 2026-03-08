@@ -146,14 +146,12 @@ class RemoteFeed < Feed
     end
 
     def deduplicate_item_names(items)
-      counts = Hash.new(0)
-      items.each { |item| counts[[ item["type"], item["name"] ]] += 1 }
-
-      seen = Hash.new(0)
-      items.map do |item|
-        key = [ item["type"], item["name"] ]
-        seen[key] += 1
-        counts[key] > 1 ? item.merge("name" => "#{item["name"]} (#{seen[key]})") : item
+      items.group_by { |item| [ item["type"], item["name"] ] }.flat_map do |_, group|
+        if group.size > 1
+          group.map.with_index(1) { |item, i| item.merge("name" => "#{item["name"]} (#{i})") }
+        else
+          group
+        end
       end
     end
 
