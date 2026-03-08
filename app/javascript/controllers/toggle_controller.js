@@ -26,4 +26,8 @@ export default class extends Controller {
       target.classList.add("hidden")
     })
   }
+
+  stop(event) {
+    event.stopPropagation()
+  }
 }
