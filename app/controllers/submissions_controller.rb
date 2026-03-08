@@ -21,7 +21,7 @@ class SubmissionsController < ApplicationController
 
     unless %w[approved rejected].include?(status)
       return respond_to do |format|
-        format.html { redirect_to submissions_path, alert: "Invalid moderation action." }
+        format.html { redirect_back fallback_location: submissions_path, alert: "Invalid moderation action." }
         format.json { render json: { error: "Invalid moderation action" }, status: :bad_request }
       end
     end
@@ -29,7 +29,7 @@ class SubmissionsController < ApplicationController
     @submission.moderate!(status: status, moderator: current_user, reason: reason)
 
     respond_to do |format|
-      format.html { redirect_to submissions_path, notice: "Submission was #{status}." }
+      format.html { redirect_back fallback_location: submissions_path, notice: "Submission was #{status}." }
       format.json { render json: @submission, status: :ok }
     end
   end

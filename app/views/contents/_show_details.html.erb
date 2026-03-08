@@ -54,16 +54,28 @@
         <dd class="text-body text-neutral-900 sm:col-span-2">
           <% visible = SubmissionPolicy.visible_submissions(current_user, content) %>
           <% if visible.any? %>
-            <ul class="space-y-2">
+            <ul class="space-y-3">
               <% visible.each do |submission| %>
-                <li>
-                  <%= link_to submission.feed.name, submission.feed,
-                      class: "text-brand hover:text-brand-600 font-medium transition-colors duration-200" %>
-                  <% unless submission.approved? %>
+                <li data-controller="toggle">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <%= link_to submission.feed.name, submission.feed,
+                        class: "text-brand hover:text-brand-600 font-medium transition-colors duration-200" %>
                     <%= moderation_status_badge(submission) %>
-                  <% end %>
+                    <% if policy(submission).moderate? %>
+                      <button type="button"
+                              data-action="toggle#toggle"
+                              class="text-xs text-neutral-500 hover:text-neutral-700 underline">
+                        Change
+                      </button>
+                    <% end %>
+                  </div>
                   <% if submission.moderation_reason.present? && policy(submission).show_reason? %>
                     <p class="text-caption text-neutral-600 mt-1 pl-2 border-l-2 border-neutral-300"><%= submission.moderation_reason %></p>
+                  <% end %>
+                  <% if policy(submission).moderate? %>
+                    <div data-toggle-target="content" class="hidden mt-2">
+                      <%= render "submissions/moderation_actions", submission: submission %>
+                    </div>
                   <% end %>
                 </li>
               <% end %>
