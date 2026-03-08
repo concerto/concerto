@@ -1,0 +1,33 @@
+<div data-controller="toggle">
+  <div class="flex gap-2">
+    <% unless submission.approved? %>
+      <%= form_with model: submission, url: moderate_submission_path(submission), method: :patch, class: "flex-1" do |form| %>
+        <%= form.hidden_field :moderation_status, value: "approved" %>
+        <%= form.submit "Approve", class: "btn-primary w-full cursor-pointer text-sm" %>
+      <% end %>
+    <% end %>
+
+    <button type="button"
+            data-action="toggle#toggle toggle#stop"
+            class="btn-danger flex-1 text-sm">
+      <%= submission.rejected? ? "Update Rejection" : "Reject" %>
+    </button>
+  </div>
+
+  <div data-toggle-target="content" class="hidden mt-2">
+    <%= form_with model: submission, url: moderate_submission_path(submission), method: :patch do |form| %>
+      <%= form.hidden_field :moderation_status, value: "rejected" %>
+      <%= form.text_area :moderation_reason,
+          value: submission.moderation_reason,
+          placeholder: "Reason for rejection (optional)...",
+          rows: 2,
+          class: "block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm mb-2" %>
+      <div class="flex gap-2">
+        <button type="button" data-action="toggle#hide" class="btn-secondary flex-1 text-sm">
+          Cancel
+        </button>
+        <%= form.submit submission.rejected? ? "Update Rejection" : "Confirm Reject", class: "btn-danger flex-1 cursor-pointer text-sm" %>
+      </div>
+    <% end %>
+  </div>
+</div>

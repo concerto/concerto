@@ -155,13 +155,13 @@ class RichTextsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a", text: feeds(:one).name, count: 0
   end
 
-  test "content owner sees all submissions with non-approved badges on show page" do
+  test "content owner sees all submissions with status badges on show page" do
     sign_in @user
     get rich_text_url(@rich_text)
     assert_response :success
     assert_select "a", text: feeds(:two).name
     assert_select "a", text: feeds(:one).name
     assert_select "span", text: "Pending"
-    assert_select "span", text: "Approved", count: 0
+    assert_select "span", text: "Approved"
   end
 end

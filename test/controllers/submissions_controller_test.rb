@@ -103,4 +103,75 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to submissions_path
     assert_equal "Invalid moderation action.", flash[:alert]
   end
+
+  # Re-moderation tests (changing status after initial moderation)
+  test "group members can reject an already-approved submission" do
+    sign_in @admin
+    submission = submissions(:three)  # approved, on feed two (admin is a member)
+
+    assert submission.approved?, "Submission should start as approved"
+
+    patch moderate_submission_url(submission), params: {
+      submission: { moderation_status: "rejected", moderation_reason: "No longer appropriate" }
+    }
+
+    assert_equal "Submission was rejected.", flash[:notice]
+    submission.reload
+    assert submission.rejected?
+    assert_equal "No longer appropriate", submission.moderation_reason
+    assert_equal @admin, submission.moderator
+  end
+
+  test "group members can re-approve a rejected submission" do
+    sign_in @admin
+    submission = submissions(:rejected_submission)  # rejected, on feed one (admin is a member)
+
+    assert submission.rejected?, "Submission should start as rejected"
+
+    patch moderate_submission_url(submission), params: {
+      submission: { moderation_status: "approved" }
+    }
+
+    assert_equal "Submission was approved.", flash[:notice]
+    submission.reload
+    assert submission.approved?
+    assert_equal @admin, submission.moderator
+  end
+
+  test "non-members cannot re-moderate an approved submission" do
+    sign_in users(:non_member)
+    submission = submissions(:three)  # approved, on feed two
+
+    patch moderate_submission_url(submission), params: {
+      submission: { moderation_status: "rejected" }
+    }
+
+    assert_redirected_to root_url
+    assert_equal "You are not authorized to perform this action.", flash[:alert]
+    submission.reload
+    assert submission.approved?, "Submission should still be approved"
+  end
+
+  test "moderate redirects back to referer when present" do
+    sign_in @admin
+    submission = submissions(:pending_submission)
+    content = submission.content
+
+    patch moderate_submission_url(submission),
+      params: { submission: { moderation_status: "approved" } },
+      headers: { "HTTP_REFERER" => rich_text_url(content) }
+
+    assert_redirected_to rich_text_url(content)
+  end
+
+  test "moderate falls back to submissions path when no referer" do
+    sign_in @admin
+    submission = submissions(:pending_submission)
+
+    patch moderate_submission_url(submission), params: {
+      submission: { moderation_status: "approved" }
+    }
+
+    assert_redirected_to submissions_path
+  end
 end
