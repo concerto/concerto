@@ -7,7 +7,13 @@ info:
     The endpoint must return a JSON array of Content objects as described below.
     The URL path is not prescribed — any URL returning this format will work
     (e.g. https://example.com/feed_contents.json).
-  version: 0.0.0
+
+    Concerto uses the combination of `type` and `name` as a stable identity for each item.
+    When a refresh returns an item whose `type` and `name` match an existing content record,
+    that record is updated in place (preserving its ID). This means pinned content continues
+    to work correctly as long as the item's name and type remain the same across responses.
+    If an item's name or type changes, the old content is removed and a new record is created.
+  version: 0.1.0
 
 paths: {}
 
@@ -20,7 +26,10 @@ components:
       properties:
         name:
           type: string
-          description: Display name of the content.
+          description: >
+            Display name of the content. Together with `type`, this serves as the stable
+            identity for the item across refreshes. Should be unique within a response for
+            a given `type`.
         duration:
           type: integer
           description: How long the content should be displayed, in seconds. If omitted, the Concerto player will use its own default duration.

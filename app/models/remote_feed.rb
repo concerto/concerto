@@ -55,34 +55,34 @@ class RemoteFeed < Feed
       system_user = User.find_by(is_system_user: true)
 
       ActiveRecord::Base.transaction do
-        # Compute digest for each incoming item
-        new_digests = {}
-        items.each do |item|
-          digest = compute_digest(item)
-          new_digests[digest] = item
-        end
+        items = deduplicate_item_names(items)
 
-        # Index existing content by stored digest
-        existing_by_digest = {}
+        # Index existing content by [type, name] — stable identity across data changes
+        existing_by_key = {}
         content.reload.each do |c|
-          d = c.config&.dig("remote_digest")
-          existing_by_digest[d] = c if d
+          existing_by_key[[ c.type, c.name ]] ||= c
         end
 
-        # Delete items whose digest is absent from new response
-        existing_by_digest.each do |digest, c|
-          unless new_digests.key?(digest)
-            c.destroy
+        new_keys = Set.new
+
+        items.each do |item|
+          key = [ item["type"], item["name"] ]
+          new_keys.add(key)
+          digest = compute_digest(item)
+
+          if (existing = existing_by_key[key])
+            # Update in place if anything changed, preserving the content ID
+            update_content(existing, item, digest) if existing.config&.dig("remote_digest") != digest
+          else
+            content_obj = build_content(item, system_user, digest)
+            content_obj.save!
+            submissions.create!(content: content_obj) unless submissions.exists?(content: content_obj)
           end
         end
 
-        # Create new items for unmatched digests
-        new_digests.each do |digest, item|
-          next if existing_by_digest.key?(digest)
-
-          content_obj = build_content(item, system_user, digest)
-          content_obj.save!
-          submissions.create!(content: content_obj) unless submissions.exists?(content: content_obj)
+        # Remove content whose [type, name] is no longer in the feed
+        existing_by_key.each do |key, c|
+          c.destroy unless new_keys.include?(key)
         end
 
         self.last_refreshed = Time.now
@@ -132,13 +132,57 @@ class RemoteFeed < Feed
           config: { remote_digest: digest, render_as: item["render_as"] }
         )
       when "Graphic"
-        graphic = Graphic.new(**common_attrs, config: { remote_digest: digest })
+        graphic = Graphic.new(**common_attrs, config: { remote_digest: digest, image_url: item["url"] })
         download_and_attach_image(graphic, item["url"])
         graphic
       when "Video"
         Video.new(
           **common_attrs,
           config: { remote_digest: digest, url: item["url"] }
+        )
+      else
+        raise "Unknown content type: #{item["type"]}"
+      end
+    end
+
+    def deduplicate_item_names(items)
+      items.group_by { |item| [ item["type"], item["name"] ] }.flat_map do |_, group|
+        if group.size > 1
+          group.map.with_index(1) { |item, i| item.merge("name" => "#{item["name"]} (#{i})") }
+        else
+          group
+        end
+      end
+    end
+
+    def update_content(existing, item, digest)
+      common_attrs = {
+        name: item["name"],
+        duration: item["duration"],
+        start_time: item["start_time"] ? Time.parse(item["start_time"]) : nil,
+        end_time: item["end_time"] ? Time.parse(item["end_time"]) : nil
+      }
+
+      case item["type"]
+      when "RichText"
+        existing.update!(
+          **common_attrs,
+          text: item["text"],
+          render_as: item["render_as"],
+          config: existing.config.merge("remote_digest" => digest, "render_as" => item["render_as"])
+        )
+      when "Graphic"
+        old_image_url = existing.config&.dig("image_url")
+        existing.update!(**common_attrs, config: existing.config.merge("remote_digest" => digest, "image_url" => item["url"]))
+        if old_image_url != item["url"]
+          existing.image.purge if existing.image.attached?
+          download_and_attach_image(existing, item["url"])
+          existing.save!
+        end
+      when "Video"
+        existing.update!(
+          **common_attrs,
+          config: existing.config.merge("remote_digest" => digest, "url" => item["url"])
         )
       else
         raise "Unknown content type: #{item["type"]}"
