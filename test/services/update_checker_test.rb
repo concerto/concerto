@@ -40,7 +40,7 @@ class UpdateCheckerTest < ActiveSupport::TestCase
 
   test "update_available? returns true when latest tag is newer" do
     UpdateChecker.stub(:latest_release, { tag: "3.1.0", url: "https://example.com" }) do
-      with_app_version("3.0.0.dev") do
+      stub_const(Object, :APP_VERSION, "3.0.0.dev") do
         assert UpdateChecker.update_available?
       end
     end
@@ -48,7 +48,7 @@ class UpdateCheckerTest < ActiveSupport::TestCase
 
   test "update_available? returns false when on same version" do
     UpdateChecker.stub(:latest_release, { tag: "3.0.0", url: "https://example.com" }) do
-      with_app_version("3.0.0") do
+      stub_const(Object, :APP_VERSION, "3.0.0") do
         assert_not UpdateChecker.update_available?
       end
     end
@@ -69,15 +69,5 @@ class UpdateCheckerTest < ActiveSupport::TestCase
       body: body,
       headers: { "Content-Type" => "application/json" }
     )
-  end
-
-  def with_app_version(version)
-    old = Object.const_get(:APP_VERSION)
-    Object.send(:remove_const, :APP_VERSION)
-    Object.const_set(:APP_VERSION, version)
-    yield
-  ensure
-    Object.send(:remove_const, :APP_VERSION)
-    Object.const_set(:APP_VERSION, old)
   end
 end

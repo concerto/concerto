@@ -2,7 +2,6 @@ class CheckForUpdatesJob < ApplicationJob
   queue_as :default
 
   def perform
-    release = UpdateChecker.fetch_from_github
-    Rails.cache.write(UpdateChecker::CACHE_KEY, release, expires_in: UpdateChecker::CACHE_TTL)
+    UpdateChecker.warm_cache
   end
 end

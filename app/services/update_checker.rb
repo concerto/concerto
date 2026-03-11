@@ -22,6 +22,11 @@ class UpdateChecker
     false
   end
 
+  def self.warm_cache
+    release = fetch_from_github
+    Rails.cache.write(CACHE_KEY, release, expires_in: CACHE_TTL)
+  end
+
   def self.fetch_from_github
     uri = URI("https://api.github.com/repos/#{GITHUB_REPO}/releases/latest")
     http = Net::HTTP.new(uri.host, uri.port)
