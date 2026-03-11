@@ -10,6 +10,13 @@ module ActiveSupport
   class TestCase
     include Devise::Test::IntegrationHelpers
 
+    # Stub GitHub releases API so tests rendering the header don't make real HTTP calls.
+    # Individual tests can override this with their own stub_request.
+    setup do
+      stub_request(:get, "https://api.github.com/repos/concerto/concerto/releases/latest")
+        .to_return(status: 404, body: "Not Found")
+    end
+
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
 

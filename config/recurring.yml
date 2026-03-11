@@ -21,3 +21,7 @@ production:
   refresh_remote_feeds:
     class: RefreshRemoteFeedsJob
     schedule: every 5 minutes
+
+  check_for_updates:
+    class: CheckForUpdatesJob
+    schedule: every 24 hours
