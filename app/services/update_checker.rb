@@ -9,6 +9,7 @@ class UpdateChecker
   HTTP_READ_TIMEOUT = 10
 
   def self.latest_release
+    return nil if Rails.env.test?
     Rails.cache.fetch(CACHE_KEY, expires_in: CACHE_TTL) { fetch_from_github }
   end
 
