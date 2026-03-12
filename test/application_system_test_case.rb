@@ -7,8 +7,10 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   parallelize(workers: 1)
 
   # System tests render full pages that often include video thumbnails
+  # and the admin header which checks for updates via the GitHub API
   setup do
     stub_oembed_apis
+    stub_github_releases_api
   end
 
   if ENV["CAPYBARA_SERVER_PORT"]
