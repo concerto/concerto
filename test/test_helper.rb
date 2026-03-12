@@ -6,6 +6,25 @@ require "webmock/minitest"
 # Allow localhost connections for system tests, block all other external requests
 WebMock.disable_net_connect!(allow_localhost: true)
 
+# WebMock.reset! is called after each test, which clears all stubs. In system tests,
+# the Puma server runs in a background thread and may process requests between one
+# test's teardown (reset!) and the next test's setup. This race condition causes
+# WebMock::NetConnectNotAllowedError (which inherits from Exception, not StandardError)
+# to propagate through the view and crash the server with a 500.
+#
+# To handle this, we re-register the GitHub releases stub after every reset, ensuring
+# the Puma server thread always has it available regardless of timing.
+GITHUB_RELEASES_STUB = WebMock::RequestStub.new(:get, "https://api.github.com/repos/concerto/concerto/releases/latest")
+  .to_return(status: 404, body: "Not Found")
+
+module PersistentWebMockStubs
+  def reset!
+    super
+    WebMock::StubRegistry.instance.register_request_stub(GITHUB_RELEASES_STUB)
+  end
+end
+WebMock.singleton_class.prepend(PersistentWebMockStubs)
+
 module ActiveSupport
   class TestCase
     include Devise::Test::IntegrationHelpers
@@ -81,6 +100,13 @@ module ActiveSupport
           }.to_json,
           headers: { "Content-Type" => "application/json" }
         )
+    end
+
+    # Helper to stub GitHub releases API requests
+    # Call this in setup blocks of tests that render the admin header
+    def stub_github_releases_api
+      stub_request(:get, "https://api.github.com/repos/concerto/concerto/releases/latest")
+        .to_return(status: 404, body: "Not Found")
     end
 
     # Helper to stub RSS feed requests
