@@ -28,8 +28,6 @@ class UpdateChecker
 
   def self.include_prerelease?
     Setting[:update_prerelease] == true
-  rescue StandardError
-    false
   end
 
   def self.fetch_from_github

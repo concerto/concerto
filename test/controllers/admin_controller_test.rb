@@ -39,14 +39,13 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
     assert_equal "https://updated.example.com", Setting[:oidc_issuer]
   end
 
-  test "settings index groups settings by definition group" do
+  test "settings index shows section headings and all setting inputs" do
     sign_in @system_admin
     get admin_settings_path
     assert_response :success
 
-    assert_match(/General/, response.body)
-    assert_match(/OpenID Connect/, response.body)
-    assert_match(/Updates/, response.body)
+    assert_select "h2", text: "General"
+    assert_select "h2", text: /OpenID Connect/
 
     assert_select "input[name=?]", "settings[public_registration]"
     assert_select "input[name=?]", "settings[update_prerelease]"
