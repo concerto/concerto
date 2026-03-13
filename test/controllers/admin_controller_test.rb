@@ -60,7 +60,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
 
     assert_match(/Public Registration/, response.body)
     assert_match(/Pre-release Updates/, response.body)
-    assert_match(/Allow new users to create accounts/, response.body)
+    assert_match(/Allow visitors to create accounts/, response.body)
   end
 
   test "settings index creates missing settings from definitions" do
