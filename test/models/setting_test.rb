@@ -122,6 +122,36 @@ class SettingTest < ActiveSupport::TestCase
     assert_nil setting.value
   end
 
+  # Defaults / ensure_defaults_exist tests
+
+  test "defined_keys returns all default keys" do
+    keys = Setting.defined_keys
+    assert_includes keys, "public_registration"
+    assert_includes keys, "update_prerelease"
+    assert_includes keys, "oidc_issuer"
+    assert_includes keys, "oidc_client_id"
+    assert_includes keys, "oidc_client_secret"
+  end
+
+  test "ensure_defaults_exist creates missing settings" do
+    Setting.where(key: "update_prerelease").delete_all
+    Setting.where(key: "oidc_client_secret").delete_all
+
+    Setting.ensure_defaults_exist
+
+    assert Setting.exists?(key: "update_prerelease")
+    assert_equal false, Setting[:update_prerelease]
+
+    secret = Setting.find_by(key: "oidc_client_secret")
+    assert_equal "secret", secret.value_type
+  end
+
+  test "ensure_defaults_exist does not overwrite existing settings" do
+    Setting[:public_registration] = false
+    Setting.ensure_defaults_exist
+    assert_equal false, Setting[:public_registration]
+  end
+
   test "uses cache for retrieving values" do
     Setting[:cached_key] = "cached value"
 

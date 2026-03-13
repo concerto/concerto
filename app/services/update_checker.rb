@@ -26,8 +26,40 @@ class UpdateChecker
     Rails.cache.write(CACHE_KEY, release, expires_in: CACHE_TTL)
   end
 
+  def self.include_prerelease?
+    Setting[:update_prerelease] == true
+  rescue StandardError
+    false
+  end
+
   def self.fetch_from_github
+    if include_prerelease?
+      fetch_latest_from_all_releases
+    else
+      fetch_latest_stable_release
+    end
+  end
+
+  def self.fetch_latest_stable_release
     uri = URI("https://api.github.com/repos/#{GITHUB_REPO}/releases/latest")
+    body = github_get(uri)
+    return nil unless body
+
+    { tag: body["tag_name"].delete_prefix("v"), url: body["html_url"] }
+  end
+
+  def self.fetch_latest_from_all_releases
+    uri = URI("https://api.github.com/repos/#{GITHUB_REPO}/releases?per_page=1")
+    body = github_get(uri)
+    return nil unless body
+
+    release = body.is_a?(Array) ? body.first : body
+    return nil unless release
+
+    { tag: release["tag_name"].delete_prefix("v"), url: release["html_url"], prerelease: release["prerelease"] }
+  end
+
+  private_class_method def self.github_get(uri)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
     http.open_timeout = HTTP_OPEN_TIMEOUT
@@ -41,8 +73,7 @@ class UpdateChecker
     response = http.request(request)
     return nil unless response.is_a?(Net::HTTPSuccess)
 
-    body = JSON.parse(response.body)
-    { tag: body["tag_name"].delete_prefix("v"), url: body["html_url"] }
+    JSON.parse(response.body)
   rescue StandardError => e
     Rails.logger.error "UpdateChecker failed: #{e.class} - #{e.message}"
     nil

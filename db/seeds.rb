@@ -16,31 +16,7 @@ Group.find_or_create_by!(name: Group::SYSTEM_ADMIN_GROUP_NAME, description: "Sys
 system_user = User.find_or_create_by!(is_system_user: true, first_name: "Concerto", last_name: "System User")
 
 puts "Seeding application settings..."
-
-initial_settings = {
-    public_registration: true,
-    oidc_issuer: "",
-    oidc_client_id: ""
-}
-
-initial_settings.each do |key, value|
-  # Only create the setting if it doesn't already exist.
-  # This prevents overwriting values if an admin has changed them.
-  unless Setting.exists?(key: key)
-    Setting[key] = value
-    puts "  Created setting: #{key} = #{value}"
-  else
-    puts "  Setting already exists: #{key}"
-  end
-end
-
-# oidc_client_secret is stored encrypted; create separately with the correct value_type.
-unless Setting.exists?(key: :oidc_client_secret)
-  Setting.create!(key: "oidc_client_secret", value_type: "secret")
-  puts "  Created setting: oidc_client_secret (encrypted)"
-else
-  puts "  Setting already exists: oidc_client_secret"
-end
+Setting.ensure_defaults_exist
 
 puts "Seeding clock..."
 

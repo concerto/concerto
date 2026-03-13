@@ -3,6 +3,33 @@ class Setting < ApplicationRecord
 
   validates :key, presence: true, uniqueness: true
 
+  # Default values for all application settings. New settings should be added
+  # here so that ensure_defaults_exist creates them on existing installations
+  # (called automatically when an admin visits the settings page).
+  # The view (app/views/admin/settings.html.erb) is hardcoded — update it too.
+  DEFAULTS = {
+    "public_registration" => true,
+    "update_prerelease" => false,
+    "oidc_issuer" => "",
+    "oidc_client_id" => "",
+    "oidc_client_secret" => nil  # secret type — stored encrypted
+  }.freeze
+
+  def self.defined_keys
+    DEFAULTS.keys
+  end
+
+  def self.ensure_defaults_exist
+    DEFAULTS.each do |key, default|
+      next if exists?(key: key)
+      if default.nil? && key.end_with?("_secret")
+        create!(key: key, value_type: "secret")
+      else
+        self[key] = default
+      end
+    end
+  end
+
   # Getter for type casting
   def typed_value
     case value_type
