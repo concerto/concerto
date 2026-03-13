@@ -14,16 +14,24 @@ WebMock.disable_net_connect!(allow_localhost: true)
 #
 # To handle this, we re-register the GitHub releases stub after every reset, ensuring
 # the Puma server thread always has it available regardless of timing.
-GITHUB_RELEASES_STUB = WebMock::RequestStub.new(:get, "https://api.github.com/repos/concerto/concerto/releases/latest")
+GITHUB_RELEASES_LATEST_STUB = WebMock::RequestStub.new(:get, "https://api.github.com/repos/concerto/concerto/releases/latest")
+  .to_return(status: 404, body: "Not Found")
+GITHUB_RELEASES_ALL_STUB = WebMock::RequestStub.new(:get, /api\.github\.com\/repos\/concerto\/concerto\/releases\?/)
   .to_return(status: 404, body: "Not Found")
 
 module PersistentWebMockStubs
   def reset!
     super
-    WebMock::StubRegistry.instance.register_request_stub(GITHUB_RELEASES_STUB)
+    WebMock::StubRegistry.instance.register_request_stub(GITHUB_RELEASES_LATEST_STUB)
+    WebMock::StubRegistry.instance.register_request_stub(GITHUB_RELEASES_ALL_STUB)
   end
 end
 WebMock.singleton_class.prepend(PersistentWebMockStubs)
+
+# Also register the stubs immediately so they're available for the first test
+# (reset! only fires after a test completes, leaving the first test unprotected).
+WebMock::StubRegistry.instance.register_request_stub(GITHUB_RELEASES_LATEST_STUB)
+WebMock::StubRegistry.instance.register_request_stub(GITHUB_RELEASES_ALL_STUB)
 
 module ActiveSupport
   class TestCase

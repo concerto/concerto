@@ -20,6 +20,11 @@ maintenance_mode:
   value: "false"
   value_type: boolean
 
+update_prerelease:
+  key: update_prerelease
+  value: "false"
+  value_type: boolean
+
 oidc_issuer:
   key: oidc_issuer
   value: "https://idp.example.com"

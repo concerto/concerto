@@ -17,12 +17,11 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
   test "update_settings requires system admin" do
     sign_in @regular_user
     patch admin_settings_path, params: {
-      settings: { site_name: "Hacked" }
+      settings: { oidc_issuer: "Hacked" }
     }
     assert_redirected_to root_path
     assert_equal "You are not authorized to perform this action.", flash[:alert]
-    # Verify the setting was NOT updated
-    refute_equal "Hacked", Setting[:site_name]
+    refute_equal "Hacked", Setting[:oidc_issuer]
   end
 
   test "settings index allowed for system admin" do
@@ -34,67 +33,87 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
   test "update_settings allowed for system admin" do
     sign_in @system_admin
     patch admin_settings_path, params: {
-      settings: { site_name: "Updated by Admin" }
+      settings: { oidc_issuer: "https://updated.example.com" }
     }
     assert_redirected_to admin_settings_path
-    assert_equal "Updated by Admin", Setting[:site_name]
+    assert_equal "https://updated.example.com", Setting[:oidc_issuer]
   end
 
-  # Original functionality tests
-  test "settings index groups settings by prefix" do
+  test "settings index shows section headings and all setting inputs" do
     sign_in @system_admin
     get admin_settings_path
     assert_response :success
 
-    # Check that the response includes section headings
-    assert_match(/Site/, response.body)
-    assert_match(/Oidc/, response.body)
+    assert_select "h2", text: "General"
+    assert_select "h2", text: /OpenID Connect/
 
-    # Check that settings appear under the correct sections
-    # Site section should contain site_name field
-    assert_select "input[name=?]", "settings[site_name]"
-
-    # OIDC section should contain OIDC-related fields
+    assert_select "input[name=?]", "settings[public_registration]"
+    assert_select "input[name=?]", "settings[update_prerelease]"
     assert_select "input[name=?]", "settings[oidc_issuer]"
     assert_select "input[name=?]", "settings[oidc_client_id]"
+  end
+
+  test "settings index shows labels and descriptions from definitions" do
+    sign_in @system_admin
+    get admin_settings_path
+
+    assert_match(/Public Registration/, response.body)
+    assert_match(/Pre-release Updates/, response.body)
+    assert_match(/Allow visitors to create accounts/, response.body)
+  end
+
+  test "settings index creates missing settings from definitions" do
+    Setting.where(key: "update_prerelease").delete_all
+    sign_in @system_admin
+    get admin_settings_path
+    assert_response :success
+
+    assert_select "input[name=?]", "settings[update_prerelease]"
+    assert Setting.exists?(key: "update_prerelease")
   end
 
   test "updates multiple settings at once" do
     sign_in @system_admin
     patch admin_settings_path, params: {
       settings: {
-        site_name: "Updated Site",
         oidc_issuer: "https://new-idp.example.com",
-        items_per_page: "20"
+        public_registration: "false"
       }
     }
 
     assert_redirected_to admin_settings_path
     assert_equal "Settings were successfully updated.", flash[:notice]
 
-    # Verify each setting was updated with correct type
-    assert_equal "Updated Site", Setting[:site_name]
     assert_equal "https://new-idp.example.com", Setting[:oidc_issuer]
-    assert_equal 20, Setting[:items_per_page]
+    assert_equal false, Setting[:public_registration]
   end
 
   test "handles different setting types correctly" do
     sign_in @system_admin
     patch admin_settings_path, params: {
       settings: {
-        items_per_page: "15",
-        maintenance_mode: "true",
-        admin_emails: '["new@example.com"]'
+        public_registration: "true",
+        update_prerelease: "true",
+        oidc_issuer: "https://example.com"
       }
     }
 
-    # Integer type
-    assert_equal 15, Setting[:items_per_page]
+    assert_equal true, Setting[:public_registration]
+    assert_equal true, Setting[:update_prerelease]
+    assert_equal "https://example.com", Setting[:oidc_issuer]
+  end
 
-    # Boolean type
-    assert_equal true, Setting[:maintenance_mode]
+  test "only permits defined setting keys" do
+    sign_in @system_admin
+    patch admin_settings_path, params: {
+      settings: {
+        oidc_issuer: "https://legit.example.com",
+        injected_key: "malicious"
+      }
+    }
 
-    # Array type
-    assert_equal [ "new@example.com" ], Setting[:admin_emails]
+    assert_redirected_to admin_settings_path
+    assert_equal "https://legit.example.com", Setting[:oidc_issuer]
+    assert_nil Setting[:injected_key]
   end
 end

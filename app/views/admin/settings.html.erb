@@ -3,27 +3,50 @@
 <div class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
   <%= form_tag admin_settings_path, method: :patch, class: "px-4 py-6 sm:p-8" do %>
     <div class="space-y-8">
-      <% @settings.each do |section, settings| %>
-        <div>
-          <h2 class="text-lg font-medium leading-6 text-gray-900 mb-4"><%= section.titleize %></h2>
-          <div class="space-y-4">
-            <% settings.each do |setting| %>
-              <div>
-                <%= label_tag "settings[#{setting.key}]", setting.key.split('_')[1..-1].join(' ').titleize, class: "frm-label" %>
-                <% case setting.value_type
-                  when "boolean" %>
-                    <%= hidden_field_tag "settings[#{setting.key}]", "false" %>
-                    <%= check_box_tag "settings[#{setting.key}]", "true", setting.typed_value, class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-600" %>
-                <% when "secret" %>
-                    <%= password_field_tag "settings[#{setting.key}]", "", placeholder: "Leave blank to keep unchanged", class: "frm-input" %>
-                <% else %>
-                    <%= text_field_tag "settings[#{setting.key}]", setting.typed_value, class: "frm-input" %>
-                <% end %>
-              </div>
-            <% end %>
+
+      <div>
+        <h2 class="text-lg font-medium leading-6 text-gray-900 mb-4">General</h2>
+        <div class="space-y-4">
+          <div>
+            <%= label_tag "settings[public_registration]", "Public Registration", class: "frm-label" %>
+            <div class="flex items-center gap-3">
+              <%= hidden_field_tag "settings[public_registration]", "false" %>
+              <%= check_box_tag "settings[public_registration]", "true", @settings["public_registration"]&.typed_value, class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-600" %>
+              <p class="text-sm text-gray-500">Allow visitors to create accounts.</p>
+            </div>
+          </div>
+          <div>
+            <%= label_tag "settings[update_prerelease]", "Pre-release Updates", class: "frm-label" %>
+            <div class="flex items-center gap-3">
+              <%= hidden_field_tag "settings[update_prerelease]", "false" %>
+              <%= check_box_tag "settings[update_prerelease]", "true", @settings["update_prerelease"]&.typed_value, class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-600" %>
+              <p class="text-sm text-gray-500">Include pre-release versions when checking for updates.</p>
+            </div>
           </div>
         </div>
-      <% end %>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-medium leading-6 text-gray-900 mb-4">SSO / OpenID Connect</h2>
+        <div class="space-y-4">
+          <div>
+            <%= label_tag "settings[oidc_issuer]", "Issuer", class: "frm-label" %>
+            <%= text_field_tag "settings[oidc_issuer]", @settings["oidc_issuer"]&.typed_value, class: "frm-input" %>
+            <p class="mt-1 text-sm text-gray-500">OpenID Connect provider issuer URL.</p>
+          </div>
+          <div>
+            <%= label_tag "settings[oidc_client_id]", "Client ID", class: "frm-label" %>
+            <%= text_field_tag "settings[oidc_client_id]", @settings["oidc_client_id"]&.typed_value, class: "frm-input" %>
+            <p class="mt-1 text-sm text-gray-500">OpenID Connect client identifier.</p>
+          </div>
+          <div>
+            <%= label_tag "settings[oidc_client_secret]", "Client Secret", class: "frm-label" %>
+            <%= password_field_tag "settings[oidc_client_secret]", "", placeholder: "Leave blank to keep unchanged", class: "frm-input" %>
+            <p class="mt-1 text-sm text-gray-500">OpenID Connect client secret.</p>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <div class="mt-6">
