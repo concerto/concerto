@@ -61,6 +61,17 @@ end
 
 landscape_feed = Feed.find_or_create_by!(name: "Landscapes", group: demo_feed_group)
 
+remote_feed = RemoteFeed.find_or_initialize_by(name: "Quote of the Day", group: demo_feed_group)
+if remote_feed.new_record?
+  remote_feed.description = "A sample service which returns a quote of the day. Feel free to suggest your own quotes @ https://github.com/bamnet/qod"
+  remote_feed.url = "https://remotefeed-quotes-demo.concerto-signage.org/feed"
+  remote_feed.save!
+
+  suppress(Exception) do
+    remote_feed.refresh
+  end
+end
+
 puts "Seeding demo screen..."
 
 demo_screen_group = Group.find_or_create_by!(name: "Demo Screen Owners", description: "Managers of the Demo Screen.")
@@ -70,6 +81,7 @@ if screen.subscriptions.empty?
     screen.subscriptions.new(feed: general_feed, field: ticker_field)
     screen.subscriptions.new(feed: landscape_feed, field: main_field)
     screen.subscriptions.new(feed: rss_feed, field: sidebar_field)
+    screen.subscriptions.new(feed: remote_feed, field: ticker_field)
     screen.save!
 end
 
