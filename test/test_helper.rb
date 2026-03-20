@@ -33,6 +33,10 @@ WebMock.singleton_class.prepend(PersistentWebMockStubs)
 WebMock::StubRegistry.instance.register_request_stub(GITHUB_RELEASES_LATEST_STUB)
 WebMock::StubRegistry.instance.register_request_stub(GITHUB_RELEASES_ALL_STUB)
 
+# Ensure Vite assets are built before parallel workers fork,
+# avoiding race conditions with autoBuild across processes.
+ViteRuby.commands.build if ViteRuby.config.auto_build
+
 module ActiveSupport
   class TestCase
     include Devise::Test::IntegrationHelpers
