@@ -58,11 +58,12 @@ jobs:
 
       - name: Set up Node
         uses: actions/setup-node@v6
-        with:
-          cache: 'yarn'
+
+      - name: Enable Corepack
+        run: corepack enable yarn
 
       - name: Install frontend dependencies
-        run: yarn install
+        run: yarn install --immutable
 
       - name: Prepare RuboCop cache
         uses: actions/cache@v5
@@ -100,11 +101,12 @@ jobs:
 
       - name: Set up Node
         uses: actions/setup-node@v6
-        with:
-          cache: 'yarn'
+
+      - name: Enable Corepack
+        run: corepack enable yarn
 
       - name: Install Node packages
-        run: yarn install
+        run: yarn install --immutable
 
       - name: Build assets (esp frontend player)
         run: bin/rake assets:precompile
@@ -126,11 +128,12 @@ jobs:
 
       - name: Set up Node
         uses: actions/setup-node@v6
-        with:
-          cache: 'yarn'
+
+      - name: Enable Corepack
+        run: corepack enable yarn
 
       - name: Install Node packages
-        run: yarn install
+        run: yarn install --immutable
 
       - name: Run tests
         run: yarn run vitest
@@ -158,11 +161,12 @@ jobs:
 
       - name: Set up Node
         uses: actions/setup-node@v6
-        with:
-          cache: 'yarn'
+
+      - name: Enable Corepack
+        run: corepack enable yarn
 
       - name: Install Node packages
-        run: yarn install
+        run: yarn install --immutable
 
       - name: Build assets (esp frontend player)
         run: bin/rake assets:precompile
