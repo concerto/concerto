@@ -7,7 +7,8 @@ const API_LOAD_TIMEOUT_MS = 30000; // 30 seconds
 const TIME_CHECK_INTERVAL_MS = 5000;
 
 const props = defineProps({
-  content: { type: Object, required: true }
+  content: { type: Object, required: true },
+  boxStyle: { type: String, required: false, default: '' },
 });
 
 const hasDuration = computed(() => {
@@ -146,6 +147,7 @@ onBeforeUnmount(() => {
     frameborder="0"
     allow="autoplay"
     :src="videoUrl"
+    :style="boxStyle"
   />
 </template>
 

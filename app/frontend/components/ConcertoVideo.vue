@@ -5,7 +5,8 @@ import ConcertoVimeoVideo from './ConcertoVimeoVideo.vue';
 import ConcertoTiktokVideo from './ConcertoTiktokVideo.vue';
 
 const props = defineProps({
-  content: { type: Object, required: true }
+  content: { type: Object, required: true },
+  boxStyle: { type: String, required: false, default: '' },
 });
 
 const videoSource = computed(() => {
@@ -18,14 +19,17 @@ const videoSource = computed(() => {
   <ConcertoYoutubeVideo
     v-if="videoSource === 'youtube'"
     :content="content"
+    :box-style="boxStyle"
   />
   <ConcertoVimeoVideo
     v-else-if="videoSource === 'vimeo'"
     :content="content"
+    :box-style="boxStyle"
   />
   <ConcertoTiktokVideo
     v-else-if="videoSource === 'tiktok'"
     :content="content"
+    :box-style="boxStyle"
   />
   <div v-else>
     Unsupported video source

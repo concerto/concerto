@@ -1,18 +1,18 @@
 <script setup>
-import { computed } from 'vue';
-
-const props = defineProps({
-  content: {type: Object, required: true}
+defineProps({
+  content: {type: Object, required: true},
+  boxStyle: {type: String, required: false, default: ''},
 });
-
-const backgroundImageUrl = computed(() => {
-  return `url(${props.content.image})`;
-})
-
 </script>
 
 <template>
-  <div class="graphic" />
+  <div class="graphic-container">
+    <img
+      class="graphic"
+      :src="content.image"
+      :style="boxStyle"
+    >
+  </div>
 </template>
 
 <script>
@@ -68,17 +68,18 @@ export function preload(content) {
 </script>
 
 <style scoped>
+  .graphic-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
   .graphic {
     display: block;
-    position: absolute;
-    margin: auto;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: v-bind('backgroundImageUrl');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
   }
 </style>

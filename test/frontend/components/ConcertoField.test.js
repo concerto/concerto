@@ -90,7 +90,7 @@ describe('ConcertoField', () => {
 
     await flushPromises();
 
-    expect(wrapper.findComponent(ConcertoGraphic).props()).toEqual(
+    expect(wrapper.findComponent(ConcertoGraphic).props()).toMatchObject(
       {
         content: fieldContent[0]
       }
@@ -143,7 +143,7 @@ describe('ConcertoField', () => {
     await flushPromises();
 
     // First load displays the initial graphic.
-    expect(wrapper.findComponent(ConcertoGraphic).props()).toEqual(
+    expect(wrapper.findComponent(ConcertoGraphic).props()).toMatchObject(
       {
         content: fieldUnknownContent[0]
       }
@@ -156,7 +156,7 @@ describe('ConcertoField', () => {
     await nextTick();
 
     // Skips over the unknown content type and renders the graphic.
-    expect(wrapper.findComponent(ConcertoGraphic).props()).toEqual(
+    expect(wrapper.findComponent(ConcertoGraphic).props()).toMatchObject(
       {
         content: fieldUnknownContent[2]
       }
@@ -192,6 +192,82 @@ describe('ConcertoField', () => {
     wrapper.findComponent(ConcertoGraphic).vm.$emit('next');
     await nextTick();
     expect(wrapper.findComponent(ConcertoRichText).exists()).toBe(true);
+  });
+
+  describe('style splitting', () => {
+    it('applies text styles to .field and box styles to content component', async () => {
+      const wrapper = mount(ConcertoField, {
+        props: {
+          apiUrl: fieldContentUrl,
+          fieldStyle: 'color:#000; border:1px solid #ccc; font-family:Arial;',
+        },
+        global: { stubs: { transition: false } },
+      });
+
+      await flushPromises();
+
+      const fieldStyle = wrapper.get('.field').attributes('style');
+      expect(fieldStyle).toContain('font-family: Arial');
+      expect(fieldStyle).not.toContain('border');
+
+      const graphic = wrapper.findComponent(ConcertoGraphic);
+      expect(graphic.props('boxStyle')).toBe('border:1px solid #ccc;');
+    });
+
+    it('passes empty boxStyle when only text styles present', async () => {
+      const wrapper = mount(ConcertoField, {
+        props: {
+          apiUrl: fieldContentUrl,
+          fieldStyle: 'font-weight:bold;',
+        },
+        global: { stubs: { transition: false } },
+      });
+
+      await flushPromises();
+
+      const fieldStyle = wrapper.get('.field').attributes('style');
+      expect(fieldStyle).toContain('font-weight');
+
+      const graphic = wrapper.findComponent(ConcertoGraphic);
+      expect(graphic.props('boxStyle')).toBe('');
+    });
+
+    it('passes empty boxStyle and no field style when fieldStyle is empty', async () => {
+      const wrapper = mount(ConcertoField, {
+        props: {
+          apiUrl: fieldContentUrl,
+          fieldStyle: '',
+        },
+        global: { stubs: { transition: false } },
+      });
+
+      await flushPromises();
+
+      const fieldStyle = wrapper.get('.field').attributes('style') || '';
+      expect(fieldStyle).toBe('');
+
+      const graphic = wrapper.findComponent(ConcertoGraphic);
+      expect(graphic.props('boxStyle')).toBe('');
+    });
+
+    it('passes box styles to content when no text styles', async () => {
+      const wrapper = mount(ConcertoField, {
+        props: {
+          apiUrl: fieldContentUrl,
+          fieldStyle: 'border:solid 2px #663333;',
+        },
+        global: { stubs: { transition: false } },
+      });
+
+      await flushPromises();
+
+      const fieldStyle = wrapper.get('.field').attributes('style') || '';
+      expect(fieldStyle).not.toContain('border');
+
+      const graphic = wrapper.findComponent(ConcertoGraphic);
+      expect(graphic.props('boxStyle')).toBe('border:solid 2px #663333;');
+    });
+
   });
 
   describe('preloading', () => {
