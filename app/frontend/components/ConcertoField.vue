@@ -1,11 +1,12 @@
 <script setup>
-import { onMounted, onBeforeUnmount, ref, shallowRef } from 'vue'
+import { computed, onMounted, onBeforeUnmount, ref, shallowRef } from 'vue'
 
 import ConcertoGraphic, { preload as preloadGraphic } from './ConcertoGraphic.vue';
 import ConcertoRichText from './ConcertoRichText.vue';
 import ConcertoVideo from './ConcertoVideo.vue';
 import ConcertoClock from './ConcertoClock.vue';
 import { useConfigVersion } from '../composables/useConfigVersion.js';
+import { splitFieldStyle } from '../utils/splitFieldStyle.js';
 
 // Content is shown for 10 seconds if it does not have it's own duration.
 const defaultDuration = 10;
@@ -56,6 +57,8 @@ const props = defineProps({
    */
   fieldStyle: {type: String, required: false, default: ''},
 });
+
+const parsedStyles = computed(() => splitFieldStyle(props.fieldStyle));
 
 const currentContent = shallowRef(null);
 const currentContentConfig = ref({});
@@ -190,13 +193,14 @@ onBeforeUnmount(() => {
   <div
     class="field"
     :class="{ 'dev-border': isDevelopment }"
-    :style="fieldStyle"
+    :style="parsedStyles.textStyle"
   >
     <Transition>
       <component
         :is="currentContent"
         :key="currentContentConfig.id"
         :content="currentContentConfig"
+        :box-style="parsedStyles.boxStyle"
         @click="next"
         @take-over-timer="delegateTimerToContent"
         @next="next"

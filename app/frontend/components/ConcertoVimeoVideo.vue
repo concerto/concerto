@@ -6,7 +6,8 @@ const VIMEO_API_URL = 'https://player.vimeo.com/api/player.js';
 const API_LOAD_TIMEOUT_MS = 30000; // 30 seconds
 
 const props = defineProps({
-  content: { type: Object, required: true }
+  content: { type: Object, required: true },
+  boxStyle: { type: String, required: false, default: '' },
 });
 
 const emit = defineEmits(['takeOverTimer', 'next']);
@@ -114,6 +115,7 @@ onBeforeUnmount(() => {
     frameborder="0"
     allow="autoplay"
     :src="videoUrl"
+    :style="boxStyle"
   />
 </template>
 

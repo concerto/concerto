@@ -3,7 +3,8 @@ import { computed, onMounted, onBeforeUnmount, ref } from 'vue';
 import { useVideoWatchdog } from '../composables/useVideoWatchdog.js';
 
 const props = defineProps({
-  content: { type: Object, required: true }
+  content: { type: Object, required: true },
+  boxStyle: { type: String, required: false, default: '' },
 });
 
 const emit = defineEmits(['takeOverTimer', 'next']);
@@ -90,6 +91,7 @@ onBeforeUnmount(() => {
     frameborder="0"
     allow="autoplay; encrypted-media"
     :src="videoUrl"
+    :style="boxStyle"
   />
 </template>
 
