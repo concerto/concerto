@@ -151,11 +151,14 @@ FieldConfig.find_or_create_by!(screen: screen, field: time_field, pinned_content
 
 puts "Seeding demo content..."
 
+seeded_content = []
+
 plain_ticker = RichText.find_or_initialize_by(name: "Welcome Ticker", text: "Welcome to Concerto!", user: system_user)
 if plain_ticker.new_record?
     plain_ticker.render_as = RichText.render_as[:plaintext]
     plain_ticker.submissions.new(feed: general_feed)
     plain_ticker.save!
+    seeded_content << plain_ticker
 end
 
 html_ticker = RichText.find_or_initialize_by(name: "HTML Ticker", text: "<b>Concerto</b> is digital signage for <i>everyone</i>.", user: system_user)
@@ -163,6 +166,7 @@ if html_ticker.new_record?
     html_ticker.render_as = RichText.render_as[:html]
     html_ticker.submissions.new(feed: general_feed)
     html_ticker.save!
+    seeded_content << html_ticker
 end
 
 graphic1 = Graphic.find_or_initialize_by(name: "GenAI Poster", duration: 30, user: system_user)
@@ -170,6 +174,7 @@ if graphic1.new_record?
     graphic1.image = File.new("db/seed_assets/genai_poster.png")
     graphic1.submissions.new(feed: general_feed)
     graphic1.save!
+    seeded_content << graphic1
 end
 
 graphic2 = Graphic.find_or_initialize_by(name: "Welcome Robot", duration: 25, user: system_user)
@@ -177,6 +182,7 @@ if graphic2.new_record?
     graphic2.image = File.new("db/seed_assets/welcome_robot.jpg")
     graphic2.submissions.new(feed: general_feed)
     graphic2.save!
+    seeded_content << graphic2
 end
 
 (1..6).each do |i|
@@ -185,8 +191,11 @@ end
     landscape.image = File.new("db/seed_assets/landscape_#{i}.jpg")
     landscape.submissions.new(feed: landscape_feed)
     landscape.save!
+    seeded_content << landscape
   end
 end
+
+Submission.where(content: seeded_content).update_all(moderation_status: :approved, moderated_at: Time.current)
 
 Graphic.all.each do |g|
   g.image.analyze if !g.image.analyzed?
