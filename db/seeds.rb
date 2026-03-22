@@ -33,16 +33,78 @@ sidebar_field = Field.find_or_create_by!(name: "Sidebar", alt_names: [ "Text" ])
 ticker_field = Field.find_or_create_by!(name: "Ticker")
 time_field = Field.find_or_create_by!(name: "Time")
 
-template = Template.find_or_initialize_by(name: "BlueSwoosh", author: "Concerto Team")
-if template.new_record?
-    template.image = File.new("db/seed_assets/BlueSwooshNeo_16x9.jpg")
-    template.positions.new(field: main_field, top: ".026", left: ".025", bottom: ".796", right: ".592", style: "")
-    template.positions.new(field: ticker_field, top: ".885", left: ".221", bottom: ".985", right: ".975", style: "color:#FFF; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important;")
-    template.positions.new(field: sidebar_field, top: ".015", left: ".68", bottom: ".811", right: ".98", style: "color:#FFF; font-family:Frobisher, Arial, sans-serif;")
-    template.positions.new(field: time_field, top: ".885", left: ".024", bottom: ".974", right: ".18", style: "color:#ccc; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important; letter-spacing:.12em !important;")
-    template.save!
+template_definitions = [
+  {
+    name: "BlueSwoosh", author: "Concerto Team", image: "db/seed_assets/BlueSwooshNeo_16x9.jpg",
+    positions: [
+      { field: main_field, top: ".026", left: ".025", bottom: ".796", right: ".592", style: "" },
+      { field: ticker_field, top: ".885", left: ".221", bottom: ".985", right: ".975", style: "color:#FFF; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important;" },
+      { field: sidebar_field, top: ".015", left: ".68", bottom: ".811", right: ".98", style: "color:#FFF; font-family:Frobisher, Arial, sans-serif;" },
+      { field: time_field, top: ".885", left: ".024", bottom: ".974", right: ".18", style: "color:#ccc; font-family:Frobisher, Arial, sans-serif; font-weight:bold !important; letter-spacing:.12em !important;" }
+    ]
+  },
+  {
+    name: "GraySwoosh", author: "Brian Zaik", image: "db/seed_assets/GraySwoosh_16x9.jpg",
+    positions: [
+      { field: time_field, top: ".01765", left: ".11", bottom: ".11765", right: ".335", style: "color:#333; font-family:Frobisher, sans-serif; font-size:1.05em; font-weight:bold; letter-spacing:0.07em;" },
+      { field: ticker_field, top: ".023", left: ".45825", bottom: ".11", right: ".98845", style: "color:#000; font-family:Frobisher, sans-serif;" },
+      { field: sidebar_field, top: ".2", left: ".04", bottom: ".95", right: ".38", style: "font-family:Frobisher, sans-serif; color:#FFF;" },
+      { field: main_field, top: ".2", left: ".4125", bottom: ".95", right: ".975", style: "" }
+    ]
+  },
+  {
+    name: "Ribbon", author: "Brian Zaik", image: "db/seed_assets/Ribbon_16x9.jpg",
+    positions: [
+      { field: main_field, top: ".013", left: ".038", bottom: ".832", right: ".633", style: "border:solid 2px #999 !important;" },
+      { field: sidebar_field, top: ".293", left: ".76", bottom: ".837", right: ".96", style: "color:#FFF !important; font-family:Arial, sans-serif !important;" },
+      { field: ticker_field, top: ".867", left: ".012", bottom: ".986", right: ".572", style: "font-family:Arial, sans-serif !important;" },
+      { field: time_field, top: ".033", left: ".84", bottom: ".233", right: ".972", style: "color:#ccc !important; font-family:Arial, sans-serif !important;" }
+    ]
+  },
+  {
+    name: "Ruby", author: "Brian Zaik", image: "db/seed_assets/Ruby_16x9.jpg",
+    positions: [
+      { field: time_field, top: ".0111111", left: ".689062", bottom: ".074074", right: ".990104", style: "font-family:Frobisher, Arial, sans-serif; color:#FFF;" },
+      { field: main_field, top: ".196296", left: ".0421875", bottom: ".878703", right: ".605729", style: "font-family:Frobisher, Arial, sans-serif; color:#000; border:solid 1px #ccc;" },
+      { field: ticker_field, top: ".0111111", left: ".078125", bottom: ".15", right: ".60625", style: "font-family:Frobisher, Arial, sans-serif; color:#FFF;" },
+      { field: sidebar_field, top: ".116667", left: ".670833", bottom: ".819445", right: ".990625", style: "font-family:Frobisher, Arial, sans-serif; color:#FFF;" }
+    ]
+  },
+  {
+    name: "Simplicity", author: "Brian Michalski", image: "db/seed_assets/Simplicity.jpg",
+    positions: [
+      { field: main_field, top: "0", left: "0", bottom: "1", right: "1", style: "" }
+    ]
+  },
+  {
+    name: "Stoic", author: "Marc Ebuña", image: "db/seed_assets/Stoic_16x9.jpg",
+    positions: [
+      { field: time_field, top: ".90277", left: ".091146", bottom: ".99533", right: ".231146", style: "font-family:Frobisher, Arial, sans-serif; color:#FFF;" },
+      { field: main_field, top: ".02315", left: ".016", bottom: ".83796", right: ".626", style: "font-family:Frobisher, Arial, sans-serif; color:#000;" },
+      { field: ticker_field, top: ".90277", left: ".27", bottom: ".99533", right: ".97", style: "font-family:Frobisher, Arial, sans-serif; color:#FFF;" },
+      { field: sidebar_field, top: ".01", left: ".652", bottom: ".81556", right: ".992", style: "font-family:Frobisher, Arial, sans-serif; color:#000;" }
+    ]
+  },
+  {
+    name: "Waves", author: "Marc Ebuña", image: "db/seed_assets/Waves_16x9.jpg",
+    positions: [
+      { field: time_field, top: ".858", left: ".691", bottom: ".975", right: ".938", style: "font-family:Frobisher, sans-serif; font-size:0.8em; font-weight:bold;" },
+      { field: sidebar_field, top: ".009", left: ".712", bottom: ".809", right: ".967", style: "font-family:Frobisher, sans-serif;" },
+      { field: main_field, top: ".009", left: ".046", bottom: ".816", right: ".641", style: "border:solid 2px #663333;" }
+    ]
+  }
+]
+
+template_definitions.each do |attrs|
+  t = Template.find_or_initialize_by(name: attrs[:name], author: attrs[:author])
+  next unless t.new_record?
+
+  t.image = File.new(attrs[:image])
+  attrs[:positions].each { |pos| t.positions.new(pos) }
+  t.save!
 end
 
+template = Template.find_by!(name: "BlueSwoosh")
 
 puts "Seeding demo feeds..."
 
@@ -126,8 +188,6 @@ end
   end
 end
 
-Graphic.transaction do
-  Graphic.all.each do |g|
-    g.image.analyze if !g.image.analyzed?
-  end
+Graphic.all.each do |g|
+  g.image.analyze if !g.image.analyzed?
 end
