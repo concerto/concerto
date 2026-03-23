@@ -46,6 +46,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write
     environment:
       name: demo
       url: https://demo.concerto-signage.org/
