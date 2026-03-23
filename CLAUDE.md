@@ -240,50 +240,16 @@ Follow the design system in `docs/concerto-style-guide.md`:
 - Follow rubocop-rails-omakase for Ruby (see `.rubocop.yml`)
 - ESLint config in `eslint.config.js` for JavaScript
 
-## File Organization
+## Documentation
 
-```
-app/
-├── controllers/        # Rails controllers
-│   └── frontend/      # Frontend player controllers
-├── models/            # ActiveRecord models (STI for Content, Feed)
-├── policies/          # Pundit authorization policies
-├── views/             # ERB templates
-├── frontend/          # Vue 3 application
-│   ├── components/    # Vue components
-│   └── entrypoints/   # Vite entry points
-└── javascript/        # Stimulus controllers and importmap JS
-
-config/
-├── routes.rb          # Application routes
-├── vite.json          # Vite Rails configuration
-└── deploy.yml         # Kamal deployment config
-
-db/
-├── schema.rb          # Database schema (source of truth)
-└── migrate/           # Database migrations
-
-test/
-├── controllers/       # Controller tests
-├── models/           # Model tests
-├── policies/         # Policy tests
-├── system/           # System/browser tests
-└── frontend/         # Frontend component tests
-
-docs/
-├── authorization_guidelines.md  # Detailed Pundit usage guide
-└── concerto-style-guide.md     # UI/UX design specification
-```
-
-## Key Relationships to Remember
-
-When working with subscriptions and content rendering:
-
-1. A Screen subscribes to Feeds through Subscriptions (which reference a specific Field)
-2. Content flows to a Screen when it's submitted to a Feed that the Screen subscribes to
-3. The `should_render_in?(position)` method on Content determines render eligibility
-4. Content has active/expired/upcoming scopes based on start_time/end_time
-5. RSS feeds can have unused content (expired with no text, marked with "(unused)" in name)
+The `docs/` directory contains detailed guides:
+- `authorization_guidelines.md` — Detailed Pundit usage guide
+- `authorization_policy_requirements.md` — Policy requirements reference
+- `concerto-style-guide.md` — UI/UX design specification
+- `content_ordering_design.md` — Content ordering strategy design
+- `adding_settings.md` — How to add new application settings
+- `release_process.md` — Release workflow (branch, PR, tag, publish)
+- `remote_feed_spec.yaml` — Remote feed API specification
 
 ## Authentication & SSO
 
