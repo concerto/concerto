@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Set up QEMU for multi-arch builds
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx for cache
+        uses: docker/setup-buildx-action@v4
+      - name: Expose GitHub Runtime for cache
+        uses: crazy-max/ghaction-github-runtime@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+      - name: Build and push multi-arch image
+        run: bin/kamal build push -d release
+        env:
+          KAMAL_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
