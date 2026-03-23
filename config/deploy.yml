@@ -78,7 +78,6 @@ asset_path: /rails/public/assets
 builder:
   arch:
     - amd64
-    - arm64
 
   # Using GHA cache
   cache:

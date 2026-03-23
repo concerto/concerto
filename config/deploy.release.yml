@@ -1,0 +1,6 @@
+# Release deployment destination.
+# Adds arm64 to the default amd64 build for multi-arch release images.
+builder:
+  arch:
+    - amd64
+    - arm64
