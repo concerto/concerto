@@ -31,32 +31,80 @@ There are two ways to install Concerto: using Docker (recommended) or from the G
 
 The easiest way to get Concerto running is with Docker.
 
-#### Steps
+#### Quick Start
 
 ```shell
-docker pull ghcr.io/concerto/concerto:latest
-
-# If you need to generate a secret
+# Generate a secret key (save this — you'll need it)
 docker run --rm ghcr.io/concerto/concerto:latest bin/rails secret
 
+# Start Concerto
 docker run -d \
+     --name concerto \
      -p 80:80 \
      -e SECRET_KEY_BASE=<your-generated-secret> \
+     -e DISABLE_SSL=true \
      -v concerto_storage:/rails/storage \
-     --name concerto \
+     --restart unless-stopped \
      ghcr.io/concerto/concerto:latest
 ```
 
 Open your browser and navigate to `http://localhost`.
 
+> **Note:** The `DISABLE_SSL=true` flag is required if you are not using SSL locally or
+> terminating upstream (e.g. via a reverse proxy or load balancer). Without it, Rails will
+> attempt to enforce HTTPS and redirect all HTTP requests.
+
+#### Docker Compose
+
+For easier management, you can use Docker Compose. Create a `docker-compose.yml`:
+
+```yaml
+services:
+  concerto:
+    image: ghcr.io/concerto/concerto:latest
+    ports:
+      - "80:80"
+    environment:
+      SECRET_KEY_BASE: <your-generated-secret>  # generate with: docker run --rm ghcr.io/concerto/concerto:latest bin/rails secret
+      DISABLE_SSL: true  # remove if using SSL termination upstream
+    volumes:
+      - concerto_storage:/rails/storage
+    restart: unless-stopped
+
+volumes:
+  concerto_storage:
+```
+
+Then run:
+
+```shell
+docker compose up -d
+```
+
+#### Data Storage
+
+Concerto stores all persistent data at `/rails/storage` inside the container,
+including the SQLite database, job queue, cache, and uploaded files. You must
+mount a volume to this path or data will be lost when the container is
+recreated. **Back up this volume regularly.**
+
 #### Configuration Options
 
-| Environment Variable | Description                                   | Default |
-| -------------------- | --------------------------------------------- | ------- |
-| `SECRET_KEY_BASE`    | Secret key for encrypting sessions (required) | -       |
-| `RAILS_MAX_THREADS`  | Maximum number of threads                     | 5       |
-| `DISABLE_SSL`        | Set this to allow non-SSL access              | -       |
+| Environment Variable    | Description                                                       | Default |
+| ----------------------- | ----------------------------------------------------------------- | ------- |
+| `SECRET_KEY_BASE`       | Secret key for encrypting sessions (**required**)                 | -       |
+| `DISABLE_SSL`           | Set to `true` to disable SSL (leave unset to enable SSL)          | -       |
+| `RAILS_MAX_THREADS`     | Maximum number of threads per Puma worker                         | 3       |
+| `WEB_CONCURRENCY`       | Number of Puma worker processes                                   | 1       |
+| `SOLID_QUEUE_IN_PUMA`   | Set to `false` to disable the in-process job worker               | true    |
 
+Background job processing (Solid Queue) runs automatically inside the web
+server process. For most single-server deployments, no separate worker
+container is needed. Set `SOLID_QUEUE_IN_PUMA=false` if you want to run job
+processing in a dedicated container.
+
+Docker images are published for both amd64 and arm64 architectures, so
+Concerto runs on Raspberry Pi and other ARM devices out of the box.
 
 ## Development
 
