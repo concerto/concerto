@@ -93,8 +93,8 @@ recreated. **Back up this volume regularly.**
 | Environment Variable    | Description                                                       | Default |
 | ----------------------- | ----------------------------------------------------------------- | ------- |
 | `SECRET_KEY_BASE`       | Secret key for encrypting sessions (**required**)                 | -       |
-| `DISABLE_SSL`           | Set to `true` to allow HTTP access without SSL                    | -       |
-| `RAILS_MAX_THREADS`     | Maximum number of threads per Puma worker                         | 5       |
+| `DISABLE_SSL`           | Set to `true` to disable SSL (leave unset to enable SSL)          | -       |
+| `RAILS_MAX_THREADS`     | Maximum number of threads per Puma worker                         | 3       |
 | `WEB_CONCURRENCY`       | Number of Puma worker processes                                   | 1       |
 | `SOLID_QUEUE_IN_PUMA`   | Set to `false` to disable the in-process job worker               | true    |
 
