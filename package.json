@@ -3,7 +3,7 @@
   "type": "module",
   "dependencies": {
     "date-fns": "^4.1.0",
-    "vue": "^3.5.31"
+    "vue": "^3.5.32"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
