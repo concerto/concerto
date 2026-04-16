@@ -755,6 +755,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rolldown/pluginutils@npm:1.0.0-rc.13":
+  version: 1.0.0-rc.13
+  resolution: "@rolldown/pluginutils@npm:1.0.0-rc.13"
+  checksum: 10c0/5ba268706b43ca0c05eed50b16a077cc014453077f70f9cdc652180561c85b0477cf073053c166016a33182021e320335832e36d9bf51b8c79799c6433018d95
+  languageName: node
+  linkType: hard
+
 "@rolldown/pluginutils@npm:1.0.0-rc.15":
   version: 1.0.0-rc.15
   resolution: "@rolldown/pluginutils@npm:1.0.0-rc.15"
@@ -2326,9 +2333,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msw@npm:^2.13.2":
-  version: 2.13.2
-  resolution: "msw@npm:2.13.2"
+"msw@npm:^2.13.3":
+  version: 2.13.3
+  resolution: "msw@npm:2.13.3"
   dependencies:
     "@inquirer/confirm": "npm:^5.0.0"
     "@mswjs/interceptors": "npm:^0.41.2"
@@ -2341,7 +2348,7 @@ __metadata:
     outvariant: "npm:^1.4.3"
     path-to-regexp: "npm:^6.3.0"
     picocolors: "npm:^1.1.1"
-    rettime: "npm:^0.10.1"
+    rettime: "npm:^0.11.7"
     statuses: "npm:^2.0.2"
     strict-event-emitter: "npm:^0.5.1"
     tough-cookie: "npm:^6.0.0"
@@ -2355,7 +2362,7 @@ __metadata:
       optional: true
   bin:
     msw: cli/index.js
-  checksum: 10c0/d58d992315fd8258d637e8debbb439d3bacd08f33e3ac033e4baeeb0ec87e60a78b197d7f8fb512d6b3a661c106ffd70279a836e39506b86c1a34cf43026636d
+  checksum: 10c0/5c118672cd0cef6e787fed2b93ff5d82017c3b7f311efe5ab62b0dc9c309876396d7f2378ab3919a0a4c8e11317242dc5fe9036cb64e51cfbe76a48a6c6ba1a3
   languageName: node
   linkType: hard
 
@@ -2641,10 +2648,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rettime@npm:^0.10.1":
-  version: 0.10.1
-  resolution: "rettime@npm:0.10.1"
-  checksum: 10c0/94fb30cd13684386c70301c4cff4391bc0c6dc7aeac49364fdfeeaba167897bdb28a58bbb46d1a415f1c5c6240fda3f765cb329e471f37fdc513c739f0b04fbe
+"rettime@npm:^0.11.7":
+  version: 0.11.7
+  resolution: "rettime@npm:0.11.7"
+  checksum: 10c0/8b8636eac1184548b9527d20da1ddb5bf7e59acdefceb12fd9a846884d935ba90cbfa7607556f0cb821e66d4b0b78c6a26a6c7954901553592c98cf6f63c6d41
   languageName: node
   linkType: hard
 
@@ -2777,7 +2784,7 @@ __metadata:
     eslint-plugin-vue: "npm:^10.8.0"
     globals: "npm:^17.5.0"
     jsdom: "npm:^29.0.2"
-    msw: "npm:^2.13.2"
+    msw: "npm:^2.13.3"
     vite: "npm:^8.0.8"
     vite-plugin-ruby: "npm:^5.2.1"
     vitest: "npm:^4.1.4"
