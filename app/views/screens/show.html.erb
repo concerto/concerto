@@ -1,5 +1,7 @@
 <%= page_title "#{@screen.name}" %>
 
+<% can_manage_subscriptions = policy(Subscription.new(screen: @screen)).create? %>
+
 <div class="max-w-7xl mx-auto">
   <!-- Page Header -->
   <div class="mb-6">
@@ -9,7 +11,7 @@
         <p class="text-sm text-gray-600 mt-1">Manage screen configuration and feed subscriptions</p>
       </div>
       <div class="flex space-x-3">
-        <% if policy(Subscription.new(screen: @screen)).create? %>
+        <% if can_manage_subscriptions %>
           <%= link_to "Manage Subscriptions", screen_subscriptions_path(@screen), class: "btn-primary" %>
         <% end %>
         <% if policy(@screen).edit? %>
@@ -97,7 +99,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                   </svg>
                   <p class="text-xs text-gray-500">No feeds subscribed</p>
-                  <% if policy(Subscription.new(screen: @screen, field: position.field)).create? %>
+                  <% if can_manage_subscriptions %>
                     <%= link_to "Add Feed", screen_subscriptions_path(@screen),
                         class: "text-xs text-blue-600 hover:text-blue-800 font-medium" %>
                   <% end %>
