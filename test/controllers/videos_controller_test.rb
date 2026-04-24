@@ -117,4 +117,30 @@ class VideosControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
     assert_equal "You are not authorized to perform this action.", flash[:alert]
   end
+
+  test "should persist aspect_ratio on create" do
+    sign_in @user
+    assert_difference("Video.count") do
+      post videos_url, params: { video: {
+        duration: @video.duration, end_time: @video.end_time,
+        name: @video.name, start_time: @video.start_time,
+        url: @video.url, aspect_ratio: "9:16"
+      } }
+    end
+    assert_equal "9:16", Video.last.aspect_ratio
+  end
+
+  test "should persist aspect_ratio on update" do
+    sign_in @user
+    patch video_url(@video), params: { video: { aspect_ratio: "1:1" } }
+    assert_redirected_to video_url(@video)
+    assert_equal "1:1", @video.reload.aspect_ratio
+  end
+
+  test "should reject invalid aspect_ratio on update" do
+    sign_in @user
+    patch video_url(@video), params: { video: { aspect_ratio: "21:9" } }
+    assert_response :unprocessable_entity
+    assert_nil @video.reload.aspect_ratio
+  end
 end

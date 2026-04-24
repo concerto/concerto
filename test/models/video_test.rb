@@ -53,4 +53,61 @@ class VideoTest < ActiveSupport::TestCase
     assert_equal "6718335390845095173", tiktok_json[:video_id]
     assert_equal "tiktok", tiktok_json[:video_source]
   end
+
+  test "effective_aspect_ratio defaults to 16/9 for regular YouTube videos" do
+    assert_equal "16/9", @youtube_video.effective_aspect_ratio
+  end
+
+  test "effective_aspect_ratio defaults to 9/16 for YouTube shorts URLs" do
+    assert_equal "9/16", @youtube_short.effective_aspect_ratio
+  end
+
+  test "effective_aspect_ratio defaults to 9/16 for TikTok" do
+    assert_equal "9/16", @tiktok_video.effective_aspect_ratio
+  end
+
+  test "effective_aspect_ratio defaults to 16/9 for Vimeo" do
+    assert_equal "16/9", @vimeo_video.effective_aspect_ratio
+  end
+
+  test "user-set aspect_ratio overrides provider default" do
+    @youtube_video.aspect_ratio = "9:16"
+    assert_equal "9/16", @youtube_video.effective_aspect_ratio
+  end
+
+  test "aspect_ratio of 'auto' falls back to provider default" do
+    @youtube_video.aspect_ratio = "auto"
+    assert_equal "16/9", @youtube_video.effective_aspect_ratio
+    assert @youtube_video.as_json[:aspect_ratio_auto]
+  end
+
+  test "as_json exposes aspect_ratio and aspect_ratio_auto" do
+    json = @youtube_video.as_json
+    assert_equal "16/9", json[:aspect_ratio]
+    assert json[:aspect_ratio_auto]
+
+    @youtube_video.aspect_ratio = "1:1"
+    json = @youtube_video.as_json
+    assert_equal "1/1", json[:aspect_ratio]
+    assert_not json[:aspect_ratio_auto]
+  end
+
+  test "aspect_ratio validation rejects unknown values" do
+    @youtube_video.aspect_ratio = "21:9"
+    assert_not @youtube_video.valid?
+    assert_includes @youtube_video.errors[:aspect_ratio], "is not included in the list"
+  end
+
+  test "aspect_ratio validation accepts blank and listed values" do
+    Video::ASPECT_RATIOS.each do |ratio|
+      @youtube_video.aspect_ratio = ratio
+      assert @youtube_video.valid?, "expected #{ratio.inspect} to be valid"
+    end
+
+    @youtube_video.aspect_ratio = nil
+    assert @youtube_video.valid?
+
+    @youtube_video.aspect_ratio = ""
+    assert @youtube_video.valid?
+  end
 end

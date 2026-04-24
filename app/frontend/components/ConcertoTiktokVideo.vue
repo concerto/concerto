@@ -84,20 +84,33 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <iframe
-    ref="playerRef"
-    class="player"
-    type="text/html"
-    frameborder="0"
-    allow="autoplay; encrypted-media"
-    :src="videoUrl"
+  <div
+    class="video-container"
     :style="boxStyle"
-  />
+  >
+    <iframe
+      ref="playerRef"
+      class="player"
+      type="text/html"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      :src="videoUrl"
+      :style="{ aspectRatio: content.aspect_ratio }"
+    />
+  </div>
 </template>
 
 <style scoped>
-.player {
-  height: 100%;
+.video-container {
   width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player {
+  max-width: 100%;
+  max-height: 100%;
 }
 </style>

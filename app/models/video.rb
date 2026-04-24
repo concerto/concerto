@@ -2,13 +2,44 @@ require "net/http"
 require "cgi"
 
 class Video < Content
-  store_accessor :config, :url
+  store_accessor :config, :url, :aspect_ratio
+
+  # Permitted values for the user-facing aspect ratio override, with the
+  # labels shown in the form. nil / "auto" means "use the provider default"
+  # (with /shorts/ URL detection for YouTube and dynamic correction for Vimeo
+  # on the frontend).
+  ASPECT_RATIO_OPTIONS = {
+    "auto" => "Auto (detect from source)",
+    "16:9" => "16:9 (widescreen)",
+    "9:16" => "9:16 (vertical)",
+    "4:3" => "4:3 (standard)",
+    "1:1" => "1:1 (square)"
+  }.freeze
+  ASPECT_RATIOS = ASPECT_RATIO_OPTIONS.keys.freeze
+
+  validates :aspect_ratio, inclusion: { in: ASPECT_RATIOS }, allow_blank: true
 
   def as_json(options = {})
     super(options).merge({
       video_id: video_id,
-      video_source: video_source
+      video_source: video_source,
+      aspect_ratio: effective_aspect_ratio,
+      aspect_ratio_auto: aspect_ratio.blank? || aspect_ratio == "auto"
     })
+  end
+
+  # Resolves the CSS-ready aspect ratio string (e.g. "16/9") the frontend should
+  # use as the initial rendering ratio. Falls back to provider defaults when the
+  # user has not set an explicit override.
+  def effective_aspect_ratio
+    ratio = aspect_ratio
+    return ratio.tr(":", "/") if ratio.present? && ratio != "auto"
+
+    case video_source
+    when "youtube" then url.to_s.include?("/shorts/") ? "9/16" : "16/9"
+    when "tiktok" then "9/16"
+    else "16/9"
+    end
   end
 
   # For now, videos should only be rendered in positions that are roughly

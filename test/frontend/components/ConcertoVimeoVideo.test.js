@@ -20,6 +20,51 @@ describe('ConcertoVimeoVideo', () => {
 
     expect(wrapper.html()).toContain('src="https://player.vimeo.com/video/123456789?autoplay=1&amp;muted=1&amp;loop=0&amp;api=1&amp;background=1"');
   });
+
+  it('applies a backend-provided aspect_ratio', () => {
+    const wrapper = mount(ConcertoVimeoVideo, {
+      props: { content: { video_id: '123456789', aspect_ratio: '4/3' } }
+    });
+    expect(wrapper.find('iframe').attributes('style')).toContain('aspect-ratio: 4/3');
+  });
+});
+
+describe('ConcertoVimeoVideo dynamic aspect ratio', () => {
+  let mockPlayer;
+
+  beforeEach(() => {
+    mockPlayer = {
+      on: vi.fn(),
+      getVideoWidth: vi.fn().mockResolvedValue(1080),
+      getVideoHeight: vi.fn().mockResolvedValue(1920),
+    };
+    global.Vimeo.Player.mockImplementation(function() {
+      return mockPlayer;
+    });
+  });
+
+  it('updates aspect ratio from the Player API when aspect_ratio_auto is true', async () => {
+    const wrapper = mount(ConcertoVimeoVideo, {
+      props: { content: { video_id: '123456789', aspect_ratio: '16/9', aspect_ratio_auto: true } }
+    });
+
+    // Wait for the getVideoWidth/getVideoHeight promises to settle.
+    await vi.waitFor(() => {
+      expect(wrapper.find('iframe').attributes('style')).toContain('aspect-ratio: 1080/1920');
+    });
+  });
+
+  it('does not override the user-provided ratio when aspect_ratio_auto is false', async () => {
+    const wrapper = mount(ConcertoVimeoVideo, {
+      props: { content: { video_id: '123456789', aspect_ratio: '16/9', aspect_ratio_auto: false } }
+    });
+
+    // Allow any pending microtasks to flush before asserting no change.
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(mockPlayer.getVideoWidth).not.toHaveBeenCalled();
+    expect(wrapper.find('iframe').attributes('style')).toContain('aspect-ratio: 16/9');
+  });
 });
 
 describe('ConcertoVimeoVideo duration control', () => {
