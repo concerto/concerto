@@ -16,6 +16,23 @@ describe('ConcertoYoutubeVideo', () => {
 
     expect(wrapper.html()).toContain('src="https://www.youtube-nocookie.com/embed/z7HyF46-Zd0?rel=0&amp;iv_load_policy=3&amp;autoplay=1');
   })
+
+  it('applies the backend-provided aspect ratio to the iframe', () => {
+    const content = {
+      video_id: 'z7HyF46-Zd0',
+      aspect_ratio: '9/16'
+    };
+    const wrapper = mount(ConcertoYoutubeVideo, { props: { content: content } });
+
+    expect(wrapper.find('iframe').attributes('style')).toContain('aspect-ratio: 9/16');
+  })
+
+  it('falls back to 16/9 when aspect_ratio is missing', () => {
+    const content = { video_id: 'z7HyF46-Zd0' };
+    const wrapper = mount(ConcertoYoutubeVideo, { props: { content: content } });
+
+    expect(wrapper.find('iframe').attributes('style')).toContain('aspect-ratio: 16/9');
+  })
 })
 
 describe('ConcertoYoutubeVideo duration control', () => {

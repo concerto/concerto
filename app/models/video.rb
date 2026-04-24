@@ -2,13 +2,36 @@ require "net/http"
 require "cgi"
 
 class Video < Content
-  store_accessor :config, :url
+  store_accessor :config, :url, :aspect_ratio
+
+  # Permitted values for the user-facing aspect ratio override.
+  # nil / "auto" means "use the provider default" (with /shorts/ URL detection
+  # for YouTube and dynamic correction for Vimeo on the frontend).
+  ASPECT_RATIOS = [ "auto", "16:9", "9:16", "4:3", "1:1" ].freeze
+
+  validates :aspect_ratio, inclusion: { in: ASPECT_RATIOS }, allow_blank: true
 
   def as_json(options = {})
     super(options).merge({
       video_id: video_id,
-      video_source: video_source
+      video_source: video_source,
+      aspect_ratio: effective_aspect_ratio,
+      aspect_ratio_auto: aspect_ratio.blank? || aspect_ratio == "auto"
     })
+  end
+
+  # Resolves the CSS-ready aspect ratio string (e.g. "16/9") the frontend should
+  # use as the initial rendering ratio. Falls back to provider defaults when the
+  # user has not set an explicit override.
+  def effective_aspect_ratio
+    ratio = aspect_ratio
+    return css_ratio(ratio) if ratio.present? && ratio != "auto"
+
+    case video_source
+    when "youtube" then youtube_default_ratio
+    when "tiktok" then "9/16"
+    else "16/9"
+    end
   end
 
   # For now, videos should only be rendered in positions that are roughly
@@ -77,6 +100,14 @@ class Video < Content
   end
 
   private
+
+  def css_ratio(ratio)
+    ratio.tr(":", "/")
+  end
+
+  def youtube_default_ratio
+    url.to_s.include?("/shorts/") ? "9/16" : "16/9"
+  end
 
   # Memoized helper to fetch Vimeo oEmbed data once per request
   def vimeo_oembed_data

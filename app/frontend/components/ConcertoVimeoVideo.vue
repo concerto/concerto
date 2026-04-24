@@ -24,6 +24,8 @@ const videoUrl = computed(() => {
 const playerRef = ref(null);
 let player = null;
 
+const aspectRatio = ref(props.content.aspect_ratio || '16/9');
+
 const hasDuration = computed(() => {
   return props.content.duration && props.content.duration > 0;
 });
@@ -72,6 +74,18 @@ onMounted(async () => {
 
   player = new Vimeo.Player(playerRef.value);
 
+  if (props.content.aspect_ratio_auto) {
+    Promise.all([player.getVideoWidth(), player.getVideoHeight()])
+      .then(([width, height]) => {
+        if (width > 0 && height > 0) {
+          aspectRatio.value = `${width}/${height}`;
+        }
+      })
+      .catch((error) => {
+        console.warn('Failed to read Vimeo video dimensions:', error);
+      });
+  }
+
   player.on('play', () => {
     console.debug('Vimeo video is playing');
     watchdogPing();
@@ -108,20 +122,33 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <iframe
-    ref="playerRef"
-    class="player"
-    type="text/html"
-    frameborder="0"
-    allow="autoplay"
-    :src="videoUrl"
+  <div
+    class="video-container"
     :style="boxStyle"
-  />
+  >
+    <iframe
+      ref="playerRef"
+      class="player"
+      type="text/html"
+      frameborder="0"
+      allow="autoplay"
+      :src="videoUrl"
+      :style="{ aspectRatio: aspectRatio }"
+    />
+  </div>
 </template>
 
 <style scoped>
-.player {
-  height: 100%;
+.video-container {
   width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player {
+  max-width: 100%;
+  max-height: 100%;
 }
 </style>
