@@ -43,17 +43,11 @@
         <div>
           <%= form.label :aspect_ratio, "Aspect Ratio", class: "block text-sm font-medium text-gray-700 mb-2" %>
           <%= form.select :aspect_ratio,
-              [
-                [ "Auto (detect from source)", "auto" ],
-                [ "16:9 (widescreen)", "16:9" ],
-                [ "9:16 (vertical)", "9:16" ],
-                [ "4:3 (standard)", "4:3" ],
-                [ "1:1 (square)", "1:1" ]
-              ],
+              Video::ASPECT_RATIO_OPTIONS.map { |value, label| [ label, value ] },
               { selected: video.aspect_ratio.presence || "auto" },
               class: "block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm" %>
           <p class="text-xs text-gray-500 mt-1">
-            Override when auto-detection is wrong — for example, YouTube Shorts shared via a <code>watch?v=</code> link.
+            Override when auto-detection is wrong — for example, a YouTube Short linked via a <code>watch?v=</code> URL.
           </p>
         </div>
 
