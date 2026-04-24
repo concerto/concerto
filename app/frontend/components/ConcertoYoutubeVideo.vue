@@ -151,7 +151,7 @@ onBeforeUnmount(() => {
       frameborder="0"
       allow="autoplay"
       :src="videoUrl"
-      :style="{ aspectRatio: content.aspect_ratio || '16/9' }"
+      :style="{ aspectRatio: content.aspect_ratio }"
     />
   </div>
 </template>

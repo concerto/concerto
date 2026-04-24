@@ -21,13 +21,6 @@ describe('ConcertoVimeoVideo', () => {
     expect(wrapper.html()).toContain('src="https://player.vimeo.com/video/123456789?autoplay=1&amp;muted=1&amp;loop=0&amp;api=1&amp;background=1"');
   });
 
-  it('defaults to a 16/9 aspect ratio when backend value is missing', () => {
-    const wrapper = mount(ConcertoVimeoVideo, {
-      props: { content: { video_id: '123456789' } }
-    });
-    expect(wrapper.find('iframe').attributes('style')).toContain('aspect-ratio: 16/9');
-  });
-
   it('applies a backend-provided aspect_ratio', () => {
     const wrapper = mount(ConcertoVimeoVideo, {
       props: { content: { video_id: '123456789', aspect_ratio: '4/3' } }

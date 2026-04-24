@@ -14,14 +14,7 @@ describe('ConcertoTiktokVideo', () => {
     expect(iframe.attributes('src')).toBe('https://www.tiktok.com/player/v1/6718335390845095173?autoplay=1&muted=1&loop=0&controls=0');
   })
 
-  it('defaults to 9/16 aspect ratio', () => {
-    const wrapper = mount(ConcertoTiktokVideo, {
-      props: { content: { video_id: '6718335390845095173' } }
-    });
-    expect(wrapper.find('iframe').attributes('style')).toContain('aspect-ratio: 9/16');
-  })
-
-  it('respects a backend-provided aspect_ratio', () => {
+  it('applies the backend-provided aspect_ratio', () => {
     const wrapper = mount(ConcertoTiktokVideo, {
       props: { content: { video_id: '6718335390845095173', aspect_ratio: '1/1' } }
     });

@@ -24,7 +24,7 @@ const videoUrl = computed(() => {
 const playerRef = ref(null);
 let player = null;
 
-const aspectRatio = ref(props.content.aspect_ratio || '16/9');
+const aspectRatio = ref(props.content.aspect_ratio);
 
 const hasDuration = computed(() => {
   return props.content.duration && props.content.duration > 0;
