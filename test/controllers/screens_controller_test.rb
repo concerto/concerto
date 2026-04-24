@@ -153,6 +153,73 @@ class ScreensControllerTest < ActionDispatch::IntegrationTest
     assert_select "*", text: "Delete Screen", count: 0
   end
 
+  test "admin should see manage subscriptions button on screen show page" do
+    sign_in users(:admin)
+    get screen_url(@screen)
+    assert_response :success
+
+    assert_select "a", text: "Manage Subscriptions"
+  end
+
+  test "regular group member should see manage subscriptions button on screen show page" do
+    sign_in users(:regular)
+    get screen_url(@screen)
+    assert_response :success
+
+    assert_select "a", text: "Manage Subscriptions"
+  end
+
+  test "non-member should not see manage subscriptions button on screen show page" do
+    sign_in users(:non_member)
+    get screen_url(@screen)
+    assert_response :success
+
+    assert_select "a", text: "Manage Subscriptions", count: 0
+  end
+
+  test "signed out user should not see manage subscriptions button on screen show page" do
+    sign_out :user
+    get screen_url(@screen)
+    assert_response :success
+
+    assert_select "a", text: "Manage Subscriptions", count: 0
+  end
+
+  test "screen show page should not have duplicate Manage All button" do
+    sign_in users(:admin)
+    get screen_url(@screen)
+    assert_response :success
+
+    # "Manage All" was a duplicate of the primary "Manage Subscriptions" button
+    # and should no longer be rendered.
+    assert_select "a", text: "Manage All", count: 0
+  end
+
+  test "non-member should not see Add Feed link in empty subscription state" do
+    # Ensure the screen has a field with no subscriptions so the empty state renders.
+    Subscription.where(screen: @screen).destroy_all
+    FieldConfig.where(screen: @screen).destroy_all
+
+    sign_in users(:non_member)
+    get screen_url(@screen)
+    assert_response :success
+
+    assert_select "*", text: "No feeds subscribed"
+    assert_select "a", text: "Add Feed", count: 0
+  end
+
+  test "regular group member should see Add Feed link in empty subscription state" do
+    Subscription.where(screen: @screen).destroy_all
+    FieldConfig.where(screen: @screen).destroy_all
+
+    sign_in users(:regular)
+    get screen_url(@screen)
+    assert_response :success
+
+    assert_select "*", text: "No feeds subscribed"
+    assert_select "a", text: "Add Feed"
+  end
+
   test "admin should see new screen button on index page" do
     sign_in users(:admin)
     get screens_url
