@@ -2,7 +2,7 @@
   <!-- Content Preview -->
   <div class="card mb-6">
     <div class="card-body">
-      <% if graphic.image.attached? && graphic.image.content_type == "application/pdf" %>
+      <% if graphic.processing? %>
         <% if graphic.conversion_error.present? %>
           <div class="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
             <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-red-400" fill="currentColor" viewBox="0 0 20 20">

@@ -19,6 +19,10 @@ class Graphic < Content
     })
   end
 
+  def processing?
+    image.attached? && image.content_type == "application/pdf"
+  end
+
   # Determine if a graphic fits in a position or not.
   #
   # If the height and width are known, the graphic will be
@@ -27,9 +31,7 @@ class Graphic < Content
   #
   # There is room to improve this algorithm. I just made up 2.0.
   def should_render_in?(position)
-    if image.attached? && image.content_type == "application/pdf"
-      return false
-    end
+    return false if processing?
 
     if !image.analyzed?
       logger.debug "graphic #{id} not analyzed, fallback rendering"
@@ -60,8 +62,9 @@ class Graphic < Content
   end
 
   def convert_pdf_to_image_if_needed
-    return unless @image_will_change && image.attached? && image.content_type == "application/pdf"
+    return unless @image_will_change && processing?
 
+    update_column(:config, (config || {}).except("conversion_error")) if conversion_error.present?
     ConvertPdfToImageJob.perform_later(self)
   end
 end

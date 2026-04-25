@@ -12,8 +12,11 @@ class ConvertPdfToImageJob < ApplicationJob
         .convert("png")
         .call
 
-      basename = File.basename(graphic.image.filename.to_s, ".pdf")
-      graphic.image.attach(io: File.open(png.path), filename: "#{basename}.png", content_type: "image/png")
+      begin
+        graphic.image.attach(io: png, filename: "#{graphic.image.filename.base}.png", content_type: "image/png")
+      ensure
+        png.close!
+      end
     end
   rescue => e
     graphic.update_column(:config, (graphic.config || {}).merge("conversion_error" => e.message))

@@ -1,4 +1,4 @@
-<% if content.image.attached? && content.image.content_type != "application/pdf" %>
+<% if !content.processing? %>
   <%= image_tag content.image.variant(:grid), class: "object-contain" %>
 <% else %>
   <div class="flex h-full items-center justify-center text-xs text-gray-400">Processing&hellip;</div>
