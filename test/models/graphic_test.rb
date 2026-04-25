@@ -22,6 +22,35 @@ class GraphicTest < ActiveSupport::TestCase
     assert_not graphics(:pdf_graphic).should_render_in?(positions(:two_graphic))
   end
 
+  test "accepts supported image content types" do
+    Graphic::SUPPORTED_CONTENT_TYPES.excluding("application/pdf").each do |content_type|
+      graphic = Graphic.new(name: "Test", duration: 10, user: users(:admin))
+      graphic.image.attach(io: StringIO.new("data"), filename: "test", content_type: content_type)
+      graphic.valid?
+      assert_empty graphic.errors[:image], "Expected #{content_type} to be valid"
+    end
+  end
+
+  test "accepts PDF uploads" do
+    graphic = Graphic.new(name: "Test", duration: 10, user: users(:admin))
+    graphic.image.attach(io: file_fixture("flyer.pdf").open, filename: "flyer.pdf", content_type: "application/pdf")
+    graphic.valid?
+    assert_empty graphic.errors[:image]
+  end
+
+  test "rejects unsupported content types" do
+    graphic = Graphic.new(name: "Test", duration: 10, user: users(:admin))
+    graphic.image.attach(io: StringIO.new("data"), filename: "test.exe", content_type: "application/octet-stream")
+    assert_not graphic.valid?
+    assert_includes graphic.errors[:image], "is not a supported format"
+  end
+
+  test "does not render unsupported content types in player" do
+    graphic = Graphic.new(name: "Test", duration: 10, user: users(:admin))
+    graphic.image.attach(io: StringIO.new("data"), filename: "test.exe", content_type: "application/octet-stream")
+    assert_not graphic.should_render_in?(positions(:two_graphic))
+  end
+
   test "enqueues conversion job when PDF is attached on create" do
     graphic = Graphic.new(name: "PDF Test", duration: 10, user: users(:admin))
     graphic.image.attach(io: file_fixture("flyer.pdf").open, filename: "flyer.pdf", content_type: "application/pdf")

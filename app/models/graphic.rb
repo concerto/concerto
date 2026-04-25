@@ -5,6 +5,8 @@ class Graphic < Content
 
   store_accessor :config, :conversion_error
 
+  SUPPORTED_CONTENT_TYPES = (ActiveStorage.variable_content_types + [ "application/pdf" ]).freeze
+
   # URL Helpers are needed so we can generate a URL to the image in the JSON.
   include Rails.application.routes.url_helpers
 
@@ -12,6 +14,8 @@ class Graphic < Content
   before_save :track_image_change
   after_commit :reevaluate_submissions_for_image_change, on: [ :create, :update ]
   after_commit :convert_pdf_to_image_if_needed, on: [ :create, :update ]
+
+  validate :image_content_type_supported, if: -> { image.attached? }
 
   def as_json(options = {})
     super(options).merge({
@@ -31,7 +35,7 @@ class Graphic < Content
   #
   # There is room to improve this algorithm. I just made up 2.0.
   def should_render_in?(position)
-    return false if processing?
+    return false unless image.attached? && image.variable?
 
     if !image.analyzed?
       logger.debug "graphic #{id} not analyzed, fallback rendering"
@@ -66,5 +70,10 @@ class Graphic < Content
 
     update_column(:config, (config || {}).except("conversion_error")) if conversion_error.present?
     ConvertPdfToImageJob.perform_later(self)
+  end
+
+  def image_content_type_supported
+    return if SUPPORTED_CONTENT_TYPES.include?(image.content_type)
+    errors.add(:image, "is not a supported format")
   end
 end

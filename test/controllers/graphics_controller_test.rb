@@ -91,6 +91,27 @@ class GraphicsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to contents_url
   end
 
+  test "should reject unsupported file type on create" do
+    sign_in @user
+    assert_no_difference("Graphic.count") do
+      post graphics_url, params: { graphic: {
+        name: "Bad upload", duration: 10,
+        image: fixture_file_upload("no_xml.zip", "application/zip")
+      } }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "should reject unsupported file type on update" do
+    sign_in @user
+    patch graphic_url(@graphic), params: { graphic: {
+      image: fixture_file_upload("no_xml.zip", "application/zip")
+    } }
+    assert_response :unprocessable_entity
+    @graphic.reload
+    assert_equal "image/jpeg", @graphic.image.content_type
+  end
+
   # Authorization tests
   test "should not allow non-owner to edit graphic" do
     sign_in users(:non_member)

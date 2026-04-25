@@ -22,12 +22,16 @@
             <span class="text-sm font-medium">Converting PDF to image&hellip;</span>
           </div>
         <% end %>
-      <% else %>
+      <% elsif graphic.image.attached? && graphic.image.variable? %>
         <div class="flex justify-center">
           <%= link_to graphic.image, class: "block" do %>
             <%= image_tag graphic.image.variant(:grid),
                 class: "max-w-full h-auto rounded-lg shadow-sm border border-neutral-200" %>
           <% end %>
+        </div>
+      <% elsif graphic.image.attached? %>
+        <div class="flex items-center justify-center gap-3 rounded-lg border border-neutral-200 bg-neutral-50 p-8 text-neutral-500">
+          <span class="text-sm">Unsupported file format</span>
         </div>
       <% end %>
     </div>
