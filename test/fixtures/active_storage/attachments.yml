@@ -42,3 +42,8 @@ upcoming_graphic_image:
   name: image
   record: upcoming_graphic (Content)
   blob: two_graphic_blob
+
+pdf_graphic_image:
+  name: image
+  record: pdf_graphic (Content)
+  blob: pdf_graphic_blob

@@ -2,12 +2,34 @@
   <!-- Content Preview -->
   <div class="card mb-6">
     <div class="card-body">
-      <div class="flex justify-center">
-        <%= link_to graphic.image, class: "block" do %>
-          <%= image_tag graphic.image.variant(:grid),
-              class: "max-w-full h-auto rounded-lg shadow-sm border border-neutral-200" %>
+      <% if graphic.processing? %>
+        <% if graphic.conversion_error.present? %>
+          <div class="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
+            <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+            </svg>
+            <div>
+              <p class="text-sm font-semibold text-red-800">Conversion failed</p>
+              <p class="mt-1 text-sm text-red-700"><%= graphic.conversion_error %></p>
+            </div>
+          </div>
+        <% else %>
+          <div class="flex items-center justify-center gap-3 rounded-lg border border-blue-200 bg-blue-50 p-8 text-blue-700">
+            <svg class="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+            <span class="text-sm font-medium">Converting PDF to image&hellip;</span>
+          </div>
         <% end %>
-      </div>
+      <% else %>
+        <div class="flex justify-center">
+          <%= link_to graphic.image, class: "block" do %>
+            <%= image_tag graphic.image.variant(:grid),
+                class: "max-w-full h-auto rounded-lg shadow-sm border border-neutral-200" %>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   </div>
 
