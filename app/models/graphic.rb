@@ -3,12 +3,15 @@ class Graphic < Content
     attachable.variant :grid, resize_to_limit: [ nil, 400 ]
   end
 
+  store_accessor :config, :conversion_error
+
   # URL Helpers are needed so we can generate a URL to the image in the JSON.
   include Rails.application.routes.url_helpers
 
   # Track image attachment changes for re-moderation
   before_save :track_image_change
   after_commit :reevaluate_submissions_for_image_change, on: [ :create, :update ]
+  after_commit :convert_pdf_to_image_if_needed, on: [ :create, :update ]
 
   def as_json(options = {})
     super(options).merge({
@@ -24,6 +27,10 @@ class Graphic < Content
   #
   # There is room to improve this algorithm. I just made up 2.0.
   def should_render_in?(position)
+    if image.attached? && image.content_type == "application/pdf"
+      return false
+    end
+
     if !image.analyzed?
       logger.debug "graphic #{id} not analyzed, fallback rendering"
       return super
@@ -50,5 +57,11 @@ class Graphic < Content
     return unless @image_will_change
 
     submissions.find_each(&:reevaluate_moderation!)
+  end
+
+  def convert_pdf_to_image_if_needed
+    return unless @image_will_change && image.attached? && image.content_type == "application/pdf"
+
+    ConvertPdfToImageJob.perform_later(self)
   end
 end

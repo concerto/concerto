@@ -9,9 +9,9 @@ class GraphicsController < ApplicationController
   def show
     authorize @graphic
 
-    if @graphic.image.attached? && !@graphic.image.analyzed?
+    if @graphic.image.attached? && !@graphic.image.analyzed? && @graphic.image.content_type != "application/pdf"
       @graphic.image.analyze_later()
-      flash[:alert] = "This graphic is queued for re-processing."
+      flash.now[:alert] = "This graphic is queued for re-processing."
     end
   end
 

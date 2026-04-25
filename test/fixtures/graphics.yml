@@ -60,3 +60,9 @@ upcoming_graphic:
   start_time: <%= 1.hour.from_now %>
   end_time: <%= 2.hours.from_now %>
   user: admin
+
+pdf_graphic:
+  type: Graphic
+  name: "PDF Flyer"
+  duration: 30
+  user: admin
