@@ -42,7 +42,7 @@ class GraphicTest < ActiveSupport::TestCase
     graphic = Graphic.new(name: "Test", duration: 10, user: users(:admin))
     graphic.image.attach(io: StringIO.new("data"), filename: "test.exe", content_type: "application/octet-stream")
     assert_not graphic.valid?
-    assert_includes graphic.errors[:image], "is not a supported format"
+    assert_match(/type .+ is not supported/, graphic.errors[:image].first)
   end
 
   test "does not render unsupported content types in player" do

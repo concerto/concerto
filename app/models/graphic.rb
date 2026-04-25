@@ -74,6 +74,6 @@ class Graphic < Content
 
   def image_content_type_supported
     return if SUPPORTED_CONTENT_TYPES.include?(image.content_type)
-    errors.add(:image, "is not a supported format")
+    errors.add(:image, "type #{image.content_type} is not supported")
   end
 end
