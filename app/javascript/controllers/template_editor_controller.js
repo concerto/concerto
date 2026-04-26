@@ -1,5 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 
+// Keep these in sync with _form.html.erb (canvas placeholder max-width)
+// and _preview.html.erb (max-h-[75vh]) so the editor and preview match.
+const MAX_CANVAS_WIDTH_PX = 800
+const MAX_CANVAS_HEIGHT_VH = 0.75
+
 // Connects to data-controller="template-editor"
 export default class extends Controller {
   static targets = [
@@ -84,8 +89,8 @@ export default class extends Controller {
     if (!this.imageWidth || !this.imageHeight) return
 
     const parent = this.canvasTarget.parentElement
-    const availableWidth = Math.min(parent.clientWidth, 800)
-    const availableHeight = window.innerHeight * 0.75
+    const availableWidth = Math.min(parent.clientWidth, MAX_CANVAS_WIDTH_PX)
+    const availableHeight = window.innerHeight * MAX_CANVAS_HEIGHT_VH
     const aspect = this.imageWidth / this.imageHeight
 
     let canvasWidth = availableWidth
@@ -110,8 +115,12 @@ export default class extends Controller {
   handleResize() {
     if (!this.imageWidth || !this.imageHeight) return
     this.fitCanvasToImage()
-    this.clearCanvas()
-    this.positions.forEach(pos => this.renderPosition(pos))
+    // Restyle existing rectangles in place — rebuilding them would also
+    // rebuild the sidebar list, which is wasted work during a resize drag.
+    this.canvasTarget.querySelectorAll('.position-rectangle').forEach(rect => {
+      const position = this.positions.find(p => p.id === rect.dataset.positionId)
+      if (position) this.updatePositionElement(rect, position)
+    })
   }
 
   // Image upload handler
