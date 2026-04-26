@@ -89,7 +89,7 @@ describe('ConcertoScreen', () => {
     await flushPromises();
 
     const screen = wrapper.get('.screen');
-    expect(screen.attributes('style')).toContain('url(http://server/BlueSwooshNeo_16x9.jpg);');
+    expect(screen.attributes('style')).toContain('url("http://server/BlueSwooshNeo_16x9.jpg");');
     
     const fields = wrapper.findAllComponents(ConcertoField);
     expect(fields).toHaveLength(4);
@@ -102,5 +102,29 @@ describe('ConcertoScreen', () => {
     expect(fields[1].html()).toContain(screenSetup.positions[1].style);
 
     expect(fields[2].html()).toContain(screenSetup.positions[2].content_uri);
+  })
+
+  it('quotes background URLs containing parentheses', async () => {
+    // Regression for #1773: filenames like "tall (1).png" produce URLs
+    // with raw parens that terminate an unquoted CSS url() function.
+    const trickyUrl = 'http://server/blobs/tall_yes%20(1).png';
+    server.use(
+      http.get(screenSetupUrl, () => {
+        return HttpResponse.json({
+          template: { background_uri: trickyUrl },
+          positions: []
+        });
+      })
+    );
+
+    const wrapper = mount(ConcertoScreen, {
+      props: { apiUrl: screenSetupUrl },
+      global: { stubs: { ConcertoField: true } }
+    });
+
+    await flushPromises();
+
+    expect(wrapper.get('.screen').attributes('style'))
+      .toContain(`url("${trickyUrl}");`);
   })
 })

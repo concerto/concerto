@@ -24,7 +24,11 @@ const { check: checkConfigVersion } = useConfigVersion('Screen');
 useWakeLock();
 
 const backgroundImageStyle = computed(() => {
-  return backgroundImage.value ? `url(${backgroundImage.value})` : 'none';
+  if (!backgroundImage.value) return 'none';
+  // Quote the URL so parentheses or other special characters in the
+  // filename (e.g. "tall (1).png") don't terminate the CSS url() function.
+  const escaped = backgroundImage.value.replace(/(["\\\n\r])/g, '\\$1');
+  return `url("${escaped}")`;
 });
 
 async function loadConfig(retryCount = 0) {
