@@ -137,6 +137,54 @@ class TemplatesTest < ApplicationSystemTestCase
     click_on "Back"
   end
 
+  test "should create template with portrait image" do
+    sign_in users(:system_admin)
+    visit templates_url
+    click_on "New Template"
+
+    fill_in "Author", with: "Portrait Author"
+    fill_in "Name", with: "Portrait Template"
+
+    attach_file "template[image]", Rails.root.join("test/fixtures/files/template_portrait.png")
+
+    # Wait for the canvas to adopt the portrait image's aspect ratio
+    # (image is 768x1376 ≈ 0.558). The fix sizes the canvas to match the
+    # image so positions land on the image, not on side whitespace.
+    canvas = find("[data-template-editor-target='canvas']")
+    image_aspect = 768.0 / 1376.0
+    canvas_aspect = nil
+    Timeout.timeout(Capybara.default_max_wait_time) do
+      loop do
+        canvas_aspect = page.evaluate_script(<<~JS, canvas)
+          (function(el) {
+            const r = el.getBoundingClientRect();
+            return r.height > 0 ? r.width / r.height : 0;
+          })(arguments[0]);
+        JS
+        break if (canvas_aspect.to_f - image_aspect).abs < 0.02
+        sleep 0.1
+      end
+    end
+    assert_in_delta image_aspect, canvas_aspect.to_f, 0.02,
+      "canvas should adopt the image aspect ratio"
+
+    click_on "+ Add Position"
+    # Inspector panel auto-selects the first available field; no need to set it.
+    click_on "Save Template"
+
+    assert_text "Template was successfully created"
+
+    template = Template.find_by(name: "Portrait Template")
+    assert_not_nil template
+    assert_equal 1, template.positions.count
+
+    position = template.positions.first
+    # New positions are centered. With the canvas correctly matching the image,
+    # left/top should land near the middle (not at 0 over whitespace).
+    assert_in_delta 0.5, (position.left + position.right) / 2.0, 0.05
+    assert_in_delta 0.5, (position.top + position.bottom) / 2.0, 0.05
+  end
+
   test "should destroy Template" do
     sign_in users(:system_admin)
     visit template_url(templates(:unused))

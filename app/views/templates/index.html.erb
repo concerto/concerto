@@ -15,19 +15,23 @@
   </div>
 </div>
 
-<div id="templates" class="flex flex-wrap gap-4 my-4">
+<div id="templates" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
   <% @templates.each do |template| %>
-    <%= link_to template, class: "block" do %>
-    <div class="block w-96 h-full pb-4 border-2 text-center bg-white">
-      <div class="m-auto mt-2 p-2">
-        <% if template.image.attached? %>
-          <%= image_tag template.image %>
-        <% else %>
-          <i>No Image</i>
-        <% end %>
+    <%= link_to template, class: "group block" do %>
+      <div class="card hover:shadow-md transition-shadow duration-200">
+        <div class="card-body">
+          <div class="aspect-video bg-neutral-100 rounded overflow-hidden flex items-center justify-center mb-3">
+            <% if template.image.attached? %>
+              <%= image_tag template.image, class: "max-w-full max-h-full w-auto h-auto object-contain" %>
+            <% else %>
+              <span class="text-caption text-neutral-500 italic">No image</span>
+            <% end %>
+          </div>
+          <h3 class="text-h4 text-neutral-900 group-hover:text-brand transition-colors text-center">
+            <%= template.name %>
+          </h3>
+        </div>
       </div>
-      <div class="text-lg font-medium"><%= template.name %></div>
-    </div>
     <% end %>
   <% end %>
 </div>
