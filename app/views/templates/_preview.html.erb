@@ -1,5 +1,5 @@
-<div class="relative">
-  <%= image_tag template.image %>
+<div class="relative inline-block max-w-full">
+  <%= image_tag template.image, class: "block max-w-full max-h-[75vh] w-auto h-auto" %>
   <% template.positions.each do |position| %>
   <div
     class="absolute bg-black/50 text-white flex items-center justify-center text-2xl"

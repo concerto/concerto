@@ -35,15 +35,32 @@ export default class extends Controller {
     // Bind event handlers
     this.boundMouseMove = this.handleMouseMove.bind(this)
     this.boundMouseUp = this.handleMouseUp.bind(this)
+    this.boundResize = this.handleResize.bind(this)
 
     // Add global listeners
     document.addEventListener('mousemove', this.boundMouseMove)
     document.addEventListener('mouseup', this.boundMouseUp)
+    window.addEventListener('resize', this.boundResize)
+
+    const hasImage = this.imageTarget.style.display !== 'none' && this.imageTarget.src
 
     // Disable Add Position button if no image is attached
     if (this.hasAddPositionButtonTarget) {
-      const hasImage = this.imageTarget.style.display !== 'none' && this.imageTarget.src
       this.addPositionButtonTarget.disabled = !hasImage
+    }
+
+    // Adopt the existing image's aspect ratio so the canvas matches it
+    // (avoids whitespace and miscalculated coordinates for non-16:9 templates)
+    if (hasImage) {
+      if (this.imageTarget.complete && this.imageTarget.naturalWidth > 0) {
+        this.setImageDimensions(this.imageTarget.naturalWidth, this.imageTarget.naturalHeight)
+      } else {
+        this.imageTarget.addEventListener('load', () => {
+          this.setImageDimensions(this.imageTarget.naturalWidth, this.imageTarget.naturalHeight)
+          this.clearCanvas()
+          this.positions.forEach(pos => this.renderPosition(pos))
+        }, { once: true })
+      }
     }
 
     // Render existing positions if any
@@ -52,9 +69,49 @@ export default class extends Controller {
     }
   }
 
+  // Update tracked image dimensions and size the canvas to match.
+  // We compute explicit width/height (rather than rely on CSS aspect-ratio
+  // alone) so portrait images stay bounded by viewport height — CSS
+  // aspect-ratio doesn't shrink width when max-height kicks in.
+  setImageDimensions(width, height) {
+    if (!width || !height) return
+    this.imageWidth = width
+    this.imageHeight = height
+    this.fitCanvasToImage()
+  }
+
+  fitCanvasToImage() {
+    if (!this.imageWidth || !this.imageHeight) return
+
+    const parent = this.canvasTarget.parentElement
+    const availableWidth = Math.min(parent.clientWidth, 800)
+    const availableHeight = window.innerHeight * 0.75
+    const aspect = this.imageWidth / this.imageHeight
+
+    let canvasWidth = availableWidth
+    let canvasHeight = canvasWidth / aspect
+    if (canvasHeight > availableHeight) {
+      canvasHeight = availableHeight
+      canvasWidth = canvasHeight * aspect
+    }
+
+    this.canvasTarget.style.width = `${canvasWidth}px`
+    this.canvasTarget.style.height = `${canvasHeight}px`
+    this.canvasTarget.style.aspectRatio = ''
+    this.canvasTarget.style.maxWidth = ''
+  }
+
   disconnect() {
     document.removeEventListener('mousemove', this.boundMouseMove)
     document.removeEventListener('mouseup', this.boundMouseUp)
+    window.removeEventListener('resize', this.boundResize)
+  }
+
+  handleResize() {
+    if (!this.imageWidth || !this.imageHeight) return
+    this.fitCanvasToImage()
+    this.clearCanvas()
+    this.positions.forEach(pos => this.renderPosition(pos))
   }
 
   // Image upload handler
@@ -66,8 +123,7 @@ export default class extends Controller {
     reader.onload = (e) => {
       const img = new Image()
       img.onload = () => {
-        this.imageWidth = img.width
-        this.imageHeight = img.height
+        this.setImageDimensions(img.width, img.height)
         this.imageTarget.src = e.target.result
         this.imageTarget.style.display = 'block'
 
@@ -560,8 +616,7 @@ export default class extends Controller {
     reader.onload = (e) => {
       const img = new Image()
       img.onload = () => {
-        this.imageWidth = img.width
-        this.imageHeight = img.height
+        this.setImageDimensions(img.width, img.height)
         this.imageTarget.src = e.target.result
         this.imageTarget.style.display = 'block'
 

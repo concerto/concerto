@@ -20,7 +20,7 @@
 
       <!-- Preview -->
       <% if @template.image.attached? %>
-        <div class="border-t border-neutral-200 pt-6">
+        <div class="border-t border-neutral-200 pt-6 text-center">
           <%= render partial: "templates/preview", locals: {template: @template} %>
         </div>
       <% end %>
