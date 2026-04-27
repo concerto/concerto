@@ -47,3 +47,8 @@ pdf_graphic_image:
   name: image
   record: pdf_graphic (Content)
   blob: pdf_graphic_blob
+
+portrait_graphic_image:
+  name: image
+  record: portrait_graphic (Content)
+  blob: portrait_graphic_blob

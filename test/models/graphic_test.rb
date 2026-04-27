@@ -22,6 +22,12 @@ class GraphicTest < ActiveSupport::TestCase
     assert_not graphics(:pdf_graphic).should_render_in?(positions(:two_graphic))
   end
 
+  test "renders portrait images in similarly-shaped positions" do
+    portrait = graphics(:portrait_graphic)
+    assert portrait.should_render_in?(positions(:two_graphic))
+    assert_not portrait.should_render_in?(positions(:two_ticker))
+  end
+
   test "accepts supported image content types" do
     Graphic::SUPPORTED_CONTENT_TYPES.excluding("application/pdf").each do |content_type|
       graphic = Graphic.new(name: "Test", duration: 10, user: users(:admin))
