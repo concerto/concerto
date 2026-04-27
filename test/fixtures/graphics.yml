@@ -66,3 +66,9 @@ pdf_graphic:
   name: "PDF Flyer"
   duration: 30
   user: admin
+
+portrait_graphic:
+  type: Graphic
+  name: "Portrait Graphic"
+  duration: 30
+  user: admin

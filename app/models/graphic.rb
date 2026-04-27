@@ -47,7 +47,7 @@ class Graphic < Content
       return super
     end
 
-    content_aspect_ratio = image.metadata[:width] / image.metadata[:height]
+    content_aspect_ratio = image.metadata[:width].fdiv(image.metadata[:height])
     position_aspect_ratio = position.aspect_ratio
 
     (position_aspect_ratio / 2.0) <= content_aspect_ratio && content_aspect_ratio <= (position_aspect_ratio * 2.0)
