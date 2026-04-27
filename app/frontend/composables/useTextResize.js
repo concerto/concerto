@@ -24,16 +24,17 @@ export function useTextResize() {
       return
     }
 
-    const fieldHeight = containerElement.offsetHeight
+    const fieldHeight = containerElement.clientHeight
+    const fieldWidth = containerElement.clientWidth
     const initialHeight = childElement.scrollHeight
 
-    if (initialHeight === 0 || fieldHeight === 0) {
-      console.error('Cannot resize text: zero height detected.')
+    if (initialHeight === 0 || fieldHeight === 0 || fieldWidth === 0) {
+      console.error('Cannot resize text: zero dimension detected.')
       return
     }
 
     if (import.meta.env.DEV) {
-      console.debug(`Field height: ${fieldHeight}, Initial content height: ${initialHeight}`)
+      console.debug(`Field: ${fieldWidth}x${fieldHeight}, Initial content height: ${initialHeight}`)
     }
 
     // Use binary search to find optimal font size
@@ -43,15 +44,18 @@ export function useTextResize() {
     let maxSize = MAX_FONT_SIZE
     let bestSize = MIN_FONT_SIZE
 
-    // Binary search for the largest font size that fits
+    // Binary search for the largest font size that fits both dimensions.
+    // Width matters for non-wrapping content (e.g. clock with white-space: nowrap)
+    // where horizontal overflow doesn't cause vertical overflow.
     while (minSize <= maxSize) {
       const midSize = Math.floor((minSize + maxSize) / 2)
 
       // Set the font size and measure once
       containerElement.style.fontSize = `${midSize}%`
       const currentHeight = containerElement.scrollHeight
+      const currentWidth = containerElement.scrollWidth
 
-      if (currentHeight <= fieldHeight) {
+      if (currentHeight <= fieldHeight && currentWidth <= fieldWidth) {
         // This size fits, try larger
         bestSize = midSize
         minSize = midSize + 1
