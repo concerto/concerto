@@ -24,8 +24,8 @@ export function useTextResize() {
       return
     }
 
-    const fieldHeight = containerElement.offsetHeight
-    const fieldWidth = containerElement.offsetWidth
+    const fieldHeight = containerElement.clientHeight
+    const fieldWidth = containerElement.clientWidth
     const initialHeight = childElement.scrollHeight
 
     if (initialHeight === 0 || fieldHeight === 0 || fieldWidth === 0) {

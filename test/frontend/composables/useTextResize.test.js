@@ -23,8 +23,8 @@ function mockLayout(wrapper, { fieldWidth, fieldHeight, naturalWidth, naturalHei
   const containerEl = wrapper.vm.containerRef
   const childEl = wrapper.vm.childRef
 
-  Object.defineProperty(containerEl, 'offsetWidth', { configurable: true, get: () => fieldWidth })
-  Object.defineProperty(containerEl, 'offsetHeight', { configurable: true, get: () => fieldHeight })
+  Object.defineProperty(containerEl, 'clientWidth', { configurable: true, get: () => fieldWidth })
+  Object.defineProperty(containerEl, 'clientHeight', { configurable: true, get: () => fieldHeight })
 
   const fontPercent = () => parseFloat(containerEl.style.fontSize) || 100
   Object.defineProperty(containerEl, 'scrollWidth', {
