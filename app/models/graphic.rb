@@ -1,7 +1,7 @@
 class Graphic < Content
   has_one_attached :image do |attachable|
     attachable.variant :grid, resize_to_limit: [ nil, 400 ]
-    attachable.variant :show, resize_to_limit: [ 1000, 1000 ]
+    attachable.variant :preview, resize_to_limit: [ 1000, 1000 ]
   end
 
   store_accessor :config, :conversion_error

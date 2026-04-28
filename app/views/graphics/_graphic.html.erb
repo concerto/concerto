@@ -25,7 +25,7 @@
       <% elsif graphic.image.attached? && graphic.image.variable? %>
         <div class="flex justify-center">
           <%= link_to graphic.image, class: "block" do %>
-            <%= image_tag graphic.image.variant(:show),
+            <%= image_tag graphic.image.variant(:preview),
                 class: "max-w-full max-h-[80vh] h-auto w-auto rounded-lg shadow-sm border border-neutral-200" %>
           <% end %>
         </div>
