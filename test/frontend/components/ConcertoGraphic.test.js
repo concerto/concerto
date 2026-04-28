@@ -15,6 +15,20 @@ describe('ConcertoGraphic', () => {
     expect(img.element.tagName).toBe('IMG');
     expect(img.attributes('src')).toBe('image.jpg');
   })
+
+  it('scales the image to fill its container while preserving aspect ratio', () => {
+    const wrapper = mount(ConcertoGraphic, {
+      props: { content: { image: 'image.jpg' } },
+      attachTo: document.body,
+    });
+
+    const style = window.getComputedStyle(wrapper.get('.graphic').element);
+    expect(style.width).toBe('100%');
+    expect(style.height).toBe('100%');
+    expect(style.objectFit).toBe('contain');
+
+    wrapper.unmount();
+  })
 })
 
 describe('ConcertoGraphic.preload', () => {
