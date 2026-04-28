@@ -16,40 +16,17 @@ describe('ConcertoGraphic', () => {
     expect(img.attributes('src')).toBe('image.jpg');
   })
 
-  // Drive the @load handler with a stubbed naturalWidth/naturalHeight and
-  // a known container size. The component should pick the binding axis
-  // and let the intrinsic ratio drive the other.
-  function fireLoad(wrapper, { containerWidth, containerHeight, naturalWidth, naturalHeight }) {
-    const container = wrapper.vm.containerRef
-    const img = wrapper.vm.imgRef
-    Object.defineProperty(container, 'clientWidth', { configurable: true, get: () => containerWidth })
-    Object.defineProperty(container, 'clientHeight', { configurable: true, get: () => containerHeight })
-    Object.defineProperty(img, 'naturalWidth', { configurable: true, get: () => naturalWidth })
-    Object.defineProperty(img, 'naturalHeight', { configurable: true, get: () => naturalHeight })
-    img.dispatchEvent(new Event('load'))
-  }
-
-  it('constrains width when the image is wider than the container', async () => {
+  it('scales the image to fill its container while preserving aspect ratio', () => {
     const wrapper = mount(ConcertoGraphic, {
       props: { content: { image: 'image.jpg' } },
       attachTo: document.body,
     });
-    fireLoad(wrapper, { containerWidth: 400, containerHeight: 400, naturalWidth: 1600, naturalHeight: 900 })
-    const img = wrapper.vm.imgRef
-    expect(img.style.width).toBe('100%')
-    expect(img.style.height).toBe('auto')
-    wrapper.unmount();
-  })
 
-  it('constrains height when the image is taller than the container', async () => {
-    const wrapper = mount(ConcertoGraphic, {
-      props: { content: { image: 'image.jpg' } },
-      attachTo: document.body,
-    });
-    fireLoad(wrapper, { containerWidth: 400, containerHeight: 400, naturalWidth: 600, naturalHeight: 800 })
-    const img = wrapper.vm.imgRef
-    expect(img.style.height).toBe('100%')
-    expect(img.style.width).toBe('auto')
+    const style = window.getComputedStyle(wrapper.get('.graphic').element);
+    expect(style.width).toBe('100%');
+    expect(style.height).toBe('100%');
+    expect(style.objectFit).toBe('contain');
+
     wrapper.unmount();
   })
 })
