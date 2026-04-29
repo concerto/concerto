@@ -49,7 +49,8 @@ class Video < Content
   # letterboxes to fit. A tighter 2x-3x bound is more shape-aware but rejects
   # useful cross-orientation cases.
   def should_render_in?(position)
-    ratio = effective_aspect_ratio_value
+    width, height = effective_aspect_ratio.split("/").map(&:to_f)
+    ratio = width / height
     (position.aspect_ratio / 4.0) <= ratio && ratio <= (position.aspect_ratio * 4.0)
   end
 
@@ -111,11 +112,6 @@ class Video < Content
   end
 
   private
-
-  def effective_aspect_ratio_value
-    width, height = effective_aspect_ratio.split("/").map(&:to_f)
-    width / height
-  end
 
   # Memoized helper to fetch Vimeo oEmbed data once per request
   def vimeo_oembed_data
