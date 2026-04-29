@@ -42,12 +42,16 @@ class Video < Content
     end
   end
 
-  # For now, videos should only be rendered in positions that are roughly
-  # somewhere in the [4:3 - 16:9] range, with a large buffer.
+  # Allow videos in positions whose aspect ratio is within 4x of the video's
+  # own, mirroring Graphic#should_render_in?. 4x keeps tickers and other
+  # extreme banner shapes out while still allowing cross-orientation placement
+  # (e.g. a 9:16 short in a 16:9 main), which is OK because the player
+  # letterboxes to fit. A tighter 2x-3x bound is more shape-aware but rejects
+  # useful cross-orientation cases.
   def should_render_in?(position)
-    # I don't really know what these numbers should be, there
-    # is room for tuning.
-    (0.25 < position.aspect_ratio && position.aspect_ratio <= 1)
+    width, height = effective_aspect_ratio.split("/").map(&:to_f)
+    ratio = width / height
+    (position.aspect_ratio / 4.0) <= ratio && ratio <= (position.aspect_ratio * 4.0)
   end
 
   def video_id
