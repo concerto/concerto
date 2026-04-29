@@ -7,6 +7,11 @@ class Submission < ApplicationRecord
 
   before_create :set_initial_moderation_status
 
+  # Moderation flips Content visibility but doesn't fire a Content callback —
+  # reindex the parent Content directly so the search corpus tracks approval
+  # transitions on both initial creation and later moderation changes.
+  after_commit :reindex_content_search, on: [ :create, :update ]
+
   # Moderate a submission with a status and optional reason
   def moderate!(status:, moderator:, reason: nil)
     update!(
@@ -43,5 +48,9 @@ class Submission < ApplicationRecord
   def set_initial_moderation_status
     self.moderation_status = should_auto_approve? ? :approved : :pending
     self.moderated_at = Time.current if approved?
+  end
+
+  def reindex_content_search
+    content&.send(:reindex_search_corpus)
   end
 end

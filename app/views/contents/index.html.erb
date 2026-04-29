@@ -57,4 +57,23 @@
   </div>
 </div>
 
+<%= form_with url: contents_path, method: :get, local: true, class: "mb-4" do |f| %>
+  <%= hidden_field_tag :scope, @scope %>
+  <div class="relative max-w-md">
+    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+      <svg class="h-5 w-5 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+    </div>
+    <%= f.search_field :q, value: @query, placeholder: "Search content…", class: "frm-input pl-10 w-full text-sm" %>
+  </div>
+<% end %>
+
+<% if @query.present? %>
+  <p class="text-body text-neutral-700 mb-4">
+    <%= pluralize(@contents.size, "match") %> for "<%= @query %>"
+    · <%= link_to "Clear", contents_path(scope: @scope), class: "text-brand hover:underline" %>
+  </p>
+<% end %>
+
 <%= render partial: "grid", locals: {contents: @contents} %>

@@ -6,6 +6,7 @@ class ContentsController < ApplicationController
   # GET /contents or /contents.json
   def index
     @scope = params[:scope] || "active"
+    @query = params[:q].to_s.strip
 
     contents_scope = case @scope
     when "active"
@@ -17,6 +18,8 @@ class ContentsController < ApplicationController
     else
                   Content.active
     end
+
+    contents_scope = contents_scope.where(id: Search.matching_ids(@query, Content)) if @query.present?
 
     @contents = policy_scope(contents_scope)
   end

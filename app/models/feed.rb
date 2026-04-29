@@ -1,4 +1,6 @@
 class Feed < ApplicationRecord
+    include Searchable
+
     belongs_to :group
     has_many :submissions, dependent: :destroy
     has_many :content, through: :submissions
@@ -15,5 +17,9 @@ class Feed < ApplicationRecord
     # Override in subclasses that should auto-approve submissions (e.g., RssFeed, RemoteFeed)
     def auto_approves_submissions?
       false
+    end
+
+    def searchable_data
+      { name: name, body: description }
     end
 end

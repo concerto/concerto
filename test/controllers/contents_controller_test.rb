@@ -55,4 +55,28 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
     assert_select "h3", text: "Add Text / HTML", count: 1
     assert_select "h3", text: "Add Video", count: 1
   end
+
+  test "index ?q= narrows to matching active Content" do
+    Search::Corpus.rebuild!
+    rich_text = rich_texts(:active_ticker_text) # active scope, body contains "ticker"
+    get contents_url, params: { q: "ticker" }
+    assert_response :success
+    assert_select "a[href='#{rich_text_path(rich_text)}']"
+  end
+
+  test "index ?q= composes with ?scope= so non-matching scope hides matches" do
+    Search::Corpus.rebuild!
+    rich_text = rich_texts(:active_ticker_text) # active, not upcoming
+    get contents_url, params: { q: "ticker", scope: "upcoming" }
+    assert_response :success
+    assert_select "a[href='#{rich_text_path(rich_text)}']", count: 0
+  end
+
+  test "index ?q= with no matches renders empty grid" do
+    Search::Corpus.rebuild!
+    get contents_url, params: { q: "completelyabsentterm" }
+    assert_response :success
+    assert_select "a[href^='/videos/']", count: 0
+    assert_select "a[href^='/rich_texts/']", count: 0
+  end
 end
