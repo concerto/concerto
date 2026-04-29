@@ -20,6 +20,16 @@ class VideoTest < ActiveSupport::TestCase
     assert_not @tiktok_video.should_render_in?(positions(:two_ticker)), positions(:two_ticker).aspect_ratio
   end
 
+  test "renders portrait videos in tall portrait positions" do
+    assert @youtube_short.should_render_in?(positions(:two_sidebar)), positions(:two_sidebar).aspect_ratio
+    assert @tiktok_video.should_render_in?(positions(:two_sidebar)), positions(:two_sidebar).aspect_ratio
+  end
+
+  test "rejects landscape videos in tall portrait positions" do
+    assert_not @youtube_video.should_render_in?(positions(:two_sidebar)), positions(:two_sidebar).aspect_ratio
+    assert_not @vimeo_video.should_render_in?(positions(:two_sidebar)), positions(:two_sidebar).aspect_ratio
+  end
+
   test "extracts video id from youtube url" do
     assert_equal "eT4OAYjzV-s", @youtube_video.video_id
   end
