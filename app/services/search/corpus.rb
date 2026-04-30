@@ -2,8 +2,6 @@
 
 module Search
   module Corpus
-    TABLE = "search_corpus"
-
     @registry = []
 
     class << self
@@ -21,33 +19,27 @@ module Search
 
       def upsert(record, data)
         type = record.class.base_class.name
-        id = record.id
-        connection.execute(
-          ActiveRecord::Base.sanitize_sql_array([
-            "DELETE FROM #{TABLE} WHERE searchable_type = ? AND searchable_id = ?",
-            type, id
-          ])
-        )
-        connection.execute(
-          ActiveRecord::Base.sanitize_sql_array([
-            "INSERT INTO #{TABLE} (searchable_type, searchable_id, name, body) VALUES (?, ?, ?, ?)",
-            type, id, data[:name].to_s, data[:body].to_s
-          ])
-        )
+        SearchRow.transaction do
+          SearchRow.where(searchable_type: type, searchable_id: record.id).delete_all
+          SearchRow.insert_all!([ {
+            searchable_type: type,
+            searchable_id: record.id,
+            name: data[:name].to_s,
+            body: data[:body].to_s
+          } ])
+        end
       end
 
       def delete(record)
-        connection.execute(
-          ActiveRecord::Base.sanitize_sql_array([
-            "DELETE FROM #{TABLE} WHERE searchable_type = ? AND searchable_id = ?",
-            record.class.base_class.name, record.id
-          ])
-        )
+        SearchRow.where(
+          searchable_type: record.class.base_class.name,
+          searchable_id: record.id
+        ).delete_all
       end
 
       def rebuild!
-        ActiveRecord::Base.transaction do
-          connection.execute("DELETE FROM #{TABLE}")
+        SearchRow.transaction do
+          SearchRow.delete_all
           @registry.each do |klass|
             klass.find_each do |record|
               upsert(record, record.searchable_data) if record.searchable?
@@ -57,22 +49,11 @@ module Search
       end
 
       def count
-        connection.select_value("SELECT COUNT(*) FROM #{TABLE}").to_i
+        SearchRow.count
       end
 
       def count_for(klass)
-        connection.select_value(
-          ActiveRecord::Base.sanitize_sql_array([
-            "SELECT COUNT(*) FROM #{TABLE} WHERE searchable_type = ?",
-            klass.base_class.name
-          ])
-        ).to_i
-      end
-
-      private
-
-      def connection
-        ActiveRecord::Base.connection
+        SearchRow.where(searchable_type: klass.base_class.name).count
       end
     end
   end

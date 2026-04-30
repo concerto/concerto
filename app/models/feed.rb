@@ -22,4 +22,22 @@ class Feed < ApplicationRecord
     def searchable_data
       { name: name, body: description }
     end
+
+    private
+
+    # URL stripped of query string and fragment for use in search indexing.
+    # Query parameters can carry secrets (API keys, signed tokens), and we
+    # don't want those reaching the FTS corpus. Returns nil if the model has
+    # no `url` (base Feed) or the value is blank/unparseable.
+    def indexable_url
+      raw = try(:url)
+      return nil if raw.blank?
+
+      uri = URI.parse(raw)
+      uri.query = nil
+      uri.fragment = nil
+      uri.to_s
+    rescue URI::InvalidURIError
+      nil
+    end
 end

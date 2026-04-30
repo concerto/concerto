@@ -32,14 +32,13 @@ class Search::CorpusTest < ActiveSupport::TestCase
 
     Search::Corpus.upsert(rich_text, { name: "test name", body: "test body" })
 
-    rows = ActiveRecord::Base.connection.exec_query(
-      "SELECT searchable_type, searchable_id, name, body FROM search_corpus WHERE searchable_id = #{rich_text.id} AND searchable_type = 'Content'"
-    ).rows
-    assert_equal 1, rows.size
-    assert_equal "Content", rows.first[0]
-    assert_equal rich_text.id, rows.first[1]
-    assert_equal "test name", rows.first[2]
-    assert_equal "test body", rows.first[3]
+    rows = SearchRow.where(searchable_type: "Content", searchable_id: rich_text.id)
+    assert_equal 1, rows.count
+    row = rows.first
+    assert_equal "Content", row.searchable_type
+    assert_equal rich_text.id, row.searchable_id
+    assert_equal "test name", row.name
+    assert_equal "test body", row.body
   end
 
   test "upsert replaces an existing row instead of duplicating" do
@@ -47,9 +46,7 @@ class Search::CorpusTest < ActiveSupport::TestCase
     Search::Corpus.upsert(rich_text, { name: "first", body: "" })
     Search::Corpus.upsert(rich_text, { name: "second", body: "" })
 
-    count = ActiveRecord::Base.connection.select_value(
-      "SELECT COUNT(*) FROM search_corpus WHERE searchable_type = 'Content' AND searchable_id = #{rich_text.id}"
-    )
+    count = SearchRow.where(searchable_type: "Content", searchable_id: rich_text.id).count
     assert_equal 1, count
   end
 
@@ -58,9 +55,7 @@ class Search::CorpusTest < ActiveSupport::TestCase
     Search::Corpus.upsert(rich_text, { name: "x", body: "" })
     Search::Corpus.delete(rich_text)
 
-    count = ActiveRecord::Base.connection.select_value(
-      "SELECT COUNT(*) FROM search_corpus WHERE searchable_type = 'Content' AND searchable_id = #{rich_text.id}"
-    )
+    count = SearchRow.where(searchable_type: "Content", searchable_id: rich_text.id).count
     assert_equal 0, count
   end
 

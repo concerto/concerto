@@ -16,13 +16,10 @@ class Content < ApplicationRecord
 
     # Searchable: only index Content with at least one approved submission so
     # unapproved drafts don't consume search-result slots that policy_scope
-    # would later filter out.
+    # would later filter out. The base class has no meaningful body — each STI
+    # subclass overrides searchable_data with its own indexable text.
     def searchable?
       submissions.where(moderation_status: :approved).exists?
-    end
-
-    def searchable_data
-      { name: name, body: text }
     end
 
     scope :active, -> { where("(start_time IS NULL OR start_time < :now) AND (end_time IS NULL OR end_time > :now)", { now: Time.current }) }

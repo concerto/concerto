@@ -42,10 +42,8 @@ class SearchableTest < ActiveSupport::TestCase
     feed = feeds(:one)
     feed.update!(name: "Renamed Feed")
 
-    row = ActiveRecord::Base.connection.exec_query(
-      "SELECT name FROM search_corpus WHERE searchable_type = 'Feed' AND searchable_id = #{feed.id}"
-    ).rows.first
-    assert_equal "Renamed Feed", row[0]
+    row = SearchRow.where(searchable_type: "Feed", searchable_id: feed.id).first
+    assert_equal "Renamed Feed", row.name
   end
 
   test "Searchable registers including classes once each" do

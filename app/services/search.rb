@@ -2,15 +2,23 @@
 
 module Search
   DEFAULT_LIMIT = 50
+  RANK_ORDER = Arel.sql("bm25(search_corpus, 10.0, 1.0)")
 
-  # Global ranked cross-model search. Returns a flat Array of records
-  # ordered by FTS5 rank, already filtered through Pundit policy_scope per
-  # registered type.
+  # Global ranked cross-model search. Returns a flat Array of records ordered
+  # by FTS5 rank, already filtered through Pundit policy_scope per registered
+  # type.
   def self.call(query, user:, types: Corpus.registry, limit: DEFAULT_LIMIT)
     match = build_match(query)
     return [] if match.blank?
 
-    rows = run_match(match, types: types, limit: limit)
+    type_names = types.map { |k| k.base_class.name }
+    rows = SearchRow
+      .where(searchable_type: type_names)
+      .where("search_corpus MATCH ?", match)
+      .order(RANK_ORDER)
+      .limit(limit)
+      .pluck(:searchable_type, :searchable_id)
+
     hydrate(rows, user)
   end
 
@@ -22,22 +30,17 @@ module Search
     match = build_match(query)
     return [] if match.blank?
 
-    sql = ActiveRecord::Base.sanitize_sql_array([
-      <<~SQL.squish,
-        SELECT searchable_id
-        FROM #{Corpus::TABLE}
-        WHERE searchable_type = ? AND #{Corpus::TABLE} MATCH ?
-        ORDER BY bm25(#{Corpus::TABLE}, 10.0, 1.0)
-        LIMIT ?
-      SQL
-      klass.base_class.name, match, limit
-    ])
-    ActiveRecord::Base.connection.exec_query(sql, "Search#matching_ids").rows.map { |r| r[0] }
+    SearchRow
+      .where(searchable_type: klass.base_class.name)
+      .where("search_corpus MATCH ?", match)
+      .order(RANK_ORDER)
+      .limit(limit)
+      .pluck(:searchable_id)
   end
 
   # Build a safe FTS5 MATCH expression by allowlist construction. Tokenize on
   # non-word characters, drop empties, wrap each token in double quotes, and
-  # append `*` for prefix matching. This keeps FTS5 syntax characters
+  # append `*` for prefix matching. Keeps FTS5 syntax characters
   # (`"`, `*`, `:`, `^`, `(`, `)`, `NEAR`, `AND`, `OR`, `NOT`, `+`, `-`) out
   # of the parser entirely.
   def self.build_match(query)
@@ -47,24 +50,6 @@ module Search
     return nil if tokens.empty?
 
     tokens.map { |t| %("#{t}"*) }.join(" ")
-  end
-
-  def self.run_match(match, types:, limit:)
-    type_names = types.map { |k| k.base_class.name }
-    placeholders = ([ "?" ] * type_names.size).join(", ")
-
-    sql = ActiveRecord::Base.sanitize_sql_array([
-      <<~SQL.squish,
-        SELECT searchable_type, searchable_id
-        FROM #{Corpus::TABLE}
-        WHERE #{Corpus::TABLE} MATCH ?
-          AND searchable_type IN (#{placeholders})
-        ORDER BY bm25(#{Corpus::TABLE}, 10.0, 1.0)
-        LIMIT ?
-      SQL
-      match, *type_names, limit
-    ])
-    ActiveRecord::Base.connection.exec_query(sql, "Search#call").rows
   end
 
   def self.hydrate(rows, user)
@@ -79,8 +64,6 @@ module Search
       memo[type] = records
     end
 
-    rows.filter_map do |type, id|
-      by_id.dig(type, id)
-    end
+    rows.filter_map { |type, id| by_id.dig(type, id) }
   end
 end

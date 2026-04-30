@@ -158,9 +158,8 @@ class SubmissionTest < ActiveSupport::TestCase
     approved.moderate!(status: :rejected, moderator: @user)
 
     refute content.reload.searchable?
-    refute_includes Search::Corpus.send(:connection).select_values(
-      "SELECT searchable_id FROM search_corpus WHERE searchable_type = 'Content'"
-    ).map(&:to_i), content.id
+    indexed_ids = SearchRow.where(searchable_type: "Content").pluck(:searchable_id)
+    refute_includes indexed_ids, content.id
   end
 
   test "reevaluate_moderation! clears moderator data when auto-approving" do

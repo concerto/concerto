@@ -34,7 +34,7 @@ class RemoteFeed < Feed
     end
 
     def searchable_data
-      { name: name, body: [ description, url ].compact_blank.join(" ") }
+      { name: name, body: [ description, indexable_url ].compact_blank.join(" ") }
     end
 
     def refresh
