@@ -1,11 +1,22 @@
 <%= page_title "Feeds" %>
 
-<div class="flex items-center justify-between mb-6">
+<!-- Title row: search sits between identity and action buttons -->
+<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
   <div>
     <h1 class="text-h2 text-neutral-900">All Feeds</h1>
     <p class="text-body text-neutral-700 mt-1">Organize content into feeds for your digital displays</p>
   </div>
-  <div class="flex space-x-3">
+
+  <div class="flex flex-col sm:flex-row sm:items-center flex-wrap gap-3">
+    <%= form_with url: feeds_path, method: :get, local: true do |f| %>
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <%= heroicon "magnifying-glass", class: "h-5 w-5 text-neutral-500" %>
+        </div>
+        <%= f.search_field :q, value: @query, placeholder: "Search feeds…", aria: { label: "Search feeds" }, class: "frm-input pl-10 w-full sm:w-48 text-sm" %>
+      </div>
+    <% end %>
+
     <% if policy(Feed.new).new? %>
       <%= link_to new_feed_path, class: "btn-primary btn-md whitespace-nowrap" do %>
         <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
@@ -29,15 +40,6 @@
   </div>
 </div>
 
-<%= form_with url: feeds_path, method: :get, local: true, class: "mb-4" do |f| %>
-  <div class="relative max-w-md">
-    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-      <%= heroicon "magnifying-glass", class: "h-5 w-5 text-neutral-500" %>
-    </div>
-    <%= f.search_field :q, value: @query, placeholder: "Search feeds…", class: "frm-input pl-10 w-full text-sm" %>
-  </div>
-<% end %>
-
 <% if @query.present? %>
   <p class="text-body text-neutral-700 mb-4">
     <%= pluralize(@feeds.size, "match") %> for "<%= @query %>"
@@ -54,13 +56,13 @@
             <h3 class="text-h3 text-neutral-900 mb-2">
               <%= link_to feed.name, feed, class: "hover:text-brand transition-colors" %>
             </h3>
-            
+
             <% if feed.description.present? %>
               <p class="text-body text-neutral-700 mb-4">
                 <%= feed.description %>
               </p>
             <% end %>
-            
+
             <div class="flex items-center space-x-4 text-caption text-neutral-500">
               <div class="flex items-center">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -68,7 +70,7 @@
                 </svg>
                 <%= pluralize(feed.content.count, 'item') %>
               </div>
-              
+
               <div class="flex items-center">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -77,7 +79,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="ml-4">
             <%= link_to feed, class: "btn-secondary btn-sm" do %>
               <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,7 +93,7 @@
       </div>
     </div>
   <% end %>
-  
+
   <% if @feeds.empty? %>
     <div class="text-center py-12">
       <svg class="mx-auto h-12 w-12 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
