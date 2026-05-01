@@ -1,6 +1,7 @@
 <%= page_title "Content" %>
 
-<div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-6">
+<!-- Title row: identity + primary CTA only -->
+<div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-3">
   <div>
     <h1 class="text-h2 text-neutral-900">
       <%= case @scope
@@ -20,49 +21,49 @@
     </p>
   </div>
 
-  <!-- Search + Scope Toggle + New Content (stacked on mobile, single row on sm+) -->
-  <div class="flex flex-col sm:flex-row sm:items-center flex-wrap gap-3">
-    <%= form_with url: contents_path, method: :get, local: true do |f| %>
-      <%= hidden_field_tag :scope, @scope %>
-      <div class="relative">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <%= heroicon "magnifying-glass", class: "h-5 w-5 text-neutral-500" %>
-        </div>
-        <%= f.search_field :q, value: @query, placeholder: "Search content…", class: "frm-input pl-10 w-full sm:w-48 text-sm" %>
+  <% if policy(Content).create? %>
+    <%= link_to new_content_path, class: "btn-primary btn-md whitespace-nowrap self-start sm:self-auto" do %>
+      <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
+      New Content
+    <% end %>
+  <% end %>
+</div>
+
+<!-- Filter bar: search + scope toggle -->
+<div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
+  <%= form_with url: contents_path, method: :get, local: true do |f| %>
+    <%= hidden_field_tag :scope, @scope %>
+    <div class="relative">
+      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <%= heroicon "magnifying-glass", class: "h-5 w-5 text-neutral-500" %>
       </div>
+      <%= f.search_field :q, value: @query, placeholder: "Search content…", class: "frm-input pl-10 w-full sm:w-56 text-sm" %>
+    </div>
+  <% end %>
+
+  <div class="flex space-x-1 bg-neutral-100 p-1 rounded-lg self-start sm:self-auto">
+    <%= link_to contents_path(scope: 'active'),
+        class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@scope == 'active' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
+      Active
+      <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-success text-white rounded-full">
+        <%= Content.approved.active.count %>
+      </span>
     <% end %>
 
-    <div class="flex space-x-1 bg-neutral-100 p-1 rounded-lg self-start sm:self-auto">
-      <%= link_to contents_path(scope: 'active'),
-          class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@scope == 'active' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
-        Active
-        <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-success text-white rounded-full">
-          <%= Content.approved.active.count %>
-        </span>
-      <% end %>
+    <%= link_to contents_path(scope: 'upcoming'),
+        class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@scope == 'upcoming' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
+      Upcoming
+      <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-warning text-white rounded-full">
+        <%= Content.approved.upcoming.count %>
+      </span>
+    <% end %>
 
-      <%= link_to contents_path(scope: 'upcoming'),
-          class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@scope == 'upcoming' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
-        Upcoming
-        <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-warning text-white rounded-full">
-          <%= Content.approved.upcoming.count %>
-        </span>
-      <% end %>
-
-      <%= link_to contents_path(scope: 'expired'),
-          class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@scope == 'expired' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
-        Expired
-        <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-error text-white rounded-full">
-          <%= Content.approved.expired.count %>
-        </span>
-      <% end %>
-    </div>
-
-    <% if policy(Content).create? %>
-      <%= link_to new_content_path, class: "btn-primary btn-md whitespace-nowrap self-start sm:self-auto" do %>
-        <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
-        New Content
-      <% end %>
+    <%= link_to contents_path(scope: 'expired'),
+        class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@scope == 'expired' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
+      Expired
+      <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-error text-white rounded-full">
+        <%= Content.approved.expired.count %>
+      </span>
     <% end %>
   </div>
 </div>
