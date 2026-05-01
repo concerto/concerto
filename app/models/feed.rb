@@ -1,4 +1,6 @@
 class Feed < ApplicationRecord
+    include Searchable
+
     belongs_to :group
     has_many :submissions, dependent: :destroy
     has_many :content, through: :submissions
@@ -15,5 +17,27 @@ class Feed < ApplicationRecord
     # Override in subclasses that should auto-approve submissions (e.g., RssFeed, RemoteFeed)
     def auto_approves_submissions?
       false
+    end
+
+    def searchable_data
+      { name: name, body: description }
+    end
+
+    private
+
+    # URL stripped of query string and fragment for use in search indexing.
+    # Query parameters can carry secrets (API keys, signed tokens), and we
+    # don't want those reaching the FTS corpus. Returns nil if the model has
+    # no `url` (base Feed) or the value is blank/unparseable.
+    def indexable_url
+      raw = try(:url)
+      return nil if raw.blank?
+
+      uri = URI.parse(raw)
+      uri.query = nil
+      uri.fragment = nil
+      uri.to_s
+    rescue URI::InvalidURIError
+      nil
     end
 end

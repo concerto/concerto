@@ -32,6 +32,8 @@ Rails.application.routes.draw do
   resources :feeds
   resources :contents, only: [ :index, :new ]
 
+  get "/search", to: "search#index", as: :search
+
   resources :rich_texts, except: [ :index ]
   resources :graphics, except: [ :index ]
   resources :videos, except: [ :index ]

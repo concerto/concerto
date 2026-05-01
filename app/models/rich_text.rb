@@ -45,6 +45,11 @@ class RichText < Content
       true
     end
 
+    def searchable_data
+      plain = html? ? ActionController::Base.helpers.strip_tags(text.to_s) : text.to_s
+      { name: name, body: plain }
+    end
+
     private
 
     def render_as_must_be_string

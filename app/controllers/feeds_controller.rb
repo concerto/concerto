@@ -9,7 +9,10 @@ class FeedsController < ApplicationController
 
   # GET /feeds or /feeds.json
   def index
-    @feeds = policy_scope(Feed)
+    @query = params[:q].to_s.strip
+    feeds_scope = Feed.all
+    feeds_scope = feeds_scope.where(id: Search.matching_ids(@query, Feed)) if @query.present?
+    @feeds = policy_scope(feeds_scope)
   end
 
   # GET /feeds/1 or /feeds/1.json

@@ -32,6 +32,10 @@ class Clock < Content
     format.present? && !self.class.formats.values.include?(format)
   end
 
+  def searchable_data
+    { name: name, body: format.to_s }
+  end
+
   private
 
   def format_must_be_string

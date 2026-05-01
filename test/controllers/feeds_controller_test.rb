@@ -272,4 +272,21 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
     assert_equal "You are not authorized to perform this action.", flash[:alert]
   end
+
+  test "index ?q= narrows to matching Feed names" do
+    Search::Corpus.rebuild!
+    rss = rss_feeds(:yahoo_rssfeed)
+    get feeds_url, params: { q: "yahoo" }
+    assert_response :success
+    assert_select "a[href='#{rss_feed_path(rss)}']"
+    # Other feeds should be filtered out
+    assert_select "a[href='#{feed_path(@feed)}']", count: 0
+  end
+
+  test "index ?q= with no matches renders empty list" do
+    Search::Corpus.rebuild!
+    get feeds_url, params: { q: "completelyabsentterm" }
+    assert_response :success
+    assert_select "a[href='#{feed_path(@feed)}']", count: 0
+  end
 end

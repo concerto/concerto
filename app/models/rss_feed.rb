@@ -30,6 +30,10 @@ class RssFeed < Feed
       (ticker? ? RichText.render_as[:plaintext] : RichText.render_as[:html])
     end
 
+    def searchable_data
+      { name: name, body: [ description, indexable_url ].compact_blank.join(" ") }
+    end
+
     def refresh
       new_items = new_items()
       existing_content = content.all

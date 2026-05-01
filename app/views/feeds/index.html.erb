@@ -29,6 +29,22 @@
   </div>
 </div>
 
+<%= form_with url: feeds_path, method: :get, local: true, class: "mb-4" do |f| %>
+  <div class="relative max-w-md">
+    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+      <%= heroicon "magnifying-glass", class: "h-5 w-5 text-neutral-500" %>
+    </div>
+    <%= f.search_field :q, value: @query, placeholder: "Search feeds…", class: "frm-input pl-10 w-full text-sm" %>
+  </div>
+<% end %>
+
+<% if @query.present? %>
+  <p class="text-body text-neutral-700 mb-4">
+    <%= pluralize(@feeds.size, "match") %> for "<%= @query %>"
+    · <%= link_to "Clear", feeds_path, class: "text-brand hover:underline" %>
+  </p>
+<% end %>
+
 <div id="feeds" class="space-y-4">
   <% @feeds.each do |feed| %>
     <div class="card hover:shadow-md transition-shadow duration-200">

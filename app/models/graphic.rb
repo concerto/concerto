@@ -28,6 +28,11 @@ class Graphic < Content
     image.attached? && image.content_type == "application/pdf"
   end
 
+  def searchable_data
+    filename = image.attached? ? image.filename.to_s : nil
+    { name: name, body: filename }
+  end
+
   # Determine if a graphic fits in a position or not.
   #
   # If the height and width are known, the graphic will be

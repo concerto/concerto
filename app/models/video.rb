@@ -97,6 +97,10 @@ class Video < Content
     end
   end
 
+  def searchable_data
+    { name: name, body: url.to_s }
+  end
+
   def thumbnail_url
     if video_source == "youtube"
       "https://img.youtube.com/vi/#{video_id}/mqdefault.jpg"

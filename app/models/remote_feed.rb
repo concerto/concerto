@@ -33,6 +33,10 @@ class RemoteFeed < Feed
       super.to_i if super
     end
 
+    def searchable_data
+      { name: name, body: [ description, indexable_url ].compact_blank.join(" ") }
+    end
+
     def refresh
       uri = URI.parse(url)
       http = Net::HTTP.new(uri.host, uri.port)
