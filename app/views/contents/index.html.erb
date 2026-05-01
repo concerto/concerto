@@ -37,7 +37,7 @@
       <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
         <%= heroicon "magnifying-glass", class: "h-5 w-5 text-neutral-500" %>
       </div>
-      <%= f.search_field :q, value: @query, placeholder: "Search content…", class: "frm-input pl-10 w-full sm:w-56 text-sm" %>
+      <%= f.search_field :q, value: @query, placeholder: "Search content…", aria: { label: "Search content" }, class: "frm-input pl-10 w-full sm:w-56 text-sm" %>
     </div>
   <% end %>
 
