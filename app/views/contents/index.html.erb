@@ -20,9 +20,19 @@
     </p>
   </div>
 
-  <div class="flex flex-col gap-3">
-    <!-- Content Scope Toggle -->
-    <div class="flex space-x-1 bg-neutral-100 p-1 rounded-lg self-start lg:self-auto">
+  <!-- Search + Scope Toggle + New Content (stacked on mobile, single row on sm+) -->
+  <div class="flex flex-col sm:flex-row sm:items-center flex-wrap gap-3">
+    <%= form_with url: contents_path, method: :get, local: true do |f| %>
+      <%= hidden_field_tag :scope, @scope %>
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <%= heroicon "magnifying-glass", class: "h-5 w-5 text-neutral-500" %>
+        </div>
+        <%= f.search_field :q, value: @query, placeholder: "Search content…", class: "frm-input pl-10 w-full sm:w-48 text-sm" %>
+      </div>
+    <% end %>
+
+    <div class="flex space-x-1 bg-neutral-100 p-1 rounded-lg self-start sm:self-auto">
       <%= link_to contents_path(scope: 'active'),
           class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@scope == 'active' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
         Active
@@ -48,25 +58,12 @@
       <% end %>
     </div>
 
-    <!-- Search + New Content (stacked on mobile, side-by-side on sm+) -->
-    <div class="flex flex-col sm:flex-row sm:items-center gap-3">
-      <%= form_with url: contents_path, method: :get, local: true do |f| %>
-        <%= hidden_field_tag :scope, @scope %>
-        <div class="relative">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <%= heroicon "magnifying-glass", class: "h-5 w-5 text-neutral-500" %>
-          </div>
-          <%= f.search_field :q, value: @query, placeholder: "Search content…", class: "frm-input pl-10 w-full sm:w-56 text-sm" %>
-        </div>
+    <% if policy(Content).create? %>
+      <%= link_to new_content_path, class: "btn-primary btn-md whitespace-nowrap self-start sm:self-auto" do %>
+        <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
+        New Content
       <% end %>
-
-      <% if policy(Content).create? %>
-        <%= link_to new_content_path, class: "btn-primary btn-md whitespace-nowrap self-start sm:self-auto" do %>
-          <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
-          New Content
-        <% end %>
-      <% end %>
-    </div>
+    <% end %>
   </div>
 </div>
 
