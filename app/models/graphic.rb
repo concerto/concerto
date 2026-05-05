@@ -6,8 +6,6 @@ class Graphic < Content
 
   store_accessor :config, :conversion_error
 
-  SUPPORTED_CONTENT_TYPES = (ActiveStorage.variable_content_types + [ "application/pdf" ]).freeze
-
   # URL Helpers are needed so we can generate a URL to the image in the JSON.
   include Rails.application.routes.url_helpers
 
@@ -79,7 +77,15 @@ class Graphic < Content
   end
 
   def image_content_type_supported
-    return if SUPPORTED_CONTENT_TYPES.include?(image.content_type)
+    return if self.class.supported_content_types.include?(image.content_type)
     errors.add(:image, "type #{image.content_type} is not supported")
+  end
+
+  # Built lazily so ActiveStorage.variable_content_types has been populated by
+  # its after_initialize hook before we read it (in production with eager
+  # loading, a constant here would be evaluated before that hook runs, leaving
+  # the list empty and rejecting every upload except PDF).
+  def self.supported_content_types
+    ActiveStorage.variable_content_types + [ "application/pdf" ]
   end
 end

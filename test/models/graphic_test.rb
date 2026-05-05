@@ -28,8 +28,18 @@ class GraphicTest < ActiveSupport::TestCase
     assert_not portrait.should_render_in?(positions(:two_ticker))
   end
 
+  test "supported_content_types includes common web image formats" do
+    # Regression: previously this list was frozen at class-load time before
+    # ActiveStorage's after_initialize populated variable_content_types, so in
+    # production the list collapsed to ["application/pdf"] and every image
+    # upload was rejected.
+    %w[image/png image/jpeg image/gif image/webp].each do |type|
+      assert_includes Graphic.supported_content_types, type
+    end
+  end
+
   test "accepts supported image content types" do
-    Graphic::SUPPORTED_CONTENT_TYPES.excluding("application/pdf").each do |content_type|
+    Graphic.supported_content_types.excluding("application/pdf").each do |content_type|
       graphic = Graphic.new(name: "Test", duration: 10, user: users(:admin))
       graphic.image.attach(io: StringIO.new("data"), filename: "test", content_type: content_type)
       graphic.valid?
