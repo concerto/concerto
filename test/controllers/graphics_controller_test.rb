@@ -91,6 +91,30 @@ class GraphicsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to contents_url
   end
 
+  test "should accept PNG upload on create" do
+    sign_in @user
+    assert_difference("Graphic.count") do
+      post graphics_url, params: { graphic: {
+        name: "PNG upload", duration: 10,
+        image: fixture_file_upload("template_portrait.png", "image/png")
+      } }
+    end
+    assert_redirected_to graphic_url(Graphic.last)
+    assert_equal "image/png", Graphic.last.image.content_type
+  end
+
+  test "should accept JPEG upload on create" do
+    sign_in @user
+    assert_difference("Graphic.count") do
+      post graphics_url, params: { graphic: {
+        name: "JPG upload", duration: 10,
+        image: fixture_file_upload("one.jpg", "image/jpeg")
+      } }
+    end
+    assert_redirected_to graphic_url(Graphic.last)
+    assert_equal "image/jpeg", Graphic.last.image.content_type
+  end
+
   test "should reject unsupported file type on create" do
     sign_in @user
     assert_no_difference("Graphic.count") do
