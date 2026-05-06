@@ -21,7 +21,12 @@ class ContentsController < ApplicationController
 
     contents_scope = contents_scope.where(id: Search.matching_ids(@query, Content)) if @query.present?
 
-    @contents = policy_scope(contents_scope)
+    @contents = policy_scope(contents_scope).includes(:feeds)
+
+    feed_buckets = @contents.group_by { |c| c.feeds.find { |f| f.is_a?(RssFeed) || f.is_a?(RemoteFeed) } }
+    @feed_groups = feed_buckets.select { |feed, items| feed.present? && items.size > 3 }
+    collapsed_ids = @feed_groups.values.flatten.map(&:id).to_set
+    @primary_contents = @contents.reject { |c| collapsed_ids.include?(c.id) }
   end
 
   # GET /contents/new

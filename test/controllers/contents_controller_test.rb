@@ -79,4 +79,17 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href^='/videos/']", count: 0
     assert_select "a[href^='/rich_texts/']", count: 0
   end
+
+  test "index renders collapsed feed group section for rss feed with more than 3 items" do
+    get contents_url
+    assert_response :success
+    assert_select "details summary", text: /#{rss_feeds(:yahoo_rssfeed).name}/
+  end
+
+  test "index places large rss feed content inside a details element" do
+    get contents_url
+    assert_response :success
+    assert_select "details a[href='#{rich_text_path(rich_texts(:rss_item_1))}']", count: 1
+    assert_select "details a[href='#{rich_text_path(rich_texts(:rss_item_4))}']", count: 1
+  end
 end

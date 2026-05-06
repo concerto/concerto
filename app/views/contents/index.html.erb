@@ -75,4 +75,8 @@
   </p>
 <% end %>
 
-<%= render partial: "grid", locals: {contents: @contents} %>
+<%= render partial: "grid", locals: {contents: @primary_contents, show_empty: @contents.empty?} %>
+
+<% @feed_groups.each do |feed, feed_contents| %>
+  <%= render partial: "feed_group", locals: {feed: feed, contents: feed_contents} %>
+<% end %>

@@ -76,3 +76,36 @@ upcoming_richtext_no_end:
   text: "This content will be active later"
   config: {'render_as': 'plaintext'}
   user: admin
+
+# Feed group threshold testing: 4 items submitted to yahoo_rssfeed (an RssFeed)
+rss_item_1:
+  type: RichText
+  name: "RSS Article 1"
+  duration: 30
+  text: "RSS feed content item 1"
+  config: {'render_as': 'plaintext'}
+  user: admin
+
+rss_item_2:
+  type: RichText
+  name: "RSS Article 2"
+  duration: 30
+  text: "RSS feed content item 2"
+  config: {'render_as': 'plaintext'}
+  user: admin
+
+rss_item_3:
+  type: RichText
+  name: "RSS Article 3"
+  duration: 30
+  text: "RSS feed content item 3"
+  config: {'render_as': 'plaintext'}
+  user: admin
+
+rss_item_4:
+  type: RichText
+  name: "RSS Article 4"
+  duration: 30
+  text: "RSS feed content item 4"
+  config: {'render_as': 'plaintext'}
+  user: admin

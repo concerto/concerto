@@ -65,3 +65,24 @@ rejected_submission:
   feed: one
   moderation_status: rejected
   moderation_reason: Not appropriate for this feed
+
+# Feed group threshold testing: 4 items in yahoo_rssfeed (RssFeed > 3 triggers collapse)
+rss_item_sub_1:
+  content: rss_item_1
+  feed: yahoo_rssfeed
+  moderation_status: approved
+
+rss_item_sub_2:
+  content: rss_item_2
+  feed: yahoo_rssfeed
+  moderation_status: approved
+
+rss_item_sub_3:
+  content: rss_item_3
+  feed: yahoo_rssfeed
+  moderation_status: approved
+
+rss_item_sub_4:
+  content: rss_item_4
+  feed: yahoo_rssfeed
+  moderation_status: approved

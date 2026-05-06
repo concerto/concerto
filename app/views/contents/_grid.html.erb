@@ -22,7 +22,7 @@
     <% end %>
   <% end %>
   
-  <% if contents.empty? %>
+  <% if contents.empty? && local_assigns.fetch(:show_empty, true) %>
     <div class="col-span-full">
       <div class="text-center py-12">
         <%= heroicon("document-add", class: "mx-auto h-12 w-12 text-neutral-400") %>

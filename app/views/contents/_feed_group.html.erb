@@ -1,0 +1,33 @@
+<details class="mt-6 bg-white rounded-lg border border-neutral-200 shadow-sm">
+  <summary class="px-4 py-3 border-b border-neutral-200 cursor-pointer hover:bg-neutral-50 transition-colors flex items-center justify-between">
+    <div>
+      <span class="text-h3 text-neutral-900"><%= feed.name %></span>
+      <span class="text-caption text-neutral-500 ml-2"><%= pluralize(contents.length, "item") %></span>
+    </div>
+    <span class="text-caption text-brand">Expand to view</span>
+  </summary>
+  <div class="p-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <% contents.each do |content| %>
+        <%= link_to content, class: "group block" do %>
+          <div class="card hover:shadow-md transition-shadow duration-200">
+            <div class="card-body">
+              <div class="bg-neutral-100 rounded-lg mb-4 flex justify-center min-h-[200px] max-h-[400px] overflow-hidden">
+                <%= render partial: to_grid_partial_path(content), locals: {content: content} %>
+              </div>
+              <div class="space-y-2">
+                <h3 class="text-h4 text-neutral-900 group-hover:text-brand transition-colors">
+                  <%= content.name.presence || "Untitled Content" %>
+                </h3>
+                <div class="flex items-center justify-between text-caption text-neutral-500">
+                  <span class="capitalize"><%= content.class.name.downcase %></span>
+                  <span><%= time_ago_in_words(content.updated_at) %> ago</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</details>
