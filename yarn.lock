@@ -1494,9 +1494,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-vue@npm:^10.9.0":
-  version: 10.9.0
-  resolution: "eslint-plugin-vue@npm:10.9.0"
+"eslint-plugin-vue@npm:^10.9.1":
+  version: 10.9.1
+  resolution: "eslint-plugin-vue@npm:10.9.1"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.4.0"
     natural-compare: "npm:^1.4.0"
@@ -1508,13 +1508,13 @@ __metadata:
     "@stylistic/eslint-plugin": ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
     "@typescript-eslint/parser": ^7.0.0 || ^8.0.0
     eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
-    vue-eslint-parser: ^10.0.0
+    vue-eslint-parser: ^10.3.0
   peerDependenciesMeta:
     "@stylistic/eslint-plugin":
       optional: true
     "@typescript-eslint/parser":
       optional: true
-  checksum: 10c0/c8288cf7f7c1551ce7638bca206d0220db872b8fd1371f408a8aa434d0c4c02c3121ed7d0fae6ba9c65fec32ec05fe61f3ca85acbd2ead584a6f2567b77e1381
+  checksum: 10c0/878193fbcce1b77190e03ec05bfe0f40a7ed72176921949ff0d1e80acab05a340ace469af47ce52d46e073cda215871870bd1e738997a7f0a787ee7fbeda0564
   languageName: node
   linkType: hard
 
@@ -2867,7 +2867,7 @@ __metadata:
     "@vue/test-utils": "npm:^2.4.9"
     date-fns: "npm:^4.1.0"
     eslint: "npm:^10.3.0"
-    eslint-plugin-vue: "npm:^10.9.0"
+    eslint-plugin-vue: "npm:^10.9.1"
     globals: "npm:^17.6.0"
     jsdom: "npm:^29.1.0"
     msw: "npm:^2.14.3"
