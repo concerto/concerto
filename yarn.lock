@@ -1080,9 +1080,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/test-utils@npm:^2.4.9":
-  version: 2.4.9
-  resolution: "@vue/test-utils@npm:2.4.9"
+"@vue/test-utils@npm:^2.4.10":
+  version: 2.4.10
+  resolution: "@vue/test-utils@npm:2.4.10"
   dependencies:
     js-beautify: "npm:^1.14.9"
     vue-component-type-helpers: "npm:^3.0.0"
@@ -1093,7 +1093,7 @@ __metadata:
   peerDependenciesMeta:
     "@vue/server-renderer":
       optional: true
-  checksum: 10c0/a38f06d72108e2e64cf3600074121f236c0945b91f191a69cd7efb202c6109acceb5f9209550eac962ece5a2b4fc549f5422ff010e609dc0b461e9c773b7f306
+  checksum: 10c0/5dee1a15a4908d1ad82d9940307223214d9fa93e2cdffdc294b72880f73db3e1938bd2f290b096a22b8b8d84db481d4aea7989fcb4c9e5e63ea16896c9a4f4fd
   languageName: node
   linkType: hard
 
@@ -2864,7 +2864,7 @@ __metadata:
     "@eslint/js": "npm:^10.0.1"
     "@stylistic/eslint-plugin": "npm:^5.10.0"
     "@vitejs/plugin-vue": "npm:^6.0.6"
-    "@vue/test-utils": "npm:^2.4.9"
+    "@vue/test-utils": "npm:^2.4.10"
     date-fns: "npm:^4.1.0"
     eslint: "npm:^10.3.0"
     eslint-plugin-vue: "npm:^10.9.0"
