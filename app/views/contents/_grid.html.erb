@@ -12,9 +12,7 @@
               <h3 class="text-h4 text-neutral-900 group-hover:text-brand transition-colors">
                 <%= content.name.presence || "Untitled Content" %>
               </h3>
-              <% if (badge = moderation_state_badge(content)) %>
-                <%= badge %>
-              <% end %>
+              <%= moderation_state_badge(content) %>
             </div>
 
             <div class="flex items-center justify-between text-caption text-neutral-500">

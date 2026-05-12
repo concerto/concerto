@@ -29,6 +29,8 @@ class FeedsController < ApplicationController
 
     @scope = params[:scope] || "active"
     @scope = "active" unless %w[active upcoming expired].include?(@scope)
+
+    @submissions = submissions_for_status unless @status == "approved"
   end
 
   # GET /feeds/new
@@ -92,6 +94,17 @@ class FeedsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_feed
       @feed = Feed.find(params[:id])
+    end
+
+    def submissions_for_status
+      base = @feed.submissions.includes(content: :user)
+      if @status == "mine"
+        base.joins(:content)
+            .where(content: { user_id: current_user.id })
+            .order(created_at: :desc)
+      else
+        base.where(moderation_status: @status)
+      end
     end
 
     # Redirects to the appropriate STI controller if the feed is not of the base Feed class.

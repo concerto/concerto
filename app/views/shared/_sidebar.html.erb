@@ -29,9 +29,6 @@
         <%= sidebar_nav_link_to "Dashboard", "/", "home" %>
         <%= sidebar_nav_link_to "Add Content", new_content_path, "plus" %>
         <%= sidebar_nav_link_to "Browse Content", contents_path, "collection" %>
-        <% if user_signed_in? %>
-          <%= sidebar_nav_link_to "My Content", contents_path(scope: "mine"), "document-text" %>
-        <% end %>
         <% if policy(Submission).pending? %>
           <%= sidebar_nav_link_to_with_badge "Moderation", submissions_path, "clipboard-document-check", pending_moderation_count %>
         <% end %>
