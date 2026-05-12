@@ -129,6 +129,66 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href*='status=approved'][href*='scope=active']"
   end
 
+  # Mine status tests (any signed-in user can see their own submissions)
+  test "anonymous user does not see Mine tab" do
+    get feed_url(@feed)
+    assert_response :success
+    assert_select "a[href*='status=mine']", count: 0
+  end
+
+  test "signed-in user sees Mine tab even when they cannot moderate" do
+    sign_in users(:non_member)
+    get feed_url(@feed)
+    assert_response :success
+    assert_select "a[href*='status=mine']"
+    # Non-member should not see moderator-only tabs
+    assert_select "a[href*='status=pending']", count: 0
+    assert_select "a[href*='status=rejected']", count: 0
+  end
+
+  test "status=mine surfaces pending submissions belonging to current user" do
+    # users(:admin) owns plain_richtext, which has a pending submission to @feed.
+    sign_in users(:admin)
+    get feed_url(@feed, status: "mine")
+    assert_response :success
+    assert_select "a[href='#{rich_text_path(rich_texts(:plain_richtext))}']"
+    # And the rejected one (html_richtext also owned by admin).
+    assert_select "a[href='#{rich_text_path(rich_texts(:html_richtext))}']"
+  end
+
+  test "status=mine hides another user's submissions" do
+    sign_in users(:non_member) # owns nothing in fixtures
+    get feed_url(@feed, status: "mine")
+    assert_response :success
+    # Neither admin's pending nor rejected submission should appear.
+    assert_select "a[href='#{rich_text_path(rich_texts(:plain_richtext))}']", count: 0
+    assert_select "a[href='#{rich_text_path(rich_texts(:html_richtext))}']", count: 0
+  end
+
+  test "status=mine for anonymous user falls back to approved" do
+    get feed_url(@feed, status: "mine")
+    assert_response :success
+    # Should show approved content, not enter Mine view.
+    assert_select "a[href='#{graphic_path(graphics(:one))}']"
+  end
+
+  test "non-moderator does not see moderation actions on their pending submissions" do
+    # non_member is not in @feed's group, so they cannot moderate.
+    pending = RichText.create!(
+      name: "Outsider Submission", text: "Test", duration: 10, user: users(:non_member),
+      config: { "render_as" => "plaintext" }
+    )
+    Submission.create!(content: pending, feed: @feed)
+
+    sign_in users(:non_member)
+    get feed_url(@feed, status: "mine")
+    assert_response :success
+    assert_select "a[href='#{rich_text_path(pending)}']"
+    # The Approve form posts to moderate_submission_path — it should not appear
+    # for a non-moderator viewing their own submission via Mine.
+    assert_select "form[action*='/moderate']", count: 0
+  end
+
   test "should redirect STI feed to proper controller" do
     rss_feed = rss_feeds(:yahoo_rssfeed)
     get feed_url(rss_feed)

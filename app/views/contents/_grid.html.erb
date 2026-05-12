@@ -8,10 +8,15 @@
           </div>
           
           <div class="space-y-2">
-            <h3 class="text-h4 text-neutral-900 group-hover:text-brand transition-colors">
-              <%= content.name.presence || "Untitled Content" %>
-            </h3>
-            
+            <div class="flex items-start justify-between gap-2">
+              <h3 class="text-h4 text-neutral-900 group-hover:text-brand transition-colors">
+                <%= content.name.presence || "Untitled Content" %>
+              </h3>
+              <% if (badge = moderation_state_badge(content)) %>
+                <%= badge %>
+              <% end %>
+            </div>
+
             <div class="flex items-center justify-between text-caption text-neutral-500">
               <span class="capitalize"><%= content.class.name.downcase %></span>
               <span><%= time_ago_in_words(content.updated_at) %> ago</span>

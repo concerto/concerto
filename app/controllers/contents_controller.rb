@@ -5,23 +5,30 @@ class ContentsController < ApplicationController
 
   # GET /contents or /contents.json
   def index
-    @scope = params[:scope] || "active"
+    @scope = params[:scope].presence_in(%w[active upcoming expired mine]) || "active"
+    # "mine" is meaningless without an authenticated owner; fall back to active.
+    @scope = "active" if @scope == "mine" && !user_signed_in?
     @query = params[:q].to_s.strip
 
     contents_scope = case @scope
-    when "active"
-                  Content.active
-    when "upcoming"
-                  Content.upcoming
-    when "expired"
-                  Content.expired
-    else
-                  Content.active
+    when "active"   then Content.active
+    when "upcoming" then Content.upcoming
+    when "expired"  then Content.expired
+    when "mine"     then Content.where(user_id: current_user.id)
     end
 
-    contents_scope = contents_scope.where(id: Search.matching_ids(@query, Content)) if @query.present?
+    if @query.present?
+      contents_scope = if @scope == "mine"
+        # Mine includes unapproved content which the search corpus excludes,
+        # so fall back to a direct name match against the user's own uploads.
+        like = "%#{ActiveRecord::Base.sanitize_sql_like(@query)}%"
+        contents_scope.where("name LIKE ? COLLATE NOCASE", like)
+      else
+        contents_scope.where(id: Search.matching_ids(@query, Content))
+      end
+    end
 
-    @contents = policy_scope(contents_scope)
+    @contents = policy_scope(contents_scope).includes(:submissions)
   end
 
   # GET /contents/new

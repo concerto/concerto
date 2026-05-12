@@ -19,8 +19,13 @@ class FeedsController < ApplicationController
   def show
     authorize @feed
     @status = params[:status] || "approved"
-    # Non-moderators always see approved only
-    @status = "approved" unless policy(@feed).edit? && Submission.moderation_statuses.keys.include?(@status)
+
+    # Approved is public. Moderators get pending/rejected. Any signed-in user
+    # can pick "mine" to see their own submissions across moderation statuses.
+    allowed = [ "approved" ]
+    allowed += Submission.moderation_statuses.keys if policy(@feed).edit?
+    allowed << "mine" if user_signed_in?
+    @status = "approved" unless allowed.include?(@status)
 
     @scope = params[:scope] || "active"
     @scope = "active" unless %w[active upcoming expired].include?(@scope)

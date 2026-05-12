@@ -79,4 +79,79 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href^='/videos/']", count: 0
     assert_select "a[href^='/rich_texts/']", count: 0
   end
+
+  # Mine scope tests
+  test "Mine tab is hidden for anonymous users" do
+    get contents_url
+    assert_response :success
+    assert_select "a[href*='scope=mine']", count: 0
+  end
+
+  test "Mine tab is shown for signed-in users" do
+    sign_in users(:admin)
+    get contents_url
+    assert_response :success
+    assert_select "a[href*='scope=mine']"
+  end
+
+  test "scope=mine surfaces pending content owned by current user" do
+    pending_content = RichText.create!(
+      name: "My Pending", text: "Test", duration: 10, user: users(:non_member),
+      config: { "render_as" => "plaintext" }
+    )
+    Submission.create!(content: pending_content, feed: feeds(:one)) # auto-pending for non-member
+
+    sign_in users(:non_member)
+    get contents_url, params: { scope: "mine" }
+    assert_response :success
+    assert_select "a[href='#{rich_text_path(pending_content)}']"
+  end
+
+  test "scope=mine surfaces unsubmitted content owned by current user" do
+    draft = RichText.create!(
+      name: "My Draft", text: "Test", duration: 10, user: users(:non_member),
+      config: { "render_as" => "plaintext" }
+    )
+
+    sign_in users(:non_member)
+    get contents_url, params: { scope: "mine" }
+    assert_response :success
+    assert_select "a[href='#{rich_text_path(draft)}']"
+  end
+
+  test "scope=mine does not include content owned by other users" do
+    other_content = RichText.create!(
+      name: "Someone Else's", text: "Test", duration: 10, user: users(:admin),
+      config: { "render_as" => "plaintext" }
+    )
+
+    sign_in users(:non_member)
+    get contents_url, params: { scope: "mine" }
+    assert_response :success
+    assert_select "a[href='#{rich_text_path(other_content)}']", count: 0
+  end
+
+  test "scope=mine falls back to active for anonymous users" do
+    get contents_url, params: { scope: "mine" }
+    # Title reflects the fallback scope
+    assert_response :success
+    assert_select "h1", text: "Active Content"
+  end
+
+  test "scope=mine ?q= matches owner's content by name" do
+    needle = RichText.create!(
+      name: "Findable Draft", text: "Body", duration: 10, user: users(:non_member),
+      config: { "render_as" => "plaintext" }
+    )
+    decoy = RichText.create!(
+      name: "Unrelated Draft", text: "Body", duration: 10, user: users(:non_member),
+      config: { "render_as" => "plaintext" }
+    )
+
+    sign_in users(:non_member)
+    get contents_url, params: { scope: "mine", q: "Findable" }
+    assert_response :success
+    assert_select "a[href='#{rich_text_path(needle)}']"
+    assert_select "a[href='#{rich_text_path(decoy)}']", count: 0
+  end
 end

@@ -46,7 +46,7 @@
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <h2 class="text-h3 text-neutral-900">Content</h2>
 
-          <% if policy(@feed).edit? %>
+          <% if policy(@feed).edit? || user_signed_in? %>
             <!-- Moderation Status Toggle -->
             <div class="flex space-x-1 bg-neutral-100 p-1 rounded-lg">
               <%= link_to feed_path(@feed, status: "approved"),
@@ -57,20 +57,32 @@
                 </span>
               <% end %>
 
-              <%= link_to feed_path(@feed, status: "pending"),
-                  class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@status == 'pending' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
-                Pending
-                <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-warning text-white rounded-full">
-                  <%= @feed.submissions.pending.count %>
-                </span>
+              <% if policy(@feed).edit? %>
+                <%= link_to feed_path(@feed, status: "pending"),
+                    class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@status == 'pending' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
+                  Pending
+                  <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-warning text-white rounded-full">
+                    <%= @feed.submissions.pending.count %>
+                  </span>
+                <% end %>
+
+                <%= link_to feed_path(@feed, status: "rejected"),
+                    class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@status == 'rejected' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
+                  Rejected
+                  <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-error text-white rounded-full">
+                    <%= @feed.submissions.rejected.count %>
+                  </span>
+                <% end %>
               <% end %>
 
-              <%= link_to feed_path(@feed, status: "rejected"),
-                  class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@status == 'rejected' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
-                Rejected
-                <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-error text-white rounded-full">
-                  <%= @feed.submissions.rejected.count %>
-                </span>
+              <% if user_signed_in? %>
+                <%= link_to feed_path(@feed, status: "mine"),
+                    class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@status == 'mine' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
+                  Mine
+                  <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-brand-500 text-white rounded-full">
+                    <%= @feed.submissions.joins(:content).where(content: { user_id: current_user.id }).count %>
+                  </span>
+                <% end %>
               <% end %>
             </div>
           <% end %>
@@ -123,7 +135,13 @@
           <%= render partial: "contents/grid", locals: {contents: scoped_content} %>
         <% end %>
       <% else %>
-        <% submissions = @feed.submissions.includes(content: :user).where(moderation_status: @status) %>
+        <% submissions = if @status == "mine"
+             @feed.submissions.includes(content: :user)
+                  .joins(:content).where(content: { user_id: current_user.id })
+                  .order(created_at: :desc)
+           else
+             @feed.submissions.includes(content: :user).where(moderation_status: @status)
+           end %>
         <% if submissions.any? %>
           <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             <% submissions.each do |submission| %>
@@ -137,8 +155,16 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
               </svg>
             </div>
-            <h3 class="text-body font-medium text-neutral-900 mb-2">No <%= @status %> submissions</h3>
-            <p class="text-body text-neutral-700">There are no <%= @status %> submissions for this feed.</p>
+            <% if @status == "mine" %>
+              <h3 class="text-body font-medium text-neutral-900 mb-2">No submissions from you</h3>
+              <p class="text-body text-neutral-700 mb-6">You haven't submitted any content to this feed yet.</p>
+              <% if policy(Content).create? %>
+                <%= link_to "Add Content", new_content_path, class: "btn btn-primary" %>
+              <% end %>
+            <% else %>
+              <h3 class="text-body font-medium text-neutral-900 mb-2">No <%= @status %> submissions</h3>
+              <p class="text-body text-neutral-700">There are no <%= @status %> submissions for this feed.</p>
+            <% end %>
           </div>
         <% end %>
       <% end %>

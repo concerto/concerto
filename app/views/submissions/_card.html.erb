@@ -43,9 +43,16 @@
       </div>
     </div>
 
-    <% if submission.pending? %>
+    <% if submission.pending? && policy(submission).moderate? %>
       <div class="mt-4 pt-4 border-t border-neutral-200">
         <%= render "submissions/moderation_actions", submission: submission %>
+      </div>
+    <% elsif submission.pending? %>
+      <div class="mt-4 pt-4 border-t border-neutral-200">
+        <p class="text-sm text-neutral-600">
+          <span class="font-medium text-neutral-700">Status:</span>
+          Awaiting moderation by a feed manager.
+        </p>
       </div>
     <% elsif submission.rejected? && submission.moderation_reason.present? %>
       <div class="mt-4 pt-4 border-t border-neutral-200">

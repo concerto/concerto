@@ -45,6 +45,19 @@ class Content < ApplicationRecord
       true
     end
 
+    # Summarizes the overall moderation state of this content across all its
+    # submissions. Highest-priority state wins so a single approved submission
+    # surfaces as :approved even when other submissions are pending/rejected.
+    # Reads from the loaded `submissions` association to play nicely with
+    # `includes(:submissions)` on list views.
+    def moderation_state
+      statuses = submissions.map { |s| s.moderation_status.to_s }
+      return :unsubmitted if statuses.empty?
+      return :approved if statuses.include?("approved")
+      return :pending  if statuses.include?("pending")
+      :rejected
+    end
+
     private
 
     # Fields that trigger re-moderation when changed
