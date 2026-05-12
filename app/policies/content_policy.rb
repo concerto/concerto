@@ -1,8 +1,14 @@
 class ContentPolicy < ApplicationPolicy
   class Scope < ApplicationPolicy::Scope
-    # All users (including anonymous) can see approved content
+    # All users (including anonymous) can see approved content. Signed-in
+    # users additionally see content they own so pending/rejected/unsubmitted
+    # uploads remain discoverable to their author.
     def resolve
-      scope.approved
+      if user
+        scope.approved.or(scope.where(user_id: user.id))
+      else
+        scope.approved
+      end
     end
   end
 

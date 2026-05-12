@@ -90,7 +90,7 @@
 
     <% if @user.contents.any? %>
       <div class="p-6">
-        <%= render partial: "contents/grid", locals: {contents: @user.contents} %>
+        <%= render partial: "contents/grid", locals: {contents: @user.contents.includes(:submissions)} %>
       </div>
     <% else %>
       <div class="px-6 py-12 text-center">

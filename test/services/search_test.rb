@@ -70,8 +70,9 @@ class SearchTest < ActiveSupport::TestCase
   test "call respects policy_scope — unapproved Content not returned even when in corpus" do
     # Inject an unapproved Content into the corpus directly to test post-fetch
     # filtering (a real-world way this happens: someone tampers with the index,
-    # or moderation state changes after a query).
-    unapproved = RichText.create!(name: "TopSecret", text: "matchterm", user: @admin, duration: 5, config: { render_as: "plaintext" })
+    # or moderation state changes after a query). Owned by a different user so
+    # the viewer-as-owner branch of the policy scope doesn't surface it.
+    unapproved = RichText.create!(name: "TopSecret", text: "matchterm", user: users(:non_member), duration: 5, config: { render_as: "plaintext" })
     Search::Corpus.upsert(unapproved, unapproved.searchable_data)
 
     results = Search.call("matchterm", user: @admin)

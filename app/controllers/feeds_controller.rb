@@ -19,11 +19,18 @@ class FeedsController < ApplicationController
   def show
     authorize @feed
     @status = params[:status] || "approved"
-    # Non-moderators always see approved only
-    @status = "approved" unless policy(@feed).edit? && Submission.moderation_statuses.keys.include?(@status)
+
+    # Approved is public. Moderators get pending/rejected. Any signed-in user
+    # can pick "mine" to see their own submissions across moderation statuses.
+    allowed = [ "approved" ]
+    allowed += Submission.moderation_statuses.keys if policy(@feed).edit?
+    allowed << "mine" if user_signed_in?
+    @status = "approved" unless allowed.include?(@status)
 
     @scope = params[:scope] || "active"
     @scope = "active" unless %w[active upcoming expired].include?(@scope)
+
+    @submissions = submissions_for_status unless @status == "approved"
   end
 
   # GET /feeds/new
@@ -87,6 +94,17 @@ class FeedsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_feed
       @feed = Feed.find(params[:id])
+    end
+
+    def submissions_for_status
+      base = @feed.submissions.includes(content: :user)
+      if @status == "mine"
+        base.joins(:content)
+            .where(content: { user_id: current_user.id })
+            .order(created_at: :desc)
+      else
+        base.where(moderation_status: @status)
+      end
     end
 
     # Redirects to the appropriate STI controller if the feed is not of the base Feed class.

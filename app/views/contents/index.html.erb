@@ -8,6 +8,7 @@
           when 'active' then 'Active Content'
           when 'upcoming' then 'Upcoming Content'
           when 'expired' then 'Expired Content'
+          when 'mine' then 'My Content'
           else 'All Content'
           end %>
     </h1>
@@ -16,6 +17,7 @@
           when 'active' then 'Content currently being displayed'
           when 'upcoming' then 'Content scheduled for future display'
           when 'expired' then 'Content that is no longer active'
+          when 'mine' then 'Everything you have uploaded, including pending and rejected submissions'
           else 'Manage and organize your digital signage content'
           end %>
     </p>
@@ -64,6 +66,16 @@
       <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-error text-white rounded-full">
         <%= Content.approved.expired.count %>
       </span>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <%= link_to contents_path(scope: 'mine'),
+          class: "px-3 py-2 text-sm font-medium rounded-md transition-colors #{@scope == 'mine' ? 'bg-white text-brand-500 shadow-sm' : 'text-neutral-700 hover:text-neutral-900'}" do %>
+        Mine
+        <span class="ml-1.5 px-1.5 py-0.5 text-xs bg-brand-500 text-white rounded-full">
+          <%= current_user.contents.count %>
+        </span>
+      <% end %>
     <% end %>
   </div>
 </div>

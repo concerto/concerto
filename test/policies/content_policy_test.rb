@@ -9,12 +9,61 @@ class ContentPolicyTest < ActiveSupport::TestCase
     @content = rich_texts(:plain_richtext)  # Owned by admin user
   end
 
-  test "scope returns only approved content for everyone" do
+  test "scope returns only approved content for anonymous users" do
     resolved_scope = ContentPolicy::Scope.new(nil, Content.all).resolve
-    assert_equal Content.approved.to_a, resolved_scope.to_a
+    assert_equal Content.approved.to_a.to_set, resolved_scope.to_a.to_set
+  end
 
+  test "scope returns approved content for users who own none of it" do
+    # @other_user owns no content in fixtures, so the additional OR clause
+    # contributes nothing — they still see exactly the approved set.
+    assert_equal 0, Content.where(user_id: @other_user.id).count
     resolved_scope = ContentPolicy::Scope.new(@other_user, Content.all).resolve
-    assert_equal Content.approved.to_a, resolved_scope.to_a
+    assert_equal Content.approved.to_a.to_set, resolved_scope.to_a.to_set
+  end
+
+  test "scope includes pending content owned by the signed-in user" do
+    # non_member is not in feed_one_owners, so submissions stay pending.
+    pending_content = RichText.create!(
+      name: "My Pending Content", text: "Test", duration: 10, user: @non_member,
+      config: { "render_as" => "plaintext" }
+    )
+    submission = Submission.create!(content: pending_content, feed: feeds(:one))
+    assert submission.pending?, "Expected submission to be pending"
+
+    assert_not_includes ContentPolicy::Scope.new(nil, Content.all).resolve, pending_content
+    assert_includes ContentPolicy::Scope.new(@non_member, Content.all).resolve, pending_content
+  end
+
+  test "scope includes rejected content owned by the signed-in user" do
+    rejected_content = RichText.create!(
+      name: "My Rejected Content", text: "Test", duration: 10, user: @non_member,
+      config: { "render_as" => "plaintext" }
+    )
+    Submission.create!(content: rejected_content, feed: feeds(:one))
+      .moderate!(status: :rejected, moderator: @content_owner, reason: "Nope")
+
+    assert_not_includes ContentPolicy::Scope.new(nil, Content.all).resolve, rejected_content
+    assert_includes ContentPolicy::Scope.new(@non_member, Content.all).resolve, rejected_content
+  end
+
+  test "scope includes unsubmitted content owned by the signed-in user" do
+    draft = RichText.create!(
+      name: "My Draft", text: "Test", duration: 10, user: @non_member,
+      config: { "render_as" => "plaintext" }
+    )
+
+    assert_not_includes ContentPolicy::Scope.new(nil, Content.all).resolve, draft
+    assert_includes ContentPolicy::Scope.new(@non_member, Content.all).resolve, draft
+  end
+
+  test "scope does not include another user's unapproved content" do
+    pending_content = RichText.create!(
+      name: "Someone Else's Draft", text: "Test", duration: 10, user: @non_member,
+      config: { "render_as" => "plaintext" }
+    )
+
+    assert_not_includes ContentPolicy::Scope.new(@other_user, Content.all).resolve, pending_content
   end
 
   test "scope excludes content with only pending submissions" do
