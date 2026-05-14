@@ -17,6 +17,16 @@ describe('ConcertoYoutubeVideo', () => {
     expect(wrapper.html()).toContain('src="https://www.youtube-nocookie.com/embed/z7HyF46-Zd0?rel=0&amp;iv_load_policy=3&amp;autoplay=1');
   })
 
+  it('does not force muted playback in the iframe URL', () => {
+    const content = {
+      video_id: 'z7HyF46-Zd0'
+    };
+    const wrapper = mount(ConcertoYoutubeVideo, { props: { content: content } });
+
+    const src = wrapper.find('iframe').attributes('src');
+    expect(src).not.toMatch(/[?&]mute=1\b/);
+  })
+
   it('applies the backend-provided aspect ratio to the iframe', () => {
     const content = {
       video_id: 'z7HyF46-Zd0',
@@ -39,6 +49,25 @@ describe('ConcertoYoutubeVideo duration control', () => {
         ENDED: 0
       }
     };
+  });
+
+  it('attempts unmuted playback on player ready', async () => {
+    const content = {
+      video_id: 'z7HyF46-Zd0',
+      duration: null
+    };
+    const playerInstance = {
+      unMute: vi.fn(),
+      setVolume: vi.fn(),
+    };
+    global.YT.Player.mockImplementation(() => playerInstance);
+    mount(ConcertoYoutubeVideo, { props: { content: content } });
+
+    const onReady = global.YT.Player.mock.calls[0][1].events.onReady;
+    onReady();
+
+    expect(playerInstance.unMute).toHaveBeenCalled();
+    expect(playerInstance.setVolume).toHaveBeenCalledWith(100);
   });
 
   it('takes over timer control when video has no duration', async () => {

@@ -15,7 +15,9 @@ const videoId = computed(() => {
 });
 
 const videoUrl = computed(() => {
-  return `https://www.tiktok.com/player/v1/${videoId.value}?autoplay=1&muted=1&loop=0&controls=0`;
+  // No `muted` param: try unmuted autoplay. The TikTok player automatically
+  // falls back to muted playback when the browser disallows unmuted autoplay.
+  return `https://www.tiktok.com/player/v1/${videoId.value}?autoplay=1&loop=0&controls=0`;
 });
 
 const playerRef = ref(null);

@@ -18,7 +18,18 @@ describe('ConcertoVimeoVideo', () => {
     };
     const wrapper = mount(ConcertoVimeoVideo, { props: { content: content } });
 
-    expect(wrapper.html()).toContain('src="https://player.vimeo.com/video/123456789?autoplay=1&amp;muted=1&amp;loop=0&amp;api=1&amp;background=1"');
+    expect(wrapper.html()).toContain('src="https://player.vimeo.com/video/123456789?autoplay=1&amp;loop=0&amp;controls=0&amp;autopause=0&amp;api=1"');
+  });
+
+  it('does not force muted or background mode in the iframe URL', () => {
+    const content = {
+      video_id: '123456789',
+    };
+    const wrapper = mount(ConcertoVimeoVideo, { props: { content: content } });
+
+    const src = wrapper.find('iframe').attributes('src');
+    expect(src).not.toMatch(/[?&]muted=1\b/);
+    expect(src).not.toMatch(/[?&]background=1\b/);
   });
 
   it('applies a backend-provided aspect_ratio', () => {
@@ -64,6 +75,49 @@ describe('ConcertoVimeoVideo dynamic aspect ratio', () => {
     await Promise.resolve();
     expect(mockPlayer.getVideoWidth).not.toHaveBeenCalled();
     expect(wrapper.find('iframe').attributes('style')).toContain('aspect-ratio: 16/9');
+  });
+});
+
+describe('ConcertoVimeoVideo unmuted autoplay fallback', () => {
+  let mockPlayer;
+
+  beforeEach(() => {
+    mockPlayer = {
+      on: vi.fn(),
+      play: vi.fn(),
+      setMuted: vi.fn().mockResolvedValue(undefined),
+    };
+    global.Vimeo.Player.mockImplementation(function() {
+      return mockPlayer;
+    });
+  });
+
+  it('does not call setMuted when unmuted autoplay succeeds', async () => {
+    mockPlayer.play.mockResolvedValue(undefined);
+    mount(ConcertoVimeoVideo, { props: { content: { video_id: '123456789' } } });
+
+    // Allow the play() promise to settle.
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(mockPlayer.setMuted).not.toHaveBeenCalled();
+  });
+
+  it('mutes and retries when the browser blocks unmuted autoplay', async () => {
+    let playCall = 0;
+    mockPlayer.play.mockImplementation(() => {
+      playCall += 1;
+      return playCall === 1
+        ? Promise.reject(new Error('NotAllowedError'))
+        : Promise.resolve();
+    });
+
+    mount(ConcertoVimeoVideo, { props: { content: { video_id: '123456789' } } });
+
+    await vi.waitFor(() => {
+      expect(mockPlayer.setMuted).toHaveBeenCalledWith(true);
+      expect(mockPlayer.play).toHaveBeenCalledTimes(2);
+    });
   });
 });
 

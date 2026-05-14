@@ -18,7 +18,11 @@ const videoId = computed(() => {
 });
 
 const videoUrl = computed(() => {
-  return `https://player.vimeo.com/video/${videoId.value}?autoplay=1&muted=1&loop=0&api=1&background=1`;
+  // `background=1` would force muted playback, so we drop it and replicate its
+  // useful side-effects (no controls) explicitly. `muted=1` is also dropped so
+  // we can attempt unmuted autoplay; if the browser blocks it, the fallback in
+  // `onMounted` re-mutes and replays.
+  return `https://player.vimeo.com/video/${videoId.value}?autoplay=1&loop=0&controls=0&autopause=0&api=1`;
 });
 
 const playerRef = ref(null);
@@ -111,6 +115,15 @@ onMounted(async () => {
       emit('next', {});
     }
   });
+
+  // The iframe URL requests autoplay, but Vimeo (unlike YouTube) does not
+  // automatically retry muted when the browser rejects unmuted autoplay.
+  // Catch the rejection and fall back to muted playback.
+  if (typeof player.play === 'function') {
+    Promise.resolve(player.play()).catch(() => {
+      player.setMuted(true).then(() => player.play()).catch(() => {});
+    });
+  }
 })
 
 onBeforeUnmount(() => {

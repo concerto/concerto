@@ -11,7 +11,17 @@ describe('ConcertoTiktokVideo', () => {
     const wrapper = mount(ConcertoTiktokVideo, { props: { content: content } });
 
     const iframe = wrapper.find('iframe');
-    expect(iframe.attributes('src')).toBe('https://www.tiktok.com/player/v1/6718335390845095173?autoplay=1&muted=1&loop=0&controls=0');
+    expect(iframe.attributes('src')).toBe('https://www.tiktok.com/player/v1/6718335390845095173?autoplay=1&loop=0&controls=0');
+  })
+
+  it('does not force muted playback in the iframe URL', () => {
+    const content = {
+      video_id: '6718335390845095173'
+    };
+    const wrapper = mount(ConcertoTiktokVideo, { props: { content: content } });
+
+    const src = wrapper.find('iframe').attributes('src');
+    expect(src).not.toMatch(/[?&]muted=1\b/);
   })
 
   it('applies the backend-provided aspect_ratio', () => {

@@ -19,7 +19,10 @@ const emit = defineEmits(['takeOverTimer', 'next'])
 const { ping: watchdogPing, stop: watchdogStop } = useVideoWatchdog(emit);
 
 const videoUrl = computed(() => {
-  return `https://www.youtube-nocookie.com/embed/${props.content.video_id}?rel=0&iv_load_policy=3&autoplay=1&controls=0&playsinline=1&mute=1&enablejsapi=1`;
+  // No `mute` param: try unmuted autoplay. Browsers that disallow it (no user
+  // gesture, low Media Engagement Index, not an installed PWA) cause the
+  // YouTube player to silently fall back to muted playback.
+  return `https://www.youtube-nocookie.com/embed/${props.content.video_id}?rel=0&iv_load_policy=3&autoplay=1&controls=0&playsinline=1&enablejsapi=1`;
 })
 
 const playerRef = ref(null);
@@ -89,6 +92,20 @@ function stopTimeCheck() {
   timeCheckInterval = null;
 }
 
+function onPlayerReady() {
+  // Try unmuted playback. If the browser blocks it, YouTube auto-mutes and
+  // continues playing — leaving us with audible playback when permitted and
+  // silent fallback otherwise.
+  if (player && typeof player.unMute === 'function') {
+    try {
+      player.unMute();
+      player.setVolume(100);
+    } catch {
+      // Player not ready or in error state; fine to ignore.
+    }
+  }
+}
+
 function onPlayerStateChange(event) {
   switch (event.data) {
   case YT.PlayerState.PLAYING:
@@ -125,6 +142,7 @@ onMounted(async () => {
 
   player = new YT.Player(playerRef.value, {
     events: {
+      'onReady': onPlayerReady,
       'onStateChange': onPlayerStateChange
     }
   });
