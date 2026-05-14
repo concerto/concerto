@@ -118,10 +118,17 @@ onMounted(async () => {
 
   // The iframe URL requests autoplay, but Vimeo (unlike YouTube) does not
   // automatically retry muted when the browser rejects unmuted autoplay.
-  // Catch the rejection and fall back to muted playback.
-  if (typeof player.play === 'function') {
-    Promise.resolve(player.play()).catch(() => {
-      player.setMuted(true).then(() => player.play()).catch(() => {});
+  // Catch the rejection and fall back to muted playback. Capture a local
+  // reference so we don't dereference `player` after the component unmounts
+  // (onBeforeUnmount nulls it).
+  if (player && typeof player.play === 'function') {
+    const currentPlayer = player;
+    currentPlayer.play().catch(() => {
+      if (!player) return;
+      currentPlayer.setMuted(true).then(() => {
+        if (!player) return;
+        currentPlayer.play().catch(() => {});
+      }).catch(() => {});
     });
   }
 })
