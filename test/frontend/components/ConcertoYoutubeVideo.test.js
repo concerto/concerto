@@ -60,7 +60,9 @@ describe('ConcertoYoutubeVideo duration control', () => {
       unMute: vi.fn(),
       setVolume: vi.fn(),
     };
-    global.YT.Player.mockImplementation(() => playerInstance);
+    // Use a regular function so `new YT.Player(...)` works (arrow functions
+    // cannot be invoked as constructors).
+    global.YT.Player.mockImplementation(function() { return playerInstance; });
     mount(ConcertoYoutubeVideo, { props: { content: content } });
 
     const onReady = global.YT.Player.mock.calls[0][1].events.onReady;
