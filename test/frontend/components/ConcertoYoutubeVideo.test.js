@@ -46,7 +46,6 @@ describe('ConcertoYoutubeVideo audio fallback', () => {
   let mockPlayer;
 
   beforeEach(() => {
-    vi.useFakeTimers();
     mockPlayer = {
       mute: vi.fn(),
       playVideo: vi.fn(),
@@ -59,66 +58,27 @@ describe('ConcertoYoutubeVideo audio fallback', () => {
     };
   });
 
-  afterEach(() => {
-    vi.useRealTimers();
-  });
-
-  it('falls back to muted playback if autoplay does not start in time', () => {
+  it('mutes and replays when YouTube fires onAutoplayBlocked', () => {
     mount(ConcertoYoutubeVideo, {
       props: { content: { video_id: 'z7HyF46-Zd0', audio: true } }
     });
 
-    vi.advanceTimersByTime(2000);
+    const onAutoplayBlocked = global.YT.Player.mock.calls[0][1].events.onAutoplayBlocked;
+    onAutoplayBlocked({});
 
     expect(mockPlayer.mute).toHaveBeenCalled();
     expect(mockPlayer.playVideo).toHaveBeenCalled();
   });
 
-  it('does not fall back when PLAYING state is reached before the timeout', () => {
-    mount(ConcertoYoutubeVideo, {
-      props: { content: { video_id: 'z7HyF46-Zd0', audio: true } }
-    });
-
-    const stateChange = global.YT.Player.mock.calls[0][1].events.onStateChange;
-    stateChange({ data: YT.PlayerState.PLAYING });
-    vi.advanceTimersByTime(2000);
-
-    expect(mockPlayer.mute).not.toHaveBeenCalled();
-  });
-
-  it('cancels the fallback when the player reaches BUFFERING', () => {
-    mount(ConcertoYoutubeVideo, {
-      props: { content: { video_id: 'z7HyF46-Zd0', audio: true } }
-    });
-
-    const stateChange = global.YT.Player.mock.calls[0][1].events.onStateChange;
-    stateChange({ data: YT.PlayerState.BUFFERING });
-    vi.advanceTimersByTime(2000);
-
-    expect(mockPlayer.mute).not.toHaveBeenCalled();
-  });
-
-  it('cancels the fallback when the player emits onError', () => {
-    mount(ConcertoYoutubeVideo, {
-      props: { content: { video_id: 'z7HyF46-Zd0', audio: true } }
-    });
-
-    const onError = global.YT.Player.mock.calls[0][1].events.onError;
-    onError({ data: 150 });
-    vi.advanceTimersByTime(2000);
-
-    expect(mockPlayer.mute).not.toHaveBeenCalled();
-  });
-
-  it('does not arm the fallback timer when audio is disabled', () => {
+  it('registers the onAutoplayBlocked handler even when audio is disabled', () => {
+    // YouTube can block muted autoplay too in some contexts, so the handler
+    // is registered unconditionally.
     mount(ConcertoYoutubeVideo, {
       props: { content: { video_id: 'z7HyF46-Zd0', audio: false } }
     });
 
-    vi.advanceTimersByTime(5000);
-
-    expect(mockPlayer.mute).not.toHaveBeenCalled();
-    expect(mockPlayer.playVideo).not.toHaveBeenCalled();
+    const events = global.YT.Player.mock.calls[0][1].events;
+    expect(typeof events.onAutoplayBlocked).toBe('function');
   });
 })
 

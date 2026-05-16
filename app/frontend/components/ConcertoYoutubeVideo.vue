@@ -5,9 +5,6 @@ import { useVideoWatchdog } from '../composables/useVideoWatchdog.js';
 const YOUTUBE_API_URL = 'https://www.youtube.com/iframe_api';
 const API_LOAD_TIMEOUT_MS = 30000; // 30 seconds
 const TIME_CHECK_INTERVAL_MS = 5000;
-// If the player hasn't reached PLAYING within this window when audio is on,
-// assume the browser blocked autoplay-with-sound and fall back to muted.
-const AUTOPLAY_FALLBACK_MS = 2000;
 
 const props = defineProps({
   content: { type: Object, required: true },
@@ -40,7 +37,6 @@ const playerRef = ref(null);
 let player = null;
 let timeCheckInterval = null;
 let lastKnownTime = -1;
-let autoplayFallbackTimer = null;
 
 function isYTAPILoaded() {
   /* global YT */
@@ -104,12 +100,7 @@ function stopTimeCheck() {
   timeCheckInterval = null;
 }
 
-function clearAutoplayFallback() {
-  clearTimeout(autoplayFallbackTimer);
-  autoplayFallbackTimer = null;
-}
-
-function fallbackToMuted() {
+function onAutoplayBlocked() {
   if (!player || typeof player.mute !== 'function') return;
   console.warn('YouTube autoplay-with-sound blocked, falling back to muted');
   try {
@@ -120,20 +111,10 @@ function fallbackToMuted() {
   }
 }
 
-function onPlayerError(event) {
-  console.error('YouTube player error:', event.data);
-  // Autoplay blocks manifest as the state never reaching PLAYING (handled
-  // by the fallback timer). Other errors leave the player in a failed
-  // state where re-issuing playVideo() wouldn't help, so cancel the
-  // fallback rather than firing it pointlessly.
-  clearAutoplayFallback();
-}
-
 function onPlayerStateChange(event) {
   switch (event.data) {
   case YT.PlayerState.PLAYING:
     console.debug('Video is playing');
-    clearAutoplayFallback();
     watchdogPing();
     startTimeCheck();
     if (!hasDuration.value) {
@@ -154,12 +135,6 @@ function onPlayerStateChange(event) {
       emit('next', {});
     }
     break;
-  case YT.PlayerState.BUFFERING:
-    // Reaching BUFFERING means the browser accepted the play request and
-    // we're just waiting on the network — autoplay-with-sound wasn't
-    // blocked, so cancel the muted fallback to avoid muting on slow loads.
-    clearAutoplayFallback();
-    break;
   default:
     console.debug('Video state changed:', event.data);
   }
@@ -173,17 +148,12 @@ onMounted(async () => {
   player = new YT.Player(playerRef.value, {
     events: {
       'onStateChange': onPlayerStateChange,
-      'onError': onPlayerError
+      'onAutoplayBlocked': onAutoplayBlocked
     }
   });
-
-  if (props.content.audio) {
-    autoplayFallbackTimer = setTimeout(fallbackToMuted, AUTOPLAY_FALLBACK_MS);
-  }
 })
 
 onBeforeUnmount(() => {
-  clearAutoplayFallback();
   stopTimeCheck();
   if (player && typeof player.destroy === 'function') {
     player.destroy();
