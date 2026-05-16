@@ -18,7 +18,15 @@ const videoId = computed(() => {
 });
 
 const videoUrl = computed(() => {
-  return `https://player.vimeo.com/video/${videoId.value}?autoplay=1&muted=1&loop=0&api=1&background=1`;
+  // background=1 forces muted on Vimeo; only use it when audio is off.
+  // When audio is on, request controls=0 explicitly to keep the UI clean.
+  const params = [ 'autoplay=1', 'loop=0', 'api=1' ];
+  if (props.content.audio) {
+    params.push('controls=0');
+  } else {
+    params.push('muted=1', 'background=1');
+  }
+  return `https://player.vimeo.com/video/${videoId.value}?${params.join('&')}`;
 });
 
 const playerRef = ref(null);
@@ -73,6 +81,17 @@ onMounted(async () => {
   }
 
   player = new Vimeo.Player(playerRef.value);
+
+  if (props.content.audio) {
+    // Vimeo's play() rejects with NotAllowedError when autoplay-with-sound
+    // is blocked. Fall back to muted so the video still plays.
+    player.play().catch((err) => {
+      console.warn('Vimeo autoplay-with-sound blocked, falling back to muted:', err?.name || err);
+      player.setMuted(true).then(() => player.play()).catch((e) => {
+        console.error('Vimeo muted fallback failed:', e);
+      });
+    });
+  }
 
   if (props.content.aspect_ratio_auto) {
     Promise.all([player.getVideoWidth(), player.getVideoHeight()])

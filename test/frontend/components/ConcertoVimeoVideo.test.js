@@ -8,6 +8,8 @@ import ConcertoVimeoVideo from '~/components/ConcertoVimeoVideo.vue';
 global.Vimeo = {
   Player: vi.fn().mockImplementation(function() {
     this.on = vi.fn();
+    this.play = vi.fn().mockResolvedValue();
+    this.setMuted = vi.fn().mockResolvedValue();
   }),
 };
 
@@ -18,7 +20,7 @@ describe('ConcertoVimeoVideo', () => {
     };
     const wrapper = mount(ConcertoVimeoVideo, { props: { content: content } });
 
-    expect(wrapper.html()).toContain('src="https://player.vimeo.com/video/123456789?autoplay=1&amp;muted=1&amp;loop=0&amp;api=1&amp;background=1"');
+    expect(wrapper.html()).toContain('src="https://player.vimeo.com/video/123456789?autoplay=1&amp;loop=0&amp;api=1&amp;muted=1&amp;background=1"');
   });
 
   it('applies a backend-provided aspect_ratio', () => {
@@ -26,6 +28,64 @@ describe('ConcertoVimeoVideo', () => {
       props: { content: { video_id: '123456789', aspect_ratio: '4/3' } }
     });
     expect(wrapper.find('iframe').attributes('style')).toContain('aspect-ratio: 4/3');
+  });
+
+  it('uses muted background mode when audio is disabled', () => {
+    const wrapper = mount(ConcertoVimeoVideo, {
+      props: { content: { video_id: '123456789', audio: false } }
+    });
+    const src = wrapper.find('iframe').attributes('src');
+    expect(src).toContain('muted=1');
+    expect(src).toContain('background=1');
+  });
+
+  it('omits muted and background params when audio is enabled', () => {
+    const wrapper = mount(ConcertoVimeoVideo, {
+      props: { content: { video_id: '123456789', audio: true } }
+    });
+    const src = wrapper.find('iframe').attributes('src');
+    expect(src).not.toContain('muted=1');
+    expect(src).not.toContain('background=1');
+    expect(src).toContain('controls=0');
+  });
+});
+
+describe('ConcertoVimeoVideo audio fallback', () => {
+  let mockPlayer;
+
+  beforeEach(() => {
+    mockPlayer = {
+      on: vi.fn(),
+      play: vi.fn(),
+      setMuted: vi.fn(),
+    };
+    global.Vimeo.Player.mockImplementation(function() {
+      return mockPlayer;
+    });
+  });
+
+  it('falls back to muted when play() rejects', async () => {
+    mockPlayer.play.mockRejectedValueOnce(new Error('NotAllowedError'));
+    mockPlayer.setMuted.mockResolvedValue();
+    mockPlayer.play.mockResolvedValueOnce();
+
+    mount(ConcertoVimeoVideo, {
+      props: { content: { video_id: '123456789', audio: true } }
+    });
+
+    // Wait for the rejection-then-fallback chain to settle.
+    await vi.waitFor(() => {
+      expect(mockPlayer.setMuted).toHaveBeenCalledWith(true);
+    });
+    // play() is called once optimistically, then again after setMuted resolves.
+    expect(mockPlayer.play.mock.calls.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('does not call play() when audio is disabled', () => {
+    mount(ConcertoVimeoVideo, {
+      props: { content: { video_id: '123456789', audio: false } }
+    });
+    expect(mockPlayer.play).not.toHaveBeenCalled();
   });
 });
 

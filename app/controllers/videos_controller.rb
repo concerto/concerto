@@ -74,6 +74,6 @@ class VideosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def video_params
-      params.expect(video: policy(@video || Video.new).permitted_attributes + [ :url, :aspect_ratio ])
+      params.expect(video: policy(@video || Video.new).permitted_attributes + [ :url, :aspect_ratio, :audio ])
     end
 end

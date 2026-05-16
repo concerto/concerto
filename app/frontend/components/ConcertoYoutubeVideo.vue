@@ -5,6 +5,9 @@ import { useVideoWatchdog } from '../composables/useVideoWatchdog.js';
 const YOUTUBE_API_URL = 'https://www.youtube.com/iframe_api';
 const API_LOAD_TIMEOUT_MS = 30000; // 30 seconds
 const TIME_CHECK_INTERVAL_MS = 5000;
+// If the player hasn't reached PLAYING within this window when audio is on,
+// assume the browser blocked autoplay-with-sound and fall back to muted.
+const AUTOPLAY_FALLBACK_MS = 2000;
 
 const props = defineProps({
   content: { type: Object, required: true },
@@ -19,13 +22,25 @@ const emit = defineEmits(['takeOverTimer', 'next'])
 const { ping: watchdogPing, stop: watchdogStop } = useVideoWatchdog(emit);
 
 const videoUrl = computed(() => {
-  return `https://www.youtube-nocookie.com/embed/${props.content.video_id}?rel=0&iv_load_policy=3&autoplay=1&controls=0&playsinline=1&mute=1&enablejsapi=1`;
+  const params = [
+    'rel=0',
+    'iv_load_policy=3',
+    'autoplay=1',
+    'controls=0',
+    'playsinline=1',
+    'enablejsapi=1'
+  ];
+  if (!props.content.audio) {
+    params.push('mute=1');
+  }
+  return `https://www.youtube-nocookie.com/embed/${props.content.video_id}?${params.join('&')}`;
 })
 
 const playerRef = ref(null);
 let player = null;
 let timeCheckInterval = null;
 let lastKnownTime = -1;
+let autoplayFallbackTimer = null;
 
 function isYTAPILoaded() {
   /* global YT */
@@ -89,10 +104,34 @@ function stopTimeCheck() {
   timeCheckInterval = null;
 }
 
+function clearAutoplayFallback() {
+  clearTimeout(autoplayFallbackTimer);
+  autoplayFallbackTimer = null;
+}
+
+function fallbackToMuted() {
+  if (!player || typeof player.mute !== 'function') return;
+  console.warn('YouTube autoplay-with-sound blocked, falling back to muted');
+  try {
+    player.mute();
+    player.playVideo();
+  } catch (e) {
+    console.error('Failed to fall back to muted playback:', e);
+  }
+}
+
+function onPlayerError(event) {
+  console.error('YouTube player error:', event.data);
+  // Error codes 100, 101, 150 are unrelated to autoplay, but autoplay
+  // blocks generally manifest as the state never reaching PLAYING. The
+  // fallback timer covers that case; nothing extra to do here.
+}
+
 function onPlayerStateChange(event) {
   switch (event.data) {
   case YT.PlayerState.PLAYING:
     console.debug('Video is playing');
+    clearAutoplayFallback();
     watchdogPing();
     startTimeCheck();
     if (!hasDuration.value) {
@@ -125,12 +164,18 @@ onMounted(async () => {
 
   player = new YT.Player(playerRef.value, {
     events: {
-      'onStateChange': onPlayerStateChange
+      'onStateChange': onPlayerStateChange,
+      'onError': onPlayerError
     }
   });
+
+  if (props.content.audio) {
+    autoplayFallbackTimer = setTimeout(fallbackToMuted, AUTOPLAY_FALLBACK_MS);
+  }
 })
 
 onBeforeUnmount(() => {
+  clearAutoplayFallback();
   stopTimeCheck();
   if (player && typeof player.destroy === 'function') {
     player.destroy();

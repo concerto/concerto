@@ -11,7 +11,7 @@ describe('ConcertoTiktokVideo', () => {
     const wrapper = mount(ConcertoTiktokVideo, { props: { content: content } });
 
     const iframe = wrapper.find('iframe');
-    expect(iframe.attributes('src')).toBe('https://www.tiktok.com/player/v1/6718335390845095173?autoplay=1&muted=1&loop=0&controls=0');
+    expect(iframe.attributes('src')).toBe('https://www.tiktok.com/player/v1/6718335390845095173?autoplay=1&loop=0&controls=0&muted=1');
   })
 
   it('applies the backend-provided aspect_ratio', () => {
@@ -20,6 +20,114 @@ describe('ConcertoTiktokVideo', () => {
     });
     expect(wrapper.find('iframe').attributes('style')).toContain('aspect-ratio: 1/1');
   })
+
+  it('mutes the iframe URL when audio is disabled', () => {
+    const wrapper = mount(ConcertoTiktokVideo, {
+      props: { content: { video_id: '6718335390845095173', audio: false } }
+    });
+    expect(wrapper.find('iframe').attributes('src')).toContain('muted=1');
+  })
+
+  it('omits mute from the iframe URL when audio is enabled', () => {
+    const wrapper = mount(ConcertoTiktokVideo, {
+      props: { content: { video_id: '6718335390845095173', audio: true } }
+    });
+    expect(wrapper.find('iframe').attributes('src')).not.toContain('muted=1');
+  })
+})
+
+describe('ConcertoTiktokVideo audio fallback', () => {
+  it('falls back to muted on onPlayerError code 3002 when audio is enabled', async () => {
+    const wrapper = mount(ConcertoTiktokVideo, {
+      props: { content: { video_id: '6718335390845095173', audio: true } },
+      attachTo: document.body
+    });
+
+    const iframe = wrapper.find('iframe').element;
+    const postMessage = vi.fn();
+    Object.defineProperty(iframe, 'contentWindow', {
+      configurable: true,
+      value: { postMessage }
+    });
+
+    const errorEvent = new MessageEvent('message', {
+      origin: 'https://www.tiktok.com',
+      data: {
+        'x-tiktok-player': true,
+        type: 'onPlayerError',
+        value: { code: 3002 }
+      }
+    });
+    window.dispatchEvent(errorEvent);
+    await wrapper.vm.$nextTick();
+
+    expect(postMessage).toHaveBeenCalledWith(
+      expect.objectContaining({ 'x-tiktok-player': true, type: 'mute' }),
+      '*'
+    );
+    expect(postMessage).toHaveBeenCalledWith(
+      expect.objectContaining({ 'x-tiktok-player': true, type: 'play' }),
+      '*'
+    );
+
+    wrapper.unmount();
+  });
+
+  it('does not fall back for unrelated error codes', async () => {
+    const wrapper = mount(ConcertoTiktokVideo, {
+      props: { content: { video_id: '6718335390845095173', audio: true } },
+      attachTo: document.body
+    });
+
+    const iframe = wrapper.find('iframe').element;
+    const postMessage = vi.fn();
+    Object.defineProperty(iframe, 'contentWindow', {
+      configurable: true,
+      value: { postMessage }
+    });
+
+    const errorEvent = new MessageEvent('message', {
+      origin: 'https://www.tiktok.com',
+      data: {
+        'x-tiktok-player': true,
+        type: 'onPlayerError',
+        value: { code: 1001 }
+      }
+    });
+    window.dispatchEvent(errorEvent);
+    await wrapper.vm.$nextTick();
+
+    expect(postMessage).not.toHaveBeenCalled();
+    wrapper.unmount();
+  });
+
+  it('does not fall back when audio is disabled', async () => {
+    const wrapper = mount(ConcertoTiktokVideo, {
+      props: { content: { video_id: '6718335390845095173', audio: false } },
+      attachTo: document.body
+    });
+
+    const iframe = wrapper.find('iframe').element;
+    const postMessage = vi.fn();
+    Object.defineProperty(iframe, 'contentWindow', {
+      configurable: true,
+      value: { postMessage }
+    });
+
+    const errorEvent = new MessageEvent('message', {
+      origin: 'https://www.tiktok.com',
+      data: {
+        'x-tiktok-player': true,
+        type: 'onPlayerError',
+        value: { code: 3002 }
+      }
+    });
+    window.dispatchEvent(errorEvent);
+    await wrapper.vm.$nextTick();
+
+    expect(postMessage).not.toHaveBeenCalled();
+    wrapper.unmount();
+  });
 })
 
 describe('ConcertoTiktokVideo duration control', () => {

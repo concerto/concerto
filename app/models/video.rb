@@ -2,7 +2,7 @@ require "net/http"
 require "cgi"
 
 class Video < Content
-  store_accessor :config, :url, :aspect_ratio
+  store_accessor :config, :url, :aspect_ratio, :audio
 
   # Permitted values for the user-facing aspect ratio override, with the
   # labels shown in the form. nil / "auto" means "use the provider default"
@@ -24,8 +24,15 @@ class Video < Content
       video_id: video_id,
       video_source: video_source,
       aspect_ratio: effective_aspect_ratio,
-      aspect_ratio_auto: aspect_ratio.blank? || aspect_ratio == "auto"
+      aspect_ratio_auto: aspect_ratio.blank? || aspect_ratio == "auto",
+      audio: audio?
     })
+  end
+
+  # Coerces the store_accessor string ("1"/"0"/"true"/"false") to a boolean.
+  # Missing key (legacy records) reads as false.
+  def audio?
+    ActiveModel::Type::Boolean.new.cast(audio)
   end
 
   # Resolves the CSS-ready aspect ratio string (e.g. "16/9") the frontend should

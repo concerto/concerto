@@ -39,6 +39,15 @@
           </p>
         </div>
 
+        <!-- Audio -->
+        <div>
+          <%= form.label :audio, "Audio", class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <div class="flex items-center gap-3">
+            <%= form.check_box :audio, { checked: video.audio?, class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-600" }, "1", "0" %>
+            <p class="text-sm text-gray-500">Play this video with sound. Requires installing the player as a PWA on most browsers; otherwise plays muted.</p>
+          </div>
+        </div>
+
         <!-- Aspect Ratio -->
         <div>
           <%= form.label :aspect_ratio, "Aspect Ratio", class: "block text-sm font-medium text-gray-700 mb-2" %>

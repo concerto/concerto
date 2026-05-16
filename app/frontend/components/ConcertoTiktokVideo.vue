@@ -14,8 +14,17 @@ const videoId = computed(() => {
   return props.content.video_id;
 });
 
+// TikTok autoplay-block error code. When autoplay-with-sound is denied,
+// the player emits onPlayerError with this code; we recover by muting
+// and re-issuing play.
+const TIKTOK_AUTOPLAY_ERROR_CODE = 3002;
+
 const videoUrl = computed(() => {
-  return `https://www.tiktok.com/player/v1/${videoId.value}?autoplay=1&muted=1&loop=0&controls=0`;
+  const params = [ 'autoplay=1', 'loop=0', 'controls=0' ];
+  if (!props.content.audio) {
+    params.push('muted=1');
+  }
+  return `https://www.tiktok.com/player/v1/${videoId.value}?${params.join('&')}`;
 });
 
 const playerRef = ref(null);
@@ -23,6 +32,22 @@ const playerRef = ref(null);
 const hasDuration = computed(() => {
   return props.content.duration && props.content.duration > 0;
 });
+
+function sendCommand(type) {
+  const iframe = playerRef.value;
+  if (!iframe || !iframe.contentWindow) return;
+  iframe.contentWindow.postMessage({
+    'x-tiktok-player': true,
+    type,
+    value: null
+  }, '*');
+}
+
+function fallbackToMuted() {
+  console.warn('TikTok autoplay-with-sound blocked, falling back to muted');
+  sendCommand('mute');
+  sendCommand('play');
+}
 
 function handlePlayerMessage(event) {
   // Validate message origin for security
@@ -68,9 +93,14 @@ function handlePlayerMessage(event) {
   case 'onPlayerReady':
     console.debug('TikTok player is ready');
     break;
-  case 'onError':
+  case 'onPlayerError': {
     console.error('TikTok player error:', value);
+    const code = typeof value === 'object' && value !== null ? value.code : value;
+    if (props.content.audio && code === TIKTOK_AUTOPLAY_ERROR_CODE) {
+      fallbackToMuted();
+    }
     break;
+  }
   }
 }
 

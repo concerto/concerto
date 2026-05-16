@@ -26,6 +26,76 @@ describe('ConcertoYoutubeVideo', () => {
 
     expect(wrapper.find('iframe').attributes('style')).toContain('aspect-ratio: 9/16');
   })
+
+  it('mutes the iframe URL when audio is disabled', () => {
+    const wrapper = mount(ConcertoYoutubeVideo, {
+      props: { content: { video_id: 'z7HyF46-Zd0', audio: false } }
+    });
+    expect(wrapper.find('iframe').attributes('src')).toContain('mute=1');
+  })
+
+  it('omits mute from the iframe URL when audio is enabled', () => {
+    const wrapper = mount(ConcertoYoutubeVideo, {
+      props: { content: { video_id: 'z7HyF46-Zd0', audio: true } }
+    });
+    expect(wrapper.find('iframe').attributes('src')).not.toContain('mute=1');
+  })
+})
+
+describe('ConcertoYoutubeVideo audio fallback', () => {
+  let mockPlayer;
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+    mockPlayer = {
+      mute: vi.fn(),
+      playVideo: vi.fn(),
+      destroy: vi.fn(),
+      getCurrentTime: vi.fn().mockReturnValue(0)
+    };
+    global.YT = {
+      Player: vi.fn().mockImplementation(function() { return mockPlayer; }),
+      PlayerState: { PLAYING: 1, PAUSED: 2, ENDED: 0 }
+    };
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('falls back to muted playback if autoplay does not start in time', () => {
+    mount(ConcertoYoutubeVideo, {
+      props: { content: { video_id: 'z7HyF46-Zd0', audio: true } }
+    });
+
+    vi.advanceTimersByTime(2000);
+
+    expect(mockPlayer.mute).toHaveBeenCalled();
+    expect(mockPlayer.playVideo).toHaveBeenCalled();
+  });
+
+  it('does not fall back when PLAYING state is reached before the timeout', () => {
+    mount(ConcertoYoutubeVideo, {
+      props: { content: { video_id: 'z7HyF46-Zd0', audio: true } }
+    });
+
+    const stateChange = global.YT.Player.mock.calls[0][1].events.onStateChange;
+    stateChange({ data: YT.PlayerState.PLAYING });
+    vi.advanceTimersByTime(2000);
+
+    expect(mockPlayer.mute).not.toHaveBeenCalled();
+  });
+
+  it('does not arm the fallback timer when audio is disabled', () => {
+    mount(ConcertoYoutubeVideo, {
+      props: { content: { video_id: 'z7HyF46-Zd0', audio: false } }
+    });
+
+    vi.advanceTimersByTime(5000);
+
+    expect(mockPlayer.mute).not.toHaveBeenCalled();
+    expect(mockPlayer.playVideo).not.toHaveBeenCalled();
+  });
 })
 
 describe('ConcertoYoutubeVideo duration control', () => {

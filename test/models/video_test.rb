@@ -108,6 +108,26 @@ class VideoTest < ActiveSupport::TestCase
     assert_includes @youtube_video.errors[:aspect_ratio], "is not included in the list"
   end
 
+  test "audio defaults to false for legacy records with no audio key" do
+    assert_not @youtube_video.audio?
+    assert_not @youtube_video.as_json[:audio]
+  end
+
+  test "audio coerces string values to boolean" do
+    @youtube_video.audio = "1"
+    assert @youtube_video.audio?
+    assert @youtube_video.as_json[:audio]
+
+    @youtube_video.audio = "0"
+    assert_not @youtube_video.audio?
+
+    @youtube_video.audio = "true"
+    assert @youtube_video.audio?
+
+    @youtube_video.audio = nil
+    assert_not @youtube_video.audio?
+  end
+
   test "aspect_ratio validation accepts blank and listed values" do
     Video::ASPECT_RATIOS.each do |ratio|
       @youtube_video.aspect_ratio = ratio
