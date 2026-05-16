@@ -122,9 +122,11 @@ function fallbackToMuted() {
 
 function onPlayerError(event) {
   console.error('YouTube player error:', event.data);
-  // Error codes 100, 101, 150 are unrelated to autoplay, but autoplay
-  // blocks generally manifest as the state never reaching PLAYING. The
-  // fallback timer covers that case; nothing extra to do here.
+  // Autoplay blocks manifest as the state never reaching PLAYING (handled
+  // by the fallback timer). Other errors leave the player in a failed
+  // state where re-issuing playVideo() wouldn't help, so cancel the
+  // fallback rather than firing it pointlessly.
+  clearAutoplayFallback();
 }
 
 function onPlayerStateChange(event) {
@@ -151,6 +153,12 @@ function onPlayerStateChange(event) {
     if (!hasDuration.value) {
       emit('next', {});
     }
+    break;
+  case YT.PlayerState.BUFFERING:
+    // Reaching BUFFERING means the browser accepted the play request and
+    // we're just waiting on the network — autoplay-with-sound wasn't
+    // blocked, so cancel the muted fallback to avoid muting on slow loads.
+    clearAutoplayFallback();
     break;
   default:
     console.debug('Video state changed:', event.data);

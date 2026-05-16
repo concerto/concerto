@@ -55,7 +55,7 @@ describe('ConcertoYoutubeVideo audio fallback', () => {
     };
     global.YT = {
       Player: vi.fn().mockImplementation(function() { return mockPlayer; }),
-      PlayerState: { PLAYING: 1, PAUSED: 2, ENDED: 0 }
+      PlayerState: { PLAYING: 1, PAUSED: 2, ENDED: 0, BUFFERING: 3 }
     };
   });
 
@@ -81,6 +81,30 @@ describe('ConcertoYoutubeVideo audio fallback', () => {
 
     const stateChange = global.YT.Player.mock.calls[0][1].events.onStateChange;
     stateChange({ data: YT.PlayerState.PLAYING });
+    vi.advanceTimersByTime(2000);
+
+    expect(mockPlayer.mute).not.toHaveBeenCalled();
+  });
+
+  it('cancels the fallback when the player reaches BUFFERING', () => {
+    mount(ConcertoYoutubeVideo, {
+      props: { content: { video_id: 'z7HyF46-Zd0', audio: true } }
+    });
+
+    const stateChange = global.YT.Player.mock.calls[0][1].events.onStateChange;
+    stateChange({ data: YT.PlayerState.BUFFERING });
+    vi.advanceTimersByTime(2000);
+
+    expect(mockPlayer.mute).not.toHaveBeenCalled();
+  });
+
+  it('cancels the fallback when the player emits onError', () => {
+    mount(ConcertoYoutubeVideo, {
+      props: { content: { video_id: 'z7HyF46-Zd0', audio: true } }
+    });
+
+    const onError = global.YT.Player.mock.calls[0][1].events.onError;
+    onError({ data: 150 });
     vi.advanceTimersByTime(2000);
 
     expect(mockPlayer.mute).not.toHaveBeenCalled();

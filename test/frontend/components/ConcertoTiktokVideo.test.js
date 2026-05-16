@@ -63,11 +63,11 @@ describe('ConcertoTiktokVideo audio fallback', () => {
 
     expect(postMessage).toHaveBeenCalledWith(
       expect.objectContaining({ 'x-tiktok-player': true, type: 'mute' }),
-      '*'
+      'https://www.tiktok.com'
     );
     expect(postMessage).toHaveBeenCalledWith(
       expect.objectContaining({ 'x-tiktok-player': true, type: 'play' }),
-      '*'
+      'https://www.tiktok.com'
     );
 
     wrapper.unmount();

@@ -40,7 +40,7 @@ function sendCommand(type) {
     'x-tiktok-player': true,
     type,
     value: null
-  }, '*');
+  }, 'https://www.tiktok.com');
 }
 
 function fallbackToMuted() {
