@@ -26,6 +26,60 @@ describe('ConcertoYoutubeVideo', () => {
 
     expect(wrapper.find('iframe').attributes('style')).toContain('aspect-ratio: 9/16');
   })
+
+  it('mutes the iframe URL when audio is disabled', () => {
+    const wrapper = mount(ConcertoYoutubeVideo, {
+      props: { content: { video_id: 'z7HyF46-Zd0', audio: false } }
+    });
+    expect(wrapper.find('iframe').attributes('src')).toContain('mute=1');
+  })
+
+  it('omits mute from the iframe URL when audio is enabled', () => {
+    const wrapper = mount(ConcertoYoutubeVideo, {
+      props: { content: { video_id: 'z7HyF46-Zd0', audio: true } }
+    });
+    expect(wrapper.find('iframe').attributes('src')).not.toContain('mute=1');
+  })
+})
+
+describe('ConcertoYoutubeVideo audio fallback', () => {
+  let mockPlayer;
+
+  beforeEach(() => {
+    mockPlayer = {
+      mute: vi.fn(),
+      playVideo: vi.fn(),
+      destroy: vi.fn(),
+      getCurrentTime: vi.fn().mockReturnValue(0)
+    };
+    global.YT = {
+      Player: vi.fn().mockImplementation(function() { return mockPlayer; }),
+      PlayerState: { PLAYING: 1, PAUSED: 2, ENDED: 0, BUFFERING: 3 }
+    };
+  });
+
+  it('mutes and replays when YouTube fires onAutoplayBlocked', () => {
+    mount(ConcertoYoutubeVideo, {
+      props: { content: { video_id: 'z7HyF46-Zd0', audio: true } }
+    });
+
+    const onAutoplayBlocked = global.YT.Player.mock.calls[0][1].events.onAutoplayBlocked;
+    onAutoplayBlocked({});
+
+    expect(mockPlayer.mute).toHaveBeenCalled();
+    expect(mockPlayer.playVideo).toHaveBeenCalled();
+  });
+
+  it('registers the onAutoplayBlocked handler even when audio is disabled', () => {
+    // YouTube can block muted autoplay too in some contexts, so the handler
+    // is registered unconditionally.
+    mount(ConcertoYoutubeVideo, {
+      props: { content: { video_id: 'z7HyF46-Zd0', audio: false } }
+    });
+
+    const events = global.YT.Player.mock.calls[0][1].events;
+    expect(typeof events.onAutoplayBlocked).toBe('function');
+  });
 })
 
 describe('ConcertoYoutubeVideo duration control', () => {
