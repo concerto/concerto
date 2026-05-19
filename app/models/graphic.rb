@@ -1,4 +1,6 @@
 class Graphic < Content
+  ANALYSIS_STUCK_AFTER = 60.seconds
+
   has_one_attached :image do |attachable|
     attachable.variant :grid, resize_to_limit: [ nil, 400 ]
     attachable.variant :preview, resize_to_limit: [ 1000, 1000 ]
@@ -24,6 +26,11 @@ class Graphic < Content
 
   def processing?
     image.attached? && image.content_type == "application/pdf"
+  end
+
+  def analysis_stuck?
+    image.attached? && image.variable? && !image.analyzed? &&
+      image.created_at < ANALYSIS_STUCK_AFTER.ago
   end
 
   def searchable_data

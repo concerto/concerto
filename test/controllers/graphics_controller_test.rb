@@ -1,6 +1,8 @@
 require "test_helper"
 
 class GraphicsControllerTest < ActionDispatch::IntegrationTest
+  include ActiveJob::TestHelper
+
   setup do
     @graphic = graphics(:one)
     @user = users(:admin)
@@ -9,6 +11,43 @@ class GraphicsControllerTest < ActionDispatch::IntegrationTest
   test "should show graphic when not logged in" do
     get graphic_url(@graphic)
     assert_response :success
+  end
+
+  test "show does not flash an alert for a freshly uploaded graphic" do
+    graphic = Graphic.new(name: "Fresh", duration: 10, user: @user)
+    graphic.image.attach(io: file_fixture("one.jpg").open, filename: "one.jpg", content_type: "image/jpeg")
+    graphic.save!
+    graphic.image.blob.update!(metadata: graphic.image.blob.metadata.except("analyzed"))
+
+    get graphic_url(graphic)
+    assert_response :success
+    assert_nil flash[:alert]
+    assert_select ".bg-amber-50", false, "Should not show analysis warning for fresh upload"
+  end
+
+  test "show does not re-enqueue analysis for a freshly uploaded graphic" do
+    graphic = Graphic.new(name: "Fresh", duration: 10, user: @user)
+    graphic.image.attach(io: file_fixture("one.jpg").open, filename: "one.jpg", content_type: "image/jpeg")
+    graphic.save!
+    graphic.image.blob.update!(metadata: graphic.image.blob.metadata.except("analyzed"))
+
+    assert_no_enqueued_jobs(only: ActiveStorage::AnalyzeJob) do
+      get graphic_url(graphic)
+    end
+  end
+
+  test "show re-enqueues analysis and shows warning when analysis is stuck" do
+    graphic = Graphic.new(name: "Stuck", duration: 10, user: @user)
+    graphic.image.attach(io: file_fixture("one.jpg").open, filename: "one.jpg", content_type: "image/jpeg")
+    graphic.save!
+    graphic.image.blob.update!(metadata: graphic.image.blob.metadata.except("analyzed"))
+    graphic.image.attachment.update!(created_at: 2.minutes.ago)
+
+    assert_enqueued_with(job: ActiveStorage::AnalyzeJob) do
+      get graphic_url(graphic)
+    end
+    assert_response :success
+    assert_select ".bg-amber-50"
   end
 
   test "should redirect new when not logged in" do
