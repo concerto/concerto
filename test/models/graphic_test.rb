@@ -91,4 +91,49 @@ class GraphicTest < ActiveSupport::TestCase
       graphic.save!
     end
   end
+
+  test "analysis_stuck? returns false when image is not attached" do
+    graphic = Graphic.new(name: "Test", duration: 10, user: users(:admin))
+    assert_not graphic.analysis_stuck?
+  end
+
+  test "analysis_stuck? returns false when image is freshly attached" do
+    graphic = Graphic.new(name: "Image Test", duration: 10, user: users(:admin))
+    graphic.image.attach(io: file_fixture("one.jpg").open, filename: "one.jpg", content_type: "image/jpeg")
+    graphic.save!
+    graphic.image.blob.update!(metadata: graphic.image.blob.metadata.except("analyzed"))
+    graphic.image.reload
+
+    assert_not graphic.analysis_stuck?
+  end
+
+  test "analysis_stuck? returns true when image attached over threshold ago and not analyzed" do
+    graphic = Graphic.new(name: "Image Test", duration: 10, user: users(:admin))
+    graphic.image.attach(io: file_fixture("one.jpg").open, filename: "one.jpg", content_type: "image/jpeg")
+    graphic.save!
+    graphic.image.blob.update!(metadata: graphic.image.blob.metadata.except("analyzed"))
+    graphic.image.attachment.update!(created_at: 2.minutes.ago)
+    graphic.image.reload
+
+    assert graphic.analysis_stuck?
+  end
+
+  test "analysis_stuck? returns false once image is analyzed" do
+    graphic = Graphic.new(name: "Image Test", duration: 10, user: users(:admin))
+    graphic.image.attach(io: file_fixture("one.jpg").open, filename: "one.jpg", content_type: "image/jpeg")
+    graphic.save!
+    graphic.image.attachment.update!(created_at: 2.minutes.ago)
+    graphic.image.analyze
+
+    assert_not graphic.analysis_stuck?
+  end
+
+  test "analysis_stuck? returns false for PDFs awaiting conversion" do
+    graphic = Graphic.new(name: "PDF Test", duration: 10, user: users(:admin))
+    graphic.image.attach(io: file_fixture("flyer.pdf").open, filename: "flyer.pdf", content_type: "application/pdf")
+    graphic.save!
+    graphic.image.attachment.update!(created_at: 2.minutes.ago)
+
+    assert_not graphic.analysis_stuck?
+  end
 end
