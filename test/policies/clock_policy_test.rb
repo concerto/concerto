@@ -98,4 +98,13 @@ class ClockPolicyTest < ActiveSupport::TestCase
     assert ClockPolicy.new(@non_screen_manager, @clock).show?
     assert ClockPolicy.new(@screen_manager, @clock).show?
   end
+
+  test "permitted_attributes includes clock-specific fields on top of the base set" do
+    attrs = ClockPolicy.new(@screen_manager, @clock).permitted_attributes
+    assert_includes attrs, :format
+    assert_includes attrs, :locale
+    # Inherited from ContentPolicy
+    assert_includes attrs, :name
+    assert_includes attrs, :duration
+  end
 end

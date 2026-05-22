@@ -223,7 +223,9 @@ describe('ConcertoClock', () => {
     expect(lines[0].text()).toBe('2:34 PM');
   });
 
-  // Locale support (date-fns dynamic locale loading)
+  // Locale support — exhaustive loader behavior lives in
+  // test/frontend/composables/useDateFnsLocale.test.js. This case confirms
+  // the component wires the loader's result into formatDate.
   it('formats weekday in the configured locale', async () => {
     // Dec 22 2025 is a Monday → "maandag" in Dutch
     vi.setSystemTime(new Date('2025-12-22T14:34:00'));
@@ -239,38 +241,6 @@ describe('ConcertoClock', () => {
     await vi.waitFor(() => {
       expect(wrapper.text().toLowerCase()).toContain('maandag');
     });
-  });
-
-  it('falls back to default and logs when locale is unknown', async () => {
-    vi.setSystemTime(new Date('2025-12-22T14:34:00'));
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
-    const wrapper = mount(ConcertoClock, {
-      props: { content: { format: 'EEEE', locale: 'xx-ZZ' } },
-    });
-    await nextTick();
-    await vi.waitFor(() => expect(errorSpy).toHaveBeenCalled());
-
-    // Should still render the English weekday despite the unknown locale
-    expect(wrapper.text()).toContain('Monday');
-    const localeErrors = errorSpy.mock.calls.filter(([msg]) => /locale/i.test(String(msg)));
-    expect(localeErrors.length).toBeGreaterThan(0);
-  });
-
-  it('rejects locale codes that do not match the expected pattern', async () => {
-    vi.setSystemTime(new Date('2025-12-22T14:34:00'));
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
-    const wrapper = mount(ConcertoClock, {
-      // Path-traversal-style input should be rejected before reaching the loader
-      props: { content: { format: 'EEEE', locale: '../etc/passwd' } },
-    });
-    await nextTick();
-    await vi.waitFor(() => expect(errorSpy).toHaveBeenCalled());
-
-    expect(wrapper.text()).toContain('Monday');
-    const invalidErrors = errorSpy.mock.calls.filter(([msg]) => /invalid locale/i.test(String(msg)));
-    expect(invalidErrors.length).toBeGreaterThan(0);
   });
 
   it('handles consecutive {br} delimiters as empty lines', async () => {
