@@ -26,6 +26,11 @@ describe('ConcertoClock', () => {
       format: 123,
     };
     expect(ConcertoClock.props.content.validator(invalidContent)).toBe(false);
+
+    // locale must be a string when present
+    expect(ConcertoClock.props.content.validator({ format: 'h:mm a', locale: null })).toBe(true);
+    expect(ConcertoClock.props.content.validator({ format: 'h:mm a', locale: 'nl' })).toBe(true);
+    expect(ConcertoClock.props.content.validator({ format: 'h:mm a', locale: 123 })).toBe(false);
   });
 
   it('renders time with 12-hour format', async () => {
@@ -216,6 +221,56 @@ describe('ConcertoClock', () => {
     const lines = wrapper.findAll('.clock-line');
     expect(lines).toHaveLength(1);
     expect(lines[0].text()).toBe('2:34 PM');
+  });
+
+  // Locale support (date-fns dynamic locale loading)
+  it('formats weekday in the configured locale', async () => {
+    // Dec 22 2025 is a Monday → "maandag" in Dutch
+    vi.setSystemTime(new Date('2025-12-22T14:34:00'));
+
+    const wrapper = mount(ConcertoClock, {
+      props: { content: { format: 'EEEE', locale: 'nl' } },
+    });
+    await nextTick();
+
+    // First render happens before the locale module finishes loading, so the
+    // initial value is the English "Monday". Flush pending microtasks (the
+    // dynamic import promise + a re-render) and expect the Dutch version.
+    await vi.waitFor(() => {
+      expect(wrapper.text().toLowerCase()).toContain('maandag');
+    });
+  });
+
+  it('falls back to default and logs when locale is unknown', async () => {
+    vi.setSystemTime(new Date('2025-12-22T14:34:00'));
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    const wrapper = mount(ConcertoClock, {
+      props: { content: { format: 'EEEE', locale: 'xx-ZZ' } },
+    });
+    await nextTick();
+    await vi.waitFor(() => expect(errorSpy).toHaveBeenCalled());
+
+    // Should still render the English weekday despite the unknown locale
+    expect(wrapper.text()).toContain('Monday');
+    const localeErrors = errorSpy.mock.calls.filter(([msg]) => /locale/i.test(String(msg)));
+    expect(localeErrors.length).toBeGreaterThan(0);
+  });
+
+  it('rejects locale codes that do not match the expected pattern', async () => {
+    vi.setSystemTime(new Date('2025-12-22T14:34:00'));
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    const wrapper = mount(ConcertoClock, {
+      // Path-traversal-style input should be rejected before reaching the loader
+      props: { content: { format: 'EEEE', locale: '../etc/passwd' } },
+    });
+    await nextTick();
+    await vi.waitFor(() => expect(errorSpy).toHaveBeenCalled());
+
+    expect(wrapper.text()).toContain('Monday');
+    const invalidErrors = errorSpy.mock.calls.filter(([msg]) => /invalid locale/i.test(String(msg)));
+    expect(invalidErrors.length).toBeGreaterThan(0);
   });
 
   it('handles consecutive {br} delimiters as empty lines', async () => {

@@ -22,5 +22,19 @@
         </code>
       </dd>
     </div>
+
+    <!-- Locale Field -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <dt class="text-body font-medium text-neutral-700">Locale:</dt>
+      <dd class="text-body text-neutral-900 sm:col-span-2">
+        <% if clock.locale.present? %>
+          <code class="px-2 py-1 bg-neutral-100 text-neutral-900 rounded text-caption font-mono">
+            <%= clock.locale %>
+          </code>
+        <% else %>
+          <span class="text-neutral-500">Default (English)</span>
+        <% end %>
+      </dd>
+    </div>
   <% end %>
 </div>
