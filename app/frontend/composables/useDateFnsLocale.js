@@ -6,12 +6,19 @@
 // `/node_modules/...` (see vitejs/vite#6370). Keeping this helper colocated
 // with other composables means the brittle relative path lives in one
 // purpose-built module rather than in every consumer.
-const LOCALE_LOADERS = import.meta.glob('../../../node_modules/date-fns/locale/*.js')
+// Exclude cdn.js, cdn.min.js, and types.js — non-locale files that ship in the
+// same directory. All three would otherwise become unnecessary Vite lazy chunks.
+const LOCALE_LOADERS = import.meta.glob([
+  '../../../node_modules/date-fns/locale/*.js',
+  '!../../../node_modules/date-fns/locale/cdn*.js',
+  '!../../../node_modules/date-fns/locale/types.js',
+])
 
 // Locale codes are restricted to date-fns's naming convention (e.g. "nl",
 // "en-US") to keep user input from reaching the dynamic import as an
 // arbitrary path. The regex also rejects path-traversal attempts.
-const LOCALE_CODE_PATTERN = /^[a-zA-Z]{2,3}(-[a-zA-Z]{2,4})?$/
+// Subtag allows up to 6 chars to cover "be-tarask" (Belarusian Taraškievica).
+const LOCALE_CODE_PATTERN = /^[a-zA-Z]{2,3}(-[a-zA-Z]{2,6})?$/
 
 /**
  * Dynamically loads a date-fns Locale module.

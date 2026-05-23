@@ -25,6 +25,12 @@ describe('loadDateFnsLocale', () => {
     expect(enUS.code).toBe('en-US')
   })
 
+  it('loads be-tarask (6-char subtag)', async () => {
+    const beTarask = await loadDateFnsLocale('be-tarask')
+    expect(beTarask).not.toBeNull()
+    expect(beTarask.code).toBe('be-tarask')
+  })
+
   it('rejects codes that fail the naming-convention check', async () => {
     const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
 
@@ -35,6 +41,15 @@ describe('loadDateFnsLocale', () => {
 
     const invalidErrors = errorSpy.mock.calls.filter(([msg]) => /invalid locale/i.test(String(msg)))
     expect(invalidErrors.length).toBe(3)
+  })
+
+  it('returns null for "cdn" even though it passes the pattern (file excluded from bundle)', async () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+
+    expect(await loadDateFnsLocale('cdn')).toBeNull()
+
+    const unknownErrors = errorSpy.mock.calls.filter(([msg]) => /unknown locale/i.test(String(msg)))
+    expect(unknownErrors.length).toBe(1)
   })
 
   it('logs and returns null for codes that pass the pattern but are not bundled', async () => {
