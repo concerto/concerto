@@ -74,6 +74,6 @@ class ClocksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def clock_params
-      params.require(:clock).permit(policy(@clock || Clock.new).permitted_attributes + [ :format ])
+      params.require(:clock).permit(policy(@clock || Clock.new).permitted_attributes)
     end
 end

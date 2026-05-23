@@ -11,4 +11,8 @@ class ClockPolicy < ContentPolicy
 
   # All other permissions (edit?, update?, destroy?, show?, etc.)
   # are inherited from ContentPolicy
+
+  def permitted_attributes
+    super + [ :format, :locale ]
+  end
 end

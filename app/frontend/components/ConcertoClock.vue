@@ -5,6 +5,7 @@ import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 // and manipulation without requiring a third-party library.
 import { format as formatDate } from 'date-fns'
 import { useTextResize } from '../composables/useTextResize'
+import { loadDateFnsLocale } from '../composables/useDateFnsLocale'
 
 // How frequently the clock updates.
 const UPDATE_INTERVAL_MS = 1000;
@@ -29,6 +30,8 @@ const UPDATE_INTERVAL_MS = 1000;
  * @typedef {object} ClockContent
  * @property {string} format - The date-fns format string for displaying the time.
  *                             Can include {br} tokens for multi-line display.
+ * @property {string} [locale] - Optional date-fns locale code (e.g. "nl", "de", "fr").
+ *                               When unset, date-fns defaults to en-US.
  */
 
 const props = defineProps({
@@ -37,7 +40,9 @@ const props = defineProps({
     type: Object,
     required: true,
     validator: (value) => {
-      return typeof value.format === 'string' && value.format.length > 0;
+      if (typeof value.format !== 'string' || value.format.length === 0) return false;
+      if (value.locale != null && typeof value.locale !== 'string') return false;
+      return true;
     },
   },
 });
@@ -45,6 +50,10 @@ const props = defineProps({
 // Store formatted time as array of lines (supports multi-line via {br} delimiter)
 const currentTimeLines = ref([]);
 let updateInterval = null;
+
+// Resolved date-fns Locale object, or null when unset or while loading.
+// Falsy values cause formatDate to fall back to its en-US default.
+let dateLocale = null;
 
 // Use the text resize composable
 const { containerRef, childRef, resizeText } = useTextResize()
@@ -58,6 +67,7 @@ const { containerRef, childRef, resizeText } = useTextResize()
 async function updateTime() {
   try {
     const now = new Date();
+    const options = dateLocale ? { locale: dateLocale } : undefined;
 
     // Split format string on {br} delimiter for multi-line support
     // Example: "M/d/yyyy{br}h:mm a" becomes ["M/d/yyyy", "h:mm a"]
@@ -67,7 +77,7 @@ async function updateTime() {
     // Empty segments (from consecutive {br} or leading/trailing {br}) render as blank lines
     const newTimeLines = formatSegments.map(segment => {
       const trimmed = segment.trim();
-      return trimmed ? formatDate(now, trimmed) : '';
+      return trimmed ? formatDate(now, trimmed, options) : '';
     });
 
     // Compare arrays by joining to string (simple equality check)
@@ -89,12 +99,19 @@ async function updateTime() {
   }
 }
 
-onMounted(() => {
-  // Update immediately on mount
+onMounted(async () => {
+  // Start ticking immediately so the clock displays even before the locale
+  // module finishes loading. The first tick(s) may format in en-US; once the
+  // locale resolves we re-render so users don't wait a full second.
   updateTime();
-
-  // Then update every UPDATE_INTERVAL_MS
   updateInterval = setInterval(updateTime, UPDATE_INTERVAL_MS);
+
+  if (props.content.locale) {
+    dateLocale = await loadDateFnsLocale(props.content.locale);
+    if (dateLocale) {
+      updateTime();
+    }
+  }
 });
 
 onBeforeUnmount(() => {

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Clock < Content
-  store_accessor :config, :format
+  store_accessor :config, :format, :locale
 
   # Common format presets for the admin UI
   def self.formats
@@ -14,6 +14,7 @@ class Clock < Content
 
   validates :format, presence: true
   validate :format_must_be_string
+  validate :locale_must_be_string
 
   # The clock has its own policy class since
   # most users should not create clocks.
@@ -23,7 +24,8 @@ class Clock < Content
 
   def as_json(options = {})
     super(options).merge({
-      format: format
+      format: format,
+      locale: locale.presence
     })
   end
 
@@ -42,5 +44,11 @@ class Clock < Content
     return if format.nil? || format.is_a?(String)
 
     errors.add(:format, "must be a string, not an array or other type")
+  end
+
+  def locale_must_be_string
+    return if locale.nil? || locale.is_a?(String)
+
+    errors.add(:locale, "must be a string, not an array or other type")
   end
 end

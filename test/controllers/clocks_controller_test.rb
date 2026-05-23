@@ -89,6 +89,34 @@ class ClocksControllerTest < ActionDispatch::IntegrationTest
     assert_equal "EEE, MMM d", @clock.format
   end
 
+  test "should persist locale when creating clock" do
+    sign_in @user
+    post clocks_url, params: { clock: {
+      name: "Dutch Clock",
+      duration: 10,
+      format: "EEEE",
+      locale: "nl"
+    } }
+    assert_redirected_to clock_url(Clock.last)
+    assert_equal "nl", Clock.last.locale
+  end
+
+  test "should update locale on existing clock" do
+    sign_in @user
+    patch clock_url(@clock), params: { clock: { locale: "de" } }
+    assert_redirected_to clock_url(@clock)
+    assert_equal "de", @clock.reload.locale
+  end
+
+  test "should clear locale when set to blank" do
+    @clock.update!(locale: "nl")
+    sign_in @user
+    patch clock_url(@clock), params: { clock: { locale: "" } }
+    assert_redirected_to clock_url(@clock)
+    @clock.reload
+    assert @clock.locale.blank?
+  end
+
   test "should not update clock with invalid format" do
     sign_in @user
     patch clock_url(@clock), params: { clock: {

@@ -26,6 +26,11 @@ describe('ConcertoClock', () => {
       format: 123,
     };
     expect(ConcertoClock.props.content.validator(invalidContent)).toBe(false);
+
+    // locale must be a string when present
+    expect(ConcertoClock.props.content.validator({ format: 'h:mm a', locale: null })).toBe(true);
+    expect(ConcertoClock.props.content.validator({ format: 'h:mm a', locale: 'nl' })).toBe(true);
+    expect(ConcertoClock.props.content.validator({ format: 'h:mm a', locale: 123 })).toBe(false);
   });
 
   it('renders time with 12-hour format', async () => {
@@ -216,6 +221,26 @@ describe('ConcertoClock', () => {
     const lines = wrapper.findAll('.clock-line');
     expect(lines).toHaveLength(1);
     expect(lines[0].text()).toBe('2:34 PM');
+  });
+
+  // Locale support — exhaustive loader behavior lives in
+  // test/frontend/composables/useDateFnsLocale.test.js. This case confirms
+  // the component wires the loader's result into formatDate.
+  it('formats weekday in the configured locale', async () => {
+    // Dec 22 2025 is a Monday → "maandag" in Dutch
+    vi.setSystemTime(new Date('2025-12-22T14:34:00'));
+
+    const wrapper = mount(ConcertoClock, {
+      props: { content: { format: 'EEEE', locale: 'nl' } },
+    });
+    await nextTick();
+
+    // First render happens before the locale module finishes loading, so the
+    // initial value is the English "Monday". Flush pending microtasks (the
+    // dynamic import promise + a re-render) and expect the Dutch version.
+    await vi.waitFor(() => {
+      expect(wrapper.text().toLowerCase()).toContain('maandag');
+    });
   });
 
   it('handles consecutive {br} delimiters as empty lines', async () => {
