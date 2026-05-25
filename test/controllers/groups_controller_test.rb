@@ -140,6 +140,39 @@ class GroupsControllerTest < ActionDispatch::IntegrationTest
     assert_select "h1", @group.name
   end
 
+  test "regular member sees remove button for own membership in a regular group" do
+    sign_in @regular_user
+    get group_url(@group)
+    assert_response :success
+    assert_select "th", "Actions"
+    membership = memberships(:regular_content_creator)
+    assert_select "form[action='#{group_membership_path(@group, membership)}']"
+  end
+
+  test "regular member cannot remove other members from a regular group" do
+    sign_in @regular_user
+    get group_url(@group)
+    assert_response :success
+    admin_membership = memberships(:admin_content_creator)
+    assert_select "form[action='#{group_membership_path(@group, admin_membership)}']", count: 0
+  end
+
+  test "regular member does not see actions column on all users system group" do
+    sign_in @regular_user
+    get group_url(@system_group)
+    assert_response :success
+    assert_select "th", { text: "Actions", count: 0 }
+    assert_select "button", { text: "Remove", count: 0 }
+  end
+
+  test "system admin sees actions column on system administrators group" do
+    sign_in @system_admin
+    sys_admins_group = groups(:system_administrators)
+    get group_url(sys_admins_group)
+    assert_response :success
+    assert_select "th", "Actions"
+  end
+
   test "should get edit" do
     sign_in @admin_user
     get edit_group_url(@group)
