@@ -8,6 +8,11 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
 
+  # Registered before the has_many :memberships association so it runs
+  # before the dependent: :destroy cascade — otherwise the membership-level
+  # guard fires first and the user is left with a less helpful error.
+  before_destroy :cannot_destroy_last_system_admin
+
   has_many :contents, dependent: :destroy
   has_many :memberships, dependent: :destroy
   has_many :groups, through: :memberships
@@ -68,7 +73,22 @@ class User < ApplicationRecord
     groups.joins(:screens).exists?
   end
 
+  # True when this user is the only remaining member of the
+  # System Administrators group. Used to block destroy paths that
+  # would otherwise leave the install with no administrator.
+  def last_system_admin?
+    return false unless system_admin?
+    Group.system_admins_group.users.where.not(id: id).none?
+  end
+
   private
+
+  def cannot_destroy_last_system_admin
+    return unless last_system_admin?
+
+    errors.add(:base, "Cannot delete the last user in the System Administrators group")
+    throw(:abort)
+  end
 
   def add_to_all_users_group
     all_users_group = Group.find_or_create_by!(name: Group::REGISTERED_USERS_GROUP_NAME)

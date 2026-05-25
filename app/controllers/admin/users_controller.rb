@@ -48,7 +48,7 @@ module Admin
     def destroy
       authorize @user, :admin_manage?
 
-      if last_system_admin?(@user)
+      if @user.last_system_admin?
         redirect_to user_url(@user), alert: "Cannot delete the last system administrator."
         return
       end
@@ -69,11 +69,6 @@ module Admin
 
     def password_provided?
       params.dig(:user, :password).present?
-    end
-
-    def last_system_admin?(user)
-      return false unless user.system_admin?
-      Group.system_admins_group&.users&.count <= 1
     end
   end
 end

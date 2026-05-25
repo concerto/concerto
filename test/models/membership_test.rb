@@ -67,4 +67,21 @@ class MembershipTest < ActiveSupport::TestCase
     regular_membership = memberships(:admin_content_creator)
     assert regular_membership.destroy
   end
+
+  test "should prevent removing the last user from the System Administrators group" do
+    last_admin_membership = memberships(:system_admin_in_system_administrators)
+    assert_equal 1, Group.system_admins_group.users.count
+
+    assert_not last_admin_membership.destroy
+    assert_includes last_admin_membership.errors[:base],
+                    "Cannot remove the last user from the System Administrators group"
+    assert Membership.exists?(last_admin_membership.id)
+  end
+
+  test "should allow removing a system admin when others remain" do
+    other_admin = users(:admin)
+    extra = Membership.create!(user: other_admin, group: groups(:system_administrators), role: :admin)
+
+    assert extra.destroy
+  end
 end

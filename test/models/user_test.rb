@@ -104,7 +104,10 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "first human user is automatically added to system administrators group as admin" do
-    # Clear all non-system users to ensure we're creating the first one
+    # Clear all non-system users to ensure we're creating the first one.
+    # Memberships must be cleared first so the "last system admin" guard
+    # does not block destroying the fixture admin.
+    Membership.delete_all
     User.where(is_system_user: [ nil, false ]).destroy_all
 
     first_user = User.create!(
@@ -125,6 +128,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "second human user is not automatically added to system administrators group" do
     # Clear all non-system users and create first user
+    Membership.delete_all
     User.where(is_system_user: [ nil, false ]).destroy_all
 
     User.create!(
@@ -147,6 +151,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "system user is not added to system administrators group even if first" do
     # Clear all users to ensure we're creating the very first one
+    Membership.delete_all
     User.destroy_all
 
     system_user = User.create!(
@@ -160,6 +165,7 @@ class UserTest < ActiveSupport::TestCase
 
   test "first human user after system users is added to system administrators group" do
     # Clear all users
+    Membership.delete_all
     User.destroy_all
 
     # Create a system user first
@@ -190,6 +196,40 @@ class UserTest < ActiveSupport::TestCase
     non_member = users(:non_member)
     # non_member is only in all_users group which has no screens
     assert_not non_member.screen_manager?, "User with no groups that own screens should not be a screen manager"
+  end
+
+  test "last_system_admin? returns true when user is the only system admin" do
+    assert_equal 1, Group.system_admins_group.users.count
+    assert users(:system_admin).last_system_admin?
+  end
+
+  test "last_system_admin? returns false when other system admins exist" do
+    other_admin = users(:admin)
+    Membership.create!(user: other_admin, group: groups(:system_administrators), role: :admin)
+
+    assert_not users(:system_admin).last_system_admin?
+    assert_not other_admin.last_system_admin?
+  end
+
+  test "last_system_admin? returns false for non system admins" do
+    assert_not users(:regular).last_system_admin?
+  end
+
+  test "should not destroy the last system administrator" do
+    last_admin = users(:system_admin)
+    assert_equal 1, Group.system_admins_group.users.count
+
+    assert_not last_admin.destroy
+    assert_includes last_admin.errors[:base],
+                    "Cannot delete the last user in the System Administrators group"
+    assert User.exists?(last_admin.id)
+  end
+
+  test "should destroy a system administrator when others remain" do
+    other_admin = users(:admin)
+    Membership.create!(user: other_admin, group: groups(:system_administrators), role: :admin)
+
+    assert users(:system_admin).destroy
   end
 
   test "screen_manager? returns false when user belongs to groups without screens" do

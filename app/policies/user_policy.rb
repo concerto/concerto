@@ -36,6 +36,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def destroy?
+    return false if record&.last_system_admin?
     super || can_edit_user?
   end
 

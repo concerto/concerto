@@ -208,6 +208,20 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to group_url(@system_group)
   end
 
+  test "last system admin cannot leave the System Administrators group" do
+    sign_in @system_admin
+    system_admins_group = groups(:system_administrators)
+    membership = memberships(:system_admin_in_system_administrators)
+    assert_equal 1, system_admins_group.users.count
+
+    assert_no_difference("Membership.count") do
+      delete group_membership_url(system_admins_group, membership)
+    end
+
+    assert_redirected_to group_url(system_admins_group)
+    assert_match(/Cannot remove the last user/, flash[:alert])
+  end
+
   test "system admin can add members to system group" do
     sign_in @system_admin
     new_user = User.create!(
@@ -229,10 +243,10 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
   test "system admin can remove members from system administrators group" do
     sign_in @system_admin
     sys_admins_group = groups(:system_administrators)
-    sys_admin_membership = memberships(:system_admin_in_system_administrators)
+    extra_membership = Membership.create!(user: @admin_user, group: sys_admins_group, role: :admin)
 
     assert_difference("Membership.count", -1) do
-      delete group_membership_url(sys_admins_group, sys_admin_membership)
+      delete group_membership_url(sys_admins_group, extra_membership)
     end
     assert_redirected_to group_url(sys_admins_group)
   end

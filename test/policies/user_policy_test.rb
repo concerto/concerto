@@ -79,6 +79,17 @@ class UserPolicyTest < ActiveSupport::TestCase
     refute UserPolicy.new(@regular_user, @other_user).destroy?
   end
 
+  test "destroy? is denied when target is the last system admin" do
+    assert @system_admin_user.last_system_admin?
+    refute UserPolicy.new(@system_admin_user, @system_admin_user).destroy?
+  end
+
+  test "destroy? is denied for any actor against the last system admin" do
+    assert @system_admin_user.last_system_admin?
+    refute UserPolicy.new(@other_user, @system_admin_user).destroy?
+    refute UserPolicy.new(nil, @system_admin_user).destroy?
+  end
+
   # --- Admin Interface Methods ---
 
   test "admin_create? is permitted for system admins" do
