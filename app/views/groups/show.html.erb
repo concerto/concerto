@@ -66,7 +66,7 @@
               <th class="px-6 py-3 text-left text-label text-neutral-700">User</th>
               <th class="px-6 py-3 text-left text-label text-neutral-700">Role</th>
               <th class="px-6 py-3 text-left text-label text-neutral-700">Joined</th>
-              <% unless @group.system_group? %>
+              <% if policy(@group.memberships.build).create? %>
                 <th class="px-6 py-3 text-right text-label text-neutral-700">Actions</th>
               <% end %>
             </tr>
@@ -88,7 +88,7 @@
                   </div>
                 </td>
                 <td class="px-6 py-4">
-                  <% if @group.system_group? || !policy(membership).update? %>
+                  <% unless policy(membership).update? %>
                     <%= membership_role_badge(membership) %>
                   <% else %>
                     <%= form_with model: [@group, membership], method: :patch, local: true, class: "inline-block" do |form| %>
@@ -102,7 +102,7 @@
                 <td class="px-6 py-4 text-body text-neutral-500">
                   <%= membership.created_at.strftime("%B %d, %Y") %>
                 </td>
-                <% unless @group.system_group? %>
+                <% if policy(@group.memberships.build).create? %>
                   <td class="px-6 py-4 text-right">
                     <% if policy(membership).destroy? %>
                       <%= button_to group_membership_path(@group, membership),
@@ -134,7 +134,7 @@
 </div>
 
 <!-- Add Member Section -->
-<% unless @group.system_group? || @available_users.empty? %>
+<% unless @available_users.empty? %>
   <% if policy(@group.memberships.build).create? %>
     <div class="card mb-8">
       <div class="card-body p-6">

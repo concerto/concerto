@@ -208,6 +208,35 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to group_url(@system_group)
   end
 
+  test "system admin can add members to system group" do
+    sign_in @system_admin
+    new_user = User.create!(
+      email: "newsysuser@test.com",
+      first_name: "New",
+      last_name: "SysUser",
+      password: "password123"
+    )
+    system_admins_group = groups(:system_administrators)
+
+    assert_difference("Membership.count") do
+      post group_memberships_url(system_admins_group), params: {
+        membership: { user_id: new_user.id, role: "admin" }
+      }
+    end
+    assert_redirected_to group_url(system_admins_group)
+  end
+
+  test "system admin can remove members from system administrators group" do
+    sign_in @system_admin
+    sys_admins_group = groups(:system_administrators)
+    sys_admin_membership = memberships(:system_admin_in_system_administrators)
+
+    assert_difference("Membership.count", -1) do
+      delete group_membership_url(sys_admins_group, sys_admin_membership)
+    end
+    assert_redirected_to group_url(sys_admins_group)
+  end
+
   test "should handle invalid user when creating membership" do
     sign_in @admin_user
     assert_no_difference("Membership.count") do
