@@ -1370,10 +1370,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "date-fns@npm:4.1.0"
-  checksum: 10c0/b79ff32830e6b7faa009590af6ae0fb8c3fd9ffad46d930548fbb5acf473773b4712ae887e156ba91a7b3dc30591ce0f517d69fd83bd9c38650fdc03b4e0bac8
+"date-fns@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "date-fns@npm:4.3.0"
+  checksum: 10c0/f1e8ec36270dd4c9e32d93195fb02a109ff46b397690a68f4a0c3bea0a1882e38a67969004db0a28f890b15bcdd6b323faa2f07cde3b67a2edfacc3fe078f95e
   languageName: node
   linkType: hard
 
@@ -2860,7 +2860,7 @@ __metadata:
     "@stylistic/eslint-plugin": "npm:^5.10.0"
     "@vitejs/plugin-vue": "npm:^6.0.7"
     "@vue/test-utils": "npm:^2.4.10"
-    date-fns: "npm:^4.1.0"
+    date-fns: "npm:^4.3.0"
     eslint: "npm:^10.4.0"
     eslint-plugin-vue: "npm:^10.9.1"
     globals: "npm:^17.6.0"
