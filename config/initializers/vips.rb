@@ -5,6 +5,6 @@
 begin
   require "image_processing/vips"
   Vips.block_untrusted(false) if Vips.respond_to?(:block_untrusted)
-rescue LoadError, ImageProcessing::Error
+rescue LoadError
   # libvips not available; PDF→PNG conversion will be unavailable
 end
