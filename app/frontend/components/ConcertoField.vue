@@ -92,6 +92,7 @@ async function loadContent(retryCount = 0) {
     } else {
       // No content yet — schedule a retry so we pick up newly added content
       // without requiring a manual page reload.
+      clearTimeout(loadContentRetryTimer);
       loadContentRetryTimer = setTimeout(() => loadContent(0), EMPTY_CONTENT_RETRY_DELAY_MS);
     }
   } catch (error) {
