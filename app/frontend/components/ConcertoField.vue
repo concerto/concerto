@@ -22,6 +22,7 @@ const isDevelopment = import.meta.env.DEV;
 const INITIAL_RETRY_DELAY_MS = 1000;
 const MAX_RETRY_DELAY_MS = 10000;
 const LONG_RETRY_DELAY_MS = 60000;
+const EMPTY_CONTENT_RETRY_DELAY_MS = 30000;
 
 // Track config version to detect changes
 const { check: checkConfigVersion } = useConfigVersion('Field');
@@ -88,6 +89,10 @@ async function loadContent(retryCount = 0) {
 
     if (contentQueue.length > 0) {
       showNextContent();
+    } else {
+      // No content yet — schedule a retry so we pick up newly added content
+      // without requiring a manual page reload.
+      loadContentRetryTimer = setTimeout(() => loadContent(0), EMPTY_CONTENT_RETRY_DELAY_MS);
     }
   } catch (error) {
     console.error(`Failed to load content (attempt ${retryCount + 1}/${maxRetries + 1}):`, error);

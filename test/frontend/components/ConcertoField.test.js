@@ -270,6 +270,40 @@ describe('ConcertoField', () => {
 
   });
 
+  describe('empty content retry', () => {
+    it('retries after 30 seconds when content is initially empty', async () => {
+      vi.useFakeTimers();
+
+      let callCount = 0;
+      server.use(
+        http.get(fieldContentUrl, () => {
+          callCount++;
+          if (callCount === 1) {
+            return HttpResponse.json([]);
+          }
+          return HttpResponse.json(fieldContent);
+        })
+      );
+
+      const wrapper = mount(ConcertoField, {
+        props: { apiUrl: fieldContentUrl },
+        global: { stubs: { transition: false } }
+      });
+
+      await flushPromises();
+
+      // First fetch returned empty — nothing displayed yet
+      expect(wrapper.findComponent(ConcertoGraphic).exists()).toBe(false);
+
+      // Advance past the 30s empty retry delay
+      vi.advanceTimersByTime(30000);
+      await flushPromises();
+
+      // Second fetch returned content — now displayed
+      expect(wrapper.findComponent(ConcertoGraphic).exists()).toBe(true);
+    });
+  });
+
   describe('preloading', () => {
     let preloadedImages = [];
 
