@@ -9,6 +9,15 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # System tests render full pages that often include video thumbnails
   # and the admin header which checks for updates via the GitHub API
   setup do
+    # Guarantee a clean, unauthenticated session at the start of every system
+    # test. Devise only resets Warden in teardown, and we otherwise rely on
+    # Capybara clearing the session cookie between tests -- which is unreliable
+    # with the remote Selenium driver used in CI. Resetting here neutralizes any
+    # authenticated session leaking in from a prior test, which otherwise causes
+    # anonymous tests to render content scoped to the leaked user. See #1834.
+    Warden.test_reset!
+    Capybara.reset_sessions!
+
     stub_oembed_apis
     stub_github_releases_api
   end
