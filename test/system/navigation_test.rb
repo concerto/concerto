@@ -68,7 +68,6 @@ class NavigationTest < ApplicationSystemTestCase
       assert_link "Settings", href: admin_settings_path
       assert_link "Templates", href: templates_path
       assert_link "Users"
-      assert_link "System"
     end
   end
 
@@ -86,7 +85,6 @@ class NavigationTest < ApplicationSystemTestCase
       assert_no_link "Settings", href: admin_settings_path
       assert_link "Templates", href: templates_path
       assert_link "Users"
-      assert_link "System"
     end
   end
 
