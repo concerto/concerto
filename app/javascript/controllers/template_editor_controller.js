@@ -502,15 +502,14 @@ export default class extends Controller {
       fieldName.className = 'font-medium'
       fieldName.textContent = position.field_name || 'Unnamed'
 
+      content.appendChild(fieldName)
+
       const fieldKey = position.field_id?.toString()
       if (fieldKey && fieldCounts[fieldKey] > 1) {
         const warning = document.createElement('div')
         warning.className = 'text-xs text-amber-600 mt-0.5'
-        warning.textContent = '⚠ Shares a field with another position; both will show the same content.'
-        content.appendChild(fieldName)
+        warning.textContent = '⚠ Shares a field with another position; both may show the same content.'
         content.appendChild(warning)
-      } else {
-        content.appendChild(fieldName)
       }
 
       const coords = document.createElement('div')
