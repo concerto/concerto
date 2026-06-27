@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     resources :subscriptions, only: [ :index, :create, :update, :destroy ]
   end
   resources :templates
+  resources :fields, except: [ :show ]
   resources :submissions, only: [ :index ] do
     member do
       patch :moderate

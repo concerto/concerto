@@ -1,0 +1,69 @@
+<%= page_title "Fields" %>
+
+<div class="flex items-center justify-between mb-6">
+  <div>
+    <h1 class="text-h2 text-neutral-900">Fields</h1>
+    <p class="text-body text-neutral-700 mt-1">Content regions that templates lay out and screens subscribe feeds to</p>
+  </div>
+  <div class="flex space-x-3">
+    <% if policy(Field).new? %>
+      <%= link_to new_field_path, class: "btn-primary btn-md whitespace-nowrap" do %>
+        <%= heroicon('plus', class: 'w-4 h-4 mr-2') %>
+        New Field
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 text-sm text-blue-800">
+  Each field is an independent content channel. Give a template position its own field when you want it to show
+  different content from other positions — two positions sharing one field always display the same content.
+</div>
+
+<div id="fields" class="space-y-4">
+  <% @fields.each do |field| %>
+    <div class="card hover:shadow-md transition-shadow duration-200">
+      <div class="card-body p-6">
+        <div class="flex items-start justify-between">
+          <div class="flex-1">
+            <h3 class="text-h3 text-neutral-900 mb-2"><%= field.name %></h3>
+
+            <% if field.alt_names.present? %>
+              <p class="text-body text-neutral-700 mb-2">
+                Also known as: <%= field.alt_names.join(", ") %>
+              </p>
+            <% end %>
+
+            <div class="flex items-center space-x-6 text-caption text-neutral-500">
+              <span><%= pluralize(field.positions.size, 'template position') %></span>
+              <span><%= pluralize(field.subscriptions.size, 'subscription') %></span>
+            </div>
+          </div>
+
+          <div class="ml-4 flex items-center space-x-2">
+            <% if policy(field).edit? %>
+              <%= link_to "Edit", edit_field_path(field), class: "btn-secondary btn-sm" %>
+            <% end %>
+            <% if policy(field).destroy? %>
+              <% if field.in_use? %>
+                <span class="btn-secondary btn-sm opacity-50 cursor-not-allowed"
+                      title="In use by a template or screen; remove those references first">Delete</span>
+              <% else %>
+                <%= button_to "Delete", field_path(field), method: :delete,
+                      class: "btn-secondary btn-sm text-red-600",
+                      data: { turbo_confirm: "Delete the \"#{field.name}\" field?" } %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @fields.empty? %>
+    <div class="text-center py-12">
+      <h3 class="text-h3 text-neutral-900 mt-4">No fields yet</h3>
+      <p class="text-body text-neutral-500 mt-2">Create a field to give template positions their own content.</p>
+    </div>
+  <% end %>
+</div>

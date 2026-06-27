@@ -478,6 +478,14 @@ export default class extends Controller {
     const list = this.positionsListTarget
     list.innerHTML = ''
 
+    // Count how many positions reference each field so we can warn when more
+    // than one shares a field (they will always display the same content).
+    const fieldCounts = {}
+    this.positions.filter(p => !p._destroy).forEach(p => {
+      const key = p.field_id?.toString()
+      if (key) fieldCounts[key] = (fieldCounts[key] || 0) + 1
+    })
+
     this.positions.filter(p => !p._destroy).forEach(position => {
       const item = document.createElement('div')
       item.className = 'position-list-item'
@@ -494,11 +502,21 @@ export default class extends Controller {
       fieldName.className = 'font-medium'
       fieldName.textContent = position.field_name || 'Unnamed'
 
+      const fieldKey = position.field_id?.toString()
+      if (fieldKey && fieldCounts[fieldKey] > 1) {
+        const warning = document.createElement('div')
+        warning.className = 'text-xs text-amber-600 mt-0.5'
+        warning.textContent = '⚠ Shares a field with another position; both will show the same content.'
+        content.appendChild(fieldName)
+        content.appendChild(warning)
+      } else {
+        content.appendChild(fieldName)
+      }
+
       const coords = document.createElement('div')
       coords.className = 'text-xs text-gray-500'
       coords.textContent = `${position.left.toFixed(3)}, ${position.top.toFixed(3)} → ${position.right.toFixed(3)}, ${position.bottom.toFixed(3)}`
 
-      content.appendChild(fieldName)
       content.appendChild(coords)
       container.appendChild(content)
       item.appendChild(container)
