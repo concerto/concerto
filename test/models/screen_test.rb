@@ -84,6 +84,28 @@ class ScreenTest < ActiveSupport::TestCase
     end
   end
 
+  test "switching to a template without a field keeps that field's config" do
+    screen = screens(:one) # template :two, has main + sidebar field configs
+    orphaned = field_configs(:without_pinned_content) # sidebar, not in template :one
+
+    # template :one only lays out the main field; the save must still succeed
+    # and the now-inert sidebar config is preserved, not deleted.
+    assert screen.update(template: templates(:one)), screen.errors.full_messages.join(", ")
+
+    assert FieldConfig.exists?(orphaned.id), "sidebar config should be preserved"
+  end
+
+  test "switching templates round-trip preserves field configs and their settings" do
+    screen = screens(:one)
+    sidebar_config = field_configs(:without_pinned_content) # sidebar
+    sidebar_config.update!(ordering_strategy: "strict_priority")
+
+    assert screen.update(template: templates(:one)) # no sidebar
+    assert screen.update(template: templates(:two)) # sidebar again
+
+    assert_equal "strict_priority", sidebar_config.reload.ordering_strategy
+  end
+
   test "config_version returns same hash for same timestamps" do
     screen = screens(:one)
     version1 = screen.config_version

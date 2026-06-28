@@ -135,8 +135,9 @@ class FieldConfigTest < ActiveSupport::TestCase
     assert_nil field_config.pinned_content_id
   end
 
-  test "validates field belongs to screen's template" do
-    # Create a field that doesn't belong to the template
+  test "allows an orphaned field config whose field is not in the template" do
+    # A field the screen's template does not lay out. Such a config is inert
+    # but is kept so that switching templates back and forth preserves settings.
     other_field = Field.create!(name: "other_field")
 
     field_config = FieldConfig.new(
@@ -145,8 +146,7 @@ class FieldConfigTest < ActiveSupport::TestCase
       pinned_content: @content
     )
 
-    assert_not field_config.valid?
-    assert_includes field_config.errors[:field], "does not belong to the screen's template"
+    assert field_config.valid?
   end
 
   test "allows field that belongs to screen's template" do
