@@ -348,6 +348,32 @@ class ScreensControllerTest < ActionDispatch::IntegrationTest
     assert_nil FieldConfig.find_by(id: existing_config.id)
   end
 
+  test "switching templates succeeds and keeps configs for fields the new template lacks" do
+    sign_in users(:admin)
+    orphaned = field_configs(:without_pinned_content) # sidebar, not in template :one
+    kept = field_configs(:with_pinned_content) # main, in template :one
+
+    # Mimics the edit form, which submits configs for the previously shown
+    # template's fields even after the template radio is switched. This used to
+    # fail with "field does not belong to the screen's template".
+    patch screen_url(@screen), params: {
+      screen: {
+        name: @screen.name,
+        template_id: templates(:one).id,
+        group_id: @screen.group_id,
+        field_configs_attributes: [
+          { id: kept.id, field_id: kept.field_id },
+          { id: orphaned.id, field_id: orphaned.field_id }
+        ]
+      }
+    }
+
+    assert_redirected_to screen_url(@screen)
+    assert_equal templates(:one).id, @screen.reload.template_id
+    assert FieldConfig.exists?(orphaned.id), "sidebar config should be preserved"
+    assert FieldConfig.exists?(kept.id)
+  end
+
   test "regular group member can manage field configs for their screen" do
     sign_in users(:regular)
     content = rich_texts(:plain_richtext)

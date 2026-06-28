@@ -55,6 +55,9 @@
       <div class="space-y-1">
         <%= sidebar_nav_link_to "Groups", groups_path, "users" %>
         <%= sidebar_nav_link_to "Templates", templates_path, "template" %>
+        <% if policy(Field).create? %>
+          <%= sidebar_nav_link_to "Fields", fields_path, "collection" %>
+        <% end %>
         <% if policy(Setting).index? %>
           <%= sidebar_nav_link_to "Settings", admin_settings_path, "cog" %>
         <% end %>

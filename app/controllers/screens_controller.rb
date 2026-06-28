@@ -61,6 +61,10 @@ class ScreensController < ApplicationController
         format.html { redirect_to screen_url(@screen), notice: "Screen was successfully updated." }
         format.json { render :show, status: :ok, location: @screen }
       else
+        # Reuse the in-memory field configs so the re-rendered form doesn't
+        # build duplicates for fields that already have a config (which would
+        # trip the screen+field uniqueness validation on resubmit).
+        @field_configs_by_field = @screen.field_configs.index_by(&:field_id)
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @screen.errors, status: :unprocessable_entity }
       end
