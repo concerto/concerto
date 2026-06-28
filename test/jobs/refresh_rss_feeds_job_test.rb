@@ -8,7 +8,7 @@ class RefreshRssFeedsJobTest < ActiveJob::TestCase
     # Create test feeds with different scenarios
     @feed_due_for_refresh = RssFeed.create!(
       name: "Due for refresh",
-      url: "https://news.yahoo.com/rss/us",
+      url: "https://news.yahoo.com/rss/all",
       group: groups(:system_administrators)
     )
     @feed_due_for_refresh.last_refreshed = 2.hours.ago

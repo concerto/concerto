@@ -113,7 +113,7 @@ general_feed = Feed.find_or_create_by!(name: "General", group: demo_feed_group)
 
 rss_feed = RssFeed.find_or_initialize_by(name: "Yahoo News", description: "The latest news and headlines from Yahoo! News' RSS feed.", group: demo_feed_group)
 if rss_feed.new_record?
-    rss_feed.url = "http://news.yahoo.com/rss"
+    rss_feed.url = "https://news.yahoo.com/rss/all"
     rss_feed.save!
 
     suppress(Exception) do
