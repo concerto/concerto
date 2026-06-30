@@ -1,0 +1,26 @@
+<div id="<%= dom_id iframe %>">
+  <!-- Content Preview -->
+  <div class="card mb-6">
+    <div class="card-body">
+      <div class="flex justify-center">
+        <% if iframe.url.present? %>
+          <iframe
+                  class="rounded-lg shadow-sm border border-neutral-200"
+                  width="600"
+                  height="480"
+                  src="<%= iframe.url %>"
+                  sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                  referrerpolicy="no-referrer"
+                  loading="lazy">
+          </iframe>
+        <% else %>
+          <div class="text-center py-12">
+            <p class="text-body text-neutral-500">No URL configured</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <%= render "contents/show_details", content: iframe %>
+</div>

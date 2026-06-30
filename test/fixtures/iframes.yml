@@ -1,0 +1,10 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+iframe_example:
+  type: Iframe
+  name: Sample Web Page
+  duration: 30
+  start_time: 2024-12-24 03:10:59
+  end_time: 2024-12-24 03:10:59
+  config: {'url': 'https://example.com/dashboard'}
+  user: admin
