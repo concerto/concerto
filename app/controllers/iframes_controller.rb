@@ -30,7 +30,7 @@ class IframesController < ApplicationController
 
     respond_to do |format|
       if @iframe.save
-        format.html { redirect_to iframe_url(@iframe), notice: "Web page was successfully created." }
+        format.html { redirect_to iframe_url(@iframe), notice: "Embedded web page was successfully created." }
         format.json { render :show, status: :created, location: @iframe }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -45,7 +45,7 @@ class IframesController < ApplicationController
 
     respond_to do |format|
       if @iframe.update(iframe_params)
-        format.html { redirect_to iframe_url(@iframe), notice: "Web page was successfully updated." }
+        format.html { redirect_to iframe_url(@iframe), notice: "Embedded web page was successfully updated." }
         format.json { render :show, status: :ok, location: @iframe }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -61,7 +61,7 @@ class IframesController < ApplicationController
     @iframe.destroy!
 
     respond_to do |format|
-      format.html { redirect_to contents_path, status: :see_other, notice: "Web page was successfully deleted." }
+      format.html { redirect_to contents_path, status: :see_other, notice: "Embedded web page was successfully deleted." }
       format.json { head :no_content }
     end
   end

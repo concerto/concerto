@@ -8,7 +8,7 @@
           </svg>
           <div class="flex-1">
             <h3 class="text-sm font-semibold text-red-800 mb-2">
-              <%= pluralize(iframe.errors.count, "error") %> prohibited this web page from being saved:
+              <%= pluralize(iframe.errors.count, "error") %> prohibited this embedded web page from being saved:
             </h3>
             <ul class="text-sm text-red-700 space-y-1">
               <% iframe.errors.each do |error| %>
