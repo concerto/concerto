@@ -1,0 +1,9 @@
+<%= page_title "#{@iframe.name}" %>
+
+<%= render @iframe %>
+
+<%= render "contents/actions",
+    content: @iframe,
+    content_type: "web page",
+    edit_path: edit_iframe_path(@iframe),
+    destroy_path: @iframe %>

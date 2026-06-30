@@ -4,6 +4,7 @@ import { computed, onMounted, onBeforeUnmount, ref, shallowRef } from 'vue'
 import ConcertoGraphic, { preload as preloadGraphic } from './ConcertoGraphic.vue';
 import ConcertoRichText from './ConcertoRichText.vue';
 import ConcertoVideo from './ConcertoVideo.vue';
+import ConcertoIframe from './ConcertoIframe.vue';
 import ConcertoClock from './ConcertoClock.vue';
 import { useConfigVersion } from '../composables/useConfigVersion.js';
 import { splitFieldStyle } from '../utils/splitFieldStyle.js';
@@ -31,6 +32,7 @@ const contentTypeMap = new Map([
   ["Graphic", ConcertoGraphic],
   ["RichText", ConcertoRichText],
   ["Video", ConcertoVideo],
+  ["Iframe", ConcertoIframe],
   ["Clock", ConcertoClock]
 ]);
 
