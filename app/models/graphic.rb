@@ -38,15 +38,17 @@ class Graphic < Content
     { name: name, body: filename }
   end
 
-  # Determine if a graphic fits in a position or not.
+  # Aspect ratios within this multiple of the position's are a fit; anything
+  # more distorted is rejected. There is room to improve this. I just made up 2.0.
+  ASPECT_RATIO_TOLERANCE = 2.0
+
+  # Score how well a graphic fits a position based on aspect ratio.
   #
-  # If the height and width are known, the graphic will be
-  # rendered in positions with an aspect ratio twice a small
-  # or twice as large.
-  #
-  # There is room to improve this algorithm. I just made up 2.0.
-  def should_render_in?(position)
-    return false unless image.attached? && image.variable?
+  # When the dimensions are known, a graphic scores highest in positions
+  # whose aspect ratio matches its own, decaying to 0.0 at the edges of the
+  # tolerance window (ratios more than ASPECT_RATIO_TOLERANCE times off).
+  def fit_score(position)
+    return 0.0 unless image.attached? && image.variable?
 
     if !image.analyzed?
       logger.debug "graphic #{id} not analyzed, fallback rendering"
@@ -60,8 +62,14 @@ class Graphic < Content
 
     content_aspect_ratio = image.metadata[:width].fdiv(image.metadata[:height])
     position_aspect_ratio = position.aspect_ratio
+    ratio = content_aspect_ratio / position_aspect_ratio
 
-    (position_aspect_ratio / 2.0) <= content_aspect_ratio && content_aspect_ratio <= (position_aspect_ratio * 2.0)
+    # Reject aspect ratios outside the tolerance window in either direction.
+    return 0.0 unless ratio.between?(1.0 / ASPECT_RATIO_TOLERANCE, ASPECT_RATIO_TOLERANCE)
+
+    # Grade by aspect-ratio closeness: an exact match scores 1.0, decaying to
+    # 0.0 at the edges of the tolerance window.
+    1.0 - Math.log2(ratio).abs / Math.log2(ASPECT_RATIO_TOLERANCE)
   end
 
   private

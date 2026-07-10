@@ -22,6 +22,22 @@ class GraphicTest < ActiveSupport::TestCase
     assert_not graphics(:pdf_graphic).should_render_in?(positions(:two_graphic))
   end
 
+  test "fit_score is zero for a position outside the aspect-ratio window" do
+    assert_equal 0.0, @graphic.fit_score(positions(:two_ticker))
+  end
+
+  test "fit_score scores a closer aspect ratio higher" do
+    # The graphic's aspect ratio (~1.33) sits closer to the time position
+    # (~1.75) than to the taller main position (~0.74), so it should score
+    # higher there even though both are inside the tolerance window.
+    time = @graphic.fit_score(positions(:two_time))
+    main = @graphic.fit_score(positions(:two_graphic))
+
+    assert time.positive?
+    assert main.positive?
+    assert time > main, "the closer-matched position should score higher"
+  end
+
   test "renders portrait images in similarly-shaped positions" do
     portrait = graphics(:portrait_graphic)
     assert portrait.should_render_in?(positions(:two_graphic))
