@@ -297,6 +297,47 @@ class Frontend::ContentControllerTest < ActionDispatch::IntegrationTest
     assert_equal high_content.id, data.first["id"]
   end
 
+  test "renders content only in its best-fit field when a feed spans multiple fields" do
+    setup_multi_field_scenario
+
+    # ~150 chars fits the large Main position better than the smaller Sidebar.
+    main_content = create_richtext("a" * 150)
+    # ~120 chars fits the Sidebar's capacity more closely than Main.
+    sidebar_content = create_richtext("b" * 120)
+
+    main_ids = ids_for(field: fields(:main), position: positions(:two_graphic))
+    sidebar_ids = ids_for(field: fields(:sidebar), position: positions(:two_sidebar))
+
+    assert_includes main_ids, main_content.id
+    assert_not_includes main_ids, sidebar_content.id
+
+    assert_includes sidebar_ids, sidebar_content.id
+    assert_not_includes sidebar_ids, main_content.id
+
+    # Every piece of content renders in exactly one of the two fields.
+    assert_equal [ main_content.id, sidebar_content.id ].sort, (main_ids + sidebar_ids).sort
+  end
+
+  test "drops content that fits no subscribed field" do
+    # Subscribe the feed only to the two small fields (Sidebar and Ticker),
+    # neither of which can hold a wall of text.
+    setup_multi_field_scenario(fields: [ fields(:sidebar), fields(:ticker) ])
+
+    huge = create_richtext("c" * 1000)   # overflows both small fields
+    small = create_richtext("d" * 50)    # fits, best in the Ticker
+
+    sidebar_ids = ids_for(field: fields(:sidebar), position: positions(:two_sidebar))
+    ticker_ids = ids_for(field: fields(:ticker), position: positions(:two_ticker))
+
+    # The oversized content fits nowhere and is dropped from every field.
+    assert_not_includes sidebar_ids, huge.id
+    assert_not_includes ticker_ids, huge.id
+
+    # The small content still renders, in its best-fit field only.
+    assert_includes ticker_ids, small.id
+    assert_not_includes sidebar_ids, small.id
+  end
+
   test "should include config version header" do
     screen = screens(:one)
     get frontend_content_url(screen_id: screen.id, field_id: fields(:main).id, position_id: positions(:two_graphic).id)
@@ -309,6 +350,35 @@ class Frontend::ContentControllerTest < ActionDispatch::IntegrationTest
   end
 
   private
+
+  # Screen 1 (Template Two) with one feed subscribed to several fields, so the
+  # same content is a candidate for multiple positions and must be deduped.
+  def setup_multi_field_scenario(fields: [ fields(:main), fields(:sidebar) ])
+    @screen = screens(:one)
+    Subscription.where(screen: @screen).destroy_all
+    FieldConfig.where(screen: @screen).destroy_all
+
+    @feed = Feed.create!(name: "Multi-field Feed", group: groups(:feed_one_owners))
+    fields.each { |field| Subscription.create!(screen: @screen, field: field, feed: @feed) }
+  end
+
+  def create_richtext(text)
+    content = RichText.create!(
+      name: "Content #{text.first}#{text.length}",
+      text: text,
+      user: users(:admin),
+      duration: 10,
+      config: { render_as: "plaintext" }
+    )
+    Submission.create!(content: content, feed: @feed)
+    content
+  end
+
+  def ids_for(field:, position:)
+    get frontend_content_url(screen_id: @screen.id, field_id: field.id, position_id: position.id)
+    assert_response :success
+    response.parsed_body.map { |c| c["id"] }
+  end
 
   def setup_subscription_scenario
     @screen = screens(:one)
