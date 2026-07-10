@@ -20,29 +20,48 @@ class RichText < Content
         })
     end
 
-    # Determine if a piece of rich text fits in a position or not.
+    # A "large" position takes up more than this fraction of the screen area.
+    LARGE_AREA_THRESHOLD = 0.20
+    # Large positions need at least this much text or it scales up too big.
+    MIN_LARGE_POSITION_CHARS = 100
+    # Rough character "capacity" of a position per unit of screen area,
+    # calibrated so a position at LARGE_AREA_THRESHOLD holds
+    # MIN_LARGE_POSITION_CHARS characters. These values are arbitrary and may
+    # need tuning.
+    CHARS_PER_AREA = MIN_LARGE_POSITION_CHARS / LARGE_AREA_THRESHOLD
+    # How far text may run over a position's capacity before it's a poor fit.
+    OVER_CAPACITY_FACTOR = 2.0
+
+    # Score how well a piece of rich text fits a position based on its size.
     #
-    # If the position is large and there's not a lot of text, it will
-    # need to be scaled up and look unreasonable large. We should not
-    # render it.
-    def should_render_in?(position)
+    # Text that is too short for a large position scales up to an
+    # unreasonably large font; text that overflows a tiny position is
+    # unreadable. Both are rejected (score 0.0). In between, the score peaks
+    # when the text length is close to the position's capacity so the
+    # best-fitting position ranks highest.
+    def fit_score(position)
       # Don't render if there's no text.
-      return false if text.blank?
+      return 0.0 if text.blank?
 
       # Strip HTML for a more accurate character count.
       plain_text = ActionController::Base.helpers.strip_tags(text)
-      return false if plain_text.blank?
+      return 0.0 if plain_text.blank?
 
-      # This is a heuristic to prevent rendering a small amount of text
-      # in a very large position, which would result in unreasonably
-      # large font sizes.
-      # A "large" position is one that takes up > 20% of the screen area.
-      # A "small" amount of text is < 100 characters.
-      # These values are arbitrary and may need tuning.
-      return false if position.area > 0.20 && plain_text.length < 100
+      length = plain_text.length
+      capacity = position.area * CHARS_PER_AREA
 
-      # By default, rich text can be rendered.
-      true
+      if position.area > LARGE_AREA_THRESHOLD
+        # Lower bound: keep short text out of large positions, where it would
+        # scale up to an unreasonably large font.
+        return 0.0 if length < MIN_LARGE_POSITION_CHARS
+      else
+        # Upper bound: keep walls of text out of small positions, where they
+        # would overflow or shrink to an unreadable size.
+        return 0.0 if length > capacity * OVER_CAPACITY_FACTOR
+      end
+
+      # Grade by how close the text length is to the position's capacity.
+      capacity / (capacity + (length - capacity).abs)
     end
 
     def searchable_data

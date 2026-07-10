@@ -57,4 +57,29 @@ class RichTextTest < ActiveSupport::TestCase
     assert_not rich_text_short.should_render_in?(@large_position), "Should not render short text in large position"
     assert rich_text_long.should_render_in?(@large_position), "Should render long text in large position"
   end
+
+  test "fit_score is zero for blank text" do
+    assert_equal 0.0, RichText.new(text: "").fit_score(@large_position)
+    assert_equal 0.0, RichText.new(text: nil).fit_score(@small_position)
+  end
+
+  test "fit_score rejects a wall of text in a tiny position" do
+    # The ticker is a small position; a long blurb overflows it.
+    long = RichText.new(text: "a" * 153)
+    assert_equal 0.0, long.fit_score(@small_position), "153 chars should not fit the ticker"
+  end
+
+  test "fit_score keeps mid-length text in a mid-sized position" do
+    sidebar = positions(:two_sidebar)
+    assert RichText.new(text: "a" * 153).fit_score(sidebar).positive?,
+      "153 chars should fit the sidebar"
+  end
+
+  test "fit_score peaks when text length is near the position capacity" do
+    near_capacity = RichText.new(text: "a" * 38) # ~ticker capacity
+    sparse = RichText.new(text: "a" * 5)
+
+    assert near_capacity.fit_score(@small_position) > sparse.fit_score(@small_position),
+      "text sized to the position should outscore very sparse text"
+  end
 end

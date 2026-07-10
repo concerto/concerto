@@ -40,12 +40,21 @@ class Content < ApplicationRecord
         super(options)
     end
 
-    # should_render_in? determines if a piece of content is
-    # suitable to be rendered in a given position.
+    # fit_score rates how well this content suits a given position.
     #
-    # By default, it returns true.
+    # It returns a Float where 0.0 means "never render here" and larger
+    # values indicate a better fit. Subclasses override this with
+    # type-specific heuristics (see RichText and Graphic); the base class
+    # has no size preferences, so everything fits equally.
+    def fit_score(position)
+      1.0
+    end
+
+    # should_render_in? determines if a piece of content is suitable to be
+    # rendered in a given position. Content renders wherever it has a
+    # positive fit score.
     def should_render_in?(position)
-      true
+      fit_score(position).positive?
     end
 
     # Summarizes the overall moderation state of this content across all its
