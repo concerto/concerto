@@ -64,7 +64,8 @@ class Graphic < Content
     position_aspect_ratio = position.aspect_ratio
     ratio = content_aspect_ratio / position_aspect_ratio
 
-    return 0.0 unless (1.0 / ASPECT_RATIO_TOLERANCE) <= ratio && ratio <= ASPECT_RATIO_TOLERANCE
+    # Reject aspect ratios outside the tolerance window in either direction.
+    return 0.0 unless ratio.between?(1.0 / ASPECT_RATIO_TOLERANCE, ASPECT_RATIO_TOLERANCE)
 
     # Grade by aspect-ratio closeness: an exact match scores 1.0, decaying to
     # 0.0 at the edges of the tolerance window.
