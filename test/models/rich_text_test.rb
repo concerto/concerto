@@ -22,40 +22,40 @@ class RichTextTest < ActiveSupport::TestCase
 
   test "should render in a small position with little text" do
     rich_text = RichText.new(text: "Some text")
-    assert rich_text.should_render_in?(@small_position)
+    assert rich_text.fit_score(@small_position).positive?
   end
 
   test "should render in a large position with enough text" do
     rich_text = RichText.new(text: "a" * 100)
-    assert rich_text.should_render_in?(@large_position)
+    assert rich_text.fit_score(@large_position).positive?
   end
 
   test "should not render in a large position with little text" do
     rich_text = RichText.new(text: "a" * 99)
-    assert_not rich_text.should_render_in?(@large_position)
+    assert_not rich_text.fit_score(@large_position).positive?
   end
 
   test "should not render if text is blank" do
     rich_text = RichText.new(text: "")
-    assert_not rich_text.should_render_in?(@large_position)
+    assert_not rich_text.fit_score(@large_position).positive?
   end
 
   test "should not render if text is nil" do
     rich_text = RichText.new(text: nil)
-    assert_not rich_text.should_render_in?(@large_position)
+    assert_not rich_text.fit_score(@large_position).positive?
   end
 
   test "should not render if text is only HTML tags and whitespace" do
     rich_text = RichText.new(text: " <strong> <em> </em> </strong> ")
-    assert_not rich_text.should_render_in?(@large_position)
+    assert_not rich_text.fit_score(@large_position).positive?
   end
 
   test "should correctly calculate text length after stripping HTML" do
     rich_text_short = RichText.new(text: "<strong>" + ("a" * 99) + "</strong>")
     rich_text_long = RichText.new(text: "<strong>" + ("a" * 100) + "</strong>")
 
-    assert_not rich_text_short.should_render_in?(@large_position), "Should not render short text in large position"
-    assert rich_text_long.should_render_in?(@large_position), "Should render long text in large position"
+    assert_not rich_text_short.fit_score(@large_position).positive?, "Should not render short text in large position"
+    assert rich_text_long.fit_score(@large_position).positive?, "Should render long text in large position"
   end
 
   test "fit_score is zero for blank text" do

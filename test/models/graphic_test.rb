@@ -13,13 +13,13 @@ class GraphicTest < ActiveSupport::TestCase
   end
 
   test "should render images in appropriate fields" do
-    assert @graphic.should_render_in?(positions(:two_graphic))
+    assert @graphic.fit_score(positions(:two_graphic)).positive?
 
-    assert_not @graphic.should_render_in?(positions(:two_ticker))
+    assert_not @graphic.fit_score(positions(:two_ticker)).positive?
   end
 
   test "does not render when image is still a PDF" do
-    assert_not graphics(:pdf_graphic).should_render_in?(positions(:two_graphic))
+    assert_not graphics(:pdf_graphic).fit_score(positions(:two_graphic)).positive?
   end
 
   test "fit_score is zero for a position outside the aspect-ratio window" do
@@ -40,8 +40,8 @@ class GraphicTest < ActiveSupport::TestCase
 
   test "renders portrait images in similarly-shaped positions" do
     portrait = graphics(:portrait_graphic)
-    assert portrait.should_render_in?(positions(:two_graphic))
-    assert_not portrait.should_render_in?(positions(:two_ticker))
+    assert portrait.fit_score(positions(:two_graphic)).positive?
+    assert_not portrait.fit_score(positions(:two_ticker)).positive?
   end
 
   test "supported_content_types includes common web image formats" do
@@ -80,7 +80,7 @@ class GraphicTest < ActiveSupport::TestCase
   test "does not render unsupported content types in player" do
     graphic = Graphic.new(name: "Test", duration: 10, user: users(:admin))
     graphic.image.attach(io: StringIO.new("data"), filename: "test.exe", content_type: "application/octet-stream")
-    assert_not graphic.should_render_in?(positions(:two_graphic))
+    assert_not graphic.fit_score(positions(:two_graphic)).positive?
   end
 
   test "enqueues conversion job when PDF is attached on create" do
