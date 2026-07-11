@@ -50,13 +50,6 @@ class Content < ApplicationRecord
       1.0
     end
 
-    # should_render_in? determines if a piece of content is suitable to be
-    # rendered in a given position. Content renders wherever it has a
-    # positive fit score.
-    def should_render_in?(position)
-      fit_score(position).positive?
-    end
-
     # Summarizes the overall moderation state of this content across all its
     # submissions. Highest-priority state wins so a single approved submission
     # surfaces as :approved even when other submissions are pending/rejected.
