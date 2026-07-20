@@ -96,21 +96,39 @@ class Users::OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
     assert_signed_in
   end
 
-  # --- Non-persisted paths (redirect to registration, no crash) ---
+  # --- Provisioning failure (missing claims) ---
 
-  test "redirects a user with a blank email to registration without overflowing the cookie" do
-    # Blank email fails validation, so from_omniauth returns an unsaved user and
-    # we exercise the branch that used to stash the giant auth hash. The old code
-    # raised ActionDispatch::Cookies::CookieOverflow on this request.
+  test "redirects to sign-in with a clear message when a required claim is missing" do
+    # Blank email fails validation, so from_omniauth returns an unsaved user.
+    # This exercises the branch that used to stash the giant auth hash and raise
+    # ActionDispatch::Cookies::CookieOverflow (issue #1656); it must not now.
     stub_callback(oidc_auth_hash(email: ""))
 
     assert_no_difference("User.count") do
       get user_openid_connect_omniauth_callback_url
     end
 
-    assert_redirected_to new_user_registration_url
+    assert_redirected_to new_user_session_url
+    assert_match(/didn't share the following required information/, flash[:alert])
+    assert_match(/email/, flash[:alert])
     assert_nil session["devise.openid_connect_data"], "OIDC payload must not be stashed in the session"
     assert_signed_out
+  end
+
+  test "logs the received and missing claims when provisioning fails" do
+    log = StringIO.new
+    original_logger = Rails.logger
+    Rails.logger = ActiveSupport::Logger.new(log)
+
+    stub_callback(oidc_auth_hash(email: ""))
+    get user_openid_connect_omniauth_callback_url
+
+    log_output = log.string
+    assert_match(/\[OIDC\]/, log_output)
+    assert_match(/missing_claims=.*email/, log_output)
+    assert_match(/received_claims=/, log_output)
+  ensure
+    Rails.logger = original_logger
   end
 
   # --- Failure endpoint ---

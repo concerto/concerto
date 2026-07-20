@@ -333,4 +333,77 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "Existing", found.first_name, "existing user's attributes should not be overwritten"
     assert_equal "existing-sso@example.com", found.email
   end
+
+  test "from_omniauth returns an unpersisted user when the provider sends no usable claims" do
+    user = User.from_omniauth(omniauth_hash({}))
+
+    assert_not user.persisted?
+    assert user.errors[:email].any?
+    assert_includes user.errors[:first_name], "can't be blank"
+  end
+
+  # Security: password-registered users have NULL provider/uid, so a blank uid
+  # must not resolve to an existing (possibly admin) account and sign the caller
+  # in as them.
+  test "from_omniauth does not match an existing local user when uid is blank" do
+    existing = users(:admin)
+    assert_nil existing.provider
+    assert_nil existing.uid
+
+    user = User.from_omniauth(omniauth_hash({ email: "attacker@evil.com" }, uid: ""))
+
+    assert_not user.persisted?
+    assert user.new_record?
+    assert_not_equal existing.id, user.id
+    assert user.errors.any?
+  end
+
+  test "from_omniauth rejects a blank provider" do
+    user = User.from_omniauth(omniauth_hash({ email: "x@uni.edu" }, provider: "", uid: "abc"))
+
+    assert_not user.persisted?
+    assert user.errors.any?
+  end
+
+  test "from_omniauth rejects a nil auth response" do
+    user = User.from_omniauth(nil)
+
+    assert_not user.persisted?
+    assert user.errors.any?
+  end
+
+  # --- missing_omniauth_claims (operator-facing diagnostic) ---
+
+  test "missing_omniauth_claims is empty when all required claims are present" do
+    auth = omniauth_hash({ email: "ok@uni.edu", given_name: "O", family_name: "K" })
+    assert_empty User.missing_omniauth_claims(auth)
+  end
+
+  test "missing_omniauth_claims accepts a single name claim" do
+    auth = omniauth_hash({ email: "ok@uni.edu", name: "Only Name" })
+    assert_empty User.missing_omniauth_claims(auth)
+  end
+
+  test "missing_omniauth_claims reports a missing email" do
+    auth = omniauth_hash({ name: "No Email" })
+    assert_equal [ "email" ], User.missing_omniauth_claims(auth)
+  end
+
+  test "missing_omniauth_claims reports a missing name" do
+    auth = omniauth_hash({ email: "noname@uni.edu" })
+    assert_equal [ "name (or given_name and family_name)" ], User.missing_omniauth_claims(auth)
+  end
+
+  test "missing_omniauth_claims treats a partial structured name as missing" do
+    auth = omniauth_hash({ email: "partial@uni.edu", given_name: "OnlyFirst" })
+    assert_equal [ "name (or given_name and family_name)" ], User.missing_omniauth_claims(auth)
+  end
+
+  test "missing_omniauth_claims reports both email and name when neither is present" do
+    auth = omniauth_hash({})
+    missing = User.missing_omniauth_claims(auth)
+
+    assert_includes missing, "email"
+    assert_includes missing, "name (or given_name and family_name)"
+  end
 end

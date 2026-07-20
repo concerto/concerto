@@ -42,23 +42,71 @@ class User < ApplicationRecord
     full_name.presence || email
   end
 
+  # Finds or provisions a user from an OmniAuth response.
+  #
+  # For a brand-new identity this attempts to create a local account from the
+  # provider's claims. When the provider omits information we require (see
+  # #missing_omniauth_claims), the returned record is *not* persisted and its
+  # errors are populated — callers must check #persisted? and surface the
+  # failure rather than assuming success.
   def self.from_omniauth(auth)
-    user = where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+    # Never look up by a blank provider/uid: password-registered users have
+    # NULL provider and uid, so `where(provider: nil, uid: nil)` would match an
+    # existing local account (often the first system admin) and sign the caller
+    # in as them. A response without a stable subject cannot provision anyone.
+    if auth&.provider.blank? || auth&.uid.blank?
+      return new.tap { |user| user.errors.add(:base, "Authentication response was missing a provider or subject (uid)") }
+    end
+
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0, 20]
-
-      # Handle name fields based on available claims
-      if auth.info.given_name.present? && auth.info.family_name.present?
-        user.first_name = auth.info.given_name
-        user.last_name = auth.info.family_name
-      elsif auth.info.name.present?
-        # Fallback to splitting full name if given_name/family_name not available
-        names = auth.info.name.split
-        user.first_name = names.first
-        user.last_name = names.length > 1 ? names[1..-1].join(" ") : names.first
-      end
+      user.assign_name_from_omniauth(auth.info)
     end
-    user
+  end
+
+  # Lists the OIDC claims that provisioning needs but the provider did not
+  # supply, described the way an operator would configure them on their
+  # identity provider. Returns an empty array when all required claims are
+  # present (a persistence failure would then have some other cause).
+  #
+  # This is the actionable half of the "authenticated but not logged in"
+  # story: identity providers such as CAS only release these claims once an
+  # administrator maps them, so we can tell the user exactly what is missing.
+  def self.missing_omniauth_claims(auth)
+    info = auth&.info
+    return [ "email", "name (or given_name and family_name)" ] if info.blank?
+
+    missing = []
+    missing << "email" if info.email.blank?
+
+    # OmniAuth's InfoHash#name is *derived* — it falls back to the email address
+    # when no name claim was sent — so we inspect the raw claim to report what
+    # the provider actually released rather than what OmniAuth synthesized.
+    raw_name = info.to_h["name"]
+    has_structured_name = info.given_name.present? && info.family_name.present?
+    unless raw_name.present? || has_structured_name
+      missing << "name (or given_name and family_name)"
+    end
+
+    missing
+  end
+
+  # Populates first/last name from whichever name claims the provider sent,
+  # preferring the structured given_name/family_name claims and falling back
+  # to splitting a single name claim. Leaves the fields blank when no name
+  # claim is present so validation can reject the record.
+  def assign_name_from_omniauth(info)
+    return if info.blank?
+
+    if info.given_name.present? && info.family_name.present?
+      self.first_name = info.given_name
+      self.last_name = info.family_name
+    elsif info.name.present?
+      names = info.name.split
+      self.first_name = names.first
+      self.last_name = names.length > 1 ? names[1..-1].join(" ") : names.first
+    end
   end
 
   # Check if the user is a system administrator.
