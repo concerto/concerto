@@ -10,24 +10,24 @@ class VideoTest < ActiveSupport::TestCase
   end
 
   test "should render videos in appropriate fields" do
-    assert @youtube_video.should_render_in?(positions(:two_graphic)), positions(:two_graphic).aspect_ratio
-    assert_not @youtube_video.should_render_in?(positions(:two_ticker)), positions(:two_ticker).aspect_ratio
+    assert @youtube_video.fit_score(positions(:two_graphic)).positive?, positions(:two_graphic).aspect_ratio
+    assert_not @youtube_video.fit_score(positions(:two_ticker)).positive?, positions(:two_ticker).aspect_ratio
 
-    assert @vimeo_video.should_render_in?(positions(:two_graphic)), positions(:two_graphic).aspect_ratio
-    assert_not @vimeo_video.should_render_in?(positions(:two_ticker)), positions(:two_ticker).aspect_ratio
+    assert @vimeo_video.fit_score(positions(:two_graphic)).positive?, positions(:two_graphic).aspect_ratio
+    assert_not @vimeo_video.fit_score(positions(:two_ticker)).positive?, positions(:two_ticker).aspect_ratio
 
-    assert @tiktok_video.should_render_in?(positions(:two_graphic)), positions(:two_graphic).aspect_ratio
-    assert_not @tiktok_video.should_render_in?(positions(:two_ticker)), positions(:two_ticker).aspect_ratio
+    assert @tiktok_video.fit_score(positions(:two_graphic)).positive?, positions(:two_graphic).aspect_ratio
+    assert_not @tiktok_video.fit_score(positions(:two_ticker)).positive?, positions(:two_ticker).aspect_ratio
   end
 
   test "renders portrait videos in tall portrait positions" do
-    assert @youtube_short.should_render_in?(positions(:two_sidebar)), positions(:two_sidebar).aspect_ratio
-    assert @tiktok_video.should_render_in?(positions(:two_sidebar)), positions(:two_sidebar).aspect_ratio
+    assert @youtube_short.fit_score(positions(:two_sidebar)).positive?, positions(:two_sidebar).aspect_ratio
+    assert @tiktok_video.fit_score(positions(:two_sidebar)).positive?, positions(:two_sidebar).aspect_ratio
   end
 
   test "rejects landscape videos in tall portrait positions" do
-    assert_not @youtube_video.should_render_in?(positions(:two_sidebar)), positions(:two_sidebar).aspect_ratio
-    assert_not @vimeo_video.should_render_in?(positions(:two_sidebar)), positions(:two_sidebar).aspect_ratio
+    assert_not @youtube_video.fit_score(positions(:two_sidebar)).positive?, positions(:two_sidebar).aspect_ratio
+    assert_not @vimeo_video.fit_score(positions(:two_sidebar)).positive?, positions(:two_sidebar).aspect_ratio
   end
 
   test "extracts video id from youtube url" do

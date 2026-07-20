@@ -10,6 +10,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       # The provider authenticated the user, but we could not create a local
       # account — almost always because required claims (email, name) were not
       # released. Fail loudly instead of silently bouncing to registration.
+      #
+      # We deliberately do not stash the OmniAuth payload in the session: it
+      # carries the id_token JWT and access/refresh tokens (several KB), which
+      # overflows the 4KB cookie session and raises CookieOverflow (issue #1656).
       log_provisioning_failure(auth)
       redirect_to new_user_session_path, alert: provisioning_failure_message(auth)
     end
