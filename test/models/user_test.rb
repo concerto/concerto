@@ -232,6 +232,105 @@ class UserTest < ActiveSupport::TestCase
     assert users(:system_admin).destroy
   end
 
+  # ==> from_omniauth / OIDC provisioning
+
+  # Builds an OmniAuth auth hash like the openid_connect strategy would return.
+  # Pass only the info claims a given identity provider actually releases.
+  def omniauth_hash(provider: "openid_connect", uid: "uid-123", info: {})
+    OmniAuth::AuthHash.new(provider: provider, uid: uid, info: info)
+  end
+
+  test "from_omniauth provisions a user from structured name claims" do
+    auth = omniauth_hash(info: { email: "jane@uni.edu", given_name: "Jane", family_name: "Doe" })
+    user = User.from_omniauth(auth)
+
+    assert user.persisted?
+    assert_equal "jane@uni.edu", user.email
+    assert_equal "Jane", user.first_name
+    assert_equal "Doe", user.last_name
+  end
+
+  test "from_omniauth falls back to splitting a single name claim" do
+    auth = omniauth_hash(info: { email: "sam@uni.edu", name: "Sam Van Damme" })
+    user = User.from_omniauth(auth)
+
+    assert user.persisted?
+    assert_equal "Sam", user.first_name
+    assert_equal "Van Damme", user.last_name
+  end
+
+  test "from_omniauth returns the same user for a repeated uid" do
+    auth = omniauth_hash(uid: "repeat-1", info: { email: "repeat@uni.edu", name: "Repeat User" })
+    first = User.from_omniauth(auth)
+    assert first.persisted?
+
+    again = User.from_omniauth(auth)
+    assert_equal first.id, again.id
+  end
+
+  test "from_omniauth derives a name from the email when no name claim is sent" do
+    # A provider that releases only an email still yields a usable account
+    # rather than blocking the user; OmniAuth derives the name from the email.
+    auth = omniauth_hash(info: { email: "noname@uni.edu" })
+    user = User.from_omniauth(auth)
+
+    assert user.persisted?
+    assert user.first_name.present?
+    assert user.last_name.present?
+  end
+
+  test "from_omniauth returns an unpersisted user when the email claim is missing" do
+    # This is the real "authenticated but not logged in" case: bare CAS often
+    # releases only a subject/username and no email, so provisioning fails.
+    auth = omniauth_hash(info: { given_name: "No", family_name: "Email" })
+    user = User.from_omniauth(auth)
+
+    assert_not user.persisted?, "user should not be created without an email"
+    assert user.errors[:email].any?
+  end
+
+  test "from_omniauth returns an unpersisted user when the provider sends no usable claims" do
+    auth = omniauth_hash(info: {})
+    user = User.from_omniauth(auth)
+
+    assert_not user.persisted?
+    assert user.errors[:email].any?
+    assert_includes user.errors[:first_name], "can't be blank"
+  end
+
+  test "missing_omniauth_claims is empty when all required claims are present" do
+    auth = omniauth_hash(info: { email: "ok@uni.edu", given_name: "O", family_name: "K" })
+    assert_empty User.missing_omniauth_claims(auth)
+  end
+
+  test "missing_omniauth_claims accepts a single name claim" do
+    auth = omniauth_hash(info: { email: "ok@uni.edu", name: "Only Name" })
+    assert_empty User.missing_omniauth_claims(auth)
+  end
+
+  test "missing_omniauth_claims reports a missing email" do
+    auth = omniauth_hash(info: { name: "No Email" })
+    assert_equal [ "email" ], User.missing_omniauth_claims(auth)
+  end
+
+  test "missing_omniauth_claims reports a missing name" do
+    auth = omniauth_hash(info: { email: "noname@uni.edu" })
+    assert_equal [ "name (or given_name and family_name)" ], User.missing_omniauth_claims(auth)
+  end
+
+  test "missing_omniauth_claims treats a partial structured name as missing" do
+    auth = omniauth_hash(info: { email: "partial@uni.edu", given_name: "OnlyFirst" })
+    assert_equal [ "name (or given_name and family_name)" ], User.missing_omniauth_claims(auth)
+  end
+
+  test "missing_omniauth_claims reports both email and name when neither is present" do
+    auth = omniauth_hash(info: {})
+    missing = User.missing_omniauth_claims(auth)
+
+    assert_includes missing, "email"
+    assert_includes missing, "name (or given_name and family_name)"
+  end
+
   test "screen_manager? returns false when user belongs to groups without screens" do
     user_without_screens = User.create!(
       first_name: "No",
