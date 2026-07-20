@@ -50,6 +50,14 @@ class User < ApplicationRecord
   # errors are populated — callers must check #persisted? and surface the
   # failure rather than assuming success.
   def self.from_omniauth(auth)
+    # Never look up by a blank provider/uid: password-registered users have
+    # NULL provider and uid, so `where(provider: nil, uid: nil)` would match an
+    # existing local account (often the first system admin) and sign the caller
+    # in as them. A response without a stable subject cannot provision anyone.
+    if auth&.provider.blank? || auth&.uid.blank?
+      return new.tap { |user| user.errors.add(:base, "Authentication response was missing a provider or subject (uid)") }
+    end
+
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0, 20]
@@ -66,7 +74,9 @@ class User < ApplicationRecord
   # story: identity providers such as CAS only release these claims once an
   # administrator maps them, so we can tell the user exactly what is missing.
   def self.missing_omniauth_claims(auth)
-    info = auth.info
+    info = auth&.info
+    return [ "email", "name (or given_name and family_name)" ] if info.blank?
+
     missing = []
     missing << "email" if info.email.blank?
 
@@ -87,6 +97,8 @@ class User < ApplicationRecord
   # to splitting a single name claim. Leaves the fields blank when no name
   # claim is present so validation can reject the record.
   def assign_name_from_omniauth(info)
+    return if info.blank?
+
     if info.given_name.present? && info.family_name.present?
       self.first_name = info.given_name
       self.last_name = info.family_name

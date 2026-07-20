@@ -298,6 +298,34 @@ class UserTest < ActiveSupport::TestCase
     assert_includes user.errors[:first_name], "can't be blank"
   end
 
+  test "from_omniauth does not match an existing local user when uid is blank" do
+    # Password-registered users have NULL provider/uid. A blank uid must not
+    # resolve to one of them — that would sign the caller in as an existing
+    # (possibly admin) account.
+    existing = users(:admin)
+    assert_nil existing.provider
+    assert_nil existing.uid
+
+    user = User.from_omniauth(omniauth_hash(uid: "", info: { email: "attacker@evil.com" }))
+
+    assert_not user.persisted?
+    assert user.new_record?
+    assert_not_equal existing.id, user.id
+    assert user.errors.any?
+  end
+
+  test "from_omniauth rejects a blank provider" do
+    user = User.from_omniauth(omniauth_hash(provider: "", uid: "abc", info: { email: "x@uni.edu" }))
+    assert_not user.persisted?
+    assert user.errors.any?
+  end
+
+  test "from_omniauth rejects a nil auth response" do
+    user = User.from_omniauth(nil)
+    assert_not user.persisted?
+    assert user.errors.any?
+  end
+
   test "missing_omniauth_claims is empty when all required claims are present" do
     auth = omniauth_hash(info: { email: "ok@uni.edu", given_name: "O", family_name: "K" })
     assert_empty User.missing_omniauth_claims(auth)
