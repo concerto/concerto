@@ -16,12 +16,14 @@ class LegacyPlayerTest < ApplicationSystemTestCase
     visit frontend_player_url(@screen)
 
     # Pull the fallback asset URLs straight from the rendered page so we exercise
-    # exactly what an old browser's <script nomodule> tags would load.
+    # exactly what an old browser's <script nomodule> tags would load. The
+    # vite_plugin_legacy gem loads the polyfills via a src attribute but imports
+    # the entry inline as System.import('...'), so each needs its own pattern.
     html = page.html
     polyfills_src = html[/nomodule[^>]*\bsrc="([^"]*polyfills-legacy[^"]*)"/, 1]
-    entry_src = html[/nomodule[^>]*\b(?:data-)?src="([^"]*player-legacy[^"]*)"/, 1]
+    entry_src = html[/System\.import\(['"]([^'"]*player-legacy[^'"]*)['"]\)/, 1]
     assert polyfills_src, "legacy polyfills <script nomodule> not found in page"
-    assert entry_src, "legacy player <script nomodule> not found in page"
+    assert entry_src, "legacy player System.import(...) not found in page"
 
     # Swap in a clean #screen (detaching the modern app), then load the SystemJS
     # polyfills and import the legacy entry -- the nomodule bootstrap sequence.
@@ -58,8 +60,11 @@ class LegacyPlayerTest < ApplicationSystemTestCase
     JS
     assert_equal "ok", booted, "legacy SystemJS bundle did not import cleanly"
 
-    # The Vue app renders the screen's fields/content into #screen once booted.
-    assert_selector "#screen *", wait: 10
-    assert_text rich_texts(:e2e_ticker_1).text, wait: 10
+    # Once the legacy bundle boots, Vue mounts ConcertoScreen into #screen,
+    # rendering its <div class="screen"> wrapper and #background layer. These are
+    # static template elements (unlike the rotating content), so asserting on
+    # them proves the bundle booted and mounted without depending on which piece
+    # of content happens to be showing.
+    assert_selector "#screen .screen #background", wait: 10
   end
 end
