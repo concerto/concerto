@@ -76,6 +76,7 @@ end
 
 # Use Vite & Vue for the frontend player.
 gem "vite_rails"
+gem "vite_plugin_legacy"
 
 # Use Devise for authentication.
 gem "devise", "~> 5.0"

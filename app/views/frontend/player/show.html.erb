@@ -17,6 +17,10 @@
 
     <%= vite_client_tag %>
     <%= vite_javascript_tag 'player' %>
+    <%# Fallback SystemJS bundle for browsers without native ES modules (e.g. %>
+    <%# Chrome 53 on older WebOS screens). Loaded via <script nomodule>; modern %>
+    <%# browsers ignore it. Includes the legacy polyfills by default. %>
+    <%= vite_legacy_javascript_tag 'player' %>
     <style>
       html, body, #screen {
         height: 100%;
