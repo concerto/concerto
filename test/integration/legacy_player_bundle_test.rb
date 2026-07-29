@@ -1,5 +1,4 @@
 require "test_helper"
-require "shellwords"
 
 # Guards the @vitejs/plugin-legacy output that lets very old signage browsers
 # (e.g. Chrome 53 on older LG WebOS screens, issue #1927) run the player.

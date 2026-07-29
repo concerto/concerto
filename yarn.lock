@@ -4315,6 +4315,7 @@ __metadata:
     "@vitejs/plugin-legacy": "npm:^8.2.2"
     "@vitejs/plugin-vue": "npm:^6.0.8"
     "@vue/test-utils": "npm:^2.4.11"
+    acorn: "npm:^8.16.0"
     date-fns: "npm:^4.4.0"
     eslint: "npm:^10.7.0"
     eslint-plugin-vue: "npm:^10.10.0"
