@@ -11,3 +11,10 @@ two:
 unused:
   name: Unused Template
   author: Unknown
+
+# Used only to host the narrow_rail position fixture (test/fixtures/positions.yml)
+# in isolation, so it doesn't affect templates :one/:two which other tests rely
+# on having specific fields (e.g. :one having no sidebar field).
+narrow:
+  name: Narrow Rail Template
+  author: MyString

@@ -6,6 +6,9 @@ class PositionTest < ActiveSupport::TestCase
   end
 
   test "computes aspect ratio" do
-    assert_equal @position.aspect_ratio.round(3), 0.736
+    # Corrected for the template's real 16:9 canvas (1920x1080, see
+    # two_template_blob): the fractional box is 0.736 tall-looking, but on a
+    # widescreen canvas it's actually wider than tall.
+    assert_equal @position.aspect_ratio.round(3), 1.309
   end
 end

@@ -26,8 +26,12 @@ class VideoTest < ActiveSupport::TestCase
   end
 
   test "rejects landscape videos in tall portrait positions" do
-    assert_not @youtube_video.fit_score(positions(:two_sidebar)).positive?, positions(:two_sidebar).aspect_ratio
-    assert_not @vimeo_video.fit_score(positions(:two_sidebar)).positive?, positions(:two_sidebar).aspect_ratio
+    # two_sidebar is only mildly portrait (~0.73) once corrected for the
+    # template's real 16:9 canvas, and the video tolerance is loose (4x) by
+    # design, so a 16:9 video actually fits there now. narrow_rail is a
+    # genuinely narrow rail that a landscape video shouldn't fit.
+    assert_not @youtube_video.fit_score(positions(:narrow_rail)).positive?, positions(:narrow_rail).aspect_ratio
+    assert_not @vimeo_video.fit_score(positions(:narrow_rail)).positive?, positions(:narrow_rail).aspect_ratio
   end
 
   test "extracts video id from youtube url" do
