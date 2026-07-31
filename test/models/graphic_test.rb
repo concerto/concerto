@@ -27,20 +27,23 @@ class GraphicTest < ActiveSupport::TestCase
   end
 
   test "fit_score scores a closer aspect ratio higher" do
-    # The graphic's aspect ratio (~1.33) sits closer to the time position
-    # (~1.75) than to the taller main position (~0.74), so it should score
-    # higher there even though both are inside the tolerance window.
-    time = @graphic.fit_score(positions(:two_time))
+    # The graphic's aspect ratio (~1.33) sits closer to the main position
+    # (~1.31, on the template's real 16:9 canvas) than to the sidebar (~0.73),
+    # so it should score higher there even though both are inside the
+    # tolerance window.
     main = @graphic.fit_score(positions(:two_graphic))
+    sidebar = @graphic.fit_score(positions(:two_sidebar))
 
-    assert time.positive?
     assert main.positive?
-    assert time > main, "the closer-matched position should score higher"
+    assert sidebar.positive?
+    assert main > sidebar, "the closer-matched position should score higher"
   end
 
   test "renders portrait images in similarly-shaped positions" do
     portrait = graphics(:portrait_graphic)
-    assert portrait.fit_score(positions(:two_graphic)).positive?
+    # The sidebar is the portrait-shaped position here (~0.73 once corrected
+    # for the template's real 16:9 canvas); main is landscape-shaped (~1.31).
+    assert portrait.fit_score(positions(:two_sidebar)).positive?
     assert_not portrait.fit_score(positions(:two_ticker)).positive?
   end
 

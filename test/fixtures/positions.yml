@@ -45,3 +45,16 @@ two_time:
     letter-spacing:.12em !important;border:solid 2px #ccc;'
   template: two
   field: time
+
+# A genuinely tall, narrow rail (aspect ratio ~0.2 on template one's default
+# 16:9 canvas) — used where a test needs a position too narrow for a
+# landscape video/graphic to fit, unlike two_sidebar which is only mildly
+# portrait-shaped in practice.
+narrow_rail:
+  top: 0.1
+  left: 0.85
+  bottom: 0.9
+  right: 0.94
+  style: ''
+  template: narrow
+  field: sidebar
