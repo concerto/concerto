@@ -94,6 +94,56 @@
   cursor: se-resize;
 }
 
+/* Edge handles resize a single side; pill shaped to hint at the axis */
+.resize-handle.n,
+.resize-handle.s {
+  width: 16px;
+  height: 10px;
+  border-radius: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.resize-handle.n {
+  top: -5px;
+  cursor: n-resize;
+}
+
+.resize-handle.s {
+  bottom: -5px;
+  cursor: s-resize;
+}
+
+.resize-handle.e,
+.resize-handle.w {
+  width: 10px;
+  height: 16px;
+  border-radius: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.resize-handle.w {
+  left: -5px;
+  cursor: w-resize;
+}
+
+.resize-handle.e {
+  right: -5px;
+  cursor: e-resize;
+}
+
+/* Keep the centering translate when the hover scale kicks in */
+.resize-handle.n:hover,
+.resize-handle.s:hover {
+  transform: translateX(-50%) scale(1.2);
+}
+
+.resize-handle.e:hover,
+.resize-handle.w:hover {
+  transform: translateY(-50%) scale(1.2);
+}
+
 /* Position List Item */
 .position-list-item {
   cursor: pointer;

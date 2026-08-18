@@ -172,13 +172,27 @@
             class="w-full border border-gray-300 rounded-lg px-3 py-2 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
         </div>
 
-        <div class="mb-4 text-sm text-gray-600 bg-gray-50 p-3 rounded">
-          <div class="font-medium mb-2">Coordinates:</div>
-          <div class="grid grid-cols-2 gap-2 font-mono">
-            <div>L: <span data-template-editor-target="coordLeft">0.000</span></div>
-            <div>T: <span data-template-editor-target="coordTop">0.000</span></div>
-            <div>R: <span data-template-editor-target="coordRight">0.000</span></div>
-            <div>B: <span data-template-editor-target="coordBottom">0.000</span></div>
+        <div class="mb-4 bg-gray-50 p-3 rounded">
+          <div class="font-medium text-sm mb-1">Coordinates</div>
+          <p class="text-xs text-gray-500 mb-2">Fraction of the screen, from 0 to 1.</p>
+          <div class="grid grid-cols-2 gap-2">
+            <% [ [ "Left", "coordLeft", "left" ], [ "Top", "coordTop", "top" ],
+                 [ "Right", "coordRight", "right" ], [ "Bottom", "coordBottom", "bottom" ] ].each do |label, target, edge| %>
+              <div>
+                <label for="position_coord_<%= edge %>" class="block text-xs text-gray-600 mb-1"><%= label %></label>
+                <input
+                  type="number"
+                  id="position_coord_<%= edge %>"
+                  step="0.001"
+                  min="0"
+                  max="1"
+                  value="0.000"
+                  data-template-editor-target="<%= target %>"
+                  data-coord="<%= edge %>"
+                  data-action="change->template-editor#updateCoordinate keydown->template-editor#coordinateKeydown"
+                  class="w-full border border-gray-300 rounded-lg px-2 py-1 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+              </div>
+            <% end %>
           </div>
         </div>
 

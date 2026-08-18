@@ -5,6 +5,14 @@ import { Controller } from "@hotwired/stimulus"
 const MAX_CANVAS_WIDTH_PX = 800
 const MAX_CANVAS_HEIGHT_VH = 0.75
 
+// Smallest allowed width/height of a position, as a fraction of the screen.
+// Applies to both drag-resizing and manually typed coordinates.
+const MIN_POSITION_SIZE = 0.05
+
+// Handles rendered on each position: four corners (resize two sides at once)
+// and four edge midpoints (resize a single side).
+const RESIZE_HANDLES = ["nw", "n", "ne", "e", "se", "s", "sw", "w"]
+
 // Connects to data-controller="template-editor"
 export default class extends Controller {
   static targets = [
@@ -282,8 +290,7 @@ export default class extends Controller {
     rect.appendChild(label)
 
     // Add resize handles
-    const handles = ['nw', 'ne', 'sw', 'se']
-    handles.forEach(handle => {
+    RESIZE_HANDLES.forEach(handle => {
       const div = document.createElement('div')
       div.className = `resize-handle ${handle}`
       div.dataset.handle = handle
@@ -437,16 +444,16 @@ export default class extends Controller {
 
     // Update position based on which handle is being dragged
     if (handle.includes('n')) {
-      position.top = Math.max(0, Math.min(this.resizing.startBottom - 0.05, this.resizing.startTop + deltaY))
+      position.top = Math.max(0, Math.min(this.resizing.startBottom - MIN_POSITION_SIZE, this.resizing.startTop + deltaY))
     }
     if (handle.includes('s')) {
-      position.bottom = Math.max(this.resizing.startTop + 0.05, Math.min(1, this.resizing.startBottom + deltaY))
+      position.bottom = Math.max(this.resizing.startTop + MIN_POSITION_SIZE, Math.min(1, this.resizing.startBottom + deltaY))
     }
     if (handle.includes('w')) {
-      position.left = Math.max(0, Math.min(this.resizing.startRight - 0.05, this.resizing.startLeft + deltaX))
+      position.left = Math.max(0, Math.min(this.resizing.startRight - MIN_POSITION_SIZE, this.resizing.startLeft + deltaX))
     }
     if (handle.includes('e')) {
-      position.right = Math.max(this.resizing.startLeft + 0.05, Math.min(1, this.resizing.startRight + deltaX))
+      position.right = Math.max(this.resizing.startLeft + MIN_POSITION_SIZE, Math.min(1, this.resizing.startRight + deltaX))
     }
 
     const element = this.canvasTarget.querySelector(`[data-position-id="${this.resizing.id}"]`)
@@ -463,14 +470,61 @@ export default class extends Controller {
     this.resizing = null
   }
 
-  // Update coordinate display in inspector
+  // Update coordinate inputs in inspector
   updateCoordinateDisplay(position) {
     if (!this.hasCoordLeftTarget) return
 
-    this.coordLeftTarget.textContent = position.left.toFixed(3)
-    this.coordTopTarget.textContent = position.top.toFixed(3)
-    this.coordRightTarget.textContent = position.right.toFixed(3)
-    this.coordBottomTarget.textContent = position.bottom.toFixed(3)
+    this.coordLeftTarget.value = position.left.toFixed(3)
+    this.coordTopTarget.value = position.top.toFixed(3)
+    this.coordRightTarget.value = position.right.toFixed(3)
+    this.coordBottomTarget.value = position.bottom.toFixed(3)
+  }
+
+  // Apply a manually typed coordinate from the inspector
+  updateCoordinate(event) {
+    if (!this.selectedPosition) return
+
+    const position = this.positions.find(p => p.id === this.selectedPosition)
+    if (!position) return
+
+    const edge = event.target.dataset.coord
+    const value = parseFloat(event.target.value)
+
+    // Invalid input (blank, letters, ...) reverts to the current coordinate
+    if (Number.isFinite(value)) {
+      position[edge] = this.clampCoordinate(position, edge, value)
+    }
+
+    const element = this.canvasTarget.querySelector(`[data-position-id="${position.id}"]`)
+    if (element) this.updatePositionElement(element, position)
+    this.updateCoordinateDisplay(position)
+    this.updatePositionsList()
+    this.updateHiddenFields()
+  }
+
+  // Enter applies the coordinate instead of submitting the whole template form
+  coordinateKeydown(event) {
+    if (event.key !== 'Enter') return
+
+    event.preventDefault()
+    this.updateCoordinate(event)
+  }
+
+  // Keep a typed coordinate on the canvas and the position at least
+  // MIN_POSITION_SIZE wide/tall by pinning it against the opposite edge.
+  clampCoordinate(position, edge, value) {
+    switch (edge) {
+      case 'left':
+        return Math.max(0, Math.min(position.right - MIN_POSITION_SIZE, value))
+      case 'top':
+        return Math.max(0, Math.min(position.bottom - MIN_POSITION_SIZE, value))
+      case 'right':
+        return Math.max(position.left + MIN_POSITION_SIZE, Math.min(1, value))
+      case 'bottom':
+        return Math.max(position.top + MIN_POSITION_SIZE, Math.min(1, value))
+      default:
+        return value
+    }
   }
 
   // Update positions list in sidebar

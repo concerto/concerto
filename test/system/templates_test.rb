@@ -137,6 +137,53 @@ class TemplatesTest < ApplicationSystemTestCase
     click_on "Back"
   end
 
+  test "should fine tune a position with typed coordinates" do
+    sign_in users(:system_admin)
+    position = positions(:one)
+    visit edit_template_url(@template)
+
+    find(".position-list-item", text: position.field.name).click
+
+    # Corner handles resize two sides at once, edge handles just one
+    assert_selector ".position-rectangle.selected .resize-handle.nw", visible: :all
+    assert_selector ".position-rectangle.selected .resize-handle.e", visible: :all
+
+    assert_field "Left", with: format("%.3f", position.left)
+
+    fill_in "Left", with: "0.100"
+    fill_in "Top", with: "0.200"
+    fill_in "Right", with: "0.750"
+    fill_in "Bottom", with: "0.900"
+
+    click_on "Save Template"
+    assert_text "Template was successfully updated"
+
+    position.reload
+    assert_in_delta 0.100, position.left, 0.001
+    assert_in_delta 0.200, position.top, 0.001
+    assert_in_delta 0.750, position.right, 0.001
+    assert_in_delta 0.900, position.bottom, 0.001
+  end
+
+  test "should clamp typed coordinates that would invert a position" do
+    sign_in users(:system_admin)
+    visit edit_template_url(@template)
+
+    find(".position-list-item", text: positions(:one).field.name).click
+
+    # Left past the right edge is pinned to the minimum position width
+    fill_in "Right", with: "0.500"
+    find_field("Right").send_keys(:enter)
+    fill_in "Left", with: "0.900"
+    find_field("Left").send_keys(:enter)
+    assert_field "Left", with: "0.450"
+
+    # Out of range values are clamped to the canvas
+    fill_in "Bottom", with: "5"
+    find_field("Bottom").send_keys(:enter)
+    assert_field "Bottom", with: "1.000"
+  end
+
   test "should create template with portrait image" do
     sign_in users(:system_admin)
     visit templates_url
