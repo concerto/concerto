@@ -1,7 +1,10 @@
-<%# novalidate: the inspector's coordinate inputs are UI, not form data — a
-    position whose stored coordinates fall outside their min/max (a legacy
-    import, say) would otherwise block the whole form from being submitted. %>
-<%= form_with(model: template, novalidate: true, data: {
+<%# novalidate: the inspector's coordinate inputs carry no name, so they submit
+    nothing, but they are still form-associated and so can fail HTML5
+    constraint validation. A position whose stored coordinates sit outside
+    their min/max (a legacy import, say) would otherwise block the whole form
+    from being submitted, with no visible error. Must be passed under :html —
+    form_with drops unrecognized top-level keys. %>
+<%= form_with(model: template, html: { novalidate: true }, data: {
   controller: "template-editor",
   template_editor_positions_value: template.positions.map { |p|
     {

@@ -184,6 +184,25 @@ class TemplatesTest < ApplicationSystemTestCase
     assert_field "Bottom", with: "1"
   end
 
+  # The coordinate inputs submit nothing (they have no name) but are still
+  # form-associated, so an out-of-range value in one — a legacy import with
+  # coordinates off the canvas, say — would block the browser from submitting
+  # the form at all, with nothing shown to explain why.
+  test "should save even when a coordinate input is out of its range" do
+    sign_in users(:system_admin)
+    visit edit_template_url(@template)
+
+    find(".position-list-item", text: positions(:one).field.name).click
+
+    # Set the input directly, bypassing the clamping a typed edit goes through
+    page.execute_script("document.querySelector('#position_coord_left').value = '-5'")
+    assert page.evaluate_script("document.querySelector('#position_coord_left').validity.rangeUnderflow"),
+      "expected the probe value to actually violate the input's min"
+
+    click_on "Save Template"
+    assert_text "Template was successfully updated"
+  end
+
   test "should allow typed positions far smaller than dragging permits" do
     sign_in users(:system_admin)
     position = positions(:one)
