@@ -5,9 +5,17 @@ import { Controller } from "@hotwired/stimulus"
 const MAX_CANVAS_WIDTH_PX = 800
 const MAX_CANVAS_HEIGHT_VH = 0.75
 
-// Smallest allowed width/height of a position, as a fraction of the screen.
-// Applies to both drag-resizing and manually typed coordinates.
-const MIN_POSITION_SIZE = 0.05
+// Smallest width/height a drag can resize a position down to, as a fraction
+// of the screen — dragging to nothing would leave a rectangle too small to
+// grab again.
+const MIN_DRAG_SIZE = 0.05
+
+// Typed coordinates are held to a far smaller minimum: one step of the
+// coordinate inputs, which is under a pixel on any real screen, so slivers
+// like a one-pixel status bar are still possible. It isn't zero because a
+// position with no height divides by zero in Position#aspect_ratio.
+const COORDINATE_STEP = 0.0001
+const COORDINATE_DECIMALS = 4
 
 // Handles rendered on each position: four corners (resize two sides at once)
 // and four edge midpoints (resize a single side).
@@ -171,11 +179,14 @@ export default class extends Controller {
       return
     }
 
-    // Create new position in center, 200x150px default
+    // Create new position in center, 200x150px default. The size is capped
+    // at the whole canvas because a click landing before the canvas has been
+    // laid out measures a scale near zero, which would otherwise place the
+    // new position off the canvas entirely.
     const scale = this.getScale()
 
-    const width = 200 / (this.imageWidth * scale)
-    const height = 150 / (this.imageHeight * scale)
+    const width = Math.min(1, 200 / (this.imageWidth * scale))
+    const height = Math.min(1, 150 / (this.imageHeight * scale))
     const left = 0.5 - (width / 2)
     const top = 0.5 - (height / 2)
 
@@ -444,16 +455,16 @@ export default class extends Controller {
 
     // Update position based on which handle is being dragged
     if (handle.includes('n')) {
-      position.top = Math.max(0, Math.min(this.resizing.startBottom - MIN_POSITION_SIZE, this.resizing.startTop + deltaY))
+      position.top = Math.max(0, Math.min(this.resizing.startBottom - MIN_DRAG_SIZE, this.resizing.startTop + deltaY))
     }
     if (handle.includes('s')) {
-      position.bottom = Math.max(this.resizing.startTop + MIN_POSITION_SIZE, Math.min(1, this.resizing.startBottom + deltaY))
+      position.bottom = Math.max(this.resizing.startTop + MIN_DRAG_SIZE, Math.min(1, this.resizing.startBottom + deltaY))
     }
     if (handle.includes('w')) {
-      position.left = Math.max(0, Math.min(this.resizing.startRight - MIN_POSITION_SIZE, this.resizing.startLeft + deltaX))
+      position.left = Math.max(0, Math.min(this.resizing.startRight - MIN_DRAG_SIZE, this.resizing.startLeft + deltaX))
     }
     if (handle.includes('e')) {
-      position.right = Math.max(this.resizing.startLeft + MIN_POSITION_SIZE, Math.min(1, this.resizing.startRight + deltaX))
+      position.right = Math.max(this.resizing.startLeft + MIN_DRAG_SIZE, Math.min(1, this.resizing.startRight + deltaX))
     }
 
     const element = this.canvasTarget.querySelector(`[data-position-id="${this.resizing.id}"]`)
@@ -474,10 +485,10 @@ export default class extends Controller {
   updateCoordinateDisplay(position) {
     if (!this.hasCoordLeftTarget) return
 
-    this.coordLeftTarget.value = position.left.toFixed(3)
-    this.coordTopTarget.value = position.top.toFixed(3)
-    this.coordRightTarget.value = position.right.toFixed(3)
-    this.coordBottomTarget.value = position.bottom.toFixed(3)
+    this.coordLeftTarget.value = this.formatCoordinate(position.left)
+    this.coordTopTarget.value = this.formatCoordinate(position.top)
+    this.coordRightTarget.value = this.formatCoordinate(position.right)
+    this.coordBottomTarget.value = this.formatCoordinate(position.bottom)
   }
 
   // Apply a manually typed coordinate from the inspector
@@ -490,9 +501,11 @@ export default class extends Controller {
     const edge = event.target.dataset.coord
     const value = parseFloat(event.target.value)
 
-    // Invalid input (blank, letters, ...) reverts to the current coordinate
+    // Invalid input (blank, letters, ...) reverts to the current coordinate.
+    // Storing the rounded value keeps the position and its readout in step.
     if (Number.isFinite(value)) {
-      position[edge] = this.clampCoordinate(position, edge, value)
+      const clamped = this.clampCoordinate(position, edge, value)
+      position[edge] = parseFloat(clamped.toFixed(COORDINATE_DECIMALS))
     }
 
     const element = this.canvasTarget.querySelector(`[data-position-id="${position.id}"]`)
@@ -510,21 +523,27 @@ export default class extends Controller {
     this.updateCoordinate(event)
   }
 
-  // Keep a typed coordinate on the canvas and the position at least
-  // MIN_POSITION_SIZE wide/tall by pinning it against the opposite edge.
+  // Keep a typed coordinate on the canvas and a step clear of the opposite
+  // edge, so the position can be a sliver but never inverts or collapses.
   clampCoordinate(position, edge, value) {
     switch (edge) {
       case 'left':
-        return Math.max(0, Math.min(position.right - MIN_POSITION_SIZE, value))
+        return Math.max(0, Math.min(position.right - COORDINATE_STEP, value))
       case 'top':
-        return Math.max(0, Math.min(position.bottom - MIN_POSITION_SIZE, value))
+        return Math.max(0, Math.min(position.bottom - COORDINATE_STEP, value))
       case 'right':
-        return Math.max(position.left + MIN_POSITION_SIZE, Math.min(1, value))
+        return Math.max(position.left + COORDINATE_STEP, Math.min(1, value))
       case 'bottom':
-        return Math.max(position.top + MIN_POSITION_SIZE, Math.min(1, value))
+        return Math.max(position.top + COORDINATE_STEP, Math.min(1, value))
       default:
         return value
     }
+  }
+
+  // Coordinates read back the way they were typed: rounded to the input's
+  // step, with trailing zeros dropped rather than padded to a fixed width.
+  formatCoordinate(value) {
+    return parseFloat(value.toFixed(COORDINATE_DECIMALS)).toString()
   }
 
   // Update positions list in sidebar
@@ -568,7 +587,7 @@ export default class extends Controller {
 
       const coords = document.createElement('div')
       coords.className = 'text-xs text-gray-500'
-      coords.textContent = `${position.left.toFixed(3)}, ${position.top.toFixed(3)} → ${position.right.toFixed(3)}, ${position.bottom.toFixed(3)}`
+      coords.textContent = `${this.formatCoordinate(position.left)}, ${this.formatCoordinate(position.top)} → ${this.formatCoordinate(position.right)}, ${this.formatCoordinate(position.bottom)}`
 
       content.appendChild(coords)
       container.appendChild(content)

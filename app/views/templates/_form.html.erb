@@ -1,4 +1,7 @@
-<%= form_with(model: template, data: {
+<%# novalidate: the inspector's coordinate inputs are UI, not form data — a
+    position whose stored coordinates fall outside their min/max (a legacy
+    import, say) would otherwise block the whole form from being submitted. %>
+<%= form_with(model: template, novalidate: true, data: {
   controller: "template-editor",
   template_editor_positions_value: template.positions.map { |p|
     {
@@ -183,10 +186,10 @@
                 <input
                   type="number"
                   id="position_coord_<%= edge %>"
-                  step="0.001"
+                  step="0.0001"
                   min="0"
                   max="1"
-                  value="0.000"
+                  value="0"
                   data-template-editor-target="<%= target %>"
                   data-coord="<%= edge %>"
                   data-action="change->template-editor#updateCoordinate keydown->template-editor#coordinateKeydown"
