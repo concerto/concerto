@@ -4,13 +4,17 @@ class Frontend::ContentControllerTest < ActionDispatch::IntegrationTest
   test "should get main content" do
     get frontend_content_url(screen_id: screens(:one).id, field_id: fields(:main).id, position_id: positions(:two_graphic).id)
     assert_response :success
-    assert_equal 1, response.parsed_body.length
+    # The graphic plus two short rich texts; Main is their only subscribed
+    # field, so they render there however oversized the font gets.
+    assert_equal 3, response.parsed_body.length
   end
 
   test "should get ticker content" do
     get frontend_content_url(screen_id: screens(:two).id, field_id: fields(:ticker).id, position_id: positions(:two_ticker).id)
     assert_response :success
-    assert_equal 2, response.parsed_body.length
+    # Two rich texts plus a graphic whose aspect ratio suits the ticker
+    # poorly — but the ticker is its only subscribed field, so it renders.
+    assert_equal 3, response.parsed_body.length
   end
 
   test "should prefer active pinned content over subscriptions" do
@@ -300,10 +304,11 @@ class Frontend::ContentControllerTest < ActionDispatch::IntegrationTest
   test "renders content only in its best-fit field when a feed spans multiple fields" do
     setup_multi_field_scenario
 
-    # ~150 chars fits the large Main position better than the smaller Sidebar.
-    main_content = create_richtext("a" * 150)
-    # ~120 chars fits the Sidebar's capacity more closely than Main.
-    sidebar_content = create_richtext("b" * 120)
+    # A wall of text renders at a readable size only in the large Main.
+    main_content = create_richtext("a" * 400)
+    # ~60 chars renders near the target font size in the Sidebar; in Main it
+    # would blow up far past it.
+    sidebar_content = create_richtext("b" * 60)
 
     main_ids = ids_for(field: fields(:main), position: positions(:two_graphic))
     sidebar_ids = ids_for(field: fields(:sidebar), position: positions(:two_sidebar))
@@ -318,24 +323,54 @@ class Frontend::ContentControllerTest < ActionDispatch::IntegrationTest
     assert_equal [ main_content.id, sidebar_content.id ].sort, (main_ids + sidebar_ids).sort
   end
 
-  test "drops content that fits no subscribed field" do
-    # Subscribe the feed only to the two small fields (Sidebar and Ticker),
-    # neither of which can hold a wall of text.
+  test "renders poor-fit content in its least-bad field instead of dropping it" do
+    # Subscribe the feed only to the two small fields (Sidebar and Ticker).
+    # A wall of text fits neither well, but content must never silently
+    # disappear (issue #1829) — it renders in the least-bad of the two.
     setup_multi_field_scenario(fields: [ fields(:sidebar), fields(:ticker) ])
 
-    huge = create_richtext("c" * 1000)   # overflows both small fields
-    small = create_richtext("d" * 50)    # fits, best in the Ticker
+    huge = create_richtext("c" * 1000)   # least-bad in the taller Sidebar
+    small = create_richtext("d" * 40)    # a comfortable one-line Ticker
 
     sidebar_ids = ids_for(field: fields(:sidebar), position: positions(:two_sidebar))
     ticker_ids = ids_for(field: fields(:ticker), position: positions(:two_ticker))
 
-    # The oversized content fits nowhere and is dropped from every field.
-    assert_not_includes sidebar_ids, huge.id
+    assert_includes sidebar_ids, huge.id
     assert_not_includes ticker_ids, huge.id
 
-    # The small content still renders, in its best-fit field only.
     assert_includes ticker_ids, small.id
     assert_not_includes sidebar_ids, small.id
+  end
+
+  test "renders content subscribed to a single field regardless of fit" do
+    # The second #1829 regression: a 134-char string subscribed only to the
+    # Ticker must render there — its only home — not vanish.
+    setup_multi_field_scenario(fields: [ fields(:ticker) ])
+
+    content = create_richtext("e" * 134)
+
+    assert_includes ids_for(field: fields(:ticker), position: positions(:two_ticker)), content.id
+  end
+
+  test "renders html-only content even though its text length is unmeasurable" do
+    setup_multi_field_scenario
+
+    embed = create_richtext("<a href='https://example.com'></a>", render_as: "html")
+
+    main_ids = ids_for(field: fields(:main), position: positions(:two_graphic))
+    sidebar_ids = ids_for(field: fields(:sidebar), position: positions(:two_sidebar))
+
+    # It can't be measured, so it renders in exactly one field rather than
+    # being dropped (or duplicated across both).
+    assert_equal 1, (main_ids + sidebar_ids).count(embed.id)
+  end
+
+  test "does not render content with nothing to show" do
+    setup_multi_field_scenario(fields: [ fields(:main) ])
+
+    blank = create_richtext("   ")
+
+    assert_not_includes ids_for(field: fields(:main), position: positions(:two_graphic)), blank.id
   end
 
   test "should include config version header" do
@@ -362,13 +397,13 @@ class Frontend::ContentControllerTest < ActionDispatch::IntegrationTest
     fields.each { |field| Subscription.create!(screen: @screen, field: field, feed: @feed) }
   end
 
-  def create_richtext(text)
+  def create_richtext(text, render_as: "plaintext")
     content = RichText.create!(
       name: "Content #{text.first}#{text.length}",
       text: text,
       user: users(:admin),
       duration: 10,
-      config: { render_as: "plaintext" }
+      config: { render_as: render_as }
     )
     Submission.create!(content: content, feed: @feed)
     content

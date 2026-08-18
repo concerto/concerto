@@ -37,15 +37,15 @@ class Frontend::ContentController < Frontend::ApplicationController
     subscriptions = @screen.subscriptions.where(field_id: @field.id)
 
     items = subscriptions.flat_map do |subscription|
-      subscription.contents.active.map do |content|
+      subscription.contents.active.select(&:renderable?).map do |content|
         { content: content, subscription: subscription }
       end
     end
 
     # Dedupe across fields: when a feed is subscribed to several fields, keep
     # each piece of content only in the field where it fits best so it isn't
-    # rendered in multiple positions at once. Content that fits nowhere on the
-    # screen is dropped.
+    # rendered in multiple positions at once. Even a poor fit renders — in
+    # its least-bad field — so content never silently disappears.
     best_field = best_field_by_content(items.map { |item| item[:content] })
     content_items = items.select { |item| best_field[item[:content].id] == @field.id }
 
@@ -62,8 +62,9 @@ class Frontend::ContentController < Frontend::ApplicationController
   # highest-scoring field wins (ties broken by lowest field id). Because this
   # only depends on the screen's subscriptions and template, every field's
   # independent request computes the same winner, so content lands in exactly
-  # one field. Fields with no template position, or where the content has no
-  # positive fit, are not eligible.
+  # one field. fit_score only ranks the candidates — even content that fits
+  # everywhere poorly wins its least-bad field rather than being dropped.
+  # Fields with no template position are not eligible (they never render).
   def best_field_by_content(contents)
     content_ids = contents.map(&:id).uniq
     return {} if content_ids.empty?
@@ -88,8 +89,7 @@ class Frontend::ContentController < Frontend::ApplicationController
         .uniq
         .filter_map do |field_id|
           position = position_by_field[field_id]
-          score = position && content.fit_score(position)
-          [ field_id, score ] if score&.positive?
+          [ field_id, content.fit_score(position) ] if position
         end
         .max_by { |field_id, score| [ score, -field_id ] }
         &.first

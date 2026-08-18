@@ -20,48 +20,53 @@ class RichText < Content
         })
     end
 
-    # A "large" position takes up more than this fraction of the screen area.
-    LARGE_AREA_THRESHOLD = 0.20
-    # Large positions need at least this much text or it scales up too big.
-    MIN_LARGE_POSITION_CHARS = 100
-    # Rough character "capacity" of a position per unit of screen area,
-    # calibrated so a position at LARGE_AREA_THRESHOLD holds
-    # MIN_LARGE_POSITION_CHARS characters. These values are arbitrary and may
-    # need tuning.
-    CHARS_PER_AREA = MIN_LARGE_POSITION_CHARS / LARGE_AREA_THRESHOLD
-    # How far text may run over a position's capacity before it's a poor fit.
-    OVER_CAPACITY_FACTOR = 2.0
+    # Text metrics for predicting how the player's auto-fit will render a
+    # string: average character width and line height, in em.
+    CHAR_WIDTH = 0.5
+    LINE_HEIGHT = 1.2
+    # Positions store fractional coordinates, so comparing a position's width
+    # against its height needs the screen's shape. Every shipped template
+    # targets 16:9 displays.
+    SCREEN_ASPECT = 16.0 / 9
 
-    # Score how well a piece of rich text fits a position based on its size.
+    # Legibility band for the predicted font size, as a fraction of screen
+    # height (resolution-independent: the same fraction is the same physical
+    # size at 1080p and 4K). On a 48" TV the screen is ~23.5" tall, so the
+    # target is ~1.4" text and the floor — below which walk-by viewers can't
+    # read it — is ~0.8". Calibrated on Blue Swoosh: the floor sits between
+    # a 2-line ticker (readable) and a 3-line ticker (not).
+    FONT_TARGET = 0.06
+    FONT_FLOOR = 0.035
+
+    # Penalty weights, applied to the log-distance between the predicted
+    # font and FONT_TARGET. Deliberately asymmetric: oversized text is fine
+    # ("WELCOME STUDENTS" may render huge), undersized text is unreadable,
+    # and below the floor it's a defect.
+    ABOVE_TARGET_WEIGHT = 0.4
+    BELOW_TARGET_WEIGHT = 3.0
+    BELOW_FLOOR_WEIGHT = 4.0
+
+    # Text is renderable whenever there is anything to show; whether a
+    # position suits it is fit_score's concern, never a reason to drop it.
+    def renderable?
+      text.present?
+    end
+
+    # Score how legible this text will be in a position.
     #
-    # Text that is too short for a large position scales up to an
-    # unreasonably large font; text that overflows a tiny position is
-    # unreadable. Both are rejected (score 0.0). In between, the score peaks
-    # when the text length is close to the position's capacity so the
-    # best-fitting position ranks highest.
+    # The player auto-sizes text to the largest font that fits the position
+    # (useTextResize.js), so the rendered font size is predictable from the
+    # text length and the position's shape. Score that font against the
+    # legibility band: 1.0 at FONT_TARGET, easing off for larger fonts, and
+    # dropping steeply for smaller ones. See docs/content_fit_design.md.
     def fit_score(position)
-      # Don't render if there's no text.
-      return 0.0 if text.blank?
+      # HTML that strips to nothing (e.g. a bare link or embed) has no
+      # measurable length; fall back to the base score so it still renders.
+      plain = html? ? ActionController::Base.helpers.strip_tags(text.to_s) : text.to_s
+      length = plain.strip.length
+      return super if length.zero?
 
-      # Strip HTML for a more accurate character count.
-      plain_text = ActionController::Base.helpers.strip_tags(text)
-      return 0.0 if plain_text.blank?
-
-      length = plain_text.length
-      capacity = position.area * CHARS_PER_AREA
-
-      if position.area > LARGE_AREA_THRESHOLD
-        # Lower bound: keep short text out of large positions, where it would
-        # scale up to an unreasonably large font.
-        return 0.0 if length < MIN_LARGE_POSITION_CHARS
-      else
-        # Upper bound: keep walls of text out of small positions, where they
-        # would overflow or shrink to an unreadable size.
-        return 0.0 if length > capacity * OVER_CAPACITY_FACTOR
-      end
-
-      # Grade by how close the text length is to the position's capacity.
-      capacity / (capacity + (length - capacity).abs)
+      legibility_score(predicted_font_fraction(length, position))
     end
 
     def searchable_data
@@ -70,6 +75,38 @@ class RichText < Content
     end
 
     private
+
+    # The font size the player's auto-fit lands on for `length` characters
+    # in `position`, as a fraction of screen height. For each line count,
+    # the position's height caps the font at height/(lines * LINE_HEIGHT)
+    # and its width caps it at width * lines / (length * CHAR_WIDTH); the
+    # auto-fit finds the line count that maximizes the smaller of the two.
+    def predicted_font_fraction(length, position)
+      width = (position.right - position.left) * SCREEN_ASPECT
+      height = position.bottom - position.top
+
+      best = 0.0
+      1.step do |lines|
+        by_height = height / (lines * LINE_HEIGHT)
+        break if by_height <= best
+
+        best = [ best, [ by_height, width * lines / (length * CHAR_WIDTH) ].min ].max
+      end
+      best
+    end
+
+    def legibility_score(font)
+      return 0.0 unless font.positive?
+
+      penalty = if font >= FONT_TARGET
+        ABOVE_TARGET_WEIGHT * Math.log(font / FONT_TARGET)
+      else
+        BELOW_TARGET_WEIGHT * Math.log(FONT_TARGET / font)
+      end
+      penalty += BELOW_FLOOR_WEIGHT * Math.log(FONT_FLOOR / font) if font < FONT_FLOOR
+
+      Math.exp(-penalty)
+    end
 
     def render_as_must_be_string
         return if render_as.nil? || render_as.is_a?(String)

@@ -49,16 +49,18 @@ class Video < Content
     end
   end
 
-  # Allow videos in positions whose aspect ratio is within 4x of the video's
-  # own, mirroring Graphic#fit_score. 4x keeps tickers and other extreme
-  # banner shapes out while still allowing cross-orientation placement (e.g. a
-  # 9:16 short in a 16:9 main), which is OK because the player letterboxes to
-  # fit. A tighter 2x-3x bound is more shape-aware but rejects useful
-  # cross-orientation cases.
+  # Positions whose aspect ratio is within 4x of the video's own count as a
+  # fit, mirroring Graphic#fit_score. 4x ranks tickers and other extreme
+  # banner shapes last while still allowing cross-orientation placement
+  # (e.g. a 9:16 short in a 16:9 main), which is OK because the player
+  # letterboxes to fit. A tighter 2x-3x bound is more shape-aware but
+  # penalizes useful cross-orientation cases.
   ASPECT_RATIO_TOLERANCE = 4.0
 
   # Score how well a video fits a position by aspect ratio: an exact match
-  # scores 1.0, decaying to 0.0 at the edges of the tolerance window.
+  # scores 1.0, decaying to 0.0 at the edges of the tolerance window. Like
+  # every fit_score this only ranks candidate positions; a screen whose only
+  # subscribed position is a poor shape match still renders the video there.
   def fit_score(position)
     width, height = effective_aspect_ratio.split("/").map(&:to_f)
     ratio = (width / height) / position.aspect_ratio
