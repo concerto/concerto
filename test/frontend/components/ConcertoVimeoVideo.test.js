@@ -27,7 +27,11 @@ describe('ConcertoVimeoVideo', () => {
     const wrapper = mount(ConcertoVimeoVideo, {
       props: { content: { video_id: '123456789', aspect_ratio: '4/3' } }
     });
-    expect(wrapper.find('iframe').attributes('style')).toContain('aspect-ratio: 4/3');
+    const style = wrapper.find('iframe').attributes('style');
+    expect(style).toContain('aspect-ratio: 4/3');
+    // The scoped CSS sizes the iframe off this custom property; without it the
+    // player falls back to the 300x150 default object size (see #1925).
+    expect(style).toContain('--video-aspect-ratio: 4/3');
   });
 
   it('uses muted background mode when audio is disabled', () => {
@@ -110,7 +114,9 @@ describe('ConcertoVimeoVideo dynamic aspect ratio', () => {
 
     // Wait for the getVideoWidth/getVideoHeight promises to settle.
     await vi.waitFor(() => {
-      expect(wrapper.find('iframe').attributes('style')).toContain('aspect-ratio: 1080/1920');
+      const style = wrapper.find('iframe').attributes('style');
+      expect(style).toContain('aspect-ratio: 1080/1920');
+      expect(style).toContain('--video-aspect-ratio: 1080/1920');
     });
   });
 

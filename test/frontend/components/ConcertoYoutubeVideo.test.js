@@ -24,7 +24,11 @@ describe('ConcertoYoutubeVideo', () => {
     };
     const wrapper = mount(ConcertoYoutubeVideo, { props: { content: content } });
 
-    expect(wrapper.find('iframe').attributes('style')).toContain('aspect-ratio: 9/16');
+    const style = wrapper.find('iframe').attributes('style');
+    expect(style).toContain('aspect-ratio: 9/16');
+    // The scoped CSS sizes the iframe off this custom property; without it the
+    // player falls back to the 300x150 default object size (see #1925).
+    expect(style).toContain('--video-aspect-ratio: 9/16');
   })
 
   it('mutes the iframe URL when audio is disabled', () => {

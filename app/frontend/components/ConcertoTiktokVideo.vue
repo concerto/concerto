@@ -125,7 +125,7 @@ onBeforeUnmount(() => {
       frameborder="0"
       allow="autoplay; encrypted-media"
       :src="videoUrl"
-      :style="{ aspectRatio: content.aspect_ratio }"
+      :style="{ aspectRatio: content.aspect_ratio, '--video-aspect-ratio': content.aspect_ratio }"
     />
   </div>
 </template>
@@ -142,5 +142,25 @@ onBeforeUnmount(() => {
 .player {
   max-width: 100%;
   max-height: 100%;
+}
+
+/*
+ * An iframe has no natural size, so aspect-ratio plus max-width/max-height leaves
+ * both axes auto and Firefox falls back to the 300x150 default object size -- the
+ * video renders 300px wide no matter how large the position is. Blink transfers
+ * the max-height constraint through the ratio instead, which is why this only
+ * reproduced outside Chrome. Sizing the width against the container makes the
+ * letterbox explicit so every engine agrees; engines without container query
+ * units keep the rules above, which already fill the position on Blink. See #1925.
+ */
+@supports (width: 1cqw) {
+  .video-container {
+    container-type: size;
+  }
+
+  .player {
+    width: min(100cqw, calc(100cqh * var(--video-aspect-ratio)));
+    height: auto;
+  }
 }
 </style>
