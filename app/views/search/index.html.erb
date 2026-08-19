@@ -29,6 +29,7 @@
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2 mb-1">
                 <%= search_type_badge(record) %>
+                <%= moderation_state_badge(record) if record.is_a?(Content) %>
               </div>
               <h3 class="text-h3 text-neutral-900 truncate">
                 <%= record.name.presence || "(untitled)" %>

@@ -7,18 +7,18 @@ class SearchableTest < ActiveSupport::TestCase
     Search::Corpus.rebuild!
   end
 
-  test "creating a Content with no submissions does not insert into corpus" do
+  test "creating a Content with no submissions inserts into corpus" do
     content = nil
-    assert_no_difference -> { Search::Corpus.count } do
+    assert_difference -> { Search::Corpus.count_for(Content) }, 1 do
       content = RichText.create!(name: "Lonely", text: "alone", user: @user, duration: 5, config: { render_as: "plaintext" })
     end
-    refute content.searchable?
+    assert content.searchable?
   end
 
-  test "creating a Content with an auto-approved submission inserts into corpus" do
+  test "submitting a Content to a feed leaves a single corpus row" do
     content = RichText.create!(name: "Auto Approved", text: "hello", user: @user, duration: 5, config: { render_as: "plaintext" })
 
-    assert_difference -> { Search::Corpus.count_for(Content) }, 1 do
+    assert_no_difference -> { Search::Corpus.count_for(Content) } do
       Submission.create!(content: content, feed: @feed)
     end
   end

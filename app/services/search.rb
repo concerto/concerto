@@ -2,6 +2,10 @@
 
 module Search
   DEFAULT_LIMIT = 50
+  # The corpus indexes everything; policy_scope decides what each user may
+  # see (see hydrate). Pull extra rows so records the viewer can't see don't
+  # eat into the result limit, then truncate after filtering.
+  OVERFETCH_FACTOR = 3
   RANK_ORDER = Arel.sql("bm25(search_corpus, 10.0, 1.0)")
 
   # Global ranked cross-model search. Returns a flat Array of records ordered
@@ -16,10 +20,10 @@ module Search
       .where(searchable_type: type_names)
       .where("search_corpus MATCH ?", match)
       .order(RANK_ORDER)
-      .limit(limit)
+      .limit(limit * OVERFETCH_FACTOR)
       .pluck(:searchable_type, :searchable_id)
 
-    hydrate(rows, user)
+    hydrate(rows, user).first(limit)
   end
 
   # Scoped, composable. Returns Array<Integer> of ids matching `klass` (keyed
@@ -60,8 +64,11 @@ module Search
       next unless klass
 
       ids = type_rows.map { |r| r[1] }
-      records = Pundit.policy_scope!(user, klass).where(id: ids).index_by(&:id)
-      memo[type] = records
+      records = Pundit.policy_scope!(user, klass).where(id: ids)
+      # Result rendering asks Content for its moderation state; preload so a
+      # page of results doesn't fan out into a query per row.
+      records = records.includes(:submissions) if klass.reflect_on_association(:submissions)
+      memo[type] = records.index_by(&:id)
     end
 
     rows.filter_map { |type, id| by_id.dig(type, id) }

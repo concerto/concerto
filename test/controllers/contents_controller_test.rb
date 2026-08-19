@@ -138,7 +138,48 @@ class ContentsControllerTest < ActionDispatch::IntegrationTest
     assert_select "h1", text: "Active Content"
   end
 
+  test "index ?q= finds the owner's unsubmitted content" do
+    Search::Corpus.rebuild!
+    draft = RichText.create!(
+      name: "Unsubmitted Draft", text: "needleterm", duration: 10, user: users(:non_member),
+      config: { "render_as" => "plaintext" }
+    )
+
+    sign_in users(:non_member)
+    get contents_url, params: { q: "needleterm" }
+    assert_response :success
+    assert_select "a[href='#{rich_text_path(draft)}']"
+  end
+
+  test "index ?q= hides another user's unsubmitted content" do
+    Search::Corpus.rebuild!
+    draft = RichText.create!(
+      name: "Someone Else's Draft", text: "needleterm", duration: 10, user: users(:non_member),
+      config: { "render_as" => "plaintext" }
+    )
+
+    sign_in users(:admin)
+    get contents_url, params: { q: "needleterm" }
+    assert_response :success
+    assert_select "a[href='#{rich_text_path(draft)}']", count: 0
+  end
+
+  test "scope=mine ?q= matches owner's pending content by body" do
+    Search::Corpus.rebuild!
+    pending_content = RichText.create!(
+      name: "Pending Search", text: "bodyneedle", duration: 10, user: users(:non_member),
+      config: { "render_as" => "plaintext" }
+    )
+    Submission.create!(content: pending_content, feed: feeds(:one)) # auto-pending for non-member
+
+    sign_in users(:non_member)
+    get contents_url, params: { scope: "mine", q: "bodyneedle" }
+    assert_response :success
+    assert_select "a[href='#{rich_text_path(pending_content)}']"
+  end
+
   test "scope=mine ?q= matches owner's content by name" do
+    Search::Corpus.rebuild!
     needle = RichText.create!(
       name: "Findable Draft", text: "Body", duration: 10, user: users(:non_member),
       config: { "render_as" => "plaintext" }

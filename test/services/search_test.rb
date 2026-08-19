@@ -67,13 +67,24 @@ class SearchTest < ActiveSupport::TestCase
     assert_equal [], Search.call("", user: @admin)
   end
 
+  test "call returns the owner's unsubmitted Content" do
+    draft = RichText.create!(name: "MyDraft", text: "draftterm", user: @admin, duration: 5, config: { render_as: "plaintext" })
+
+    results = Search.call("draftterm", user: @admin)
+    assert_includes results.map(&:id), draft.id
+  end
+
+  test "matching_ids returns Content with no submissions" do
+    draft = RichText.create!(name: "NoSubmissions", text: "orphanterm", user: @admin, duration: 5, config: { render_as: "plaintext" })
+
+    assert_includes Search.matching_ids("orphanterm", Content), draft.id
+  end
+
   test "call respects policy_scope — unapproved Content not returned even when in corpus" do
-    # Inject an unapproved Content into the corpus directly to test post-fetch
-    # filtering (a real-world way this happens: someone tampers with the index,
-    # or moderation state changes after a query). Owned by a different user so
-    # the viewer-as-owner branch of the policy scope doesn't surface it.
+    # Unapproved Content is indexed; policy_scope is what keeps it out of
+    # other users' results. Owned by a different user so the viewer-as-owner
+    # branch of the policy scope doesn't surface it.
     unapproved = RichText.create!(name: "TopSecret", text: "matchterm", user: users(:non_member), duration: 5, config: { render_as: "plaintext" })
-    Search::Corpus.upsert(unapproved, unapproved.searchable_data)
 
     results = Search.call("matchterm", user: @admin)
     refute_includes results.map(&:id), unapproved.id
