@@ -137,29 +137,17 @@ class SubmissionTest < ActiveSupport::TestCase
     assert submission.approved?
   end
 
-  test "approving a pending submission inserts the Content into the search corpus" do
+  test "moderation state does not change whether the Content is in the search corpus" do
     Search::Corpus.rebuild!
     content = RichText.create!(name: "PendingForSearch", text: "uniqueterm", user: @non_member, duration: 5, config: { render_as: "plaintext" })
-    submission = Submission.create!(content: content, feed: @feed) # pending — not yet searchable
-    refute_includes Search.matching_ids("uniqueterm", Content), content.id
+    submission = Submission.create!(content: content, feed: @feed) # pending for a non-member
+    assert_includes Search.matching_ids("uniqueterm", Content), content.id
 
     submission.moderate!(status: :approved, moderator: @user)
-
     assert_includes Search.matching_ids("uniqueterm", Content), content.id
-  end
 
-  test "rejecting an approved submission removes the Content from the search corpus" do
-    Search::Corpus.rebuild!
-    content = rich_texts(:html_richtext) # has approved + rejected submissions
-    Search::Corpus.upsert(content, content.searchable_data)
-
-    # Reject the only currently-approved submission
-    approved = content.submissions.where(moderation_status: :approved).first
-    approved.moderate!(status: :rejected, moderator: @user)
-
-    refute content.reload.searchable?
-    indexed_ids = SearchRow.where(searchable_type: "Content").pluck(:searchable_id)
-    refute_includes indexed_ids, content.id
+    submission.moderate!(status: :rejected, moderator: @user)
+    assert_includes Search.matching_ids("uniqueterm", Content), content.id
   end
 
   test "reevaluate_moderation! clears moderator data when auto-approving" do

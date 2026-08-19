@@ -11,7 +11,7 @@ class ContentsController < ApplicationController
     @query = params[:q].to_s.strip
 
     contents_scope = base_content_scope
-    contents_scope = narrow_by_query(contents_scope) if @query.present?
+    contents_scope = contents_scope.where(id: Search.matching_ids(@query, Content)) if @query.present?
 
     @contents = policy_scope(contents_scope).includes(:submissions)
   end
@@ -30,17 +30,6 @@ class ContentsController < ApplicationController
     when "expired"  then Content.expired
     when "mine"     then current_user.contents
     else                 Content.active
-    end
-  end
-
-  # Mine surfaces pending/rejected/unsubmitted uploads, which the search
-  # corpus excludes — so fall back to a direct name match on the user's
-  # own content for that scope.
-  def narrow_by_query(scope)
-    if @scope == "mine"
-      scope.with_name_matching(@query)
-    else
-      scope.where(id: Search.matching_ids(@query, Content))
     end
   end
 end
