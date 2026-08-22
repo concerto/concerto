@@ -306,9 +306,10 @@ class Frontend::ContentControllerTest < ActionDispatch::IntegrationTest
 
     # A wall of text renders at a readable size only in the large Main.
     main_content = create_richtext("a" * 400)
-    # ~60 chars renders near the target font size in the Sidebar; in Main it
-    # would blow up far past it.
-    sidebar_content = create_richtext("b" * 60)
+    # Six authored lines drop into the tall narrow Sidebar without a single
+    # forced break; Main would render them larger but further off target.
+    items = %w[Soup Salad Chili Wrap Ziti Bowl].map { |item| "<li>#{item}</li>" }.join
+    sidebar_content = create_richtext("<ul>#{items}</ul>", render_as: "html")
 
     main_ids = ids_for(field: fields(:main), position: positions(:two_graphic))
     sidebar_ids = ids_for(field: fields(:sidebar), position: positions(:two_sidebar))

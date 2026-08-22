@@ -7,8 +7,17 @@ class RichTextTest < ActiveSupport::TestCase
   TICKER = Position.new(left: 0.221, top: 0.885, right: 0.975, bottom: 0.985)
   SIDEBAR = Position.new(left: 0.68, top: 0.015, right: 0.98, bottom: 0.811)
 
+  ITEMS = %w[Soup Salad Chili Wrap Ziti Bowl Fruit Tea Coffee Cocoa Bagel Toast].freeze
+
   def plaintext(chars)
     RichText.new(text: "a" * chars, config: { render_as: "plaintext" })
+  end
+
+  # An HTML list: content whose line structure the author supplied, rather
+  # than a position imposing it by wrapping.
+  def list(count)
+    items = ITEMS.take(count).map { |item| "<li>#{item}</li>" }.join
+    RichText.new(text: "<ul>#{items}</ul>", config: { render_as: "html" })
   end
 
   test "should have valid render_as values" do
@@ -47,15 +56,16 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
-  test "mid-length text lands in the sidebar, not main" do
-    # The original #1829 report: 162 chars was rendering in Main where it
-    # blows up to a huge font; the sidebar shows it near the target size.
+  test "mid-length text lands in the ticker, which wraps it just once" do
+    # The #1829 report was 162 chars rendering in Main, where it blows up to
+    # a huge font. It reads best as two ticker lines: the Sidebar renders it
+    # larger but has to break one authored line into nine.
     scores = { main: plaintext(162).fit_score(MAIN),
                ticker: plaintext(162).fit_score(TICKER),
                sidebar: plaintext(162).fit_score(SIDEBAR) }
 
-    assert scores[:sidebar] > scores[:main], "sidebar should beat main for 162 chars"
-    assert scores[:main] > scores[:ticker], "main should beat a 2-line-plus ticker"
+    assert scores[:ticker] > scores[:main], "ticker should beat main for 162 chars"
+    assert scores[:main] > scores[:sidebar], "a nine-line column is the worst of the three"
   end
 
   test "short text lands in the ticker" do
@@ -63,8 +73,8 @@ class RichTextTest < ActiveSupport::TestCase
                ticker: plaintext(16).fit_score(TICKER),
                sidebar: plaintext(16).fit_score(SIDEBAR) }
 
-    assert scores[:ticker] > scores[:sidebar]
-    assert scores[:sidebar] > scores[:main]
+    assert scores[:ticker] > scores[:main]
+    assert scores[:main] > scores[:sidebar]
   end
 
   test "a wall of text lands in main as its least-bad position" do
@@ -88,13 +98,39 @@ class RichTextTest < ActiveSupport::TestCase
 
   test "oversized text is penalized only mildly" do
     # Too-big is fine ("WELCOME STUDENTS" may render huge); too-small is the
-    # real defect. 16 chars in Main renders enormous yet must outscore
-    # unreadably small text.
-    huge_font = plaintext(16).fit_score(MAIN)
+    # real defect. Measured on content whose authored lines survive intact,
+    # so this scores the legibility band rather than forced wrapping.
+    huge_font = list(4).fit_score(MAIN)
     tiny_font = plaintext(1000).fit_score(TICKER)
 
     assert huge_font > 0.5, "oversized text should still score well"
-    assert huge_font > 10 * tiny_font, "unreadably small text should score far worse"
+    assert huge_font > 100 * tiny_font, "unreadably small text should score far worse"
+  end
+
+  test "line breaks the author wrote cost nothing, ones a position forces do" do
+    # Six authored lines render as six lines in Main with nothing forced. The
+    # same characters as one continuous run have to be broken to fit, and
+    # score far worse for it.
+    authored = RichText.new(text: ([ "b" * 20 ] * 6).join("<br>"), config: { render_as: "html" })
+
+    assert authored.fit_score(MAIN) > plaintext(120).fit_score(MAIN)
+  end
+
+  test "newlines in plaintext are not authored breaks" do
+    # The player applies no white-space rule to rich text, so plaintext
+    # newlines collapse to spaces: it is always one continuous run.
+    multiline = RichText.new(text: "alpha\nbeta", config: { render_as: "plaintext" })
+
+    assert_equal plaintext("alpha beta".length).fit_score(MAIN), multiline.fit_score(MAIN)
+  end
+
+  test "a tall list of short authored lines prefers the sidebar" do
+    # Twelve authored lines drop into the tall narrow Sidebar without a
+    # single forced break — the shape that field exists for.
+    menu = list(12)
+
+    assert menu.fit_score(SIDEBAR) > menu.fit_score(MAIN)
+    assert menu.fit_score(MAIN) > menu.fit_score(TICKER)
   end
 
   test "html content is measured by its visible text" do
