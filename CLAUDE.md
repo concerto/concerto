@@ -110,10 +110,10 @@ bin/rails db:reset
 
 ```shell
 # Run RuboCop (uses rubocop-rails-omakase)
-bin/rails rubocop
+bin/rubocop
 
 # Auto-fix RuboCop issues
-bin/rails rubocop -A
+bin/rubocop -A
 
 # Security audit
 bundle exec bundler-audit check --update
@@ -148,11 +148,11 @@ bin/rails test
 yarn run vitest
 
 # 2. Run linters
-bin/rails rubocop -A  # Ruby code (auto-fix)
+bin/rubocop -A  # Ruby code (auto-fix)
 yarn run eslint --fix "{app,test}/frontend/**/*.{js,vue}"  # Frontend code (auto-fix)
 
 # 3. Verify everything passes
-bin/rails rubocop
+bin/rubocop
 yarn run eslint "{app,test}/frontend/**/*.{js,vue}"
 ```
 
