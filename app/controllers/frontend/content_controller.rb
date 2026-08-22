@@ -37,7 +37,7 @@ class Frontend::ContentController < Frontend::ApplicationController
     subscriptions = @screen.subscriptions.where(field_id: @field.id)
 
     items = subscriptions.flat_map do |subscription|
-      subscription.contents.active.map do |content|
+      subscription.contents.active.select(&:renderable?).map do |content|
         { content: content, subscription: subscription }
       end
     end

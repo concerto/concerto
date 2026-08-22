@@ -1,9 +1,26 @@
 require "test_helper"
 
 class RichTextTest < ActiveSupport::TestCase
-  setup do
-    @large_position = positions(:two_graphic)
-    @small_position = positions(:two_ticker)
+  # The Blue Swoosh template from db/seeds.rb, the geometry the fit model was
+  # calibrated against (issues #1829/#1906). Fractional coordinates only
+  # describe a shape alongside the canvas they sit on, so these carry one:
+  # an image-less Template reports the default 16:9, which Blue Swoosh is.
+  CANVAS = Template.new
+  MAIN = Position.new(left: 0.025, top: 0.026, right: 0.592, bottom: 0.796, template: CANVAS)
+  TICKER = Position.new(left: 0.221, top: 0.885, right: 0.975, bottom: 0.985, template: CANVAS)
+  SIDEBAR = Position.new(left: 0.68, top: 0.015, right: 0.98, bottom: 0.811, template: CANVAS)
+
+  ITEMS = %w[Soup Salad Chili Wrap Ziti Bowl Fruit Tea Coffee Cocoa Bagel Toast].freeze
+
+  def plaintext(chars)
+    RichText.new(text: "a" * chars, config: { render_as: "plaintext" })
+  end
+
+  # An HTML list: content whose line structure the author supplied, rather
+  # than a position imposing it by wrapping.
+  def list(count)
+    items = ITEMS.take(count).map { |item| "<li>#{item}</li>" }.join
+    RichText.new(text: "<ul>#{items}</ul>", config: { render_as: "html" })
   end
 
   test "should have valid render_as values" do
@@ -20,66 +37,142 @@ class RichTextTest < ActiveSupport::TestCase
     assert_not rich_text.valid?, rich_text.errors.full_messages.to_sentence
   end
 
-  test "should render in a small position with little text" do
-    rich_text = RichText.new(text: "Some text")
-    assert rich_text.fit_score(@small_position).positive?
+  test "text content is renderable whenever there is text" do
+    assert plaintext(10).renderable?
+    assert RichText.new(text: "<a href='https://example.com'>x</a>", config: { render_as: "html" }).renderable?
   end
 
-  test "should render in a large position with enough text" do
-    rich_text = RichText.new(text: "a" * 100)
-    assert rich_text.fit_score(@large_position).positive?
+  test "blank text is not renderable" do
+    assert_not RichText.new(text: "").renderable?
+    assert_not RichText.new(text: nil).renderable?
+    assert_not RichText.new(text: "   ").renderable?
   end
 
-  test "should not render in a large position with little text" do
-    rich_text = RichText.new(text: "a" * 99)
-    assert_not rich_text.fit_score(@large_position).positive?
+  test "fit_score is positive wherever the text is legible" do
+    # Fitting badly is not grounds for rejecting a position: an awkward
+    # render still wins when it is the only option (issue #1829). Only
+    # illegibility disqualifies, and none of these are illegible anywhere.
+    [ 5, 45, 134, 162 ].each do |chars|
+      [ MAIN, TICKER, SIDEBAR ].each do |position|
+        assert plaintext(chars).fit_score(position).positive?,
+          "#{chars} chars should score positive everywhere"
+      end
+    end
   end
 
-  test "should not render if text is blank" do
-    rich_text = RichText.new(text: "")
-    assert_not rich_text.fit_score(@large_position).positive?
+  test "fit_score is zero where the text would be illegible" do
+    # 1500 characters in the ticker renders at ~0.3" on a 48" TV. Nobody
+    # reads that walking past, so the ticker stops being a candidate — while
+    # the far larger Main can still carry the same text.
+    assert_equal 0.0, plaintext(1500).fit_score(TICKER)
+    assert plaintext(1500).fit_score(MAIN).positive?
   end
 
-  test "should not render if text is nil" do
-    rich_text = RichText.new(text: nil)
-    assert_not rich_text.fit_score(@large_position).positive?
+  test "mid-length text lands in the ticker, which wraps it just once" do
+    # The #1829 report was 162 chars rendering in Main, where it blows up to
+    # a huge font. It reads best as two ticker lines: the Sidebar renders it
+    # larger but has to break one authored line into nine.
+    scores = { main: plaintext(162).fit_score(MAIN),
+               ticker: plaintext(162).fit_score(TICKER),
+               sidebar: plaintext(162).fit_score(SIDEBAR) }
+
+    assert scores[:ticker] > scores[:main], "ticker should beat main for 162 chars"
+    assert scores[:main] > scores[:sidebar], "a nine-line column is the worst of the three"
   end
 
-  test "should not render if text is only HTML tags and whitespace" do
-    rich_text = RichText.new(text: " <strong> <em> </em> </strong> ")
-    assert_not rich_text.fit_score(@large_position).positive?
+  test "short text lands in the ticker" do
+    scores = { main: plaintext(16).fit_score(MAIN),
+               ticker: plaintext(16).fit_score(TICKER),
+               sidebar: plaintext(16).fit_score(SIDEBAR) }
+
+    assert scores[:ticker] > scores[:main]
+    assert scores[:main] > scores[:sidebar]
   end
 
-  test "should correctly calculate text length after stripping HTML" do
-    rich_text_short = RichText.new(text: "<strong>" + ("a" * 99) + "</strong>")
-    rich_text_long = RichText.new(text: "<strong>" + ("a" * 100) + "</strong>")
+  test "a wall of text lands in main as its least-bad position" do
+    # The ticker is disqualified outright at this length; between the two
+    # that remain, the larger field wins.
+    scores = { main: plaintext(1500).fit_score(MAIN),
+               ticker: plaintext(1500).fit_score(TICKER),
+               sidebar: plaintext(1500).fit_score(SIDEBAR) }
 
-    assert_not rich_text_short.fit_score(@large_position).positive?, "Should not render short text in large position"
-    assert rich_text_long.fit_score(@large_position).positive?, "Should render long text in large position"
+    assert scores[:main] > scores[:sidebar]
+    assert scores[:sidebar] > scores[:ticker]
   end
 
-  test "fit_score is zero for blank text" do
-    assert_equal 0.0, RichText.new(text: "").fit_score(@large_position)
-    assert_equal 0.0, RichText.new(text: nil).fit_score(@small_position)
+  test "ticker scores degrade as text wraps to more lines" do
+    one_line = plaintext(45).fit_score(TICKER)
+    two_lines = plaintext(134).fit_score(TICKER)   # bamnet: 1-2 lines read fine
+    three_lines = plaintext(250).fit_score(TICKER) # 3+ lines are hard to read
+
+    assert one_line > two_lines
+    assert two_lines > three_lines
+    assert two_lines > 3 * three_lines, "the readability floor sits between 2 and 3 lines"
   end
 
-  test "fit_score rejects a wall of text in a tiny position" do
-    # The ticker is a small position; a long blurb overflows it.
-    long = RichText.new(text: "a" * 153)
-    assert_equal 0.0, long.fit_score(@small_position), "153 chars should not fit the ticker"
+  test "oversized text is penalized only mildly" do
+    # Too-big is fine ("WELCOME STUDENTS" may render huge); too-small is the
+    # real defect. Measured on content whose authored lines survive intact,
+    # so this scores the legibility band rather than forced wrapping.
+    huge_font = list(4).fit_score(MAIN)
+    tiny_font = plaintext(1000).fit_score(TICKER)
+
+    assert huge_font > 0.5, "oversized text should still score well"
+    assert huge_font > 100 * tiny_font, "unreadably small text should score far worse"
   end
 
-  test "fit_score keeps mid-length text in a mid-sized position" do
-    sidebar = positions(:two_sidebar)
-    assert RichText.new(text: "a" * 153).fit_score(sidebar).positive?,
-      "153 chars should fit the sidebar"
+  test "line breaks the author wrote cost nothing, ones a position forces do" do
+    # Six authored lines render as six lines in Main with nothing forced. The
+    # same characters as one continuous run have to be broken to fit, and
+    # score far worse for it.
+    authored = RichText.new(text: ([ "b" * 20 ] * 6).join("<br>"), config: { render_as: "html" })
+
+    assert authored.fit_score(MAIN) > plaintext(120).fit_score(MAIN)
   end
 
-  test "fit_score peaks when text length is near the position capacity" do
-    near_capacity = RichText.new(text: "a" * 38) # ~ticker capacity
-    sparse = RichText.new(text: "a" * 5)
+  test "newlines in plaintext are not authored breaks" do
+    # The player applies no white-space rule to rich text, so plaintext
+    # newlines collapse to spaces: it is always one continuous run.
+    multiline = RichText.new(text: "alpha\nbeta", config: { render_as: "plaintext" })
 
-    assert near_capacity.fit_score(@small_position) > sparse.fit_score(@small_position),
-      "text sized to the position should outscore very sparse text"
+    assert_equal plaintext("alpha beta".length).fit_score(MAIN), multiline.fit_score(MAIN)
+  end
+
+  test "a box's shape follows the template canvas, not a 16:9 assumption" do
+    # Fractional coordinates describe a shape only alongside the canvas. The
+    # Blue Swoosh ticker is a wide strip on a landscape screen, but the same
+    # box on a portrait-mounted 9:16 screen is a squat block that fits far
+    # less text per line — so it must not score the same.
+    portrait = Template.new
+    portrait.define_singleton_method(:aspect_ratio) { 9.0 / 16 }
+    rotated = Position.new(left: 0.221, top: 0.885, right: 0.975, bottom: 0.985, template: portrait)
+
+    assert plaintext(162).fit_score(TICKER) > plaintext(162).fit_score(rotated),
+      "a wide strip should beat the same fractional box on a portrait canvas"
+  end
+
+  test "a tall list of short authored lines prefers the sidebar" do
+    # Twelve authored lines drop into the tall narrow Sidebar without a
+    # single forced break — the shape that field exists for.
+    menu = list(12)
+
+    assert menu.fit_score(SIDEBAR) > menu.fit_score(MAIN)
+    assert menu.fit_score(MAIN) > menu.fit_score(TICKER)
+  end
+
+  test "html content is measured by its visible text" do
+    html = RichText.new(text: "<strong>#{'a' * 162}</strong>", config: { render_as: "html" })
+
+    assert_equal plaintext(162).fit_score(SIDEBAR), html.fit_score(SIDEBAR)
+  end
+
+  test "html with no visible text falls back to the neutral base score" do
+    # A bare link or embed strips to nothing; it can't be measured but must
+    # still render somewhere (issue #1829).
+    embed = RichText.new(text: "<a href='https://example.com'></a>", config: { render_as: "html" })
+
+    [ MAIN, TICKER, SIDEBAR ].each do |position|
+      assert_equal 1.0, embed.fit_score(position)
+    end
   end
 end

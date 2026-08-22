@@ -18,8 +18,9 @@ class GraphicTest < ActiveSupport::TestCase
     assert_not @graphic.fit_score(positions(:two_ticker)).positive?
   end
 
-  test "does not render when image is still a PDF" do
-    assert_not graphics(:pdf_graphic).fit_score(positions(:two_graphic)).positive?
+  test "is not renderable while the image is still a PDF" do
+    assert_not graphics(:pdf_graphic).renderable?
+    assert @graphic.renderable?
   end
 
   test "fit_score is zero for a position outside the aspect-ratio window" do
@@ -80,10 +81,10 @@ class GraphicTest < ActiveSupport::TestCase
     assert_match(/type .+ is not supported/, graphic.errors[:image].first)
   end
 
-  test "does not render unsupported content types in player" do
+  test "is not renderable with an unsupported content type" do
     graphic = Graphic.new(name: "Test", duration: 10, user: users(:admin))
     graphic.image.attach(io: StringIO.new("data"), filename: "test.exe", content_type: "application/octet-stream")
-    assert_not graphic.fit_score(positions(:two_graphic)).positive?
+    assert_not graphic.renderable?
   end
 
   test "enqueues conversion job when PDF is attached on create" do

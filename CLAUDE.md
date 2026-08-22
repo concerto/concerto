@@ -247,6 +247,7 @@ The `docs/` directory contains detailed guides:
 - `authorization_policy_requirements.md` — Policy requirements reference
 - `concerto-style-guide.md` — UI/UX design specification
 - `content_ordering_design.md` — Content ordering strategy design
+- `content_fit_design.md` — How content is placed into screen positions (fit scoring)
 - `adding_settings.md` — How to add new application settings
 - `release_process.md` — Release workflow (branch, PR, tag, publish)
 - `remote_feed_spec.yaml` — Remote feed API specification

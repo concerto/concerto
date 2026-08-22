@@ -29,6 +29,14 @@ class Content < ApplicationRecord
         super(options)
     end
 
+    # renderable? says whether this content can be displayed at all (e.g. a
+    # Graphic with no usable image cannot). It is the only check that ever
+    # keeps content off a screen; how *well* content suits a position is
+    # fit_score's job.
+    def renderable?
+      true
+    end
+
     # fit_score rates how well this content suits a given position.
     #
     # It returns a Float where 0.0 means "never render here" and larger

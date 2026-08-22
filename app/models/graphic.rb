@@ -42,13 +42,20 @@ class Graphic < Content
   # more distorted is rejected. There is room to improve this. I just made up 2.0.
   ASPECT_RATIO_TOLERANCE = 2.0
 
+  # A graphic can only render once it has a displayable image: attached,
+  # in a variable (non-PDF) format. PDFs stay unrenderable until the
+  # conversion job replaces them with an image.
+  def renderable?
+    image.attached? && image.variable?
+  end
+
   # Score how well a graphic fits a position based on aspect ratio.
   #
   # When the dimensions are known, a graphic scores highest in positions
   # whose aspect ratio matches its own, decaying to 0.0 at the edges of the
   # tolerance window (ratios more than ASPECT_RATIO_TOLERANCE times off).
   def fit_score(position)
-    return 0.0 unless image.attached? && image.variable?
+    return 0.0 unless renderable?
 
     if !image.analyzed?
       logger.debug "graphic #{id} not analyzed, fallback rendering"
