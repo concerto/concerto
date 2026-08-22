@@ -5,16 +5,14 @@ How Concerto decides which screen position a piece of content renders in
 
 ## Principles
 
-1. **Content is not dropped merely for fitting badly.** Today the only
-   thing that keeps content off a screen is `Content#renderable?` — "is
-   there anything to show at all?" (blank text, a graphic with no usable
-   image). Everything else renders *somewhere*: when content fits nowhere
-   well it renders in its least-bad position, because silently missing
-   content is far harder to debug than awkwardly rendered content.
-
-   This is deliberately being narrowed, because fitting badly and being
-   *illegible* are not the same thing — see
-   [Planned: a legibility veto](#planned-a-legibility-veto).
+1. **Content is not dropped merely for fitting badly.** Fitting badly and
+   being unreadable are different things. Content that fits nowhere *well*
+   still renders, in its least-bad position — silently missing content is
+   far harder to debug than awkwardly rendered content. Two things, and only
+   two, keep content off a screen: `Content#renderable?` ("is there anything
+   to show at all?" — blank text, a graphic with no usable image), and a
+   `fit_score` of `0.0`, which says this position cannot show this content
+   legibly. See [The legibility veto](#the-legibility-veto).
 2. **`fit_score` is a ranking, not a filter.** When a feed is subscribed to
    several fields on a screen, each piece of content renders only in its
    highest-scoring field (ties go to the lowest field id). A low score never
@@ -178,33 +176,41 @@ To retune, in rough order of how safe they are to touch:
 - **Clock, Iframe, and other types**: the base score of 1.0 — no
   preference, so they stay wherever they're subscribed.
 
-## Planned: a legibility veto
+## The legibility veto
 
-Ranking alone cannot express "this must not render here". `fit_score` orders
-positions; nothing disqualifies one. That matters at the unreadable end. On
-the Blue Swoosh ticker, a 162-character notice renders at 0.78" on a 48" TV
-— the two-line render this model deliberately favours — but 3,000 characters
-render at 0.20" and 18,000 at 0.08". Nobody reads that from across a
-hallway, and showing it is not better than showing nothing.
+Ranking alone cannot say "not here". A `fit_score` of `0.0` does: it means
+the position cannot show this content legibly, so it is not a candidate at
+all. `Frontend::ContentController#best_field_by_content` only ever considers
+positively-scored fields, and content with no positively-scored field
+anywhere is held back rather than rendered.
 
-The plan:
+This is not a new mechanism — `Graphic` and `Video` have always returned
+`0.0` outside their aspect-ratio windows, which is why an 8.5×11 poster does
+not appear in a horizontal ticker strip. `RichText` now participates too, via
+`FONT_MINIMUM = 0.015` (~0.35" on a 48" TV — readable from about three feet,
+which is not how anyone meets a hallway screen).
 
-- `FONT_FLOOR` (0.035, ~0.8") stays a *soft* penalty. It has to: the
-  favoured two-line ticker render sits just below it.
-- A second, much lower hard minimum (~0.3–0.5" on a 48" TV) disqualifies a
-  position outright.
-- `Content` gains a shared eligibility predicate, so the same mechanism
-  covers graphics — an 8.5×11 poster has no business in a horizontal ticker
-  either. `Graphic#fit_score` and `Video#fit_score` already return a hard
-  `0.0` outside their aspect-ratio windows, which is this concept in
-  disguise: once the positive-score filter was removed, that `0.0` stopped
-  disqualifying anything and merely tied for worst.
-- When no position is eligible, the content does not render on that screen.
+The two text thresholds do different jobs and must not be confused:
 
-That last point reintroduces the possibility of content silently
-disappearing — the complaint #1829 opened with. So it is sequenced behind
-the admin placement view: a screen owner must be able to see what renders
-where, and why, before the system is allowed to withhold anything.
+| | value | on a 48" TV | effect |
+|---|---|---|---|
+| `FONT_FLOOR` | 0.035 | ~0.82" | steep **penalty**; still renders |
+| `FONT_MINIMUM` | 0.015 | ~0.35" | **disqualifies** the position |
+
+`FONT_FLOOR` has to stay soft: the two-line ticker render this model
+deliberately favours sits just below it, at ~0.78". On the Blue Swoosh
+ticker the separation is wide — 162 characters render at 0.78", 3,000 at
+0.20", 18,000 at 0.08".
+
+The veto is deliberately one-directional. Only *illegibly small* disqualifies
+a position; oversized never does, and neither does awkward wrapping. That
+asymmetry is what keeps #1829 fixed — short text in a large field, which is
+what used to vanish, now scores near the top of the band rather than at
+zero.
+
+Withholding content is still the most dangerous thing this code does, and a
+screen owner currently has no way to see that it happened. The admin
+placement view (#1829) is the follow-up that closes that gap.
 
 ## Known limitations / future work
 
@@ -218,4 +224,8 @@ where, and why, before the system is allowed to withhold anything.
   plaintext announcement silently gets one run — and fixing it means
   changing plaintext segmentation to match.
 - Admin UI shows no per-field placement preview yet, which is the main
-  debugging aid users are missing (#1829).
+  debugging aid users are missing (#1829) — and it matters more now that a
+  position can disqualify content outright.
+- `FONT_MINIMUM` assumes the smallest common screen (48"). A genuinely large
+  video wall would tolerate a smaller fraction, but the error is in the safe
+  direction: content is withheld slightly sooner than strictly necessary.

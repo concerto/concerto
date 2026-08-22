@@ -48,15 +48,24 @@ class RichTextTest < ActiveSupport::TestCase
     assert_not RichText.new(text: "   ").renderable?
   end
 
-  test "fit_score is positive for any text in any position" do
-    # fit_score only ranks positions; nothing is ever rejected outright, so a
-    # poor fit still renders when it is the only option (issue #1829).
-    [ 5, 45, 134, 162, 1500 ].each do |chars|
+  test "fit_score is positive wherever the text is legible" do
+    # Fitting badly is not grounds for rejecting a position: an awkward
+    # render still wins when it is the only option (issue #1829). Only
+    # illegibility disqualifies, and none of these are illegible anywhere.
+    [ 5, 45, 134, 162 ].each do |chars|
       [ MAIN, TICKER, SIDEBAR ].each do |position|
         assert plaintext(chars).fit_score(position).positive?,
           "#{chars} chars should score positive everywhere"
       end
     end
+  end
+
+  test "fit_score is zero where the text would be illegible" do
+    # 1500 characters in the ticker renders at ~0.3" on a 48" TV. Nobody
+    # reads that walking past, so the ticker stops being a candidate — while
+    # the far larger Main can still carry the same text.
+    assert_equal 0.0, plaintext(1500).fit_score(TICKER)
+    assert plaintext(1500).fit_score(MAIN).positive?
   end
 
   test "mid-length text lands in the ticker, which wraps it just once" do
@@ -81,6 +90,8 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   test "a wall of text lands in main as its least-bad position" do
+    # The ticker is disqualified outright at this length; between the two
+    # that remain, the larger field wins.
     scores = { main: plaintext(1500).fit_score(MAIN),
                ticker: plaintext(1500).fit_score(TICKER),
                sidebar: plaintext(1500).fit_score(SIDEBAR) }

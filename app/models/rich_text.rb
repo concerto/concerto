@@ -34,6 +34,15 @@ class RichText < Content
     FONT_TARGET = 0.06
     FONT_FLOOR = 0.035
 
+    # Below this, text is not merely hard to read but illegible, and a
+    # position offering only this is no position at all: a fit_score of 0.0
+    # takes it out of the running entirely (see Content#fit_score). ~0.35" on
+    # a 48" TV — readable from about three feet, which is not how anyone
+    # meets a hallway screen. Deliberately far below FONT_FLOOR, which has to
+    # stay a soft penalty: the two-line ticker render this model favours sits
+    # just under the floor at ~0.8".
+    FONT_MINIMUM = 0.015
+
     # Penalty weights, applied to the log-distance between the predicted
     # font and FONT_TARGET. Deliberately asymmetric: oversized text is fine
     # ("WELCOME STUDENTS" may render huge), undersized text is unreadable,
@@ -69,10 +78,12 @@ class RichText < Content
     #
     # The player auto-sizes text to the largest font that fits the position
     # (useTextResize.js), so both the rendered font size and the line count
-    # are predictable from the text and the position's shape. Two penalties
-    # fall out of that: how far the font lands from the legibility band, and
-    # how much wrapping the position had to impose to get there. Both are
-    # log-space distances, so they add. See docs/content_fit_design.md.
+    # are predictable from the text and the position's shape. Text that would
+    # render below FONT_MINIMUM is illegible and scores 0.0, taking the
+    # position out of the running. Otherwise two penalties apply: how far the
+    # font lands from the legibility band, and how much wrapping the position
+    # had to impose to get there. Both are log-space distances, so they add.
+    # See docs/content_fit_design.md.
     def fit_score(position)
       # HTML that strips to nothing (e.g. a bare link or embed) has no
       # measurable text; fall back to the base score so it still renders.
@@ -80,7 +91,7 @@ class RichText < Content
       return super if segments.empty?
 
       fit = predicted_fit(segments, position)
-      return 0.0 unless fit.font.positive?
+      return 0.0 if fit.font < FONT_MINIMUM
 
       Math.exp(-(legibility_penalty(fit.font) + wrap_penalty(fit)))
     end

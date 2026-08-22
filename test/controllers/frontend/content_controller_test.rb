@@ -12,9 +12,11 @@ class Frontend::ContentControllerTest < ActionDispatch::IntegrationTest
   test "should get ticker content" do
     get frontend_content_url(screen_id: screens(:two).id, field_id: fields(:ticker).id, position_id: positions(:two_ticker).id)
     assert_response :success
-    # Two rich texts plus a graphic whose aspect ratio suits the ticker
-    # poorly — but the ticker is its only subscribed field, so it renders.
-    assert_equal 3, response.parsed_body.length
+    # Two rich texts. A graphic is subscribed here too, but its aspect ratio
+    # is so far from the ticker's that it would be unrecognisable, and the
+    # ticker is its only subscribed field — so it is held back rather than
+    # rendered unreadably.
+    assert_equal 2, response.parsed_body.length
   end
 
   test "should prefer active pinned content over subscriptions" do
@@ -330,8 +332,11 @@ class Frontend::ContentControllerTest < ActionDispatch::IntegrationTest
     # disappear (issue #1829) — it renders in the least-bad of the two.
     setup_multi_field_scenario(fields: [ fields(:sidebar), fields(:ticker) ])
 
-    huge = create_richtext("c" * 1000)   # least-bad in the taller Sidebar
+    huge = create_richtext("c" * 1000)   # illegible in the Ticker, readable in the Sidebar
     small = create_richtext("d" * 40)    # a comfortable one-line Ticker
+
+    assert_equal 0.0, huge.fit_score(positions(:two_ticker)), "the ticker is disqualified for it"
+    assert huge.fit_score(positions(:two_sidebar)).positive?, "the sidebar can still carry it"
 
     sidebar_ids = ids_for(field: fields(:sidebar), position: positions(:two_sidebar))
     ticker_ids = ids_for(field: fields(:ticker), position: positions(:two_ticker))
@@ -343,9 +348,10 @@ class Frontend::ContentControllerTest < ActionDispatch::IntegrationTest
     assert_not_includes sidebar_ids, small.id
   end
 
-  test "renders content subscribed to a single field regardless of fit" do
+  test "renders awkward but legible content subscribed to a single field" do
     # The second #1829 regression: a 134-char string subscribed only to the
-    # Ticker must render there — its only home — not vanish.
+    # Ticker must render there — its only home — not vanish. It wraps to two
+    # lines at ~0.9", which is small but perfectly readable.
     setup_multi_field_scenario(fields: [ fields(:ticker) ])
 
     content = create_richtext("e" * 134)
@@ -364,6 +370,18 @@ class Frontend::ContentControllerTest < ActionDispatch::IntegrationTest
     # It can't be measured, so it renders in exactly one field rather than
     # being dropped (or duplicated across both).
     assert_equal 1, (main_ids + sidebar_ids).count(embed.id)
+  end
+
+  test "holds back content that would be illegible everywhere it is subscribed" do
+    # The one path that withholds content, and deliberately a narrow one: a
+    # wall of text in a thin ticker renders at a size nobody can read, and
+    # showing that is not better than showing nothing. Only illegibly small
+    # ever qualifies — never merely awkward, and never oversized.
+    setup_multi_field_scenario(fields: [ fields(:ticker) ])
+
+    novel = create_richtext("f" * 4000)
+
+    assert_not_includes ids_for(field: fields(:ticker), position: positions(:two_ticker)), novel.id
   end
 
   test "does not render content with nothing to show" do
