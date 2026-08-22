@@ -16,14 +16,15 @@ class LegacyPlayerTest < ApplicationSystemTestCase
     visit frontend_player_url(@screen)
 
     # Pull the fallback asset URLs straight from the rendered page so we exercise
-    # exactly what an old browser's <script nomodule> tags would load. The
-    # vite_plugin_legacy gem loads the polyfills via a src attribute but imports
-    # the entry inline as System.import('...'), so each needs its own pattern.
+    # exactly what an old browser's <script nomodule> tags would load. Both tags
+    # carry the ids plugin-legacy's dynamic fallback looks them up by; the entry
+    # keeps its URL in data-src so the inline System.import stays a constant
+    # string (see Frontend::PlayerHelper).
     html = page.html
-    polyfills_src = html[/nomodule[^>]*\bsrc="([^"]*polyfills-legacy[^"]*)"/, 1]
-    entry_src = html[/System\.import\(['"]([^'"]*player-legacy[^'"]*)['"]\)/, 1]
+    polyfills_src = html[/id="#{Frontend::PlayerHelper::LEGACY_POLYFILL_ID}"[^>]*\bsrc="([^"]+)"/, 1]
+    entry_src = html[/id="#{Frontend::PlayerHelper::LEGACY_ENTRY_ID}"[^>]*\bdata-src="([^"]+)"/, 1]
     assert polyfills_src, "legacy polyfills <script nomodule> not found in page"
-    assert entry_src, "legacy player System.import(...) not found in page"
+    assert entry_src, "legacy player entry data-src not found in page"
 
     # Swap in a clean #screen (detaching the modern app), then load the SystemJS
     # polyfills and import the legacy entry -- the nomodule bootstrap sequence.
