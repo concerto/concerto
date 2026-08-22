@@ -74,9 +74,11 @@ group :test do
   gem "webmock", "~> 3.26"
 end
 
-# Use Vite & Vue for the frontend player.
+# Use Vite & Vue for the frontend player. The legacy (SystemJS) bundle for old
+# signage browsers comes from @vitejs/plugin-legacy on the JS side; its script
+# tags are rendered by Frontend::PlayerHelper rather than the vite_plugin_legacy
+# gem, which omits the modern-browser detection those browsers need (#1967).
 gem "vite_rails"
-gem "vite_plugin_legacy"
 
 # Use Devise for authentication.
 gem "devise", "~> 5.0"

@@ -17,10 +17,11 @@
 
     <%= vite_client_tag %>
     <%= vite_javascript_tag 'player' %>
-    <%# Fallback SystemJS bundle for browsers without native ES modules (e.g. %>
-    <%# Chrome 53 on older WebOS screens). Loaded via <script nomodule>; modern %>
-    <%# browsers ignore it. Includes the legacy polyfills by default. %>
-    <%= vite_legacy_javascript_tag 'player' %>
+    <%# Fallback SystemJS bundle for older signage browsers: loaded via %>
+    <%# <script nomodule> on browsers with no ES modules at all (Chrome 53, %>
+    <%# #1927), and via plugin-legacy's dynamic fallback on browsers that have %>
+    <%# modules but not modern syntax (Chrome 79 WebOS, #1967). %>
+    <%= vite_legacy_player_tags 'player' %>
     <style>
       html, body, #screen {
         height: 100%;

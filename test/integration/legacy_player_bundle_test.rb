@@ -59,7 +59,44 @@ class LegacyPlayerBundleTest < ActiveSupport::TestCase
       "a legacy chunk uses syntax Chrome 53 cannot parse:\n#{output}"
   end
 
+  # plugin-legacy keeps the inline bootstrap snippets private (they are not
+  # exported), so Frontend::PlayerHelper hardcodes copies. It DOES export
+  # `cspHashes`: the base64 sha256 of exactly those snippets. Re-hashing our
+  # copies against it turns a silent drift on a plugin-legacy upgrade -- which
+  # would blank the Chrome 79 screens again (#1967) -- into a failing test.
+  CSP_HASH_JS = <<~JS.freeze
+    const crypto = require('crypto');
+    import('@vitejs/plugin-legacy').then((m) => {
+      const missing = process.argv.slice(1).filter(
+        (s) => !m.cspHashes.includes(crypto.hash('sha256', s, 'base64'))
+      );
+      if (missing.length) {
+        console.error('not found in cspHashes:\\n' + missing.join('\\n'));
+        process.exit(1);
+      }
+    });
+  JS
+
+  test "hardcoded plugin-legacy snippets still match the installed plugin" do
+    skip "node unavailable" unless node_available?
+
+    snippets = [
+      Frontend::PlayerHelper::SYSTEM_JS_INLINE_CODE,
+      Frontend::PlayerHelper::DETECT_MODERN_BROWSER_CODE,
+      Frontend::PlayerHelper::DYNAMIC_FALLBACK_INLINE_CODE
+    ]
+
+    output = IO.popen([ "node", "-e", CSP_HASH_JS, *snippets ], err: [ :child, :out ], &:read)
+    assert $?.success?,
+      "Frontend::PlayerHelper's copies have drifted from @vitejs/plugin-legacy.\n" \
+      "Re-copy them from the plugin's dist/index.js.\n#{output}"
+  end
+
   private
+
+  def node_available?
+    system("node", "-e", "0", out: File::NULL, err: File::NULL)
+  end
 
   def node_with_acorn?
     system("node", "-e", "require('acorn')", out: File::NULL, err: File::NULL)
