@@ -38,6 +38,31 @@ class Frontend::PlayerControllerTest < ActionDispatch::IntegrationTest
       "legacy player bundle not referenced in the page")
   end
 
+  test "renders plugin-legacy's modern-browser detector and dynamic fallback" do
+    # Browsers that have ES modules but not modern syntax (Chrome 61-104, which
+    # covers the Chrome 79 WebOS screens in #1967) ignore <script nomodule> and
+    # load the modern bundle, whose plugin-legacy guard throws immediately. The
+    # only thing that rescues them is this pair of inline module scripts, so a
+    # 200 from those user agents means nothing without them.
+    get "/frontend/#{@screen.id}"
+    assert_response :success
+
+    assert_includes response.body, Frontend::PlayerHelper::DETECT_MODERN_BROWSER_CODE,
+      "modern-browser detector missing; Chrome 61-104 has no way to fall back"
+    assert_includes response.body, Frontend::PlayerHelper::DYNAMIC_FALLBACK_INLINE_CODE,
+      "dynamic legacy fallback missing; Chrome 61-104 has no way to fall back"
+
+    # The fallback looks both tags up by id, so the ids are load-bearing.
+    assert_select "script[nomodule][id=?][src]", Frontend::PlayerHelper::LEGACY_POLYFILL_ID
+    assert_select "script[nomodule][id=?][data-src*=?]",
+      Frontend::PlayerHelper::LEGACY_ENTRY_ID, "player-legacy"
+
+    # The detector must run before the fallback reads the flag it sets.
+    assert_operator response.body.index(Frontend::PlayerHelper::DETECT_MODERN_BROWSER_CODE),
+      :<, response.body.index(Frontend::PlayerHelper::DYNAMIC_FALLBACK_INLINE_CODE),
+      "detector must precede the fallback in document order"
+  end
+
   SUPPORTED_USER_AGENTS.each do |name, user_agent|
     test "should show screen with supported browser #{name}" do
       get "/frontend/#{@screen.id}", headers: { "User-Agent" => user_agent }
