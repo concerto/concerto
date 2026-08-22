@@ -2,10 +2,13 @@ require "test_helper"
 
 class RichTextTest < ActiveSupport::TestCase
   # The Blue Swoosh template from db/seeds.rb, the geometry the fit model was
-  # calibrated against (issues #1829/#1906).
-  MAIN = Position.new(left: 0.025, top: 0.026, right: 0.592, bottom: 0.796)
-  TICKER = Position.new(left: 0.221, top: 0.885, right: 0.975, bottom: 0.985)
-  SIDEBAR = Position.new(left: 0.68, top: 0.015, right: 0.98, bottom: 0.811)
+  # calibrated against (issues #1829/#1906). Fractional coordinates only
+  # describe a shape alongside the canvas they sit on, so these carry one:
+  # an image-less Template reports the default 16:9, which Blue Swoosh is.
+  CANVAS = Template.new
+  MAIN = Position.new(left: 0.025, top: 0.026, right: 0.592, bottom: 0.796, template: CANVAS)
+  TICKER = Position.new(left: 0.221, top: 0.885, right: 0.975, bottom: 0.985, template: CANVAS)
+  SIDEBAR = Position.new(left: 0.68, top: 0.015, right: 0.98, bottom: 0.811, template: CANVAS)
 
   ITEMS = %w[Soup Salad Chili Wrap Ziti Bowl Fruit Tea Coffee Cocoa Bagel Toast].freeze
 
@@ -122,6 +125,19 @@ class RichTextTest < ActiveSupport::TestCase
     multiline = RichText.new(text: "alpha\nbeta", config: { render_as: "plaintext" })
 
     assert_equal plaintext("alpha beta".length).fit_score(MAIN), multiline.fit_score(MAIN)
+  end
+
+  test "a box's shape follows the template canvas, not a 16:9 assumption" do
+    # Fractional coordinates describe a shape only alongside the canvas. The
+    # Blue Swoosh ticker is a wide strip on a landscape screen, but the same
+    # box on a portrait-mounted 9:16 screen is a squat block that fits far
+    # less text per line — so it must not score the same.
+    portrait = Template.new
+    portrait.define_singleton_method(:aspect_ratio) { 9.0 / 16 }
+    rotated = Position.new(left: 0.221, top: 0.885, right: 0.975, bottom: 0.985, template: portrait)
+
+    assert plaintext(162).fit_score(TICKER) > plaintext(162).fit_score(rotated),
+      "a wide strip should beat the same fractional box on a portrait canvas"
   end
 
   test "a tall list of short authored lines prefers the sidebar" do

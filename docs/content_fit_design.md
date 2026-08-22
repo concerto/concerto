@@ -5,12 +5,16 @@ How Concerto decides which screen position a piece of content renders in
 
 ## Principles
 
-1. **Content is (almost) never dropped.** The only thing that keeps content
-   off a screen is `Content#renderable?` — "is there anything to show at
-   all?" (blank text, a graphic with no usable image). Everything else
-   renders *somewhere*: when content fits nowhere well, it renders in its
-   least-bad position. Silently missing content is far harder to debug than
-   awkwardly rendered content.
+1. **Content is not dropped merely for fitting badly.** Today the only
+   thing that keeps content off a screen is `Content#renderable?` — "is
+   there anything to show at all?" (blank text, a graphic with no usable
+   image). Everything else renders *somewhere*: when content fits nowhere
+   well it renders in its least-bad position, because silently missing
+   content is far harder to debug than awkwardly rendered content.
+
+   This is deliberately being narrowed, because fitting badly and being
+   *illegible* are not the same thing — see
+   [Planned: a legibility veto](#planned-a-legibility-veto).
 2. **`fit_score` is a ranking, not a filter.** When a feed is subscribed to
    several fields on a screen, each piece of content renders only in its
    highest-scoring field (ties go to the lowest field id). A low score never
@@ -38,10 +42,12 @@ font is, and how much wrapping the position had to impose to get there.
 
 ### Predicting the render
 
-- A position is `width × height` in fractional screen coordinates; width is
-  converted to screen-height units via the 16:9 `SCREEN_ASPECT`. Using both
-  dimensions matters: an area-only model overestimates extreme shapes like
-  the ticker by ~2x.
+- A position is `width × height` in fractional coordinates, which only
+  describe a shape once the canvas is known. `Position#aspect_ratio` folds
+  in `Template#aspect_ratio` — measured from the template's own background
+  image — so the model reads the real shape of a portrait or 4:3 template
+  instead of assuming 16:9. Using both dimensions matters: an area-only
+  model overestimates extreme shapes like the ticker by ~2x.
 - Text is split into the lines the author actually wrote. The player applies
   no `white-space` rule to rich text, so newlines in **plaintext collapse to
   spaces**: plaintext is always one continuous run, and every break in it is
@@ -121,7 +127,7 @@ their own font sizes and margins that the model treats as uniform text.
 
 ## Calibration
 
-Ground truth from Blue Swoosh on a 48" 1080p TV (bamnet):
+Ground truth from Blue Swoosh on a 48" 1080p TV:
 
 - Ticker text wrapped to 1–2 lines reads fine; 3 lines is hard; 4 is too
   many.
@@ -172,6 +178,34 @@ To retune, in rough order of how safe they are to touch:
 - **Clock, Iframe, and other types**: the base score of 1.0 — no
   preference, so they stay wherever they're subscribed.
 
+## Planned: a legibility veto
+
+Ranking alone cannot express "this must not render here". `fit_score` orders
+positions; nothing disqualifies one. That matters at the unreadable end. On
+the Blue Swoosh ticker, a 162-character notice renders at 0.78" on a 48" TV
+— the two-line render this model deliberately favours — but 3,000 characters
+render at 0.20" and 18,000 at 0.08". Nobody reads that from across a
+hallway, and showing it is not better than showing nothing.
+
+The plan:
+
+- `FONT_FLOOR` (0.035, ~0.8") stays a *soft* penalty. It has to: the
+  favoured two-line ticker render sits just below it.
+- A second, much lower hard minimum (~0.3–0.5" on a 48" TV) disqualifies a
+  position outright.
+- `Content` gains a shared eligibility predicate, so the same mechanism
+  covers graphics — an 8.5×11 poster has no business in a horizontal ticker
+  either. `Graphic#fit_score` and `Video#fit_score` already return a hard
+  `0.0` outside their aspect-ratio windows, which is this concept in
+  disguise: once the positive-score filter was removed, that `0.0` stopped
+  disqualifying anything and merely tied for worst.
+- When no position is eligible, the content does not render on that screen.
+
+That last point reintroduces the possibility of content silently
+disappearing — the complaint #1829 opened with. So it is sequenced behind
+the admin placement view: a screen owner must be able to see what renders
+where, and why, before the system is allowed to withhold anything.
+
 ## Known limitations / future work
 
 - Authored lines are all treated as the same size, so heading-heavy HTML
@@ -183,7 +217,5 @@ To retune, in rough order of how safe they are to touch:
   on. It is arguably a bug of its own — an author typing a two-line
   plaintext announcement silently gets one run — and fixing it means
   changing plaintext segmentation to match.
-- Non-16:9 screens skew the width conversion; templates record no aspect
-  ratio today.
 - Admin UI shows no per-field placement preview yet, which is the main
   debugging aid users are missing (#1829).

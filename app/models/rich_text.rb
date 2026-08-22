@@ -24,10 +24,6 @@ class RichText < Content
     # string: average character width and line height, in em.
     CHAR_WIDTH = 0.5
     LINE_HEIGHT = 1.2
-    # Positions store fractional coordinates, so comparing a position's width
-    # against its height needs the screen's shape. Every shipped template
-    # targets 16:9 displays.
-    SCREEN_ASPECT = 16.0 / 9
 
     # Legibility band for the predicted font size, as a fraction of screen
     # height (resolution-independent: the same fraction is the same physical
@@ -150,8 +146,14 @@ class RichText < Content
     # largest font whose lines still fit the height. For a single segment
     # this agrees with the closed form it replaces to full float precision.
     def predicted_fit(segments, position)
-      width = (position.right - position.left) * SCREEN_ASPECT
+      # Positions store fractional coordinates, so a box's width only means
+      # something next to its height once the canvas shape is folded in.
+      # Position#aspect_ratio does exactly that (via Template#aspect_ratio,
+      # measured from the template's background image), so multiplying it by
+      # the height gives the width in the same units. Screens are not assumed
+      # to be 16:9 — portrait and 4:3 templates work out on their own.
       height = position.bottom - position.top
+      width = position.aspect_ratio * height
       return Fit.new(font: 0.0, lines: 0, authored: segments.size) unless width.positive? && height.positive?
 
       low = Float::EPSILON
