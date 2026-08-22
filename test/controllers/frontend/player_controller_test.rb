@@ -28,7 +28,7 @@ class Frontend::PlayerControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "renders the legacy SystemJS fallback bundle for old browsers" do
-    # The vite_plugin_legacy helper must resolve the manifest and emit <script
+    # Frontend::PlayerHelper must resolve the manifest and emit <script
     # nomodule> tags so browsers without native ES modules (e.g. Chrome 53 on
     # older WebOS screens, issue #1927) fall back to the SystemJS bundle.
     get "/frontend/#{@screen.id}"
