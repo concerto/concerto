@@ -55,7 +55,7 @@ class Graphic < Content
   # whose aspect ratio matches its own, decaying to 0.0 at the edges of the
   # tolerance window (ratios more than ASPECT_RATIO_TOLERANCE times off).
   def fit_score(position)
-    return super unless renderable?
+    return 0.0 unless renderable?
 
     if !image.analyzed?
       logger.debug "graphic #{id} not analyzed, fallback rendering"

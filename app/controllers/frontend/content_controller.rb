@@ -44,9 +44,8 @@ class Frontend::ContentController < Frontend::ApplicationController
 
     # Dedupe across fields: when a feed is subscribed to several fields, keep
     # each piece of content only in the field where it fits best so it isn't
-    # rendered in multiple positions at once. A poor fit still renders, in
-    # its least-bad field; only content that would be illegible everywhere
-    # (fit_score 0.0 in every candidate field) is held back.
+    # rendered in multiple positions at once. Content that fits nowhere on the
+    # screen is dropped.
     best_field = best_field_by_content(items.map { |item| item[:content] })
     content_items = items.select { |item| best_field[item[:content].id] == @field.id }
 
@@ -63,11 +62,8 @@ class Frontend::ContentController < Frontend::ApplicationController
   # highest-scoring field wins (ties broken by lowest field id). Because this
   # only depends on the screen's subscriptions and template, every field's
   # independent request computes the same winner, so content lands in exactly
-  # one field. Poor fits still win their least-bad field; a fit_score of 0.0
-  # means the content cannot be shown in that position at all — illegibly
-  # small text, a badly mismatched image — so it is not a candidate there.
-  # Fields with no template position are not eligible either (they never
-  # render). Content with no eligible field anywhere is held back.
+  # one field. Fields with no template position, or where the content has no
+  # positive fit, are not eligible.
   def best_field_by_content(contents)
     content_ids = contents.map(&:id).uniq
     return {} if content_ids.empty?
