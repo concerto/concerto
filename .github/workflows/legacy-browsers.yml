@@ -1,0 +1,135 @@
+# Exercises the player in the oldest browsers we can actually drive, letting the
+# browser itself choose between the modern and legacy bundles.
+#
+# This is the check that would have caught #1967. The main CI suite runs on
+# current Chrome, where both bundles work, so it cannot tell whether an old
+# browser picks a bundle it can run. Two bugs (#1927, #1967) came from exactly
+# that, so this job loads the real page in period browsers instead.
+#
+# Advisory by design: it is path-filtered, so making it a required check would
+# hang PRs that do not touch the frontend. See docs/legacy_browser_testing.md.
+name: Legacy Browsers
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      # The Vue player and its build.
+      - 'app/frontend/**'
+      - 'vite.config.ts'
+      - 'package.json'
+      - 'yarn.lock'
+      # The Rails side that picks and renders the bundles. #1967 lived in
+      # player_helper.rb and touched nothing under app/frontend, so a filter
+      # scoped to just the Vue code would have skipped the offending PR.
+      - 'app/views/frontend/**'
+      - 'app/helpers/frontend/**'
+      - 'app/controllers/frontend/**'
+      - 'test/system/**'
+      - 'test/application_system_test_case.rb'
+      - '.github/workflows/legacy-browsers.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: legacy-browsers-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  player:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Archived Selenium images, pinned by digest-stable tag. Each shipped
+          # whatever browser was current the day it was built, which is the only
+          # way to get period builds -- the version-numbered selenium tags stop
+          # at Chrome 95 / Firefox 137.
+          #
+          # Chrome 79 is the LG WebOS build from #1967. Firefox 84 is the oldest
+          # Firefox our selenium-webdriver can talk to (geckodriver 0.29+); both
+          # sit in the ES-modules-but-no-import.meta.resolve gap that broke the
+          # player, on two different engines.
+          - name: Chrome 79
+            image: selenium/standalone-chrome:3.141.59-zinc
+            browser: chrome
+          - name: Firefox 84
+            image: selenium/standalone-firefox:3.141.59-20210310
+            browser: firefox
+
+    env:
+      RAILS_ENV: test
+      # Selenium runs with --network host, so the grid and the Capybara server
+      # are both on localhost.
+      CAPYBARA_SERVER_PORT: 45678
+      CAPYBARA_APP_HOST: 127.0.0.1
+      # Selenium 3 serves the W3C endpoint under /wd/hub, not at the root.
+      SELENIUM_URL: http://localhost:4444/wd/hub
+      SELENIUM_BROWSER: ${{ matrix.browser }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Install packages
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libvips42
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+
+      - name: Enable Corepack
+        run: corepack enable yarn
+
+      - name: Install Node packages
+        run: yarn install --immutable
+
+      - name: Build assets (esp frontend player)
+        run: bin/rake assets:precompile
+
+      - name: Start ${{ matrix.name }} Selenium grid
+        run: |
+          # --shm-size guards the "tab crashed / invalid session id" failures
+          # these images hit on the default 64MB.
+          docker run -d --name selenium --network host --shm-size=2g "${{ matrix.image }}"
+          for _ in $(seq 1 60); do
+            if curl -sf http://localhost:4444/wd/hub/status > /dev/null; then
+              echo "grid ready"
+              # Informational only: each image has just one of the two.
+              docker exec selenium bash -c \
+                '(google-chrome --version || firefox --version) 2>/dev/null' || true
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::Selenium grid did not come up"
+          docker logs selenium
+          exit 1
+
+      # Only the player is served to these browsers. ApplicationController sets
+      # `allow_browser versions: :modern`, so every admin page returns 406 here
+      # by design -- running the full system suite would fail on that, not on
+      # anything real.
+      - name: Run player system tests
+        run: |
+          bin/rails db:test:prepare
+          bin/rails test \
+            test/system/player_boot_test.rb \
+            test/system/legacy_player_test.rb \
+            test/system/frontend_test.rb
+
+      - name: Keep screenshots from failed system tests
+        uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: screenshots-${{ matrix.browser }}
+          path: ${{ github.workspace }}/tmp/screenshots
+          if-no-files-found: ignore

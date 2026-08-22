@@ -15,7 +15,7 @@ class FrontendVideoLayoutTest < ApplicationSystemTestCase
   # A 1080p window: the fractional position coordinates only describe a real
   # shape on a 16:9 canvas, and at this size a mis-sized player is off by
   # hundreds of pixels rather than a handful.
-  driven_by :selenium, using: :headless_firefox, screen_size: [ 1920, 1080 ]
+  drive_with :firefox, screen_size: [ 1920, 1080 ]
 
   # Tolerance in CSS pixels. Sub-pixel layout rounding differs between engines,
   # and the failure this guards against is off by hundreds of pixels.
@@ -52,10 +52,12 @@ class FrontendVideoLayoutTest < ApplicationSystemTestCase
   end
 
   private
-    # Firefox is preinstalled on GitHub's runners, but the devcontainer talks to
-    # a Chromium-only remote Selenium, so skip rather than fail there.
+    # Firefox is preinstalled on GitHub's runners. A remote grid only has the one
+    # browser it was started with, so there we run only when that browser is
+    # Firefox (the legacy-browsers workflow's firefox leg) and skip on Chromium
+    # grids like the devcontainer's, rather than failing.
     def firefox_available?
-      return false if ENV["CAPYBARA_SERVER_PORT"].present?
+      return REMOTE_BROWSER == :firefox if REMOTE
 
       ENV["PATH"].to_s.split(File::PATH_SEPARATOR).any? do |dir|
         [ "firefox", "firefox-esr" ].any? { |binary| File.executable?(File.join(dir, binary)) }

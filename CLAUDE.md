@@ -248,6 +248,7 @@ The `docs/` directory contains detailed guides:
 - `concerto-style-guide.md` — UI/UX design specification
 - `content_ordering_design.md` — Content ordering strategy design
 - `content_fit_design.md` — How content is placed into screen positions (fit scoring)
+- `legacy_browser_testing.md` — Optional CI job exercising the player in period browsers (Chrome 79, Firefox 84)
 - `adding_settings.md` — How to add new application settings
 - `release_process.md` — Release workflow (branch, PR, tag, publish)
 - `remote_feed_spec.yaml` — Remote feed API specification
