@@ -108,6 +108,37 @@ class GraphicTest < ActiveSupport::TestCase
     assert_equal 0.0, banner.fit_score(TIME)
   end
 
+  test "the veto reaches strips and clock boxes, not real content areas" do
+    # Deliberately extreme-only: a badly-shaped graphic still renders in a
+    # sidebar, because withholding content is worse than rendering it
+    # awkwardly. Only a position that shrinks it to a sliver is ruled out.
+    banner = sized(1331, 99)
+
+    # A 13:1 banner in a 0.67:1 rail is the worst shape mismatch the stock
+    # templates can produce, and it still renders.
+    assert banner.fit_score(SIDEBAR).positive?
+    assert flyer(:landscape).fit_score(SIDEBAR).positive?
+
+    # The clock box is what "extreme" looks like. A banner shaped roughly like
+    # it survives — the veto asks about size, not shape, and never claims a
+    # position is wrong for content it can actually show — but it scores last
+    # by two orders of magnitude and can only ever win by being the only
+    # option. Page-shaped content there is ruled out outright.
+    assert banner.fit_score(TIME) < banner.fit_score(TICKER) / 50
+    assert_equal 0.0, flyer(:portrait).fit_score(TIME)
+  end
+
+  test "the score ignores resolution entirely" do
+    # fit_score reads shape, never pixel count, so uploading at 4K can neither
+    # trigger the veto nor rescue content from it. Deliberate: the veto asks
+    # how large the image renders on the screen, not how much detail it has.
+    [ MAIN, TICKER, SIDEBAR, TIME ].each do |position|
+      assert_equal sized(3840, 2160).fit_score(position),
+        sized(160, 90).fit_score(position),
+        "a 4K graphic and a thumbnail of the same shape must score the same"
+    end
+  end
+
   test "letterboxing costs but never disqualifies" do
     # A wide banner in the tall sidebar wastes almost all of the box, yet what
     # renders is whole and legible, so it stays a candidate — the same rule

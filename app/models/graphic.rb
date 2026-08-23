@@ -51,13 +51,22 @@ class Graphic < Content
   SCALE_TARGET = 0.8
   SCALE_WEIGHT = 2.0
 
-  # Below this the image is a thumbnail. A graphic usually carries content of
-  # its own — a flyer's body text stops being readable long before the image
-  # stops being visible — so a position that can only show it this small is
-  # no position at all. An 8.5x11 flyer in the Blue Swoosh ticker renders at
-  # 0.10, a 2.4" sliver on a 48" TV. Like RichText::FONT_MINIMUM this is a
-  # veto rather than a penalty; see Content#fit_score.
-  SCALE_MINIMUM = 0.25
+  # Reserved for the extreme: a position that can only show the image as a
+  # sliver, like an 8.5x11 flyer dropped into a ticker (0.10 of full size on
+  # Blue Swoosh, a 2.4" strip on a 48" TV). Everything short of that is left
+  # to the penalty above, because withholding content is worse than rendering
+  # it awkwardly. Like RichText::FONT_MINIMUM this is a veto; see
+  # Content#fit_score.
+  #
+  # 0.15 is the smallest value that still catches a flyer in every stock
+  # template's ticker (the loosest, Ruby, renders it at 0.139). At that
+  # setting the veto reaches only tickers and clock boxes; raising it to 0.20
+  # starts disqualifying sidebars, which are a real place to put a graphic.
+  #
+  # Note this measures the render against the *screen*, never the file. A
+  # 4K upload and a 160x90 thumbnail of the same shape score identically, so
+  # resolution can neither trigger the veto nor rescue content from it.
+  SCALE_MINIMUM = 0.15
 
   # Letterboxing is a cost, never a veto: a shape mismatch wastes space but
   # what renders is still whole and legible. Weighted well below the size

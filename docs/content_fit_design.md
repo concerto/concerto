@@ -182,6 +182,14 @@ two facts, mirroring the text model term for term.
 
 ### Rendered scale — the font-size analogue
 
+Note what this does *not* read: the file's pixel dimensions. Only shape
+survives `analyzed_aspect_ratio`, so a 4K upload and a 160×90 thumbnail of
+the same proportions score identically everywhere. That is deliberate — the
+question is how large the image renders on the screen, not how much detail
+it carries — and it means resolution can neither trigger the veto nor rescue
+content from it. See **Known limitations** for the flip side.
+
+
 ```
 scale = (height the image renders at in this box)
       / (height it would render at on the whole canvas)
@@ -200,7 +208,7 @@ not an aesthetic one.
 
 - At or above `SCALE_TARGET = 0.8` the penalty is zero.
 - Below it, `SCALE_WEIGHT = 2.0` per log unit.
-- Below `SCALE_MINIMUM = 0.25` the position is disqualified outright. See
+- Below `SCALE_MINIMUM = 0.15` the position is disqualified outright. See
   [The legibility veto](#the-legibility-veto).
 
 There is no upper penalty: `scale` cannot exceed `1.0`.
@@ -264,14 +272,20 @@ holdout, still vetoing on shape via its 4x aspect-ratio window.
 | `RichText::FONT_FLOOR` | 0.035 | font, fraction of screen height | steep **penalty**; still renders |
 | `RichText::FONT_MINIMUM` | 0.015 | font, fraction of screen height | **disqualifies** the position |
 | `Graphic::SCALE_TARGET` | 0.8 | render size ÷ full-canvas render size | **penalty** below; still renders |
-| `Graphic::SCALE_MINIMUM` | 0.25 | render size ÷ full-canvas render size | **disqualifies** the position |
+| `Graphic::SCALE_MINIMUM` | 0.15 | render size ÷ full-canvas render size | **disqualifies** the position |
 
 On a 48" TV `FONT_MINIMUM` is ~0.35" of text — readable from about three
 feet, which is not how anyone meets a hallway screen. `SCALE_MINIMUM` is the
 same judgment for images: an 8.5×11 flyer in the Blue Swoosh ticker renders
-at `0.10`, a 2.4" sliver. Anything in `0.10`–`0.41` satisfies the #1926
-ground truth; `0.25` sits in the middle of that range, and tightening it
-withholds more content.
+at `0.10`, a 2.4" sliver.
+
+Both are set for the *extreme* case, not the merely awkward one. `0.15` is
+the smallest value that still catches a flyer in every stock template's
+ticker — the loosest of them, Ruby, renders it at `0.139` — and at that
+setting the veto reaches only tickers and clock boxes. Raising it to `0.20`
+begins disqualifying sidebars, which are a real place to put a graphic;
+everything short of a sliver should be left to the penalty, because
+withholding content is worse than rendering it awkwardly.
 
 Each type keeps a soft threshold above its veto for the same reason: the
 render this model deliberately favours in the awkward cases sits just below
@@ -314,5 +328,11 @@ more with every type that gains a veto.
 - `Graphic` treats every image as carrying detail that must be readable. A
   decorative background or a logo would tolerate a much smaller render than
   `SCALE_MINIMUM` allows, and there is no way for an author to say so.
+- Nothing scores image *resolution*. A 160×90 thumbnail stretched across a
+  main position scores exactly what a 4K file would, though one of them will
+  look like mush. The metadata to fix this is already read
+  (`image.metadata[:width]`); what is missing is a term comparing delivered
+  pixels against rendered pixels. Related: the player is handed the original
+  blob rather than a variant, so a 4K upload ships in full to every screen.
 - `Video` has not been ported to this model and still vetoes on shape alone,
   so it retains the failure #1926 describes.
