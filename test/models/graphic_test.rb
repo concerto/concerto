@@ -163,6 +163,22 @@ class GraphicTest < ActiveSupport::TestCase
     assert_equal 0.0, banner.fit_score(SIDEBAR)
   end
 
+  test "both vetoes are load-bearing" do
+    # Neither measure subsumes the other, so deleting either one silently
+    # reopens a bug. Scale catches a position that is simply too small even
+    # when the shape is right (#1926's clock box: fill 0.79, scale 0.12).
+    # Fill catches a shape that leaves the box empty even when the scale is
+    # comfortable (a 13:1 banner in the sidebar: scale 0.30, fill 0.05).
+    clock_case = sized(758, 307)
+    empty_case = sized(1331, 99)
+
+    assert clock_case.send(:fill_fraction, 758.0 / 307, TIME) > Graphic::FILL_MINIMUM
+    assert_equal 0.0, clock_case.fit_score(TIME), "scale must veto this one alone"
+
+    assert empty_case.send(:rendered_scale, 1331.0 / 99, SIDEBAR) > Graphic::SCALE_MINIMUM
+    assert_equal 0.0, empty_case.fit_score(SIDEBAR), "fill must veto this one alone"
+  end
+
   test "what belongs in the sidebar" do
     # bamnet's read of the stock Blue Swoosh sidebar (#1926): everything up to
     # a 2.5:1 banner looks fine there; a 13:1 banner does not.

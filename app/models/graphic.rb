@@ -28,6 +28,13 @@ class Graphic < Content
     image.attached? && image.content_type == "application/pdf"
   end
 
+  # A graphic can only render once it has a displayable image: attached, in a
+  # variable (non-PDF) format. PDFs stay unrenderable until the conversion
+  # job replaces them with an image.
+  def renderable?
+    image.attached? && image.variable?
+  end
+
   def analysis_stuck?
     image.attached? && image.variable? && !image.analyzed? &&
       image.created_at < ANALYSIS_STUCK_AFTER.ago
@@ -39,62 +46,31 @@ class Graphic < Content
   end
 
   # A graphic is letterboxed into its position (object-fit: contain, see
-  # ConcertoGraphic.vue), so the size it renders at and the space it leaves
-  # empty both follow from the two shapes. fit_score grades exactly those:
-  # how large the image renders, and how much of the box it wastes. This
-  # mirrors RichText, which scores predicted font size and forced wrapping
-  # (docs/content_fit_design.md).
+  # ConcertoGraphic.vue), so fit_score grades the two things that follow from
+  # the two shapes: how large the image renders, and how much of the box it
+  # covers. Both derivations and the calibration behind every constant below
+  # are in docs/content_fit_design.md.
 
-  # Rendered size, as a fraction of the largest this screen could ever show
-  # the image. At 1.0 the position constrains the image no more than the
-  # screen itself does; below SCALE_TARGET the penalty grows.
+  # Render size as a fraction of the largest this screen could show the image.
+  # Measured against the screen, never the file: a 4K upload and a thumbnail
+  # of the same shape score identically.
   SCALE_TARGET = 0.8
   SCALE_WEIGHT = 2.0
 
-  # Reserved for the extreme: a position that can only show the image as a
-  # sliver, like an 8.5x11 flyer dropped into a ticker (0.10 of full size on
-  # Blue Swoosh, a 2.4" strip on a 48" TV). Everything short of that is left
-  # to the penalty above, because withholding content is worse than rendering
-  # it awkwardly. Like RichText::FONT_MINIMUM this is a veto; see
-  # Content#fit_score.
-  #
-  # 0.15 is the smallest value that still catches a flyer in every stock
-  # template's ticker (the loosest, Ruby, renders it at 0.139). At that
-  # setting the veto reaches only tickers and clock boxes; raising it to 0.20
-  # starts disqualifying sidebars, which are a real place to put a graphic.
-  #
-  # Note this measures the render against the *screen*, never the file. A
-  # 4K upload and a 160x90 thumbnail of the same shape score identically, so
-  # resolution can neither trigger the veto nor rescue content from it.
+  # Too small to read. An 8.5x11 flyer in a ticker renders at 0.10.
   SCALE_MINIMUM = 0.15
 
-  # Letterboxing is a cost: a shape mismatch wastes space, but what renders is
-  # still whole and legible, so it is weighted well below the size term.
+  # Share of the box the image covers. A mismatch is normally just a cost —
+  # what renders is whole and legible — but a shape that leaves the box
+  # near-empty reads as a mistake, and scale cannot see it: every image wider
+  # than the canvas reports the same scale in a given box, so only fill
+  # separates a 16:9 photo from a 13:1 banner.
   LETTERBOX_WEIGHT = 0.75
-
-  # It does become a veto at the extreme, though. Rendered scale cannot catch
-  # this on its own: an image wider than the canvas is width-limited both in
-  # the box and on the full screen, so the ratio cancels and every wide shape
-  # scores the identical scale in a given box. A 16:9 photo and a 13:1 banner
-  # both score 0.300 in the Blue Swoosh sidebar; one fills 38% of it and the
-  # other 5%. Only fill tells them apart.
-  #
-  # 0.15 is calibrated on bamnet's read of the stock sidebar: 16:9 (0.38),
-  # 758x307 (0.27) and both flyer orientations (0.52, 0.87) all look fine
-  # there; 1331x99 (0.05) does not. Across every stock template this
-  # withholds that banner and nothing else.
   FILL_MINIMUM = 0.15
 
-  # A graphic can only render once it has a displayable image: attached,
-  # in a variable (non-PDF) format. PDFs stay unrenderable until the
-  # conversion job replaces them with an image.
-  def renderable?
-    image.attached? && image.variable?
-  end
-
-  # Score how well a graphic fits a position, in (0, 1]. A score of 0.0 means
-  # the position cannot show this graphic at a useful size and is not a
-  # candidate for it at all.
+  # Score how well a graphic fits a position, in (0, 1]. 0.0 means the
+  # position is not a candidate at all: the image would render too small to
+  # read, or leave the box so empty it reads as a mistake.
   def fit_score(position)
     return 0.0 unless renderable?
 
@@ -129,16 +105,14 @@ class Graphic < Content
     width.fdiv(height)
   end
 
-  # How large the image renders here, relative to the largest this screen
-  # could show it. Contained in a box, an image renders at the height the
-  # tighter of the two dimensions allows; comparing that against the same
-  # figure for the whole canvas keeps the result resolution-independent and
-  # bounded by 1.0.
+  # Contained in a box, an image takes the height its tighter dimension
+  # allows; normalising by the same figure for the whole canvas makes this
+  # resolution-independent and bounded by 1.0.
   def rendered_scale(ratio, position)
     return 0.0 unless position.width.positive? && position.height.positive?
 
     contained_height(ratio, position.width, position.height) /
-      contained_height(ratio, position.template.aspect_ratio, 1.0)
+      contained_height(ratio, position.canvas_aspect_ratio, 1.0)
   end
 
   def contained_height(ratio, width, height)
@@ -146,16 +120,15 @@ class Graphic < Content
   end
 
   # Too small is a defect; too large cannot happen, since rendered_scale is
-  # capped at 1.0 by construction.
+  # capped at 1.0.
   def scale_penalty(scale)
     return 0.0 if scale >= SCALE_TARGET
 
     SCALE_WEIGHT * Math.log(SCALE_TARGET / scale)
   end
 
-  # The share of the box the image actually covers once letterboxed into it.
-  # Contain matches one dimension exactly, so this is just how far the two
-  # shapes are apart.
+  # Contain matches one dimension exactly, so the share of the box covered is
+  # just how far the two shapes are apart.
   def fill_fraction(ratio, position)
     relative = ratio / position.aspect_ratio
     relative > 1.0 ? 1.0 / relative : relative

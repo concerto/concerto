@@ -264,10 +264,11 @@ way up, and belongs in the Sidebar when it is portrait. A landscape flyer in
 the Sidebar is the deliberately borderline case: it renders, but it loses to
 Main by a wide margin rather than being ruled out.
 
-The 1331×99 banner is the counter-case. It is now confined to tickers — the
-shape it was made for — because everywhere else leaves over 85% of the box
-empty. On a single-position template like Simplicity that means it does not
-render at all, which is the sharpest edge of this rule.
+The 1331×99 banner is the counter-case. It is confined to tickers — the shape
+it was made for — because everywhere else leaves over 85% of the box empty.
+On a single-position template like Simplicity that means it does not render
+at all. That is intended: a banner that can only be shown as a hairline
+across an empty screen is better withheld than displayed.
 
 The two banners are the shapes from the #1926 report. The wide one still wins
 the Ticker. The squarer one previously scored `0.0` in the Ticker and `0.66`
@@ -294,8 +295,11 @@ anywhere is held back rather than rendered.
 
 Two things can disqualify a position: the content would render too small to
 read, or it would leave the box so empty that it reads as a mistake. The
-first is the general rule and the second is reserved for the extreme —
-`Graphic` needs both because neither measure can see what the other catches.
+first is the general rule and the second is reserved for the extreme.
+`Graphic` needs both, and neither is redundant — across the stock templates
+`SCALE_MINIMUM` alone catches five cases `FILL_MINIMUM` misses (a well-shaped
+graphic in a clock box) and `FILL_MINIMUM` alone catches two it misses (a
+banner in a wide field). `test/models/graphic_test.rb` pins one of each.
 `Video` is the holdout, still vetoing on shape alone via its 4x window.
 
 | | threshold | measures | effect |
@@ -368,8 +372,7 @@ more with every type that gains a veto.
   blob rather than a variant, so a 4K upload ships in full to every screen.
 - `Video` has not been ported to this model and still vetoes on shape alone,
   so it retains the failure #1926 describes.
-- `FILL_MINIMUM` has no notion of alternatives. A banner-shaped graphic on a
-  template whose only position is full-screen is withheld from the screen
-  entirely, where rendering it would arguably have been better than nothing.
-  Lowering the threshold to 0.10 would spare exactly that case (Simplicity
-  fills 0.132) at the cost of a less principled boundary.
+- `FILL_MINIMUM` has no notion of alternatives, so a banner-shaped graphic is
+  withheld from a template whose only position is full-screen. Accepted
+  deliberately (see **Calibration**), but it makes the missing admin
+  placement view more important: nothing tells a screen owner this happened.
