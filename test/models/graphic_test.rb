@@ -114,9 +114,8 @@ class GraphicTest < ActiveSupport::TestCase
     # awkwardly. Only a position that shrinks it to a sliver is ruled out.
     banner = sized(1331, 99)
 
-    # A 13:1 banner in a 0.67:1 rail is the worst shape mismatch the stock
-    # templates can produce, and it still renders.
-    assert banner.fit_score(SIDEBAR).positive?
+    # A landscape flyer is a poor fit for a tall rail and still renders there;
+    # only the extremes are ruled out.
     assert flyer(:landscape).fit_score(SIDEBAR).positive?
 
     # The clock box is what "extreme" looks like. A banner shaped roughly like
@@ -126,6 +125,7 @@ class GraphicTest < ActiveSupport::TestCase
     # option. Page-shaped content there is ruled out outright.
     assert banner.fit_score(TIME) < banner.fit_score(TICKER) / 50
     assert_equal 0.0, flyer(:portrait).fit_score(TIME)
+    assert_equal 0.0, sized(758, 307).fit_score(TIME)
   end
 
   test "the score ignores resolution entirely" do
@@ -139,11 +139,47 @@ class GraphicTest < ActiveSupport::TestCase
     end
   end
 
-  test "letterboxing costs but never disqualifies" do
-    # A wide banner in the tall sidebar wastes almost all of the box, yet what
-    # renders is whole and legible, so it stays a candidate — the same rule
-    # that lets RichText render awkwardly rather than vanish.
-    assert sized(1331, 99).fit_score(SIDEBAR).positive?
+  test "letterboxing costs, and disqualifies only when the box is left empty" do
+    # A moderate mismatch is a penalty: what renders is whole and legible, so
+    # it stays a candidate — the rule that lets content render awkwardly
+    # rather than vanish. A 13:1 banner in a tall rail is a different thing:
+    # it covers 5% of the box and reads as a mistake.
+    assert sized(758, 307).fit_score(SIDEBAR).positive?
+    assert_equal 0.0, sized(1331, 99).fit_score(SIDEBAR)
+  end
+
+  test "rendered scale alone cannot judge a wide shape" do
+    # Regression guard for why FILL_MINIMUM exists. An image wider than the
+    # canvas is width-limited both in the box and on the whole screen, so the
+    # ratio cancels: every wide shape reports the same scale in a given box.
+    # Anything that separates these two has to come from fill.
+    photo = sized(1920, 1080)
+    banner = sized(1331, 99)
+
+    assert_in_delta photo.send(:rendered_scale, 16.0 / 9, SIDEBAR),
+      banner.send(:rendered_scale, 1331.0 / 99, SIDEBAR), 1e-9
+
+    assert photo.fit_score(SIDEBAR).positive?
+    assert_equal 0.0, banner.fit_score(SIDEBAR)
+  end
+
+  test "what belongs in the sidebar" do
+    # bamnet's read of the stock Blue Swoosh sidebar (#1926): everything up to
+    # a 2.5:1 banner looks fine there; a 13:1 banner does not.
+    assert flyer(:portrait).fit_score(SIDEBAR).positive?
+    assert flyer(:landscape).fit_score(SIDEBAR).positive?
+    assert sized(3840, 2160).fit_score(SIDEBAR).positive?
+    assert sized(758, 307).fit_score(SIDEBAR).positive?
+
+    assert_equal 0.0, sized(1331, 99).fit_score(SIDEBAR)
+  end
+
+  test "a banner ruled out of the wider fields still wins its ticker" do
+    # The veto must not chase content off the shape it was made for.
+    banner = sized(1331, 99)
+
+    assert banner.fit_score(TICKER) > 0.5
+    assert_equal 0.0, banner.fit_score(MAIN)
   end
 
   test "fit_score scores a closer aspect ratio higher" do

@@ -68,10 +68,22 @@ class Graphic < Content
   # resolution can neither trigger the veto nor rescue content from it.
   SCALE_MINIMUM = 0.15
 
-  # Letterboxing is a cost, never a veto: a shape mismatch wastes space but
-  # what renders is still whole and legible. Weighted well below the size
-  # term for that reason.
+  # Letterboxing is a cost: a shape mismatch wastes space, but what renders is
+  # still whole and legible, so it is weighted well below the size term.
   LETTERBOX_WEIGHT = 0.75
+
+  # It does become a veto at the extreme, though. Rendered scale cannot catch
+  # this on its own: an image wider than the canvas is width-limited both in
+  # the box and on the full screen, so the ratio cancels and every wide shape
+  # scores the identical scale in a given box. A 16:9 photo and a 13:1 banner
+  # both score 0.300 in the Blue Swoosh sidebar; one fills 38% of it and the
+  # other 5%. Only fill tells them apart.
+  #
+  # 0.15 is calibrated on bamnet's read of the stock sidebar: 16:9 (0.38),
+  # 758x307 (0.27) and both flyer orientations (0.52, 0.87) all look fine
+  # there; 1331x99 (0.05) does not. Across every stock template this
+  # withholds that banner and nothing else.
+  FILL_MINIMUM = 0.15
 
   # A graphic can only render once it has a displayable image: attached,
   # in a variable (non-PDF) format. PDFs stay unrenderable until the
@@ -92,7 +104,10 @@ class Graphic < Content
     scale = rendered_scale(ratio, position)
     return 0.0 if scale < SCALE_MINIMUM
 
-    Math.exp(-(scale_penalty(scale) + letterbox_penalty(ratio, position)))
+    fill = fill_fraction(ratio, position)
+    return 0.0 if fill < FILL_MINIMUM
+
+    Math.exp(-(scale_penalty(scale) + letterbox_penalty(fill)))
   end
 
   private
@@ -138,10 +153,16 @@ class Graphic < Content
     SCALE_WEIGHT * Math.log(SCALE_TARGET / scale)
   end
 
-  # Distance between the image's shape and the box's, which is exactly the
-  # log of the fraction of the box left empty by letterboxing.
-  def letterbox_penalty(ratio, position)
-    LETTERBOX_WEIGHT * Math.log(ratio / position.aspect_ratio).abs
+  # The share of the box the image actually covers once letterboxed into it.
+  # Contain matches one dimension exactly, so this is just how far the two
+  # shapes are apart.
+  def fill_fraction(ratio, position)
+    relative = ratio / position.aspect_ratio
+    relative > 1.0 ? 1.0 / relative : relative
+  end
+
+  def letterbox_penalty(fill)
+    LETTERBOX_WEIGHT * -Math.log(fill)
   end
 
   def track_image_change

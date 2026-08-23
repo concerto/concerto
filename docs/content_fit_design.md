@@ -217,12 +217,36 @@ There is no upper penalty: `scale` cannot exceed `1.0`.
 
 `LETTERBOX_WEIGHT = 0.75` per log unit of the distance between the image's
 aspect ratio and the position's, which is exactly the log of the fraction of
-the box left empty. Like forced wrapping it is a cost and never a veto: a
-badly-shaped position wastes space, but what renders is whole and legible.
+the box left empty. Like forced wrapping it is normally a cost rather than a
+veto: a badly-shaped position wastes space, but what renders is whole and
+legible.
 
 This term is the same quantity the 2x tolerance window used to compute, so
 the *ranking* it produced is preserved. What changed is that the hard cliff
-at 2x became a slope, and size became the thing that can disqualify.
+at 2x became a slope.
+
+### Why fill also has to be able to veto
+
+Rendered scale cannot police shape on its own, and the reason is structural.
+Once an image is wider than the canvas it is width-limited *both* in the box
+and on the full screen, so the ratio cancels out of the division and every
+wide shape reports the identical scale in a given box:
+
+| shape | scale in the Blue Swoosh sidebar | fill |
+|---|---|---|
+| 16:9 photo | 0.300 | 0.38 |
+| 758×307 banner | 0.300 | 0.27 |
+| 1331×99 banner | 0.300 | 0.05 |
+| 40:1 banner | 0.300 | 0.02 |
+
+`scale` is pinned at `box_width / canvas_width` for all of them. A 16:9 photo
+and a 13:1 banner are indistinguishable to it, though one covers 38% of the
+sidebar and the other 5%.
+
+So `FILL_MINIMUM = 0.15` disqualifies a position the image would leave almost
+entirely empty. It is calibrated on the stock sidebar: 16:9, 758×307 and both
+flyer orientations all read fine there; 1331×99 does not. Across every stock
+template that threshold withholds the 1331×99 banner and nothing else.
 
 ### Calibration
 
@@ -239,6 +263,11 @@ A flyer is unreadable in a ticker either way up, comfortable in Main either
 way up, and belongs in the Sidebar when it is portrait. A landscape flyer in
 the Sidebar is the deliberately borderline case: it renders, but it loses to
 Main by a wide margin rather than being ruled out.
+
+The 1331×99 banner is the counter-case. It is now confined to tickers — the
+shape it was made for — because everywhere else leaves over 85% of the box
+empty. On a single-position template like Simplicity that means it does not
+render at all, which is the sharpest edge of this rule.
 
 The two banners are the shapes from the #1926 report. The wide one still wins
 the Ticker. The squarer one previously scored `0.0` in the Ticker and `0.66`
@@ -263,9 +292,11 @@ all. `Frontend::ContentController#best_field_by_content` only ever considers
 positively-scored fields, and content with no positively-scored field
 anywhere is held back rather than rendered.
 
-Every content type states this the same way: a threshold on *how small the
-content would render*, never on how badly it is shaped. `Video` is the one
-holdout, still vetoing on shape via its 4x aspect-ratio window.
+Two things can disqualify a position: the content would render too small to
+read, or it would leave the box so empty that it reads as a mistake. The
+first is the general rule and the second is reserved for the extreme —
+`Graphic` needs both because neither measure can see what the other catches.
+`Video` is the holdout, still vetoing on shape alone via its 4x window.
 
 | | threshold | measures | effect |
 |---|---|---|---|
@@ -273,6 +304,7 @@ holdout, still vetoing on shape via its 4x aspect-ratio window.
 | `RichText::FONT_MINIMUM` | 0.015 | font, fraction of screen height | **disqualifies** the position |
 | `Graphic::SCALE_TARGET` | 0.8 | render size ÷ full-canvas render size | **penalty** below; still renders |
 | `Graphic::SCALE_MINIMUM` | 0.15 | render size ÷ full-canvas render size | **disqualifies** the position |
+| `Graphic::FILL_MINIMUM` | 0.15 | share of the box the image covers | **disqualifies** the position |
 
 On a 48" TV `FONT_MINIMUM` is ~0.35" of text — readable from about three
 feet, which is not how anyone meets a hallway screen. `SCALE_MINIMUM` is the
@@ -296,9 +328,9 @@ deliberately favours sits just below it, at ~0.78". On the Blue Swoosh
 ticker the separation is wide — 162 characters render at 0.78", 3,000 at
 0.20", 18,000 at 0.08".
 
-The veto is deliberately one-directional. Only *too small* disqualifies a
-position; oversized never does, and neither does awkward wrapping or heavy
-letterboxing. That
+The veto is deliberately one-directional. Only *too small* and *too empty*
+disqualify a position; oversized never does, and neither does awkward
+wrapping or moderate letterboxing. That
 asymmetry is what keeps #1829 fixed — short text in a large field, which is
 what used to vanish, now scores near the top of the band rather than at
 zero.
@@ -336,3 +368,8 @@ more with every type that gains a veto.
   blob rather than a variant, so a 4K upload ships in full to every screen.
 - `Video` has not been ported to this model and still vetoes on shape alone,
   so it retains the failure #1926 describes.
+- `FILL_MINIMUM` has no notion of alternatives. A banner-shaped graphic on a
+  template whose only position is full-screen is withheld from the screen
+  entirely, where rendering it would arguably have been better than nothing.
+  Lowering the threshold to 0.10 would spare exactly that case (Simplicity
+  fills 0.132) at the cost of a less principled boundary.
