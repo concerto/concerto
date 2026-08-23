@@ -38,9 +38,31 @@ class Graphic < Content
     { name: name, body: filename }
   end
 
-  # Aspect ratios within this multiple of the position's are a fit; anything
-  # more distorted is rejected. There is room to improve this. I just made up 2.0.
-  ASPECT_RATIO_TOLERANCE = 2.0
+  # A graphic is letterboxed into its position (object-fit: contain, see
+  # ConcertoGraphic.vue), so the size it renders at and the space it leaves
+  # empty both follow from the two shapes. fit_score grades exactly those:
+  # how large the image renders, and how much of the box it wastes. This
+  # mirrors RichText, which scores predicted font size and forced wrapping
+  # (docs/content_fit_design.md).
+
+  # Rendered size, as a fraction of the largest this screen could ever show
+  # the image. At 1.0 the position constrains the image no more than the
+  # screen itself does; below SCALE_TARGET the penalty grows.
+  SCALE_TARGET = 0.8
+  SCALE_WEIGHT = 2.0
+
+  # Below this the image is a thumbnail. A graphic usually carries content of
+  # its own — a flyer's body text stops being readable long before the image
+  # stops being visible — so a position that can only show it this small is
+  # no position at all. An 8.5x11 flyer in the Blue Swoosh ticker renders at
+  # 0.10, a 2.4" sliver on a 48" TV. Like RichText::FONT_MINIMUM this is a
+  # veto rather than a penalty; see Content#fit_score.
+  SCALE_MINIMUM = 0.25
+
+  # Letterboxing is a cost, never a veto: a shape mismatch wastes space but
+  # what renders is still whole and legible. Weighted well below the size
+  # term for that reason.
+  LETTERBOX_WEIGHT = 0.75
 
   # A graphic can only render once it has a displayable image: attached,
   # in a variable (non-PDF) format. PDFs stay unrenderable until the
@@ -49,37 +71,69 @@ class Graphic < Content
     image.attached? && image.variable?
   end
 
-  # Score how well a graphic fits a position based on aspect ratio.
-  #
-  # When the dimensions are known, a graphic scores highest in positions
-  # whose aspect ratio matches its own, decaying to 0.0 at the edges of the
-  # tolerance window (ratios more than ASPECT_RATIO_TOLERANCE times off).
+  # Score how well a graphic fits a position, in (0, 1]. A score of 0.0 means
+  # the position cannot show this graphic at a useful size and is not a
+  # candidate for it at all.
   def fit_score(position)
     return 0.0 unless renderable?
 
-    if !image.analyzed?
-      logger.debug "graphic #{id} not analyzed, fallback rendering"
-      return super
-    end
+    ratio = analyzed_aspect_ratio
+    return super if ratio.nil?
 
-    if image.metadata[:width].nil? || image.metadata[:height].nil?
-      logger.debug "graphic #{id} broken analysis, w: #{image.metadata[:width]}, h: #{image.metadata[:height]}, fallback rendering}"
-      return super
-    end
+    scale = rendered_scale(ratio, position)
+    return 0.0 if scale < SCALE_MINIMUM
 
-    content_aspect_ratio = image.metadata[:width].fdiv(image.metadata[:height])
-    position_aspect_ratio = position.aspect_ratio
-    ratio = content_aspect_ratio / position_aspect_ratio
-
-    # Reject aspect ratios outside the tolerance window in either direction.
-    return 0.0 unless ratio.between?(1.0 / ASPECT_RATIO_TOLERANCE, ASPECT_RATIO_TOLERANCE)
-
-    # Grade by aspect-ratio closeness: an exact match scores 1.0, decaying to
-    # 0.0 at the edges of the tolerance window.
-    1.0 - Math.log2(ratio).abs / Math.log2(ASPECT_RATIO_TOLERANCE)
+    Math.exp(-(scale_penalty(scale) + letterbox_penalty(ratio, position)))
   end
 
   private
+
+  # The image's own aspect ratio, or nil when analysis has not produced
+  # usable dimensions and the caller should fall back to the base score.
+  def analyzed_aspect_ratio
+    unless image.analyzed?
+      logger.debug "graphic #{id} not analyzed, fallback rendering"
+      return nil
+    end
+
+    width, height = image.metadata.values_at(:width, :height)
+    if width.nil? || height.nil?
+      logger.debug "graphic #{id} broken analysis, w: #{width}, h: #{height}, fallback rendering"
+      return nil
+    end
+
+    width.fdiv(height)
+  end
+
+  # How large the image renders here, relative to the largest this screen
+  # could show it. Contained in a box, an image renders at the height the
+  # tighter of the two dimensions allows; comparing that against the same
+  # figure for the whole canvas keeps the result resolution-independent and
+  # bounded by 1.0.
+  def rendered_scale(ratio, position)
+    return 0.0 unless position.width.positive? && position.height.positive?
+
+    contained_height(ratio, position.width, position.height) /
+      contained_height(ratio, position.template.aspect_ratio, 1.0)
+  end
+
+  def contained_height(ratio, width, height)
+    [ width / ratio, height ].min
+  end
+
+  # Too small is a defect; too large cannot happen, since rendered_scale is
+  # capped at 1.0 by construction.
+  def scale_penalty(scale)
+    return 0.0 if scale >= SCALE_TARGET
+
+    SCALE_WEIGHT * Math.log(SCALE_TARGET / scale)
+  end
+
+  # Distance between the image's shape and the box's, which is exactly the
+  # log of the fraction of the box left empty by letterboxing.
+  def letterbox_penalty(ratio, position)
+    LETTERBOX_WEIGHT * Math.log(ratio / position.aspect_ratio).abs
+  end
 
   def track_image_change
     @image_will_change = attachment_changes.key?("image")

@@ -1,7 +1,7 @@
 # Content Fit Design
 
 How Concerto decides which screen position a piece of content renders in
-(issues #1829 and #1906).
+(issues #1829, #1906 and #1926).
 
 ## Principles
 
@@ -23,12 +23,18 @@ How Concerto decides which screen position a piece of content renders in
    readability floor is broken; "WELCOME STUDENTS" rendering enormous in the
    main position is working as intended. The scoring is deliberately
    asymmetric.
-4. **The lines the author wrote are the content's shape.** A break the
-   author typed is free — it is what the content was designed to look like,
-   and a field tall enough to honour it is a good home. A break a position
-   imposes by wrapping is a cost. This is the difference between a sentence
-   reading as two ticker lines and the same sentence poured into a ten-line
-   column.
+4. **The shape the author gave the content is the content's shape.** A line
+   break the author typed is free — it is what the content was designed to
+   look like, and a field tall enough to honour it is a good home. A break a
+   position imposes by wrapping is a cost. This is the difference between a
+   sentence reading as two ticker lines and the same sentence poured into a
+   ten-line column. The same holds for images: a position that matches a
+   graphic's proportions wastes nothing, and one that does not pays for the
+   empty space it letterboxes in.
+5. **Size is part of fit, never a consequence of it.** Shape alone cannot
+   win a position. A box can be exactly the right proportions for a piece of
+   content and still far too small to show it — which is how a 3:1 banner
+   used to end up in the clock slot (#1926).
 
 ## How text is scored (`RichText#fit_score`)
 
@@ -166,13 +172,78 @@ To retune, in rough order of how safe they are to touch:
 3. The penalty weights (shape of the curve) and the text metrics (font
    geometry) — see the warning above before touching these.
 
+## How graphics are scored (`Graphic#fit_score`)
+
+The player letterboxes images (`object-fit: contain` in
+`ConcertoGraphic.vue`), so the render is fully determined by the two shapes:
+the image takes the largest size the tighter of the box's two dimensions
+allows, and whatever is left over is empty. The model scores exactly those
+two facts, mirroring the text model term for term.
+
+### Rendered scale — the font-size analogue
+
+```
+scale = (height the image renders at in this box)
+      / (height it would render at on the whole canvas)
+```
+
+Both boxes are measured in screen-height units via `Position#width` /
+`Position#height`, so the canvas shape is folded in the same way it is for
+text. The result is dimensionless, bounded by `1.0`, and resolution
+independent: `1.0` means the position constrains the image no more than the
+screen itself does.
+
+This is the term that was missing before. A graphic almost always carries
+content of its own — a flyer's body text stops being readable long before the
+image stops being visible — so how large it renders is a legibility question,
+not an aesthetic one.
+
+- At or above `SCALE_TARGET = 0.8` the penalty is zero.
+- Below it, `SCALE_WEIGHT = 2.0` per log unit.
+- Below `SCALE_MINIMUM = 0.25` the position is disqualified outright. See
+  [The legibility veto](#the-legibility-veto).
+
+There is no upper penalty: `scale` cannot exceed `1.0`.
+
+### Letterboxing — the wrapping analogue
+
+`LETTERBOX_WEIGHT = 0.75` per log unit of the distance between the image's
+aspect ratio and the position's, which is exactly the log of the fraction of
+the box left empty. Like forced wrapping it is a cost and never a veto: a
+badly-shaped position wastes space, but what renders is whole and legible.
+
+This term is the same quantity the 2x tolerance window used to compute, so
+the *ranking* it produced is preserved. What changed is that the hard cliff
+at 2x became a slope, and size became the thing that can disqualify.
+
+### Calibration
+
+Ground truth from #1926, on Blue Swoosh, for an 8.5x11 flyer:
+
+| | Main | Ticker | Sidebar | Time |
+|---|---|---|---|---|
+| portrait | 0.62 | **0.00** | **0.67** | 0.00 |
+| landscape | **0.92** | **0.00** | 0.16 | 0.00 |
+| 1331x99 banner | 0.09 | **0.89** | 0.02 | 0.00 |
+| 758x307 banner | **0.31** | 0.00 | 0.05 | 0.00 |
+
+A flyer is unreadable in a ticker either way up, comfortable in Main either
+way up, and belongs in the Sidebar when it is portrait. A landscape flyer in
+the Sidebar is the deliberately borderline case: it renders, but it loses to
+Main by a wide margin rather than being ruled out.
+
+The two banners are the shapes from the #1926 report. The wide one still wins
+the Ticker. The squarer one previously scored `0.0` in the Ticker and `0.66`
+in the *clock* box, so it was routed to a slot that renders it at an eighth
+of its usable size — indistinguishable, to a screen owner, from not rendering
+at all. Size in the score is what fixes that.
+
 ## Other content types
 
-- **Graphic**: ranked by aspect-ratio closeness to the position, within a
-  2x tolerance window. `renderable?` is false until a displayable image is
-  attached (PDFs convert asynchronously).
-- **Video**: ranked by aspect-ratio closeness within a 4x window (looser
-  because the player letterboxes).
+- **Video**: still ranked by aspect-ratio closeness within a 4x window. It
+  has the same size blindness `Graphic` had, but different constants: a video
+  has no fine detail that must be read, so it tolerates a smaller render.
+  Porting this model to it is follow-up work.
 - **Clock, Iframe, and other types**: the base score of 1.0 — no
   preference, so they stay wherever they're subscribed.
 
@@ -184,33 +255,44 @@ all. `Frontend::ContentController#best_field_by_content` only ever considers
 positively-scored fields, and content with no positively-scored field
 anywhere is held back rather than rendered.
 
-This is not a new mechanism — `Graphic` and `Video` have always returned
-`0.0` outside their aspect-ratio windows, which is why an 8.5×11 poster does
-not appear in a horizontal ticker strip. `RichText` now participates too, via
-`FONT_MINIMUM = 0.015` (~0.35" on a 48" TV — readable from about three feet,
-which is not how anyone meets a hallway screen).
+Every content type states this the same way: a threshold on *how small the
+content would render*, never on how badly it is shaped. `Video` is the one
+holdout, still vetoing on shape via its 4x aspect-ratio window.
 
-The two text thresholds do different jobs and must not be confused:
-
-| | value | on a 48" TV | effect |
+| | threshold | measures | effect |
 |---|---|---|---|
-| `FONT_FLOOR` | 0.035 | ~0.82" | steep **penalty**; still renders |
-| `FONT_MINIMUM` | 0.015 | ~0.35" | **disqualifies** the position |
+| `RichText::FONT_FLOOR` | 0.035 | font, fraction of screen height | steep **penalty**; still renders |
+| `RichText::FONT_MINIMUM` | 0.015 | font, fraction of screen height | **disqualifies** the position |
+| `Graphic::SCALE_TARGET` | 0.8 | render size ÷ full-canvas render size | **penalty** below; still renders |
+| `Graphic::SCALE_MINIMUM` | 0.25 | render size ÷ full-canvas render size | **disqualifies** the position |
+
+On a 48" TV `FONT_MINIMUM` is ~0.35" of text — readable from about three
+feet, which is not how anyone meets a hallway screen. `SCALE_MINIMUM` is the
+same judgment for images: an 8.5×11 flyer in the Blue Swoosh ticker renders
+at `0.10`, a 2.4" sliver. Anything in `0.10`–`0.41` satisfies the #1926
+ground truth; `0.25` sits in the middle of that range, and tightening it
+withholds more content.
+
+Each type keeps a soft threshold above its veto for the same reason: the
+render this model deliberately favours in the awkward cases sits just below
+it.
 
 `FONT_FLOOR` has to stay soft: the two-line ticker render this model
 deliberately favours sits just below it, at ~0.78". On the Blue Swoosh
 ticker the separation is wide — 162 characters render at 0.78", 3,000 at
 0.20", 18,000 at 0.08".
 
-The veto is deliberately one-directional. Only *illegibly small* disqualifies
-a position; oversized never does, and neither does awkward wrapping. That
+The veto is deliberately one-directional. Only *too small* disqualifies a
+position; oversized never does, and neither does awkward wrapping or heavy
+letterboxing. That
 asymmetry is what keeps #1829 fixed — short text in a large field, which is
 what used to vanish, now scores near the top of the band rather than at
 zero.
 
 Withholding content is still the most dangerous thing this code does, and a
 screen owner currently has no way to see that it happened. The admin
-placement view (#1829) is the follow-up that closes that gap.
+placement view (#1829) is the follow-up that closes that gap, and it matters
+more with every type that gains a veto.
 
 ## Known limitations / future work
 
@@ -229,3 +311,8 @@ placement view (#1829) is the follow-up that closes that gap.
 - `FONT_MINIMUM` assumes the smallest common screen (48"). A genuinely large
   video wall would tolerate a smaller fraction, but the error is in the safe
   direction: content is withheld slightly sooner than strictly necessary.
+- `Graphic` treats every image as carrying detail that must be readable. A
+  decorative background or a logo would tolerate a much smaller render than
+  `SCALE_MINIMUM` allows, and there is no way for an author to say so.
+- `Video` has not been ported to this model and still vetoes on shape alone,
+  so it retains the failure #1926 describes.

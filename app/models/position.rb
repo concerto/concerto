@@ -2,12 +2,21 @@ class Position < ApplicationRecord
   belongs_to :template
   belongs_to :field
 
-  # The position's real-world aspect ratio: its fractional (0-1) box
-  # corrected by the template canvas's actual pixel aspect ratio, since a
-  # box's fractional width:height alone doesn't reflect its true shape on a
-  # non-square canvas (see Template#aspect_ratio).
+  # The box's dimensions in screen-height units: the stored coordinates are
+  # fractions of the canvas, so the fractional width has to be scaled by the
+  # canvas shape before it means anything alongside the height (see
+  # Template#aspect_ratio). Content models size their render against these.
+  def height
+    (bottom - top).to_f
+  end
+
+  def width
+    (right - left).to_f * template.aspect_ratio
+  end
+
+  # The position's real-world aspect ratio.
   def aspect_ratio
-    (right-left).fdiv(bottom-top) * template.aspect_ratio
+    width / height
   end
 
   def area

@@ -159,12 +159,11 @@ class RichText < Content
     def predicted_fit(segments, position)
       # Positions store fractional coordinates, so a box's width only means
       # something next to its height once the canvas shape is folded in.
-      # Position#aspect_ratio does exactly that (via Template#aspect_ratio,
-      # measured from the template's background image), so multiplying it by
-      # the height gives the width in the same units. Screens are not assumed
-      # to be 16:9 — portrait and 4:3 templates work out on their own.
-      height = position.bottom - position.top
-      width = position.aspect_ratio * height
+      # Position#width does exactly that (via Template#aspect_ratio, measured
+      # from the template's background image), putting both dimensions in
+      # screen-height units. Screens are not assumed to be 16:9 — portrait
+      # and 4:3 templates work out on their own.
+      width, height = position.width, position.height
       return Fit.new(font: 0.0, lines: 0, authored: segments.size) unless width.positive? && height.positive?
 
       low = Float::EPSILON

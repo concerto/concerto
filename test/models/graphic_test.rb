@@ -3,8 +3,34 @@ require "test_helper"
 class GraphicTest < ActiveSupport::TestCase
   include ActiveJob::TestHelper
 
+  # The Blue Swoosh template from db/seeds.rb, the geometry the fit model was
+  # calibrated against (issues #1906/#1926). Fractional coordinates only
+  # describe a shape alongside the canvas they sit on, so these carry one: an
+  # image-less Template reports the default 16:9, which Blue Swoosh is.
+  CANVAS = Template.new
+  MAIN = Position.new(left: 0.025, top: 0.026, right: 0.592, bottom: 0.796, template: CANVAS)
+  TICKER = Position.new(left: 0.221, top: 0.885, right: 0.975, bottom: 0.985, template: CANVAS)
+  SIDEBAR = Position.new(left: 0.68, top: 0.015, right: 0.98, bottom: 0.811, template: CANVAS)
+  TIME = Position.new(left: 0.024, top: 0.885, right: 0.18, bottom: 0.974, template: CANVAS)
+
   setup do
     @graphic = graphics(:one)
+  end
+
+  # A graphic of the given pixel dimensions. The bytes never matter — fit_score
+  # reads only the analysis metadata — so every one of these points at the same
+  # fixture file.
+  def sized(width, height)
+    graphic = Graphic.new(name: "#{width}x#{height}", duration: 10, user: users(:admin))
+    graphic.image.attach(io: file_fixture("one.jpg").open, filename: "one.jpg", content_type: "image/jpeg")
+    graphic.image.blob.metadata.merge!(width: width, height: height, analyzed: true)
+    graphic
+  end
+
+  # An 8.5x11 flyer at 300dpi: the shape most likely to be posted to a screen,
+  # and the one bamnet spelled out expectations for on #1926.
+  def flyer(orientation)
+    orientation == :portrait ? sized(2550, 3300) : sized(3300, 2550)
   end
 
   test "has analyzed metadata" do
@@ -23,15 +49,77 @@ class GraphicTest < ActiveSupport::TestCase
     assert @graphic.renderable?
   end
 
-  test "fit_score is zero for a position outside the aspect-ratio window" do
+  test "fit_score is zero where the graphic could only render as a thumbnail" do
     assert_equal 0.0, @graphic.fit_score(positions(:two_ticker))
+  end
+
+  test "a flyer never renders in a ticker, whichever way up it is" do
+    # A ticker can only show a page-shaped graphic about a tenth of the size
+    # the screen could — a 2.4" sliver on a 48" TV. Nothing on it is readable,
+    # so the ticker is not a candidate at all (issue #1926).
+    assert_equal 0.0, flyer(:portrait).fit_score(TICKER)
+    assert_equal 0.0, flyer(:landscape).fit_score(TICKER)
+  end
+
+  test "a flyer renders comfortably in main either way up" do
+    assert flyer(:portrait).fit_score(MAIN) > 0.5
+    assert flyer(:landscape).fit_score(MAIN) > 0.5
+  end
+
+  test "the sidebar suits a portrait flyer and a landscape one prefers main" do
+    # The sidebar is a tall narrow rail: it shows a portrait page nearly
+    # whole, but has to shrink a landscape one to fit its width. Landscape
+    # still renders there — it is only outranked.
+    portrait = flyer(:portrait)
+    landscape = flyer(:landscape)
+
+    assert portrait.fit_score(SIDEBAR) > portrait.fit_score(MAIN)
+    assert landscape.fit_score(MAIN) > landscape.fit_score(SIDEBAR)
+    assert landscape.fit_score(SIDEBAR).positive?, "an awkward fit is still a fit"
+  end
+
+  test "a wide banner wins the ticker" do
+    # 1331x99, the graphic that rendered correctly in the #1926 report.
+    banner = sized(1331, 99)
+
+    assert banner.fit_score(TICKER) > banner.fit_score(MAIN)
+    assert banner.fit_score(TICKER) > banner.fit_score(SIDEBAR)
+  end
+
+  test "a banner too square for the ticker falls back to main, not the clock" do
+    # 758x307, the graphic that did not render in the #1926 report. Scored on
+    # shape alone it matched the clock box (~3:1) far better than main, so it
+    # was routed to a slot that renders it at an eighth of its usable size.
+    # Size is now part of the score, so the clock is disqualified outright.
+    banner = sized(758, 307)
+
+    assert_equal 0.0, banner.fit_score(TIME)
+    assert banner.fit_score(MAIN) > banner.fit_score(SIDEBAR)
+    assert banner.fit_score(MAIN).positive?
+  end
+
+  test "a small position is disqualified however well its shape matches" do
+    # The clock box is the right shape for a 3:1 banner and still far too
+    # small for it; shape alone must not be able to win a position.
+    banner = sized(758, 307)
+
+    assert_in_delta banner.image.metadata[:width].fdiv(banner.image.metadata[:height]),
+      TIME.aspect_ratio, 0.7, "the clock box really is a close shape match"
+    assert_equal 0.0, banner.fit_score(TIME)
+  end
+
+  test "letterboxing costs but never disqualifies" do
+    # A wide banner in the tall sidebar wastes almost all of the box, yet what
+    # renders is whole and legible, so it stays a candidate — the same rule
+    # that lets RichText render awkwardly rather than vanish.
+    assert sized(1331, 99).fit_score(SIDEBAR).positive?
   end
 
   test "fit_score scores a closer aspect ratio higher" do
     # The graphic's aspect ratio (~1.33) sits closer to the main position
     # (~1.31, on the template's real 16:9 canvas) than to the sidebar (~0.73),
-    # so it should score higher there even though both are inside the
-    # tolerance window.
+    # so it should score higher there even though both render it large
+    # enough to be a candidate.
     main = @graphic.fit_score(positions(:two_graphic))
     sidebar = @graphic.fit_score(positions(:two_sidebar))
 
@@ -46,6 +134,13 @@ class GraphicTest < ActiveSupport::TestCase
     # for the template's real 16:9 canvas); main is landscape-shaped (~1.31).
     assert portrait.fit_score(positions(:two_sidebar)).positive?
     assert_not portrait.fit_score(positions(:two_ticker)).positive?
+  end
+
+  test "an unanalyzed graphic falls back to the neutral base score" do
+    graphic = Graphic.new(name: "Fresh", duration: 10, user: users(:admin))
+    graphic.image.attach(io: file_fixture("one.jpg").open, filename: "one.jpg", content_type: "image/jpeg")
+
+    assert_equal 1.0, graphic.fit_score(TICKER)
   end
 
   test "supported_content_types includes common web image formats" do
