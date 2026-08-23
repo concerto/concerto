@@ -191,15 +191,18 @@ content from it. See **Known limitations** for the flip side.
 
 
 ```
-scale = (height the image renders at in this box)
-      / (height it would render at on the whole canvas)
+scale = max(rendered width  / screen width,
+            rendered height / screen height)
 ```
+
+How much of the screen the image spans in its dominant direction. A banner in
+the Blue Swoosh ticker reaches three-quarters of the way across it: `0.754`.
+The same ticker renders a flyer 1.8" × 2.4" on a 48" TV: `0.100`.
 
 Both boxes are measured in screen-height units via `Position#width` /
 `Position#height`, so the canvas shape is folded in the same way it is for
 text. The result is dimensionless, bounded by `1.0`, and resolution
-independent: `1.0` means the position constrains the image no more than the
-screen itself does.
+independent.
 
 This is the term that was missing before. A graphic almost always carries
 content of its own — a flyer's body text stops being readable long before the

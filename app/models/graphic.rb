@@ -51,7 +51,7 @@ class Graphic < Content
   # covers. Both derivations and the calibration behind every constant below
   # are in docs/content_fit_design.md.
 
-  # Render size as a fraction of the largest this screen could show the image.
+  # How much of the screen the image spans in its dominant direction.
   # Measured against the screen, never the file: a 4K upload and a thumbnail
   # of the same shape score identically.
   SCALE_TARGET = 0.8
@@ -105,18 +105,14 @@ class Graphic < Content
     width.fdiv(height)
   end
 
-  # Contained in a box, an image takes the height its tighter dimension
-  # allows; normalising by the same figure for the whole canvas makes this
-  # resolution-independent and bounded by 1.0.
+  # Contained in a box, the image takes the height its tighter dimension
+  # allows. Comparing each side of the result against the screen's own gives
+  # the share of the screen it spans, bounded by 1.0.
   def rendered_scale(ratio, position)
     return 0.0 unless position.width.positive? && position.height.positive?
 
-    contained_height(ratio, position.width, position.height) /
-      contained_height(ratio, position.canvas_aspect_ratio, 1.0)
-  end
-
-  def contained_height(ratio, width, height)
-    [ width / ratio, height ].min
+    height = [ position.width / ratio, position.height ].min
+    [ height * ratio / position.canvas_aspect_ratio, height ].max
   end
 
   # Too small is a defect; too large cannot happen, since rendered_scale is
