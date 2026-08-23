@@ -38,48 +38,76 @@ class Graphic < Content
     { name: name, body: filename }
   end
 
-  # Aspect ratios within this multiple of the position's are a fit; anything
-  # more distorted is rejected. There is room to improve this. I just made up 2.0.
-  ASPECT_RATIO_TOLERANCE = 2.0
+  # A position and a graphic rarely have the same proportions, and the player
+  # letterboxes the difference (object-fit: contain, see ConcertoGraphic.vue).
+  # fit_score grades exactly that, and only that: the share of the box the
+  # image ends up covering.
+  #
+  # Nothing here scores how *large* the image renders. A graphic may be a
+  # poster covered in body text or a weather icon, and its metadata cannot
+  # tell us which, so how big it ought to be is the template author's call
+  # rather than ours. One consequence is worth relying on: a score depends
+  # only on the two aspect ratios, so a position behaves the same at any size.
+  # See docs/content_fit_design.md.
 
-  # A graphic can only render once it has a displayable image: attached,
-  # in a variable (non-PDF) format. PDFs stay unrenderable until the
-  # conversion job replaces them with an image.
+  # Below this the image covers so little of the box that it reads as a
+  # mistake rather than a poor fit — a 13:1 banner in a portrait rail covers
+  # 5%. This is the only thing that stops a graphic rendering, and it is
+  # deliberately extreme; see Content#fit_score.
+  FILL_MINIMUM = 0.15
+
+  # How sharply the score falls away as space is wasted. Gentle on purpose:
+  # covering half the box still scores 0.59, because an awkward fit should
+  # lose to a better one rather than be ruled out.
+  FILL_FALLOFF = 0.75
+
+  # A graphic can only render once it has a displayable image: attached, in a
+  # variable (non-PDF) format. PDFs stay unrenderable until the conversion
+  # job replaces them with an image.
   def renderable?
     image.attached? && image.variable?
   end
 
-  # Score how well a graphic fits a position based on aspect ratio.
-  #
-  # When the dimensions are known, a graphic scores highest in positions
-  # whose aspect ratio matches its own, decaying to 0.0 at the edges of the
-  # tolerance window (ratios more than ASPECT_RATIO_TOLERANCE times off).
+  # Score how well a graphic fits a position, in (0, 1]. A score of 0.0 means
+  # the image would leave the box so empty that the position is not a
+  # candidate for it at all.
   def fit_score(position)
     return 0.0 unless renderable?
 
-    if !image.analyzed?
-      logger.debug "graphic #{id} not analyzed, fallback rendering"
-      return super
-    end
+    ratio = analyzed_aspect_ratio
+    return super if ratio.nil?
 
-    if image.metadata[:width].nil? || image.metadata[:height].nil?
-      logger.debug "graphic #{id} broken analysis, w: #{image.metadata[:width]}, h: #{image.metadata[:height]}, fallback rendering}"
-      return super
-    end
+    fill = fill_fraction(ratio, position)
+    return 0.0 if fill < FILL_MINIMUM
 
-    content_aspect_ratio = image.metadata[:width].fdiv(image.metadata[:height])
-    position_aspect_ratio = position.aspect_ratio
-    ratio = content_aspect_ratio / position_aspect_ratio
-
-    # Reject aspect ratios outside the tolerance window in either direction.
-    return 0.0 unless ratio.between?(1.0 / ASPECT_RATIO_TOLERANCE, ASPECT_RATIO_TOLERANCE)
-
-    # Grade by aspect-ratio closeness: an exact match scores 1.0, decaying to
-    # 0.0 at the edges of the tolerance window.
-    1.0 - Math.log2(ratio).abs / Math.log2(ASPECT_RATIO_TOLERANCE)
+    fill**FILL_FALLOFF
   end
 
   private
+
+  # The image's own aspect ratio, or nil when analysis has not produced
+  # usable dimensions and the caller should fall back to the base score.
+  def analyzed_aspect_ratio
+    unless image.analyzed?
+      logger.debug "graphic #{id} not analyzed, fallback rendering"
+      return nil
+    end
+
+    width, height = image.metadata.values_at(:width, :height)
+    if width.nil? || height.nil?
+      logger.debug "graphic #{id} broken analysis, w: #{width}, h: #{height}, fallback rendering"
+      return nil
+    end
+
+    width.fdiv(height)
+  end
+
+  # Contain matches one dimension exactly, so the share of the box the image
+  # covers is just how far the two shapes are apart.
+  def fill_fraction(ratio, position)
+    relative = ratio / position.aspect_ratio
+    relative > 1.0 ? 1.0 / relative : relative
+  end
 
   def track_image_change
     @image_will_change = attachment_changes.key?("image")
