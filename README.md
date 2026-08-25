@@ -108,7 +108,7 @@ Concerto runs on Raspberry Pi and other ARM devices out of the box.
 
 ## Development
 
-Concerto can be developed on any machine that supports a standard Ruby on Rails development enviroment.
+Concerto can be developed on any machine that supports a standard Ruby on Rails development environment.
 See the [Ruby on Rails documentation](https://guides.rubyonrails.org/index.html) for more information.
 A devcontainer is also available for containerized development in supported platforms e.g. VSCode.
 
