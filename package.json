@@ -10,7 +10,7 @@
     "@stylistic/eslint-plugin": "^5.10.0",
     "@vitejs/plugin-legacy": "^8.2.3",
     "@vitejs/plugin-vue": "^6.0.8",
-    "@vue/test-utils": "^2.4.11",
+    "@vue/test-utils": "^2.5.0",
     "acorn": "^8.18.0",
     "eslint": "^10.9.1",
     "eslint-plugin-vue": "^10.10.0",
