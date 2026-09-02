@@ -21,14 +21,7 @@ class PlayerBootTest < ApplicationSystemTestCase
     # purpose: once from the detector probe, once from the guard at the top of
     # the modern chunk. Its own fallback then logs "syntax error above and the
     # same error below should be ignored". Both carry this string.
-    "import.meta.resolve not supported",
-
-    # useTextResize bails through console.error when the field has not been laid
-    # out yet, which happens on mount in every browser we tested. Pre-existing
-    # and harmless, but it is a console.error, so it has to be named to keep the
-    # rest of this assertion meaningful. Drop this entry once it is downgraded
-    # to a warning or the mount ordering is fixed.
-    "Cannot resize text: zero dimension detected."
+    "import.meta.resolve not supported"
   ].freeze
 
   test "the player mounts and logs no unexpected console errors" do
