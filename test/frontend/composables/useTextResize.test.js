@@ -85,11 +85,11 @@ describe('useTextResize', () => {
   it('bails when container has zero width', async () => {
     const wrapper = mount(TestComponent, { attachTo: document.body })
     await nextTick()
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     mockLayout(wrapper, { fieldWidth: 0, fieldHeight: 100, naturalWidth: 50, naturalHeight: 50 })
 
     wrapper.vm.resizeText()
-    expect(errorSpy).toHaveBeenCalled()
+    expect(warnSpy).toHaveBeenCalled()
     wrapper.unmount()
   })
 })

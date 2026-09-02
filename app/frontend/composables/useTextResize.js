@@ -29,7 +29,9 @@ export function useTextResize() {
     const initialHeight = childElement.scrollHeight
 
     if (initialHeight === 0 || fieldHeight === 0 || fieldWidth === 0) {
-      console.error('Cannot resize text: zero dimension detected.')
+      // Expected on the first resize pass, before the field has been laid out.
+      // A later resize (triggered by the ResizeObserver) succeeds normally.
+      console.warn('Cannot resize text: zero dimension detected.')
       return
     }
 
