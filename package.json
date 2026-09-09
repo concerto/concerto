@@ -19,7 +19,7 @@
     "msw": "^2.15.0",
     "vite": "^8.2.2",
     "vite-plugin-ruby": "^5.2.3",
-    "vitest": "^4.1.11",
+    "vitest": "^5.0.0",
     "vue-eslint-parser": "^10.4.1"
   },
   "packageManager": "yarn@4.13.0"
