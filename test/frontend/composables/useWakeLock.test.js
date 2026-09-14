@@ -16,15 +16,9 @@ const TestComponent = {
 describe('useWakeLock', () => {
   let wakeLockSentinel;
   let wakeLockRequest;
-  let originalNavigator;
-  let originalDocument;
   let visibilityChangeListener;
 
   beforeEach(() => {
-    // Save originals
-    originalNavigator = global.navigator;
-    originalDocument = global.document;
-
     // Mock WakeLockSentinel
     wakeLockSentinel = {
       release: vi.fn().mockResolvedValue(undefined),
@@ -59,11 +53,12 @@ describe('useWakeLock', () => {
   });
 
   afterEach(() => {
-    // Restore originals
-    global.navigator = originalNavigator;
-    global.document = originalDocument;
+    // navigator and document are getter-only on the jsdom window (vitest 5),
+    // so undo the mutations instead of reassigning the globals.
+    delete global.navigator.wakeLock;
+    delete global.document.visibilityState;
     visibilityChangeListener = null;
-    vi.clearAllMocks();
+    vi.restoreAllMocks();
   });
 
   describe('feature detection', () => {
