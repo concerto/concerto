@@ -1,4 +1,5 @@
 class RssFeedsController < ApplicationController
+  before_action :authenticate_user!, except: %i[ show ]
   before_action :set_rss_feed, only: %i[ show edit update destroy refresh cleanup ]
   before_action :set_form_options, only: %i[ new edit create update ]
 

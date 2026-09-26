@@ -241,4 +241,12 @@ class RemoteFeedsControllerTest < ActionDispatch::IntegrationTest
     json = JSON.parse(response.body)
     assert_nil json["config"]
   end
+
+  test "anonymous users are sent to sign in from new and edit" do
+    get new_remote_feed_url
+    assert_redirected_to new_user_session_url
+
+    get edit_remote_feed_url(@remote_feed)
+    assert_redirected_to new_user_session_url
+  end
 end

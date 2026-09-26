@@ -200,6 +200,14 @@ class RssFeedsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "You are not authorized to perform this action.", flash[:alert]
   end
 
+  test "anonymous users are sent to sign in from new and edit" do
+    get new_rss_feed_url
+    assert_redirected_to new_user_session_url
+
+    get edit_rss_feed_url(@rss_feed)
+    assert_redirected_to new_user_session_url
+  end
+
   test "refresh shows an alert instead of erroring when the feed is unreachable" do
     stub_request(:get, @rss_feed.url).to_return(status: 404)
     sign_in @system_admin
