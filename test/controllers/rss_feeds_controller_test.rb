@@ -207,4 +207,14 @@ class RssFeedsControllerTest < ActionDispatch::IntegrationTest
     get edit_rss_feed_url(@rss_feed)
     assert_redirected_to new_user_session_url
   end
+
+  test "refresh shows an alert instead of erroring when the feed is unreachable" do
+    stub_request(:get, @rss_feed.url).to_return(status: 404)
+    sign_in @system_admin
+
+    get refresh_rss_feed_url(@rss_feed)
+
+    assert_redirected_to rss_feed_url(@rss_feed)
+    assert_match "could not be refreshed", flash[:alert]
+  end
 end

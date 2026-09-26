@@ -57,7 +57,14 @@ class RssFeedsController < ApplicationController
 
   def refresh
     authorize @rss_feed
-    @rss_feed.refresh
+
+    begin
+      @rss_feed.refresh
+    rescue StandardError => e
+      Rails.logger.error "Failed to refresh RSS feed #{@rss_feed.name}: #{e.class} - #{e.message}"
+      return redirect_to rss_feed_url(@rss_feed), alert: "RSS Feed could not be refreshed: #{e.message}"
+    end
+
     redirect_to rss_feed_url(@rss_feed), notice: "RSS Feed was refreshed."
   end
 

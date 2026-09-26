@@ -149,6 +149,18 @@ class MembershipPolicyTest < ActiveSupport::TestCase
     refute_includes policy.permitted_attributes, :role
   end
 
+  test "permitted_attributes never includes group_id" do
+    [ @membership, @group.memberships.build ].each do |record|
+      refute_includes MembershipPolicy.new(@system_admin_user, record).permitted_attributes, :group_id
+      refute_includes MembershipPolicy.new(@group_admin_user, record).permitted_attributes, :group_id
+    end
+  end
+
+  test "permitted_attributes includes user_id only for new memberships" do
+    assert_includes MembershipPolicy.new(@group_admin_user, @group.memberships.build).permitted_attributes, :user_id
+    refute_includes MembershipPolicy.new(@group_admin_user, @membership).permitted_attributes, :user_id
+  end
+
   test "can_edit_role? is true for system admin" do
     policy = MembershipPolicy.new(@system_admin_user, @membership)
     assert policy.can_edit_role?
