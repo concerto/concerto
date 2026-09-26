@@ -1,5 +1,7 @@
 require "net/http"
 require "digest"
+require "resolv"
+require "ipaddr"
 
 class RemoteFeed < Feed
     # HTTP timeout settings for remote requests
@@ -8,6 +10,41 @@ class RemoteFeed < Feed
 
     # Maximum image file size to prevent DoS attacks
     MAX_IMAGE_SIZE = 10.megabytes
+
+    # Private/reserved ranges a remote feed URL (or an image URL returned by
+    # one) must never resolve to. Any group member can edit an existing
+    # feed's URL or supply item URLs via the feed's own response, and both
+    # paths make the server issue the request, so this is the boundary
+    # between "fetch a partner's public feed" and SSRF against the local
+    # network or cloud metadata.
+    BLOCKED_IP_RANGES = [
+      IPAddr.new("0.0.0.0/8"),
+      IPAddr.new("10.0.0.0/8"),
+      IPAddr.new("100.64.0.0/10"),
+      IPAddr.new("127.0.0.0/8"),
+      IPAddr.new("169.254.0.0/16"),
+      IPAddr.new("172.16.0.0/12"),
+      IPAddr.new("192.0.0.0/24"),
+      IPAddr.new("192.168.0.0/16"),
+      IPAddr.new("198.18.0.0/15"),
+      IPAddr.new("::1/128"),
+      IPAddr.new("fc00::/7"),
+      IPAddr.new("fe80::/10")
+    ].freeze
+
+    def self.safe_external_uri?(uri)
+      return false unless uri.is_a?(URI::HTTP) && uri.host.present?
+
+      addresses = Resolv.getaddresses(uri.host)
+      return false if addresses.empty?
+
+      addresses.all? do |address|
+        ip = IPAddr.new(address)
+        BLOCKED_IP_RANGES.none? { |range| range.include?(ip) }
+      end
+    rescue IPAddr::Error, Resolv::ResolvError, ArgumentError
+      false
+    end
 
     store_accessor :config, [ :url, :last_refreshed, :refresh_interval ]
 
@@ -39,6 +76,10 @@ class RemoteFeed < Feed
 
     def refresh
       uri = URI.parse(url)
+      unless self.class.safe_external_uri?(uri)
+        Rails.logger.error "Refusing to fetch remote feed #{name}: #{uri.host} resolves to a blocked address"
+        return
+      end
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = (uri.scheme == "https")
       http.open_timeout = HTTP_OPEN_TIMEOUT
@@ -195,6 +236,10 @@ class RemoteFeed < Feed
 
     def download_and_attach_image(graphic, image_url)
       uri = URI.parse(image_url)
+      unless self.class.safe_external_uri?(uri)
+        Rails.logger.error "Refusing to download image for #{graphic.name}: #{uri.host} resolves to a blocked address"
+        return
+      end
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = (uri.scheme == "https")
       http.open_timeout = HTTP_OPEN_TIMEOUT
