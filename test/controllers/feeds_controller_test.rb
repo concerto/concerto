@@ -349,4 +349,24 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "a[href='#{feed_path(@feed)}']", count: 0
   end
+
+  test "group member cannot change a feed's type" do
+    sign_in users(:regular)
+
+    patch feed_url(@feed), params: { feed: { name: "Renamed", type: "RssFeed" } }
+    assert_redirected_to feed_url(@feed)
+
+    # Re-find rather than reload: reload keeps the in-memory class.
+    feed = Feed.find(@feed.id)
+    assert_equal "Renamed", feed.name
+    assert_instance_of Feed, feed
+  end
+
+  test "an unknown type submitted on update does not break the feeds index" do
+    sign_in users(:regular)
+
+    patch feed_url(@feed), params: { feed: { type: "Bogus" } }
+    get feeds_url
+    assert_response :success
+  end
 end

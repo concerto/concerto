@@ -39,7 +39,11 @@ class FeedPolicy < ApplicationPolicy
 
   private
 
+  # :type and :config are deliberately absent. Changing type would let a
+  # group member turn a feed into an auto-approving RssFeed/RemoteFeed (or an
+  # unknown class that breaks every page loading feeds), and config holds
+  # subclass settings that each controller permits by name.
   def entity_specific_attributes
-    [ :name, :description, :type, :config ]
+    [ :name, :description ]
   end
 end
