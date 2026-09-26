@@ -17,6 +17,7 @@ class RefreshRssFeedsJobTest < ActiveJob::TestCase
 
     @feed_not_due = RssFeed.create!(
       name: "Not due yet",
+      url: "https://example.com/rss",
       group: groups(:system_administrators)
     )
     @feed_not_due.last_refreshed = 30.minutes.ago
@@ -25,11 +26,13 @@ class RefreshRssFeedsJobTest < ActiveJob::TestCase
 
     @feed_never_refreshed = RssFeed.create!(
       name: "Never refreshed",
+      url: "https://example.com/rss",
       group: groups(:system_administrators)
     )
 
     @feed_custom_interval = RssFeed.create!(
       name: "Custom interval",
+      url: "https://example.com/rss",
       group: groups(:system_administrators)
     )
     @feed_custom_interval.last_refreshed = 3.hours.ago
@@ -97,6 +100,7 @@ class RefreshRssFeedsJobTest < ActiveJob::TestCase
     # Create a feed with nil refresh_interval to test the default
     feed_nil_interval = RssFeed.create!(
       name: "Nil interval",
+      url: "https://example.com/rss",
       group: groups(:system_administrators),
       last_refreshed: 2.hours.ago,
       refresh_interval: nil
@@ -107,5 +111,20 @@ class RefreshRssFeedsJobTest < ActiveJob::TestCase
 
     # Should be refreshed because it uses DEFAULT_REFRESH_INTERVAL (1.hour)
     assert_includes self.class.refreshed_feeds, feed_nil_interval.id
+  end
+
+  test "a failing feed does not stop other feeds from refreshing" do
+    self.class.refreshed_feeds.clear
+    failing_id = @feed_due_for_refresh.id
+
+    RssFeed.class_eval do
+      define_method(:refresh) do
+        raise OpenURI::HTTPError.new("404 Not Found", StringIO.new) if id == failing_id
+        RefreshRssFeedsJobTest.refreshed_feeds << id
+      end
+    end
+
+    assert_nothing_raised { RefreshRssFeedsJob.perform_now }
+    assert_includes self.class.refreshed_feeds, @feed_never_refreshed.id
   end
 end

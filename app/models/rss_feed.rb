@@ -8,6 +8,8 @@ class RssFeed < Feed
       true
     end
 
+    validates :url, presence: true, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]) }
+
     # Destroy all associated content when an RSS feed is deleted
     before_destroy :destroy_associated_content, prepend: true
 
