@@ -349,4 +349,14 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "a[href='#{feed_path(@feed)}']", count: 0
   end
+
+  test "anonymous users are sent to sign in from new and create" do
+    get new_feed_url
+    assert_redirected_to new_user_session_url
+
+    assert_no_difference("Feed.count") do
+      post feeds_url, params: { feed: { name: "Anon", group_id: @feed.group_id } }
+    end
+    assert_redirected_to new_user_session_url
+  end
 end
