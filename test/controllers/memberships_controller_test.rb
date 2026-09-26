@@ -186,6 +186,32 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "admin", membership.role
   end
 
+  test "group admin cannot move a membership into another group" do
+    sign_in @admin_user
+    membership = memberships(:regular_content_creator)
+    system_admins = groups(:system_administrators)
+
+    patch group_membership_url(@group, membership), params: {
+      membership: { group_id: system_admins.id, user_id: @admin_user.id, role: "admin" }
+    }
+
+    membership.reload
+    assert_equal @group, membership.group
+    assert_equal @regular_user, membership.user
+    refute @admin_user.reload.system_admin?
+  end
+
+  test "create ignores group_id and uses the group from the URL" do
+    sign_in @admin_user
+    new_user = User.create!(email: "moved@test.com", first_name: "New", last_name: "User", password: "password123")
+
+    post group_memberships_url(@group), params: {
+      membership: { user_id: new_user.id, group_id: groups(:system_administrators).id, role: "member" }
+    }
+
+    assert_equal [ @group.id ], new_user.memberships.where.not(group: @system_group).pluck(:group_id)
+  end
+
   test "should destroy membership" do
     sign_in @admin_user
     membership = memberships(:regular_content_creator)
