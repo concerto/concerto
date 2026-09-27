@@ -9,6 +9,14 @@ class RemoteFeedsControllerTest < ActionDispatch::IntegrationTest
       .to_return(status: 200, body: "[]", headers: { "Content-Type" => "application/json" })
   end
 
+  test "update changes url, which lives in config" do
+    sign_in @system_admin
+    patch remote_feed_url(@remote_feed), params: { remote_feed: { url: "https://example.com/new.json" } }
+    assert_redirected_to remote_feed_url(@remote_feed)
+
+    assert_equal "https://example.com/new.json", @remote_feed.reload.url
+  end
+
   test "should get new with group admin" do
     sign_in users(:admin)
     get new_remote_feed_url

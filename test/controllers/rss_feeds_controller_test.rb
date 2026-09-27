@@ -41,6 +41,16 @@ class RssFeedsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to rss_feed_url(@rss_feed)
   end
 
+  test "update changes url and formatter, which live in config" do
+    sign_in @system_admin
+    patch rss_feed_url(@rss_feed), params: { rss_feed: { url: "https://example.com/new.xml", formatter: "ticker" } }
+    assert_redirected_to rss_feed_url(@rss_feed)
+
+    @rss_feed.reload
+    assert_equal "https://example.com/new.xml", @rss_feed.url
+    assert_equal "ticker", @rss_feed.formatter
+  end
+
   test "should destroy rss_feed with system admin" do
     sign_in @system_admin
     assert_difference("RssFeed.count", -1) do

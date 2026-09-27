@@ -167,11 +167,17 @@ class FeedPolicyTest < ActiveSupport::TestCase
     refute_includes policy.permitted_attributes, :group_id
   end
 
-  test "permitted_attributes includes name, description, type, config for all" do
+  test "permitted_attributes includes name and description for all" do
     policy = FeedPolicy.new(@system_admin_user, @feed)
     assert_includes policy.permitted_attributes, :name
     assert_includes policy.permitted_attributes, :description
-    assert_includes policy.permitted_attributes, :type
-    assert_includes policy.permitted_attributes, :config
+  end
+
+  test "permitted_attributes never includes type or config" do
+    [ @system_admin_user, @group_admin_user, @group_regular_user ].each do |user|
+      policy = FeedPolicy.new(user, @feed)
+      refute_includes policy.permitted_attributes, :type
+      refute_includes policy.permitted_attributes, :config
+    end
   end
 end
