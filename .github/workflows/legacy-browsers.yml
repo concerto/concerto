@@ -124,7 +124,8 @@ jobs:
           bin/rails test \
             test/system/player_boot_test.rb \
             test/system/legacy_player_test.rb \
-            test/system/frontend_test.rb
+            test/system/frontend_test.rb \
+            test/system/frontend_video_layout_test.rb
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v7

@@ -161,3 +161,24 @@ and fallback tags from `Frontend::PlayerHelper#vite_legacy_player_tags` and
 `expected to find css "#screen .screen #background"`, while the modern-Chrome
 suite stays green. Worth re-running after any change to how the bundles are
 selected.
+
+## Layout in old engines
+
+Booting is not the only thing that differs. #2005 (YouTube rendering tiny on
+Tizen 5.5, which is Chrome 69) was a CSS gap: the video components sized their
+iframe with `aspect-ratio` (Chrome 88) and container query units (Chrome 105),
+and a browser with neither falls back to the iframe's 300x150 default object
+size. The player booted fine; the video just rendered in a corner.
+
+CSS cannot express "the largest box of this shape that fits" without container
+query units, so below Chrome 105 / Firefox 110 `useVideoLetterbox` measures the
+position and sets the frame's size from JavaScript. The CSS still fills the
+position as a fallback until that measurement lands.
+
+`test/system/frontend_video_layout_test.rb` measures the video iframe against
+its position and expects an exact letterbox in every browser. It runs on both
+legs here, and locally in Firefox (see the test for why not modern Chrome).
+Before the fix it failed on Chrome 79 with `got 300x150`. The version-numbered
+Selenium images cover the range between the archived ones and today: with the
+fix, `selenium/standalone-chrome:95.0` and `selenium/standalone-firefox:100.0`
+both letterbox exactly. Each image is over 1GB, so pull them one at a time.

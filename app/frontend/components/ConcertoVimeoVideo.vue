@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, onBeforeUnmount, ref } from 'vue';
 import { useVideoWatchdog } from '../composables/useVideoWatchdog.js';
+import { useVideoLetterbox } from '../composables/useVideoLetterbox.js';
 
 const VIMEO_API_URL = 'https://player.vimeo.com/api/player.js';
 const API_LOAD_TIMEOUT_MS = 30000; // 30 seconds
@@ -33,6 +34,7 @@ const playerRef = ref(null);
 let player = null;
 
 const aspectRatio = ref(props.content.aspect_ratio);
+const { containerRef, frameStyle } = useVideoLetterbox(() => aspectRatio.value);
 
 const hasDuration = computed(() => {
   return props.content.duration && props.content.duration > 0;
@@ -142,6 +144,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div
+    ref="containerRef"
     class="video-container"
     :style="boxStyle"
   >
@@ -152,7 +155,7 @@ onBeforeUnmount(() => {
       frameborder="0"
       allow="autoplay"
       :src="videoUrl"
-      :style="{ aspectRatio: aspectRatio, '--video-aspect-ratio': aspectRatio }"
+      :style="[{ aspectRatio: aspectRatio, '--video-aspect-ratio': aspectRatio }, frameStyle]"
     />
   </div>
 </template>
@@ -166,19 +169,27 @@ onBeforeUnmount(() => {
   justify-content: center;
 }
 
+/*
+ * An iframe has no natural size: unless its dimensions are pinned down, every
+ * engine renders it at the 300x150 default object size, no matter how large the
+ * position is.
+ *
+ * Without container query units, useVideoLetterbox measures the position and
+ * sets the frame's exact size inline. Until it has, the frame fills the position
+ * and the embed letterboxes inside its own frame -- black bars, but never a
+ * 300x150 player. See #2005.
+ */
 .player {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 /*
- * An iframe has no natural size, so aspect-ratio plus max-width/max-height leaves
- * both axes auto and Firefox falls back to the 300x150 default object size -- the
- * video renders 300px wide no matter how large the position is. Blink transfers
- * the max-height constraint through the ratio instead, which is why this only
- * reproduced outside Chrome. Sizing the width against the container makes the
- * letterbox explicit so every engine agrees; engines without container query
- * units keep the rules above, which already fill the position on Blink. See #1925.
+ * Where container query units exist, size the frame to the video's own shape
+ * instead, so the letterbox shows the template rather than the embed's black
+ * bars. Width is set against the container explicitly because aspect-ratio with
+ * only max-width/max-height leaves both axes auto, which Firefox resolves to the
+ * default object size. See #1925.
  */
 @supports (width: 1cqw) {
   .video-container {

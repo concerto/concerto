@@ -1,28 +1,36 @@
 require "application_system_test_case"
 
-# Guards the geometry of video content on the player (#1925).
+# Guards the geometry of video content on the player (#1925, #2005).
 #
 # An iframe has no natural size, so it only fills its position if the CSS pins
-# down a definite axis. Blink papers over the gap by transferring the max-height
-# constraint through the aspect ratio; Gecko follows the default sizing algorithm
-# and renders the video at 300px wide no matter how large the position is. That
-# is why this runs in Firefox -- the Chrome-driven suite passes either way, so it
-# cannot catch this class of regression.
+# down its dimensions; otherwise it renders at the 300x150 default object size.
+# Two engine gaps have shipped that bug:
+#
+# - #1925: Gecko resolves aspect-ratio with only max-width/max-height to the
+#   default size, where Blink transfers the constraint through the ratio. So
+#   locally this runs in Firefox -- modern Chrome passes either way.
+# - #2005: browsers without container query units (Tizen's Chrome 69, WebOS
+#   Chrome 53-79) ignore the CSS letterbox entirely, so useVideoLetterbox sizes
+#   the frame from JavaScript there. The legacy-browsers workflow runs this
+#   against Chrome 79 and Firefox 84 to cover that path.
+#
+# Either way, the video should letterbox to its own shape.
 #
 # Everything here targets a main position, which is both where videos normally
 # play and where a mis-sized player is most obvious.
 class FrontendVideoLayoutTest < ApplicationSystemTestCase
   # A 1080p window: the fractional position coordinates only describe a real
   # shape on a 16:9 canvas, and at this size a mis-sized player is off by
-  # hundreds of pixels rather than a handful.
-  drive_with :firefox, screen_size: [ 1920, 1080 ]
+  # hundreds of pixels rather than a handful. Locally that means Firefox (see
+  # above); a remote grid only has the one browser it was started with.
+  drive_with (REMOTE ? REMOTE_BROWSER : :firefox), screen_size: [ 1920, 1080 ]
 
   # Tolerance in CSS pixels. Sub-pixel layout rounding differs between engines,
   # and the failure this guards against is off by hundreds of pixels.
   LETTERBOX_TOLERANCE = 2.0
 
   setup do
-    skip "Firefox is unavailable; #1925 only reproduces off Blink." unless firefox_available?
+    skip "Firefox is unavailable; #1925 only reproduces off Blink." unless browser_available?
 
     # A screen of our own, so the main position holds nothing but the video
     # under test and no other suite's fixtures rotate through it.
@@ -52,12 +60,12 @@ class FrontendVideoLayoutTest < ApplicationSystemTestCase
   end
 
   private
-    # Firefox is preinstalled on GitHub's runners. A remote grid only has the one
-    # browser it was started with, so there we run only when that browser is
-    # Firefox (the legacy-browsers workflow's firefox leg) and skip on Chromium
-    # grids like the devcontainer's, rather than failing.
-    def firefox_available?
-      return REMOTE_BROWSER == :firefox if REMOTE
+    # Locally we need Firefox, which is preinstalled on GitHub's runners. A
+    # remote grid always has its own browser to run against: the
+    # legacy-browsers workflow's Chrome 79 and Firefox 84 legs are the ones
+    # that catch #2005.
+    def browser_available?
+      return true if REMOTE
 
       ENV["PATH"].to_s.split(File::PATH_SEPARATOR).any? do |dir|
         [ "firefox", "firefox-esr" ].any? { |binary| File.executable?(File.join(dir, binary)) }
