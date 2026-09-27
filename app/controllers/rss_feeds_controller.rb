@@ -1,4 +1,5 @@
 class RssFeedsController < ApplicationController
+  before_action :authenticate_user!, except: %i[ show ]
   before_action :set_rss_feed, only: %i[ show edit update destroy refresh cleanup ]
   before_action :set_form_options, only: %i[ new edit create update ]
 
@@ -56,7 +57,14 @@ class RssFeedsController < ApplicationController
 
   def refresh
     authorize @rss_feed
-    @rss_feed.refresh
+
+    begin
+      @rss_feed.refresh
+    rescue StandardError => e
+      Rails.logger.error "Failed to refresh RSS feed #{@rss_feed.name}: #{e.class} - #{e.message}"
+      return redirect_to rss_feed_url(@rss_feed), alert: "RSS Feed could not be refreshed: #{e.message}"
+    end
+
     redirect_to rss_feed_url(@rss_feed), notice: "RSS Feed was refreshed."
   end
 

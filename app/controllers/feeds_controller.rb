@@ -1,4 +1,5 @@
 class FeedsController < ApplicationController
+  before_action :authenticate_user!, except: %i[ index show ]
   before_action :set_feed, only: %i[ show edit update destroy ]
   before_action :redirect_sti_feed, only: %i[ show edit ]
   before_action :block_sti_modification, only: %i[ update destroy ]

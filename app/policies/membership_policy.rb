@@ -68,12 +68,14 @@ class MembershipPolicy < ApplicationPolicy
 
   public
 
+  # The group always comes from the URL, and a membership's user is fixed once
+  # it exists. Permitting either on update would let a group admin move a
+  # membership into a group they don't administer (e.g. System Administrators),
+  # since authorization runs against the membership's current group.
   def permitted_attributes
-    if can_edit_role?
-      [ :user_id, :group_id, :role ]
-    else
-      [ :user_id, :group_id ]
-    end
+    attributes = record.new_record? ? [ :user_id ] : []
+    attributes << :role if can_edit_role?
+    attributes
   end
 
   # Helper method to determine if the user can edit the role field

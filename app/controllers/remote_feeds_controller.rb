@@ -1,4 +1,5 @@
 class RemoteFeedsController < ApplicationController
+  before_action :authenticate_user!, except: %i[ show ]
   before_action :set_remote_feed, only: %i[ show edit update destroy refresh ]
   before_action :set_form_options, only: %i[ new edit create update ]
 
