@@ -161,3 +161,18 @@ and fallback tags from `Frontend::PlayerHelper#vite_legacy_player_tags` and
 `expected to find css "#screen .screen #background"`, while the modern-Chrome
 suite stays green. Worth re-running after any change to how the bundles are
 selected.
+
+## Layout in old engines
+
+Booting is not the only thing that differs. #2005 (YouTube rendering tiny on
+Tizen 5.5, which is Chrome 69) was a CSS gap: the video components sized their
+iframe with `aspect-ratio` (Chrome 88) and container query units (Chrome 105),
+and a browser with neither falls back to the iframe's 300x150 default object
+size. The player booted fine; the video just rendered in a corner.
+
+`test/system/frontend_video_layout_test.rb` measures the video iframe against
+its position. Where container query units exist it expects the exact
+letterbox; elsewhere it expects the iframe to fill the position, which is what
+the components fall back to. It runs on both legs here, and locally in Firefox
+(see the test for why not modern Chrome). With the fallback removed it fails on
+Chrome 79 with `got 300x150`.

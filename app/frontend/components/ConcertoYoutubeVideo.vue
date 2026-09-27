@@ -188,19 +188,28 @@ onBeforeUnmount(() => {
   justify-content: center;
 }
 
+/*
+ * An iframe has no natural size: unless the CSS pins down its dimensions, every
+ * engine renders it at the 300x150 default object size, no matter how large the
+ * position is.
+ *
+ * By default the player fills the position and the embed letterboxes the video
+ * inside its own frame. That is the only sizing the signage browsers we support
+ * understand -- Tizen 5.5 is Chrome 69 and older WebOS panels run Chrome 53-79,
+ * all without aspect-ratio (Chrome 88) or container query units (Chrome 105).
+ * See #2005.
+ */
 .player {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 /*
- * An iframe has no natural size, so aspect-ratio plus max-width/max-height leaves
- * both axes auto and Firefox falls back to the 300x150 default object size -- the
- * video renders 300px wide no matter how large the position is. Blink transfers
- * the max-height constraint through the ratio instead, which is why this only
- * reproduced outside Chrome. Sizing the width against the container makes the
- * letterbox explicit so every engine agrees; engines without container query
- * units keep the rules above, which already fill the position on Blink. See #1925.
+ * Where container query units exist, size the frame to the video's own shape
+ * instead, so the letterbox shows the template rather than the embed's black
+ * bars. Width is set against the container explicitly because aspect-ratio with
+ * only max-width/max-height leaves both axes auto, which Firefox resolves to the
+ * default object size. See #1925.
  */
 @supports (width: 1cqw) {
   .video-container {
