@@ -24,6 +24,7 @@ class RichTextsTest < ApplicationSystemTestCase
 
     assert_text "Rich text was successfully created"
     click_on "Back"
+    assert_selector "h1", text: "Active Content"
   end
 
   test "should update Rich text" do
@@ -45,6 +46,7 @@ class RichTextsTest < ApplicationSystemTestCase
 
     assert_text "Rich text was successfully updated"
     click_on "Back"
+    assert_selector "h1", text: "Active Content"
   end
 
   test "should destroy Rich text" do

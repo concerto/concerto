@@ -22,6 +22,7 @@ class ScreensTest < ApplicationSystemTestCase
 
     assert_text "Screen was successfully created"
     click_on "Back"
+    assert_selector "h1", text: "All Screens"
   end
 
   test "should update Screen" do
@@ -35,6 +36,7 @@ class ScreensTest < ApplicationSystemTestCase
 
     assert_text "Screen was successfully updated"
     click_on "Back"
+    assert_selector "h1", text: "All Screens"
   end
 
   test "should destroy Screen" do

@@ -20,6 +20,7 @@ class VideosTest < ApplicationSystemTestCase
 
     assert_text "Video was successfully created"
     click_on "Back"
+    assert_selector "h1", text: "Active Content"
   end
 
   test "should update Video" do
@@ -42,6 +43,7 @@ class VideosTest < ApplicationSystemTestCase
     assert_equal @video.start_time, saved.start_time
     assert_equal @video.end_time, saved.end_time
     click_on "Back"
+    assert_selector "h1", text: "Active Content"
   end
 
   test "should destroy Video" do

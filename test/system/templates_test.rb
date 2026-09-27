@@ -42,6 +42,7 @@ class TemplatesTest < ApplicationSystemTestCase
 
     assert_text "Template was successfully created"
     click_on "Back"
+    assert_selector "h1", text: "All Templates"
   end
 
   test "should import template from ZIP file" do
@@ -135,6 +136,7 @@ class TemplatesTest < ApplicationSystemTestCase
 
     assert_text "Template was successfully updated"
     click_on "Back"
+    assert_selector "h1", text: "All Templates"
   end
 
   test "should fine tune a position with typed coordinates" do
