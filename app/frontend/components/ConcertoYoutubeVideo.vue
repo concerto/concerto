@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, onBeforeUnmount, ref } from 'vue';
 import { useVideoWatchdog } from '../composables/useVideoWatchdog.js';
+import { useVideoLetterbox } from '../composables/useVideoLetterbox.js';
 
 const YOUTUBE_API_URL = 'https://www.youtube.com/iframe_api';
 const API_LOAD_TIMEOUT_MS = 30000; // 30 seconds
@@ -17,6 +18,7 @@ const hasDuration = computed(() => {
 
 const emit = defineEmits(['takeOverTimer', 'next'])
 const { ping: watchdogPing, stop: watchdogStop } = useVideoWatchdog(emit);
+const { containerRef, frameStyle } = useVideoLetterbox(() => props.content.aspect_ratio);
 
 const videoUrl = computed(() => {
   const params = [
@@ -164,6 +166,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div
+    ref="containerRef"
     class="video-container"
     :style="boxStyle"
   >
@@ -174,7 +177,7 @@ onBeforeUnmount(() => {
       frameborder="0"
       allow="autoplay"
       :src="videoUrl"
-      :style="{ aspectRatio: content.aspect_ratio, '--video-aspect-ratio': content.aspect_ratio }"
+      :style="[{ aspectRatio: content.aspect_ratio, '--video-aspect-ratio': content.aspect_ratio }, frameStyle]"
     />
   </div>
 </template>
@@ -189,15 +192,14 @@ onBeforeUnmount(() => {
 }
 
 /*
- * An iframe has no natural size: unless the CSS pins down its dimensions, every
+ * An iframe has no natural size: unless its dimensions are pinned down, every
  * engine renders it at the 300x150 default object size, no matter how large the
  * position is.
  *
- * By default the player fills the position and the embed letterboxes the video
- * inside its own frame. That is the only sizing the signage browsers we support
- * understand -- Tizen 5.5 is Chrome 69 and older WebOS panels run Chrome 53-79,
- * all without aspect-ratio (Chrome 88) or container query units (Chrome 105).
- * See #2005.
+ * Without container query units, useVideoLetterbox measures the position and
+ * sets the frame's exact size inline. Until it has, the frame fills the position
+ * and the embed letterboxes inside its own frame -- black bars, but never a
+ * 300x150 player. See #2005.
  */
 .player {
   width: 100%;

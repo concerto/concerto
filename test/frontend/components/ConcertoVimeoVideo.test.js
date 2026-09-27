@@ -1,7 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 
-import { mount } from '@vue/test-utils';
+import { enableAutoUnmount, mount } from '@vue/test-utils';
 import ConcertoVimeoVideo from '~/components/ConcertoVimeoVideo.vue';
+
+// Unmount after each test so useVideoLetterbox's layout retries, which a
+// jsdom 0x0 position always triggers, can't outlive the test environment.
+enableAutoUnmount(afterEach);
 
 // Mock Vimeo API
 /* global global */

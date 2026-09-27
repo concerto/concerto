@@ -10,11 +10,11 @@ require "application_system_test_case"
 #   default size, where Blink transfers the constraint through the ratio. So
 #   locally this runs in Firefox -- modern Chrome passes either way.
 # - #2005: browsers without container query units (Tizen's Chrome 69, WebOS
-#   Chrome 53-79) ignore the letterbox sizing entirely. The legacy-browsers
-#   workflow runs this against Chrome 79 and Firefox 84 to cover that.
+#   Chrome 53-79) ignore the CSS letterbox entirely, so useVideoLetterbox sizes
+#   the frame from JavaScript there. The legacy-browsers workflow runs this
+#   against Chrome 79 and Firefox 84 to cover that path.
 #
-# Where container query units exist the video letterboxes to its own shape;
-# elsewhere it fills the position and the embed letterboxes inside its frame.
+# Either way, the video should letterbox to its own shape.
 #
 # Everything here targets a main position, which is both where videos normally
 # play and where a mis-sized player is most obvious.
@@ -50,13 +50,13 @@ class FrontendVideoLayoutTest < ApplicationSystemTestCase
   test "landscape video fills the main position" do
     publish "https://www.youtube.com/watch?v=eT4OAYjzV-s"
 
-    assert_fits_position ratio: 16.0 / 9.0
+    assert_letterboxed ratio: 16.0 / 9.0
   end
 
   test "vertical video fills the main position" do
     publish "https://www.youtube.com/shorts/JnKnz3QaYhA"
 
-    assert_fits_position ratio: 9.0 / 16.0
+    assert_letterboxed ratio: 9.0 / 16.0
   end
 
   private
@@ -82,23 +82,17 @@ class FrontendVideoLayoutTest < ApplicationSystemTestCase
       Submission.create!(content: video, feed: @feed).moderate!(status: :approved, moderator: users(:admin))
     end
 
-    # With container query units, the video should be the largest box of the
-    # given ratio that fits inside its position: flush against one axis,
-    # centered on the other. Without them, it should fill the position.
-    def assert_fits_position(ratio:)
+    # The video should be the largest box of the given ratio that fits inside its
+    # position: flush against one axis, centered on the other.
+    def assert_letterboxed(ratio:)
       visit frontend_player_url(@screen)
       assert_selector "iframe.player", count: 1, wait: 20
 
       metric = player_metric
-      if metric["container_queries"]
-        expected_width = [ metric["box_width"], metric["box_height"] * ratio ].min
-        expected_height = expected_width / ratio
-      else
-        expected_width = metric["box_width"]
-        expected_height = metric["box_height"]
-      end
+      expected_width = [ metric["box_width"], metric["box_height"] * ratio ].min
+      expected_height = expected_width / ratio
 
-      message = "expected a #{ratio.round(2)} video to size to " \
+      message = "expected a #{ratio.round(2)} video to letterbox to " \
                 "#{expected_width.round}x#{expected_height.round} inside the " \
                 "#{metric["box_width"].round}x#{metric["box_height"].round} main position, " \
                 "got #{metric["width"].round}x#{metric["height"].round}"
@@ -115,7 +109,6 @@ class FrontendVideoLayoutTest < ApplicationSystemTestCase
           const box = frame.parentElement;
           const rect = frame.getBoundingClientRect();
           return {
-            container_queries: !!(window.CSS && CSS.supports('width', '1cqw')),
             box_width: box.clientWidth,
             box_height: box.clientHeight,
             width: rect.width,
