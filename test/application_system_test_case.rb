@@ -52,14 +52,16 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # System tests render full pages that often include video thumbnails
   # and the admin header which checks for updates via the GitHub API
   setup do
-    # Guarantee a clean, unauthenticated session at the start of every system
-    # test. Devise only resets Warden in teardown, and we otherwise rely on
-    # Capybara clearing the session cookie between tests -- which is unreliable
-    # with the remote Selenium driver used in CI. Resetting here neutralizes any
-    # authenticated session leaking in from a prior test, which otherwise causes
-    # anonymous tests to render content scoped to the leaked user. See #1834.
-    Warden.test_reset!
-    Capybara.reset_sessions!
+    # Capybara's teardown clears cookies *before* it waits for in-flight
+    # requests. A signed-in request still running at the end of a test -- a
+    # Turbo hover prefetch, say -- can finish afterwards and put its session
+    # cookie back, so the next test starts signed in. Rails and Devise rewrite
+    # the session cookie on every response, so any late request can do this.
+    # Teardown has waited those requests out by now; reset the browser again so
+    # nothing can restore the cookie. See #1834, #2019, and
+    # https://github.com/teamcapybara/capybara/issues/2211, whose Chrome-only
+    # reordering narrows this window but does not close it.
+    page.driver.reset!
 
     stub_oembed_apis
     stub_github_releases_api

@@ -36,6 +36,7 @@ class FeedsTest < ApplicationSystemTestCase
 
     assert_text "Feed was successfully created"
     click_on "Back"
+    assert_selector "h1", text: "All Feeds"
   end
 
   test "should update Feed" do
@@ -50,6 +51,7 @@ class FeedsTest < ApplicationSystemTestCase
 
     assert_text "Feed was successfully updated"
     click_on "Back"
+    assert_selector "h1", text: "All Feeds"
   end
 
   test "should destroy Feed" do

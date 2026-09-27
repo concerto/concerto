@@ -19,6 +19,7 @@ class RssFeedsTest < ApplicationSystemTestCase
 
     assert_text "RSS Feed was successfully created"
     click_on "Back"
+    assert_selector "h1", text: "All Feeds"
   end
 
   test "should update Rss feed" do
@@ -34,6 +35,7 @@ class RssFeedsTest < ApplicationSystemTestCase
 
     assert_text "RSS Feed was successfully updated"
     click_on "Back"
+    assert_selector "h1", text: "All Feeds"
   end
 
   test "should destroy Rss feed" do
