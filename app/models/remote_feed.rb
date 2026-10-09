@@ -2,6 +2,8 @@ require "net/http"
 require "digest"
 
 class RemoteFeed < Feed
+    include SafeExternalFetchable
+
     # HTTP timeout settings for remote requests
     HTTP_OPEN_TIMEOUT = 5 # seconds to wait for connection
     HTTP_READ_TIMEOUT = 30 # seconds to wait for response
@@ -39,6 +41,11 @@ class RemoteFeed < Feed
 
     def refresh
       uri = URI.parse(url)
+      unless self.class.safe_external_uri?(uri)
+        Rails.logger.error "Refusing to fetch remote feed #{name}: URL resolves to a disallowed address"
+        return
+      end
+
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = (uri.scheme == "https")
       http.open_timeout = HTTP_OPEN_TIMEOUT
@@ -195,6 +202,11 @@ class RemoteFeed < Feed
 
     def download_and_attach_image(graphic, image_url)
       uri = URI.parse(image_url)
+      unless self.class.safe_external_uri?(uri)
+        Rails.logger.error "Refusing to download image for #{graphic.name}: URL resolves to a disallowed address"
+        return
+      end
+
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = (uri.scheme == "https")
       http.open_timeout = HTTP_OPEN_TIMEOUT

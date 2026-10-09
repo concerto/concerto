@@ -23,6 +23,45 @@ class RichTextTest < ActiveSupport::TestCase
     RichText.new(text: "<ul>#{items}</ul>", config: { render_as: "html" })
   end
 
+  # The public player (ConcertoRichText.vue) renders `text` with v-html and
+  # no client-side sanitization, so any script/handler an author stores
+  # reaches anyone viewing the screen once a submission is approved -- the
+  # authenticated app's own views already sanitize at render time (see
+  # _rich_text.html.erb, _grid.html.erb); this makes the stored form match.
+  test "html text is sanitized on save, stripping scripts and event handlers" do
+    rich_text = RichText.create!(
+      name: "XSS", duration: 10, user: users(:admin),
+      text: "<p>hi</p><script>alert(1)</script><img src=x onerror=alert(2)>",
+      config: { render_as: "html" }
+    )
+
+    assert_not_includes rich_text.text, "<script"
+    assert_not_includes rich_text.text, "onerror"
+    assert_includes rich_text.text, "<p>hi</p>"
+  end
+
+  test "plaintext content is not sanitized" do
+    rich_text = RichText.create!(
+      name: "Plain", duration: 10, user: users(:admin),
+      text: "<script>alert(1)</script>",
+      config: { render_as: "plaintext" }
+    )
+
+    # Stored verbatim: the player renders plaintext content with text
+    # interpolation (no v-html), so it's never parsed as markup.
+    assert_equal "<script>alert(1)</script>", rich_text.text
+  end
+
+  test "ordinary formatting tags survive sanitization" do
+    rich_text = RichText.create!(
+      name: "Formatted", duration: 10, user: users(:admin),
+      text: "<h1>Title</h1><p>Body <strong>bold</strong></p><ul><li>one</li></ul>",
+      config: { render_as: "html" }
+    )
+
+    assert_equal "<h1>Title</h1><p>Body <strong>bold</strong></p><ul><li>one</li></ul>", rich_text.text
+  end
+
   test "should have valid render_as values" do
     rich_text = rich_texts(:plain_richtext)
     assert rich_text.valid?, rich_text.errors.full_messages.to_sentence

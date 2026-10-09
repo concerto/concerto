@@ -1,7 +1,16 @@
 require "open-uri"
 
 class RssFeed < Feed
+    include SafeExternalFetchable
+
     store_accessor :config, [ :url, :last_refreshed, :refresh_interval, :formatter ]
+
+    # Use RssFeedPolicy for authorization (overrides Feed's policy_class).
+    # Gates the feed's `url` behind edit permissions -- it may embed an API
+    # key or token, mirroring RemoteFeedPolicy.
+    def self.policy_class
+      RssFeedPolicy
+    end
 
     # RSS feed content is auto-approved since it's system-generated
     def auto_approves_submissions?
@@ -77,6 +86,11 @@ class RssFeed < Feed
 
     def new_items
         uri = URI.parse(url)
+        unless self.class.safe_external_uri?(uri)
+          Rails.logger.error "Refusing to fetch RSS feed #{name}: URL resolves to a disallowed address"
+          return []
+        end
+
         doc = Nokogiri::XML(uri.open)
 
         title = doc.xpath("/rss/channel/title").text

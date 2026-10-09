@@ -153,7 +153,7 @@ class RssFeedsControllerTest < ActionDispatch::IntegrationTest
     # Just test that authorized user can access the action
     # The actual refresh behavior is tested in model tests
     assert_nothing_raised do
-      get refresh_rss_feed_url(@rss_feed)
+      post refresh_rss_feed_url(@rss_feed)
     end
     assert_redirected_to rss_feed_url(@rss_feed)
   end
@@ -164,7 +164,7 @@ class RssFeedsControllerTest < ActionDispatch::IntegrationTest
     # Just test that authorized user can access the action
     # The actual refresh behavior is tested in model tests
     assert_nothing_raised do
-      get refresh_rss_feed_url(test_feed)
+      post refresh_rss_feed_url(test_feed)
     end
     assert_redirected_to rss_feed_url(test_feed)
   end
@@ -172,7 +172,7 @@ class RssFeedsControllerTest < ActionDispatch::IntegrationTest
   test "should not allow non-group member to refresh rss_feed" do
     test_feed = rss_feeds(:test_rssfeed)  # belongs to feed_one_owners
     sign_in users(:non_member)  # non_member is not in feed_one_owners
-    get refresh_rss_feed_url(test_feed)
+    post refresh_rss_feed_url(test_feed)
     assert_redirected_to root_url
     assert_equal "You are not authorized to perform this action.", flash[:alert]
   end

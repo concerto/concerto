@@ -11,6 +11,43 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "anonymous /feeds.json does not expose a RemoteFeed's config/url" do
+    remote_feed = RemoteFeed.create!(name: "Secret Remote", group: groups(:system_administrators), config: { url: "https://example.com/feed?api_key=SECRET" })
+
+    get feeds_url(format: :json)
+    assert_response :success
+
+    body = response.parsed_body
+    entry = body.find { |f| f["id"] == remote_feed.id }
+    assert_not_nil entry, "expected the remote feed to appear in the index"
+    assert_not entry.key?("config"), "config (and its embedded url/secret) must not be exposed to anonymous viewers"
+  end
+
+  test "anonymous /feeds.json does not expose an RssFeed's config/url" do
+    rss_feed = RssFeed.create!(name: "Secret RSS", group: groups(:system_administrators), config: { url: "https://example.com/rss?api_key=SECRET", formatter: "headlines" })
+
+    get feeds_url(format: :json)
+    assert_response :success
+
+    body = response.parsed_body
+    entry = body.find { |f| f["id"] == rss_feed.id }
+    assert_not_nil entry, "expected the rss feed to appear in the index"
+    assert_not entry.key?("config"), "config (and its embedded url/secret) must not be exposed to anonymous viewers"
+  end
+
+  test "a feed editor's /feeds.json does include the RemoteFeed's config/url" do
+    remote_feed = RemoteFeed.create!(name: "Secret Remote", group: groups(:system_administrators), config: { url: "https://example.com/feed?api_key=SECRET" })
+
+    sign_in users(:system_admin)
+    get feeds_url(format: :json)
+    assert_response :success
+
+    body = response.parsed_body
+    entry = body.find { |f| f["id"] == remote_feed.id }
+    assert entry.key?("config"), "an editor should still see config"
+    assert_equal "https://example.com/feed?api_key=SECRET", entry["config"]["url"]
+  end
+
   test "should get new with system admin" do
     sign_in @system_admin
     get new_feed_url

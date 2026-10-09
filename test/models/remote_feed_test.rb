@@ -323,4 +323,60 @@ class RemoteFeedTest < ActiveSupport::TestCase
       assert_nil Content.find_by(id: id), "Content #{id} should be destroyed after feed deletion"
     end
   end
+
+  test "refresh refuses to fetch a feed URL that resolves to a loopback address" do
+    # WebMock allows localhost by default (see test_helper.rb), so stub a
+    # response that WOULD succeed if the request were made, and prove via
+    # assert_not_requested that the guard stopped it before WebMock ever saw it.
+    stub_request(:get, "http://127.0.0.1:18999/")
+      .to_return(status: 200, body: @sample_response, headers: { "Content-Type" => "application/json" })
+    @feed.update!(config: { url: "http://127.0.0.1:18999/" })
+
+    @feed.refresh
+
+    assert_equal 0, @feed.content.count
+    assert_not_requested :get, "http://127.0.0.1:18999/"
+  end
+
+  test "refresh refuses to fetch a feed URL that resolves to a link-local/metadata address" do
+    stub_request(:get, "http://169.254.169.254/latest/meta-data/")
+      .to_return(status: 200, body: @sample_response, headers: { "Content-Type" => "application/json" })
+    @feed.update!(config: { url: "http://169.254.169.254/latest/meta-data/" })
+
+    @feed.refresh
+
+    assert_equal 0, @feed.content.count
+    assert_not_requested :get, "http://169.254.169.254/latest/meta-data/"
+  end
+
+  test "download_and_attach_image refuses a Graphic item URL pointing at a private address" do
+    graphic_response = [
+      { type: "Graphic", name: "Evil Image", url: "http://10.0.0.5/internal.png", duration: 15 }
+    ].to_json
+
+    stub_request(:get, "https://example.com/concerto/contents")
+      .to_return(status: 200, body: graphic_response, headers: { "Content-Type" => "application/json" })
+
+    @feed.refresh
+
+    graphic = @feed.content.find_by(type: "Graphic")
+    assert_not_nil graphic
+    assert_not graphic.image.attached?, "image should not have been fetched from a private address"
+  end
+
+  test "safe_external_uri? allows ordinary public https URLs" do
+    assert RemoteFeed.safe_external_uri?(URI.parse("https://example.com/feed"))
+  end
+
+  test "safe_external_uri? rejects loopback, private, and link-local addresses" do
+    refute RemoteFeed.safe_external_uri?(URI.parse("http://127.0.0.1/"))
+    refute RemoteFeed.safe_external_uri?(URI.parse("http://10.1.2.3/"))
+    refute RemoteFeed.safe_external_uri?(URI.parse("http://192.168.1.1/"))
+    refute RemoteFeed.safe_external_uri?(URI.parse("http://169.254.169.254/"))
+  end
+
+  test "safe_external_uri? rejects non-http(s) schemes" do
+    refute RemoteFeed.safe_external_uri?(URI.parse("file:///etc/passwd"))
+    refute RemoteFeed.safe_external_uri?(URI.parse("ftp://example.com/"))
+  end
 end

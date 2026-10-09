@@ -13,6 +13,17 @@ class RichText < Content
     validates :render_as, inclusion: { in: RichText.render_as.values }, allow_nil: false
     validate :render_as_must_be_string
 
+    # HTML rich text is rendered by the public player with `v-html`
+    # (ConcertoRichText.vue), with no sanitization on that side. The
+    # authenticated app's own views already sanitize `text` at render time
+    # (see app/views/rich_texts/_rich_text.html.erb and _grid.html.erb) when
+    # showing it back to signed-in users; this callback makes that the
+    # stored form too, so the public, unauthenticated player sink gets the
+    # same protection instead of the raw, unsanitized text (stored XSS,
+    # CWE-79 -- any signed-in user can author content, and reaches anyone
+    # viewing the public screen once a submission is approved).
+    before_validation :sanitize_html_text, if: :html?
+
     def as_json(options = {})
         super(options).merge({
             render_as: render_as,
@@ -215,5 +226,9 @@ class RichText < Content
         return if render_as.nil? || render_as.is_a?(String)
 
         errors.add(:render_as, "must be a string, not an array or other type")
+    end
+
+    def sanitize_html_text
+        self.text = ActionController::Base.helpers.sanitize(text) if text.present?
     end
 end

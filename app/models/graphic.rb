@@ -1,6 +1,14 @@
 class Graphic < Content
   ANALYSIS_STUCK_AFTER = 60.seconds
 
+  # Any signed-in user can upload a Graphic (ContentPolicy#can_create_content?),
+  # and every upload is analyzed (dimension/metadata extraction) and has
+  # variants generated (:grid, :preview) via libvips. With no size cap, that
+  # pipeline runs unbounded on attacker-controlled input -- a direct upload
+  # DoS vector, same byte-size class RemoteFeed::MAX_IMAGE_SIZE already
+  # guards on the feed-image-download path. This caps the upload path too.
+  MAX_IMAGE_SIZE = 25.megabytes
+
   has_one_attached :image do |attachable|
     attachable.variant :grid, resize_to_limit: [ nil, 400 ]
     attachable.variant :preview, resize_to_limit: [ 1000, 1000 ]
@@ -17,6 +25,7 @@ class Graphic < Content
   after_commit :convert_pdf_to_image_if_needed, on: [ :create, :update ]
 
   validate :image_content_type_supported, if: -> { image.attached? }
+  validate :image_size_within_limit, if: -> { image.attached? }
 
   def as_json(options = {})
     super(options).merge({
@@ -129,6 +138,11 @@ class Graphic < Content
   def image_content_type_supported
     return if self.class.supported_content_types.include?(image.content_type)
     errors.add(:image, "type #{image.content_type} is not supported")
+  end
+
+  def image_size_within_limit
+    return if image.byte_size <= MAX_IMAGE_SIZE
+    errors.add(:image, "is too large (maximum is #{MAX_IMAGE_SIZE / 1.megabyte}MB)")
   end
 
   # Built lazily so ActiveStorage.variable_content_types has been populated by

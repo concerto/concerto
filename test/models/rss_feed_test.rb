@@ -10,6 +10,8 @@ class RssFeedTest < ActiveSupport::TestCase
     mock_file = File.read("test/support/basic_rss_feed.xml")
 
     mock = Minitest::Mock.new
+    mock.expect(:scheme, "https")
+    mock.expect(:host, "news.yahoo.com")
     mock.expect(:open, mock_file)
 
     URI.stub(:parse, mock) do
@@ -85,6 +87,8 @@ class RssFeedTest < ActiveSupport::TestCase
     mock_file = File.read("test/support/basic_rss_feed.xml")
 
     mock = Minitest::Mock.new
+    mock.expect(:scheme, "https")
+    mock.expect(:host, "news.yahoo.com")
     mock.expect(:open, mock_file)
 
     URI.stub(:parse, mock) do
@@ -184,6 +188,8 @@ class RssFeedTest < ActiveSupport::TestCase
     mock_file = File.read("test/support/basic_rss_feed.xml")
 
     mock = Minitest::Mock.new
+    mock.expect(:scheme, "https")
+    mock.expect(:host, "news.yahoo.com")
     mock.expect(:open, mock_file)
 
     URI.stub(:parse, mock) do
@@ -217,5 +223,37 @@ class RssFeedTest < ActiveSupport::TestCase
     # Verify content text
     assert_equal "Ticker Item 1", feed.content.first.text
     assert_equal "Ticker Item 2", feed.content.last.text
+  end
+
+  test "new_items refuses a feed URL that resolves to a loopback address" do
+    # WebMock allows localhost by default, so stub a response that WOULD
+    # succeed if the request were made, and prove via assert_not_requested
+    # that the guard stopped it before WebMock ever saw it.
+    stub_request(:get, "http://127.0.0.1:18999/")
+      .to_return(status: 200, body: File.read("test/support/basic_rss_feed.xml"))
+
+    feed = RssFeed.create!(group: groups(:system_administrators), config: { url: "http://127.0.0.1:18999/", formatter: "headlines" })
+
+    assert_equal [], feed.new_items
+    assert_not_requested :get, "http://127.0.0.1:18999/"
+  end
+
+  test "new_items refuses a feed URL that resolves to a private RFC1918 address" do
+    feed = RssFeed.create!(group: groups(:system_administrators), config: { url: "http://10.0.0.5/feed.xml", formatter: "headlines" })
+
+    # No stub for this non-localhost host: an unguarded fetch would hit
+    # WebMock's disable_net_connect! and raise, rather than returning [].
+    assert_equal [], feed.new_items
+  end
+
+  test "safe_external_uri? allows ordinary public https URLs" do
+    assert RssFeed.safe_external_uri?(URI.parse("https://news.yahoo.com/rss/all"))
+  end
+
+  test "safe_external_uri? rejects loopback, private, and link-local addresses" do
+    refute RssFeed.safe_external_uri?(URI.parse("http://127.0.0.1/"))
+    refute RssFeed.safe_external_uri?(URI.parse("http://10.0.0.5/"))
+    refute RssFeed.safe_external_uri?(URI.parse("http://192.168.1.1/"))
+    refute RssFeed.safe_external_uri?(URI.parse("http://169.254.169.254/"))
   end
 end

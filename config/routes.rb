@@ -24,11 +24,17 @@ Rails.application.routes.draw do
     end
   end
   resources :rss_feeds, except: [ :index ] do
-    get "refresh", on: :member
+    # POST, not GET: refresh fetches an external URL and writes new content,
+    # so a GET route lets it be triggered as a side effect of a plain page
+    # load (an <img>, a prefetch, a link a victim merely visits) from any
+    # signed-in user who already has edit rights on the feed -- a classic
+    # state-changing-GET CSRF shape (CWE-352), and one that rides along
+    # with the feed's own SSRF surface (see SafeExternalFetchable).
+    post "refresh", on: :member
     delete "cleanup", on: :member
   end
   resources :remote_feeds, except: [ :index ] do
-    get "refresh", on: :member
+    post "refresh", on: :member
   end
   resources :feeds
   resources :contents, only: [ :index, :new ]

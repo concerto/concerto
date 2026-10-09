@@ -142,7 +142,7 @@ class RemoteFeedsControllerTest < ActionDispatch::IntegrationTest
   test "should allow system admin to refresh remote_feed" do
     sign_in @system_admin
     assert_nothing_raised do
-      get refresh_remote_feed_url(@remote_feed)
+      post refresh_remote_feed_url(@remote_feed)
     end
     assert_redirected_to remote_feed_url(@remote_feed)
   end
@@ -150,14 +150,14 @@ class RemoteFeedsControllerTest < ActionDispatch::IntegrationTest
   test "should allow group member to refresh remote_feed" do
     sign_in users(:regular)
     assert_nothing_raised do
-      get refresh_remote_feed_url(@remote_feed)
+      post refresh_remote_feed_url(@remote_feed)
     end
     assert_redirected_to remote_feed_url(@remote_feed)
   end
 
   test "should not allow non-group member to refresh remote_feed" do
     sign_in users(:non_member)
-    get refresh_remote_feed_url(@remote_feed)
+    post refresh_remote_feed_url(@remote_feed)
     assert_redirected_to root_url
     assert_equal "You are not authorized to perform this action.", flash[:alert]
   end
