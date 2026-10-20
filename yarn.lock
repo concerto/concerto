@@ -2079,12 +2079,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.18.0":
-  version: 8.18.0
-  resolution: "acorn@npm:8.18.0"
+"acorn@npm:^8.19.0":
+  version: 8.19.0
+  resolution: "acorn@npm:8.19.0"
   bin:
     acorn: bin/acorn
-  checksum: 10c0/be771be2135cc07910cf76f444ad514d7dcfd6d4a8026e597e93155275abc8ef61eee12211d52146e9d962874269b634f397464942087be013c89d0c54c5f8e5
+  checksum: 10c0/21007e0ca638dd13d44a0ad26856b7a885cc6c4319cd2bc71694bc8ec3f0606c23ecd12b157e167f909d9d2b2d68d5b50fe3f54211b1aab7c3451a7c801fe62e
   languageName: node
   linkType: hard
 
@@ -4057,7 +4057,7 @@ __metadata:
     "@vitejs/plugin-legacy": "npm:^8.2.3"
     "@vitejs/plugin-vue": "npm:^6.0.10"
     "@vue/test-utils": "npm:^2.5.1"
-    acorn: "npm:^8.18.0"
+    acorn: "npm:^8.19.0"
     date-fns: "npm:^4.4.0"
     eslint: "npm:^10.11.0"
     eslint-plugin-vue: "npm:^10.11.1"
