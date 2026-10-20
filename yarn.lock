@@ -4058,7 +4058,7 @@ __metadata:
     jsdom: "npm:^30.1.3"
     msw: "npm:^2.15.0"
     vite: "npm:^8.3.4"
-    vite-plugin-ruby: "npm:^5.2.4"
+    vite-plugin-ruby: "npm:^5.2.6"
     vitest: "npm:^5.0.1"
     vue: "npm:^3.5.43"
     vue-eslint-parser: "npm:^10.4.1"
@@ -4464,15 +4464,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite-plugin-ruby@npm:^5.2.4":
-  version: 5.2.4
-  resolution: "vite-plugin-ruby@npm:5.2.4"
+"vite-plugin-ruby@npm:^5.2.6":
+  version: 5.2.6
+  resolution: "vite-plugin-ruby@npm:5.2.6"
   dependencies:
     obug: "npm:^2.0"
     tinyglobby: "npm:^0.2.12"
   peerDependencies:
     vite: ">=5.0.0"
-  checksum: 10c0/1fc499c92d68e3ace09a8f6817e060c329cfb503fdd03fb711d5080811b6ea75475677868c3ccec4441725b634cbd78283119e106856da812409d2ac99312329
+  checksum: 10c0/6f0f9752e681489603c7ed255b23ff5390c5c4823cb3bc2c2854ac6b5d344eca87ef1fd9fb0afd2ed889f70eca70683a2f63fc8ccfedb4b7f9ab6237cfa51638
   languageName: node
   linkType: hard
 
