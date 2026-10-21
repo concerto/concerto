@@ -71,7 +71,7 @@ group :test do
   gem "selenium-webdriver"
 
   # Mock HTTP requests in tests
-  gem "webmock", "~> 3.29"
+  gem "webmock", "~> 3.34"
 end
 
 # Use Vite & Vue for the frontend player. The legacy (SystemJS) bundle for old
