@@ -6,7 +6,7 @@ export default mergeConfig(
   defineConfig({
     test: {
       environment: 'jsdom',
-      include: ['../../test/frontend/**/*'],
+      include: ['../../test/frontend/**/*.test.js'],
       css: true,
       // Match the vitest 2.x.x fake timers configuration.
       // ref: https://vitest.dev/guide/migration.html#fake-timers-defaults
