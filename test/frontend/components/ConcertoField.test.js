@@ -1,13 +1,14 @@
-import { describe, it, expect, beforeAll, afterAll, afterEach, vi } from 'vitest'
+import { describe, it, expect, beforeAll, beforeEach, afterAll, afterEach, vi } from 'vitest'
 
 import { setupServer } from 'msw/node'
 import { HttpResponse, http } from 'msw'
-import { mount, flushPromises } from '@vue/test-utils'
+import { mount, enableAutoUnmount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 
 import ConcertoField from '~/components/ConcertoField.vue'
 import ConcertoGraphic from '~/components/ConcertoGraphic.vue'
 import ConcertoRichText from '~/components/ConcertoRichText.vue'
+import { eventually } from '../support/eventually.js'
 
 const fieldContentUrl = 'http://server/field_content.json';
 const fieldUnknownContentUrl = 'http://server/field_unknown_content.json';
@@ -52,7 +53,6 @@ const fieldUnknownContent = [
   }, 
 ];
 
-  
 export const httpHandlers = [
   http.get(fieldContentUrl, () => {
     return HttpResponse.json(fieldContent);
@@ -64,215 +64,144 @@ export const httpHandlers = [
 
 const server = setupServer(...httpHandlers);
 
-// Start server before all tests.
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
-
-// Close server after all tests.
+beforeAll(() => server.listen({ onUnhandledFrame: 'error' }));
 afterAll(() => server.close());
 
-// Reset handlers after each test.
+// Unmount every field after its test so its timers and fetches can't leak into
+// the next test.
+enableAutoUnmount(afterEach);
+
 afterEach(() => {
   vi.restoreAllMocks();
+  vi.unstubAllGlobals();
   vi.useRealTimers();
   server.resetHandlers();
 });
 
+function mountField(props = {}) {
+  return mount(ConcertoField, {
+    props: { apiUrl: fieldContentUrl, ...props },
+    global: { stubs: { transition: false } },
+  });
+}
+
+// The content the field is currently showing, or null if it shows nothing.
+function shownContent(wrapper) {
+  for (const component of [ConcertoGraphic, ConcertoRichText]) {
+    const found = wrapper.findComponent(component);
+    if (found.exists()) return found.props('content');
+  }
+  return null;
+}
+
 describe('ConcertoField', () => {
   it('fetches and displays first content', async () => {
-    const wrapper = mount(ConcertoField, {
-      props: { apiUrl: fieldContentUrl },
-      global: {
-        stubs: {
-          transition: false,
-        }
-      }
-    });
+    const wrapper = mountField();
 
-    await flushPromises();
-
-    expect(wrapper.findComponent(ConcertoGraphic).props()).toMatchObject(
-      {
-        content: fieldContent[0]
-      }
-    );
+    await eventually(() => expect(shownContent(wrapper)).toEqual(fieldContent[0]));
   });
 
-  it('advances to the next content after duration', async () => {
+  it('shows each content for its duration, defaulting to 10 seconds', async () => {
     vi.useFakeTimers();
+    const wrapper = mountField();
+    await eventually(() => expect(shownContent(wrapper)).toEqual(fieldContent[0]));
 
-    const wrapper = mount(ConcertoField, {
-      props: { apiUrl: fieldContentUrl },
-      global: {
-        stubs: {
-          transition: false,
-        }
-      }
-    });
-
-    await flushPromises();
-
-    // First Load -> Graphic.
-    expect(wrapper.findComponent(ConcertoGraphic).exists()).toBe(true);
-    expect(wrapper.findComponent(ConcertoRichText).exists()).toBe(false);
-
-    vi.advanceTimersToNextTimer();
+    // fieldContent[0] lasts 30 seconds.
+    vi.advanceTimersByTime(29_999);
     await nextTick();
+    expect(shownContent(wrapper)).toEqual(fieldContent[0]);
 
-    // Graphic -> RichText.
-    expect(wrapper.findComponent(ConcertoGraphic).exists()).toBe(false);
-    expect(wrapper.findComponent(ConcertoRichText).exists()).toBe(true);
-
-    vi.advanceTimersToNextTimer();
+    vi.advanceTimersByTime(1);
     await nextTick();
+    expect(shownContent(wrapper)).toEqual(fieldContent[1]);
 
-    // RichText -> Graphic.
-    expect(wrapper.findComponent(ConcertoGraphic).exists()).toBe(true);
-    expect(wrapper.findComponent(ConcertoRichText).exists()).toBe(false);
+    // fieldContent[1] has no duration, so it gets the 10 second default.
+    vi.advanceTimersByTime(9_999);
+    await nextTick();
+    expect(shownContent(wrapper)).toEqual(fieldContent[1]);
+
+    vi.advanceTimersByTime(1);
+    await nextTick();
+    expect(shownContent(wrapper)).toEqual(fieldContent[2]);
   });
 
   it('skips over unknown content types', async () => {
-    const wrapper = mount(ConcertoField, {
-      props: { apiUrl: fieldUnknownContentUrl },
-      global: {
-        stubs: {
-          transition: false,
-        }
-      }
-    });
+    const wrapper = mountField({ apiUrl: fieldUnknownContentUrl });
+    await eventually(() => expect(shownContent(wrapper)).toEqual(fieldUnknownContent[0]));
 
-    await flushPromises();
+    // Clicking content advances to the next one.
+    await wrapper.findComponent(ConcertoGraphic).trigger('click');
 
-    // First load displays the initial graphic.
-    expect(wrapper.findComponent(ConcertoGraphic).props()).toMatchObject(
-      {
-        content: fieldUnknownContent[0]
-      }
-    );
-
-    const vm = wrapper.vm;
-    // Advance to the next content.
-    vm.next();
-
-    await nextTick();
-
-    // Skips over the unknown content type and renders the graphic.
-    expect(wrapper.findComponent(ConcertoGraphic).props()).toMatchObject(
-      {
-        content: fieldUnknownContent[2]
-      }
-    );
+    expect(shownContent(wrapper)).toEqual(fieldUnknownContent[2]);
   });
 
   it('allows content to take over timer control', async () => {
     vi.useFakeTimers();
-    const wrapper = mount(ConcertoField, {
-      props: { apiUrl: fieldContentUrl },
-      global: {
-        stubs: {
-          transition: false,
-        }
-      }
-    });
+    const wrapper = mountField();
+    await eventually(() => expect(shownContent(wrapper)).toEqual(fieldContent[0]));
 
-    await flushPromises();
-
-    // Initially shows first graphic content
-    expect(wrapper.findComponent(ConcertoGraphic).exists()).toBe(true);
-    
-    // When content emits take-over-timer
     wrapper.findComponent(ConcertoGraphic).vm.$emit('take-over-timer');
-    await nextTick();
-    
-    // Advancing timer should not trigger content change
-    vi.advanceTimersToNextTimer();
-    await nextTick();
-    expect(wrapper.findComponent(ConcertoGraphic).exists()).toBe(true);
 
-    // Content can advance itself by emitting next
+    // Long past fieldContent[0]'s 30 second duration, the field leaves it alone.
+    vi.advanceTimersByTime(60_000);
+    await nextTick();
+    expect(shownContent(wrapper)).toEqual(fieldContent[0]);
+
+    // Content advances itself by emitting next.
     wrapper.findComponent(ConcertoGraphic).vm.$emit('next');
     await nextTick();
-    expect(wrapper.findComponent(ConcertoRichText).exists()).toBe(true);
+    expect(shownContent(wrapper)).toEqual(fieldContent[1]);
   });
 
   describe('style splitting', () => {
     it('applies text styles to .field and box styles to content component', async () => {
-      const wrapper = mount(ConcertoField, {
-        props: {
-          apiUrl: fieldContentUrl,
-          fieldStyle: 'color:#000; border:1px solid #ccc; font-family:Arial;',
-        },
-        global: { stubs: { transition: false } },
+      const wrapper = mountField({
+        fieldStyle: 'color:#000; border:1px solid #ccc; font-family:Arial;',
       });
-
-      await flushPromises();
+      const graphic = await eventually(() => wrapper.getComponent(ConcertoGraphic));
 
       const fieldStyle = wrapper.get('.field').attributes('style');
       expect(fieldStyle).toContain('font-family: Arial');
       expect(fieldStyle).not.toContain('border');
 
-      const graphic = wrapper.findComponent(ConcertoGraphic);
       expect(graphic.props('boxStyle')).toBe('border:1px solid #ccc;');
     });
 
     it('passes empty boxStyle when only text styles present', async () => {
-      const wrapper = mount(ConcertoField, {
-        props: {
-          apiUrl: fieldContentUrl,
-          fieldStyle: 'font-weight:bold;',
-        },
-        global: { stubs: { transition: false } },
-      });
-
-      await flushPromises();
+      const wrapper = mountField({ fieldStyle: 'font-weight:bold;' });
+      const graphic = await eventually(() => wrapper.getComponent(ConcertoGraphic));
 
       const fieldStyle = wrapper.get('.field').attributes('style');
       expect(fieldStyle).toContain('font-weight');
 
-      const graphic = wrapper.findComponent(ConcertoGraphic);
       expect(graphic.props('boxStyle')).toBe('');
     });
 
     it('passes empty boxStyle and no field style when fieldStyle is empty', async () => {
-      const wrapper = mount(ConcertoField, {
-        props: {
-          apiUrl: fieldContentUrl,
-          fieldStyle: '',
-        },
-        global: { stubs: { transition: false } },
-      });
-
-      await flushPromises();
+      const wrapper = mountField({ fieldStyle: '' });
+      const graphic = await eventually(() => wrapper.getComponent(ConcertoGraphic));
 
       const fieldStyle = wrapper.get('.field').attributes('style') || '';
       expect(fieldStyle).toBe('');
 
-      const graphic = wrapper.findComponent(ConcertoGraphic);
       expect(graphic.props('boxStyle')).toBe('');
     });
 
     it('passes box styles to content when no text styles', async () => {
-      const wrapper = mount(ConcertoField, {
-        props: {
-          apiUrl: fieldContentUrl,
-          fieldStyle: 'border:solid 2px #663333;',
-        },
-        global: { stubs: { transition: false } },
-      });
-
-      await flushPromises();
+      const wrapper = mountField({ fieldStyle: 'border:solid 2px #663333;' });
+      const graphic = await eventually(() => wrapper.getComponent(ConcertoGraphic));
 
       const fieldStyle = wrapper.get('.field').attributes('style') || '';
       expect(fieldStyle).not.toContain('border');
 
-      const graphic = wrapper.findComponent(ConcertoGraphic);
       expect(graphic.props('boxStyle')).toBe('border:solid 2px #663333;');
     });
-
   });
 
   describe('empty content retry', () => {
     it('retries after 30 seconds when content is initially empty', async () => {
       vi.useFakeTimers();
+      const setTimeoutSpy = vi.spyOn(globalThis, 'setTimeout');
 
       let callCount = 0;
       server.use(
@@ -285,124 +214,95 @@ describe('ConcertoField', () => {
         })
       );
 
-      const wrapper = mount(ConcertoField, {
-        props: { apiUrl: fieldContentUrl },
-        global: { stubs: { transition: false } }
-      });
+      const wrapper = mountField();
 
-      await flushPromises();
+      // The empty response has been handled once the retry is scheduled.
+      await eventually(() =>
+        expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 30_000)
+      );
+      expect(shownContent(wrapper)).toBeNull();
 
-      // First fetch returned empty — nothing displayed yet
-      expect(wrapper.findComponent(ConcertoGraphic).exists()).toBe(false);
+      vi.advanceTimersByTime(30_000);
 
-      // Advance past the 30s empty retry delay
-      vi.advanceTimersByTime(30000);
-      await flushPromises();
-
-      // Second fetch returned content — now displayed
-      expect(wrapper.findComponent(ConcertoGraphic).exists()).toBe(true);
+      // The retry fetched content, which is now displayed.
+      await eventually(() => expect(shownContent(wrapper)).toEqual(fieldContent[0]));
+      expect(callCount).toBe(2);
     });
   });
 
   describe('preloading', () => {
-    let preloadedImages = [];
+    let preloadedImages;
 
-    beforeAll(() => {
-      // Mock Image constructor to track preloaded images
-      // eslint-disable-next-line no-undef
-      global.Image = class {
+    // Stands in for the browser's Image so tests can see what gets preloaded,
+    // and whether those loads succeed.
+    function stubImage({ fails = false } = {}) {
+      vi.stubGlobal('Image', class {
         set src(value) {
           preloadedImages.push(value);
-          setTimeout(() => this.onload && this.onload(), 0);
+          setTimeout(() => (fails ? this.onerror?.(new Error('Failed')) : this.onload?.()), 0);
         }
-        set onload(callback) { this._onload = callback; }
-        get onload() { return this._onload; }
-        set onerror(callback) { this._onerror = callback; }
-      };
-    });
+      });
+    }
 
-    afterEach(() => {
+    beforeEach(() => {
       preloadedImages = [];
-    });
-
-    it('preloads next graphic after showing current content', async () => {
-      mount(ConcertoField, {
-        props: { apiUrl: fieldContentUrl },
-        global: { stubs: { transition: false } }
-      });
-
-      await flushPromises();
-
-      // After showing first graphic (poster.png), the next item is RichText
-      // which doesn't support preloading, so nothing should be preloaded yet
-      await nextTick();
-      await flushPromises();
-
-      // Preload is not called since next item is RichText
-      expect(preloadedImages).not.toContain('welcome.jpg');
-    });
-
-    it('does not preload non-graphic content', async () => {
-      mount(ConcertoField, {
-        props: { apiUrl: fieldContentUrl },
-        global: { stubs: { transition: false } }
-      });
-
-      await flushPromises();
-
-      // Should not preload RichText content
-      await nextTick();
-      await flushPromises();
-
-      // Check that all preloaded URLs are image files
-      preloadedImages.forEach(url => {
-        expect(['poster.png', 'welcome.jpg']).toContain(url);
-      });
-    });
-
-    it('avoids duplicate preloads', async () => {
       vi.useFakeTimers();
+    });
 
-      mount(ConcertoField, {
-        props: { apiUrl: fieldContentUrl },
-        global: { stubs: { transition: false } }
-      });
+    // fieldContent is Graphic (30s) -> RichText (10s) -> Graphic (welcome.jpg).
 
-      await flushPromises();
+    it('does not preload content that does not support it', async () => {
+      stubImage();
+      const wrapper = mountField();
+      await eventually(() => expect(shownContent(wrapper)).toEqual(fieldContent[0]));
 
-      // Advance to next content
-      vi.advanceTimersToNextTimer();
+      // Next up is RichText, which has nothing to preload.
+      expect(preloadedImages).toEqual([]);
+    });
+
+    it('preloads the next graphic while the current content is showing', async () => {
+      stubImage();
+      const wrapper = mountField();
+      await eventually(() => expect(shownContent(wrapper)).toEqual(fieldContent[0]));
+
+      vi.advanceTimersByTime(30_000);
       await nextTick();
-      await flushPromises();
+      expect(shownContent(wrapper)).toEqual(fieldContent[1]);
 
-      // Should not have duplicate URLs
-      const uniqueUrls = new Set(preloadedImages);
-      expect(preloadedImages.length).toBe(uniqueUrls.size);
+      expect(preloadedImages).toEqual(['welcome.jpg']);
+    });
 
-      vi.useRealTimers();
+    it('does not load a graphic again when it is shown', async () => {
+      stubImage();
+      const wrapper = mountField();
+      await eventually(() => expect(shownContent(wrapper)).toEqual(fieldContent[0]));
+
+      vi.advanceTimersByTime(30_000 + 10_000);
+      await nextTick();
+      expect(shownContent(wrapper)).toEqual(fieldContent[2]);
+
+      expect(preloadedImages).toEqual(['welcome.jpg']);
     });
 
     it('handles preload errors gracefully', async () => {
-      // Mock Image to always fail
-      // eslint-disable-next-line no-undef
-      global.Image = class {
-        set src(value) {
-          preloadedImages.push(value);
-          setTimeout(() => this.onerror && this.onerror(new Error('Failed')), 0);
-        }
-        set onload(callback) { this._onload = callback; }
-        set onerror(callback) { this._onerror = callback; }
-      };
+      stubImage({ fails: true });
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      const wrapper = mountField();
+      await eventually(() => expect(shownContent(wrapper)).toEqual(fieldContent[0]));
 
-      const wrapper = mount(ConcertoField, {
-        props: { apiUrl: fieldContentUrl },
-        global: { stubs: { transition: false } }
-      });
+      // Showing RichText starts the preload of welcome.jpg, which fails...
+      vi.advanceTimersByTime(30_000);
+      await nextTick();
+      expect(shownContent(wrapper)).toEqual(fieldContent[1]);
 
-      await flushPromises();
-
-      // Content should still display normally
-      expect(wrapper.findComponent(ConcertoGraphic).exists()).toBe(true);
+      // ...but the graphic still shows on schedule.
+      vi.advanceTimersByTime(10_000);
+      await nextTick();
+      expect(shownContent(wrapper)).toEqual(fieldContent[2]);
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringContaining('Failed to preload graphic: welcome.jpg'),
+        expect.any(Error)
+      );
     });
   });
 })

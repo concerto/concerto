@@ -2,10 +2,11 @@ import { describe, it, expect, beforeAll, afterAll, afterEach } from 'vitest'
 
 import { setupServer } from 'msw/node'
 import { HttpResponse, http } from 'msw'
-import { mount, flushPromises } from '@vue/test-utils'
+import { mount, enableAutoUnmount } from '@vue/test-utils'
 
 import ConcertoScreen from '~/components/ConcertoScreen.vue'
 import ConcertoField from '~/components/ConcertoField.vue'
+import { eventually } from '../support/eventually.js'
 
 
 const screenSetupUrl = 'http://server/screen_setup.json';
@@ -67,13 +68,16 @@ export const httpHandlers = [
 const server = setupServer(...httpHandlers);
 
 // Start server before all tests.
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+beforeAll(() => server.listen({ onUnhandledFrame: 'error' }));
 
 // Close server after all tests.
 afterAll(() => server.close());
 
 // Reset handlers after each test.
 afterEach(() => server.resetHandlers());
+
+// Unmount every screen after its test so its fetches can't leak into the next.
+enableAutoUnmount(afterEach);
 
 describe('ConcertoScreen', () => {
   it('displays screen', async () => {
@@ -86,13 +90,14 @@ describe('ConcertoScreen', () => {
       }
     } );
 
-    await flushPromises();
+    const fields = await eventually(() => {
+      const fields = wrapper.findAllComponents(ConcertoField);
+      expect(fields).toHaveLength(4);
+      return fields;
+    });
 
     const screen = wrapper.get('.screen');
     expect(screen.attributes('style')).toContain('url("http://server/BlueSwooshNeo_16x9.jpg");');
-    
-    const fields = wrapper.findAllComponents(ConcertoField);
-    expect(fields).toHaveLength(4);
 
     expect(fields[0].attributes('style')).toMatch(/top: 2.60?%;/);
     expect(fields[0].attributes('style')).toMatch(/left: 2.50?%;/);
@@ -122,9 +127,9 @@ describe('ConcertoScreen', () => {
       global: { stubs: { ConcertoField: true } }
     });
 
-    await flushPromises();
-
-    expect(wrapper.get('.screen').attributes('style'))
-      .toContain(`url("${trickyUrl}");`);
+    await eventually(() =>
+      expect(wrapper.get('.screen').attributes('style'))
+        .toContain(`url("${trickyUrl}");`)
+    );
   })
 })
