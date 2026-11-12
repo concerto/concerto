@@ -3530,9 +3530,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msw@npm:^3.0.3":
-  version: 3.0.3
-  resolution: "msw@npm:3.0.3"
+"msw@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "msw@npm:3.0.4"
   dependencies:
     "@inquirer/confirm": "npm:^6.0.11"
     "@msw/url": "npm:^0.1.2"
@@ -3559,7 +3559,7 @@ __metadata:
       optional: true
   bin:
     msw: cli/index.js
-  checksum: 10c0/ce71174c7881c1ae1623baaf76a6a9e0fa492b2e19e7fdf8ca3293c9385ee8a3cab8293b0215a9810b6ab9125998060be1499a17af036a51c67eab44f97055a3
+  checksum: 10c0/59fa0db0620184156d41382c9865444d79b537c45c159ad72a09002c4f085ce122e287d3306fb3d9dba7d54da36752f29f5bd227a8eca23303648d67ad99739d
   languageName: node
   linkType: hard
 
@@ -4018,7 +4018,7 @@ __metadata:
     eslint-plugin-vue: "npm:^10.12.0"
     globals: "npm:^17.14.0"
     jsdom: "npm:^30.1.3"
-    msw: "npm:^3.0.3"
+    msw: "npm:^3.0.4"
     vite: "npm:^8.3.6"
     vite-plugin-ruby: "npm:^5.2.6"
     vitest: "npm:^5.0.5"
