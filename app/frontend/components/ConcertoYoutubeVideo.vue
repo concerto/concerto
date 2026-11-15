@@ -39,6 +39,8 @@ const playerRef = ref(null);
 let player = null;
 let timeCheckInterval = null;
 let lastKnownTime = -1;
+let apiReadyCheck = null;
+let unmounted = false;
 
 function isYTAPILoaded() {
   /* global YT */
@@ -54,12 +56,12 @@ async function loadYTAPI() {
       // Wait for it to be ready with timeout
       const maxAttempts = API_LOAD_TIMEOUT_MS / 100;
       let attempts = 0;
-      const checkReady = setInterval(() => {
+      apiReadyCheck = setInterval(() => {
         if (isYTAPILoaded()) {
-          clearInterval(checkReady);
+          stopApiReadyCheck();
           resolve();
         } else if (attempts++ >= maxAttempts) {
-          clearInterval(checkReady);
+          stopApiReadyCheck();
           console.error('Timed out waiting for YouTube API to load.');
           reject(new Error('YouTube API load timeout'));
         }
@@ -78,6 +80,13 @@ async function loadYTAPI() {
     script.src = YOUTUBE_API_URL;
     document.head.appendChild(script);
   });
+}
+
+// Stop polling for the YouTube API. Called on unmount too, so a video that
+// rotates off screen before the API loads doesn't leave the poll running.
+function stopApiReadyCheck() {
+  clearInterval(apiReadyCheck);
+  apiReadyCheck = null;
 }
 
 function startTimeCheck() {
@@ -146,6 +155,7 @@ onMounted(async () => {
   if (!isYTAPILoaded()) {
     await loadYTAPI();
   }
+  if (unmounted) return;
 
   player = new YT.Player(playerRef.value, {
     events: {
@@ -156,6 +166,8 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => {
+  unmounted = true;
+  stopApiReadyCheck();
   stopTimeCheck();
   if (player && typeof player.destroy === 'function') {
     player.destroy();

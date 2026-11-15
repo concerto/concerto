@@ -204,3 +204,37 @@ describe('ConcertoYoutubeVideo watchdog', () => {
     expect(wrapper.emitted('next')).toHaveLength(1);
   });
 });
+describe('ConcertoYoutubeVideo API loading', () => {
+  const API_URL = 'https://www.youtube.com/iframe_api';
+
+  beforeEach(() => {
+    delete global.YT;
+    // Another player already injected the API script, so this one polls for it.
+    const script = document.createElement('script');
+    script.src = API_URL;
+    document.head.appendChild(script);
+  });
+
+  afterEach(() => {
+    document.querySelectorAll(`script[src="${API_URL}"]`).forEach(s => s.remove());
+  });
+
+  it('stops polling for the API when unmounted before it loads', async () => {
+    const wrapper = mount(ConcertoYoutubeVideo, { props: { content: { video_id: 'z7HyF46-Zd0' } } });
+    wrapper.unmount();
+
+    // The API arriving after unmount must not build a player for a gone
+    // component. The poll runs every 100ms, so 300ms covers several ticks.
+    global.YT = { Player: vi.fn(), PlayerState: {} };
+    await new Promise(resolve => setTimeout(resolve, 300));
+    expect(global.YT.Player).not.toHaveBeenCalled();
+  });
+
+  it('builds the player once a polled-for API loads', async () => {
+    mount(ConcertoYoutubeVideo, { props: { content: { video_id: 'z7HyF46-Zd0' } } });
+
+    global.YT = { Player: vi.fn(), PlayerState: {} };
+    await new Promise(resolve => setTimeout(resolve, 300));
+    expect(global.YT.Player).toHaveBeenCalledTimes(1);
+  });
+});
