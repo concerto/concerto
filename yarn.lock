@@ -1818,15 +1818,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitejs/plugin-vue@npm:^6.0.10":
-  version: 6.0.10
-  resolution: "@vitejs/plugin-vue@npm:6.0.10"
+"@vitejs/plugin-vue@npm:^6.0.11":
+  version: 6.0.11
+  resolution: "@vitejs/plugin-vue@npm:6.0.11"
   dependencies:
     "@rolldown/pluginutils": "npm:^1.0.1"
   peerDependencies:
     vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
-    vue: ^3.2.25 || ^3.6.0-rc.10
-  checksum: 10c0/19d004cd1ac1d82a99610f3391be68e6b8f6edecd93c552eb2143238f7b896653cfc72d7965b807fd5d36b9f41cd00ada6cb96c8490b55a12d941f65a3891476
+    vue: ^3.2.25 || ^3.6.0-rc.15
+  checksum: 10c0/4d9ff0e2c56ebd8e20916feccc1f97f2973d46d02d98fdeb2d9511c2cf48932bd0dbdcbe8914359718347e1494a524f4d04af55e004d7be360de6e768a91d25b
   languageName: node
   linkType: hard
 
@@ -3938,7 +3938,7 @@ __metadata:
     "@eslint/js": "npm:^10.0.1"
     "@stylistic/eslint-plugin": "npm:^5.10.0"
     "@vitejs/plugin-legacy": "npm:^8.2.4"
-    "@vitejs/plugin-vue": "npm:^6.0.10"
+    "@vitejs/plugin-vue": "npm:^6.0.11"
     "@vue/test-utils": "npm:^2.5.1"
     acorn: "npm:^8.19.0"
     date-fns: "npm:^4.4.0"
