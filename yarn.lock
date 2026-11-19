@@ -1552,9 +1552,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mswjs/interceptors@npm:^0.45.6":
-  version: 0.45.9
-  resolution: "@mswjs/interceptors@npm:0.45.9"
+"@mswjs/interceptors@npm:^0.45.11":
+  version: 0.45.12
+  resolution: "@mswjs/interceptors@npm:0.45.12"
   dependencies:
     "@open-draft/until": "npm:^3.0.1"
     "@types/debug": "npm:^4.1.13"
@@ -1562,7 +1562,7 @@ __metadata:
     is-node-process: "npm:^1.2.0"
     outvariant: "npm:^1.4.3"
     rettime: "npm:^0.11.12"
-  checksum: 10c0/32703d00796c999925b0c7e1298e7773979794614bee98694fbc4b7b4392987b79e1afc37a68fe940f9af4973526f268ba579f0a0e2deb4245e26b1ff34db9d4
+  checksum: 10c0/ef0835ff687b69184333d81fb7d207c91d0540e8f417b63d2eeb994e30d97f193f81148faf06ab99efe7e449c976468d91525dc03c56ddf1e7edfe0a2def6f12
   languageName: node
   linkType: hard
 
@@ -3527,13 +3527,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msw@npm:^3.0.4":
-  version: 3.0.4
-  resolution: "msw@npm:3.0.4"
+"msw@npm:^3.0.6":
+  version: 3.0.6
+  resolution: "msw@npm:3.0.6"
   dependencies:
     "@inquirer/confirm": "npm:^6.0.11"
     "@msw/url": "npm:^0.1.2"
-    "@mswjs/interceptors": "npm:^0.45.6"
+    "@mswjs/interceptors": "npm:^0.45.11"
     cookie: "npm:^2.0.1"
     headers-polyfill: "npm:^5.0.1"
     is-node-process: "npm:^1.2.0"
@@ -3556,7 +3556,7 @@ __metadata:
       optional: true
   bin:
     msw: cli/index.js
-  checksum: 10c0/59fa0db0620184156d41382c9865444d79b537c45c159ad72a09002c4f085ce122e287d3306fb3d9dba7d54da36752f29f5bd227a8eca23303648d67ad99739d
+  checksum: 10c0/18e629ef7292f7e16076582acb83e4be0e819db4bf941146e3a85e5148b1be724fc41a3fa5e4f5f6b7f8fec8297b791b8a934522dcf432e810c14559110cdc83
   languageName: node
   linkType: hard
 
@@ -4009,7 +4009,7 @@ __metadata:
     eslint-plugin-vue: "npm:^10.12.0"
     globals: "npm:^17.14.0"
     jsdom: "npm:^31.0.1"
-    msw: "npm:^3.0.4"
+    msw: "npm:^3.0.6"
     vite: "npm:^8.3.8"
     vite-plugin-ruby: "npm:^5.2.6"
     vitest: "npm:^5.1.0"
