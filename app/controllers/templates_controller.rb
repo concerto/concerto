@@ -58,11 +58,15 @@ class TemplatesController < ApplicationController
   # DELETE /templates/1 or /templates/1.json
   def destroy
     authorize @template
-    @template.destroy!
 
     respond_to do |format|
-      format.html { redirect_to templates_url, notice: "Template was successfully deleted." }
-      format.json { head :no_content }
+      if @template.destroy
+        format.html { redirect_to templates_url, notice: "Template was successfully deleted." }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to template_url(@template), alert: @template.errors.full_messages.to_sentence }
+        format.json { render json: @template.errors, status: :unprocessable_entity }
+      end
     end
   end
 

@@ -178,6 +178,32 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "User was successfully deleted.", flash[:notice]
   end
 
+  test "should destroy user who has moderated submissions and preserve moderation history" do
+    content = RichText.create!(
+      name: "Admin Destroy Moderated Content",
+      duration: 30,
+      text: "Hello",
+      config: { "render_as" => "plaintext" },
+      user: @system_admin
+    )
+    submission = Submission.create!(content: content, feed: feeds(:one))
+    submission.moderate!(status: :rejected, moderator: @user, reason: "Needs edits")
+    moderated_at = submission.moderated_at
+
+    assert_difference("User.count", -1) do
+      delete admin_user_url(@user)
+    end
+
+    assert_redirected_to users_url
+    assert_equal "User was successfully deleted.", flash[:notice]
+
+    submission.reload
+    assert_nil submission.moderator_id
+    assert submission.rejected?
+    assert_equal "Needs edits", submission.moderation_reason
+    assert_in_delta moderated_at.to_f, submission.moderated_at.to_f, 0.001
+  end
+
   # --- Admin Self-Management Protection ---
 
   test "should not allow admin to edit themselves" do

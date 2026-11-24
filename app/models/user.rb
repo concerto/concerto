@@ -15,6 +15,8 @@ class User < ApplicationRecord
 
   has_many :contents, dependent: :destroy
   has_many :memberships, dependent: :destroy
+  has_many :moderated_submissions, class_name: "Submission", foreign_key: :moderator_id,
+           inverse_of: :moderator, dependent: :nullify
   has_many :groups, through: :memberships
   has_many :admin_memberships, -> { admin }, class_name: "Membership"
   has_many :admin_groups, through: :admin_memberships, source: :group
