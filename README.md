@@ -90,13 +90,25 @@ recreated. **Back up this volume regularly.**
 
 #### Configuration Options
 
-| Environment Variable    | Description                                                       | Default |
-| ----------------------- | ----------------------------------------------------------------- | ------- |
-| `SECRET_KEY_BASE`       | Secret key for encrypting sessions (**required**)                 | -       |
-| `DISABLE_SSL`           | Set to `true` to disable SSL (leave unset to enable SSL)          | -       |
-| `RAILS_MAX_THREADS`     | Maximum number of threads per Puma worker                         | 3       |
-| `WEB_CONCURRENCY`       | Number of Puma worker processes                                   | 1       |
-| `SOLID_QUEUE_IN_PUMA`   | Set to `false` to disable the in-process job worker               | true    |
+| Environment Variable         | Description                                                                   | Default                            |
+| ---------------------------- | ----------------------------------------------------------------------------- | ---------------------------------- |
+| `SECRET_KEY_BASE`            | Secret key for encrypting sessions (**required**)                             | -                                  |
+| `DISABLE_SSL`                | Set to `true` to disable SSL (leave unset to enable SSL)                      | -                                  |
+| `RAILS_MAX_THREADS`          | Maximum number of threads per Puma worker                                     | 3                                  |
+| `WEB_CONCURRENCY`            | Number of Puma worker processes                                               | 1                                  |
+| `SOLID_QUEUE_IN_PUMA`        | Set to `false` to disable the in-process job worker                           | true                               |
+| `APP_HOST`                   | Public hostname used for links in outgoing emails (e.g. `signage.example.com`) | `example.com`                      |
+| `MAILER_FROM_ADDRESS`        | Sender address for outgoing emails (e.g. `Concerto <noreply@example.com>`)    | `Concerto <no-reply@example.com>`  |
+| `SMTP_ADDRESS`               | Outgoing SMTP server hostname (leave unset to disable email delivery)         | -                                  |
+| `SMTP_PORT`                  | SMTP server port                                                              | `587` (`465` when `SMTP_TLS=true`) |
+| `SMTP_DOMAIN`                | HELO domain sent to the SMTP server                                           | `APP_HOST`                         |
+| `SMTP_USERNAME`              | Username for SMTP authentication (omit for unauthenticated relays)            | -                                  |
+| `SMTP_PASSWORD`              | Password for SMTP authentication (omit for unauthenticated relays)            | -                                  |
+| `SMTP_AUTHENTICATION`        | SMTP auth method (`plain`, `login`, `cram_md5`, or `none`)                    | `plain` (when credentials are set) |
+| `SMTP_TLS`                   | Set to `true` to use implicit TLS / SMTPS (typically port 465)                | `false`                            |
+| `SMTP_ENABLE_STARTTLS_AUTO`  | Set to `false` to disable automatic STARTTLS upgrade                          | `true` (ignored if `SMTP_TLS=true`) |
+
+Outgoing email delivery (used for password reset emails) is disabled until `SMTP_ADDRESS` is configured. For production deployments that send email, set `SMTP_ADDRESS`, `APP_HOST`, and `MAILER_FROM_ADDRESS` (plus `SMTP_USERNAME` and `SMTP_PASSWORD` if your mail server requires authentication).
 
 Background job processing (Solid Queue) runs automatically inside the web
 server process. For most single-server deployments, no separate worker
