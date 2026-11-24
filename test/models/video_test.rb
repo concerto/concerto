@@ -144,4 +144,128 @@ class VideoTest < ActiveSupport::TestCase
     @youtube_video.aspect_ratio = ""
     assert @youtube_video.valid?
   end
+
+  test "requires a url" do
+    @youtube_video.url = ""
+    assert_not @youtube_video.valid?
+    assert_includes @youtube_video.errors[:url], "can't be blank"
+  end
+
+  test "accepts valid http and https urls" do
+    @youtube_video.url = "http://example.org/video"
+    assert @youtube_video.valid?
+
+    @youtube_video.url = "https://www.youtube.com/watch?v=eT4OAYjzV-s"
+    assert @youtube_video.valid?
+  end
+
+  test "rejects non-http schemes" do
+    @youtube_video.url = "javascript:alert(1)"
+    assert_not @youtube_video.valid?
+    assert_includes @youtube_video.errors[:url], "must be a valid http or https URL"
+  end
+
+  test "rejects urls without a host" do
+    @youtube_video.url = "https://"
+    assert_not @youtube_video.valid?
+    assert_includes @youtube_video.errors[:url], "must be a valid http or https URL"
+  end
+
+  test "rejects malformed urls" do
+    @youtube_video.url = "http://exa mple.com"
+    assert_not @youtube_video.valid?
+    assert_includes @youtube_video.errors[:url], "is not a valid URL"
+  end
+
+  test "video_source returns nil for malformed urls without raising" do
+    @youtube_video.url = "http://exa mple.com"
+    assert_nil @youtube_video.video_source
+    assert_nil @youtube_video.video_id
+  end
+
+  test "caches Vimeo oEmbed responses in Rails.cache across instances" do
+    memory_store = ActiveSupport::Cache::MemoryStore.new
+    with_rails_cache(memory_store) do
+      first = Video.find(@vimeo_video.id)
+      second = Video.find(@vimeo_video.id)
+
+      assert_equal "https://i.vimeocdn.com/video/1987724603-d_295x166", first.thumbnail_url
+      assert_equal "https://i.vimeocdn.com/video/1987724603-d_295x166", second.thumbnail_url
+      assert_requested :get, /vimeo\.com\/api\/oembed\.json/, times: 1
+    end
+  end
+
+  test "caches TikTok oEmbed responses in Rails.cache across instances" do
+    memory_store = ActiveSupport::Cache::MemoryStore.new
+    with_rails_cache(memory_store) do
+      first = Video.find(@tiktok_video.id)
+      second = Video.find(@tiktok_video.id)
+
+      assert_equal "6718335390845095173", first.video_id
+      assert_equal "6718335390845095173", second.video_id
+      assert_requested :get, /tiktok\.com\/oembed/, times: 1
+    end
+  end
+
+  test "handles oEmbed timeouts gracefully and negatively caches errors briefly" do
+    memory_store = ActiveSupport::Cache::MemoryStore.new
+    stub_request(:get, /vimeo\.com\/api\/oembed\.json/).to_timeout
+
+    with_rails_cache(memory_store) do
+      assert_equal "", Video.find(@vimeo_video.id).thumbnail_url
+      assert_equal "", Video.find(@vimeo_video.id).thumbnail_url
+      assert_requested :get, /vimeo\.com\/api\/oembed\.json/, times: 1
+    end
+  end
+
+  test "handles non-success oEmbed HTTP responses gracefully" do
+    stub_request(:get, /vimeo\.com\/api\/oembed\.json/).to_return(status: 404, body: "Not Found")
+
+    assert_equal "", @vimeo_video.thumbnail_url
+  end
+
+  test "caches resolved TikTok video_id in config on save so reads make no HTTP requests" do
+    video = Video.create!(
+      name: "Cached TikTok",
+      url: "https://www.tiktok.com/@scout2015/video/6718335390845095173",
+      user: users(:admin)
+    )
+    assert_equal "6718335390845095173", video.tiktok_video_id
+    assert_requested :get, /tiktok\.com\/oembed/, times: 1
+
+    # Freshly loaded record should not hit TikTok oEmbed again when rendering JSON.
+    reloaded = Video.find(video.id)
+    assert_equal "6718335390845095173", reloaded.as_json[:video_id]
+    assert_requested :get, /tiktok\.com\/oembed/, times: 1
+
+    # Updating a non-URL field does not re-fetch oEmbed.
+    reloaded.update!(name: "Renamed TikTok")
+    assert_requested :get, /tiktok\.com\/oembed/, times: 1
+
+    # Changing URL to a different TikTok video updates tiktok_video_id.
+    stub_request(:get, /tiktok\.com\/oembed/)
+      .to_return(
+        status: 200,
+        body: { "html" => '<blockquote data-video-id="9999999999999999999"></blockquote>' }.to_json,
+        headers: { "Content-Type" => "application/json" }
+      )
+    reloaded.update!(url: "https://vm.tiktok.com/ZM8newshort/")
+    assert_equal "9999999999999999999", reloaded.reload.tiktok_video_id
+    assert_equal "9999999999999999999", reloaded.video_id
+
+    # Changing URL away from TikTok clears tiktok_video_id.
+    reloaded.update!(url: "https://www.youtube.com/watch?v=eT4OAYjzV-s")
+    assert_nil reloaded.reload.tiktok_video_id
+    assert_equal "eT4OAYjzV-s", reloaded.video_id
+  end
+
+  private
+
+  def with_rails_cache(store)
+    original_cache = Rails.cache
+    Rails.cache = store
+    yield
+  ensure
+    Rails.cache = original_cache
+  end
 end

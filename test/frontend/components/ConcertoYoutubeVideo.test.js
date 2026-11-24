@@ -216,7 +216,10 @@ describe('ConcertoYoutubeVideo API loading', () => {
   });
 
   afterEach(() => {
+    vi.restoreAllMocks();
+    vi.useRealTimers();
     document.querySelectorAll(`script[src="${API_URL}"]`).forEach(s => s.remove());
+    delete window.onYouTubeIframeAPIReady;
   });
 
   it('stops polling for the API when unmounted before it loads', async () => {
@@ -236,5 +239,34 @@ describe('ConcertoYoutubeVideo API loading', () => {
     global.YT = { Player: vi.fn(), PlayerState: {} };
     await new Promise(resolve => setTimeout(resolve, 300));
     expect(global.YT.Player).toHaveBeenCalledTimes(1);
+  });
+
+  it('handles script load failure cleanly and emits next', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    // Remove the pre-injected script so this component injects its own.
+    document.querySelectorAll(`script[src="${API_URL}"]`).forEach(s => s.remove());
+
+    const wrapper = mount(ConcertoYoutubeVideo, { props: { content: { video_id: 'z7HyF46-Zd0' } } });
+
+    const script = document.querySelector(`script[src="${API_URL}"]`);
+    expect(script).not.toBeNull();
+    script.onerror(new Event('error'));
+
+    await vi.waitFor(() => {
+      expect(wrapper.emitted('next')).toBeTruthy();
+    });
+    expect(document.querySelector(`script[src="${API_URL}"]`)).toBeNull();
+    expect(window.onYouTubeIframeAPIReady).toBeUndefined();
+  });
+
+  it('handles API poll timeout cleanly and emits next', async () => {
+    vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] });
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    const wrapper = mount(ConcertoYoutubeVideo, { props: { content: { video_id: 'z7HyF46-Zd0' } } });
+
+    await vi.advanceTimersByTimeAsync(31_000);
+
+    expect(wrapper.emitted('next')).toBeTruthy();
   });
 });

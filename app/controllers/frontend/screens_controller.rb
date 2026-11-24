@@ -14,7 +14,7 @@ class Frontend::ScreensController < Frontend::ApplicationController
       }
     }
 
-    @screen.touch(:last_seen_at)
+    @screen.record_heartbeat!
 
     response.headers["X-Config-Version"] = @screen.config_version
 
