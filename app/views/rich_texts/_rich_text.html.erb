@@ -2,11 +2,19 @@
   <!-- Content Preview -->
   <div class="card mb-6">
     <div class="card-body">
+      <% if rich_text.html? %>
+        <%= render "rich_texts/html_security_notice", rich_text: rich_text %>
+      <% end %>
       <div class="prose prose-sm max-w-none">
         <% if rich_text.plaintext? %>
           <%= rich_text.text %>
         <% else %>
-          <%= sanitize(rich_text.text) %>
+          <% sanitized_html = sanitize(rich_text.text) %>
+          <% if rich_text.text.present? && sanitized_html.blank? %>
+            <p class="text-sm italic text-neutral-500">No visible content remains in the sanitized preview.</p>
+          <% else %>
+            <%= sanitized_html %>
+          <% end %>
         <% end %>
       </div>
     </div>

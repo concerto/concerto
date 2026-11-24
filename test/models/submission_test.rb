@@ -4,6 +4,7 @@ class SubmissionTest < ActiveSupport::TestCase
   setup do
     @user = users(:admin)
     @non_member = users(:non_member)
+    @system_user = users(:system_user)
     @feed = feeds(:one)  # belongs to feed_one_owners group
     @content = rich_texts(:plain_richtext)
   end
@@ -19,13 +20,34 @@ class SubmissionTest < ActiveSupport::TestCase
     assert submission.rejected?
   end
 
-  test "auto-approves submission when feed auto-approves" do
-    rss_feed = rss_feeds(:test_rssfeed)
-    content = RichText.create!(name: "Test", text: "Test", user: @non_member, duration: 10, config: { render_as: "plaintext" })
-    submission = Submission.create!(content: content, feed: rss_feed)
+  test "auto-approves system user submission on RSS and Remote feeds" do
+    [ rss_feeds(:test_rssfeed), remote_feeds(:test_remote_feed) ].each do |auto_feed|
+      content = RichText.create!(name: "System Item", text: "Test", user: @system_user, duration: 10, config: { render_as: "plaintext" })
+      submission = Submission.create!(content: content, feed: auto_feed)
 
-    assert submission.approved?
-    assert_not_nil submission.moderated_at
+      assert submission.approved?, "Expected system user submission to #{auto_feed.class} to auto-approve"
+      assert_not_nil submission.moderated_at
+    end
+  end
+
+  test "creates pending submission when non-member submits to RSS or Remote feed" do
+    [ rss_feeds(:test_rssfeed), remote_feeds(:test_remote_feed) ].each do |auto_feed|
+      content = RichText.create!(name: "User Item", text: "Test", user: @non_member, duration: 10, config: { render_as: "plaintext" })
+      submission = Submission.create!(content: content, feed: auto_feed)
+
+      assert submission.pending?, "Expected non-member submission to #{auto_feed.class} to require moderation"
+      assert_nil submission.moderated_at
+    end
+  end
+
+  test "auto-approves submission when user is member of RSS or Remote feed's group" do
+    # admin is a member of feed_one_owners (owns test_rssfeed and test_remote_feed)
+    [ rss_feeds(:test_rssfeed), remote_feeds(:test_remote_feed) ].each do |auto_feed|
+      content = RichText.create!(name: "Member Item", text: "Test", user: @user, duration: 10, config: { render_as: "plaintext" })
+      submission = Submission.create!(content: content, feed: auto_feed)
+
+      assert submission.approved?
+    end
   end
 
   test "auto-approves submission when user is member of feed's group" do
@@ -69,11 +91,19 @@ class SubmissionTest < ActiveSupport::TestCase
     assert_equal "Not appropriate", submission.moderation_reason
   end
 
-  test "should_auto_approve? returns true for RSS feeds" do
-    rss_feed = rss_feeds(:test_rssfeed)
-    submission = Submission.new(content: @content, feed: rss_feed)
+  test "should_auto_approve? returns true for system user on RSS and Remote feeds" do
+    system_content = RichText.create!(name: "Sys", text: "Sys", user: @system_user, duration: 10, config: { render_as: "plaintext" })
 
-    assert submission.should_auto_approve?
+    assert Submission.new(content: system_content, feed: rss_feeds(:test_rssfeed)).should_auto_approve?
+    assert Submission.new(content: system_content, feed: remote_feeds(:test_remote_feed)).should_auto_approve?
+    refute Submission.new(content: system_content, feed: @feed).should_auto_approve?
+  end
+
+  test "should_auto_approve? returns false for non-members on RSS and Remote feeds" do
+    user_content = RichText.create!(name: "User", text: "User", user: @non_member, duration: 10, config: { render_as: "plaintext" })
+
+    refute Submission.new(content: user_content, feed: rss_feeds(:test_rssfeed)).should_auto_approve?
+    refute Submission.new(content: user_content, feed: remote_feeds(:test_remote_feed)).should_auto_approve?
   end
 
   test "should_auto_approve? returns true for group members" do
@@ -109,8 +139,8 @@ class SubmissionTest < ActiveSupport::TestCase
   end
 
   test "reevaluate_moderation! resets auto-approved submissions for non-members" do
-    content = RichText.create!(name: "Test", text: "Test", user: @non_member, duration: 10, config: { render_as: "plaintext" })
-    rss_feed = rss_feeds(:test_rssfeed)  # auto-approves
+    content = RichText.create!(name: "Test", text: "Test", user: @system_user, duration: 10, config: { render_as: "plaintext" })
+    rss_feed = rss_feeds(:test_rssfeed)  # auto-approves system user content
     submission = Submission.create!(content: content, feed: rss_feed)
 
     assert submission.approved?

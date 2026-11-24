@@ -164,4 +164,96 @@ class RichTextsControllerTest < ActionDispatch::IntegrationTest
     assert_select "span", text: "Pending"
     assert_select "span", text: "Approved"
   end
+
+  test "non-member submitting to RSS and Remote feeds creates pending submissions" do
+    sign_in users(:non_member)
+    rss_feed = rss_feeds(:yahoo_rssfeed)
+    remote_feed = remote_feeds(:system_remote_feed)
+
+    assert_difference("RichText.count") do
+      post rich_texts_url, params: { rich_text: {
+        duration: 10,
+        name: "External Submission",
+        text: "Hello",
+        render_as: "plaintext",
+        feed_ids: [ rss_feed.id, remote_feed.id ]
+      } }
+    end
+
+    created = RichText.last
+    assert_equal 2, created.submissions.count
+    assert created.submissions.all?(&:pending?), "Non-member submissions to RSS/Remote feeds must be pending"
+  end
+
+  # Moderator HTML security warning tests
+  test "plaintext rich text show page displays no HTML warning" do
+    get rich_text_url(@rich_text)
+    assert_response :success
+    assert_select "[data-rich-text-warning]", count: 0
+  end
+
+  test "safe HTML rich text show page displays subtle HTML notice with raw source toggle" do
+    safe_html = RichText.create!(
+      name: "Safe HTML",
+      text: "<h1>Welcome</h1><p>Hello world</p>",
+      duration: 10,
+      user: @user,
+      config: { "render_as" => "html" }
+    )
+
+    get rich_text_url(safe_html)
+    assert_response :success
+    assert_select "[data-rich-text-warning='html-notice']", count: 1
+    assert_select "[data-rich-text-warning='active-html']", count: 0
+    assert_select "details summary", text: /View raw HTML source/
+    assert_select "details pre code", text: safe_html.text
+  end
+
+  test "HTML rich text with script tag displays active HTML warning and escaped raw source" do
+    script_html = RichText.create!(
+      name: "Script HTML",
+      text: "<script>alert('xss')</script>",
+      duration: 10,
+      user: @user,
+      config: { "render_as" => "html" }
+    )
+
+    get rich_text_url(script_html)
+    assert_response :success
+    assert_select "[data-rich-text-warning='active-html']", count: 1
+    assert_select "[data-rich-text-warning='active-html']", text: /<script> element/
+    assert_select "details pre code", text: "<script>alert('xss')</script>"
+    assert_select "div.prose script", count: 0
+  end
+
+  test "HTML rich text stripped to empty displays empty preview fallback" do
+    iframe_html = RichText.create!(
+      name: "Iframe HTML",
+      text: '<iframe src="https://evil.example/embed"></iframe>',
+      duration: 10,
+      user: @user,
+      config: { "render_as" => "html" }
+    )
+
+    get rich_text_url(iframe_html)
+    assert_response :success
+    assert_select "[data-rich-text-warning='active-html']", count: 1
+    assert_select "[data-rich-text-warning='active-html']", text: /<iframe> element/
+    assert_select "div.prose", text: /No visible content remains in the sanitized preview/
+  end
+
+  test "HTML rich text with inline event handler displays active HTML warning" do
+    handler_html = RichText.create!(
+      name: "Handler HTML",
+      text: '<img src="https://example.com/pic.png" onerror="alert(1)">',
+      duration: 10,
+      user: @user,
+      config: { "render_as" => "html" }
+    )
+
+    get rich_text_url(handler_html)
+    assert_response :success
+    assert_select "[data-rich-text-warning='active-html']", count: 1
+    assert_select "[data-rich-text-warning='active-html']", text: /inline event handler \(onerror\)/
+  end
 end
