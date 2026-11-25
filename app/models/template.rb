@@ -1,10 +1,18 @@
 class Template < ApplicationRecord
   has_one_attached :image
 
+  # Registered before has_many :positions so attempting to destroy an in-use
+  # template aborts immediately without cascading into positions.
+  has_many :screens, dependent: :restrict_with_error
+
   has_many :positions, dependent: :destroy
   accepts_nested_attributes_for :positions, reject_if: :all_blank, allow_destroy: true
 
-  has_many :screens
+  # True when this template is used by at least one screen and therefore
+  # cannot be deleted.
+  def in_use?
+    screens.exists?
+  end
 
   # Assumed canvas shape when the background image is missing or not yet
   # analyzed (e.g. right after upload, before the async analysis job runs).

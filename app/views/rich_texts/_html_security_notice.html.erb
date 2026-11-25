@@ -1,0 +1,47 @@
+<% compact = local_assigns.fetch(:compact, false) %>
+<% if rich_text.is_a?(RichText) && rich_text.html? %>
+  <% warnings = rich_text_html_warnings(rich_text) %>
+  <% if warnings.any? %>
+    <div class="<%= compact ? 'mt-3 p-3' : 'mb-4 p-4' %> rounded-lg border border-amber-300 bg-amber-50 text-amber-900" role="alert" data-rich-text-warning="active-html">
+      <div class="flex items-start gap-2.5">
+        <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
+        </svg>
+        <div class="min-w-0 flex-1">
+          <p class="text-sm font-semibold text-amber-900">
+            Active HTML hidden from preview
+          </p>
+          <p class="mt-1 text-xs sm:text-sm text-amber-800">
+            HTML content renders unsanitized on player screens, including markup removed from this preview
+            (<%= warnings.join(", ") %>). Review the raw HTML source before approving.
+          </p>
+          <details class="mt-2">
+            <summary class="cursor-pointer text-xs font-medium text-amber-900 underline hover:text-amber-700 select-none">
+              View raw HTML source
+            </summary>
+            <pre class="mt-2 max-h-48 overflow-auto rounded border border-amber-200 bg-white p-2.5 text-xs font-mono text-neutral-900 whitespace-pre-wrap break-all"><code><%= rich_text.text %></code></pre>
+          </details>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="<%= compact ? 'mt-3 px-3 py-2' : 'mb-4 px-4 py-3' %> rounded-lg border border-blue-200 bg-blue-50 text-blue-900" data-rich-text-warning="html-notice">
+      <div class="flex items-start gap-2">
+        <svg class="mt-0.5 h-4 w-4 flex-shrink-0 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/>
+        </svg>
+        <div class="min-w-0 flex-1">
+          <p class="text-xs text-blue-800">
+            HTML content renders unsanitized on player screens. This preview is sanitized.
+          </p>
+          <details class="mt-1.5">
+            <summary class="cursor-pointer text-xs font-medium text-blue-900 underline hover:text-blue-700 select-none">
+              View raw HTML source
+            </summary>
+            <pre class="mt-2 max-h-48 overflow-auto rounded border border-blue-200 bg-white p-2.5 text-xs font-mono text-neutral-900 whitespace-pre-wrap break-all"><code><%= rich_text.text %></code></pre>
+          </details>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

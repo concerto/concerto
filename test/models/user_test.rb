@@ -61,6 +61,83 @@ class UserTest < ActiveSupport::TestCase
     assert_nil Content.find_by(id: rich_text2_id)
   end
 
+  test "destroying a user who moderated submissions nullifies moderator_id and preserves audit trail" do
+    moderator = User.create!(
+      first_name: "Mod",
+      last_name: "Erator",
+      email: "moderator@example.com",
+      password: "password123"
+    )
+    content = RichText.create!(
+      name: "Other User Content",
+      duration: 30,
+      text: "Hello",
+      config: { "render_as" => "plaintext" },
+      user: users(:system_admin)
+    )
+    approved_submission = Submission.create!(content: content, feed: feeds(:one))
+    approved_submission.moderate!(status: :approved, moderator: moderator, reason: "Looks great")
+
+    rejected_submission = Submission.create!(content: content, feed: feeds(:two))
+    rejected_submission.moderate!(status: :rejected, moderator: moderator, reason: "Off topic")
+
+    approved_at = approved_submission.moderated_at
+    rejected_at = rejected_submission.moderated_at
+
+    assert moderator.destroy
+    assert_not User.exists?(moderator.id)
+
+    approved_submission.reload
+    assert_nil approved_submission.moderator_id
+    assert_nil approved_submission.moderator
+    assert approved_submission.approved?
+    assert_equal "Looks great", approved_submission.moderation_reason
+    assert_in_delta approved_at.to_f, approved_submission.moderated_at.to_f, 0.001
+
+    rejected_submission.reload
+    assert_nil rejected_submission.moderator_id
+    assert_nil rejected_submission.moderator
+    assert rejected_submission.rejected?
+    assert_equal "Off topic", rejected_submission.moderation_reason
+    assert_in_delta rejected_at.to_f, rejected_submission.moderated_at.to_f, 0.001
+  end
+
+  test "deleting a user directly at the database level nullifies moderator_id via foreign key" do
+    moderator = User.create!(
+      first_name: "Direct",
+      last_name: "Delete",
+      email: "direct-delete-mod@example.com",
+      password: "password123"
+    )
+    content = RichText.create!(
+      name: "Direct Delete Content",
+      duration: 30,
+      text: "Hello",
+      config: { "render_as" => "plaintext" },
+      user: users(:system_admin)
+    )
+    submission = Submission.create!(content: content, feed: feeds(:one))
+    submission.moderate!(status: :approved, moderator: moderator, reason: "Verified")
+
+    moderator.memberships.delete_all
+    moderator.delete
+
+    submission.reload
+    assert_nil submission.moderator_id
+    assert submission.approved?
+    assert_equal "Verified", submission.moderation_reason
+    assert_not_nil submission.moderated_at
+  end
+
+  test "failing to destroy last system admin does not nullify moderated submissions" do
+    last_admin = users(:system_admin)
+    submission = submissions(:pending_submission)
+    submission.moderate!(status: :approved, moderator: last_admin, reason: "Approved")
+
+    assert_not last_admin.destroy
+    assert_equal last_admin.id, submission.reload.moderator_id
+  end
+
   test "system_admin? returns false for regular users" do
     regular_user = users(:regular)
     assert_not regular_user.system_admin?

@@ -1,4 +1,5 @@
 require "test_helper"
+require_relative "support/capybara_chrome_reset"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # Disable parallel execution for system tests to avoid ActiveStorage race conditions.

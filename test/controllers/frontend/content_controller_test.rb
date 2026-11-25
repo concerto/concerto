@@ -403,6 +403,35 @@ class Frontend::ContentControllerTest < ActionDispatch::IntegrationTest
     assert_match(/^[a-f0-9]{32}$/, config_version)
   end
 
+  test "should throttle last_seen_at updates without modifying updated_at" do
+    screen = screens(:one)
+    assert_nil screen.last_seen_at
+    original_updated_at = screen.updated_at
+
+    get frontend_content_url(screen_id: screen.id, field_id: fields(:main).id, position_id: positions(:two_graphic).id)
+    assert_response :success
+    screen.reload
+    first_seen_at = screen.last_seen_at
+    assert_not_nil first_seen_at
+    assert_equal original_updated_at, screen.updated_at
+
+    # Polling again within 1 minute should not rewrite last_seen_at.
+    travel 30.seconds do
+      get frontend_content_url(screen_id: screen.id, field_id: fields(:main).id, position_id: positions(:two_graphic).id)
+      assert_response :success
+      assert_equal first_seen_at, screen.reload.last_seen_at
+    end
+
+    # Polling after 1 minute should refresh last_seen_at without touching updated_at.
+    travel 2.minutes do
+      get frontend_content_url(screen_id: screen.id, field_id: fields(:main).id, position_id: positions(:two_graphic).id)
+      assert_response :success
+      screen.reload
+      assert_operator screen.last_seen_at, :>, first_seen_at
+      assert_equal original_updated_at, screen.updated_at
+    end
+  end
+
   private
 
   # Screen 1 (Template Two) with one feed subscribed to several fields, so the

@@ -379,4 +379,61 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to new_user_session_url
   end
+
+  # JSON index RemoteFeed config visibility tests
+  test "feeds.json hides RemoteFeed config from anonymous users" do
+    remote_feed = remote_feeds(:test_remote_feed)
+    get feeds_url(format: :json)
+    assert_response :success
+
+    feeds = JSON.parse(response.body)
+    remote_entry = feeds.find { |f| f["id"] == remote_feed.id }
+    assert_not_nil remote_entry
+    assert_nil remote_entry["config"], "RemoteFeed config must not be exposed to anonymous users"
+
+    # Base Feed and RssFeed entries still include config
+    rss_entry = feeds.find { |f| f["id"] == rss_feeds(:yahoo_rssfeed).id }
+    assert_not_nil rss_entry["config"]
+  end
+
+  test "feeds.json hides RemoteFeed config from non-members" do
+    sign_in users(:non_member)
+    remote_feed = remote_feeds(:test_remote_feed)
+    get feeds_url(format: :json)
+    assert_response :success
+
+    feeds = JSON.parse(response.body)
+    remote_entry = feeds.find { |f| f["id"] == remote_feed.id }
+    assert_not_nil remote_entry
+    assert_nil remote_entry["config"]
+  end
+
+  test "feeds.json includes RemoteFeed config only for feeds the group member can edit" do
+    sign_in users(:regular) # member of feed_one_owners, not system_administrators
+    owned_remote = remote_feeds(:test_remote_feed)
+    other_remote = remote_feeds(:system_remote_feed)
+
+    get feeds_url(format: :json)
+    assert_response :success
+
+    feeds = JSON.parse(response.body)
+    owned_entry = feeds.find { |f| f["id"] == owned_remote.id }
+    other_entry = feeds.find { |f| f["id"] == other_remote.id }
+
+    assert_equal owned_remote.url, owned_entry.dig("config", "url")
+    assert_nil other_entry["config"]
+  end
+
+  test "feeds.json includes RemoteFeed config for system admin" do
+    sign_in @system_admin
+    owned_remote = remote_feeds(:test_remote_feed)
+    system_remote = remote_feeds(:system_remote_feed)
+
+    get feeds_url(format: :json)
+    assert_response :success
+
+    feeds = JSON.parse(response.body)
+    assert_equal owned_remote.url, feeds.find { |f| f["id"] == owned_remote.id }.dig("config", "url")
+    assert_equal system_remote.url, feeds.find { |f| f["id"] == system_remote.id }.dig("config", "url")
+  end
 end

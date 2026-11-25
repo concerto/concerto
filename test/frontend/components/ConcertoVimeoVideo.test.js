@@ -278,3 +278,91 @@ describe('ConcertoVimeoVideo watchdog', () => {
     expect(wrapper.emitted('next')).toHaveLength(1);
   });
 });
+
+describe('ConcertoVimeoVideo API loading', () => {
+  const API_URL = 'https://player.vimeo.com/api/player.js';
+  let originalVimeo;
+
+  beforeEach(() => {
+    originalVimeo = global.Vimeo;
+    delete global.Vimeo;
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.useRealTimers();
+    document.querySelectorAll(`script[src="${API_URL}"]`).forEach(s => s.remove());
+    global.Vimeo = originalVimeo;
+  });
+
+  it('stops polling for the API when unmounted before it loads', async () => {
+    const script = document.createElement('script');
+    script.src = API_URL;
+    document.head.appendChild(script);
+
+    const wrapper = mount(ConcertoVimeoVideo, { props: { content: { video_id: '123456789' } } });
+    wrapper.unmount();
+
+    global.Vimeo = { Player: vi.fn() };
+    await new Promise(resolve => setTimeout(resolve, 300));
+    expect(global.Vimeo.Player).not.toHaveBeenCalled();
+  });
+
+  it('builds the player once a polled-for API loads', async () => {
+    const script = document.createElement('script');
+    script.src = API_URL;
+    document.head.appendChild(script);
+
+    const mockPlayer = { on: vi.fn(), destroy: vi.fn() };
+    mount(ConcertoVimeoVideo, { props: { content: { video_id: '123456789' } } });
+
+    global.Vimeo = {
+      Player: vi.fn().mockImplementation(function() { return mockPlayer; }),
+    };
+    await new Promise(resolve => setTimeout(resolve, 300));
+    expect(global.Vimeo.Player).toHaveBeenCalledTimes(1);
+  });
+
+  it('handles script load failure cleanly and emits next', async () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const wrapper = mount(ConcertoVimeoVideo, { props: { content: { video_id: '123456789' } } });
+
+    const script = document.querySelector(`script[src="${API_URL}"]`);
+    expect(script).not.toBeNull();
+    script.onerror(new Event('error'));
+
+    await vi.waitFor(() => {
+      expect(wrapper.emitted('next')).toBeTruthy();
+    });
+    expect(document.querySelector(`script[src="${API_URL}"]`)).toBeNull();
+    expect(errorSpy).toHaveBeenCalled();
+  });
+
+  it('does not emit next on script error after unmount', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    const wrapper = mount(ConcertoVimeoVideo, { props: { content: { video_id: '123456789' } } });
+
+    const script = document.querySelector(`script[src="${API_URL}"]`);
+    wrapper.unmount();
+    script.onerror(new Event('error'));
+
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(wrapper.emitted('next')).toBeUndefined();
+  });
+
+  it('handles API poll timeout cleanly and emits next', async () => {
+    vi.useFakeTimers({ toFake: ['setInterval', 'clearInterval'] });
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    const script = document.createElement('script');
+    script.src = API_URL;
+    document.head.appendChild(script);
+
+    const wrapper = mount(ConcertoVimeoVideo, { props: { content: { video_id: '123456789' } } });
+
+    await vi.advanceTimersByTimeAsync(31_000);
+
+    expect(wrapper.emitted('next')).toBeTruthy();
+  });
+});

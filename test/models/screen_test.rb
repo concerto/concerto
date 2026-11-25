@@ -19,6 +19,57 @@ class ScreenTest < ActiveSupport::TestCase
     assert_not screen.online?
   end
 
+  test "record_heartbeat! sets last_seen_at when nil without modifying updated_at" do
+    screen = screens(:one)
+    screen.update_column(:last_seen_at, nil)
+    original_updated_at = screen.updated_at
+
+    travel 2.minutes do
+      screen.record_heartbeat!
+      screen.reload
+
+      assert_not_nil screen.last_seen_at
+      assert_equal original_updated_at, screen.updated_at
+    end
+  end
+
+  test "record_heartbeat! throttles writes within HEARTBEAT_INTERVAL" do
+    screen = screens(:one)
+    recent_time = 30.seconds.ago.change(usec: 0)
+    screen.update_column(:last_seen_at, recent_time)
+
+    screen.record_heartbeat!
+    screen.reload
+
+    assert_equal recent_time, screen.last_seen_at
+  end
+
+  test "record_heartbeat! updates last_seen_at once HEARTBEAT_INTERVAL has elapsed" do
+    screen = screens(:one)
+    stale_time = 2.minutes.ago.change(usec: 0)
+    screen.update_column(:last_seen_at, stale_time)
+    original_updated_at = screen.updated_at
+
+    screen.record_heartbeat!
+    screen.reload
+
+    assert_operator screen.last_seen_at, :>, stale_time
+    assert_equal original_updated_at, screen.updated_at
+  end
+
+  test "config_version does not change when record_heartbeat! updates last_seen_at" do
+    screen = screens(:one)
+    screen.update_column(:last_seen_at, nil)
+    old_version = screen.config_version
+
+    travel 2.minutes do
+      screen.record_heartbeat!
+      screen.reload
+
+      assert_equal old_version, screen.config_version
+    end
+  end
+
   test "config_version returns MD5 hash string" do
     screen = screens(:one)
     version = screen.config_version
@@ -158,5 +209,52 @@ class ScreenTest < ActiveSupport::TestCase
 
       assert_not_equal old_version, new_version, "Config version should change when image is replaced"
     end
+  end
+
+  test "config_version changes when switching templates even if a field_config is newer" do
+    screen = screens(:one)
+    # Give a field_config a much newer updated_at than either template.
+    travel 1.hour do
+      screen.field_configs.first.touch
+    end
+    screen.reload
+    old_version = screen.config_version
+
+    screen.update!(template: templates(:one))
+    screen.reload
+
+    assert_not_equal old_version, screen.config_version
+  end
+
+  test "config_version changes when a position is deleted even if a field_config is newer" do
+    screen = screens(:one)
+    travel 1.hour do
+      screen.field_configs.first.touch
+    end
+    screen.reload
+    old_version = screen.config_version
+
+    screen.template.positions.last.destroy!
+    screen.reload
+
+    assert_not_equal old_version, screen.config_version
+  end
+
+  test "config_version changes when a field_config is deleted even if another record is newer" do
+    screen = screens(:one)
+    assert_operator screen.field_configs.count, :>=, 2
+    newer_config = screen.field_configs.first
+    older_config = screen.field_configs.second
+
+    travel 1.hour do
+      newer_config.touch
+    end
+    screen.reload
+    old_version = screen.config_version
+
+    older_config.destroy!
+    screen.reload
+
+    assert_not_equal old_version, screen.config_version
   end
 end

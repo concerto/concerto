@@ -78,6 +78,12 @@ async function loadYTAPI() {
 
     const script = document.createElement('script');
     script.src = YOUTUBE_API_URL;
+    script.onerror = () => {
+      delete window.onYouTubeIframeAPIReady;
+      script.remove();
+      console.error('Failed to load YouTube API script.');
+      reject(new Error('Failed to load YouTube API script'));
+    };
     document.head.appendChild(script);
   });
 }
@@ -153,7 +159,15 @@ function onPlayerStateChange(event) {
 
 onMounted(async () => {
   if (!isYTAPILoaded()) {
-    await loadYTAPI();
+    try {
+      await loadYTAPI();
+    } catch (error) {
+      console.error('Unable to initialize YouTube player:', error);
+      if (!unmounted) {
+        emit('next', {});
+      }
+      return;
+    }
   }
   if (unmounted) return;
 

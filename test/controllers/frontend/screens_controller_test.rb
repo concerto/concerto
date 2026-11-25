@@ -28,12 +28,32 @@ class Frontend::ScreensControllerTest < ActionDispatch::IntegrationTest
 
   test "should update last_seen_at" do
     assert_nil @screen.last_seen_at
+    original_updated_at = @screen.updated_at
 
     get frontend_screen_url(id: @screen.id, format: :json)
     assert_response :success
 
     @screen.reload
     assert_not_nil @screen.last_seen_at
+    assert_equal original_updated_at, @screen.updated_at
+  end
+
+  test "should throttle last_seen_at updates within heartbeat interval" do
+    get frontend_screen_url(id: @screen.id, format: :json)
+    assert_response :success
+    first_seen_at = @screen.reload.last_seen_at
+
+    travel 30.seconds do
+      get frontend_screen_url(id: @screen.id, format: :json)
+      assert_response :success
+      assert_equal first_seen_at, @screen.reload.last_seen_at
+    end
+
+    travel 2.minutes do
+      get frontend_screen_url(id: @screen.id, format: :json)
+      assert_response :success
+      assert_operator @screen.reload.last_seen_at, :>, first_seen_at
+    end
   end
 
   test "should handle template without attached image" do

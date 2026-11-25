@@ -1,6 +1,14 @@
-require "open-uri"
+require "net/http"
+require "uri"
 
 class RssFeed < Feed
+    HTTP_OPEN_TIMEOUT = 5 # seconds to wait for connection
+    HTTP_READ_TIMEOUT = 30 # seconds to wait for response
+    MAX_REDIRECTS = 5
+    MAX_RESPONSE_SIZE = 5.megabytes
+
+    class FetchError < StandardError; end
+
     store_accessor :config, [ :url, :last_refreshed, :refresh_interval, :formatter ]
 
     # RSS feed content is auto-approved since it's system-generated
@@ -8,7 +16,8 @@ class RssFeed < Feed
       true
     end
 
-    validates :url, presence: true, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]) }
+    validates :url, presence: true
+    validate :url_must_be_http
 
     # Destroy all associated content when an RSS feed is deleted
     before_destroy :destroy_associated_content, prepend: true
@@ -38,7 +47,8 @@ class RssFeed < Feed
 
     def refresh
       new_items = new_items()
-      existing_content = content.all
+      system_user = User.find_by(is_system_user: true)
+      existing_content = managed_content(system_user).order(:id).to_a
 
       expired_time = Time.now
 
@@ -65,9 +75,9 @@ class RssFeed < Feed
         new_items[existing_content.length..].each.with_index do |item, index|
           content << RichText.new(
             render_as: render_mode,
-            name: "#{name} (#{index + 1})",
+            name: "#{name} (#{existing_content.length + index + 1})",
             text: item,
-            user: User.find_by(is_system_user: true),
+            user: system_user,
           )
         end
       end
@@ -78,8 +88,8 @@ class RssFeed < Feed
     end
 
     def new_items
-        uri = URI.parse(url)
-        doc = Nokogiri::XML(uri.open)
+        xml = fetch_feed_xml
+        doc = Nokogiri::XML(xml) { |config| config.nonet }
 
         title = doc.xpath("/rss/channel/title").text
         items = doc.xpath("//item").map do |item|
@@ -108,9 +118,9 @@ class RssFeed < Feed
         contents
     end
 
-    # Deletes all unused content for this RSS feed
+    # Deletes all unused system-generated content for this RSS feed
     def cleanup_unused_content
-        content.unused.destroy_all
+        managed_content.unused.destroy_all
     end
 
     private
@@ -121,5 +131,84 @@ class RssFeed < Feed
 
         # Directly destroy the content records, not just the association.
         Content.where(id: content_ids).destroy_all
+    end
+
+    # Only allow absolute http(s) URLs. Private/internal hostnames and IPs are
+    # intentionally permitted for intranet deployments (see #2002).
+    def url_must_be_http
+      return if url.blank?
+
+      uri = URI.parse(url)
+      unless uri.is_a?(URI::HTTP) && uri.host.present?
+        errors.add(:url, "must be a valid http or https URL")
+      end
+    rescue URI::InvalidURIError
+      errors.add(:url, "is not a valid URL")
+    end
+
+    def parse_http_uri(raw_url)
+      return nil if raw_url.blank?
+
+      uri = URI.parse(raw_url)
+      uri.is_a?(URI::HTTP) && uri.host.present? ? uri : nil
+    rescue URI::InvalidURIError
+      nil
+    end
+
+    def fetch_feed_xml(target_url = url, redirects_remaining: MAX_REDIRECTS)
+      uri = parse_http_uri(target_url)
+      raise FetchError, "Invalid RSS feed URL" unless uri
+
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = (uri.scheme == "https")
+      http.open_timeout = HTTP_OPEN_TIMEOUT
+      http.read_timeout = HTTP_READ_TIMEOUT
+
+      redirect_location = nil
+      body = String.new(encoding: Encoding::BINARY)
+
+      http.start do |conn|
+        request = Net::HTTP::Get.new(uri.request_uri)
+        conn.request(request) do |response|
+          if response.is_a?(Net::HTTPRedirection)
+            raise FetchError, "Too many redirects fetching RSS feed" if redirects_remaining <= 0
+
+            location = response["location"]
+            raise FetchError, "Redirect missing Location header" if location.blank?
+
+            begin
+              redirect_location = URI.join(uri, location).to_s
+            rescue URI::InvalidURIError
+              raise FetchError, "Invalid redirect URL"
+            end
+          elsif response.is_a?(Net::HTTPSuccess)
+            content_length = response["content-length"]&.to_i
+            if content_length && content_length > MAX_RESPONSE_SIZE
+              raise FetchError, "RSS feed response exceeds maximum size (#{MAX_RESPONSE_SIZE} bytes)"
+            end
+
+            response.read_body do |chunk|
+              body << chunk
+              if body.bytesize > MAX_RESPONSE_SIZE
+                raise FetchError, "RSS feed response exceeds maximum size (#{MAX_RESPONSE_SIZE} bytes)"
+              end
+            end
+          else
+            raise FetchError, "HTTP #{response.code} #{response.message}".strip
+          end
+        end
+      end
+
+      if redirect_location
+        fetch_feed_xml(redirect_location, redirects_remaining: redirects_remaining - 1)
+      else
+        body
+      end
+    end
+
+    def managed_content(system_user = User.find_by(is_system_user: true))
+      return content.none unless system_user
+
+      content.where(type: "RichText", user_id: system_user.id)
     end
 end

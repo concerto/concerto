@@ -174,4 +174,44 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to submissions_path
   end
+
+  test "moderation queue displays active HTML warning and raw source for pending HTML RichText with script" do
+    script_content = RichText.create!(
+      name: "Sneaky Script",
+      text: "<p>Looks harmless</p><script>fetch('https://evil.example')</script>",
+      duration: 10,
+      user: users(:non_member),
+      config: { "render_as" => "html" }
+    )
+    Submission.create!(content: script_content, feed: feeds(:one))
+
+    sign_in @admin
+    get submissions_url
+    assert_response :success
+
+    assert_select "[data-rich-text-warning='active-html-badge']", count: 1
+    assert_select "[data-rich-text-warning='active-html']", count: 1
+    assert_select "[data-rich-text-warning='active-html']", text: /<script> element/
+    assert_select "[data-rich-text-warning='active-html'] details pre code", text: script_content.text
+    assert_select ".rich-text-grid script", count: 0
+  end
+
+  test "moderation queue displays subtle HTML notice for safe HTML RichText" do
+    safe_content = RichText.create!(
+      name: "Safe Announcement",
+      text: "<h2>Meeting</h2><p>Room 101</p>",
+      duration: 10,
+      user: users(:non_member),
+      config: { "render_as" => "html" }
+    )
+    Submission.create!(content: safe_content, feed: feeds(:one))
+
+    sign_in @admin
+    get submissions_url
+    assert_response :success
+
+    assert_select "[data-rich-text-warning='html-notice']", count: 1
+    assert_select "[data-rich-text-warning='active-html']", count: 0
+    assert_select "[data-rich-text-warning='active-html-badge']", count: 0
+  end
 end

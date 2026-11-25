@@ -1,8 +1,25 @@
 require "net/http"
 require "cgi"
+require "digest"
+require "uri"
 
 class Video < Content
-  store_accessor :config, :url, :aspect_ratio, :audio
+  # YouTube and Vimeo video IDs are parsed directly from the URL via regex, so
+  # they never need to be stored. TikTok short links (vm.tiktok.com,
+  # vt.tiktok.com) omit the numeric video ID and require an outbound oEmbed
+  # lookup to resolve; persisting tiktok_video_id on save keeps player API
+  # polls (as_json -> video_id) from blocking Puma threads on TikTok HTTP
+  # requests, even when Rails.cache is cold or evicted.
+  store_accessor :config, :url, :aspect_ratio, :audio, :tiktok_video_id
+
+  OEMBED_OPEN_TIMEOUT = 5
+  OEMBED_READ_TIMEOUT = 5
+  OEMBED_CACHE_TTL = 24.hours
+  OEMBED_ERROR_CACHE_TTL = 5.minutes
+
+  YOUTUBE_HOSTS = %w[youtube.com www.youtube.com youtu.be].freeze
+  VIMEO_HOSTS = %w[vimeo.com].freeze
+  TIKTOK_HOSTS = %w[tiktok.com www.tiktok.com vm.tiktok.com vt.tiktok.com].freeze
 
   # Permitted values for the user-facing aspect ratio override, with the
   # labels shown in the form. nil / "auto" means "use the provider default"
@@ -17,7 +34,11 @@ class Video < Content
   }.freeze
   ASPECT_RATIOS = ASPECT_RATIO_OPTIONS.keys.freeze
 
+  validates :url, presence: true
+  validate :url_must_be_http
   validates :aspect_ratio, inclusion: { in: ASPECT_RATIOS }, allow_blank: true
+
+  before_save :cache_tiktok_video_id, if: :url_changed_in_config?
 
   def as_json(options = {})
     super(options).merge({
@@ -69,46 +90,39 @@ class Video < Content
   end
 
   def video_id
-    if url.present?
-      if video_source == "youtube"
-        match = url.match(/(?:youtube\.com\/(?:shorts\/|[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i)
-        match[1] if match
-      elsif video_source == "vimeo"
-        match = url.match(/vimeo\.com\/(\d+)/)
-        match[1] if match
-      elsif video_source == "tiktok"
-        # Extract video ID from oEmbed data for better reliability and short URL support
-        data = tiktok_oembed_data
-        if data && data["html"]
-          match = data["html"].match(/data-video-id="(\d+)"/)
-          match[1] if match
-        end
+    return if url.blank?
+
+    case video_source
+    when "youtube"
+      match = url.match(/(?:youtube\.com\/(?:shorts\/|[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i)
+      match[1] if match
+    when "vimeo"
+      match = url.match(/vimeo\.com\/(\d+)/)
+      match[1] if match
+    when "tiktok"
+      if tiktok_video_id.present? && !url_changed_in_config?
+        tiktok_video_id
+      else
+        extract_tiktok_video_id_from_oembed
       end
     end
   end
 
   def video_source
-    if url.present?
-      host = URI(url).host
-      yt_hosts = [
-        "youtube.com",
-        "www.youtube.com",
-        "youtu.be"
-      ]
-      tiktok_hosts = [
-        "tiktok.com",
-        "www.tiktok.com",
-        "vm.tiktok.com",
-        "vt.tiktok.com"
-      ]
-      if yt_hosts.include?(host)
-        "youtube"
-      elsif [ "vimeo.com" ].include?(host)
-        "vimeo"
-      elsif tiktok_hosts.include?(host)
-        "tiktok"
-      end
+    return if url.blank?
+
+    host = URI.parse(url).host&.downcase
+    return if host.blank?
+
+    if YOUTUBE_HOSTS.include?(host)
+      "youtube"
+    elsif VIMEO_HOSTS.include?(host)
+      "vimeo"
+    elsif TIKTOK_HOSTS.include?(host)
+      "tiktok"
     end
+  rescue URI::InvalidURIError
+    nil
   end
 
   def searchable_data
@@ -131,32 +145,91 @@ class Video < Content
 
   private
 
-  # Memoized helper to fetch Vimeo oEmbed data once per request
-  def vimeo_oembed_data
-    return @vimeo_oembed_data if instance_variable_defined?(:@vimeo_oembed_data)
+  def url_must_be_http
+    return if url.blank?
 
-    @vimeo_oembed_data = begin
-      uri = URI("https://vimeo.com/api/oembed.json?url=#{CGI.escape(url)}")
-      response = Net::HTTP.get(uri)
-      JSON.parse(response)
-    rescue StandardError => e
-      Rails.logger.error "Error fetching Vimeo oEmbed data: #{e.message}"
-      nil
+    uri = URI.parse(url)
+    unless uri.is_a?(URI::HTTP) && uri.host.present?
+      errors.add(:url, "must be a valid http or https URL")
+    end
+  rescue URI::InvalidURIError
+    errors.add(:url, "is not a valid URL")
+  end
+
+  def url_changed_in_config?
+    new_record? || config_in_database&.dig("url") != url
+  end
+
+  def cache_tiktok_video_id
+    if video_source == "tiktok"
+      self.tiktok_video_id = extract_tiktok_video_id_from_oembed
+    elsif config.is_a?(Hash)
+      config.delete("tiktok_video_id")
     end
   end
 
-  # Memoized helper to fetch TikTok oEmbed data once per request
+  def extract_tiktok_video_id_from_oembed
+    # Extract video ID from oEmbed data for better reliability and short URL support
+    data = tiktok_oembed_data
+    return unless data && data["html"]
+
+    match = data["html"].match(/data-video-id="(\d+)"/)
+    match[1] if match
+  end
+
+  # Memoized helper to fetch Vimeo oEmbed data once per request (backed by Rails.cache)
+  def vimeo_oembed_data
+    fetch_oembed_data("vimeo", "https://vimeo.com/api/oembed.json?url=#{CGI.escape(url)}")
+  end
+
+  # Memoized helper to fetch TikTok oEmbed data once per request (backed by Rails.cache)
   # This supports all TikTok URL formats including short links
   def tiktok_oembed_data
-    return @tiktok_oembed_data if instance_variable_defined?(:@tiktok_oembed_data)
+    fetch_oembed_data("tiktok", "https://www.tiktok.com/oembed?url=#{CGI.escape(url)}")
+  end
 
-    @tiktok_oembed_data = begin
-      uri = URI("https://www.tiktok.com/oembed?url=#{CGI.escape(url)}")
-      response = Net::HTTP.get(uri)
-      JSON.parse(response)
-    rescue StandardError => e
-      Rails.logger.error "Error fetching TikTok oEmbed data: #{e.message}"
-      nil
+  def fetch_oembed_data(provider, endpoint)
+    return nil if url.blank?
+
+    @oembed_cache ||= {}
+    memo_key = [ provider, url ]
+    return @oembed_cache[memo_key] if @oembed_cache.key?(memo_key)
+
+    cache_key = "video:oembed:#{provider}:#{Digest::SHA256.hexdigest(url)}"
+    cached = Rails.cache.read(cache_key)
+    if cached == false
+      return @oembed_cache[memo_key] = nil
+    elsif cached.is_a?(Hash)
+      return @oembed_cache[memo_key] = cached
     end
+
+    uri = URI(endpoint)
+    response = Net::HTTP.start(
+      uri.host,
+      uri.port,
+      use_ssl: true,
+      open_timeout: OEMBED_OPEN_TIMEOUT,
+      read_timeout: OEMBED_READ_TIMEOUT
+    ) { |http| http.get(uri.request_uri) }
+
+    unless response.is_a?(Net::HTTPSuccess)
+      Rails.logger.error "Error fetching #{provider.capitalize} oEmbed data: HTTP #{response.code}"
+      Rails.cache.write(cache_key, false, expires_in: OEMBED_ERROR_CACHE_TTL)
+      return @oembed_cache[memo_key] = nil
+    end
+
+    data = JSON.parse(response.body)
+    unless data.is_a?(Hash)
+      Rails.logger.error "Error fetching #{provider.capitalize} oEmbed data: unexpected JSON payload"
+      Rails.cache.write(cache_key, false, expires_in: OEMBED_ERROR_CACHE_TTL)
+      return @oembed_cache[memo_key] = nil
+    end
+
+    Rails.cache.write(cache_key, data, expires_in: OEMBED_CACHE_TTL)
+    @oembed_cache[memo_key] = data
+  rescue StandardError => e
+    Rails.logger.error "Error fetching #{provider.capitalize} oEmbed data: #{e.message}"
+    Rails.cache.write(cache_key, false, expires_in: OEMBED_ERROR_CACHE_TTL)
+    @oembed_cache[memo_key] = nil
   end
 end

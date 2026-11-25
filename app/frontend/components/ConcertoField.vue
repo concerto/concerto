@@ -69,6 +69,7 @@ const currentContentConfig = ref({});
 const contentQueue = [];
 let nextContentTimer = null;
 let loadContentRetryTimer = null;
+let unmounted = false;
 
 async function loadContent(retryCount = 0) {
   const maxRetries = 3;
@@ -76,6 +77,7 @@ async function loadContent(retryCount = 0) {
 
   try {
     const resp = await fetch(props.apiUrl);
+    if (unmounted) return;
 
     if (!resp.ok) {
       throw new Error(`HTTP error! status: ${resp.status}`);
@@ -87,17 +89,24 @@ async function loadContent(retryCount = 0) {
     }
 
     const contents = await resp.json();
+    if (unmounted) return;
     contentQueue.push(...contents);
 
     if (contentQueue.length > 0) {
       showNextContent();
     } else {
-      // No content yet — schedule a retry so we pick up newly added content
-      // without requiring a manual page reload.
+      // No content available (e.g. all content expired, deleted, or unapproved) —
+      // clear whatever was previously on screen and schedule a retry so we pick
+      // up newly added content without requiring a manual page reload.
+      clearTimeout(nextContentTimer);
+      nextContentTimer = null;
+      currentContent.value = null;
+      currentContentConfig.value = {};
       clearTimeout(loadContentRetryTimer);
       loadContentRetryTimer = setTimeout(() => loadContent(0), EMPTY_CONTENT_RETRY_DELAY_MS);
     }
   } catch (error) {
+    if (unmounted) return;
     console.error(`Failed to load content (attempt ${retryCount + 1}/${maxRetries + 1}):`, error);
 
     if (retryCount < maxRetries) {
@@ -190,6 +199,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  unmounted = true;
   clearTimeout(nextContentTimer);
   nextContentTimer = null;
   clearTimeout(loadContentRetryTimer);

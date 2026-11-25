@@ -82,4 +82,34 @@ class Users::RegistrationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "a[href='#{new_user_registration_path}']", count: 0
   end
+
+  # --- Self-Deletion Tests ---
+
+  test "should allow user who moderated submissions to delete their own account" do
+    moderator = users(:regular)
+    content = RichText.create!(
+      name: "Self Delete Moderated Content",
+      duration: 30,
+      text: "Hello",
+      config: { "render_as" => "plaintext" },
+      user: users(:system_admin)
+    )
+    submission = Submission.create!(content: content, feed: feeds(:one))
+    submission.moderate!(status: :approved, moderator: moderator, reason: "Approved before leaving")
+    moderated_at = submission.moderated_at
+
+    sign_in moderator
+
+    assert_difference("User.count", -1) do
+      delete user_registration_url
+    end
+
+    assert_redirected_to root_url
+
+    submission.reload
+    assert_nil submission.moderator_id
+    assert submission.approved?
+    assert_equal "Approved before leaving", submission.moderation_reason
+    assert_in_delta moderated_at.to_f, submission.moderated_at.to_f, 0.001
+  end
 end
