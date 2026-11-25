@@ -1,5 +1,4 @@
 require "active_support/core_ext/integer/time"
-require "uri"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -56,61 +55,21 @@ Rails.application.configure do
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue } }
 
-  # Configure Action Mailer URL options from APP_HOST (or fall back safely so
-  # boot and asset precompilation work without runtime environment variables).
-  mailer_protocol = ENV["DISABLE_SSL"].blank? ? "https" : "http"
-  app_host = ENV["APP_HOST"].presence
-  if app_host
-    default_url_options = begin
-      parsed_app_host = URI.parse(app_host.include?("://") ? app_host : "#{mailer_protocol}://#{app_host}")
-      options = {
-        host: parsed_app_host.host || app_host,
-        protocol: parsed_app_host.scheme || mailer_protocol
-      }
-      if parsed_app_host.port && parsed_app_host.port != parsed_app_host.default_port
-        options[:port] = parsed_app_host.port
-      end
-      options
-    rescue URI::InvalidURIError
-      { host: app_host, protocol: mailer_protocol }
-    end
-    config.action_mailer.default_url_options = default_url_options
-  else
-    config.action_mailer.default_url_options = { host: "example.com", protocol: mailer_protocol }
-  end
+  # Ignore bad email addresses and do not raise email delivery errors.
+  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
+  # config.action_mailer.raise_delivery_errors = false
 
-  # Configure outgoing SMTP delivery when SMTP_ADDRESS is set; otherwise disable
-  # deliveries so mailers do not fail trying to connect to localhost:25.
-  if ENV["SMTP_ADDRESS"].present?
-    smtp_tls = ENV["SMTP_TLS"] == "true"
-    raw_smtp_auth = ENV["SMTP_AUTHENTICATION"].presence
-    if raw_smtp_auth&.casecmp?("none")
-      smtp_username = nil
-      smtp_password = nil
-      smtp_auth = nil
-    else
-      smtp_username = ENV["SMTP_USERNAME"].presence
-      smtp_password = ENV["SMTP_PASSWORD"].presence
-      smtp_auth = raw_smtp_auth || ("plain" if smtp_username || smtp_password)
-    end
+  # Set host to be used by links generated in mailer templates.
+  config.action_mailer.default_url_options = { host: "example.com" }
 
-    config.action_mailer.delivery_method = :smtp
-    config.action_mailer.perform_deliveries = true
-    config.action_mailer.raise_delivery_errors = true
-    config.action_mailer.smtp_settings = {
-      address: ENV["SMTP_ADDRESS"].presence,
-      port: (ENV["SMTP_PORT"].presence || (smtp_tls ? 465 : 587)).to_i,
-      domain: ENV["SMTP_DOMAIN"].presence || (default_url_options[:host] if app_host),
-      user_name: smtp_username,
-      password: smtp_password,
-      authentication: smtp_auth&.downcase&.to_sym,
-      tls: (true if smtp_tls),
-      enable_starttls_auto: smtp_tls ? false : ENV["SMTP_ENABLE_STARTTLS_AUTO"] != "false"
-    }.compact
-  else
-    config.action_mailer.perform_deliveries = false
-    config.action_mailer.raise_delivery_errors = false
-  end
+  # Specify outgoing SMTP server. Remember to add smtp/* credentials via bin/rails credentials:edit.
+  # config.action_mailer.smtp_settings = {
+  #   user_name: Rails.application.credentials.dig(:smtp, :user_name),
+  #   password: Rails.application.credentials.dig(:smtp, :password),
+  #   address: "smtp.example.com",
+  #   port: 587,
+  #   authentication: :plain
+  # }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
