@@ -143,4 +143,60 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to templates_url
   end
+
+  test "should destroy unused template via JSON" do
+    sign_in @system_admin
+    template = templates(:unused)
+    assert_difference("Template.count", -1) do
+      delete template_url(template, format: :json)
+    end
+
+    assert_response :no_content
+  end
+
+  test "cannot destroy an in-use template via HTML" do
+    sign_in @system_admin
+    in_use_template = templates(:two)
+
+    assert_no_difference("Template.count") do
+      delete template_url(in_use_template)
+    end
+
+    assert_redirected_to template_url(in_use_template)
+    assert_match(/dependent screens exist/i, flash[:alert])
+  end
+
+  test "cannot destroy an in-use template via JSON" do
+    sign_in @system_admin
+    in_use_template = templates(:two)
+
+    assert_no_difference("Template.count") do
+      delete template_url(in_use_template, format: :json)
+    end
+
+    assert_response :unprocessable_entity
+    body = JSON.parse(response.body)
+    assert_includes body["base"], "Cannot delete record because dependent screens exist"
+  end
+
+  test "show page disables delete button when template is in use" do
+    sign_in @system_admin
+    in_use_template = templates(:two)
+
+    get template_url(in_use_template)
+    assert_response :success
+    assert_select "form[action='#{template_path(in_use_template)}'] button", count: 0
+    assert_select "span.cursor-not-allowed", text: /Delete this template/
+    assert_select "span", text: /In use by #{in_use_template.screens.count} screens/
+  end
+
+  test "show page enables delete button when template is unused" do
+    sign_in @system_admin
+    unused_template = templates(:unused)
+
+    get template_url(unused_template)
+    assert_response :success
+    assert_select "form[action='#{template_path(unused_template)}'] button", text: /Delete this template/
+    assert_select "span.cursor-not-allowed", count: 0
+  end
 end

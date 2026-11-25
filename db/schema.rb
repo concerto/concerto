@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_19_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_24_051600) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -204,7 +204,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_19_000000) do
   add_foreign_key "screens", "templates"
   add_foreign_key "submissions", "contents"
   add_foreign_key "submissions", "feeds"
-  add_foreign_key "submissions", "users", column: "moderator_id"
+  add_foreign_key "submissions", "users", column: "moderator_id", on_delete: :nullify
   add_foreign_key "subscriptions", "feeds"
   add_foreign_key "subscriptions", "fields"
   add_foreign_key "subscriptions", "screens"
