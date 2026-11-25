@@ -4,6 +4,12 @@ require "digest"
 require "uri"
 
 class Video < Content
+  # YouTube and Vimeo video IDs are parsed directly from the URL via regex, so
+  # they never need to be stored. TikTok short links (vm.tiktok.com,
+  # vt.tiktok.com) omit the numeric video ID and require an outbound oEmbed
+  # lookup to resolve; persisting tiktok_video_id on save keeps player API
+  # polls (as_json -> video_id) from blocking Puma threads on TikTok HTTP
+  # requests, even when Rails.cache is cold or evicted.
   store_accessor :config, :url, :aspect_ratio, :audio, :tiktok_video_id
 
   OEMBED_OPEN_TIMEOUT = 5
