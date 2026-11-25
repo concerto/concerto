@@ -43,6 +43,10 @@
       </div>
     </div>
 
+    <% if submission.content.is_a?(RichText) && submission.content.html? %>
+      <%= render "rich_texts/html_security_notice", rich_text: submission.content, compact: true %>
+    <% end %>
+
     <% if submission.pending? && policy(submission).moderate? %>
       <div class="mt-4 pt-4 border-t border-neutral-200">
         <%= render "submissions/moderation_actions", submission: submission %>

@@ -3,10 +3,25 @@
     <%= content.text %>
   </div>
 <% else %>
-<div>
-    <div class="rich-text-grid">
-      <%= sanitize(content.text) %>
+  <% if rich_text_has_active_html?(content) %>
+    <div class="w-full flex flex-col">
+      <div class="flex items-center gap-1.5 bg-amber-50 border-b border-amber-200 px-2.5 py-1.5 text-xs font-medium text-amber-800" data-rich-text-warning="active-html-badge">
+        <svg class="h-4 w-4 flex-shrink-0 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
+        </svg>
+        <span>Active HTML hidden in preview</span>
+      </div>
+      <div class="p-2 flex-1 flex justify-center overflow-hidden">
+        <div class="rich-text-grid">
+          <%= sanitize(content.text) %>
+        </div>
+      </div>
     </div>
-</div>
+  <% else %>
+    <div>
+      <div class="rich-text-grid">
+        <%= sanitize(content.text) %>
+      </div>
+    </div>
+  <% end %>
 <% end %>
-

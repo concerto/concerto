@@ -29,8 +29,8 @@ class Submission < ApplicationRecord
 
   # Determine if this submission should be auto-approved
   def should_auto_approve?
-    # Auto-approve if feed auto-approves (RSS, Remote feeds)
-    return true if feed.auto_approves_submissions?
+    # Auto-approve system-generated submissions on auto-approving feeds (RSS, Remote feeds)
+    return true if feed.auto_approves_submissions? && content.user&.is_system_user?
 
     # Auto-approve if content owner is a member of the feed's group
     return true if content.user && feed.group.memberships.exists?(user: content.user)

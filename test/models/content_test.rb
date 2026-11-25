@@ -226,11 +226,11 @@ class ContentTest < ActiveSupport::TestCase
   end
 
   test "updating tracked fields resets auto-approved submissions" do
-    non_member = users(:non_member)
-    rss_feed = rss_feeds(:test_rssfeed)  # auto-approves
+    system_user = users(:system_user)
+    rss_feed = rss_feeds(:test_rssfeed)  # auto-approves system user content
 
     content = RichText.create!(
-      name: "Test", text: "Original", duration: 10, user: non_member,
+      name: "Test", text: "Original", duration: 10, user: system_user,
       config: { "render_as" => "plaintext" }
     )
     submission = Submission.create!(content: content, feed: rss_feed)
