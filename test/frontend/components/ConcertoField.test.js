@@ -228,6 +228,37 @@ describe('ConcertoField', () => {
       await eventually(() => expect(shownContent(wrapper)).toEqual(fieldContent[0]));
       expect(callCount).toBe(2);
     });
+
+    it('clears displayed content when a subsequent fetch returns empty', async () => {
+      vi.useFakeTimers();
+
+      let callCount = 0;
+      server.use(
+        http.get(fieldContentUrl, () => {
+          callCount++;
+          if (callCount === 1) {
+            return HttpResponse.json([fieldContent[0]]);
+          }
+          if (callCount === 2) {
+            return HttpResponse.json([]);
+          }
+          return HttpResponse.json([fieldContent[1]]);
+        })
+      );
+
+      const wrapper = mountField();
+      await eventually(() => expect(shownContent(wrapper)).toEqual(fieldContent[0]));
+
+      // Advance past fieldContent[0]'s 30s duration so the field fetches again and gets [].
+      vi.advanceTimersByTime(30_000);
+      await eventually(() => expect(shownContent(wrapper)).toBeNull());
+      expect(callCount).toBe(2);
+
+      // After the 30s empty-content retry delay, new content is picked up and shown.
+      vi.advanceTimersByTime(30_000);
+      await eventually(() => expect(shownContent(wrapper)).toEqual(fieldContent[1]));
+      expect(callCount).toBe(3);
+    });
   });
 
   describe('preloading', () => {

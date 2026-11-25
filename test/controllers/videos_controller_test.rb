@@ -143,4 +143,22 @@ class VideosControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
     assert_nil @video.reload.aspect_ratio
   end
+
+  test "should reject malformed url on create" do
+    sign_in @user
+    assert_no_difference("Video.count") do
+      post videos_url, params: { video: {
+        duration: @video.duration, name: "Bad URL Video", url: "http://exa mple.com"
+      } }
+    end
+    assert_response :unprocessable_entity
+  end
+
+  test "should reject non-http url on update" do
+    sign_in @user
+    original_url = @video.url
+    patch video_url(@video), params: { video: { url: "javascript:alert(1)" } }
+    assert_response :unprocessable_entity
+    assert_equal original_url, @video.reload.url
+  end
 end

@@ -32,6 +32,8 @@ const videoUrl = computed(() => {
 
 const playerRef = ref(null);
 let player = null;
+let apiReadyCheck = null;
+let unmounted = false;
 
 const aspectRatio = ref(props.content.aspect_ratio);
 const { containerRef, frameStyle } = useVideoLetterbox(() => aspectRatio.value);
@@ -45,6 +47,13 @@ function isVimeoAPILoaded() {
   return (window.Vimeo && window.Vimeo.Player);
 }
 
+// Stop polling for the Vimeo API. Called on unmount too, so a video that
+// rotates off screen before the API loads doesn't leave the poll running.
+function stopApiReadyCheck() {
+  clearInterval(apiReadyCheck);
+  apiReadyCheck = null;
+}
+
 async function loadVimeoAPI() {
   return new Promise((resolve, reject) => {
     // Check if script is already in the DOM
@@ -54,12 +63,12 @@ async function loadVimeoAPI() {
       // Wait for it to be ready with timeout
       const maxAttempts = API_LOAD_TIMEOUT_MS / 100;
       let attempts = 0;
-      const checkReady = setInterval(() => {
+      apiReadyCheck = setInterval(() => {
         if (isVimeoAPILoaded()) {
-          clearInterval(checkReady);
+          stopApiReadyCheck();
           resolve();
         } else if (attempts++ >= maxAttempts) {
-          clearInterval(checkReady);
+          stopApiReadyCheck();
           console.error('Timed out waiting for Vimeo API to load.');
           reject(new Error('Vimeo API load timeout'));
         }
@@ -73,14 +82,28 @@ async function loadVimeoAPI() {
       console.debug('Vimeo Iframe API loaded');
       resolve();
     };
+    script.onerror = () => {
+      script.remove();
+      console.error('Failed to load Vimeo API script.');
+      reject(new Error('Failed to load Vimeo API script'));
+    };
     document.head.appendChild(script);
   });
 }
 
 onMounted(async () => {
   if (!isVimeoAPILoaded()) {
-    await loadVimeoAPI();
+    try {
+      await loadVimeoAPI();
+    } catch (error) {
+      console.error('Unable to initialize Vimeo player:', error);
+      if (!unmounted) {
+        emit('next', {});
+      }
+      return;
+    }
   }
+  if (unmounted) return;
 
   player = new Vimeo.Player(playerRef.value);
 
@@ -88,8 +111,12 @@ onMounted(async () => {
     // Vimeo's play() rejects with NotAllowedError when autoplay-with-sound
     // is blocked. Fall back to muted so the video still plays.
     player.play().catch((err) => {
+      if (unmounted || !player) return;
       console.warn('Vimeo autoplay-with-sound blocked, falling back to muted:', err?.name || err);
-      player.setMuted(true).then(() => player.play()).catch((e) => {
+      player.setMuted(true).then(() => {
+        if (unmounted || !player) return;
+        return player.play();
+      }).catch((e) => {
         console.error('Vimeo muted fallback failed:', e);
       });
     });
@@ -98,6 +125,7 @@ onMounted(async () => {
   if (props.content.aspect_ratio_auto) {
     Promise.all([player.getVideoWidth(), player.getVideoHeight()])
       .then(([width, height]) => {
+        if (unmounted) return;
         if (width > 0 && height > 0) {
           aspectRatio.value = `${width}/${height}`;
         }
@@ -135,6 +163,8 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => {
+  unmounted = true;
+  stopApiReadyCheck();
   if (player && typeof player.destroy === 'function') {
     player.destroy();
     player = null;
