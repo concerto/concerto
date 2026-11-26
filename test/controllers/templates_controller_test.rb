@@ -141,6 +141,7 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
       delete template_url(template)
     end
 
+    assert_response :see_other
     assert_redirected_to templates_url
   end
 
@@ -162,6 +163,7 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
       delete template_url(in_use_template)
     end
 
+    assert_response :see_other
     assert_redirected_to template_url(in_use_template)
     assert_match(/dependent screens exist/i, flash[:alert])
   end
@@ -198,5 +200,72 @@ class TemplatesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "form[action='#{template_path(unused_template)}'] button", text: /Delete this template/
     assert_select "span.cursor-not-allowed", count: 0
+  end
+
+  # JSON endpoint tests
+  test "should get index as JSON with templates missing and having attached images" do
+    sign_in @regular_user
+    @template.image.attach(
+      io: File.open(Rails.root.join("test/fixtures/files/one.jpg")),
+      filename: "one.jpg",
+      content_type: "image/jpeg"
+    )
+    unattached_template = Template.create!(name: "Unattached Template", author: "Tester")
+    assert_not unattached_template.image.attached?
+
+    get templates_url(format: :json)
+    assert_response :success
+
+    body = JSON.parse(response.body)
+    attached_json = body.find { |t| t["id"] == @template.id }
+    unattached_json = body.find { |t| t["id"] == unattached_template.id }
+
+    assert_not_nil attached_json["image"]
+    assert_match(%r{/rails/active_storage/}, attached_json["image"])
+    assert_nil unattached_json["image"]
+  end
+
+  test "should show template as JSON without attached image" do
+    sign_in @regular_user
+    assert_not @template.image.attached?
+
+    get template_url(@template, format: :json)
+    assert_response :success
+
+    body = JSON.parse(response.body)
+    assert_equal @template.id, body["id"]
+    assert_equal @template.name, body["name"]
+    assert_nil body["image"]
+    assert_equal template_url(@template, format: :json), body["url"]
+  end
+
+  test "should show template as JSON with attached image" do
+    sign_in @regular_user
+    @template.image.attach(
+      io: File.open(Rails.root.join("test/fixtures/files/one.jpg")),
+      filename: "one.jpg",
+      content_type: "image/jpeg"
+    )
+
+    get template_url(@template, format: :json)
+    assert_response :success
+
+    body = JSON.parse(response.body)
+    assert_equal @template.id, body["id"]
+    assert_match(%r{/rails/active_storage/}, body["image"])
+  end
+
+  test "should create template as JSON without attached image" do
+    sign_in @admin_user
+
+    assert_difference("Template.count") do
+      post templates_url(format: :json), params: { template: { author: "JSON Author", name: "No Image Template" } }
+    end
+
+    assert_response :created
+    body = JSON.parse(response.body)
+    assert_equal "No Image Template", body["name"]
+    assert_equal "JSON Author", body["author"]
+    assert_nil body["image"]
   end
 end

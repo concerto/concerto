@@ -139,6 +139,7 @@ class ClocksControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Clock.count", -1) do
       delete clock_url(@clock)
     end
+    assert_response :see_other
     assert_redirected_to contents_url
   end
 

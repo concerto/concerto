@@ -6,7 +6,7 @@ class TemplatesController < ApplicationController
 
   # GET /templates or /templates.json
   def index
-    @templates = policy_scope(Template).all
+    @templates = policy_scope(Template).with_attached_image
   end
 
   # GET /templates/1 or /templates/1.json
@@ -61,10 +61,10 @@ class TemplatesController < ApplicationController
 
     respond_to do |format|
       if @template.destroy
-        format.html { redirect_to templates_url, notice: "Template was successfully deleted." }
+        format.html { redirect_to templates_url, status: :see_other, notice: "Template was successfully deleted." }
         format.json { head :no_content }
       else
-        format.html { redirect_to template_url(@template), alert: @template.errors.full_messages.to_sentence }
+        format.html { redirect_to template_url(@template), status: :see_other, alert: @template.errors.full_messages.to_sentence }
         format.json { render json: @template.errors, status: :unprocessable_entity }
       end
     end

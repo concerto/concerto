@@ -86,7 +86,7 @@ class FeedsController < ApplicationController
     @feed.destroy!
 
     respond_to do |format|
-      format.html { redirect_to feeds_url, notice: "Feed was successfully deleted." }
+      format.html { redirect_to feeds_url, status: :see_other, notice: "Feed was successfully deleted." }
       format.json { head :no_content }
     end
   end

@@ -48,6 +48,7 @@ class ScreensControllerTest < ActionDispatch::IntegrationTest
       delete screen_url(@screen)
     end
 
+    assert_response :see_other
     assert_redirected_to screens_url
   end
 

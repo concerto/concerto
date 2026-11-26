@@ -61,7 +61,7 @@ class RemoteFeedsController < ApplicationController
     @remote_feed.destroy!
 
     respond_to do |format|
-      format.html { redirect_to feeds_url, notice: "Remote Feed was successfully deleted." }
+      format.html { redirect_to feeds_url, status: :see_other, notice: "Remote Feed was successfully deleted." }
       format.json { head :no_content }
     end
   end

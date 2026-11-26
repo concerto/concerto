@@ -220,6 +220,7 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
       delete group_membership_url(@group, membership)
     end
 
+    assert_response :see_other
     assert_redirected_to group_url(@group)
   end
 
@@ -231,6 +232,7 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
       delete group_membership_url(@system_group, system_membership)
     end
 
+    assert_response :see_other
     assert_redirected_to group_url(@system_group)
   end
 

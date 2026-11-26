@@ -99,6 +99,7 @@ class FieldsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Field.count", -1) do
       delete field_url(unused)
     end
+    assert_response :see_other
     assert_redirected_to fields_url
     follow_redirect!
     assert_select ".alert-success", /Field was successfully deleted/
@@ -109,6 +110,7 @@ class FieldsControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference("Field.count") do
       delete field_url(@field)
     end
+    assert_response :see_other
     assert_redirected_to fields_url
   end
 

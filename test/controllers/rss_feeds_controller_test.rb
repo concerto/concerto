@@ -57,12 +57,14 @@ class RssFeedsControllerTest < ActionDispatch::IntegrationTest
       delete rss_feed_url(@rss_feed)
     end
 
+    assert_response :see_other
     assert_redirected_to feeds_url
   end
 
   test "should cleanup unused content with system admin" do
     sign_in @system_admin
     delete cleanup_rss_feed_url(@rss_feed)
+    assert_response :see_other
     assert_redirected_to rss_feed_url(@rss_feed)
   end
 

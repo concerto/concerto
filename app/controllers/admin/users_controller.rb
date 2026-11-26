@@ -49,12 +49,12 @@ module Admin
       authorize @user, :admin_manage?
 
       if @user.last_system_admin?
-        redirect_to user_url(@user), alert: "Cannot delete the last system administrator."
+        redirect_to user_url(@user), status: :see_other, alert: "Cannot delete the last system administrator."
         return
       end
 
       @user.destroy!
-      redirect_to users_url, notice: "User was successfully deleted."
+      redirect_to users_url, status: :see_other, notice: "User was successfully deleted."
     end
 
     private

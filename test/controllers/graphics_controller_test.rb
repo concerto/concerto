@@ -127,6 +127,7 @@ class GraphicsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Graphic.count", -1) do
       delete graphic_url(@graphic)
     end
+    assert_response :see_other
     assert_redirected_to contents_url
   end
 

@@ -245,6 +245,7 @@ class FeedsControllerTest < ActionDispatch::IntegrationTest
       delete feed_url(@feed)
     end
 
+    assert_response :see_other
     assert_redirected_to feeds_url
   end
 
