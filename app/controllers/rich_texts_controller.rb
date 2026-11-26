@@ -61,7 +61,7 @@ class RichTextsController < ApplicationController
     @rich_text.destroy!
 
     respond_to do |format|
-      format.html { redirect_to contents_url, notice: "Rich text was successfully deleted." }
+      format.html { redirect_to contents_url, status: :see_other, notice: "Rich text was successfully deleted." }
       format.json { head :no_content }
     end
   end

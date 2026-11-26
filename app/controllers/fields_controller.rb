@@ -40,9 +40,9 @@ class FieldsController < ApplicationController
   def destroy
     authorize @field
     if @field.destroy
-      redirect_to fields_path, notice: "Field was successfully deleted."
+      redirect_to fields_path, status: :see_other, notice: "Field was successfully deleted."
     else
-      redirect_to fields_path, alert: @field.errors.full_messages.join(", ")
+      redirect_to fields_path, status: :see_other, alert: @field.errors.full_messages.join(", ")
     end
   end
 

@@ -47,6 +47,7 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
       delete screen_subscription_url(@subscription.screen, @subscription)
     end
 
+    assert_response :see_other
     assert_redirected_to screen_subscriptions_url(@subscription.screen)
   end
 
@@ -105,5 +106,61 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :redirect
     assert_match(/Failed to update subscription/, flash[:alert])
     assert_equal original_weight, @subscription.reload.weight
+  end
+
+  # JSON endpoint tests
+  test "should get index as JSON" do
+    get screen_subscriptions_url(@screen, format: :json)
+    assert_response :success
+
+    body = JSON.parse(response.body)
+    assert_kind_of Array, body
+    sub_json = body.find { |s| s["id"] == @subscription.id }
+    assert_not_nil sub_json
+    assert_equal @screen.id, sub_json["screen_id"]
+    assert_equal @subscription.field_id, sub_json["field_id"]
+    assert_equal @subscription.feed_id, sub_json["feed_id"]
+    assert_equal @subscription.weight, sub_json["weight"]
+    assert_equal screen_subscriptions_url(@screen, format: :json), sub_json["url"]
+  end
+
+  test "should create subscription as JSON" do
+    assert_difference("Subscription.count") do
+      post screen_subscriptions_url(@screen, format: :json),
+           params: { subscription: { feed_id: feeds(:two).id, field_id: fields(:ticker).id, weight: 7 } }
+    end
+
+    assert_response :created
+    assert_equal screen_subscriptions_url(@screen), response.headers["Location"]
+
+    body = JSON.parse(response.body)
+    created = Subscription.last
+    assert_equal created.id, body["id"]
+    assert_equal @screen.id, body["screen_id"]
+    assert_equal fields(:ticker).id, body["field_id"]
+    assert_equal feeds(:two).id, body["feed_id"]
+    assert_equal 7, body["weight"]
+    assert_equal screen_subscriptions_url(@screen, format: :json), body["url"]
+  end
+
+  test "should update subscription as JSON" do
+    patch screen_subscription_url(@screen, @subscription, format: :json),
+          params: { subscription: { weight: 9 } }
+
+    assert_response :ok
+    assert_equal screen_subscriptions_url(@screen), response.headers["Location"]
+
+    body = JSON.parse(response.body)
+    assert_equal @subscription.id, body["id"]
+    assert_equal 9, body["weight"]
+    assert_equal 9, @subscription.reload.weight
+  end
+
+  test "should destroy subscription as JSON" do
+    assert_difference("Subscription.count", -1) do
+      delete screen_subscription_url(@screen, @subscription, format: :json)
+    end
+
+    assert_response :no_content
   end
 end

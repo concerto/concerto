@@ -45,7 +45,7 @@ class SubscriptionsController < ApplicationController
     respond_to do |format|
       if @subscription.save
         format.html { redirect_to screen_subscriptions_url(@screen), notice: "#{@subscription.field.name} field subscription to #{@subscription.feed.name} feed was successfully created." }
-        format.json { render :show, status: :created, location: @subscription }
+        format.json { render :show, status: :created, location: screen_subscriptions_url(@screen) }
       else
         error_message = @subscription.errors.full_messages.join(", ")
         format.html { redirect_to screen_subscriptions_url(@screen), alert: "Failed to create subscription: #{error_message}" }
@@ -61,7 +61,7 @@ class SubscriptionsController < ApplicationController
     respond_to do |format|
       if @subscription.update(subscription_params)
         format.html { redirect_to screen_subscriptions_url(@screen), notice: "Subscription weight was successfully updated." }
-        format.json { render :show, status: :ok, location: @subscription }
+        format.json { render :show, status: :ok, location: screen_subscriptions_url(@screen) }
       else
         error_message = @subscription.errors.full_messages.join(", ")
         format.html { redirect_to screen_subscriptions_url(@screen), alert: "Failed to update subscription: #{error_message}" }
@@ -77,7 +77,7 @@ class SubscriptionsController < ApplicationController
     @subscription.destroy!
 
     respond_to do |format|
-      format.html { redirect_to screen_subscriptions_url(@screen), notice: "#{@subscription.field.name} field subscription to #{@subscription.feed.name} feed was successfully removed." }
+      format.html { redirect_to screen_subscriptions_url(@screen), status: :see_other, notice: "#{@subscription.field.name} field subscription to #{@subscription.feed.name} feed was successfully removed." }
       format.json { head :no_content }
     end
   end

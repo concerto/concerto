@@ -46,9 +46,9 @@ class GroupsController < ApplicationController
   def destroy
     authorize @group
     if @group.destroy
-      redirect_to groups_path, notice: "Group was successfully deleted."
+      redirect_to groups_path, status: :see_other, notice: "Group was successfully deleted."
     else
-      redirect_to groups_path, alert: @group.errors.full_messages.join(", ")
+      redirect_to groups_path, status: :see_other, alert: @group.errors.full_messages.join(", ")
     end
   end
 

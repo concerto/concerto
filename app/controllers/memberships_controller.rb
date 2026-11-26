@@ -29,9 +29,9 @@ class MembershipsController < ApplicationController
     user_name = @membership.user.full_name
 
     if @membership.destroy
-      redirect_to @group, notice: "#{user_name} has been removed from the group."
+      redirect_to @group, status: :see_other, notice: "#{user_name} has been removed from the group."
     else
-      redirect_to @group, alert: @membership.errors.full_messages.join(", ")
+      redirect_to @group, status: :see_other, alert: @membership.errors.full_messages.join(", ")
     end
   end
 

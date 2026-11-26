@@ -63,7 +63,7 @@ class GraphicsController < ApplicationController
     @graphic.destroy!
 
     respond_to do |format|
-      format.html { redirect_to contents_url, notice: "Graphic was successfully deleted." }
+      format.html { redirect_to contents_url, status: :see_other, notice: "Graphic was successfully deleted." }
       format.json { head :no_content }
     end
   end

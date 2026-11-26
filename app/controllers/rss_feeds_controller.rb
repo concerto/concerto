@@ -71,7 +71,7 @@ class RssFeedsController < ApplicationController
   def cleanup
     authorize @rss_feed
     destroyed = @rss_feed.cleanup_unused_content
-    redirect_to rss_feed_url(@rss_feed), notice: "Cleaned up #{destroyed.length} unused pieces of content."
+    redirect_to rss_feed_url(@rss_feed), status: :see_other, notice: "Cleaned up #{destroyed.length} unused pieces of content."
   end
 
   # DELETE /rss_feeds/1 or /rss_feeds/1.json
@@ -80,7 +80,7 @@ class RssFeedsController < ApplicationController
     @rss_feed.destroy!
 
     respond_to do |format|
-      format.html { redirect_to feeds_url, notice: "RSS Feed was successfully deleted." }
+      format.html { redirect_to feeds_url, status: :see_other, notice: "RSS Feed was successfully deleted." }
       format.json { head :no_content }
     end
   end

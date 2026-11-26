@@ -205,6 +205,7 @@ class GroupsControllerTest < ActionDispatch::IntegrationTest
       delete group_url(@group)
     end
 
+    assert_response :see_other
     assert_redirected_to groups_url
     follow_redirect!
     assert_select ".alert-success", /Group was successfully deleted/
@@ -216,6 +217,7 @@ class GroupsControllerTest < ActionDispatch::IntegrationTest
       delete group_url(@system_group)
     end
 
+    assert_response :see_other
     assert_redirected_to groups_url
   end
 end

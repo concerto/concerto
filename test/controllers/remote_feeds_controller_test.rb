@@ -57,6 +57,7 @@ class RemoteFeedsControllerTest < ActionDispatch::IntegrationTest
       delete remote_feed_url(@remote_feed)
     end
 
+    assert_response :see_other
     assert_redirected_to feeds_url
   end
 

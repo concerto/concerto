@@ -174,8 +174,37 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
       delete admin_user_url(@user)
     end
 
+    assert_response :see_other
     assert_redirected_to users_url
     assert_equal "User was successfully deleted.", flash[:notice]
+  end
+
+  test "destroying a user returns 303 See Other and following redirect does not delete the signed-in admin" do
+    assert_difference("User.count", -1) do
+      delete admin_user_url(@user)
+    end
+
+    assert_response :see_other
+    assert_redirected_to users_url
+
+    assert_no_difference("User.count") do
+      follow_redirect!
+    end
+
+    assert_response :success
+    assert User.exists?(@system_admin.id), "Signed-in admin account should not be deleted after following redirect"
+    assert_not User.exists?(@user.id), "Target user account should be deleted"
+  end
+
+  test "unauthorized delete redirects with 303 See Other" do
+    sign_in users(:regular)
+
+    assert_no_difference("User.count") do
+      delete admin_user_url(@system_admin), headers: { "Referer" => users_url }
+    end
+
+    assert_response :see_other
+    assert_redirected_to users_url
   end
 
   test "should destroy user who has moderated submissions and preserve moderation history" do
